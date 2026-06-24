@@ -1,1 +1,45 @@
-{ "evals": {}, "lastUpdated": null }
+{
+  "evals": {
+    "1.1": {
+      "status": "fulfilled",
+      "comment": {
+        "cs": "Vláda odmítla ETS2 na prvním zasedání 16. prosince 2025. Snížila regulovanou složku elektřiny (17 mld. Kč ročně). Prosadila snížení poplatků za distribuci a přenos.",
+        "en": "Government rejected ETS2 at first session on December 16, 2025. Reduced regulated electricity component (17 billion CZK annually). Lowered distribution and transmission charges."
+      },
+      "updatedAt": "2026-06-24T18:31:50.718Z"
+    },
+    "1.2": {
+      "status": "in_progress",
+      "comment": {
+        "cs": "Vláda schválila zdravotnictví jako prioritu. Zavedla e-Žádanku pro monitoring kapacit a čekacích dob. Není zatím k dispozici důkaz o daném zkrácení čekacích lhůt.",
+        "en": "Healthcare designated as priority. E-referral system launched for capacity monitoring. No evidence yet of achieved reduction in waiting times."
+      },
+      "updatedAt": "2026-06-24T18:31:50.718Z"
+    },
+    "1.3": {
+      "status": "stalled",
+      "comment": {
+        "cs": "Vláda deklaruje dostupné bydlení jako prioritu, ale podle reportu z dubna 2026 nezapřidělila prostředky na projekty dostupného bydlení. Omezuje zákon o podpoře bydlení a vyškrtává relevantní legislativu.",
+        "en": "Government declares affordable housing as priority, but according to April 2026 reports, denied funding for affordable housing projects. Restricts housing support law and cuts relevant legislation."
+      },
+      "updatedAt": "2026-06-24T18:31:50.718Z"
+    },
+    "1.4": {
+      "status": "in_progress",
+      "comment": {
+        "cs": "Vláda schválila zastropování věku na 65 let v programovém prohlášení. Změny budou účinné od roku 2027. Obnovila spravedlivou valorizaci důchodů v lednu 2026 (zvýšení o 260 Kč/měsíc).",
+        "en": "Government approved age cap at 65 in program declaration. Changes effective from 2027. Restored fair pension indexation (January 2026 increase of 260 CZK/month)."
+      },
+      "updatedAt": "2026-06-24T18:31:50.718Z"
+    },
+    "1.5": {
+      "status": "in_progress",
+      "comment": {
+        "cs": "Vláda odmítla migrační pakt EU dne 16. prosince 2025. V programovém prohlášení deklaruje nulovou toleranci k nelegální migraci. Konkrétní zákonné opatření zatím není přijato.",
+        "en": "Government rejected EU migration pact on December 16, 2025. Program declaration commits to zero tolerance for illegal migration. Specific legislative measures not yet enacted."
+      },
+      "updatedAt": "2026-06-24T18:31:50.718Z"
+    }
+  },
+  "lastUpdated": "2026-06-24T18:31:55.627Z"
+}
