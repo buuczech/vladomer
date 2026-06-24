@@ -51,7 +51,7 @@ Buď konzervativní: bez důkazu volíš "not_started".`;
       model: MODEL,
       max_tokens: 1500,
       messages: [{ role: "user", content: prompt }],
-      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5 }],
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 2 }],
     }),
   });
 
@@ -78,25 +78,38 @@ Buď konzervativní: bez důkazu volíš "not_started".`;
   return out;
 }
 
+async function callWithBackoff(ch, tries = 5) {
+  for (let i = 0; i < tries; i++) {
+    try { return await evaluateChapter(ch); }
+    catch (e) {
+      const is429 = /API 429/.test(e.message);
+      if (!is429 || i === tries - 1) throw e;
+      const wait = 30000 * (i + 1); // 30s, 60s, 90s…
+      console.log(`  429 — waiting ${wait / 1000}s`);
+      await new Promise(r => setTimeout(r, wait));
+    }
+  }
+}
+
 async function main() {
-  // start from whatever exists, so a failed chapter keeps last week's value
   let evals = {};
   try { evals = JSON.parse(readFileSync(OUT, "utf8")).evals || {}; } catch {}
 
   for (const ch of CHAPTERS) {
     try {
       process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}… `);
-      const r = await evaluateChapter(ch);
+      const r = await callWithBackoff(ch);
       Object.assign(evals, r);
       console.log(`ok (${Object.keys(r).length})`);
     } catch (e) {
       console.log(`failed: ${e.message}`);
     }
+    await new Promise(r => setTimeout(r, 20000)); // 20s gap between chapters
   }
 
   const payload = { evals, lastUpdated: new Date().toISOString() };
   writeFileSync(OUT, JSON.stringify(payload, null, 2));
-  console.log(`\nWrote ${Object.keys(evals).length} evaluations to public/evaluations.json`);
+  console.log(`\nWrote ${Object.keys(evals).length} evaluations`);
 }
 
 main();
