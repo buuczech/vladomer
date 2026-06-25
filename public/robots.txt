@@ -1,0 +1,5 @@
+# TESTING: block all crawlers. When you go public, replace the two lines below with:
+#   User-agent: *
+#   Allow: /
+User-agent: *
+Disallow: /
