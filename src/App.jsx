@@ -3,9 +3,10 @@ import { DATES, CHAPTERS, ALL_ITEMS, TOTAL_ITEMS } from "./data.js";
 
 /* =========================================================================
    VLÁDOMĚR — production build.
-   The weekly AI evaluation runs server-side (GitHub Actions cron) and writes
-   public/evaluations.json. The browser just fetches that file — no API key is
-   ever shipped to the client. See README and scripts/evaluate.js.
+   Weekly AI evaluation runs server-side (GitHub Actions) and writes:
+     - public/evaluations.json  (statuses, comments, change notes, sources)
+     - public/history.json      (weekly status snapshots, last 52 weeks)
+   The browser only reads these files — no API key is ever shipped to clients.
    ========================================================================= */
 
 const T = {
@@ -28,26 +29,91 @@ const T = {
   searchPlaceholder: { cs: "Hledat v bodech programu…", en: "Search the programme…" },
   filterAll: { cs: "Vše", en: "All" },
   source: { cs: "Zdroj: programové prohlášení vlády", en: "Source: government programme statement" },
-  methodology: { cs: "Jak se hodnotí", en: "How this is scored" },
   items: { cs: "bodů", en: "items" },
   noResults: { cs: "Žádné body neodpovídají hledání.", en: "No items match your search." },
   scope: { cs: "Oblastí", en: "Areas" },
-  evalNote: {
-    cs: "Každý bod hodnotí jazykový model na základě aktuálních zpráv. Hodnocení je orientační, ne oficiální. Stav i komentář se přepíší při příštím týdenním běhu.",
-    en: "Each item is assessed by a language model using current news. Assessments are indicative, not official, and are overwritten on the next weekly run.",
-  },
-  archNote: {
-    cs: "Hodnocení běží automaticky každý pátek na serveru (GitHub Actions) a zapisuje se do souboru, který tato stránka jen načítá.",
-    en: "The assessment runs automatically every Friday on the server (GitHub Actions) and is written to a file this page just reads.",
+  changesTitle: { cs: "Změny od minulého týdne", en: "Changes since last week" },
+  changeLabel: { cs: "Co se změnilo", en: "What changed" },
+  historyLabel: { cs: "Historie stavu", en: "Status history" },
+  sourcesLabel: { cs: "Zdroje hodnocení", en: "Sources for this rating" },
+  methodologyBtn: { cs: "Metodika a vyloučení odpovědnosti", en: "Methodology & disclaimer" },
+  close: { cs: "Zavřít", en: "Close" },
+  disclaimerShort: {
+    cs: "Hodnocení generuje AI, je orientační a neoficiální. Může obsahovat chyby.",
+    en: "Ratings are AI-generated, indicative and unofficial. They may contain errors.",
   },
 };
 
 const STATUS = {
-  fulfilled: { cs: "Splněno", en: "Done", color: "var(--ok)", score: 1, glyph: "✓" },
-  in_progress: { cs: "Probíhá", en: "In progress", color: "var(--prog)", score: 0.5, glyph: "◐" },
-  not_started: { cs: "Nezahájeno", en: "Not started", color: "var(--muted)", score: 0, glyph: "○" },
-  stalled: { cs: "Uvázlo / opuštěno", en: "Stalled / dropped", color: "var(--bad)", score: 0, glyph: "✕" },
-  pending: { cs: "Nehodnoceno", en: "Unrated", color: "var(--pending)", score: null, glyph: "–" },
+  fulfilled: { cs: "Splněno", en: "Done", color: "var(--ok)", score: 1, glyph: "✓", rank: 3 },
+  in_progress: { cs: "Probíhá", en: "In progress", color: "var(--prog)", score: 0.5, glyph: "◐", rank: 2 },
+  not_started: { cs: "Nezahájeno", en: "Not started", color: "var(--muted)", score: 0, glyph: "○", rank: 1 },
+  stalled: { cs: "Uvázlo / opuštěno", en: "Stalled / dropped", color: "var(--bad)", score: 0, glyph: "✕", rank: 0 },
+  pending: { cs: "Nehodnoceno", en: "Unrated", color: "var(--pending)", score: null, glyph: "–", rank: 1 },
+};
+
+const METHOD = {
+  title: { cs: "Metodika a vyloučení odpovědnosti", en: "Methodology & disclaimer" },
+  sections: [
+    {
+      h: { cs: "Co je Vládoměr", en: "What this is" },
+      p: {
+        cs: "Vládoměr je nezávislý, neoficiální nástroj, který sleduje, jak se plní jednotlivé body programového prohlášení vlády. Není nijak spojen s vládou ani s žádnou politickou stranou a má informativní, občanský účel.",
+        en: "Vládoměr is an independent, unofficial tool that tracks how individual commitments in the government's programme statement are being delivered. It is not affiliated with the government or any political party and serves an informational, civic purpose.",
+      },
+    },
+    {
+      h: { cs: "Zdroj dat", en: "Data source" },
+      p: {
+        cs: "Body vycházejí z programového prohlášení vlády (schváleno 5. 1. 2026). Znění je pro přehlednost zkráceno do sledovatelných položek; úplný text najdete na vlada.gov.cz.",
+        en: "Items are based on the government's programme statement (approved 5 Jan 2026). The wording is condensed into trackable items for clarity; the full text is on vlada.gov.cz.",
+      },
+    },
+    {
+      h: { cs: "Jak hodnocení vzniká", en: "How ratings are produced" },
+      p: {
+        cs: "Každý pátek projde každý bod jazykovým modelem, který vyhledává aktuální zprávy a posuzuje důkazy z více úhlů – „ano, ale…" a „ne, ale…". Rozlišuje mezi pouhým ohlášením a skutečným zavedením, mezi částečným či formálním splněním a reálným dopadem, a zohledňuje kritiku opozice i odborníků. Bez doložitelného důkazu volí konzervativně stav „nezahájeno". U každého bodu jsou uvedeny zdroje (odkazy z vyhledávání), o které se hodnocení opírá, abyste si je mohli sami ověřit.",
+        en: "Every Friday each item is processed by a language model that searches current news and weighs evidence from multiple angles — \"yes, but…\" and \"no, but…\". It distinguishes mere announcements from actual implementation, partial or formal delivery from real impact, and takes opposition and expert criticism into account. Without verifiable evidence it conservatively defaults to \"not started\". Each item lists the sources (links from the search) the rating relied on, so you can verify them yourself.",
+      },
+    },
+    {
+      h: { cs: "Stavy a výpočet plnění", en: "Statuses & how the percentage works" },
+      list: {
+        cs: [
+          "Splněno – prokazatelně zavedeno (počítá se jako 100 %).",
+          "Probíhá – aktivně se pracuje, např. návrh či projednávání (50 %).",
+          "Nezahájeno – žádný doložitelný krok (0 %).",
+          "Uvázlo / opuštěno – pokrok se zastavil nebo byl bod opuštěn (0 %).",
+          "Nehodnoceno – zatím neposouzeno (do procenta se nepočítá).",
+        ],
+        en: [
+          "Done – verifiably implemented (counts as 100%).",
+          "In progress – actively being worked on, e.g. a bill or debate (50%).",
+          "Not started – no verifiable step taken (0%).",
+          "Stalled / dropped – progress halted or item abandoned (0%).",
+          "Unrated – not yet assessed (excluded from the percentage).",
+        ],
+      },
+      p: {
+        cs: "Celkové „plnění programu" je průměr těchto hodnot přes všechny hodnocené body.",
+        en: "The overall \"programme delivery\" figure is the average of these values across all rated items.",
+      },
+    },
+    {
+      h: { cs: "Historie a změny", en: "History & changes" },
+      p: {
+        cs: "Každý týden se ukládá snímek stavů. U každého bodu vidíte, co se změnilo oproti minulému týdnu, a barevnou časovou osu vývoje za poslední týdny.",
+        en: "A snapshot of all statuses is saved each week. For every item you can see what changed since last week and a coloured timeline of its development over recent weeks.",
+      },
+    },
+    {
+      h: { cs: "Omezení a vyloučení odpovědnosti", en: "Limitations & disclaimer" },
+      p: {
+        cs: "Hodnocení je orientační a generované umělou inteligencí – může obsahovat chyby, zastaralé informace nebo nesprávné posouzení, zejména u sporných témat. Neslouží jako oficiální, právní ani úplný zdroj. Informace si prosím ověřujte v primárních zdrojích. Stav i komentáře se při každém týdenním běhu přepisují.",
+        en: "Ratings are indicative and AI-generated — they may contain errors, outdated information, or misjudgements, especially on contested topics. They are not an official, legal, or complete source. Please verify against primary sources. Statuses and comments are overwritten on each weekly run.",
+      },
+    },
+  ],
 };
 
 function daysBetween(a, b) { return Math.floor((b - a) / 86400000); }
@@ -58,6 +124,11 @@ function nextFriday(from) {
   const d = new Date(from); const day = d.getDay(); const add = (5 - day + 7) % 7 || 7;
   d.setDate(d.getDate() + add); d.setHours(9, 0, 0, 0); return d;
 }
+function trend(from, to) {
+  const a = (STATUS[to]?.rank ?? 1) - (STATUS[from]?.rank ?? 1);
+  return a > 0 ? { g: "▲", c: "var(--ok)" } : a < 0 ? { g: "▼", c: "var(--bad)" } : { g: "→", c: "var(--muted)" };
+}
+function hostOf(url) { try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; } }
 
 const CSS = `
 :root{
@@ -111,6 +182,19 @@ const CSS = `
 .vm-chip{appearance:none;border:1px solid var(--border);background:var(--surface);color:var(--muted);font-size:12px;font-weight:620;padding:5px 10px;border-radius:999px;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
 .vm-chip.on{color:var(--text);border-color:var(--text)}
 .vm-chip .sw{width:8px;height:8px;border-radius:50%}
+.vm-changes{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);margin-top:12px;overflow:hidden}
+.vm-changes-head{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;user-select:none}
+.vm-changes-head .ttl{font-weight:680;font-size:14px;flex:1}
+.vm-changes-head .cnt{font-size:12px;font-weight:740;color:#fff;background:var(--accent);border-radius:999px;padding:1px 9px}
+.vm-changes-body{border-top:1px solid var(--border)}
+.vm-chg{display:flex;align-items:flex-start;gap:10px;padding:10px 16px;border-top:1px solid var(--border)}
+.vm-chg:first-child{border-top:0}
+.vm-chg-arrow{font-size:14px;font-weight:800;flex:none;width:16px;text-align:center;margin-top:1px}
+.vm-chg-main{flex:1;min-width:0}
+.vm-chg-text{font-size:13.2px}
+.vm-chg-meta{font-size:11px;color:var(--muted);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.vm-chg-note{font-size:12.3px;color:var(--text);margin-top:5px;line-height:1.45}
+.vm-arrowpill{display:inline-flex;align-items:center;gap:5px}
 .vm-list{margin-top:12px;display:flex;flex-direction:column;gap:10px}
 .vm-ch{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
 .vm-ch-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none}
@@ -132,14 +216,32 @@ const CSS = `
 .vm-it-text{font-size:13.6px;line-height:1.45}
 .vm-it-foot{display:flex;align-items:center;gap:10px;margin-top:5px;flex-wrap:wrap}
 .vm-pill{font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;display:inline-flex;align-items:center;gap:5px}
+.vm-trend{font-size:12px;font-weight:800}
 .vm-cmt-btn{appearance:none;border:0;background:transparent;color:var(--accent);font-size:11.5px;font-weight:650;cursor:pointer;padding:0;display:inline-flex;align-items:center;gap:4px}
 .vm-cmt{margin-top:8px;font-size:12.7px;line-height:1.5;color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:0 9px 9px 0;padding:9px 11px}
-.vm-cmt .when{display:block;margin-top:6px;font-size:10.5px;color:var(--muted)}
+.vm-cmt .clab{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;margin:8px 0 3px}
+.vm-cmt .when{display:block;margin-top:8px;font-size:10.5px;color:var(--muted)}
+.vm-timeline{display:flex;gap:4px;align-items:center;margin-top:3px;flex-wrap:wrap}
+.vm-tl-dot{width:10px;height:10px;border-radius:3px;display:inline-block}
+.vm-src{display:flex;flex-direction:column;gap:3px;margin-top:3px}
+.vm-src a{font-size:12px;color:var(--accent);text-decoration:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+.vm-src a:hover{text-decoration:underline}
+.vm-src .host{color:var(--muted);font-size:10.5px}
 .vm-id{font-size:10.5px;color:var(--muted)}
 .vm-foot{margin-top:26px;font-size:12px;color:var(--muted);line-height:1.6}
 .vm-foot a{color:var(--accent)}
-.vm-foot h4{color:var(--text);font-size:12.5px;margin:14px 0 4px;text-transform:uppercase;letter-spacing:.06em}
+.vm-foot .vm-link{appearance:none;border:0;background:transparent;color:var(--accent);font:inherit;font-weight:650;cursor:pointer;padding:0;text-decoration:underline}
 .vm-empty{padding:30px;text-align:center;color:var(--muted);font-size:13px}
+.vm-backdrop{position:fixed;inset:0;background:rgba(8,10,14,.55);display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;z-index:50;overflow-y:auto}
+.vm-modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,.35);max-width:680px;width:100%;margin:auto}
+.vm-modal-head{position:sticky;top:0;background:var(--surface);display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--border);border-radius:16px 16px 0 0}
+.vm-modal-head h2{font-size:17px;font-weight:740;margin:0;flex:1}
+.vm-modal-body{padding:6px 20px 22px}
+.vm-modal-body h3{font-size:13px;font-weight:720;margin:18px 0 6px}
+.vm-modal-body p{font-size:13.4px;line-height:1.6;color:var(--text);margin:0}
+.vm-modal-body ul{margin:6px 0 0;padding-left:18px}
+.vm-modal-body li{font-size:13.2px;line-height:1.55;margin:3px 0}
+.vm-disc{font-size:11.5px;color:var(--muted);margin-top:6px}
 @media (max-width:680px){
   .vm-cards{grid-template-columns:1fr;gap:10px}.vm-big{font-size:34px}.vm-brand p{display:none}
   .vm-ch-title{font-size:14px}.vm-mini{display:none}
@@ -159,16 +261,64 @@ function Ring({ pct, size = 64 }) {
   );
 }
 
+function Timeline({ id, snapshots, lang }) {
+  const pts = snapshots.map((s) => ({ date: s.date, status: s.statuses?.[id] })).filter((p) => p.status).slice(-12);
+  if (pts.length === 0) return null;
+  return (
+    <div className="vm-timeline">
+      {pts.map((p, i) => (
+        <span key={i} className="vm-tl-dot"
+          title={`${p.date}: ${STATUS[p.status]?.[lang] || p.status}`}
+          style={{ background: STATUS[p.status]?.color || "var(--pending)" }} />
+      ))}
+    </div>
+  );
+}
+
+function MethodologyModal({ lang, onClose }) {
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  return (
+    <div className="vm-backdrop" onClick={onClose} role="dialog" aria-modal="true">
+      <div className="vm-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="vm-modal-head">
+          <h2>{METHOD.title[lang]}</h2>
+          <button className="vm-icon" onClick={onClose} aria-label={T.close[lang]}>✕</button>
+        </div>
+        <div className="vm-modal-body">
+          {METHOD.sections.map((s, i) => (
+            <div key={i}>
+              <h3>{s.h[lang]}</h3>
+              {s.list && <ul>{s.list[lang].map((li, j) => <li key={j}>{li}</li>)}</ul>}
+              {s.p && <p style={{ marginTop: s.list ? 8 : 0 }}>{s.p[lang]}</p>}
+            </div>
+          ))}
+          <p className="vm-disc">
+            {T.source[lang]} ·{" "}
+            <a href="https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/" target="_blank" rel="noopener noreferrer">vlada.gov.cz</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [lang, setLang] = useState("cs");
   const [dark, setDark] = useState(
     typeof window !== "undefined" && window.matchMedia
       ? window.matchMedia("(prefers-color-scheme: dark)").matches : false);
   const [evals, setEvals] = useState({});
+  const [snapshots, setSnapshots] = useState([]);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [loading, setLoading] = useState(true);
   const [openCh, setOpenCh] = useState({ "1": true });
   const [openCmt, setOpenCmt] = useState({});
+  const [changesOpen, setChangesOpen] = useState(true);
+  const [showMethod, setShowMethod] = useState(false);
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("all");
   const [now, setNow] = useState(Date.now());
@@ -180,12 +330,12 @@ export default function App() {
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${import.meta.env.BASE_URL}evaluations.json?t=${Date.now()}`);
-      if (res.ok) {
-        const j = await res.json();
-        setEvals(j.evals || {});
-        setLastUpdated(j.lastUpdated || null);
-      }
+      const [er, hr] = await Promise.all([
+        fetch(`${import.meta.env.BASE_URL}evaluations.json?t=${Date.now()}`),
+        fetch(`${import.meta.env.BASE_URL}history.json?t=${Date.now()}`),
+      ]);
+      if (er.ok) { const j = await er.json(); setEvals(j.evals || {}); setLastUpdated(j.lastUpdated || null); }
+      if (hr.ok) { const h = await hr.json(); setSnapshots(h.snapshots || []); }
     } catch (e) { /* keep empty state */ }
     setLoading(false);
   }, []);
@@ -205,6 +355,19 @@ export default function App() {
       if (e && STATUS[e.status] && STATUS[e.status].score !== null) { sum += STATUS[e.status].score; n++; }
     }
     return { overallPct: n ? Math.round((sum / n) * 100) : 0, evaluatedCount: n };
+  }, [evals]);
+
+  const changes = useMemo(() => {
+    const map = {};
+    for (const ch of CHAPTERS) for (const g of ch.groups) for (const it of g.items) map[it.id] = { it, ch };
+    const out = [];
+    for (const id in evals) {
+      const e = evals[id];
+      if (e && e.previousStatus && e.previousStatus !== e.status && map[id]) {
+        out.push({ ...map[id], from: e.previousStatus, to: e.status, change: e.change });
+      }
+    }
+    return out.sort((a, b) => (STATUS[b.to].rank - STATUS[b.from].rank) - (STATUS[a.to].rank - STATUS[a.from].rank));
   }, [evals]);
 
   const chapterStats = useCallback((ch) => {
@@ -228,11 +391,7 @@ export default function App() {
   }, [query, filter, evals]);
 
   const filtering = query !== "" || filter !== "all";
-
-  function setAllOpen(open) {
-    const o = {}; if (open) CHAPTERS.forEach((c) => (o[c.id] = true)); setOpenCh(o);
-  }
-
+  function setAllOpen(open) { const o = {}; if (open) CHAPTERS.forEach((c) => (o[c.id] = true)); setOpenCh(o); }
   const next = nextFriday(lastUpdated ? new Date(lastUpdated) : new Date(now));
   const filterOpts = ["all", "fulfilled", "in_progress", "not_started", "stalled", "pending"];
 
@@ -283,15 +442,52 @@ export default function App() {
         </div>
 
         <div className="vm-controls">
-          <button className="vm-ghost" onClick={loadData} disabled={loading}>
-            ↻ {loading ? t("loading") : t("refresh")}
-          </button>
+          <button className="vm-ghost" onClick={loadData} disabled={loading}>↻ {loading ? t("loading") : t("refresh")}</button>
           <div className="vm-meta">
             <span>{t("lastUpdated")}: <b>{lastUpdated ? fmtDate(lastUpdated, lang) : t("never")}</b></span>
             <span>{t("nextUpdate")}: <b>{fmtDate(next, lang)}</b></span>
             <span>{t("scope")}: <b>{CHAPTERS.length}</b> · {TOTAL_ITEMS} {t("items")}</span>
           </div>
         </div>
+
+        {changes.length > 0 && (
+          <div className="vm-changes">
+            <div className="vm-changes-head" onClick={() => setChangesOpen((o) => !o)}>
+              <span className="ttl">{t("changesTitle")}</span>
+              <span className="cnt">{changes.length}</span>
+              <svg className={`vm-caret ${changesOpen ? "open" : ""}`} width="14" height="14" viewBox="0 0 14 14">
+                <path d="M5 3l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="2" />
+              </svg>
+            </div>
+            {changesOpen && (
+              <div className="vm-changes-body">
+                {changes.map(({ it, ch, from, to, change }) => {
+                  const tr = trend(from, to);
+                  return (
+                    <div className="vm-chg" key={it.id}>
+                      <span className="vm-chg-arrow" style={{ color: tr.c }}>{tr.g}</span>
+                      <div className="vm-chg-main">
+                        <div className="vm-chg-text">{it[lang]}</div>
+                        <div className="vm-chg-meta">
+                          <span className="vm-mono">#{it.id}</span>
+                          <span>{ch.title[lang]}</span>
+                          <span className="vm-arrowpill">
+                            <b style={{ color: STATUS[from].color }}>{STATUS[from][lang]}</b>
+                            <span style={{ color: tr.c }}>→</span>
+                            <b style={{ color: STATUS[to].color }}>{STATUS[to][lang]}</b>
+                          </span>
+                        </div>
+                        {change && (change[lang] || change.cs) && (
+                          <div className="vm-chg-note">{change[lang] || change.cs}</div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="vm-controls">
           <input className="vm-search" placeholder={t("searchPlaceholder")} value={query} onChange={(e) => setQuery(e.target.value)} />
@@ -336,6 +532,10 @@ export default function App() {
                           const sObj = STATUS[status];
                           const e = evals[it.id];
                           const cmtOpen = !!openCmt[it.id];
+                          const changed = e && e.previousStatus && e.previousStatus !== e.status;
+                          const tr = changed ? trend(e.previousStatus, e.status) : null;
+                          const hasSrc = e && Array.isArray(e.sources) && e.sources.length > 0;
+                          const hasNote = e && ((e.comment && (e.comment[lang] || e.comment.cs)) || (e.change && (e.change[lang] || e.change.cs)) || hasSrc);
                           return (
                             <div className="vm-it" key={it.id}>
                               <div className="vm-it-row">
@@ -348,17 +548,42 @@ export default function App() {
                                   <div className="vm-it-text">{it[lang]}</div>
                                   <div className="vm-it-foot">
                                     <span className="vm-pill" style={{ color: sObj.color, border: `1px solid ${sObj.color}` }}>{sObj[lang]}</span>
+                                    {tr && <span className="vm-trend" style={{ color: tr.c }} title={`${STATUS[e.previousStatus][lang]} → ${sObj[lang]}`}>{tr.g}</span>}
                                     <span className="vm-id vm-mono">#{it.id}</span>
-                                    {e && e.comment && (e.comment[lang] || e.comment.cs) && (
+                                    {hasNote && (
                                       <button className="vm-cmt-btn" onClick={() => setOpenCmt((o) => ({ ...o, [it.id]: !o[it.id] }))}>
                                         {cmtOpen ? (lang === "cs" ? "skrýt komentář" : "hide note") : (lang === "cs" ? "komentář hodnocení" : "show note")}
                                         <span>{cmtOpen ? "▴" : "▾"}</span>
                                       </button>
                                     )}
                                   </div>
-                                  {cmtOpen && e && e.comment && (
+                                  {cmtOpen && e && (
                                     <div className="vm-cmt">
-                                      {e.comment[lang] || e.comment.cs}
+                                      {e.comment && (e.comment[lang] || e.comment.cs) && <span>{e.comment[lang] || e.comment.cs}</span>}
+                                      {e.change && (e.change[lang] || e.change.cs) && (
+                                        <>
+                                          <span className="clab">{t("changeLabel")}</span>
+                                          {e.change[lang] || e.change.cs}
+                                        </>
+                                      )}
+                                      {hasSrc && (
+                                        <>
+                                          <span className="clab">{t("sourcesLabel")}</span>
+                                          <div className="vm-src">
+                                            {e.sources.map((s, i) => (
+                                              <a key={i} href={s.url} target="_blank" rel="noopener noreferrer" title={s.url}>
+                                                {s.title || s.url} <span className="host">· {hostOf(s.url)}</span>
+                                              </a>
+                                            ))}
+                                          </div>
+                                        </>
+                                      )}
+                                      {snapshots.some((s) => s.statuses && s.statuses[it.id]) && (
+                                        <>
+                                          <span className="clab">{t("historyLabel")}</span>
+                                          <Timeline id={it.id} snapshots={snapshots} lang={lang} />
+                                        </>
+                                      )}
                                       {e.updatedAt && <span className="when">{t("lastUpdated")}: {fmtDate(e.updatedAt, lang)}</span>}
                                     </div>
                                   )}
@@ -380,15 +605,16 @@ export default function App() {
         </div>
 
         <div className="vm-foot">
-          <h4>{t("methodology")}</h4>
-          <p>{t("evalNote")}</p>
-          <p>{t("archNote")}</p>
+          <p><button className="vm-link" onClick={() => setShowMethod(true)}>{t("methodologyBtn")}</button></p>
+          <p>{t("disclaimerShort")}</p>
           <p>
             {t("source")} · <a href="https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/" target="_blank" rel="noopener noreferrer">vlada.gov.cz</a>
             {" "}· {lang === "cs" ? "schváleno" : "approved"} {fmtDate(DATES.programmeApproved, lang)} · {lang === "cs" ? "důvěra" : "confidence vote"} {fmtDate(DATES.confidenceVote, lang)}
           </p>
         </div>
       </div>
+
+      {showMethod && <MethodologyModal lang={lang} onClose={() => setShowMethod(false)} />}
     </div>
   );
 }
