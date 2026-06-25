@@ -50,7 +50,10 @@ Buď konzervativní: bez důkazu volíš "not_started".`;
     body: JSON.stringify({
       model: MODEL,
       max_tokens: 1500,
-      messages: [{ role: "user", content: prompt }],
+    messages: [
+        { role: "user", content: prompt },
+        { role: "assistant", content: "[" },
+        ],
       tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 2 }],
     }),
   });
@@ -61,7 +64,7 @@ Buď konzervativní: bez důkazu volíš "not_started".`;
     .map((b) => (b.type === "text" ? b.text : ""))
     .filter(Boolean)
     .join("\n");
-  const clean = text.replace(/```json|```/g, "").trim();
+  const clean = ("[" + text).replace(/```json|```/g, "").trim();
   const a = clean.indexOf("["), b = clean.lastIndexOf("]");
   if (a === -1 || b === -1) throw new Error("no JSON array in response");
   const parsed = JSON.parse(clean.slice(a, b + 1));
