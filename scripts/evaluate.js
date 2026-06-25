@@ -50,7 +50,10 @@ Buď konzervativní: bez důkazu volíš "not_started".`;
     body: JSON.stringify({
       model: MODEL,
       max_tokens: 1500,
-      messages: [{ role: "user", content: prompt }],
+    messages: [
+        { role: "user", content: prompt },
+        { role: "assistant", content: "[" },
+        ],
       tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 2 }],
     }),
   });
@@ -61,7 +64,7 @@ Buď konzervativní: bez důkazu volíš "not_started".`;
     .map((b) => (b.type === "text" ? b.text : ""))
     .filter(Boolean)
     .join("\n");
-  const clean = text.replace(/```json|```/g, "").trim();
+  const clean = ("[" + text).replace(/```json|```/g, "").trim();
   const a = clean.indexOf("["), b = clean.lastIndexOf("]");
   if (a === -1 || b === -1) throw new Error("no JSON array in response");
   const parsed = JSON.parse(clean.slice(a, b + 1));
@@ -82,10 +85,10 @@ async function callWithBackoff(ch, tries = 5) {
   for (let i = 0; i < tries; i++) {
     try { return await evaluateChapter(ch); }
     catch (e) {
-      const is429 = /API 429/.test(e.message);
-      if (!is429 || i === tries - 1) throw e;
-      const wait = 30000 * (i + 1); // 30s, 60s, 90s…
-      console.log(`  429 — waiting ${wait / 1000}s`);
+      const retryable = /API 429/.test(e.message) || /JSON/.test(e.message);
+      if (!retryable || i === tries - 1) throw e;
+      const wait = /API 429/.test(e.message) ? 30000 * (i + 1) : 3000;
+      console.log(`  retry — waiting ${wait / 1000}s`);
       await new Promise(r => setTimeout(r, wait));
     }
   }
