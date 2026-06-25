@@ -1,11 +1,14 @@
 /* scripts/evaluate.js
  * Weekly server-side evaluation.
  *  - Grades each commitment from MULTIPLE angles ("yes, but…" / "no, but…").
- *  - Feeds last week's status + comment + status history into the prompt so the
- *    model can say what changed and place it in a broader trajectory.
- *  - Captures the source URLs the web search actually returned and attaches the
- *    ones the model cited per item (invented URLs are filtered out).
+ *  - Feeds last week's status + comment + history into the prompt.
+ *  - Captures the URLs the web search actually returned and keeps only the
+ *    model-cited ones that match those real results (invented URLs dropped).
  *  - Writes public/evaluations.json AND appends a weekly snapshot to history.json.
+ *
+ * NOTE: no assistant "prefill" is used — prefilling the reply suppresses the
+ * web_search tool, which would mean no real sources and weaker grounding.
+ * JSON is kept clean via instruction + bracket extraction + retry instead.
  *
  * Run:  ANTHROPIC_API_KEY=sk-ant-... npm run evaluate
  */
@@ -54,7 +57,7 @@ async function evaluateChapter(ch, prevEvals, snapshots) {
     })
     .join("\n");
 
-  const prompt = `Jsi nestranný, kritický analytik plnění vládního programu. Hodnoť na základě ověřitelných, aktuálních faktů (k dnešnímu dni). Vláda Andreje Babiše (ANO, SPD, Motoristé) nastoupila 15. 12. 2025.
+  const prompt = `Jsi nestranný, kritický analytik plnění vládního programu. NEJPRVE vyhledej aktuální zprávy (web search) a hodnoť jen na základě ověřitelných, aktuálních faktů. Vláda Andreje Babiše (ANO, SPD, Motoristé) nastoupila 15. 12. 2025.
 
 Oblast: „${ch.title.cs}".
 
@@ -66,14 +69,14 @@ U KAŽDÉHO bodu zvaž důkazy z VÍCE úhlů, ne jen jeden závěr:
 Na základě této vyvážené úvahy urči stav (konzervativně; bez důkazu = not_started):
 fulfilled = prokazatelně splněno; in_progress = aktivně se pracuje (návrh, projednávání); not_started = žádný doložitelný krok; stalled = uvázlo/opuštěno.
 
-Je-li uveden předchozí stav, do pole "change" napiš, CO SE ZMĚNILO oproti minulému týdnu, a zasaď to do širšího vývoje (trajektorie). Pokud předchozí hodnocení chybí, do "change" napiš „první hodnocení".
+Je-li uveden předchozí stav, do pole "change" napiš, CO SE ZMĚNILO oproti minulému týdnu, a zasaď to do širšího vývoje. Pokud předchozí hodnocení chybí, do "change" napiš „první hodnocení".
 
 Do pole "sources" uveď 1–3 PŘESNÉ URL z výsledků vyhledávání, které tvé hodnocení nejvíce podporují. Používej jen URL, která se skutečně objevila ve vyhledávání – NEVYMÝŠLEJ je.
 
 Body:
 ${lines}
 
-Vrať POUZE platné JSON pole, žádný jiný text ani markdown:
+Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný úvodní text, žádné markdown bloky:
 [{"id":"...","status":"fulfilled|in_progress|not_started|stalled","comment_cs":"2–4 věty, vyvážené ano-ale/ne-ale","comment_en":"2–4 sentences","change_cs":"1–2 věty","change_en":"1–2 sentences","sources":["https://...","https://..."]}]`;
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
@@ -82,18 +85,15 @@ Vrať POUZE platné JSON pole, žádný jiný text ani markdown:
     body: JSON.stringify({
       model: MODEL,
       max_tokens: 3500,
-      messages: [
-        { role: "user", content: prompt },
-        { role: "assistant", content: "[" },
-      ],
-      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 3 }],
+      messages: [{ role: "user", content: prompt }], // no prefill — lets web_search run
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 4 }],
     }),
   });
 
   if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
   const data = await res.json();
 
-  // Collect the URLs the web search actually returned (to validate citations)
+  // URLs the web search actually returned (used to validate the model's citations)
   const realMap = {};
   for (const b of data.content || []) {
     if (b.type === "web_search_tool_result" && Array.isArray(b.content)) {
@@ -104,25 +104,28 @@ Vrať POUZE platné JSON pole, žádný jiný text ani markdown:
       }
     }
   }
+  const searchCount = Object.keys(realMap).length;
 
   const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
-  const clean = ("[" + text).replace(/```json|```/g, "").trim();
+  const clean = text.replace(/```json|```/g, "").trim();
   const a = clean.indexOf("["), b = clean.lastIndexOf("]");
   if (a === -1 || b === -1) throw new Error("no JSON array in response");
   const parsed = JSON.parse(clean.slice(a, b + 1));
 
   const out = {};
+  let kept = 0;
   for (const r of parsed) {
     if (!r || !r.id) continue;
     const sources = [];
     if (Array.isArray(r.sources)) {
       const seen = new Set();
       for (const u of r.sources) {
-        const hit = realMap[normUrl(u)];           // keep only real, searched URLs
+        const hit = realMap[normUrl(u)];
         if (hit && !seen.has(hit.url)) { seen.add(hit.url); sources.push(hit); }
         if (sources.length >= MAX_SOURCES) break;
       }
     }
+    kept += sources.length;
     out[r.id] = {
       status: VALID.has(r.status) ? r.status : "not_started",
       comment: { cs: r.comment_cs || "", en: r.comment_en || "" },
@@ -132,7 +135,7 @@ Vrať POUZE platné JSON pole, žádný jiný text ani markdown:
       updatedAt: new Date().toISOString(),
     };
   }
-  return out;
+  return { evals: out, searchCount, kept };
 }
 
 async function callWithBackoff(ch, prevEvals, snapshots, tries = 5) {
@@ -157,8 +160,8 @@ async function main() {
     try {
       process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}… `);
       const r = await callWithBackoff(ch, prevEvals, snapshots);
-      Object.assign(newEvals, r);
-      console.log(`ok (${Object.keys(r).length})`);
+      Object.assign(newEvals, r.evals);
+      console.log(`ok (${Object.keys(r.evals).length}) — ${r.searchCount} search hits, ${r.kept} sources kept`);
     } catch (e) {
       console.log(`failed: ${e.message}`);
     }
