@@ -72,7 +72,7 @@ const METHOD = {
     {
       h: { cs: "Jak hodnocení vzniká", en: "How ratings are produced" },
       p: {
-        cs: "Každý pátek projde každý bod jazykovým modelem, který vyhledává aktuální zprávy a posuzuje důkazy z více úhlů – „ano, ale…" a „ne, ale…". Rozlišuje mezi pouhým ohlášením a skutečným zavedením, mezi částečným či formálním splněním a reálným dopadem, a zohledňuje kritiku opozice i odborníků. Bez doložitelného důkazu volí konzervativně stav „nezahájeno". U každého bodu jsou uvedeny zdroje (odkazy z vyhledávání), o které se hodnocení opírá, abyste si je mohli sami ověřit.",
+        cs: "Každý pátek projde každý bod jazykovým modelem, který vyhledává aktuální zprávy a posuzuje důkazy z více úhlů – „ano, ale…“ a „ne, ale…“. Rozlišuje mezi pouhým ohlášením a skutečným zavedením, mezi částečným či formálním splněním a reálným dopadem, a zohledňuje kritiku opozice i odborníků. Bez doložitelného důkazu volí konzervativně stav „nezahájeno“. U každého bodu jsou uvedeny zdroje (odkazy z vyhledávání), o které se hodnocení opírá, abyste si je mohli sami ověřit.",
         en: "Every Friday each item is processed by a language model that searches current news and weighs evidence from multiple angles — \"yes, but…\" and \"no, but…\". It distinguishes mere announcements from actual implementation, partial or formal delivery from real impact, and takes opposition and expert criticism into account. Without verifiable evidence it conservatively defaults to \"not started\". Each item lists the sources (links from the search) the rating relied on, so you can verify them yourself.",
       },
     },
@@ -95,7 +95,7 @@ const METHOD = {
         ],
       },
       p: {
-        cs: "Celkové „plnění programu" je průměr těchto hodnot přes všechny hodnocené body.",
+        cs: "Celkové „plnění programu“ je průměr těchto hodnot přes všechny hodnocené body.",
         en: "The overall \"programme delivery\" figure is the average of these values across all rated items.",
       },
     },
