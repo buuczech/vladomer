@@ -3,1147 +3,2005 @@
     "1.1": {
       "status": "not_started",
       "comment": {
-        "cs": "Nelze prokázat konkrétní legislativní nebo praktická opatření v oblasti levnější energie či odmítnutí ETS2 během prvních měsíců vlády.",
-        "en": "No verifiable legislative steps or practical measures regarding cheaper energy or ETS2 rejection can be documented in the initial months of government."
+        "cs": "Vláda si energetickou bezpečnost a nižší ceny energie uvedla v programu, konkrétní legislativní opatření nebo zásadní kroky k odmítnutí ETS2 se však doposud publikují. Byly uvedeny deklarativní pozice k energetice, chybí však ověřitelné důkazy o zavedených opatřeních či legislativních návrzích v prvních měsících vlády.",
+        "en": "While energy security and lower prices are stated as priorities, concrete legislative measures or decisive steps toward rejecting ETS2 have not been documented. Declarative positions on energy have been made, but verifiable evidence of implemented measures or legislative proposals in the first months is lacking."
       },
-      "updatedAt": "2026-06-25T08:10:32.495Z"
+      "change": {
+        "cs": "První hodnocení. Vláda deklaruje priority, ale bez ověřitelných kroků zůstává hodnocení bez změny.",
+        "en": "First assessment. Government declares priorities, but without verifiable steps, the assessment remains unchanged."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:05:26.854Z"
     },
     "1.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou dostupné důkazy o přijatých zákonech či zavedených opatřeních zabývajících se dostupností zdravotnictví nebo zkrácením čekacích dob.",
-        "en": "No evidence of enacted laws or implemented measures addressing healthcare accessibility or reduced waiting times is available."
+        "cs": "Dostupné zdravotnictví a kratší čekací doby jsou deklarovány jako cíle, konkrétní legislativní opatření či zavedené reformy nejsou doposud veřejně ověřeny. Chybí důkazy o změnách ve financování, organizaci zdravotnic nebo opatřeních na snížení čekacích dob.",
+        "en": "Affordable healthcare and shorter waiting times are declared as goals, but concrete legislative measures or implemented reforms have not been publicly verified. Evidence of changes in healthcare financing, organization, or measures to reduce waiting times is lacking."
       },
-      "updatedAt": "2026-06-25T08:10:32.495Z"
+      "change": {
+        "cs": "První hodnocení. Bez prokázaných opatření zůstává status quo.",
+        "en": "First assessment. Without demonstrated measures, status quo remains."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:05:26.854Z"
     },
     "1.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Neexistují doložitelné kroky směrem k opatřením řešícím dostupnost bydlení jako veřejný zájem.",
-        "en": "No verifiable steps toward measures addressing housing accessibility as a public concern have been documented."
+        "cs": "Dostupné bydlení jako veřejný zájem je součástí programu, avšak doposud nejsou veřejně k dispozici konkrétní legislativní návrhy ani zavedená opatření. Chybí důkazy o krocích v oblasti regulace cen, podpory výstavby nebo veřejného bydlení.",
+        "en": "Affordable housing as a public interest is part of the program, but concrete legislative proposals or implemented measures are not yet publicly available. Evidence of steps in price regulation, construction support, or public housing is lacking."
       },
-      "updatedAt": "2026-06-25T08:10:32.495Z"
+      "change": {
+        "cs": "První hodnocení. Bez věcných kroků zůstává otázka bydlení bez pokroku.",
+        "en": "First assessment. Without substantive steps, housing remains without progress."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:05:26.854Z"
     },
     "1.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Nelze prokázat konkrétní návrhy nebo legislative opatření týkající se penzí nebo věkového stropu.",
-        "en": "No verifiable legislative proposals or measures regarding pension reforms or age caps have been documented."
+        "cs": "Spravedlivé důchody a strop věku 65 let jsou vládní prioritou, avšak chybí konkrétní legislativní návrhy či opatření k jejich realizaci. Bez ověřitelných kroků v legislativě či provádění nelze stav změnit.",
+        "en": "Fair pensions and a 65-year age cap are government priorities, but concrete legislative proposals or measures for their implementation are lacking. Without verifiable steps in legislation or implementation, the status cannot change."
       },
-      "updatedAt": "2026-06-25T08:10:32.495Z"
+      "change": {
+        "cs": "První hodnocení. Programové slíbení bez dosavadních konkrétních opatření.",
+        "en": "First assessment. Program promise without concrete measures to date."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:05:26.854Z"
     },
     "1.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou k dispozici důkazy o konkrétních opatřeních v oblasti bezpečnosti země nebo nelegální migrace.",
-        "en": "No evidence of specific measures addressing country security or illegal migration has been documented."
+        "cs": "Bezpečná země a nulová tolerance nelegální migrace jsou deklarovány, konkrétní legislativní nebo operativní opatření nejsou veřejně dokumentovány. Chybí důkazy o změnách v právní úpravě, kontrolách hranic nebo prosazení politiky.",
+        "en": "A safe country and zero tolerance for illegal migration are declared, but concrete legislative or operational measures are not publicly documented. Evidence of legal changes, border controls, or policy enforcement is lacking."
       },
-      "updatedAt": "2026-06-25T08:10:32.495Z"
+      "change": {
+        "cs": "První hodnocení. Bez doložitelných kroků v bezpečnostní politice.",
+        "en": "First assessment. Without documented steps in security policy."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:05:26.854Z"
     },
     "3.1": {
       "status": "not_started",
       "comment": {
-        "cs": "Vláda nastoupila 15.12.2025, tedy před zhruba 6 měsíci. Nejsou dostupné ověřitelné informace o schválení nového nástupního platu policisty nebo hasiče na úrovni 50 tis. Kč.",
-        "en": "The government started on 15.12.2025, approximately 6 months ago. No verifiable information is available about approval of a new starting salary for police officers or firefighters at the level of 50 thousand CZK."
+        "cs": "Nejsou dostupné ověřitelné informace o legislativním návrhu či schválení zvýšení nástupního platu policisty a hasiče na 50 tis. Kč. Přestože je mzdová politika vůči bezpečnostním složkám celospolečně považována za problém, konkrétní vládní krok zatím prokázán není.",
+        "en": "No verifiable information found regarding legislative proposals or approval for raising starting salaries of police officers and firefighters to 50,000 CZK. Although wage policy for security forces is recognized as a societal issue, no concrete government action has been documented."
       },
-      "updatedAt": "2026-06-25T08:11:45.163Z"
+      "change": {
+        "cs": "První hodnocení na základě aktuálního vyhledávání; situace zůstává nezměněna.",
+        "en": "First assessment based on current search; situation remains unchanged."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:44.488Z"
     },
     "3.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Nenalezeny ověřitelné zprávy o zavedení příspěvku na bydlení pro policisty a hasiče. Bez konkrétního legislativního kroku nebo ohlášeného opatření se tato položka řadí mezi nezačatá.",
-        "en": "No verifiable reports found about introduction of housing allowance for police and firefighters. Without specific legislative action or announced measures, this item is classified as not started."
+        "cs": "Nenalezeny ověřitelné zprávy o zavedení příspěvku na bydlení ve výši až 6 000 Kč/měsíc. Bez konkrétního legislativního návrhu nebo ohlášeného vládního opatření není možné potvrdit zahájení prací na tomto bodě.",
+        "en": "No verifiable reports found regarding implementation of housing assistance up to 6,000 CZK monthly. Without specific legislative proposal or announced government measure, initiation of work on this item cannot be confirmed."
       },
-      "updatedAt": "2026-06-25T08:11:45.163Z"
+      "change": {
+        "cs": "První hodnocení; žádný doložený pokrok.",
+        "en": "First assessment; no documented progress."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:44.488Z"
     },
     "3.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou k dispozici konkrétní ověřitelné informace o konkrétních krocích k návratu policistů do ulic nebo zastavení rušení služeben. Bez doložených iniciativ se považuje za nezačaté.",
-        "en": "No specific verifiable information available about steps to return police to streets or stop closing police stations. Without documented initiatives, this is considered not started."
+        "cs": "Nejsou k dispozici konkrétní ověřitelné informace o krocích k návratu policistů do ulic nebo zastavení rušení služeben. Přestože se jedná o populární volební slogan, chybí doklady o konkrétních opatřeních či restrukturalizačních plánech.",
+        "en": "No specific verifiable information available regarding steps to return police to streets or halt service office closures. While this is a popular campaign slogan, documentation of concrete measures or restructuring plans is lacking."
       },
-      "updatedAt": "2026-06-25T08:11:45.163Z"
+      "change": {
+        "cs": "První hodnocení; bez nových zjištěných faktů.",
+        "en": "First assessment; no new facts found."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:44.488Z"
     },
     "3.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou k dispozici veřejné záznamy o legislativních nebo organizačních krocích k posílení NÚKIB a ochrany kritické infrastruktury. Bez ověřitelných důkazů zůstává nezačaté.",
-        "en": "No public records available of legislative or organizational steps to strengthen NÚKIB and critical infrastructure protection. Without verifiable evidence, it remains not started."
+        "cs": "Nejsou k dispozici veřejné záznamy o legislativních nebo organizačních krocích k posílení pravomocí NÚKIB a ochrany kritické infrastruktury. Bez ověřitelných iniciativ či návrhů zůstává bod nezahájený.",
+        "en": "No public records available regarding legislative or organizational steps to strengthen NÚKIB authority and critical infrastructure protection. Without verifiable initiatives or proposals, this item remains unstarted."
       },
-      "updatedAt": "2026-06-25T08:11:45.163Z"
+      "change": {
+        "cs": "První hodnocení; zatím není doloženo.",
+        "en": "First assessment; not documented yet."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:44.488Z"
     },
     "3.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou ověřitelné zprávy o oficiálním kroku k odmítnutí migračního paktu EU. Bez konkrétního prohlášení nebo legislativní akce se tato položka zatím nezačala.",
-        "en": "No verifiable reports of official action to reject EU migration pact. Without specific statement or legislative action, this item has not started yet."
+        "cs": "Nejsou ověřitelné zprávy o oficiálním kroku k odmítnutí migračního paktu EU. Bez konkrétního prohlášení vlády, parlamentního návrhu či oficiálního vyjádření pozice České republiky se tento bod nezdá být aktivně prosazován.",
+        "en": "No verifiable reports of official government action to reject the EU migration pact. Without concrete government statement, parliamentary proposal, or official position declaration, this item does not appear to be actively pursued."
       },
-      "updatedAt": "2026-06-25T08:11:45.163Z"
+      "change": {
+        "cs": "První hodnocení; stav beze změny.",
+        "en": "First assessment; status unchanged."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:44.488Z"
     },
     "3.6": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou dostupné ověřitelné informace o návrhu nového zákona o migraci a azylu. Bez legislativního návrhu v parlamentu nebo ohlášené přípravy se řadí mezi nezačatá.",
-        "en": "No verifiable information available about a draft law on migration and asylum. Without legislative proposal in parliament or announced preparation, it is classified as not started."
+        "cs": "Nejsou dostupné ověřitelné informace o návrhu nového zákona o migraci a azylu. Bez legislativního návrhu v parlamentu nebo ohlášené přípravy zůstává tato položka nezačatá.",
+        "en": "No verifiable information available regarding a new migration and asylum law proposal. Without parliamentary legislation or announced preparations, this item remains unstarted."
       },
-      "updatedAt": "2026-06-25T08:11:45.163Z"
+      "change": {
+        "cs": "První hodnocení; žádné doklady o aktivitě.",
+        "en": "First assessment; no documentation of activity."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:44.488Z"
     },
     "3.7": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou k dispozici ověřitelné zprávy o budování sítě jednotných náborových a výcvikových center. Bez konkrétního projektu nebo ohlášené iniciativy zatím nebyl učiněn doložený krok.",
-        "en": "No verifiable reports available about establishing a network of unified recruitment and training centers. Without a specific project or announced initiative, no documented step has been taken yet."
+        "cs": "Nejsou k dispozici ověřitelné zprávy o budování sítě jednotných náborových a výcvikových center. Bez konkrétního projektu, vládního usnesení či ohlášené iniciativy není možné potvrdit zahájení prací.",
+        "en": "No verifiable reports available regarding construction of a unified recruitment and training center network. Without specific project, government resolution, or announced initiative, commencement of work cannot be confirmed."
       },
-      "updatedAt": "2026-06-25T08:11:45.163Z"
+      "change": {
+        "cs": "První hodnocení; bez doložitelných kroků.",
+        "en": "First assessment; without documented steps."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:44.488Z"
     },
     "3.8": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou ověřitelné informace o konkrétních opatřeních k modernizaci techniky policie a hasičů nebo podpoře JSDH. Bez doložených kroků se tato položka zatím nezačala.",
-        "en": "No verifiable information about specific measures to modernize police and firefighter equipment or support JSDH. Without documented steps, this item has not started yet."
+        "cs": "Nejsou ověřitelné informace o konkrétních opatřeních k modernizaci techniky policie a hasičů nebo podpoře JSDH. Bez doložených vládních iniciativ, rozpočtových alokací či projektů se tato položka zatím nezačala.",
+        "en": "No verifiable information about specific measures for modernizing police and firefighter equipment or supporting volunteer fire departments. Without documented government initiatives, budget allocations, or projects, this item has not started."
       },
-      "updatedAt": "2026-06-25T08:11:45.163Z"
+      "change": {
+        "cs": "První hodnocení; status nezměněn.",
+        "en": "First assessment; status unchanged."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:44.488Z"
     },
     "5.1": {
       "status": "not_started",
       "comment": {
-        "cs": "Nebyly zaznamenány žádné konkrétní kroky nebo iniciativy k obnovení vztahů v Visegrádské skupině. Vláda je v úřadě teprve šest měsíců a chybí doložitelné opatření.",
-        "en": "No concrete steps or initiatives to restore Visegrád relations have been recorded. The government has been in office for only six months with no documented measures."
+        "cs": "Vláda Babiše se vzhledem k její službě pouhých 6 měsíců k Visegrádské skupině nevyjádřila konkrétními kroky. Zatímco vztahy V4 jsou součástí tradiční české zahraniční politiky, nejsou známy specifické iniciativy z roku 2026. Absence doložitelných opatření zůstává.",
+        "en": "The Babiš government, serving only 6 months, has made no specific moves regarding the Visegrád Group. While V4 relations are part of traditional Czech foreign policy, no specific 2026 initiatives are known. The absence of documented measures remains."
       },
-      "updatedAt": "2026-06-25T08:12:42.270Z"
+      "change": {
+        "cs": "První hodnocení. Vláda dosud neoznámila konkrétní plán na obnovu V4 vztahů, přestože se jedná o tradiční prioritu.",
+        "en": "First assessment. The government has not yet announced a specific plan to restore V4 relations, despite this being a traditional priority."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:07:52.509Z"
     },
     "5.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou k dispozici veřejné informace o konkrétních akcích na posílení vztahů s USA a Izraelem. Bez doložitelných kroků nelze status změnit.",
-        "en": "No public information about concrete actions to strengthen US and Israel relations is available. Without documented steps, the status cannot be elevated."
+        "cs": "Nejsou dostupné veřejné informace o konkrétních iniciativách k posílení vztahů s USA a Izraelem v rámci nové vlády. Chybí doložitelné legislativní, personální či diplomatické kroky. Bez průkazných opatření nelze status změnit.",
+        "en": "No public information is available about specific initiatives to strengthen relations with the USA and Israel under the new government. Documented legislative, personnel, or diplomatic steps are lacking. Without demonstrable measures, the status cannot change."
       },
-      "updatedAt": "2026-06-25T08:12:42.270Z"
+      "change": {
+        "cs": "První hodnocení. Za šest měsíců vlády nejsou známy formální iniciativy ke zlepšení vztahů s USA či Izraelem.",
+        "en": "First assessment. After six months in office, no formal initiatives to improve relations with the USA or Israel are known."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:07:52.509Z"
     },
     "5.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Česká vláda se vyjadřuje obecně k podporě míru na Ukrajině, ale nejsou známy specifické diplomatické iniciativy v rámci tohoto programového bodu.",
-        "en": "The Czech government expresses general support for peace in Ukraine, but no specific diplomatic initiatives under this program point are known."
+        "cs": "Česká vláda se veřejně vyjádřila k podpoře míru na Ukrajině v obecné rovině, avšak specifické diplomatické iniciativy či mediační snahy nejsou doloženy. Bez konkrétních kroků (jednání, návrhů, participace) nelze prokázat pokrok.",
+        "en": "The Czech government has publicly expressed support for peace in Ukraine in general terms, but specific diplomatic initiatives or mediation efforts are not documented. Without concrete steps (negotiations, proposals, participation), progress cannot be demonstrated."
       },
-      "updatedAt": "2026-06-25T08:12:42.270Z"
+      "change": {
+        "cs": "První hodnocení. Vláda Babiše nevystupuje jako aktivní mediátor ukrajinského konfliktu; pozice zůstává spíše pasivní a deklarativní.",
+        "en": "First assessment. The Babiš government is not acting as an active mediator of the Ukrainian conflict; its position remains rather passive and declaratory."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:07:52.509Z"
     },
     "5.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Zatímco postoj k maximalizaci jednomyslnosti je tradičně součástí české zahraniční politiky, nejsou známy konkrétní legislativní či institucionální kroky v tomto volebním období.",
-        "en": "While maximizing unanimity is traditionally part of Czech foreign policy, no concrete legislative or institutional steps in this electoral term are known."
+        "cs": "Postoj k hájení jednomyslnosti v EU je součástí tradičního postoje ČR, avšak konkrétní legislativní, právní či institucionální opatření z roku 2026 nejsou známa. Bez doložených kroků v EU procesech nelze status změnit.",
+        "en": "The stance on defending unanimity in the EU is part of the Czech Republic's traditional position, but specific legislative, legal, or institutional measures from 2026 are not known. Without documented steps in EU processes, the status cannot change."
       },
-      "updatedAt": "2026-06-25T08:12:42.270Z"
+      "change": {
+        "cs": "První hodnocení. Nejsou известны konkrétní návrhy či aktivity vlády zaměřené na bránění preferencí EU.",
+        "en": "First assessment. No specific proposals or government activities aimed at defending EU preferences are known."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:07:52.509Z"
     },
     "5.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Nebyl zaznamenán žádný návrh na zrušení či transformaci pozice ministra pro evropské záležitosti. Post dosud existuje bez signálu změny.",
-        "en": "No proposal to abolish or transform the position of minister for European affairs has been recorded. The post still exists with no signal of change."
+        "cs": "Post ministra pro evropské záležitosti v rámci české vlády dosud existuje. Žádný návrh na jeho zrušení či transformaci nebyl zaznamenán. Bez legislativního aktu nebo formal ního usnesení nelze pokrok prokázat.",
+        "en": "The position of Minister for European Affairs within the Czech government still exists. No proposal for its abolition or transformation has been recorded. Without legislative action or formal resolution, progress cannot be demonstrated."
       },
-      "updatedAt": "2026-06-25T08:12:42.270Z"
+      "change": {
+        "cs": "První hodnocení. Pozice ministra dosud trvá bez signálu změny ze strany vlády.",
+        "en": "First assessment. The position of minister continues to exist without any signal of change from the government."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:07:52.509Z"
     },
     "5.6": {
       "status": "not_started",
       "comment": {
-        "cs": "Chybí konkrétní opatření nebo iniciativy na posílení ekonomické diplomacie a diverzifikace exportu. Bez doložitelných kroků nelze prokázat pokrok.",
-        "en": "Specific measures or initiatives to strengthen economic diplomacy and diversify exports are lacking. Without documented steps, progress cannot be demonstrated."
+        "cs": "Konkrétní opatření na posílení ekonomické diplomacie a diverzifikaci exportu nejsou doložena. Chybí návrhy na nové struktury, personální změny či konkrétní obchodní iniciativy. Bez dokumentovaných kroků nelze prokázat aktivní práci na tomto cíli.",
+        "en": "Specific measures to strengthen economic diplomacy and diversify exports are not documented. Proposals for new structures, personnel changes, or concrete trade initiatives are lacking. Without documented steps, active work on this goal cannot be demonstrated."
       },
-      "updatedAt": "2026-06-25T08:12:42.270Z"
+      "change": {
+        "cs": "První hodnocení. Vláda dosud neobjevila iniciativy k posílení ekonomické diplomacie či diverzifikaci exportu.",
+        "en": "First assessment. The government has not yet announced initiatives to strengthen economic diplomacy or diversify exports."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:07:52.509Z"
     },
     "6.1": {
       "status": "not_started",
       "comment": {
-        "cs": "Nenalezeny veřejně dostupné informace o návrhu zákona či konkrétních opatřeních ke zpřísnění trestů za násilí na seniorech, ženách a dětech od prosince 2025. Bez ověřitelného důkazu zůstává bod v počáteční fázi.",
-        "en": "No publicly available information found about legislative proposals or concrete measures to toughen penalties for violence against seniors, women and children since December 2025. Without verifiable evidence, the item remains in initial phase."
+        "cs": "Není dostupné ověřené informace o konkrétním legislativním návrhu či administrativním kroku týkajícím se zpřísnění trestů za násilí na seniorech, ženách a dětech od prosince 2025. Vláda se zavázala k řešení problému, ale zatím nebyl publikován formální návrh nebo návrh novely zákona. Bez dokumentované legislativní iniciace zůstává bod v počáteční fázi.",
+        "en": "No verified information on specific legislative proposals or administrative steps to tighten penalties for violence against seniors, women and children since December 2025. The government committed to addressing the issue, but no formal proposal or legal amendment has been published yet. Without documented legislative initiative, the item remains in the initial phase."
       },
-      "updatedAt": "2026-06-25T08:13:11.694Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First evaluation."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:08:26.522Z"
     },
     "6.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Není dostupná ověřená informace o konkrétním legislativním kroku týkajícím se protidrogové novely trestního zákona v prvním pololetí 2026. Bez dokumentu nebo formal návrhu zůstává bod bez iniciace.",
-        "en": "No verified information available about specific legislative steps regarding anti-drug amendments to the Criminal Code in the first half of 2026. Without a document or formal proposal, the item remains unstarted."
+        "cs": "Chybí ověřitelné údaje o konkrétním návrhu protidrogové novely trestního zákona od nástupu vlády. Téma bylo součástí volebního programu, ale zatím nebyl zveřejněn žádný legislativní dokument ani harmonogram projednávání. Bez veřejně dostupné dokumentace zůstává iniciace na nulové úrovni.",
+        "en": "No verifiable data on specific proposals for an anti-drug amendment to the criminal code since the government took office. The topic was part of the electoral program, but no legislative document or debate schedule has been published yet. Without publicly available documentation, initiation remains at zero level."
       },
-      "updatedAt": "2026-06-25T08:13:11.694Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First evaluation."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:08:26.522Z"
     },
     "6.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Chybí doložitelné informace o legislativní aktivitě zaměřené na zavedení plné trestní odpovědnosti za vyhýbání se výživnému. Bez veřejně známého návrhu zůstává bod neuvedený v život.",
-        "en": "Verifiable information about legislative activity to introduce full criminal responsibility for evading alimony payments is lacking. Without a publicly known proposal, the item remains unstarted."
+        "cs": "Nejsou dostupné doložitelné informace o legislativní aktivitě zaměřené na zavedení plné trestní odpovědnosti za vyhýbání se výživnému. Program vlády bod obsahuje, ale konkrétní návrh či pracovní skupina nejsou veřejně dokumentovány. Bez ověřeného kroku zůstává bod bez iniciace.",
+        "en": "No documented information available on legislative activity aimed at introducing full criminal liability for avoiding spousal support. The government program includes this point, but specific proposals or working groups are not publicly documented. Without verified steps, the item remains uninitialized."
       },
-      "updatedAt": "2026-06-25T08:13:11.694Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First evaluation."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:08:26.522Z"
     },
     "6.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou dostupné ověřené zprávy o konkrétním návrhu na jasné formulace pravidel nutné obrany v trestním zákoníku. Bez dokumentovaného legislativního kroky zůstává bod bez iniciace.",
-        "en": "No verified reports are available about specific proposals for clear rules of legitimate self-defense in the Criminal Code. Without documented legislative steps, the item remains unstarted."
+        "cs": "Nejsou ověřeny konkrétní návrhy na jasné formulace pravidel nutné obrany v trestním zákoníku od prosince 2025. Jde o tradičně diskutované téma, ale zatím bez publikovaného legislativního návrhu či detailního plánu. Bez dokumentovaného legislativního kroku zůstává bod neaktivní.",
+        "en": "Specific proposals for clear formulation of self-defense rules in the criminal code are not verified since December 2025. It is a traditionally discussed topic, but without published legislative proposal or detailed plan. Without documented legislative steps, the item remains inactive."
       },
-      "updatedAt": "2026-06-25T08:13:11.694Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First evaluation."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:08:26.522Z"
     },
     "6.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Nenalezeny veřejně dostupné informace o pokročilé modernizaci trestního řádu a občanského soudního řádu od nástupu vlády v prosinci 2025.",
-        "en": "No publicly available information found about advanced modernization of the Criminal Procedure Code and Civil Procedure Code since the government took office in December 2025."
+        "cs": "Nejsou dostupné ověřené informace o iniciativních krocích k modernizaci trestního řádu a občanského soudního řádu od nástupu Babišovy vlády. Modernizace soudního systému je dlouhodobý úkol, ale bez zveřejněného návrhu či pracovní skupiny nelze potvrdit zahájení. Bez veřejné dokumentace zůstává bod bez iniciace.",
+        "en": "No verified information on initiatives to modernize the criminal code and civil code of civil procedure since Babiš's government took office. Court system modernization is a long-term task, but without a published proposal or working group, initiation cannot be confirmed. Without public documentation, the item remains uninitialized."
       },
-      "updatedAt": "2026-06-25T08:13:11.694Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First evaluation."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:08:26.522Z"
     },
     "6.6": {
       "status": "not_started",
       "comment": {
-        "cs": "Chybí ověřitelné údaje o konkrétním legislativním nebo administrativním kroku ke zvýšení nástupního platu vězeňské služby na 50 tisíc Kč. Bez dokumentu nebo vyhlášky zůstává bod bez iniciace.",
-        "en": "Verifiable data about specific legislative or administrative steps to raise entry-level salaries of the Prison Service to 50,000 CZK is lacking. Without a document or decree, the item remains unstarted."
+        "cs": "Nejsou dostupné doložitelné údaje o konkrétním legislativním nebo administrativním kroku ke zvýšení nástupního platu vězeňské služby na 50 tisíc Kč. Tato opatření mají podporu, ale bez vládního usnesení, návrhu novely či vyhlášky není iniciace potvrzena. Bez ověřené dokumentace zůstává bod bez iniciace.",
+        "en": "No documented data available on specific legislative or administrative steps to increase the starting salary of the prison service to 50,000 CZK. These measures have support, but without a government resolution, law amendment proposal or regulation, initiation is not confirmed. Without verified documentation, the item remains uninitialized."
       },
-      "updatedAt": "2026-06-25T08:13:11.694Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First evaluation."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:08:26.522Z"
     },
     "6.7": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou dostupné ověřené informace o konkrétních legislativních návrzích na rozšíření elektronických náramků a alternativních trestů. Bez veřejně známého iniciačního kroku zůstává bod bez aktivit.",
-        "en": "No verified information is available about specific legislative proposals to expand electronic monitoring bracelets and alternative punishments. Without a publicly known initiating step, the item remains inactive."
+        "cs": "Nejsou ověřeny konkrétní legislativní návrhy na rozšíření elektronických náramků a alternativních trestů od prosince 2025. Koncept má perspektivu, ale bez zveřejněného návrhu či časového plánu je iniciace neurčitá. Bez veřejně dostupné dokumentace zůstává bod bez iniciace.",
+        "en": "Specific legislative proposals for expanding electronic monitoring and alternative penalties are not verified since December 2025. The concept has potential, but without a published proposal or timeline, initiation is uncertain. Without publicly available documentation, the item remains uninitialized."
       },
-      "updatedAt": "2026-06-25T08:13:11.694Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First evaluation."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:08:26.522Z"
     },
     "6.8": {
       "status": "not_started",
       "comment": {
-        "cs": "Chybí doložitelné informace o legislativním návrhu na zrušení trestného činu neoprávněné činnosti pro cizí moc. Bez konkrétního dokumentu zůstává bod bez iniciace.",
-        "en": "Verifiable information about a legislative proposal to repeal the offense of unauthorized activity on behalf of a foreign power is lacking. Without a specific document, the item remains unstarted."
+        "cs": "Nejsou dostupné doložitelné informace o legislativním návrhu na zrušení trestného činu neoprávněné činnosti pro cizí moc. Tento bod je součástí programu, ale konkrétní legislativní iniciace není veřejně dokumentována. Bez ověřeného návrhu zůstává bod bez iniciace.",
+        "en": "No documented information available on a legislative proposal to repeal the criminal offense of unauthorized activity on behalf of a foreign power. This point is part of the program, but specific legislative initiation is not publicly documented. Without verified proposal, the item remains uninitialized."
       },
-      "updatedAt": "2026-06-25T08:13:11.694Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First evaluation."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:08:26.522Z"
     },
     "6.9": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou dostupné ověřené zprávy o konkrétním legislativním návrhu zákona o celostátním referendu mimo EU a NATO. Bez veřejného návrhu zůstává bod v počáteční fázi.",
-        "en": "No verified reports about a specific legislative proposal for a law on national referendums outside EU and NATO are available. Without a public proposal, the item remains in initial phase."
+        "cs": "Nejsou ověřeny konkrétní legislativní návrhy zákona o celostátním referendu mimo EU a NATO od nástupu vlády. Jde o kontroverzní téma s nejasným právním dopadem, ale bez publikovaného návrhu není iniciace potvrzena. Bez veřejné dokumentace zůstává bod bez iniciace.",
+        "en": "Specific legislative proposals for a national referendum law outside EU and NATO are not verified since government took office. This is a controversial topic with unclear legal implications, but without a published proposal, initiation is not confirmed. Without public documentation, the item remains uninitialized."
       },
-      "updatedAt": "2026-06-25T08:13:11.694Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First evaluation."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:08:26.522Z"
     },
     "8.1": {
       "status": "not_started",
       "comment": {
-        "cs": "Nenalezeny doložitelné kroky k zahájení realizace D11 a jejího propojení s Polskem v prvních měsících vlády.",
-        "en": "No verifiable steps found regarding the initiation of D11 construction and its connection to Poland in the first months of the government."
+        "cs": "Dosud nenalezeny doložitelné kroky k zahájení stavby D11 či jejímu propojení s Polskem. Předchozí vláda projekt nepokročila výrazně vpřed; nová vláda v prvních měsících nevydala legislativní návrhy nebo konkrétní harmonogramy realizace.",
+        "en": "No verifiable steps toward initiating D11 construction or Polish connection found. Previous government made limited progress; new government has not issued legislative proposals or concrete timelines in its first months."
       },
-      "updatedAt": "2026-06-25T08:14:06.366Z"
+      "change": {
+        "cs": "Bez nových iniciativ; stav zůstává beze změny.",
+        "en": "No new initiatives; status unchanged."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:04.835Z"
     },
     "8.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Nenalezeny konkrétní opatření či legislativní návrhy týkající se dovršení D3 přes jižní Čechy.",
-        "en": "No specific measures or legislative proposals found regarding the completion of D3 through South Bohemia."
+        "cs": "Žádné konkrétní legislativní nebo řídící opatření k rozšíření D3 přes jižní Čechy nejsou dokumentovány. Projekt vyžaduje meziresortní koordinaci a financování, která nebyla vládu iniciována.",
+        "en": "No concrete legislative or administrative measures for D3 extension through southern Bohemia are documented. The project requires inter-ministerial coordination and funding that have not been initiated."
       },
-      "updatedAt": "2026-06-25T08:14:06.366Z"
+      "change": {
+        "cs": "Bez změn; projekt zůstává v konceptuální fázi.",
+        "en": "No changes; project remains conceptual."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:04.835Z"
     },
     "8.3": {
       "status": "in_progress",
       "comment": {
-        "cs": "Pražský okruh byl součástí dlouhodobých plánů a jeho rozšíření pokračuje, nicméně bez jasného důkazu akcelerace po polovině prosince 2025.",
-        "en": "The Prague Ring has been part of long-term plans and its expansion continues, though without clear evidence of acceleration since mid-December 2025."
+        "cs": "Pražský okruh je dlouhodobým projektem pokračujícím ze současného tempa. Bez důkazu o akceleraci či prioritizaci po prosinci 2025; rozšíření na Černý Most probíhá, ale v standardní projekční a přípravné fázi.",
+        "en": "Prague Ring is a long-term project continuing at current pace. No evidence of acceleration or prioritization since December 2025; extension to Černý Most is ongoing but in standard planning and preparation phase."
       },
-      "updatedAt": "2026-06-25T08:14:06.366Z"
+      "change": {
+        "cs": "Bez nových impulsů; probíhá podle dřívějších plánů.",
+        "en": "No new momentum; continuing as planned."
+      },
+      "sources": [],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-06-25T09:12:04.835Z"
     },
     "8.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Nenalezeny doložitelné iniciativy týkající se zvýšení povolené rychlosti na 200 km/h na koridorech.",
-        "en": "No verifiable initiatives found regarding an increase in speed limits to 200 km/h on corridors."
+        "cs": "Zvýšení povolené rychlosti na koridorech na 200 km/h není dokumentováno v legislativních návrzích ani opatřeních vlády. Bez veřejného prohlášení či konkrétního plánu realizace.",
+        "en": "Speed increase to 200 km/h on corridors is not documented in legislative proposals or government measures. No public statement or concrete implementation plan identified."
       },
-      "updatedAt": "2026-06-25T08:14:06.366Z"
+      "change": {
+        "cs": "Bez pokroku; slibem nevysledovaný cíl.",
+        "en": "No progress; unfollowed commitment."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:04.835Z"
     },
     "8.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Projektování spojení Prahy, letiště a Kladno existuje, ale bez důkazů o akceleraci či konkrétních krocích v prvních měsících nové vlády.",
-        "en": "Planning for Prague-airport-Kladno connection exists, but without evidence of acceleration or concrete steps in the first months of the new government."
+        "cs": "Projektování propojení Prahy, letiště a Kladno existuje v konceptuální rovině. Nová vláda nevydala akcelerované kroky, financování ani konkrétní harmonogram realizace tohoto ambitního projektu.",
+        "en": "Prague-airport-Kladno connection exists in conceptual form. New government has not issued accelerated steps, funding, or concrete timeline for this ambitious project."
       },
-      "updatedAt": "2026-06-25T08:14:06.366Z"
+      "change": {
+        "cs": "Bez nových iniciativ; zůstává v plánech bez akceleraci.",
+        "en": "No new initiatives; remains in plans without acceleration."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:04.835Z"
     },
     "8.6": {
       "status": "in_progress",
       "comment": {
-        "cs": "Systém ETCS je dlouhodobým projektem ČD a EU; pokračuje v rámci stávajících programů, ale bez speciálního zrychlení od nové vlády.",
-        "en": "ETCS is a long-term project of ČD and the EU; it continues within existing programs but without special acceleration from the new government."
+        "cs": "ETCS je dlouhodobým projektem EU a ČD pokračujícím v rámci stávajících programů. Vláda zatím nevydala zvláštní iniciativu na zrychlení, přestože modernizace železnic pokračuje.",
+        "en": "ETCS is an EU and ČD long-term project continuing within existing programs. Government has not yet issued special initiative to accelerate, though rail modernization continues."
       },
-      "updatedAt": "2026-06-25T08:14:06.366Z"
+      "change": {
+        "cs": "Bez akcelerace; standardní tempo v rámci EU programů.",
+        "en": "No acceleration; standard pace within EU programs."
+      },
+      "sources": [],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-06-25T09:12:04.835Z"
     },
     "8.7": {
       "status": "not_started",
       "comment": {
-        "cs": "Nenalezeny doložitelné návrhy či legislativní kroky k návratu 75% slev na jízdné pro studenty a seniory.",
-        "en": "No verifiable proposals or legislative steps found regarding the restoration of 75% discounts on fares for students and seniors."
+        "cs": "Vrácení 75% slev pro studenty a seniory není dokumentováno v legislativních návrzích či usneseních vlády. Bez doložitelného kroku nebo veřejného plánu k realizaci.",
+        "en": "Return of 75% discounts for students and seniors is not documented in legislative proposals or government resolutions. No verifiable step or public plan for implementation."
       },
-      "updatedAt": "2026-06-25T08:14:06.366Z"
+      "change": {
+        "cs": "Bez pokroku; slub bez iniciativy.",
+        "en": "No progress; pledge without action."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:04.835Z"
     },
     "8.8": {
       "status": "not_started",
       "comment": {
-        "cs": "Nenalezeny konkrétní legislativní iniciativy či oficiální kroky vlády k odmítnutí zákazu spalovacích motorů od 2035.",
-        "en": "No concrete legislative initiatives or official government steps found to reject the ban on combustion engines from 2035."
+        "cs": "Odmítnutí zákazu spalovacích motorů od 2035 není podpořeno konkrétní legislativní iniciativou či oficiálním postojem vlády. Bez veřejného prohlášení či doložitelných kroků na národní či EU úrovni.",
+        "en": "Rejection of combustion engine ban from 2035 lacks concrete legislative initiative or official government position. No public statement or verifiable steps at national or EU level."
       },
-      "updatedAt": "2026-06-25T08:14:06.366Z"
+      "change": {
+        "cs": "Bez změn; slub zůstává bez naplnění.",
+        "en": "No changes; pledge unfulfilled."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:04.835Z"
     },
     "8.9": {
       "status": "in_progress",
       "comment": {
-        "cs": "Modernizace Letiště Praha je součástí dlouhodobých plánů; kolejové napojení se připravuje, avšak bez zřejmého zrychlení od prosince 2025.",
-        "en": "Prague Airport modernization is part of long-term plans; rail connection is being prepared, but without apparent acceleration since December 2025."
+        "cs": "Modernizace Letiště Praha pokračuje v dlouhodobých projektech. Kolejové napojení se připravuje, avšak bez zřejmého zrychlení či zvláštní podpory vlády od prosince 2025.",
+        "en": "Prague Airport modernization continues in long-term projects. Rail connection is being prepared, but without clear acceleration or special government support since December 2025."
       },
-      "updatedAt": "2026-06-25T08:14:06.366Z"
+      "change": {
+        "cs": "Bez akcelerace; pokračuje dřívějším tempem.",
+        "en": "No acceleration; continues at previous pace."
+      },
+      "sources": [],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-06-25T09:12:04.835Z"
     },
     "9.1": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou dostupné veřejné záznamy o konkrétních krocích k navýšení výdajů na vzdělávání. Vláda byla ustanovena před necelými 7 měsíci a zatím nejsou známy implementační kroky.",
-        "en": "No publicly available records of specific steps to increase education spending are accessible. The government was established less than 7 months ago and no implementation measures are yet known."
+        "cs": "Nejsou dokumentovány konkrétní kroky k navýšení výdajů na vzdělávání. Vláda Babiše bylo jmenována před cca 6 měsíci a chybí veřejné sliby či návrhy rozpočtu zaměřené na zvýšení financování ke standardům OECD. Rozpočtový proces pro další období není zatím dosud příslušnými orgány projednáván.",
+        "en": "No documented steps toward increasing education spending have been identified. The Babiš government was appointed approximately 6 months ago, and public commitments or budget proposals to raise funding to OECD standards are lacking. The budget process for the next period has not yet been discussed by relevant bodies."
       },
-      "updatedAt": "2026-06-25T08:14:37.872Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "Initial assessment."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:37.802Z"
     },
     "9.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Není dokumentován žádný konkrétní legislativní nebo administrativní krok směřující k dosažení nástupního platu 50 000 Kč. Taková změna by vyžadovala významné přesun finančních prostředků.",
-        "en": "No specific legislative or administrative step toward establishing a 50,000 CZK starting salary is documented. Such a change would require significant budget reallocation."
+        "cs": "Neexistuje dokumentace o konkrétní legislativní iniciativě či administrativním kroku k dosažení nástupního platu 50 000 Kč. Taková změna by vyžadovala výrazné navýšení rozpočtu a byla by součástí širší reformy platů ve veřejné sféře, která zatím není známa.",
+        "en": "No documentation exists of specific legislative initiative or administrative action toward reaching a 50,000 CZK entry salary. Such a change would require significant budget increases and would be part of a broader public sector pay reform not yet announced."
       },
-      "updatedAt": "2026-06-25T08:14:37.872Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "Initial assessment."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:37.802Z"
     },
     "9.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou veřejně dostupné důkazy o krocích k dosažení průměrného platu učitelů 75 000 Kč do konce mandátu. Toto je dlouhodobý cíl vyžadující průběžné navýšení.",
-        "en": "No publicly available evidence of steps to achieve an average teacher salary of 75,000 CZK by the end of the term exists. This is a long-term goal requiring gradual increases."
+        "cs": "Nejsou veřejně dostupné důkazy o plánovaném navýšení průměrného platu učitelů na 75 000 Kč. Toto je dlouhodobý cíl vyžadující několik let konsistentního navyšování, což by mělo být zahájeno legislativním či rozpočtovým návrhem, který zatím chybí.",
+        "en": "No publicly available evidence of plans to increase average teacher salaries to 75,000 CZK exists. This is a long-term goal requiring several years of consistent increases, which should begin with legislative or budgetary proposals not yet presented."
       },
-      "updatedAt": "2026-06-25T08:14:37.872Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "Initial assessment."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:37.802Z"
     },
     "9.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Není známo o připravovaném nebo projednaném legislativním návrhu kariérního řádu pro učitele a ředitele. Takový systém by vyžadoval komplexní právní úpravu.",
-        "en": "No draft or legislative proposal for a career framework for teachers and principals is known. Such a system would require comprehensive legal regulation."
+        "cs": "Nejsou známy kroky k přípravě kariérního řádu. Takový systém vyžaduje komplexní legislativu a dlouhodobé jednání se sociálními partnery. Veřejné prohlášení nebo legislativní návrh dosud nebyl vydán či předstoupen parlamentu.",
+        "en": "No steps toward preparing a career framework are known. Such a system requires complex legislation and extended negotiations with social partners. No public statement or legislative proposal has been issued or submitted to parliament."
       },
-      "updatedAt": "2026-06-25T08:14:37.872Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "Initial assessment."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:37.802Z"
     },
     "9.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou dokumentovány konkrétní kroky k revizi inkluzivního vzdělávání a posilování speciálních škol. Chybí veřejné prohlášení nebo návrhy týkající se této oblasti.",
-        "en": "No specific steps to revise inclusive education and strengthen special schools are documented. There are no public statements or proposals regarding this area."
+        "cs": "Nejsou dokumentovány konkrétní kroky k revizi inkluze a posílení speciálního vzdělávání. Vláda neuvedla veřejné plány na přehodnocení inkluzivní politiky, která byla dříve kritizována za neobstojnost bez podpory speciálních škol.",
+        "en": "No concrete steps toward reviewing inclusion or strengthening special education are documented. The government has not publicly presented plans to reconsider inclusive policy, which was previously criticized for lack of support for special schools."
       },
-      "updatedAt": "2026-06-25T08:14:37.872Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "Initial assessment."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:37.802Z"
     },
     "9.6": {
       "status": "not_started",
       "comment": {
-        "cs": "Není známo o návrhu na změnu přijímacího řízení na střední školy. Takové legislativní změny by vyžadovaly iniciaci a projednání v rámci vzdělávacího resortu.",
-        "en": "No proposal to change secondary school admission procedures based on test results is known. Such legislative changes would require initiation and discussion within the education ministry."
+        "cs": "Neexistuje veřejná iniciativa na změnu přijímacího řízení na střední školy. Reforma by vyžadovala legislativní změny a projednání s opozicí i odborníky na vzdělávání, což zatím nezaznamenáno.",
+        "en": "No public initiative for changing secondary school admissions procedures is evident. Such reform would require legislative changes and discussion with opposition and education experts, not yet initiated."
       },
-      "updatedAt": "2026-06-25T08:14:37.872Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "Initial assessment."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:37.802Z"
     },
     "9.7": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou dostupné veřejné informace o konkrétních krocích k rozšíření duálního vzdělávání a učňovství. Neexistují hlášené plány nebo iniciativy v této oblasti.",
-        "en": "No publicly available information about specific steps to expand dual education and apprenticeships exists. No announced plans or initiatives in this area are known."
+        "cs": "Nejsou dostupné informace o konkrétních krocích k rozšíření duálního vzdělávání a učňovství. Vláda neuvedla plán či iniciativu zaměřenou na posílení vazby mezi školami a zaměstnavateli v této oblasti.",
+        "en": "No information on specific steps to expand dual education and apprenticeships is available. The government has not presented a plan or initiative focused on strengthening school-employer partnerships in this area."
       },
-      "updatedAt": "2026-06-25T08:14:37.872Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "Initial assessment."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:37.802Z"
     },
     "9.8": {
       "status": "not_started",
       "comment": {
-        "cs": "Není dokumentován žádný legislativní návrh týkající se zákona o zajištění kvality veřejných vysokých škol. Tato agenda zatím nebyla veřejně uvedena.",
-        "en": "No legislative proposal regarding a law on public university quality assurance is documented. This agenda has not yet been publicly announced."
+        "cs": "Není dokumentován legislativní návrh nového zákona o zajištění kvality veřejných vysokých škol. Tato agenda nebyla dosud veřejně uvedena a министерstvo školství jí nezahájilo příslušné procesy.",
+        "en": "No legislative proposal for a new law on quality assurance in public universities is documented. This agenda has not been publicly presented and the education ministry has not initiated relevant processes."
       },
-      "updatedAt": "2026-06-25T08:14:37.872Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "Initial assessment."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:37.802Z"
     },
     "9.9": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou známy konkrétní kroky k navýšení kapacit Erasmus+ a podpory sociálně znevýhodněných studentů. Chybí veřejné prohlášení o prioritizaci těchto opatření.",
-        "en": "No specific steps to increase Erasmus+ capacity and support for disadvantaged students are known. There is no public announcement prioritizing these measures."
+        "cs": "Nejsou známy konkrétní kroky k navýšení kapacit Erasmus+ nebo rozšíření podpory sociálně znevýhodněných studentů. Vláda neuvedla veřejný plán či rozpočtový návrh zaměřený na tuto oblast.",
+        "en": "No concrete steps to increase Erasmus+ capacity or expand support for disadvantaged students are known. The government has not presented a public plan or budget proposal targeting this area."
       },
-      "updatedAt": "2026-06-25T08:14:37.872Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "Initial assessment."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:12:37.802Z"
     },
     "10.1": {
       "status": "in_progress",
       "comment": {
-        "cs": "Vláda projednává reformu penzijního systému, včetně otázky důchodového věku. Konkrétní legislativa zatím nebyla přijata.",
-        "en": "The government is discussing pension system reform, including the retirement age issue. Specific legislation has not yet been passed."
+        "cs": "Vláda Babiše pokračuje v projednávání reformy důchodového systému, včetně otázky věkové hranice. Konkrétní legislativní návrh na zastropování důchodového věku na 65 letech však dosud nebyl veřejně předložen ani schválen. Pracuje se na širší penzijní reformě, ale konkrétní právní úprava chybí.",
+        "en": "Babiš's government continues to discuss pension system reform, including the retirement age cap issue. However, no specific legislative proposal to cap the retirement age at 65 has been publicly submitted or approved yet. Work is ongoing on broader pension reform, but concrete legal provisions are missing."
       },
-      "updatedAt": "2026-06-25T08:15:05.248Z"
+      "change": {
+        "cs": "Stav bez výraznější změny; vláda pokračuje v diskusi, ale žádné nové legislativní kroky nejsou doloženy.",
+        "en": "Status unchanged; government continues discussions but no new legislative steps are documented."
+      },
+      "sources": [],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-06-25T09:13:12.388Z"
     },
     "10.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Není doložitelný pokrok v přípravě změny valorizačního vzorce. Návrh legislativy zatím nebyl zveřejněn.",
-        "en": "No verifiable progress in preparing changes to the valorization formula. Legislative proposal has not been published yet."
+        "cs": "Obnova spravedlivého valorizačního vzorce není dosud zahájena. Vláda se zaměřuje na širší reformu penzijního systému, ale konkrétní návrh na změnu valorizace chybí. Nejsou k dispozici důkazy o práci na tomto specifickém bodu.",
+        "en": "Restoration of a fair valorization formula has not been started. The government focuses on broader pension system reform, but no specific proposal for valorization change exists. No evidence of work on this specific point is available."
       },
-      "updatedAt": "2026-06-25T08:15:05.248Z"
+      "change": {
+        "cs": "První hodnocení v této sérii; dosud žádný doložitelný pokrok.",
+        "en": "First assessment in this series; no documented progress to date."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:12.388Z"
     },
     "10.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou k dispozici důkazy o práci na zavedení věkových valorizací. Žádný legislativní návrh nebyl předložen.",
-        "en": "No evidence available of work on age-based valorization. No legislative proposal has been submitted."
+        "cs": "Zavedení věkových valorizací od 80 let není řešeno. Neexistuje žádný veřejný legislativní návrh ani důkaz o práci na tomto opatření. Otázka není součástí aktuálně projedívaných reforem.",
+        "en": "Introduction of age-based valorization from age 80 is not being addressed. No public legislative proposal or evidence of work on this measure exists. The issue is not part of currently discussed reforms."
       },
-      "updatedAt": "2026-06-25T08:15:05.248Z"
+      "change": {
+        "cs": "První hodnocení; žádné změny či kroky.",
+        "en": "First assessment; no changes or steps documented."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:12.388Z"
     },
     "10.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Zvýšení rodičovského příspěvku na 400 000 Kč není dosud legislativně řešeno. Nejsou známy konkrétní kroky.",
-        "en": "Increase of parental benefit to 400,000 CZK has not been legislatively addressed. No specific steps are known."
+        "cs": "Zvýšení rodičovského příspěvku na 400 000 Kč není dosud legislativně řešeno. Vláda nepředložila konkrétní návrh na toto zvýšení. Nejsou známy konkrétní kroky směřující k realizaci tohoto slibu.",
+        "en": "Increasing the parental allowance to 400,000 CZK has not been legislatively addressed. The government has not submitted a specific proposal for this increase. No concrete steps toward implementation are known."
       },
-      "updatedAt": "2026-06-25T08:15:05.248Z"
+      "change": {
+        "cs": "První hodnocení; beze změn.",
+        "en": "First assessment; no changes."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:12.388Z"
     },
     "10.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Obnova přídavků na děti a školkovného není v přípravě. Žádný legislativní návrh není veřejně znám.",
-        "en": "Restoration of child allowances and school fees is not in preparation. No legislative proposal is publicly known."
+        "cs": "Obnova přídavků na děti a školkovného není zahájena. Žádný legislativní návrh na tuto obnovu nebyl publikován. Vláda se zatím nezabývala konkrétními kroky vedoucími k realizaci tohoto bodu.",
+        "en": "Restoration of child allowances and kindergarten fees has not started. No legislative proposal for this restoration has been published. The government has not yet undertaken concrete steps toward implementation."
       },
-      "updatedAt": "2026-06-25T08:15:05.248Z"
+      "change": {
+        "cs": "První hodnocení; bez pokroku.",
+        "en": "First assessment; no progress."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:12.388Z"
     },
     "10.6": {
       "status": "not_started",
       "comment": {
-        "cs": "Revize superdávky a vyčlenění přídavků na děti nejsou zahájena. Nejsou dostupné důkazy o práci na tomto bodu.",
-        "en": "Review of the super-benefit and separation of child allowances have not been started. No evidence of work on this item is available."
+        "cs": "Revize superdávky a vyčlenění přídavků na děti nejsou zahájena. Nejsou dostupné důkazy o přípravě legislativy na toto téma. Vláda se dosud věnuje širším reformám sociálního systému bez konkrétního řešení tohoto bodu.",
+        "en": "Review of the universal social benefit and separation of child allowances has not started. No evidence of legislative preparation on this topic is available. The government has focused on broader social system reforms without addressing this specific point."
       },
-      "updatedAt": "2026-06-25T08:15:05.248Z"
+      "change": {
+        "cs": "První hodnocení; žádný doložený pokrok.",
+        "en": "First assessment; no documented progress."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:12.388Z"
     },
     "10.7": {
       "status": "not_started",
       "comment": {
-        "cs": "Nový zákon o sociálních službách není dosud připravován. Legislativní proces nebyl zahájen.",
-        "en": "New social services law is not being prepared yet. Legislative process has not been initiated."
+        "cs": "Nový zákon o sociálních službách není v přípravě. Legislativní proces nebyl zahájen a žádný návrh nebyl zveřejněn. Otázka financování sociálních služeb zůstává bez konkrétního řešení.",
+        "en": "A new law on social services is not being prepared. No legislative process has been initiated and no proposal has been published. The issue of social services financing remains unaddressed."
       },
-      "updatedAt": "2026-06-25T08:15:05.248Z"
+      "change": {
+        "cs": "První hodnocení; bez iniciativy.",
+        "en": "First assessment; no initiative."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:12.388Z"
     },
     "10.8": {
       "status": "not_started",
       "comment": {
-        "cs": "Hmotné zabezpečení neformálně pečujících osob není řešeno. Nejsou známy konkrétní opatření.",
-        "en": "Material security for informal caregivers is not being addressed. No specific measures are known."
+        "cs": "Hmotné zabezpečení neformálně pečujících osob není řešeno. Nejsou známy konkrétní opatření ani legislativní návrhy. Vláda se dosud touto problématikou nezabývá viditelně.",
+        "en": "Material security for informal caregivers is not being addressed. No concrete measures or legislative proposals are known. The government has not visibly addressed this issue."
       },
-      "updatedAt": "2026-06-25T08:15:05.249Z"
+      "change": {
+        "cs": "První hodnocení; bez kroků.",
+        "en": "First assessment; no steps taken."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:12.388Z"
     },
     "10.9": {
       "status": "not_started",
       "comment": {
-        "cs": "Zrušení povinného hlášení a prohlídek u DPP/brigád není legislativně řešeno. Návrh nebyl předložen.",
-        "en": "Abolition of mandatory reporting and health checks for gig/temporary work has not been legislatively addressed. Proposal not submitted."
+        "cs": "Zrušení povinného hlášení a zdravotních prohlídek u dohod na vykonávání práce a brigád není legislativně řešeno. Žádný návrh na tuto změnu nebyl předložen. Pracovněprávní regulace zůstává nezměněna.",
+        "en": "Abolition of mandatory reporting and health checks for casual work and temporary jobs has not been legislatively addressed. No proposal for this change has been submitted. Labor law regulations remain unchanged."
       },
-      "updatedAt": "2026-06-25T08:15:05.249Z"
+      "change": {
+        "cs": "První hodnocení; bez iniciativy.",
+        "en": "First assessment; no initiative."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:12.388Z"
     },
     "10.10": {
       "status": "not_started",
       "comment": {
-        "cs": "Zpřísnění kontroly agentur práce není dosud v přípravě. Neexistuje veřejně známý legislativní návrh.",
-        "en": "Stricter control of employment agencies is not yet being prepared. No publicly known legislative proposal exists."
+        "cs": "Zpřísnění kontroly pracovních agentur není dosud v přípravě. Neexistuje veřejně známý legislativní návrh na zvýšení kontroly či sankcí. Regulace pracovních agentur zůstává beze změny.",
+        "en": "Tightening control of employment agencies has not yet been prepared. No publicly known legislative proposal to increase control or penalties exists. Regulation of employment agencies remains unchanged."
       },
-      "updatedAt": "2026-06-25T08:15:05.249Z"
+      "change": {
+        "cs": "První hodnocení; bez doloženého pokroku.",
+        "en": "First assessment; no documented progress."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:12.388Z"
     },
     "12.1": {
-      "status": "not_started",
+      "status": "in_progress",
       "comment": {
-        "cs": "Vláda Babiše nastoupila před cca 6 měsíci. Zvýšení potravinové soběstačnosti je dlouhodobý cíl vyžadující systémové změny. Nejsou veřejně dostupné důkazy o konkrétních zavedených opatřeních v této oblasti.",
-        "en": "Babiš's government took office about 6 months ago. Increasing food self-sufficiency is a long-term goal requiring systemic changes. No publicly available evidence of specific implemented measures in this area."
+        "cs": "Vláda reagovala na tento cíl několika iniciativami, včetně diskusí o podpoře tuzemské produkce (např. zemědělským desticílkům v TAČR). Nejsou však dostupné konkrétní opatření s měřitelným dopadem na soběstačnost. Existují deklarace, ale chybí centrální program nebo legislativa, která by zásadně změnila strukturu podpory.",
+        "en": "The government has responded with several initiatives, including discussions on domestic production support (e.g. agricultural projects in TACR). However, specific measures with measurable impact on self-sufficiency are not available. There are declarations, but a central program or legislation that would fundamentally change the support structure is missing."
       },
-      "updatedAt": "2026-06-25T08:16:02.181Z"
+      "change": {
+        "cs": "Posun z 'nezahájeno' na 'in_progress' – objevily se diskuse o zemědělské podpoře v poslední době, ale bez konkrétních výstupů.",
+        "en": "Shift from 'not_started' to 'in_progress' – recent discussions about agricultural support have emerged, but without concrete outputs."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:14:28.329Z"
     },
     "12.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Zřízení potravinového ombudsmana a systému dosledovatelnosti by vyžadovalo legislativní kroky. Nejsou dostupné informace o podaných návrzích či zavedení takovéto funkce.",
-        "en": "Establishing a food ombudsman and traceability system would require legislative action. No information available about submitted proposals or implementation of such a function."
+        "cs": "Ani při intenzívním hledání nejsou nalezeny podklady o tom, že by byla zahájena legislativa pro zřízení potravinového ombudsmana. Nejsou známy konkrétní návrhy či pracovní skupiny na to zaměřené. Jedná se o ambiciózní cíl, který by vyžadoval nový zákon.",
+        "en": "Despite intensive searching, no evidence was found that legislation to establish a food ombudsman has been initiated. No specific proposals or working groups focused on this are known. This is an ambitious goal that would require new legislation."
       },
-      "updatedAt": "2026-06-25T08:16:02.181Z"
+      "change": {
+        "cs": "Bez změny – stav zůstává beze znaků konkrétního pokroku od minulého týdne.",
+        "en": "No change – status remains without signs of concrete progress from the previous week."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:14:28.329Z"
     },
     "12.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Ochrana trhu před levným dovozem by vyžadovala právní či regulační opatření. Nejsou veřejně dostupné údaje o konkrétních krocích či návrzích v tomto směru.",
-        "en": "Market protection against cheap imports would require legal or regulatory measures. No publicly available data on specific steps or proposals in this direction."
+        "cs": "Nejsou k dispozici veřejné důkazy o tom, že by vláda zavedla či připravila specifickou ochranu trhu. Diskuse o levnému dovozu existují, ale chybí právní či regulační mechanismy. Ochrana by mohla být složitá vzhledem k mezinárodním závazkům (EU, WTO).",
+        "en": "No public evidence is available that the government has introduced or prepared specific market protection. Discussions about cheap imports exist, but legal or regulatory mechanisms are lacking. Protection could be complicated due to international commitments (EU, WTO)."
       },
-      "updatedAt": "2026-06-25T08:16:02.181Z"
+      "change": {
+        "cs": "Bez změny – aktivní legislativní kroky nebo regulace nejsou dokumentovány.",
+        "en": "No change – active legislative steps or regulations are not documented."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:14:28.329Z"
     },
     "12.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Zákon o předkupním právu na půdu pro aktivní zemědělce představuje zásadní legislativní návrh. Nejsou známy podrobnosti o podání či projednávání takového zákona.",
-        "en": "A law on right of first refusal on land for active farmers is a major legislative proposal. No details are known about submission or consideration of such a law."
+        "cs": "Přestože se jedná o klíčový slib programu, nejsou k dispozici informace o podaném návrhu zákona. V minulých létech byla tato problematika diskutována, ale bez legislativního výstupu. Existují výhrady odborníků a zemědělských svazů ohledně dopadu takového zákona na trh s pozemky.",
+        "en": "Although this is a key program commitment, no information is available about a submitted legislative proposal. This issue has been discussed in previous years without legislative output. There are expert and agricultural association concerns about the impact of such a law on land markets."
       },
-      "updatedAt": "2026-06-25T08:16:02.181Z"
+      "change": {
+        "cs": "Bez změny – nebyly zaznamenány žádné nové legislativní iniciativy v posledních týdnech.",
+        "en": "No change – no new legislative initiatives have been recorded in recent weeks."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:14:28.329Z"
     },
     "12.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Přesměrování dotací na aktivní produkci by vyžadovalo změny v systému poskytování dotací. Nejsou dostupné veřejné informace o konkrétních krocích či změnách v pravidlech.",
-        "en": "Redirecting subsidies to active production would require changes in the subsidy system. No public information available about specific steps or rule changes."
+        "cs": "Přesměrování dotací na aktivní produkci je dlouhodobý cíl, ale bez konkrétního plánu či nařízení. Systém zemědělských dotací (krajinné prvky, bio, apod.) existuje, ale není jasno, jak by mělo dojít k viditelné změně. Chybí centrální iniciativa či dokument popisující konkrétní kroky.",
+        "en": "Redirecting subsidies to active production is a long-term goal, but without a specific plan or regulation. The agricultural subsidy system (landscape features, organic, etc.) exists, but it is unclear how visible change would occur. A central initiative or document describing specific steps is missing."
       },
-      "updatedAt": "2026-06-25T08:16:02.181Z"
+      "change": {
+        "cs": "Bez změny – nejsou dostupné nové důkazy o změně či přesměrování dotačního systému.",
+        "en": "No change – no new evidence is available about changes or redirection of the subsidy system."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:14:28.329Z"
     },
     "12.6": {
       "status": "not_started",
       "comment": {
-        "cs": "Zrušení vymezení erozních oblastí by bylo záležitostí resortního nařízení či zákona. Nejsou známy informace o takovém opatření či jeho přípravě.",
-        "en": "Abolishing the designation of erosion zones would be a matter of regulation or law. No information is known about such a measure or its preparation."
+        "cs": "Zrušení vymezení erozních oblastí není v agendě, kterou by vláda aktivně prosazovala. Toto opatření by mělo ekologické dopady a není jasno, proč by mělo být zrušeno. Neexistují důkazy o přípravě takového nařízení či legislativy.",
+        "en": "The abolition of erosion zone designation is not on the agenda that the government is actively pursuing. This measure would have environmental impacts and it is unclear why it should be abolished. There is no evidence of preparation of such regulation or legislation."
       },
-      "updatedAt": "2026-06-25T08:16:02.181Z"
+      "change": {
+        "cs": "Bez změny – jediná evidence je absence aktivit v tomto směru.",
+        "en": "No change – the only evidence is the absence of activities in this direction."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:14:28.329Z"
     },
     "12.7": {
       "status": "not_started",
       "comment": {
-        "cs": "Zvýšení trestů za týrání zvířat a množírny by vyžadovalo novelizaci trestního zákona. Nejsou veřejně dostupné důkazy o podaném návrhu či legislativních krocích v této oblasti.",
-        "en": "Increasing penalties for animal cruelty and puppy mills would require amendment of the criminal code. No publicly available evidence of submitted proposal or legislative steps in this area."
+        "cs": "Přestože je zvýšení trestů za týrání zvířat slibem, nebyly dosud podány konkrétní návrhy na novelizaci trestního zákona. Diskuse o zvýšení trestů existují v odborné veřejnosti, ale vláda na tom zatím konkrétně nepracuje. Je to legislativně náročný úkol, který by vyžadoval parlamentní iniciativu.",
+        "en": "Although increasing penalties for animal cruelty is promised, specific proposals for criminal code amendments have not yet been submitted. Discussions about increasing penalties exist in expert circles, but the government is not actively working on it yet. This is a legislatively demanding task that would require parliamentary initiative."
       },
-      "updatedAt": "2026-06-25T08:16:02.181Z"
+      "change": {
+        "cs": "Bez změny – nejsou známy konkrétní legislativní návrhy či pracovní skupiny zaměřené na tuto změnu.",
+        "en": "No change – no specific legislative proposals or working groups focused on this change are known."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:14:28.329Z"
     },
     "13.1": {
       "status": "in_progress",
       "comment": {
-        "cs": "Vláda Babiše byla právě 6 měsíců v úřadu. Česká pozice k revizi Green Dealu se formuje v rámci EU jednání, ale konkrétní legislativní kroky doposud nejsou. Aktivní diplomacie předpokládá práci na pozici.",
-        "en": "Babis government is only 6 months in office. Czech position on Green Deal revision is forming through EU negotiations, but specific legislative steps are not yet evident. Active diplomacy presumes ongoing position-building."
+        "cs": "Vláda pokračuje v aktivní diplomacii na úrovni EU – Česko je součástí skupiny zemí kritických k Green Dealu. Pozice byla artikulována jak na půdě Evropy, tak domácím komunikováním. Faktické legislativní zisky (např. zmírnění cílů) zatím nejsou jasně doloženy, přestože jednání trvají.",
+        "en": "The government continues active diplomacy at EU level, with Czechia part of a coalition critical of the Green Deal. Position has been articulated at both EU and domestic levels. Legislative concessions remain unclear despite ongoing negotiations."
       },
-      "updatedAt": "2026-06-25T08:16:33.937Z"
+      "change": {
+        "cs": "Stavový gradient bez podstatné změny – iniciativa pokračuje v rámci EU jako součást koalice, bez dosud viditelného formálního legislativního pokroku.",
+        "en": "Status trajectory unchanged – initiative continues as part of EU coalition without yet visible formal legislative progress."
+      },
+      "sources": [],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-06-25T09:15:10.401Z"
     },
     "13.2": {
       "status": "in_progress",
       "comment": {
-        "cs": "Česko hlasovalo proti zákazu spalovacích motorů na EU půdě a vláda tuto linii aktivně prosazuje. Jednak v EU jednáních, jednak domácím komunikováním. Formální legislativní zákaz zde neexistuje, takže jde o aktivní obranu.",
-        "en": "Czech Republic voted against combustion engine ban at EU level and government actively pursues this line through EU negotiations and domestic communication. No formal legislative ban exists domestically, so this represents active defense."
+        "cs": "Česko hlasovalo proti zákazu spalovacích motorů a tato pozice byla opakovaně prosazována. Vláda vede diplomacii pro změnu či zrušení tohoto mandátu. Dosud se jedná o aktivní pozičování bez formálního vítězství v legislativě EU.",
+        "en": "Czechia voted against the combustion engine ban and repeatedly advocated for its change. The government pursues diplomatic efforts for modification. This remains active positioning without formal EU legislative victory."
       },
-      "updatedAt": "2026-06-25T08:16:33.937Z"
+      "change": {
+        "cs": "Bez zásadní změny – vláda pokračuje v konzistentní diplomacii, zatím bez docílení právně závazné revize.",
+        "en": "No material change – government maintains consistent diplomacy without achieving binding legal revision yet."
+      },
+      "sources": [],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-06-25T09:15:10.401Z"
     },
     "13.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Bez ověřitelného důkazu o konkrétních vládních krocích k zákazu fotovoltaiky či zákazu plynových kotlů nelze říci, že se na tom pracuje. Absence těchto zákazů není dokladem činnosti vlády.",
-        "en": "Without verifiable evidence of specific government measures against mandatory photovoltaics or gas boiler bans, cannot confirm active work. Absence of bans is not proof of government action."
+        "cs": "Žádný doložitelný konkrétní vládní krok k zákazu fotovoltaiky ani plynových kotlů. Absence těchto zákazů v legislativě je spíše pasivní pozicí (opozice proti EU - pokud budou prosazovány) než aktivním vládním plněním programu.",
+        "en": "No documented specific government action to ban photovoltaics or gas boilers. Absence of bans is a passive position rather than active programme implementation."
       },
-      "updatedAt": "2026-06-25T08:16:33.937Z"
+      "change": {
+        "cs": "První hodnocení – absence legislativního kroku stále potvrzuje stav nezahájeno.",
+        "en": "First review – continued absence of legislative action confirms not_started status."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:15:10.401Z"
     },
     "13.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Nadržích projekty (Nové Heřminovy, Vlachovice, Skalička) nejsou v 6 měsících novými a nejsou známy veřejně hlášené pokroky vlády Babiše na jejich urychlení.",
-        "en": "Dam projects (Nové Heřminovy, Vlachovice, Skalička) are not new within 6 months and no publicly announced government progress on their acceleration is known."
+        "cs": "O urychlení projektů Nové Heřminovy, Vlachovice, Skalička nejsou veřejně dostupné informace o konkrétních vládních opatřeních. Projekty samy nejsou nové; jejich akcelerace by vyžadovala legislativní či finančních opatření, která nejsou doložena.",
+        "en": "No public evidence of government measures to accelerate the Nové Heřminovy, Vlachovice, Skalička dam projects. These are existing projects; acceleration would require documented legislative or financial action."
       },
-      "updatedAt": "2026-06-25T08:16:33.937Z"
+      "change": {
+        "cs": "První hodnocení – projekty zůstávají bez viditelného vládního akceleračního opatření.",
+        "en": "First review – projects remain without visible government acceleration measures."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:15:10.401Z"
     },
     "13.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Výstavba kanalizací a čistíren vod v obcích je dlouhodobý proces. V 6 měsících vlády nejsou zjistitelné konkrétní akcelerační opatření či legislativní kroky.",
-        "en": "Wastewater infrastructure construction in municipalities is a long-term process. No verifiable acceleration measures or legislative steps are identifiable in 6 months of government."
+        "cs": "Akcelerační opatření pro kanalizace a ČOV nejsou veřejně doložena. Jde o dlouhodobý sektor, kde vláda není zaznamenána s konkrétním legislativním či finančním iniciačním krokem.",
+        "en": "Acceleration measures for sewage and water treatment plants are not publicly documented. This is a long-term sector where no specific legislative or financial initiative has been recorded."
       },
-      "updatedAt": "2026-06-25T08:16:33.937Z"
+      "change": {
+        "cs": "První hodnocení – sektor zůstává bez zjistitelného vládního akceleračního kroku.",
+        "en": "First review – sector remains without detectable government acceleration step."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:15:10.401Z"
     },
     "13.6": {
       "status": "not_started",
       "comment": {
-        "cs": "Revize erozní vyhlášky není ve 6 měsících v povědomí veřejných informačních zdrojů jako aktivní krok vlády.",
-        "en": "Revision of erosion regulation is not evident in public information sources as an active government step within 6 months."
+        "cs": "Revize erozní vyhlášky není v dostupných zdrojích jako veřejný vládní projekt. Bez dokumentace konkrétního návrhu či projednávání se jedná o nesplněný bod programu.",
+        "en": "Revision of erosion regulations is not documented as an active government project. Without evidence of a proposal or discussion, this remains unfulfilled."
       },
-      "updatedAt": "2026-06-25T08:16:33.937Z"
+      "change": {
+        "cs": "První hodnocení – revize zatím není iniciována.",
+        "en": "First review – revision not yet initiated."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:15:10.401Z"
     },
     "13.7": {
       "status": "not_started",
       "comment": {
-        "cs": "Pozastavení zálohování PET je deklarativní postoj, ale bez ověření veřejného testování přínosu či legislativních kroků jde o neplnění.",
-        "en": "PET deposit scheme suspension is declarative, but without evidence of public benefit testing or legislative action, it remains unfulfilled."
+        "cs": "Pozastavení zálohování PET by vyžadovalo legislativní akci. Deklarativní postoj vlády bez veřejného ověření důsledků či formální legislativní změny se nespočítá jako plnění. Systém zůstává v provozu bez změny.",
+        "en": "Suspension of PET deposit scheme would require legislative action. A declarative position without public impact assessment or formal legislative change does not count as fulfilment. The system remains unchanged."
       },
-      "updatedAt": "2026-06-25T08:16:33.937Z"
+      "change": {
+        "cs": "První hodnocení – bez legislativního kroku jde o neplnění.",
+        "en": "First review – without legislative action, this counts as non-fulfilment."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:15:10.401Z"
     },
     "13.8": {
       "status": "not_started",
       "comment": {
-        "cs": "Podpora ZEVO není v 6 měsících doložena konkrétními vládními programy, dotacemi či legislativou.",
-        "en": "Support for waste-to-energy facilities is not documented by specific government programs, subsidies or legislation within 6 months."
+        "cs": "Konkrétní vládní podpora ZEVO (dotace, legislativa, programy) není veřejně doložena. Bez dokumentovaných opatření jde o neplnění programového bodu.",
+        "en": "Concrete government support for waste-to-energy facilities (subsidies, legislation, programmes) is not publicly documented. Without documented measures, this remains unfulfilled."
       },
-      "updatedAt": "2026-06-25T08:16:33.937Z"
+      "change": {
+        "cs": "První hodnocení – sektor čeká na vládní iniciativu.",
+        "en": "First review – sector awaits government initiative."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:15:10.401Z"
     },
     "15.1": {
       "status": "in_progress",
       "comment": {
-        "cs": "Stavební zákon byl sice reforma od předchozí vlády, ale nová vláda Babiše signalizuje jeho změny v prvních měsících 2026. Konkrétní návrh je v přípravě, zatím není přijat.",
-        "en": "The Building Act was reformed by the previous government, but the new Babiš government has signaled changes in early 2026. A specific proposal is in preparation but has not yet been adopted."
+        "cs": "Vláda Babiše signalizuje úpravy stavebního zákona a pracuje na novém návrhu, který má zlepšit bydlení jako veřejný zájem. Konkrétní legislativní návrh je stále v přípravě a nebyl dosud projednán ve Sněmovně. Reforma je deklarován prioritou, ale bez schválení zákona nelze hovořit o splnění.",
+        "en": "Babiš's government signals amendments to the building law and works on a new proposal to improve housing as a public interest. The specific legislative proposal is still in preparation and has not yet been discussed in Parliament. Reform is declared a priority, but without law approval, fulfillment cannot be claimed."
       },
-      "updatedAt": "2026-06-25T08:17:27.230Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First assessment."
+      },
+      "sources": [],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-06-25T09:16:20.790Z"
     },
     "15.2": {
       "status": "in_progress",
       "comment": {
-        "cs": "Digitalizace stavebního řízení pokračuje na základě iniciativ od roku 2023. Nová vláda ji podporuje, ale není dosud plně dokončena.",
-        "en": "Digitalization of building proceedings continues based on initiatives from 2023. The new government supports it, but it is not yet fully completed."
+        "cs": "Digitalizace stavebního řízení pokračuje v navázání na iniciativy od roku 2023 a nová vláda ji podporuje. Systém se postupně zavádí, ale není dosud plně operační. Realizace probíhá kontinuálně, ale bez důkazu úplného dokončení zůstává v kategorii probíhajících projektů.",
+        "en": "Digitalization of building proceedings continues based on initiatives from 2023 and the new government supports it. The system is being gradually implemented but is not yet fully operational. Implementation is ongoing, but without evidence of completion, it remains in the category of ongoing projects."
       },
-      "updatedAt": "2026-06-25T08:17:27.230Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First assessment."
+      },
+      "sources": [],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-06-25T09:16:20.790Z"
     },
     "15.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Bez ověřitelného důkazu o přijetí konkrétního zákona nebo programu státní podpory hypoték od prosince 2025 do June 2026 lze považovat za nezačaté.",
-        "en": "Without verifiable evidence of adoption of a specific law or state mortgage support program from December 2025 to June 2026, this can be considered as not started."
+        "cs": "Žádný ověřitelný důkaz o přijetí konkrétního programu státní podpory hypoték pro mladé rodiny nebo klíčové profese nebyl doložen. Vláda Babiše dosud nepředstavila návrh takového opatření. Bez legislativního kroku nebo schváleného programu zůstává iniciativa v stadiu slibů.",
+        "en": "No verifiable evidence of adoption of a specific state mortgage support program for young families or key professions has been documented. Babiš's government has not yet presented such a proposal. Without legislative action or an approved program, the initiative remains at the stage of promises."
       },
-      "updatedAt": "2026-06-25T08:17:27.230Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First assessment."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:16:20.790Z"
     },
     "15.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Žádný ověřitelný krok týkající se garantů nebo pobídek pro družstevní a nájemní bydlení od nastoupení vlády nebyl prokázán.",
-        "en": "No verifiable step regarding guarantees or incentives for cooperative and rental housing since the government took office has been demonstrated."
+        "cs": "Nebyly doloženy konkrétní kroky na podporu družstevního a nájemního bydlení formou garancí či pobídek. Vláda Babiše zatím nenavrhla cílený legislativní či programový nástroj. Ačkoliv oblast je uznávána jako důležitá, chybí hmatatelné opatření.",
+        "en": "No concrete steps to support cooperative and rental housing through guarantees or incentives have been documented. Babiš's government has not yet proposed targeted legislative or programmatic tools. Although the area is recognized as important, tangible measures are lacking."
       },
-      "updatedAt": "2026-06-25T08:17:27.230Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First assessment."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:16:20.790Z"
     },
     "15.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Konkrétní program na podporu výstavby studentských kolejí od nové vlády nebyl zatím objeven v ověřitelných zdrojích.",
-        "en": "A specific program to support student dormitory construction from the new government has not yet been found in verifiable sources."
+        "cs": "Vláda Babiše nepředstavila konkrétní program na podporu výstavby studentských kolejí. Bez legislativního návrhu, schváleného rozpočtu nebo podepsané dohody o financování nemůže být iniciativa považována za zahájenou. Toto opatření zůstává v rovině deklarativních záměrů.",
+        "en": "Babiš's government has not presented a specific program to support the construction of student dormitories. Without a legislative proposal, approved budget, or signed financing agreement, the initiative cannot be considered launched. This measure remains at the level of declarative intentions."
       },
-      "updatedAt": "2026-06-25T08:17:27.230Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First assessment."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:16:20.790Z"
     },
     "15.6": {
       "status": "in_progress",
       "comment": {
-        "cs": "Příprava čerpání fondů EU pro období 2028+ je dlouhodobá administrativa pod gestem ministerstev. Probíhají však technické přípravy v rámci EU harmonogramu.",
-        "en": "Preparation for EU fund disbursement for the 2028+ period is a long-term administration under ministry oversight. However, technical preparations are underway within the EU schedule."
+        "cs": "Příprava čerpání fondů EU pro období 2028+ pokračuje jako standardní administrativní proces. Ministerstava pracují na technických podmínkách a harmonogramu v souladu s EU pravidly. Jedná se o kontinuální proces bez spektakulárních milníků, ale bez zásadních problémů.",
+        "en": "Preparation for EU fund absorption for the 2028+ period continues as a standard administrative process. Ministries are working on technical conditions and schedules in line with EU rules. This is an ongoing process without spectacular milestones, but without significant problems."
       },
-      "updatedAt": "2026-06-25T08:17:27.230Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First assessment."
+      },
+      "sources": [],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-06-25T09:16:20.790Z"
     },
     "15.7": {
       "status": "in_progress",
       "comment": {
-        "cs": "Transformace uhelných regionů byla zahájena v předchozím období (tzv. Spravedlivá transformace). Nová vláda pokračuje v rozpracovaném procesu, ale nový zákon zatím není přijat.",
-        "en": "Transformation of coal regions was initiated in the previous period (Just Transition). The new government continues the ongoing process, but a new law has not yet been adopted."
+        "cs": "Transformace uhelných regionů pokračuje v rozpracovaném programu Spravedlivé transformace iniciovaném v předchozím období. Vláda Babiše proces podporuje, ale nový zákon specificky od ní dosud nebyl přijat. Jde o součinnost s EU prostředky a dlouhodobou strategií, ne o nový legislativní krok.",
+        "en": "The transformation of coal regions continues in the ongoing Just Transition program initiated in the previous period. Babiš's government supports the process, but a new law specifically from it has not yet been passed. This is about cooperation with EU funds and long-term strategy, not a new legislative step."
       },
-      "updatedAt": "2026-06-25T08:17:27.230Z"
+      "change": {
+        "cs": "První hodnocení.",
+        "en": "First assessment."
+      },
+      "sources": [],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-06-25T09:16:20.790Z"
     },
     "16.1": {
       "status": "not_started",
       "comment": {
-        "cs": "Nenalezeny ověřené zprávy o konkrétních krocích při zavádění sítě nízkoprahových hřišť a veřejných sportovišť v posledních měsících vlády Babiše.",
-        "en": "No verified reports found of concrete steps to implement a network of low-threshold playgrounds and public sports facilities in recent months of Babiš government."
+        "cs": "Žádné veřejné ohlášení či konkrétní kroky týkající se sítě nízkoprahových hřišť od počátku vlády nejsou doloženy. Přestože sport patří do programu vlády, chybí specifické projekty, rozpočet či harmonogram zavedení nízkoprahových sportovišť.",
+        "en": "No public announcements or specific steps regarding low-threshold sports grounds network have been documented since the government took office. While sports are part of the government program, specific projects, budget allocations, or implementation timelines are missing."
       },
-      "updatedAt": "2026-06-25T08:17:53.355Z"
+      "change": {
+        "cs": "První hodnocení. Situace zůstává bez změny od předchozího týdne.",
+        "en": "First assessment. Situation remains unchanged from previous week."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:16:50.513Z"
     },
     "16.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Konkrétní navýšení investic do obnovy sportovní infrastruktury zatím není veřejně doloženo či ohlášeno od počátku vlády.",
-        "en": "Specific increase in investment for sports infrastructure renewal is not yet publicly documented or announced since the government began."
+        "cs": "Konkrétní navýšení investic do sportovní infrastruktury zatím není veřejně hlášeno ani rozpočtově zajištěno. Přestože vláda deklaruje podporu sportu, chybí konkrétní ohlášení výše navýšení či seznamu projektů k financování.",
+        "en": "No public announcement of increased investments in sports infrastructure has been made, nor has budget allocation been confirmed. While the government declares support for sports, specific announcements about investment increases or project lists are missing."
       },
-      "updatedAt": "2026-06-25T08:17:53.355Z"
+      "change": {
+        "cs": "První hodnocení. Stav odpovídá minulému týdnu – bez doložitelného pokroku.",
+        "en": "First assessment. Status matches previous week – no documented progress."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:16:50.513Z"
     },
     "16.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Žádné ověřitelné údaje o spuštění nebo pokroku na programech \"Trenéři do škol/školek\" nejsou dostupné.",
-        "en": "No verifiable data available on launch or progress of 'Coaches in Schools' programs."
+        "cs": "Program \"Trenéři do škol/školek\" nebyl v prvních měsících vlády spuštěn ani veřejně představen. Chybí informace o pilotních projektech, financování či partnerství se školami.",
+        "en": "The \"Coaches in Schools\" program has not been launched or publicly presented during the first months of the government. Information about pilot projects, funding, or partnerships with schools is absent."
       },
-      "updatedAt": "2026-06-25T08:17:53.355Z"
+      "change": {
+        "cs": "První hodnocení. Bez dokumentovaných kroků dosud.",
+        "en": "First assessment. No documented steps to date."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:16:50.513Z"
     },
     "16.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Národní strategie sportu 2026–2030 nebyla dosud zveřejněna ani ohlášena jako připravovaná v prvních měsících vlády.",
-        "en": "National Sports Strategy 2026–2030 has not yet been published or announced as being prepared in the government's first months."
+        "cs": "Národní strategie sportu 2026–2030 nebyla dosud zveřejněna, a nejsou ani indicie o jejím přípravě v rámci vlády. Bez veřejného projednávání či ohlášení nejasného harmonogramu.",
+        "en": "The National Sports Strategy 2026–2030 has not been published, and there are no indications of its preparation within the government. Without public discussion or announced timeline."
       },
-      "updatedAt": "2026-06-25T08:17:53.355Z"
+      "change": {
+        "cs": "První hodnocení. Žádný doložitelný posun.",
+        "en": "First assessment. No documented progress."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:16:50.513Z"
     },
     "16.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Nový komplexní zákon o sportu zatím nebyl předložen do legislativního procesu ani není veřejně diskutován.",
-        "en": "New comprehensive sports law has not yet been submitted to legislative process or publicly discussed."
+        "cs": "Nový komplexní zákon o sportu nebyl dosud předložen do legislativního procesu. Nejsou veřejně dostupné ani koncepty či diskuse o jeho obsahu v rámci vlády.",
+        "en": "A new comprehensive sports law has not yet been submitted to the legislative process. No concepts or discussions about its content within the government are publicly available."
       },
-      "updatedAt": "2026-06-25T08:17:53.355Z"
+      "change": {
+        "cs": "První hodnocení. Bez viditelného pokroku.",
+        "en": "First assessment. No visible progress."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:16:50.513Z"
     },
     "16.6": {
       "status": "not_started",
       "comment": {
-        "cs": "O revizi Národní sportovní agentury nejsou zatím dostupné ověřené informace o konkrétních krocích.",
-        "en": "No verified information available yet about specific steps regarding review of the National Sports Agency."
+        "cs": "Revize Národní sportovní agentury nebyla dosud veřejně ohlášena ani nejsou známy její konkrétní cíle. Chybí informace o harmonogramu, rozsahu či odpovědných osobách.",
+        "en": "A review of the National Sports Agency has not been publicly announced, and its specific objectives are unknown. Information about timeline, scope, or responsible parties is missing."
       },
-      "updatedAt": "2026-06-25T08:17:53.355Z"
+      "change": {
+        "cs": "První hodnocení. Zatím bez doložitelného zahájení.",
+        "en": "First assessment. No documented initiation yet."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:16:50.513Z"
     },
     "17.1": {
       "status": "not_started",
       "comment": {
-        "cs": "Výdaje na vědu a výzkum nejsou v čase od 15.12.2025 do 25.6.2026 prokazatelně navýšeny. Není dostupný legislativní či rozpočtový dokument, který by to potvrzoval.",
-        "en": "Science and research spending has not been demonstrably increased since December 15, 2025 to June 25, 2026. No legislative or budget document confirming this is available."
+        "cs": "Není k dispozici rozpočtový dokument ani legislativní návrh prokazující navýšení výdajů na vědu a výzkum od nástupu vlády. Ačkoli byl vládou schválen program s tímto cílem, konkrétní alokace finančních prostředků a jejich zvýšení oproti předchozím rokům nejsou doloženy.",
+        "en": "No budget document or legislative proposal demonstrates increased spending on research and development since the government took office. While the government approved a program containing this goal, specific funding allocations and increases compared to previous years are not substantiated."
       },
-      "updatedAt": "2026-06-25T08:18:18.906Z"
+      "change": {
+        "cs": "Bez nových doložitelných kroků od minulého týdne; stav zůstává nezahájený.",
+        "en": "No new substantiated steps since last week; status remains not started."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:17:23.561Z"
     },
     "17.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Revize M2017+ není doložena. Nejsou k dispozici žádné návrhy, usnesení vlády nebo projednavané dokumenty k revizi tohoto systému.",
-        "en": "M2017+ revision is not documented. No proposals, government resolutions, or reviewed documents regarding this system revision are available."
+        "cs": "Žádné evidentní návrhy na revizi systému M2017+ nejsou dostupné. Nejsou zveřejněna usnesení vlády ani pracovní materiály týkající se reformy tohoto evaluačního systému od prosinca 2025.",
+        "en": "No apparent proposals for M2017+ system revision are available. No government resolutions or working documents regarding reform of this evaluation system have been published since December 2025."
       },
-      "updatedAt": "2026-06-25T08:18:18.906Z"
+      "change": {
+        "cs": "První hodnocení; bez nových faktů v období od minulého týdne.",
+        "en": "First assessment; no new facts in the period since last week."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:17:23.561Z"
     },
     "17.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Zatraktivnění daňových odpočtů na R&D není potvrzeno. Chybí zákonný návrh nebo přijaté legislativní změny upravující tyto odpočty.",
-        "en": "Tax relief improvements for R&D are unconfirmed. No legislative proposal or enacted changes modifying these deductions are evident."
+        "cs": "Zatraktivnění daňových odpočtů na R&D není potvrzeno legislativně. Chybí konkrétní návrh zákona či vládní usnesení, které by upravovalo zvýšení či zlepšení parametrů těchto odpočtů.",
+        "en": "Tax incentive improvements for R&D are not confirmed legislatively. There is no specific bill or government resolution modifying or improving the parameters of such deductions."
       },
-      "updatedAt": "2026-06-25T08:18:18.906Z"
+      "change": {
+        "cs": "Bez dokumentovaného pokroku; stav trvá nezahájený.",
+        "en": "No documented progress; status remains not started."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:17:23.561Z"
     },
     "17.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Funkce ministra pro vědu nebyła zrušena. Existuje samostatné ministerstvo školství s vědeckým odborem a pozice ministra trvá dál.",
-        "en": "The position of minister for science has not been abolished. An independent education ministry with science division continues to exist."
+        "cs": "Funkce ministra pro vědu nebyla zrušena. Ministerstvo školství s vědeckým odborem nadále existuje a samostatná pozice ministra trvá. Nejsou evidentní kroky k reorganizaci či posílení Rady vlády v oblasti vědy.",
+        "en": "The position of science minister has not been abolished. The Ministry of Education with its science department continues to exist, and the separate minister position remains. No steps toward reorganization or strengthening the Government Council for science are evident."
       },
-      "updatedAt": "2026-06-25T08:18:18.906Z"
+      "change": {
+        "cs": "Struktura zůstává nezměněna; žádný návrh na zrušení funkce nebyl iniciován.",
+        "en": "Structure remains unchanged; no proposal to abolish the position has been initiated."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:17:23.561Z"
     },
     "17.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Usnadnění příchodu zahraničních vědců a doktorandů není doloženo. Nejsou evidentní změny v imigrační legislativě či vízeños.",
-        "en": "Facilitation of foreign scientists and PhD students entry is undocumented. No evident changes in immigration legislation or visa procedures are apparent."
+        "cs": "Usnadnění příchodu zahraničních vědců a doktorandů není doloženo. Nejsou k dispozici změny v imigrační legislativě, vízové politice ani informace o nových programech na podporu příchodu kvalifikované pracovní síly do vědy.",
+        "en": "Facilitating the entry of foreign scientists and doctoral students is not substantiated. There are no available changes in immigration legislation, visa policy, or information about new programs supporting the arrival of qualified research workforce."
       },
-      "updatedAt": "2026-06-25T08:18:18.906Z"
+      "change": {
+        "cs": "Bez nových iniciativ od minulého týdne; status zůstává nezahájený.",
+        "en": "No new initiatives since last week; status remains not started."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:17:23.561Z"
     },
     "18.1": {
       "status": "not_started",
       "comment": {
-        "cs": "Žádný veřejně dostupný důkaz o zahájení implementace principu \"jednou a dost\" v prvních měsících vlády.",
-        "en": "No publicly available evidence of implementation of \"once and done\" principle in the first months of government."
+        "cs": "Nebyly nalezeny veřejně dostupné důkazy o zahájení implementace principu \"jednou a dost\". Vláda se dosud nezaměřila na zjednodušení agendových procesů nebo vznik jednotné přístupové brány, která by byla základem tohoto principu.",
+        "en": "No publicly available evidence was found of initiating the \"once only\" principle implementation. The government has not yet focused on simplifying administrative processes or creating a unified access gateway that would be fundamental to this principle."
       },
-      "updatedAt": "2026-06-25T08:18:51.810Z"
+      "change": {
+        "cs": "Bez nových informací od předchozího týdne; stav zůstává nezahájený.",
+        "en": "No new information since previous week; status remains not started."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:17:53.719Z"
     },
     "18.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Zatím žádný doložitelný krok směrem k dokončení implementace práva na digitální služby od změny vlády.",
-        "en": "No documented steps towards completing the implementation of the right to digital services since the government change."
+        "cs": "Nenalezeny žádné doložitelné kroky směrem k dokončení implementace práva na digitální služby. Dosavadní vláda pokračuje v předchozím přístupu, bez zveřejněných plánů na akceleraci či konkrétní termíny.",
+        "en": "No verifiable steps found toward completing the implementation of the right to digital services. The current government continues the previous approach without published plans for acceleration or specific timelines."
       },
-      "updatedAt": "2026-06-25T08:18:51.810Z"
+      "change": {
+        "cs": "Bez nových zjištění; stav zůstává v počáteční fázi.",
+        "en": "No new findings; status remains initial."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:17:53.719Z"
     },
     "18.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Bez ověřitelných informací o zahájení výstavby jednotné digitální brány v prvních měsících vlády Andreje Babiše.",
-        "en": "No verifiable information about initiating the development of a unified digital gateway in the first months of Babiš's government."
+        "cs": "Nejsou dostupné zprávy o zahájení výstavby jednotné digitální brány (web a mobil se sdíleným přihlášením). Vláda zatím neuveřejnila konkrétní plán nebo rozpočet na realizaci tohoto klíčového digitálního projektu.",
+        "en": "No reports available on the start of building a unified digital gateway (web and mobile with shared login). The government has not yet published a concrete plan or budget for implementing this key digital project."
       },
-      "updatedAt": "2026-06-25T08:18:51.810Z"
+      "change": {
+        "cs": "Bez pokroku od předchozího týdne; projekt není zahájen.",
+        "en": "No progress since previous week; project not started."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:17:53.719Z"
     },
     "18.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Žádný prokázaný pokrok na propojeném datovém ekosystému s otevřenými rozhraními od prosince 2025.",
-        "en": "No demonstrated progress on interconnected data ecosystem with open interfaces since December 2025."
+        "cs": "Nejsou doloženy iniciativy na vytvoření propojeného datového ekosystému s otevřenými rozhraními. Chybí strategie, která by specifikovala interoperabilitu státních agentur nebo otevřené API standardy.",
+        "en": "No initiatives documented for creating an interconnected data ecosystem with open interfaces. There is a lack of strategy specifying interoperability among government agencies or open API standards."
       },
-      "updatedAt": "2026-06-25T08:18:51.810Z"
+      "change": {
+        "cs": "Bez nových indicií o začátku práce; status beze změny.",
+        "en": "No new indicators of work beginning; status unchanged."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:17:53.719Z"
     },
     "18.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Bez doložitelných informací o zahájení opatření pro bezpečné a etické využívání AI ve státní správě.",
-        "en": "No documented evidence of initiating measures for safe and ethical AI use in public administration."
+        "cs": "Zatím nejsou publikovány žádné guidelines nebo opatření pro bezpečné a etické používání AI v české státní správě. Vláda neuveřejnila ani pracovní skupinu ani rámec pro regulaci AI ve veřejném sektoru.",
+        "en": "No guidelines or measures for safe and ethical AI use in Czech public administration have been published yet. The government has not published a working group or framework for regulating AI in the public sector."
       },
-      "updatedAt": "2026-06-25T08:18:51.810Z"
+      "change": {
+        "cs": "Bez zjistitelného posunu; projektnavíc vědecky zaostává za EU trendy.",
+        "en": "No detectable progress; project additionally lags behind EU trends."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:17:53.719Z"
     },
     "18.6": {
       "status": "not_started",
       "comment": {
-        "cs": "Zatím žádný veřejný audit státních IT systémů nebo iniciativy proti vendor lock-inu pod novou vládou.",
-        "en": "No public audit of state IT systems or vendor lock-in mitigation initiatives under the new government yet."
+        "cs": "Nejsou známy žádné veřejné audity státních IT systémů ani iniciativy proti vendor lock-inu v rámci nové vlády. Bez konkrétního plánu nebo přidělení prostředků pro ověření stavu a závislostí IT infrastruktury.",
+        "en": "No public audits of state IT systems or initiatives against vendor lock-in are known under the new government. Without a concrete plan or budget allocation to verify the state and dependencies of IT infrastructure."
       },
-      "updatedAt": "2026-06-25T08:18:51.810Z"
+      "change": {
+        "cs": "Bez nových kroků; oblast zůstává neinicializovaná.",
+        "en": "No new steps; area remains uninitialized."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:17:53.719Z"
     },
     "4.1": {
       "status": "not_started",
       "comment": {
-        "cs": "Není dostupná veřejná informace o zahájení auditu hospodaření ministerstva obrany pod touto vládou. Vláda nastoupila před 6 měsíci, ale konkrétní kroky nejsou dokumentovány.",
-        "en": "No public information available about initiating an audit of defense ministry finances under this government. The government took office 6 months ago, but specific steps are not documented."
+        "cs": "Audit hospodaření a akvizic ministerstva obrany nebyl doposud veřejně iniciován nebo oznámen. Přestože vláda Babiše nastoupila v prosinci 2025 a má zájem na kontrole nahlášených výdajů, nejsou dostupné důkazy o konkrétních auditních jednáních nebo termínech. Ačkoliv jde o plausibilní cíl, chybí jeho věcné propojení se schváleným programem či akčními plány.",
+        "en": "No public announcement or initiation of an audit on defense ministry spending and acquisitions has been documented. Although the Babiš government took office in December 2025 and has expressed interest in expense oversight, no evidence of specific audit meetings or timelines is available. While a plausible goal, concrete connection to the approved program or action plans is missing."
       },
-      "updatedAt": "2026-06-25T08:12:15.607Z"
+      "change": {
+        "cs": "první hodnocení",
+        "en": "initial assessment"
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:07:21.053Z"
     },
     "4.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Nová Koncepce výstavby Armády ČR 2035 nebyla dosud zveřejněna nebo zavedena. Není důkaz o aktivní přípravě během prvních 6 měsíců vlády.",
-        "en": "A new Army Development Concept for 2035 has not been published or implemented. There is no evidence of active preparation during the government's first 6 months."
+        "cs": "Nová Koncepce výstavby Armády ČR 2035 zatím nebyla veřejně zveřejněna ani není evidence o jejím aktivním vypracovávání. Ačkoliv strategické dokumenty jsou dlouhodobou investicí, absence jakéhokoliv prohlášení či interimní verze po 6 měsících vlády naznačuje, že práce nebyla zahájena. Jde o ambiciózní projekt, který by vyžadoval koordinaci více resortů.",
+        "en": "The new Army of the Czech Republic Development Concept 2035 has not been publicly released and there is no evidence of active preparation. Although strategic documents require long-term investment, the absence of any announcement or interim version after 6 months suggests work has not begun. This is an ambitious project that would require multi-agency coordination."
       },
-      "updatedAt": "2026-06-25T08:12:15.607Z"
+      "change": {
+        "cs": "první hodnocení",
+        "en": "initial assessment"
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:07:21.053Z"
     },
     "4.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Pozice ohledně 'Armády EU' nebyla formálně artikulována v mezinárodních fórech. Chybí konkrétní legislativní nebo diplomatické kroky.",
-        "en": "The position regarding an 'EU Army' has not been formally articulated in international forums. There are no specific legislative or diplomatic measures documented."
+        "cs": "Čeští představitelé v čele s Babišem se veřejně nevyslovili proti vzniku jednotné \"Armády EU\" jako formálnímu cíli v mezinárodních fórech. Pozice by vyžadovala koordinaci se spojenci a jasné diplomatické stanovisko. Absence konkrétních kroků či prohlášení při současné diskusi o obranné politice EU naznačuje, že tato agenda zatím nebyla vládu aktivně zaujala.",
+        "en": "Czech leaders, including Babiš, have not publicly opposed the creation of a unified \"EU Army\" as a formal goal in international forums. This position would require alignment with allies and clear diplomatic statements. The absence of specific actions or declarations amid ongoing EU defense policy discussions suggests this agenda has not actively engaged the government."
       },
-      "updatedAt": "2026-06-25T08:12:15.607Z"
+      "change": {
+        "cs": "první hodnocení",
+        "en": "initial assessment"
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:07:21.053Z"
     },
     "4.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou známy konkrétní nové investice nebo programy na posílení protivzdušné a protidronové obrany zavedené touto vládou.",
-        "en": "No specific new investments or programs to strengthen air defense and anti-drone capabilities under this government are documented."
+        "cs": "Konkrétní nové investiční programy na posílení protivzdušné a protidronové obrany nejsou zdokumentovány. Ačkoliv jde o aktuální bezpečnostní potřebu v kontextu situace na Ukrajině, vláda zatím neinicializovala nové nákupy či rozvoje v této oblasti. Existují sice starší projekty, ale jejich napojení na nový vládní program či jejich revidování nejsou veřejně hlášeny.",
+        "en": "Specific new investment programs for strengthening air defense and anti-drone capabilities are not documented. Although this is an urgent security need given the Ukraine situation, the government has not yet initiated new procurements or development in this area. While older projects exist, their integration into the new government program or revision are not publicly announced."
       },
-      "updatedAt": "2026-06-25T08:12:15.607Z"
+      "change": {
+        "cs": "první hodnocení",
+        "en": "initial assessment"
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:07:21.054Z"
     },
     "4.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Chybí evidence o nových opatřeních maximalizujících zapojení českého obranného průmyslu v zakázkách ministerstva obrany.",
-        "en": "There is no evidence of new measures to maximize the involvement of Czech defense industry in defense ministry contracts."
+        "cs": "Nová opatření na maximalizaci zapojení českého obranného průmyslu nejsou veřejně oznámena. Sice existují dlouhodobé vazby mezi ministerstvem obrany a českými producenty (Česká zbrojovka, Explosia), ale speciální iniciativy nebo preferencích podpořené vládou Babiše nejsou dokumentovány. Chybí tedy důkaz o změně politiky směrem k domácímu průmyslu.",
+        "en": "New measures to maximize Czech defense industry involvement in contracts have not been publicly announced. While long-standing relationships exist between the defense ministry and Czech producers, special initiatives or preferences backed by the Babiš government are not documented. Evidence of policy change toward domestic industry is therefore lacking."
       },
-      "updatedAt": "2026-06-25T08:12:15.607Z"
+      "change": {
+        "cs": "první hodnocení",
+        "en": "initial assessment"
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:07:21.054Z"
     },
     "4.6": {
       "status": "not_started",
       "comment": {
-        "cs": "Nástupní plat vojáka na úrovni 50 tisíc Kč od roku 2026 nebyl zaveden a není veřejně dostupná informace o přijatých opatřeních.",
-        "en": "A starting salary of 50,000 CZK for professional soldiers from 2026 has not been implemented, and no public information about measures is available."
+        "cs": "Nástupní plat vojáka ve výši 50 tisíc Kč od roku 2026 nebyl zaveden a nejsou dostupné důkazy o jeho schválení či legislativní přípravě. Přestože jde o konkrétní, měřitelný cíl, jeho absence při současných diskusích o rozpočtu obrany (rok 2026 je již aktuální) naznačuje, že tato slib nebyl prioritizován. Výši platu by musela schválit vláda jako součást rozpočtu.",
+        "en": "An entry-level soldier salary of 50,000 CZK from 2026 has not been implemented and no evidence of its approval or legislative preparation is available. Although a concrete, measurable target, its absence from current defense budget discussions (2026 is already current) suggests the pledge was not prioritized. The salary level would require government approval as part of the budget."
       },
-      "updatedAt": "2026-06-25T08:12:15.607Z"
+      "change": {
+        "cs": "první hodnocení",
+        "en": "initial assessment"
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:07:21.054Z"
     },
     "4.7": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou dokumentovány konkrétní legislativní kroky nebo opatření k navýšení počtu vojáků z povolání a aktivních záloh.",
-        "en": "No specific legislative steps or measures to increase the number of professional soldiers and active reserves are documented."
+        "cs": "Legislativní kroky či opatření na navýšení počtu vojáků z povolání a aktivních záloh nejsou dokumentovány. Jde o ambiciózní cíl vyžadující personální, finanční a legislativní změny, ale vláda zatím nepředstavila konkrétní plán, cílové čísla ani časový harmonogram. Absence jakéhokoliv veřejného oznámení po 6 měsících naznačuje, že příprava v tomto směru nebyla zahájena.",
+        "en": "Legislative steps or measures to increase the number of professional soldiers and active reserves are not documented. This is an ambitious goal requiring personnel, financial, and legislative changes, but the government has not yet presented a concrete plan, target numbers, or timeline. The absence of any public announcement after 6 months suggests preparation in this direction has not begun."
       },
-      "updatedAt": "2026-06-25T08:12:15.607Z"
+      "change": {
+        "cs": "první hodnocení",
+        "en": "initial assessment"
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:07:21.054Z"
     },
     "7.1": {
       "status": "not_started",
       "comment": {
-        "cs": "Nelze nalézt ověřitelné důkazy o převzetí poplatku za POZE vládou od 15.12.2025.",
-        "en": "No verifiable evidence found of the government taking over the POZE fee since 15.12.2025."
+        "cs": "Nelze nalézt ověřitelné důkazy o převzetí poplatku za POZE od května 2025. Vláda Babiše nezahájila konkrétní legislativní kroky k tomuto transferu. Bez jasného rámce a oficiálního návrhu zůstává tato položka pouze v rovině programu bez reálné implementace.",
+        "en": "No verifiable evidence of state takeover of renewable energy fees since May 2025. Babis government has not initiated concrete legislative steps toward this transfer. Without clear framework and official proposal, this remains a program statement lacking real implementation."
       },
-      "updatedAt": "2026-06-25T08:13:37.154Z"
+      "change": {
+        "cs": "První hodnocení. Žádné nové kroky nebo prohlášení od nástupu vlády nejsou doloženy.",
+        "en": "First assessment. No new steps or statements from government formation are documented."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:11:32.382Z"
     },
     "7.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Nelze nalézt ověřitelné důkazy o konkrétních krocích k neimplementaci ETS2 v české legislativě.",
-        "en": "No verifiable evidence found of concrete steps taken to prevent ETS2 implementation in Czech legislation."
+        "cs": "Nelze nalézt ověřitelné důkazy o konkrétních legislativních krocích k blokování či neimplementaci ETS2. Česká vláda se zatím veřejně nevyjádřila k přímým opatřením proti ETS2. Téma zůstává v rovině politických prohlášení bez doložitelné implementace.",
+        "en": "No verifiable evidence of concrete legislative steps to block or prevent ETS2 implementation. Czech government has not publicly stated direct measures against ETS2. Topic remains at level of political statements without documented implementation."
       },
-      "updatedAt": "2026-06-25T08:13:37.154Z"
+      "change": {
+        "cs": "První hodnocení. EU harmonogram ETS2 pokračuje bez známého odporu české vlády.",
+        "en": "First assessment. EU ETS2 timeline continues without known Czech government resistance."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:11:32.382Z"
     },
     "7.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Nelze nalézt ověřitelné důkazy o krocích vůči dosažení 100% kontroly nad skupinou ČEZ.",
-        "en": "No verifiable evidence found of steps taken to achieve 100% control over ČEZ group."
+        "cs": "Nelze nalézt ověřitelné důkazy o krocích vůči dosažení 100% státní kontroly nad skupinou ČEZ. Vláda nenavrhla legislativní změny v této oblasti. Stát drží nadpoloviční podíl, ale plán na zvýšení na 100% nemá doložená opatření.",
+        "en": "No verifiable evidence of steps toward achieving 100% state control over CEZ Group. Government has not proposed legislative changes in this area. State holds majority stake but has no documented measures for 100% takeover."
       },
-      "updatedAt": "2026-06-25T08:13:37.154Z"
+      "change": {
+        "cs": "První hodnocení. Stav vlastnictví se od nástupu vlády nezměnil.",
+        "en": "First assessment. Ownership structure unchanged since government formation."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:11:32.382Z"
     },
     "7.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Nelze nalézt ověřitelné důkazy o zahájení stavby Dukovany 5 a 6 či přípravy Temelína 3 a 4.",
-        "en": "No verifiable evidence found of construction start for Dukovany 5 and 6 or preparation of Temelín 3 and 4."
+        "cs": "Nelze nalézt ověřitelné důkazy o zahájení stavby bloků Dukovany 5 a 6 ani přípravy Temelína 3 a 4. Jaderná energetika zůstává dlouhodobým projektem v přípravě, ale konkrétní stavební, legislativní nebo plánovací kroky pod novou vládou nejsou doloženy.",
+        "en": "No verifiable evidence of construction start for Dukovany 5 and 6 or preparation of Temelin 3 and 4. Nuclear energy remains long-term project in planning, but specific construction, legislative or planning steps under new government are not documented."
       },
-      "updatedAt": "2026-06-25T08:13:37.154Z"
+      "change": {
+        "cs": "První hodnocení. Projekty pokračují v přípravné fázi bez zrychlení od únoru 2025.",
+        "en": "First assessment. Projects continue in preparation phase without acceleration since February 2025."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:11:32.382Z"
     },
     "7.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Nelze nalézt ověřitelné důkazy o krocích k přípravě podmínek pro malé modulární reaktory.",
-        "en": "No verifiable evidence found of steps taken to prepare conditions for small modular reactors."
+        "cs": "Nelze nalézt ověřitelné důkazy o konkrétních krocích k přípravě podmínek pro malé modulární reaktory (SMR). Vláda nenavrhla legislativní rámec, regulační změny ani infrastrukturní plány. SMR zůstávají součástí dlouhodobé energetické vize bez aktuální implementace.",
+        "en": "No verifiable evidence of concrete steps to prepare conditions for small modular reactors (SMR). Government has not proposed legislative framework, regulatory changes or infrastructure plans. SMR remain part of long-term energy vision without current implementation."
       },
-      "updatedAt": "2026-06-25T08:13:37.154Z"
+      "change": {
+        "cs": "První hodnocení. Bez nových iniciativ či prohlášení od december 2025.",
+        "en": "First assessment. No new initiatives or statements since December 2025."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:11:32.382Z"
     },
     "7.6": {
       "status": "not_started",
       "comment": {
-        "cs": "Nelze nalézt ověřitelné důkazy o zavedení kapacitních mechanismů nebo zrychlení plynových zdrojů.",
-        "en": "No verifiable evidence found of capacity mechanism implementation or acceleration of gas sources."
+        "cs": "Nelze nalézt ověřitelné důkazy o zavedení kapacitních mechanismů či zrychlení plynových zdrojů. Vláda nenavrhla legislativu ani konkrétní projekty v tomto směru. Energetická politika pokračuje v rámci stávajícího reglementařství bez dokumentovaných nových opatření.",
+        "en": "No verifiable evidence of capacity mechanisms implementation or acceleration of gas sources. Government has not proposed legislation or specific projects in this direction. Energy policy continues within existing regulation without documented new measures."
       },
-      "updatedAt": "2026-06-25T08:13:37.154Z"
+      "change": {
+        "cs": "První hodnocení. Bez conhecitelných kroků od nového složení vlády.",
+        "en": "First assessment. No identifiable steps from new government composition."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:11:32.382Z"
     },
     "7.7": {
       "status": "not_started",
       "comment": {
-        "cs": "Nelze nalézt ověřitelné důkazy o přechodu z dotační na odpisovou politiku podpory.",
-        "en": "No verifiable evidence found of transition from subsidy to depreciation support policy."
+        "cs": "Nelze nalézt ověřitelné důkazy o přechodu z dotační na odpisovou politiku. Vláda nenavrhla legislativní či finanční reformu v oblasti podpory podnikání. Stávající dotační systém bez doložených změn pokračuje.",
+        "en": "No verifiable evidence of shift from subsidy to depreciation policy. Government has not proposed legislative or financial reform in business support area. Existing subsidy system continues without documented changes."
       },
-      "updatedAt": "2026-06-25T08:13:37.154Z"
+      "change": {
+        "cs": "První hodnocení. Bez nových políticko-ekonomických iniciativ.",
+        "en": "First assessment. No new political-economic initiatives."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:11:32.382Z"
     },
     "7.8": {
       "status": "not_started",
       "comment": {
-        "cs": "Nelze nalézt ověřitelné důkazy o předložení zákona o podpoře startupů.",
-        "en": "No verifiable evidence found of startup support law submission."
+        "cs": "Nelze nalézt ověřitelné důkazy o předložení či přípravě zákona o podpoře startupů. Vláda nezahájila legislativní proces a neobjevily se oficiální návrhy či konzultace. Problematika startup ekosystému zůstává bez vládní iniciativy.",
+        "en": "No verifiable evidence of submission or preparation of startup support law. Government has not initiated legislative process and no official proposals or consultations appeared. Startup ecosystem issue remains without government initiative."
       },
-      "updatedAt": "2026-06-25T08:13:37.154Z"
+      "change": {
+        "cs": "První hodnocení. Žádné dokumentované přípravné práce.",
+        "en": "First assessment. No documented preparatory work."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:11:32.382Z"
     },
     "7.9": {
       "status": "not_started",
       "comment": {
-        "cs": "Nelze nalézt ověřitelné důkazy o zahájení zásadní reformy byrokratické zátěže podnikatelů.",
-        "en": "No verifiable evidence found of substantial reform of business bureaucratic burden."
+        "cs": "Nelze nalézt ověřitelné důkazy o zahájení zásadní reformy byrokratické zátěže. Vláda nenavrhla komplexní legislativní balík ani konkrétní deregulační opatření. Slibovaná reforma zůstává bez dokumentované přípravy a harmonogramu.",
+        "en": "No verifiable evidence of major bureaucratic burden reform initiation. Government has not proposed comprehensive legislative package or specific deregulation measures. Promised reform remains without documented preparation and timeline."
       },
-      "updatedAt": "2026-06-25T08:13:37.154Z"
+      "change": {
+        "cs": "První hodnocení. Bez iniciativ k systemické redukci административní zátěže.",
+        "en": "First assessment. No initiatives for systemic reduction of administrative burden."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:11:32.382Z"
     },
     "7.10": {
       "status": "not_started",
       "comment": {
-        "cs": "Nelze nalézt ověřitelné důkazy o předložení Hospodářské strategie 'Země pro budoucnost 2.0'.",
-        "en": "No verifiable evidence found of presentation of Economic Strategy 'Country for the Future 2.0'."
+        "cs": "Nelze nalézt ověřitelné důkazy o předložení Hospodářské strategie 'Země pro budoucnost 2.0'. Vláda neobjevila oficiální dokument, časový plán přípravy ani seznam klíčových opatření. Strategie zůstává v plánu bez viditelného pokroku.",
+        "en": "No verifiable evidence of submission of Economic Strategy 'Land for the Future 2.0'. Government has not released official document, preparation timeline or list of key measures. Strategy remains in plan without visible progress."
       },
-      "updatedAt": "2026-06-25T08:13:37.154Z"
+      "change": {
+        "cs": "První hodnocení. Bez doložitelných prací na přípravě strategického dokumentu.",
+        "en": "First assessment. No documented work on strategic document preparation."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:11:32.382Z"
     },
     "11.1": {
       "status": "not_started",
       "comment": {
-        "cs": "Nelze nalézt ověřitelné informace o konkrétních krocích v rozvoji sdružených praxí praktických lékařů v prvních měsících vlády Babiše.",
-        "en": "No verifiable information found about specific steps in developing combined general practices in the first months of Babiš's government."
+        "cs": "Nedostupné jsou ověřitelné informace o konkrétních krocích v rozvoji sdružených praxí praktických lékařů za dobu vlády Babiše. Nový ministr zdravotnictví dosud neoznámil priority ani časový harmonogram pro tuto oblast. Bez veřejného prohlášení či legislativních návrhu nelze předpokládat aktivní práci na tomto bodu.",
+        "en": "No verifiable information on concrete steps in developing joint practices of GPs under Babiš's government is available. The new health minister has not yet announced priorities or timeline for this area. Without public statements or legislative proposals, active work on this point cannot be assumed."
       },
-      "updatedAt": "2026-06-25T08:15:32.957Z"
+      "change": {
+        "cs": "První hodnocení; stav zůstává nezahájený bez nových zjistitelných kroků od předchozího týdne.",
+        "en": "First assessment; status remains not started with no new detectable steps since last week."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:51.824Z"
     },
     "11.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Není dostupná evidence o zahájení síťě urgentních stomatologických pohotovostí od prosince 2025.",
-        "en": "No available evidence of the emergency dental on-call network initiative being launched since December 2025."
+        "cs": "Není dostupná důkazní evidence o zahájení síťě urgentních stomatologických pohotovostí od prosince 2025. Ministr zdravotnictví v prohlášeních nevlastnit tuto oblast mezi prioritami. Bez konkrétního harmonogramu či pilotních projektů nelze konstatovat pokrok.",
+        "en": "No evidentiary records on starting an urgent stomatological care network are available since December 2025. Health minister has not prioritized this area in statements. Without specific timeline or pilot projects, progress cannot be confirmed."
       },
-      "updatedAt": "2026-06-25T08:15:32.957Z"
+      "change": {
+        "cs": "První hodnocení; bez nových zjistitelných kroků od předchozího týdne zůstává status nezahájený.",
+        "en": "First assessment; status remains not started with no new detectable steps since last week."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:51.824Z"
     },
     "11.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Chybí ověřitelné informace o zavedení bonusů za účast na preventivních prohlídkách.",
-        "en": "No verifiable information about bonus system for participation in preventive examinations being implemented."
+        "cs": "Chybí ověřitelné informace o zavedení bonusů za účast na preventivních prohlídkách. Systém by vyžadoval legislativní změny a financování, kterých se v prvních měsících vlády nedostalo veřejné diskuse. Bez návrhu zákona či pilotního projektu nelze hovořit o aktivním postupu.",
+        "en": "No verifiable information on implementing bonuses for preventive screening participation exists. The system would require legislative changes and funding not discussed publicly in early government months. Without bill proposals or pilots, active progress cannot be confirmed."
       },
-      "updatedAt": "2026-06-25T08:15:32.957Z"
+      "change": {
+        "cs": "První hodnocení; nezahájeno bez zjistitelných kroků.",
+        "en": "First assessment; not started with no detectable steps."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:51.824Z"
     },
     "11.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Nic nenasvědčuje spuštění Národního monitoringu kapacit a čekacích dob (e-žádanka) v prvních měsících vlády.",
-        "en": "No evidence of the National monitoring of capacities and waiting times (e-request) system being launched in the first months."
+        "cs": "Žádné veřejně dostupné informace o spuštění Národního monitoringu kapacit a čekacích dob (e-žádanka) se nepotvrdily. Systém e-žádanka existuje v omezené podobě, ale komplexní monitoring zůstává bez konkrétního harmonogramu. Ministerstvo zdravotnictví dosud nepubliklo plán implementace.",
+        "en": "No publicly available information confirming launch of the National monitoring of capacity and waiting times (e-request) has been found. The e-request system exists in limited form, but comprehensive monitoring lacks specific timeline. Health ministry has not published implementation plans."
       },
-      "updatedAt": "2026-06-25T08:15:32.957Z"
+      "change": {
+        "cs": "První hodnocení; bez zjistitelných nových iniciativ zůstává status nezahájený.",
+        "en": "First assessment; status remains not started without detectable new initiatives."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:51.824Z"
     },
     "11.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Nelze potvrdit implementaci Národního onkologického a kardiovaskulárního plánu od prosince 2025.",
-        "en": "Implementation of the National Oncology and Cardiovascular Plan cannot be confirmed since December 2025."
+        "cs": "Implementace Národního onkologického a kardiovaskulárního plánu nebyla potvrzena ověřitelnými kroky. Zmíněné plány existují v návrhu, ale jejich aktivní realizace pod novou vládou není dokumentována. Chybí veřejné prohlášení ministra či harmonogram zavedení.",
+        "en": "Implementation of the National Oncology and Cardiovascular Plan has not been confirmed by verifiable steps. The plans exist in draft form, but their active realization under the new government is not documented. Minister's public statement or rollout timeline is missing."
       },
-      "updatedAt": "2026-06-25T08:15:32.957Z"
+      "change": {
+        "cs": "První hodnocení; bez nových kroků zůstává nezahájeno.",
+        "en": "First assessment; remains not started without new steps."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:51.824Z"
     },
     "11.6": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou dostupné informace o zahájení výstavby nové fakultní nemocnice v Praze pod touto vládou.",
-        "en": "No available information about the start of construction of a new university hospital in Prague under this government."
+        "cs": "Nejsou dostupné informace o zahájení výstavby nové fakultní nemocnice v Praze pod vládou Babiše. Projekt je dlouhodobě diskutován, ale bez oficiálního prohlášení o financování, lokalizaci či harmonogramu se nedá hovořit o skutečném startu. Výstavba takovéhto komplexu vyžaduje dlouhodobou přípravu a legislativu.",
+        "en": "No information on starting construction of a new faculty hospital in Prague under Babiš government is available. The project has been discussed long-term, but without official statements on funding, location, or timeline, actual start cannot be confirmed. Construction of such complex requires long preparation and legislation."
       },
-      "updatedAt": "2026-06-25T08:15:32.957Z"
+      "change": {
+        "cs": "První hodnocení; projekt bez veřejně deklarovaných kroků zůstává v stadiu nezahájeno.",
+        "en": "First assessment; project without publicly declared steps remains not started."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:51.824Z"
     },
     "11.7": {
       "status": "not_started",
       "comment": {
-        "cs": "Chybí konkrétní ověřitelné kroky zajištění dostupnosti léků a rezervních zásob od prosince 2025.",
-        "en": "No specific verifiable steps found regarding drug availability and strategic reserves since December 2025."
+        "cs": "Konkrétní ověřitelné kroky zajištění dostupnosti léků a rezervních zásob od prosince 2025 nejsou zdokumentovány. Zatímco zdravotnictví čelilo výzvám s dostupností, zvláště po válce na Ukrajině, nová vláda dosud nezvěřejnila strategie ani konkrétní opatření. Bez legislativního návrhu či investic nelze hovořit o zahájení.",
+        "en": "Specific verifiable steps ensuring drug availability and reserves since December 2025 are not documented. While healthcare faced availability challenges, particularly after Ukraine war, the new government has not published strategies or measures. Without legislation or investments, starting cannot be confirmed."
       },
-      "updatedAt": "2026-06-25T08:15:32.957Z"
+      "change": {
+        "cs": "První hodnocení; bez zjistitelných konkrétních opatření zůstává status nezahájený.",
+        "en": "First assessment; status remains not started without detectable concrete measures."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:51.824Z"
     },
     "11.8": {
       "status": "not_started",
       "comment": {
-        "cs": "Není dostupná evidence o nových krocích v elektronizaci zdravotnictví a sdílení dat v prvních měsících vlády.",
-        "en": "No evidence available of new steps in healthcare digitalization and data sharing in the first months of the government."
+        "cs": "Nové kroky v elektronizaci zdravotnictví a sdílení dat nejsou od prosince 2025 zdokumentovány. Elektronizace probíhá postupně na základě starších legislativ, ale nová vláda zatím nepředstavila svoji vizi či konkrétní program. Absenci veřejného prohlášení ministra lze chápat jako nezahájení nové iniciativy.",
+        "en": "New steps in healthcare digitalization and data sharing since December 2025 are not documented. Digitalization proceeds gradually under previous legislation, but the new government has not presented its vision or specific program. Minister's public silence suggests no new initiative launch."
       },
-      "updatedAt": "2026-06-25T08:15:32.957Z"
+      "change": {
+        "cs": "První hodnocení; bez nových vlád-iniciativ zůstává projekt v stadiu nezahájeno.",
+        "en": "First assessment; without new government initiatives, project remains not started."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:51.824Z"
     },
     "11.9": {
       "status": "not_started",
       "comment": {
-        "cs": "Nic nenasvědčuje zahájení reformy veřejného zdravotního pojištění se zavedením konkurence pojišťoven.",
-        "en": "No evidence of reform of public health insurance with competition between insurers being launched."
+        "cs": "Reforma veřejného zdravotního pojištění se zavedením konkurence pojišťoven není potvrzena žádnými ověřitelnými kroky. Jedná se o zásadní reformu vyžadující legislativní změny a politickou shodu, kterou nová vláda dosud nepublikovala. Bez návrhu zákona či veřejné debaty nelze konstatovat, že se práce zahájila.",
+        "en": "Reform of public health insurance with insurance competition introduction is not confirmed by verifiable steps. This is a fundamental reform requiring legislative changes and political consensus not published by the new government. Without bill or public debate, work start cannot be confirmed."
       },
-      "updatedAt": "2026-06-25T08:15:32.957Z"
+      "change": {
+        "cs": "První hodnocení; bez zjistitelných kroků zůstává nezahájeno.",
+        "en": "First assessment; remains not started without detectable steps."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:51.824Z"
     },
     "11.10": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou k dispozici informace o zahájení reformy péče o duševní zdraví od prosince 2025.",
-        "en": "No available information about the start of mental health care reform since December 2025."
+        "cs": "Reforma péče o duševní zdraví nebyla zahájena žádnými ověřitelnými kroky za vlády Babiše. Duševní zdraví patří k dlouhodobě opomíjeným oblastem, ale bez veřejného prohlášení ministra či legislativního návrhu nelze předpokládat aktivitu. Chybí i konkrétní harmonogram či financování.",
+        "en": "Mental health care reform has not been launched by any verifiable steps under Babiš government. Mental health is a long-neglected area, but without health minister's public statement or legislative proposal, activity cannot be assumed. Timeline and funding are also missing."
       },
-      "updatedAt": "2026-06-25T08:15:32.957Z"
+      "change": {
+        "cs": "První hodnocení; bez zjistitelné iniciativy zůstává nezahájeno.",
+        "en": "First assessment; remains not started without detectable initiative."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:13:51.824Z"
     },
     "14.1": {
       "status": "not_started",
       "comment": {
-        "cs": "Vláda byla jmenována před 6 měsíci. Nejsou veřejně dostupné informace o konkrétních opatřeních k zvýšení platů v kultuře.",
-        "en": "Government was appointed 6 months ago. No publicly available information about specific salary increase measures for culture workers."
+        "cs": "Zatím nejsou veřejně dostupné informace o konkrétních opatřeních vláda Babiše k výraznému zvýšení platů v kultuře. Vláda byla jmenována před osm měsíců, ale legislativní návrhy nebo konkrétní finanční programy na podporu mezd v kulturní oblasti nejsou doloženy. Přestože se jedná o dlouhodobý problém kulturní infrastruktury ČR, zatím chybí provedená opatření.",
+        "en": "No public information is available about specific measures by Babiš government to significantly raise wages in culture. The government was appointed eight months ago, but legislative proposals or specific funding programs supporting cultural wages are not documented. Despite being a longstanding issue in Czech cultural infrastructure, implemented measures are lacking."
       },
-      "updatedAt": "2026-06-25T08:16:59.760Z"
+      "change": {
+        "cs": "Bez změny od minulého hodnocení; stav zůstává bez iniciace konkrétních kroků.",
+        "en": "No change from previous assessment; status remains without initiated concrete steps."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:15:43.642Z"
     },
     "14.2": {
       "status": "not_started",
       "comment": {
-        "cs": "Zatím nejsou známy konkrétní víceleté finanční plány na obnovu památek. Nejde o běžné rozpočtové opatření.",
-        "en": "No specific multi-year financial plans for monument restoration are known. This requires special program documents."
+        "cs": "Nejsou veřejně známy konkrétní víceleté finanční plány vláda na obnovu památek jako samostatný program vlády Babiše. Obnova památek probíhá v rámci běžných rozpočtů, ale chybí systematický dlouhodobý investiční plán věnovaný specificky tomuto cíli. Ani v programovém prohlášení vlády se takový plán explicitně neobjevuje.",
+        "en": "No publicly known multi-year financial plans by the government for heritage restoration as a dedicated Babiš government program are available. Heritage restoration occurs within regular budgets, but a systematic long-term investment plan specifically dedicated to this goal is missing. Such a plan does not explicitly appear in the government's policy statement."
       },
-      "updatedAt": "2026-06-25T08:16:59.760Z"
+      "change": {
+        "cs": "Bez změny od minulého hodnocení; absence konkrétního plánu trvá.",
+        "en": "No change from previous assessment; absence of concrete plan persists."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:15:43.642Z"
     },
     "14.3": {
       "status": "in_progress",
       "comment": {
-        "cs": "Tyto projekty již byly rozpracovány v předchozích vládách. Stavba Vltavské filharmonie a ostatní divadelní projekty pokračují běžným tempem.",
-        "en": "These projects were already underway in previous governments. Construction of Vltava Philharmonic continues at normal pace."
+        "cs": "Projekty (Nová scéna ND, Janáčkovo centrum, Vltavská filharmonie) byly rozpracovány v předchozích vládách a pokračují běžným tempem. Jejich pokrok je tedy otázkou kontinuity spíše než nové iniciativy vlády Babiše. Nejde o nová opatření, ale o pokračování již zaběhnutých procesů z předchozích vlád.",
+        "en": "Projects (ND New Stage, Janáček Center, Vltava Philharmonic) were started by previous governments and continue at regular pace. Their progress is thus a matter of continuity rather than a new initiative of the Babiš government. These are not new measures but continuation of already ongoing processes from previous administrations."
       },
-      "updatedAt": "2026-06-25T08:16:59.760Z"
+      "change": {
+        "cs": "Bez změny; projekty pokračují v režimu kontinuity bez markantních vládních opatření.",
+        "en": "No change; projects continue in continuity mode without significant government actions."
+      },
+      "sources": [],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-06-25T09:15:43.642Z"
     },
     "14.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Není známo, že by vláda zaslala návrh zákona k zrušení poplatků za veřejnoprávní média. Tento krok by vyžadoval legislativní proces.",
-        "en": "No evidence that government submitted bill to cancel public media fees. This would require legislative process."
+        "cs": "Nejsou dostupné informace o tom, že by vláda zaslala návrh zákona na zrušení poplatků za veřejnoprávní média. Takový zákon by vyžadoval legislativní proces a kvalifikovanou většinu v Poslanecké sněmovně. Absence jakýchkoliv zpráv o přípravě či projednávání takovéhoto návrhu svědčí o absenci konkrétní iniciativy.",
+        "en": "No information is available that the government has submitted a bill to abolish fees for public media. Such a law would require a legislative process and a qualified majority in the Chamber of Deputies. The absence of any reports about preparation or discussion of such a proposal indicates a lack of concrete initiative."
       },
-      "updatedAt": "2026-06-25T08:16:59.760Z"
+      "change": {
+        "cs": "Bez změny od minulého hodnocení; návrh zákona nebyl podán.",
+        "en": "No change from previous assessment; no bill has been submitted."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:15:43.642Z"
     },
     "14.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Nejsou veřejně dostupné informace o přípravě nebo prosazování nové kontroly hospodaření médií přes NKÚ.",
-        "en": "No public information about preparation or implementation of new media accounting control via SAO."
+        "cs": "Nejsou veřejně dostupné informace o přípravě či prosazování nového systému kontroly hospodaření ČT a ČRo skrze NKÚ. Takové opatření by představovalo výrazný zásah do autonomie médií a vyžadovalo by legislativní změny. Žádné kroky směřující k tomuto cíli nejsou dosud doloženy.",
+        "en": "No publicly available information exists about preparation or advocacy of a new system for auditing ČT and ČRo through the Supreme Audit Office. Such a measure would represent a significant interference with media autonomy and would require legislative changes. No steps toward this goal have been documented."
       },
-      "updatedAt": "2026-06-25T08:16:59.760Z"
+      "change": {
+        "cs": "Bez změny; chybí jakékoliv iniciační kroky.",
+        "en": "No change; no initiatory steps are present."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:15:43.642Z"
     },
     "14.6": {
       "status": "not_started",
       "comment": {
-        "cs": "Není známo, že by vláda iniciovala změnu v režimu vstupného do státních kulturních institucí.",
-        "en": "No evidence of government initiative to change admission fees to state cultural institutions."
+        "cs": "Není známo, že by vláda Babiše iniciovala změnu v režimu vstupného do státních kulttuních institucí s cílem zavést bezplatný vstup pro vybrané skupiny. Takový krok by vyžadoval koordinaci s ministerstvem kultury a jednotlivými institucemi. Veřejně nejsou dostupné žádné zprávy o jednáních či návrzích v tomto směru.",
+        "en": "It is not known that the Babiš government has initiated a change in admission fees to state cultural institutions with the goal of introducing free entry for selected groups. Such a step would require coordination with the ministry of culture and individual institutions. No public reports of negotiations or proposals in this direction are available."
       },
-      "updatedAt": "2026-06-25T08:16:59.760Z"
+      "change": {
+        "cs": "Bez změny; absence jakýchkoliv iniciačních kroků trvá.",
+        "en": "No change; absence of any initiatory steps persists."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:15:43.642Z"
     },
     "2.1": {
       "status": "in_progress",
       "comment": {
-        "cs": "Vláda pracuje na rozpočtu pro rok 2026, ale definitivní údaje o deficitu nejsou dosud dostupné. Jedná se o běžnou součást fiskální politiky.",
-        "en": "Government is working on the 2026 budget, but final deficit data are not yet available. This is part of regular fiscal policy."
+        "cs": "Vláda pracuje na rozpočtu pro rok 2026 s cílem udržet deficit pod 3 % HDP. Avšak konkrétní realizované výsledky a data o skutečném deficitu nejsou dosud dostupné. Jedná se o standardní součást fiskální politiky v přípravě.",
+        "en": "The government is working on the 2026 budget with the aim of keeping the deficit below 3% of GDP. However, specific implementation results and actual deficit data are not yet available. This is a standard component of fiscal policy preparation."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; pokračuje rozpočtová příprava bez nových doložitelných pokroků.",
+        "en": "First assessment; budget preparation continues without new verifiable progress."
+      },
+      "sources": [],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     },
     "2.2": {
       "status": "in_progress",
       "comment": {
-        "cs": "Snižování deficitu je součástí střednědobého rozpočtového rámce, ale konkrétní milníky nejsou dosud v detailu naplňovány.",
-        "en": "Deficit reduction is part of the medium-term budget framework, but specific milestones are not yet being achieved in detail."
+        "cs": "Snižování deficitu je součástí střednědobého rozpočtového rámce a deklaruje se jako dlouhodobý cíl vlády. Konkrétní milníky a měřitelné cíle pro následující roky nejsou dosud veřejně detailně specifikovány. Jde o prozatím formální deklaraci bez jasného harmonogramu.",
+        "en": "Deficit reduction is part of the medium-term budget framework and is declared as a long-term government goal. Specific milestones and measurable targets for upcoming years are not yet publicly detailed. This is currently a formal declaration without a clear schedule."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; postrádá konkrétní časový plán a měřitelné milníky.",
+        "en": "First assessment; lacking specific timeline and measurable milestones."
+      },
+      "sources": [],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     },
     "2.3": {
       "status": "not_started",
       "comment": {
-        "cs": "Žádné veřejně dostupné informace o konkrétních legislativních krocích vedoucích k zavedení EET 2.0 od roku 2027.",
-        "en": "No publicly available information about specific legislative steps toward implementing EET 2.0 from 2027."
+        "cs": "Žádné veřejně dostupné informace o legislativních krocích k zavedení EET 2.0 od roku 2027. Vláda Babiše nebyla dosud aktivní v přípravě tohoto systému. Jedná se o ambiciózní projekt, který by vyžadoval značné právní a technické přípravy.",
+        "en": "No publicly available information about legislative steps to implement EET 2.0 from 2027. The Babiš government has not yet been active in preparing this system. This is an ambitious project that would require significant legal and technical preparation."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; bez doložitelného pokroku.",
+        "en": "First assessment; no verifiable progress."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     },
     "2.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Bez dostupných důkazů o přípravě či spuštění projektu 'Digitální daňová kobra' s AI.",
-        "en": "No available evidence of preparation or launch of the 'Digital Tax Cobra' project with AI."
+        "cs": "Bez dostupných důkazů o přípravě či spuštění projektu 'Digitální daňová kobra' s AI. Projekt není известен v mediálním ani politickém diskurzu. Jedná se o specifický návrh, který by vyžadoval jasnou legislativní základnu.",
+        "en": "No available evidence of preparation or launch of the 'Digital Tax Cobra' project with AI. The project is not known in media or political discourse. This is a specific proposal that would require a clear legislative basis."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; zcela bez doložitelného kroku.",
+        "en": "First assessment; completely without verifiable step."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     },
     "2.5": {
       "status": "not_started",
       "comment": {
-        "cs": "Žádné veřejně známé konkrétní kroky k rozšíření kompetencí Celní správy či úpravě nástupního platu.",
-        "en": "No publicly known concrete steps toward expanding Customs Administration competencies or adjusting entry-level salary."
+        "cs": "Žádné veřejně známé konkrétní kroky k rozšíření kompetencí Celní správy nebo úpravě nástupního platu na 50 tis. Kč. Taková opatření by vyžadovala novelizaci relevantních zákonů a přidělení rozpočtových prostředků. Neexistují ani mediální zprávy o přípravě takového kroku.",
+        "en": "No publicly known specific steps to expand Customs Administration competencies or adjust entry salary to CZK 50,000. Such measures would require amendments to relevant laws and budget allocation. There are no media reports about preparing such a step."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; bez iniciování.",
+        "en": "First assessment; not initiated."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     },
     "2.6": {
       "status": "in_progress",
       "comment": {
-        "cs": "Vláda deklaruje zásadu nezvyšování daní, ale v průběhu rozpočtového procesu mohou vzniknout výjimky či tlaky.",
-        "en": "Government declares a no-tax-increase principle, but exceptions or pressures may emerge during budget process."
+        "cs": "Vláda Babiše deklaruje zásadu nezvyšování daní jako součást svého programu. Avšak v průběhu rozpočtového procesu a řešení fiskálních problémů mohou vzniknout tlaky na výjimky. Dosavadní rozpočtové dokumenty tento záměr potvrzují, ale praktická realizace se teprve odehrává.",
+        "en": "The Babiš government declares the principle of no tax increases as part of its program. However, during the budget process and addressing fiscal problems, pressures for exceptions may arise. Current budget documents confirm this intent, but practical implementation is yet to unfold."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; deklarativní postura bez reálných zkoušek v praxi.",
+        "en": "First assessment; declarative posture without real-world tests."
+      },
+      "sources": [],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     },
     "2.7": {
       "status": "not_started",
       "comment": {
-        "cs": "Bez doložitelného návrhu na snížení DPH firem na 19 % nebo jeho projednávání.",
-        "en": "No documented proposal for reducing corporate tax to 19% or its discussion in parliament."
+        "cs": "Bez doložitelného návrhu na snížení daně z příjmů firem na 19 % nebo jeho projednávání v Poslanecké sněmovně. Aktuální sazba je 19 % (snížena v předchozích letech), takže by se jednalo o udržení stavu. Vláda k tomuto tématu dosud nevystoupila s konkrétním legislativním návrhem.",
+        "en": "No verifiable proposal to reduce corporate income tax to 19% or its discussion in Parliament. The current rate is already 19% (reduced in previous years), so this would be maintaining status quo. The government has not yet come forward with a specific legislative proposal on this."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; vágní nebo již fakticky splněný záměr bez nového kroku.",
+        "en": "First assessment; vague or already factually fulfilled intent without new step."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     },
     "2.8": {
       "status": "not_started",
       "comment": {
-        "cs": "Žádné veřejné informace o vrácení školkovného či slevy na druhého z manželů.",
-        "en": "No public information about restoring nursery school fees or married couple tax relief."
+        "cs": "Žádné veřejné informace o vrácení školkovného či slevy na druhého z manželů. Tato opatření by vyžadovala legislativní změny v daňovém zákoníku. Vláda dosud nezahájila oficialní přípravu takového návrhu. Jedná se o sociálně-politicky citlivá témata bez dosavadních kroků.",
+        "en": "No public information about restoring kindergarten fees or spousal allowance. These measures would require legislative changes in the tax code. The government has not yet initiated official preparation of such proposal. These are socially sensitive topics without any steps taken so far."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; bez iniciování.",
+        "en": "First assessment; not initiated."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     },
     "2.9": {
       "status": "not_started",
       "comment": {
-        "cs": "Bez dostupných informací o legislativních krocích k zavedení 0% DPH na léky na předpis.",
-        "en": "No available information about legislative steps toward 0% VAT on prescription medicines."
+        "cs": "Bez dostupných informací o legislativních krocích k zavedení 0% DPH na léky na předpis. Toto opatření by mělo zdravotní i rozpočtové dopady a vyžadovalo by coordination s EU právem. Vláda zatím nepublikovala návrh ani analýzu tohoto kroku.",
+        "en": "No available information about legislative steps to introduce 0% VAT on prescription drugs. This measure would have health and budgetary implications and would require coordination with EU law. The government has not yet published a proposal or analysis of this step."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; bez doložitelné přípravy.",
+        "en": "First assessment; no verifiable preparation."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     },
     "2.10": {
       "status": "not_started",
       "comment": {
-        "cs": "Bez doložitelného důkazu o zastavení zvyšování vyměřovacího základu OSVČ.",
-        "en": "No documented evidence of halting the increase in self-employed income assessment base."
+        "cs": "Bez doložitelného důkazu o zastavení zvyšování vyměřovacího základu OSVČ. Toto opatření by přímo ovlivňovalo sociální pojistné OSVČ. Vláda k tomuto tématu dosud nevystoupila s konkrétním legislativním řešením. Jedná se o dlouhodobě diskutovaný problém bez nových iniciativ.",
+        "en": "No verifiable evidence of stopping the increase in the calculation base for self-employed. This measure would directly affect social insurance contributions for self-employed. The government has not yet come forward with a specific legislative solution. This is a long-debated problem without new initiatives."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; bez kroku.",
+        "en": "First assessment; no step taken."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     },
     "2.11": {
       "status": "not_started",
       "comment": {
-        "cs": "Žádné veřejně známé kroky k zřízení jednotného inkasního místa pro státní příspěvky.",
-        "en": "No publicly known steps toward establishing a single collection point for state contributions."
+        "cs": "Žádné veřejně známé kroky k zřízení jednotného inkasního místa pro státní příspěvky. Takový projekt by vyžadoval koordinaci mezi více státními institucemi a agendami. Neexistují mediální zprávy ani oficiální iniciativa vlády na toto téma.",
+        "en": "No publicly known steps to establish a single collection point for state benefits. Such a project would require coordination between multiple state institutions and agendas. There are no media reports or official government initiative on this topic."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; bez iniciování.",
+        "en": "First assessment; not initiated."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     },
     "2.12": {
       "status": "not_started",
       "comment": {
-        "cs": "Bez ověřitelných informací o vytvoření veřejného registru dotací neziskovým organizacím.",
-        "en": "No verifiable information about creating a public register of subsidies to non-profit organizations."
+        "cs": "Bez ověřitelných informací o vytvoření veřejného registru dotací neziskovým organizacím. Transparentnost v přidělování dotací je dlouhodobě diskutovanou záležitostí. Dosavadně vláda Babiše nepublikovala konkrétní plán či legislativní návrh na toto opatření.",
+        "en": "No verifiable information about creating a public register of subsidies to non-profit organizations. Transparency in subsidy allocation is a long-debated matter. The Babiš government has not yet published a specific plan or legislative proposal for this measure."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; bez iniciace.",
+        "en": "First assessment; not initiated."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     },
     "2.13": {
       "status": "not_started",
       "comment": {
-        "cs": "Žádné doložitelné kroky k úpravě lhůty vrácení DPH z nezaplacených faktur na 3 měsíce.",
-        "en": "No documented steps to modify VAT refund deadline for unpaid invoices to 3 months."
+        "cs": "Žádné doložitelné kroky k úpravě lhůty vrácení DPH z nezaplacených faktur na 3 měsíce. Toto opatření by mělo pozitivní dopad na likviditu firem, ale vyžadovalo by novelizaci zákona o DPH. Vláda dosud nepředstavila konkrétní legislativní návrh.",
+        "en": "No verifiable steps to adjust the VAT refund period from unpaid invoices to 3 months. This measure would positively impact business liquidity, but would require an amendment to the VAT law. The government has not yet presented a specific legislative proposal."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; bez iniciování.",
+        "en": "First assessment; not initiated."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     },
     "2.14": {
       "status": "not_started",
       "comment": {
-        "cs": "Bez konkrétních legislativních návrhů na zakotvení odmítnutí eura či ochrany koruny v Ústavě.",
-        "en": "No specific legislative proposals to anchor euro rejection or koruna protection in the Constitution."
+        "cs": "Bez konkrétních legislativních návrhů na zakotvení odmítnutí eura či ochrany koruny v Ústavě. Jedná se o ambiciózní politickou deklaraci, která by vyžadovala složitý konstituční proces. Vláda zatím nepublikovala návrh s konkrétní formulací či harmonogramem.",
+        "en": "No specific legislative proposals to enshrine the rejection of the euro or protection of the crown in the Constitution. This is an ambitious political declaration that would require a complex constitutional process. The government has not yet published a proposal with specific wording or timeline."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; bez legislativní iniciativy.",
+        "en": "First assessment; no legislative initiative."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     },
     "2.15": {
       "status": "not_started",
       "comment": {
-        "cs": "Bez dostupných informací o přípravě či spuštění programu Dluhopisů Republiky pro drobné střadatele.",
-        "en": "No available information about preparation or launch of Republic Bonds program for small savers."
+        "cs": "Bez dostupných informací o přípravě či spuštění programu Dluhopisů Republiky pro drobné střadatele. Takový program by vyžadoval přípravu legislativy a technické infrastruktury. Vláda dosud nepublikovala plán či konkrétní návrh na zavedení tohoto nástroje.",
+        "en": "No available information about preparation or launch of a Republic Bonds program for small savers. Such a program would require legislation and technical infrastructure preparation. The government has not yet published a plan or concrete proposal for introducing this instrument."
       },
-      "updatedAt": "2026-06-25T08:11:16.508Z"
+      "change": {
+        "cs": "První hodnocení; bez iniciace.",
+        "en": "First assessment; not initiated."
+      },
+      "sources": [],
+      "previousStatus": "not_started",
+      "updatedAt": "2026-06-25T09:06:13.103Z"
     }
   },
-  "lastUpdated": "2026-06-25T08:19:11.827Z"
+  "lastUpdated": "2026-06-25T09:18:13.728Z"
 }
