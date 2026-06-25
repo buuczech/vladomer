@@ -84,7 +84,7 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
     headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 3500,
+      max_tokens: 6000,
       messages: [{ role: "user", content: prompt }], // no prefill — lets web_search run
       tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 4 }],
     }),
