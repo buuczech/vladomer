@@ -3,21 +3,17 @@
     "1.1": {
       "status": "in_progress",
       "comment": {
-        "cs": "Ano, ale…: <cite index=\"1-4,1-11\">Vláda snížila ceny elektřiny domácnostem o deset procent a navýšila příspěvek na podporované zdroje energie z 24,6 na 41,7 miliardy korun.</cite> <cite index=\"1-2\">Česká republika odmítla implementovat systém obchodování s emisními povolenkami EU ETS2.</cite> Ne, ale…: <cite index=\"5-24\">Kritika opozice poukazuje, že pouhé odmítnutí ETS2 nemá fakticky žádný pozitivní dopad; vláda neuvedla, co konkrétního udělá pro odvrácení negativních dopadů.</cite> <cite index=\"6-4,6-8\">Vláda se uchytávala vágními příslibem konkrétních řešení na summitu v únoru, ale Babiš nechtěl detaily specifikovat.</cite>",
-        "en": "Yes, but: Government cut electricity prices for households by ten percent and increased state funding for renewable sources from 24.6 to 41.7 billion crowns. It rejected ETS2 implementation. No, but: Opposition criticism notes that refusal alone has no actual positive impact; the government offered no specific concrete actions. The government clung to vague promises of solutions at the February summit without specifying details."
+        "cs": "Ano, ale…: <cite index=\"2-5,2-6\">Vláda snížila ceny elektřiny domácnostem o deset procent a levnější energie mají i podnikatelé a firmy.</cite> <cite index=\"1-16\">Vláda odmítla ETS 2 transponovat do právního řádu.</cite> Avšak <cite index=\"1-12\">zavedení ETS 2 bylo jen odloženo z roku 2027 na 2028,</cite> nikoliv zcela zrušeno. <cite index=\"1-17\">Vláda se zavázala přinést konkrétní řešení v rámci summitu Evropské rady 12. února.</cite> Úplné odstraňování ETS 2 se zatím nepovedlo.",
+        "en": "Yes, but…: The government reduced electricity prices for households by ten percent and lowered costs for businesses. The government refused to implement ETS2 into Czech law. However, ETS2 was merely postponed from 2027 to 2028, not completely abolished. The government committed to presenting concrete solutions at the EU Council summit on February 12. Complete removal of ETS2 has not yet been achieved."
       },
       "change": {
-        "cs": "Pokud jde o energickou bezpečnost, vláda se soustředila především na komunikaci odmítnutí ETS2 na unijní úrovni, ale bez konkrétního plánu na zajištění vyjednávacího úspěchu. Zavedené jsou pouze kompenzace na straně nabídky (17 miliard na POZE).",
-        "en": "Regarding energy security, the government focused primarily on communicating ETS2 refusal at the EU level without a concrete plan to ensure negotiation success. Only supply-side compensation measures (17 billion for renewables) have been implemented."
+        "cs": "Bez změny vůči předchozímu týdnu – pokračuje lobbing a příprava argumentů pro EU summit v únoru 2026, energetické ceny zůstávají nižší.",
+        "en": "No change from previous week – continued lobbying and preparation of arguments for EU Council summit in February 2026, energy prices remain lower."
       },
       "sources": [
         {
           "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-odmitla-migracni-pakt-eu-i-novy-system-obchodovani-s-emisnimi-povolenkami--domacnostem-i-firmam-zlevni-elektrinu-224297/",
           "title": "Vláda Andreje Babiše odmítla migrační pakt EU i nový systém obchodování s emisními povolenkami, domácnostem i firmám zlevní elektřinu | Vláda České republiky"
-        },
-        {
-          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/babisova-vlada-ma-na-programu-prvni-radne-zasedani-368331",
-          "title": "Vláda odmítla emisní povolenky ETS 2 i migrační pakt - ČT24"
         },
         {
           "url": "https://oenergetice.cz/energeticka-legislativa-eu/vlada-odmitla-system-emisnich-povolenek-ets-2-oznamil-babis",
@@ -25,94 +21,86 @@
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-07-17T12:49:44.011Z"
+      "updatedAt": "2026-07-24T09:34:30.990Z"
     },
     "1.2": {
       "status": "in_progress",
       "comment": {
-        "cs": "Ano, ale…: <cite index=\"12-18\">Vláda ve zdravotnictví za prvních půl roku splnila zhruba 20 procent svých cílů.</cite> <cite index=\"20-2,20-3\">Ministr Vojtěch zavedl posílení kompetencí praktických lékařů; pacienti se od července dostanou k více než 1200 novým lékům v ordinacích.</cite> <cite index=\"12-22,12-23\">Povinné vystavování elektronických žádanek od července příštího roku umožní sledovat čekací doby a ministerstvo se bude zaměřovat na zařízení s dlouhými čekacími lhůtami.</cite> Ne, ale…: <cite index=\"11-4,11-8\">Příprava elektronických žádanek vázne; premiér musel ministra Vojtěcha kriticky upozornit na zaostávání.</cite> <cite index=\"19-9\">Opozice kritizuje, že vláda neuvedla konkrétní čísla, o kolik se zkrátí čekací doby.</cite>",
-        "en": "Yes, but: The government fulfilled approximately 20 percent of its healthcare goals in the first half-year. Minister Vojtěch strengthened GP competencies; patients gained access to over 1,200 new medicines. Electronic referral forms mandatory from July next year will allow monitoring waiting times. No, but: Electronic referral preparation lags; the premier had to criticize the minister. Opposition notes no specific data on actual waiting time reductions announced."
+        "cs": "Ano, ale…: <cite index=\"16-1,16-2\">Vláda vyhlásila reformu českého zdravotnictví s cílem zajištění dlouhodobé udržitelnosti a zvýšení kvality péče; hlavními pilíři jsou transformace lůžkové péče, posílení primární péče a digitalizace.</cite> <cite index=\"14-6,14-7,14-8\">Byly již schváleny rozšíření kompetencí praktických lékařů a ministerstvo připravuje projekty za více než 2,3 miliardy korun do zdravotnické infrastruktury.</cite> Avšak <cite index=\"12-6,12-7\">příprava elektronických žádanek vázne a ze zdravotnického balíku zbytečně uniká 15 až 18 miliard korun ročně.</cite> <cite index=\"15-2\">Opozice kritizuje, že chybí konkrétní údaje o zlepšení dostupnosti péče a zkrácení čekacích dob.</cite>",
+        "en": "Yes, but…: The government announced a healthcare reform aimed at ensuring long-term sustainability and improving care quality; main pillars include transformation of inpatient care, strengthening primary care, and digitalization. Expanded competencies for general practitioners and over 2.3 billion crown infrastructure projects have been approved. However, electronic request preparation is stalled and 15-18 billion crowns are being unnecessarily lost annually. The opposition criticizes lack of concrete data on improved accessibility and shorter waiting times."
       },
       "change": {
-        "cs": "Zdravotnictví pokračuje v implementaci e-zdraví a personální stabilizaci, ale pokrok v digitalizaci byl zpomalen. Nově se zřizují Centra duševního zdraví. Čekací doby nejsou zatím měřitelně sníženy.",
-        "en": "Healthcare continues e-health implementation and personnel stabilization, but digitalization progress has slowed. New mental health centers are being established. Waiting times have not yet demonstrably decreased."
+        "cs": "Bez podstatné změny – reforma pokračuje postupně, elektronizace naráží na technické a organizační problémy, konkrétní dopad na čekací doby stále není viditelný.",
+        "en": "No substantial change – reform progresses gradually, digitalization faces technical and organizational obstacles, concrete impact on waiting times remains invisible."
       },
       "sources": [
         {
-          "url": "https://www.zdravezpravy.cz/2026/07/09/ministr-vojtech-bilancuje-splneno-je-20-cilu-dalsi-jsou-v-procesu/",
-          "title": "Ministr Vojtěch bilancuje: Splněno je 20 % cílů. Další jsou v procesu - zdravezpravy.cz"
-        },
-        {
           "url": "https://zpravy.aktualne.cz/domaci/zdravotnictvi-22850dba-908b-4192-badc-0e7f1c003a00/babis-uderil-na-vojtecha-kvuli-zasadni-novince-zada-po-ministrovi-okamzitou-akci/r~aaa2990260c3c209ce177b4b11db3b9a/?lp=1",
           "title": "Babiš udeřil na Vojtěcha. Kvůli zásadní novince žádá po ministrovi okamžitou akci – Aktuálně.cz"
+        },
+        {
+          "url": "https://www.nasepravda.cz/aktualne/zpravodajstvi/z-domova/milan-kubek-k-proklamovane-reforme-zdravotnictvi-prichazeji-rozporuplne-navrhy/",
+          "title": "Milan Kubek: K proklamované reformě zdravotnictví přicházejí rozporuplné návrhy! - Naše pravda"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-07-17T12:49:44.011Z"
+      "updatedAt": "2026-07-24T09:34:30.991Z"
     },
     "1.3": {
       "status": "in_progress",
       "comment": {
-        "cs": "Ano, ale…: <cite index=\"25-3,25-5,25-6\">Vláda přijala novelu stavebního zákona s cílem zrychlit povolování staveb; zřizuje se Úřad rozvoje území s jedním sloučeným stavebním řízením.</cite> <cite index=\"25-1,25-2\">Stavby hromadného bydlení nad 10 000 m² hrubé podlahové plochy budou označeny za veřejný zájem.</cite> Ne, ale…: <cite index=\"26-2,26-4,26-13\">Ministerstvo pro místní rozvoj nepřidělilo žádné prostředky na projekty dostupného bydlení; vláda škrtá podporu klíčovým organizacím a v rozpočtu není na dostupné bydlení vyčleněno téměř nic.</cite> <cite index=\"22-4,22-5\">Snížení dotací vede developery k preferenci standardních nebo investičních bytů; nová stavební novela navíc zvýhodňuje velkých developerů.</cite> <cite index=\"28-21,28-25,28-26\">Opozice kritizuje, že zákon nahrává developerům a zpomaluje procesy pro běžné lidi bez zajištění dostupného bydlení.</cite>",
-        "en": "Yes, but: The government amended the Building Act to accelerate permit processes; creates a Territory Development Office with unified building procedures. Multi-unit housing projects over 10,000 m² are designated as public interest. No, but: The Ministry failed to allocate funds for affordable housing; the government is cutting support to key organizations. Reduced subsidies push developers toward standard and investment units. Opposition criticizes the law favors large developers and slows processes for ordinary citizens without securing affordable housing."
+        "cs": "Ano, ale…: <cite index=\"18-3,18-8,18-9\">Vláda přijala nový stavební zákon, který zavádí centrální stavební správu a stanovuje stavby hromadného bydlení za veřejný zájem; zákon má zásadně zjednodušit a zrychlit povolování staveb zavedením principu jedno řízení.</cite> <cite index=\"19-12\">Nový model státní stavební správy byl schválen v březnu 2026 se stanoveným harmonogramem.</cite> Avšak <cite index=\"23-6\">podle inženýrů a techniků novela neřeší komplikované povolování,</cite> a <cite index=\"23-11\">zákon je jednostranně vstřícný k velkým developerům a nepřináší řešení pro dostupné, obecní ani družstevní bydlení.</cite>",
+        "en": "Yes, but…: The government adopted a new building law introducing a central construction authority and designating multi-family housing as a public interest; the law aims to simplify and accelerate permit procedures through single-window principle. The new model was approved in March 2026 with timeline. However, engineers report that the amendment does not resolve complicated permit processes, and the law is one-sidedly favorable to large developers without solutions for affordable, municipal, or cooperative housing."
       },
       "change": {
-        "cs": "Stavební zákon byl schválen sněmovnou v červenci 2026, ale bez finančního zajištění dostupného bydlení. Vláda deklaruje prioritu bydlení, ale reálná opatření jsou opačná – peníze jdou na reorganizaci úřadů, ne na podpůrné programy.",
-        "en": "The Building Act was approved by parliament in July 2026, but without funding for affordable housing. The government declares housing a priority, but real measures are opposite—money goes to office reorganization, not support programs."
+        "cs": "Postupný pokrok – zákon schválen a harmonogram nastaven, ale kritika se soustředí na prospěch velkopodnikatelům a chybějící řešení dostupného bydlení.",
+        "en": "Gradual progress – law approved with timeline set, but criticism focuses on benefits to large developers and missing affordable housing solutions."
       },
       "sources": [
         {
-          "url": "https://www.irozhlas.cz/zpravy-domov/poslanci-schvalili-pres-kritiku-opozice-novelu-stavebniho-zakona-vzniknou_2607101532_kvr",
-          "title": "Poslanci schválili přes kritiku opozice novelu stavebního zákona. Vzniknou specializované úřady"
+          "url": "https://www.denik.cz/cesko/vlada-prijala-novy-stavebni-zakon/",
+          "title": "Vláda přijala nový stavební zákon. Zavádí centrální stavební správu – Deník.cz"
         },
         {
-          "url": "https://arnika.org/o-nas/tiskove-zpravy/konec-rozvoje-dostupneho-bydleni-vlada-skrta-penize-v-rozpoctu-i-podporu-klicovym-organizacim",
-          "title": "Konec rozvoje dostupného bydlení. Vláda škrtá peníze v rozpočtu i podporu klíčovým organizacím"
-        },
-        {
-          "url": "https://www.drevostavitel.cz/clanek/bydleni-musi-byt-dostupne-pro-kazdeho",
-          "title": "„Bydlení musí být dostupné pro každého,“ slibovali. Pak snížili podporu dostupných nájemních bytů"
+          "url": "https://www.estav.cz/cz/14248.vlada-prijala-novy-stavebni-zakon-zavadejici-centralni-stavebni-spravu",
+          "title": "Vláda přijala nový stavební zákon zavádějící centrální stavební správu. Podle ČKAIT se komplikované povolování nevyřeší - ESTAV.cz"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-07-17T12:49:44.011Z"
+      "updatedAt": "2026-07-24T09:34:30.991Z"
     },
     "1.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Ano, ale…: <cite index=\"14-21\">Programové prohlášení vlády uvádí, že důchodový věk bude zastropován na 65 letech.</cite> <cite index=\"36-3,36-8\">Do legislativy míří zvýšení penzí o 500 Kč každých 5 let od věku 80 let a věkové valorizace.</cite> Ne, ale…: <cite index=\"33-6,33-7\">Ve skutečnosti vláda posunula zavedení stropu věku až na rok 2028 v další novele s úpravou penzí náročných profesí.</cite> <cite index=\"37-1,37-10\">Slibované zastropování důchodového věku na 65 letech v návrhu legislativy chybí, což kritizují odbory.</cite> <cite index=\"38-7,38-9\">Evropská komise varuje, že zastropování by v dlouhodobém horizontu vyžadovalo vydatně vyšší výdaje, v řádu stovek miliard korun.</cite>",
-        "en": "Yes, but: The government program states pension age will be capped at 65. Draft legislation includes pension increases of 500 crowns every 5 years from age 80. No, but: The government actually postponed age cap implementation to 2028 in a separate bill on risky professions. The promised age capping is absent from current legislation, criticized by unions. The EU Commission warns such capping would require significantly higher expenditures in the long term."
+        "cs": "Ne, ale…: <cite index=\"33-1,33-2\">Vláda slíbila zastropování věku odchodu do důchodu na 65 letech, avšak v první důchodové novele, kterou vláda podpořila, tahle změna není.</cite> <cite index=\"32-3\">Vláda se nejprve zaměří na nastavení důchodů pro náročné profese, až poté přijde zastropování věku.</cite> <cite index=\"26-8,26-9,26-10\">Premiér Babiš v červnu sdělil, že úprava věku se zavedením až v další novele od roku 2028, přičemž strop věku se v tomto volebním období neprojeví.</cite> <cite index=\"30-2,30-4\">Vláda navíc musí jednat s Evropskou komisí a obhájit dopad na veřejné finance.</cite> Jde tedy o odsunutí slibovaného opatření.",
+        "en": "No, but…: The government promised to cap the retirement age at 65 years, but this change is absent from the first pension amendment the government supported. The government will first focus on pensions for demanding professions, then proceed to age cap. In June, PM Babiš stated that age adjustment will be introduced in a later amendment from 2028, with no effect in the current term. The government must also negotiate with the European Commission and justify fiscal impact. It is thus a postponement of the promised measure."
       },
       "change": {
-        "cs": "Běžná valorizace důchodů se řeší postupně (od roku 2027), ale klíčový věkový strop je fakticky opuštěn pro tento volební cyklus. Vláda místo toho zdůrazňuje opatření pro náročné profese.",
-        "en": "Regular pension indexation is being addressed gradually (from 2027), but the key age cap is factually abandoned for this electoral cycle. The government instead emphasizes measures for demanding professions."
+        "cs": "První hodnocení – slibovaný strop věku je fakticky odsounut na dobu mimo mandát vlády; namísto splnění se řeší nejprve náročné profese a jednání s Bruselém.",
+        "en": "First assessment – the promised age cap is effectively postponed beyond the government's term; instead of fulfillment, the focus is on demanding professions and negotiations with Brussels."
       },
       "sources": [
         {
-          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
-          "title": "Programové prohlášení vlády | Vláda České republiky"
+          "url": "https://www.penize.cz/starobni-duchod/493132-prvni-zmeny-duchodu-podle-nove-vlady-jeden-z-hlavnich-slibu-chybi",
+          "title": "První změny důchodů podle nové vlády. Jeden z hlavních slibů chybí | Peníze.cz"
         },
         {
-          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/prvne-vyresime-penze-narocnych-profesi-pak-strop-duchodoveho-veku-prohlasil-babis-374799",
-          "title": "Prvně vyřešíme penze náročných profesí, pak strop důchodového věku, prohlásil Babiš"
-        },
-        {
-          "url": "https://www.denik.cz/ekonomika/duchody-valorizace-zamestnavani-senioru-zakon-vlada-odbory.html",
-          "title": "Valorizace ano, strop ne. Novela důchodů budí rozpaky odborů - Deník.cz"
+          "url": "https://ceskeduchody.cz/zpravy/duchod-v-65-letech-uz-neni-jen-veci-vlady-do-hry-vstoupil-brusel",
+          "title": "Důchod v 65 letech už není jen věcí vlády. Do hry vstoupil Brusel a Babiš musí plán obhájit"
         }
       ],
       "previousStatus": "not_started",
-      "updatedAt": "2026-07-17T12:49:44.011Z"
+      "updatedAt": "2026-07-24T09:34:30.991Z"
     },
     "1.5": {
       "status": "in_progress",
       "comment": {
-        "cs": "Ano, ale…: <cite index=\"1-15\">Vláda odmítla Pakt o migraci a azylu EU a bude požadovat jeho zásadní zpřísnění; zavedla politiku nulové tolerance nelegální migrace.</cite> <cite index=\"5-15\">V usnesení vláda souhlasila s odmítnutím migračních kvót a zavedením politiky nulové tolerance.</cite> Ne, ale…: <cite index=\"7-12,7-13\">Bývalý ministr vnitra Vít Rakušan (STAN) kritizuje, že odmítnutí paktu znamená odmítnutí přísnější kontroly; bez jednoty s jinými státy se Česko stane zajímavější destinací pro převaděčské gangy.</cite> <cite index=\"5-13,5-14\">Zpřísnění azylových a migračních pravidel z předchozí vlády již v lednu 2026 vstoupilo v účinnost, takže novou vládu čeká složitá vyjednávání o vlastních pravidlech.</cite>",
-        "en": "Yes, but: The government rejected the EU Migration and Asylum Pact and demands fundamental tightening; introduced zero-tolerance policy for illegal migration. No, but: Former interior minister criticizes that rejection means refusing stricter controls; without unity with other states, Czechia becomes attractive to smuggling gangs. Tightened asylum rules from previous government already took effect in January 2026."
+        "cs": "Ano, ale…: <cite index=\"3-4\">Vláda ANO, SPD a Motoristů odmítla migrační pakt EU.</cite> <cite index=\"3-16\">V usnesení vláda uvedla, že souhlasí s odmítnutím migračních kvót a zavedením politiky nulové tolerance nelegální migrace.</cite> Avšak <cite index=\"3-14\">od ledna už začíná platit zpřísněná azylová a migrační pravidla z minulé vlády,</cite> takže praktické míry již běží bez dodatečného zákona. <cite index=\"6-1,6-2,6-3\">Opozice kritizuje, že Babiš nejprve sliboval zrušení, poté odmítnutí v usnesení a následně mluvil o odložení,</cite> což naznačuje nejasnou strategii.",
+        "en": "Yes, but…: The government of ANO, SPD, and Motoristé rejected the EU migration pact. In its resolution, the government stated it agrees with rejecting migration quotas and implementing zero-tolerance policy for illegal migration. However, tightened asylum and migration rules are already in effect from January, so practical measures are running without additional legislation. Opposition criticizes that Babiš first promised abolition, then rejection by resolution, and subsequently discussed postponement, suggesting unclear strategy."
       },
       "change": {
-        "cs": "Vláda deklaruje nulovou toleranci k nelegální migraci, ale praktické kroky se dosud netěsně vázaly na unijní řízení. Schválena je pouze negace paktu, nikoliv vlastní alternativní systém.",
-        "en": "The government declares zero tolerance for illegal migration, but practical steps are not yet tightly linked to EU procedures. Only rejection of the pact is approved, not an alternative system."
+        "cs": "Bez změny – odmítnutí paktu je oficiální pozice, praktické posílení kontroly však probíhá již pod starými pravidly; nebyla doložena nová migační legislativa.",
+        "en": "No change – rejection of the pact is official position, but practical strengthening of control is already underway under existing rules; no new migration legislation was documented."
       },
       "sources": [
         {
@@ -120,16 +108,12 @@
           "title": "Vláda Andreje Babiše odmítla migrační pakt EU i nový systém obchodování s emisními povolenkami, domácnostem i firmám zlevní elektřinu | Vláda České republiky"
         },
         {
-          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/babisova-vlada-ma-na-programu-prvni-radne-zasedani-368331",
-          "title": "Vláda odmítla emisní povolenky ETS 2 i migrační pakt - ČT24"
-        },
-        {
-          "url": "https://www.ceskenoviny.cz/zpravy/vlada-odmitla-povolenky-ets-2-i-migracni-pakt-zlevnit-ma-elektrina/2761143",
-          "title": "Babišova vláda schválila změny ve financování energií i nový stavební zákon | ČeskéNoviny.cz"
+          "url": "https://www.irozhlas.cz/zpravy-domov/starostove-tlaci-na-babise-ohledne-emisnich-povolenek-ets-2-nerudova-predstavila_2602091031_jgr",
+          "title": "Vyjmutí domácností i cenové stropy. Nerudová představila úpravy emisních povolenek ETS2"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-07-17T12:49:44.011Z"
+      "updatedAt": "2026-07-24T09:34:30.991Z"
     },
     "3.1": {
       "status": "in_progress",
@@ -3188,5 +3172,5 @@
       "updatedAt": "2026-07-17T13:05:10.043Z"
     }
   },
-  "lastUpdated": "2026-07-17T13:15:22.298Z"
+  "lastUpdated": "2026-07-24T09:34:51.008Z"
 }
