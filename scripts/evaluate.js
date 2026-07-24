@@ -11,9 +11,14 @@
  * JSON is kept clean via instruction + bracket extraction + retry instead.
  *
  * Run:  ANTHROPIC_API_KEY=sk-ant-... npm run evaluate
+ *
+ * Set CHAPTER_LIMIT=1 to only evaluate the first N chapters (used by the
+ * dev branch's workflow to test cheaply without spending on all 18).
  */
 import { writeFileSync, readFileSync } from "node:fs";
 import { CHAPTERS } from "../src/data.js";
+
+const CHAPTER_LIMIT = process.env.CHAPTER_LIMIT ? Number(process.env.CHAPTER_LIMIT) : CHAPTERS.length;
 
 const KEY = process.env.ANTHROPIC_API_KEY;
 const MODEL = process.env.EVAL_MODEL || "claude-haiku-4-5-20251001";
@@ -156,7 +161,7 @@ async function main() {
   const snapshots = readJSON(OUT_HIST, { snapshots: [] }).snapshots || [];
 
   const newEvals = { ...prevEvals };
-  for (const ch of CHAPTERS) {
+  for (const ch of CHAPTERS.slice(0, CHAPTER_LIMIT)) {
     try {
       process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}… `);
       const r = await callWithBackoff(ch, prevEvals, snapshots);
