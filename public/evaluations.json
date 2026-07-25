@@ -3,117 +3,113 @@
     "1.1": {
       "status": "in_progress",
       "comment": {
-        "cs": "Ano, ale…: <cite index=\"2-5,2-6\">Vláda snížila ceny elektřiny domácnostem o deset procent a levnější energie mají i podnikatelé a firmy.</cite> <cite index=\"1-16\">Vláda odmítla ETS 2 transponovat do právního řádu.</cite> Avšak <cite index=\"1-12\">zavedení ETS 2 bylo jen odloženo z roku 2027 na 2028,</cite> nikoliv zcela zrušeno. <cite index=\"1-17\">Vláda se zavázala přinést konkrétní řešení v rámci summitu Evropské rady 12. února.</cite> Úplné odstraňování ETS 2 se zatím nepovedlo.",
-        "en": "Yes, but…: The government reduced electricity prices for households by ten percent and lowered costs for businesses. The government refused to implement ETS2 into Czech law. However, ETS2 was merely postponed from 2027 to 2028, not completely abolished. The government committed to presenting concrete solutions at the EU Council summit on February 12. Complete removal of ETS2 has not yet been achieved."
+        "cs": "Ano, ale…: <cite index=\"11-1,11-13,11-14\">Vláda odmítla emisní povolenky ETS2 a chce snížit regulované ceny elektřiny; domácnostem by mělo opatření zlevnit energii o více než patnáct procent, firmám ještě výrazněji.</cite> Odmítnutí ETS2 však není selhání – v únoru 2026 hlasoval Evropský parlament a posunut začátek ETS2 na rok 2028. Vláda prosazuje zmírňující podmínky, formálně však zatím nelze hovořit o definitivním odmítnutí bez vlastní legislativy.",
+        "en": "Yes, but…: Government rejected ETS2 and aims to lower regulated electricity prices; households should see energy cheaper by over 15%, firms even more. ETS2 rejection is not a failure—EU Parliament postponed ETS2 to 2028 in February 2026. Government pushes for mitigating conditions, though final refusal through own legislation is not yet settled."
       },
       "change": {
-        "cs": "Bez změny vůči předchozímu týdnu – pokračuje lobbing a příprava argumentů pro EU summit v únoru 2026, energetické ceny zůstávají nižší.",
-        "en": "No change from previous week – continued lobbying and preparation of arguments for EU Council summit in February 2026, energy prices remain lower."
+        "cs": "Bez změny. Vláda potvrdila odmítavý postoj (16. 12. 2025), EU tlak se oslabil odložením ETS2 na 2028; energetická politika pokračuje bez radikálních posunů.",
+        "en": "No change. Government confirmed rejection stance (16 Dec 2025), EU pressure eased by ETS2 postponement to 2028; energy policy continues without radical shifts."
       },
       "sources": [
         {
-          "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-odmitla-migracni-pakt-eu-i-novy-system-obchodovani-s-emisnimi-povolenkami--domacnostem-i-firmam-zlevni-elektrinu-224297/",
-          "title": "Vláda Andreje Babiše odmítla migrační pakt EU i nový systém obchodování s emisními povolenkami, domácnostem i firmám zlevní elektřinu | Vláda České republiky"
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/babisova-vlada-ma-na-programu-prvni-radne-zasedani-368331",
+          "title": "▶ Vláda odmítla emisní povolenky ETS 2 i migrační pakt — ČT24 — Česká televize"
         },
         {
-          "url": "https://oenergetice.cz/energeticka-legislativa-eu/vlada-odmitla-system-emisnich-povolenek-ets-2-oznamil-babis",
-          "title": "Vláda odmítla systém emisních povolenek ETS 2, oznámil Babiš"
+          "url": "https://mzp.gov.cz/cz/agenda/klima-a-energetika/emisni-obchodovani/eu-ets2-emisni-obchodovani-v-sektoru-budov-silnicni",
+          "title": "EU ETS2 - Emisní obchodování v sektoru budov, silniční dopravy a dalších odvětví | Ministerstvo životního prostředí"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-07-24T09:34:30.990Z"
+      "updatedAt": "2026-07-25T12:26:30.817Z"
     },
     "1.2": {
       "status": "in_progress",
       "comment": {
-        "cs": "Ano, ale…: <cite index=\"16-1,16-2\">Vláda vyhlásila reformu českého zdravotnictví s cílem zajištění dlouhodobé udržitelnosti a zvýšení kvality péče; hlavními pilíři jsou transformace lůžkové péče, posílení primární péče a digitalizace.</cite> <cite index=\"14-6,14-7,14-8\">Byly již schváleny rozšíření kompetencí praktických lékařů a ministerstvo připravuje projekty za více než 2,3 miliardy korun do zdravotnické infrastruktury.</cite> Avšak <cite index=\"12-6,12-7\">příprava elektronických žádanek vázne a ze zdravotnického balíku zbytečně uniká 15 až 18 miliard korun ročně.</cite> <cite index=\"15-2\">Opozice kritizuje, že chybí konkrétní údaje o zlepšení dostupnosti péče a zkrácení čekacích dob.</cite>",
-        "en": "Yes, but…: The government announced a healthcare reform aimed at ensuring long-term sustainability and improving care quality; main pillars include transformation of inpatient care, strengthening primary care, and digitalization. Expanded competencies for general practitioners and over 2.3 billion crown infrastructure projects have been approved. However, electronic request preparation is stalled and 15-18 billion crowns are being unnecessarily lost annually. The opposition criticizes lack of concrete data on improved accessibility and shorter waiting times."
+        "cs": "Ano, ale…: <cite index=\"16-1,16-2,16-3\">Vláda pokračuje v zdravotnické reformě; praktičtí lékaři mohou od 1. 7. 2026 předepisovat 1200 léků navíc, čekají se zkrácené čekací doby; reforma péče o duševní zdraví zahrnuje rozšíření Center duševního zdraví o cca 15 nových zařízení.</cite> Ne, ale…: <cite index=\"24-1\">Kritici poukazují, že miliardový nárůst financování v návrhu neobsahuje záruky na zkrácení čekacích dob či zvýšení počtu lékařů.</cite> Jde o legislativní kroky a opatření, nikoliv dokazatelný pokles čekacích dob.",
+        "en": "Yes, but…: Government continues healthcare reform; GPs can prescribe 1,200 additional medications from 1 July 2026, shorter waiting times expected; mental health care reform includes ~15 new mental health centres. No, but…: Critics note that billion-crown funding increase contains no guarantees on waiting time reductions or more doctors. These are legislative steps, not yet proven results."
       },
       "change": {
-        "cs": "Bez podstatné změny – reforma pokračuje postupně, elektronizace naráží na technické a organizační problémy, konkrétní dopad na čekací doby stále není viditelný.",
-        "en": "No substantial change – reform progresses gradually, digitalization faces technical and organizational obstacles, concrete impact on waiting times remains invisible."
+        "cs": "Bez změny. Reformní kroky pokračují od ledna 2026 (legislativa) a od července 2026 (praktické zavedení); žádné doložené zkrácení čekacích dob zatím.",
+        "en": "No change. Reform steps continue from January 2026 (legislation) and July 2026 (practical rollout); no documented waiting time reduction yet."
       },
       "sources": [
         {
-          "url": "https://zpravy.aktualne.cz/domaci/zdravotnictvi-22850dba-908b-4192-badc-0e7f1c003a00/babis-uderil-na-vojtecha-kvuli-zasadni-novince-zada-po-ministrovi-okamzitou-akci/r~aaa2990260c3c209ce177b4b11db3b9a/?lp=1",
-          "title": "Babiš udeřil na Vojtěcha. Kvůli zásadní novince žádá po ministrovi okamžitou akci – Aktuálně.cz"
+          "url": "https://vlada.gov.cz/cz/media-centrum/tiskove-konference/tiskova-konference-k-vyhodnoceni-plneni-programoveho-prohlaseni-vlady-za-prvni-pololeti-roku-2026--9--cervence-2026-227957/",
+          "title": "Tisková konference k vyhodnocení plnění Programového prohlášení vlády za první pololetí roku 2026, 9. července 2026 | Vláda České republiky"
         },
         {
-          "url": "https://www.nasepravda.cz/aktualne/zpravodajstvi/z-domova/milan-kubek-k-proklamovane-reforme-zdravotnictvi-prichazeji-rozporuplne-navrhy/",
-          "title": "Milan Kubek: K proklamované reformě zdravotnictví přicházejí rozporuplné návrhy! - Naše pravda"
+          "url": "https://www.zdravotnickydenik.cz/2026/07/pul-roku-na-ministerstvu-hodnoti-adam-vojtech/",
+          "title": "Půl roku na ministerstvu: Co se podle Vojtěcha povedlo a jak změny pocítí pacienti? - Zdravotnický deník"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-07-24T09:34:30.991Z"
+      "updatedAt": "2026-07-25T12:26:30.817Z"
     },
     "1.3": {
       "status": "in_progress",
       "comment": {
-        "cs": "Ano, ale…: <cite index=\"18-3,18-8,18-9\">Vláda přijala nový stavební zákon, který zavádí centrální stavební správu a stanovuje stavby hromadného bydlení za veřejný zájem; zákon má zásadně zjednodušit a zrychlit povolování staveb zavedením principu jedno řízení.</cite> <cite index=\"19-12\">Nový model státní stavební správy byl schválen v březnu 2026 se stanoveným harmonogramem.</cite> Avšak <cite index=\"23-6\">podle inženýrů a techniků novela neřeší komplikované povolování,</cite> a <cite index=\"23-11\">zákon je jednostranně vstřícný k velkým developerům a nepřináší řešení pro dostupné, obecní ani družstevní bydlení.</cite>",
-        "en": "Yes, but…: The government adopted a new building law introducing a central construction authority and designating multi-family housing as a public interest; the law aims to simplify and accelerate permit procedures through single-window principle. The new model was approved in March 2026 with timeline. However, engineers report that the amendment does not resolve complicated permit processes, and the law is one-sidedly favorable to large developers without solutions for affordable, municipal, or cooperative housing."
+        "cs": "Ano, ale…: <cite index=\"11-6,11-7\">Kabinet přijal nový stavební zákon; zavádí centrální stavební správu a stanovuje stavby hromadného bydlení za veřejný zájem.</cite> <cite index=\"28-4,28-5,28-10\">Novela nabývá účinnosti 1. července 2026 a zrychluje povolovací procesy; vláda si slibuje uvolnění výstavby.</cite> Ne, ale…: <cite index=\"31-1,31-3,31-5\">Rozpočtované 2,2 miliard korun na dostupné bydlení jsou navázány na nižší výnosy emisních povolenek; je pravděpodobné, že na dostupné bydlení nezbyde vůbec nic.</cite> <cite index=\"26-2,26-8,26-9\">Zákon favorizuje velké developery (stavby nad 10 tisíc m²) se speciálním režimem a rychlejším schvalováním, obyčejní lidé mají méně výhod.</cite>",
+        "en": "Yes, but…: Cabinet adopted building law; introduces unified building administration and designates multi-unit housing as public interest. Amendment becomes effective 1 July 2026 and speeds permitting; government expects to unlock construction. No, but…: Budget earmarked 2.2 billion crowns for affordable housing is tied to lower-than-expected ETS revenues; likely nothing will remain for housing. Law favours large developers (buildings over 10,000 m²) with special fast-track regime; ordinary citizens benefit less."
       },
       "change": {
-        "cs": "Postupný pokrok – zákon schválen a harmonogram nastaven, ale kritika se soustředí na prospěch velkopodnikatelům a chybějící řešení dostupného bydlení.",
-        "en": "Gradual progress – law approved with timeline set, but criticism focuses on benefits to large developers and missing affordable housing solutions."
+        "cs": "Bez změny. Stavební zákon schválen 30. 1. 2026, účinný od 1. 7. 2026; obsahuje deklaraci veřejného zájmu na bydlení, ale financování je nejisté. Kritika na faktor favorizace developerů.",
+        "en": "No change. Building law approved 30 Jan 2026, effective 1 July 2026; declares housing public interest, but funding uncertain. Criticism of developer-favourable factors persists."
       },
       "sources": [
         {
-          "url": "https://www.denik.cz/cesko/vlada-prijala-novy-stavebni-zakon/",
-          "title": "Vláda přijala nový stavební zákon. Zavádí centrální stavební správu – Deník.cz"
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/babisova-vlada-ma-na-programu-prvni-radne-zasedani-368331",
+          "title": "▶ Vláda odmítla emisní povolenky ETS 2 i migrační pakt — ČT24 — Česká televize"
         },
         {
-          "url": "https://www.estav.cz/cz/14248.vlada-prijala-novy-stavebni-zakon-zavadejici-centralni-stavebni-spravu",
-          "title": "Vláda přijala nový stavební zákon zavádějící centrální stavební správu. Podle ČKAIT se komplikované povolování nevyřeší - ESTAV.cz"
+          "url": "https://denikalarm.cz/2026/07/stavebni-zakon-udelal-z-investicnich-bytu-narodni-zajem/",
+          "title": "Stavební zákon udělal z investičních bytů národní zájem Deník Alarm"
+        },
+        {
+          "url": "https://arnika.org/o-nas/tiskove-zpravy/konec-rozvoje-dostupneho-bydleni-vlada-skrta-penize-v-rozpoctu-i-podporu-klicovym-organizacim",
+          "title": "Konec rozvoje dostupného bydlení. Vláda škrtá peníze v rozpočtu i podporu klíčovým organizacím"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-07-24T09:34:30.991Z"
+      "updatedAt": "2026-07-25T12:26:30.817Z"
     },
     "1.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Ne, ale…: <cite index=\"33-1,33-2\">Vláda slíbila zastropování věku odchodu do důchodu na 65 letech, avšak v první důchodové novele, kterou vláda podpořila, tahle změna není.</cite> <cite index=\"32-3\">Vláda se nejprve zaměří na nastavení důchodů pro náročné profese, až poté přijde zastropování věku.</cite> <cite index=\"26-8,26-9,26-10\">Premiér Babiš v červnu sdělil, že úprava věku se zavedením až v další novele od roku 2028, přičemž strop věku se v tomto volebním období neprojeví.</cite> <cite index=\"30-2,30-4\">Vláda navíc musí jednat s Evropskou komisí a obhájit dopad na veřejné finance.</cite> Jde tedy o odsunutí slibovaného opatření.",
-        "en": "No, but…: The government promised to cap the retirement age at 65 years, but this change is absent from the first pension amendment the government supported. The government will first focus on pensions for demanding professions, then proceed to age cap. In June, PM Babiš stated that age adjustment will be introduced in a later amendment from 2028, with no effect in the current term. The government must also negotiate with the European Commission and justify fiscal impact. It is thus a postponement of the promised measure."
+        "cs": "Ne, ale…: <cite index=\"2-1,2-3\">Vláda byla jmenována 15. prosince 2025.</cite> V dostupných zdrojích k červenci 2026 nebyl publikován žádný návrh na zastropování věku na 65 let ani důchodové reformy směřující k tomuto cíli. Ačkoliv vláda slíbila tuto prioritu, chybí doložitelné legislativní kroky. Jedinou zmínkou je, že vláda v první důchodové novele tuto změnu neuvedla.",
+        "en": "No, but…: Government appointed 15 December 2025. In available sources through July 2026, no proposal on capping retirement age at 65 or pension reform toward this goal has been published. Although government promised this priority, legislative steps are lacking. The only mention is that the first pension amendment did not include this change."
       },
       "change": {
-        "cs": "První hodnocení – slibovaný strop věku je fakticky odsounut na dobu mimo mandát vlády; namísto splnění se řeší nejprve náročné profese a jednání s Bruselém.",
-        "en": "First assessment – the promised age cap is effectively postponed beyond the government's term; instead of fulfillment, the focus is on demanding professions and negotiations with Brussels."
+        "cs": "První hodnocení. Žádný doložitelný pokrok od jmenování vlády.",
+        "en": "First assessment. No documented progress since government's appointment."
       },
       "sources": [
         {
-          "url": "https://www.penize.cz/starobni-duchod/493132-prvni-zmeny-duchodu-podle-nove-vlady-jeden-z-hlavnich-slibu-chybi",
-          "title": "První změny důchodů podle nové vlády. Jeden z hlavních slibů chybí | Peníze.cz"
-        },
-        {
-          "url": "https://ceskeduchody.cz/zpravy/duchod-v-65-letech-uz-neni-jen-veci-vlady-do-hry-vstoupil-brusel",
-          "title": "Důchod v 65 letech už není jen věcí vlády. Do hry vstoupil Brusel a Babiš musí plán obhájit"
+          "url": "https://cs.wikipedia.org/wiki/T%C5%99et%C3%AD_vl%C3%A1da_Andreje_Babi%C5%A1e",
+          "title": "Třetí vláda Andreje Babiše – Wikipedie"
         }
       ],
       "previousStatus": "not_started",
-      "updatedAt": "2026-07-24T09:34:30.991Z"
+      "updatedAt": "2026-07-25T12:26:30.817Z"
     },
     "1.5": {
       "status": "in_progress",
       "comment": {
-        "cs": "Ano, ale…: <cite index=\"3-4\">Vláda ANO, SPD a Motoristů odmítla migrační pakt EU.</cite> <cite index=\"3-16\">V usnesení vláda uvedla, že souhlasí s odmítnutím migračních kvót a zavedením politiky nulové tolerance nelegální migrace.</cite> Avšak <cite index=\"3-14\">od ledna už začíná platit zpřísněná azylová a migrační pravidla z minulé vlády,</cite> takže praktické míry již běží bez dodatečného zákona. <cite index=\"6-1,6-2,6-3\">Opozice kritizuje, že Babiš nejprve sliboval zrušení, poté odmítnutí v usnesení a následně mluvil o odložení,</cite> což naznačuje nejasnou strategii.",
-        "en": "Yes, but…: The government of ANO, SPD, and Motoristé rejected the EU migration pact. In its resolution, the government stated it agrees with rejecting migration quotas and implementing zero-tolerance policy for illegal migration. However, tightened asylum and migration rules are already in effect from January, so practical measures are running without additional legislation. Opposition criticizes that Babiš first promised abolition, then rejection by resolution, and subsequently discussed postponement, suggesting unclear strategy."
+        "cs": "Ano, ale…: <cite index=\"11-3\">Vláda odmítla migrační pakt EU.</cite> Toto je formální legislativní postoj. Ne, ale…: Odmítnutí migračního paktu není totožné s nulovou tolerancí vůči nelegální migraci – balík pouze zpracovává EU regulace. <cite index=\"11-15,11-16\">Migrační pakt EU vstoupí v platnost 12. czerwca 2026; zpřísněná azylová pravidla začala platit od ledna.</cite> Vláda dosud neuvedla vlastní opatření na nelegální migraci mimo právní rámec EU. Jde spíše o politickou gesturu než o reálné opatření.",
+        "en": "Yes, but…: Government rejected EU migration pact. This is a formal legislative stance. No, but…: Rejecting migration pact is not equivalent to zero tolerance for illegal migration—the package merely transposes EU rules. Migration pact enters force 12 June 2026; stricter asylum rules began January. Government has not announced independent measures on illegal migration beyond EU legal framework. More a political gesture than real action."
       },
       "change": {
-        "cs": "Bez změny – odmítnutí paktu je oficiální pozice, praktické posílení kontroly však probíhá již pod starými pravidly; nebyla doložena nová migační legislativa.",
-        "en": "No change – rejection of the pact is official position, but practical strengthening of control is already underway under existing rules; no new migration legislation was documented."
+        "cs": "Bez změny. Odmítnutí migračního paktu formálně potvrzeno (16. 12. 2025); vlastní legislativní iniciativy na migraci nejsou doloženy.",
+        "en": "No change. Rejection of migration pact formally confirmed (16 Dec 2025); government's own migration legislation not documented."
       },
       "sources": [
         {
-          "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-odmitla-migracni-pakt-eu-i-novy-system-obchodovani-s-emisnimi-povolenkami--domacnostem-i-firmam-zlevni-elektrinu-224297/",
-          "title": "Vláda Andreje Babiše odmítla migrační pakt EU i nový systém obchodování s emisními povolenkami, domácnostem i firmám zlevní elektřinu | Vláda České republiky"
-        },
-        {
-          "url": "https://www.irozhlas.cz/zpravy-domov/starostove-tlaci-na-babise-ohledne-emisnich-povolenek-ets-2-nerudova-predstavila_2602091031_jgr",
-          "title": "Vyjmutí domácností i cenové stropy. Nerudová představila úpravy emisních povolenek ETS2"
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/babisova-vlada-ma-na-programu-prvni-radne-zasedani-368331",
+          "title": "▶ Vláda odmítla emisní povolenky ETS 2 i migrační pakt — ČT24 — Česká televize"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-07-24T09:34:30.991Z"
+      "updatedAt": "2026-07-25T12:26:30.817Z"
     },
     "3.1": {
       "status": "in_progress",
@@ -3172,5 +3168,5 @@
       "updatedAt": "2026-07-17T13:05:10.043Z"
     }
   },
-  "lastUpdated": "2026-07-24T09:34:51.008Z"
+  "lastUpdated": "2026-07-25T12:26:50.834Z"
 }
