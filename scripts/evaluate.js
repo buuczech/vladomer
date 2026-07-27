@@ -38,8 +38,9 @@ const VALID_IDS = new Set(CHAPTERS.flatMap((c) => c.groups.flatMap((g) => g.item
 // search physically can't return results outside this list. Official sources +
 // NFNŽ MediaRating categories A / A- / B+. Mirrored in the App.jsx methodology.
 const ALLOWED_DOMAINS = [
-  // Official / fact-checking
-  "vlada.gov.cz", "demagog.cz",
+  // Official (gov.cz covers all government subdomains — vlada, ministries,
+  // NSA, DIA, …) / fact-checking
+  "gov.cz", "demagog.cz",
   // NFNŽ MediaRating — A
   "aktualne.cz", "ceskenoviny.cz", "ct24.ceskatelevize.cz", "denik.cz",
   "denikalarm.cz", "denikn.cz", "denikreferendum.cz", "e15.cz", "echo24.cz",

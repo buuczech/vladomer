@@ -79,8 +79,8 @@ const METHOD = {
     {
       h: { cs: "Povolené zdroje", en: "Allowed sources" },
       p: {
-        cs: "Vyhledávání je technicky omezeno na uzavřený seznam zdrojů: oficiální stránky vlády (vlada.gov.cz), fact-checkingový Demagog.cz a zpravodajské weby hodnocené v ratingu NFNŽ MediaRating ve stupních A, A− a B+ (mj. ČTK/České noviny, ČT24, iROZHLAS, Deník N, Hospodářské noviny, Respekt, Seznam Zprávy, Aktuálně.cz, Novinky.cz). Weby, které technicky blokují přístup vyhledávání (např. iDNES.cz a Lidovky.cz), zahrnout nelze. Odkazy z jiných webů se v hodnocení nemohou objevit.",
-        en: "The search is technically restricted to a closed list of sources: the official government site (vlada.gov.cz), the fact-checking outlet Demagog.cz, and news sites rated A, A− or B+ in the NFNŽ MediaRating (incl. ČTK/České noviny, ČT24, iROZHLAS, Deník N, Hospodářské noviny, Respekt, Seznam Zprávy, Aktuálně.cz, Novinky.cz). Sites that technically block search access (e.g. iDNES.cz and Lidovky.cz) cannot be included. Links from other sites cannot appear in the ratings.",
+        cs: "Vyhledávání je technicky omezeno na uzavřený seznam zdrojů: oficiální weby státu (gov.cz — vláda, ministerstva a úřady), fact-checkingový Demagog.cz a zpravodajské weby hodnocené v ratingu NFNŽ MediaRating ve stupních A, A− a B+ (mj. ČTK/České noviny, ČT24, iROZHLAS, Deník N, Hospodářské noviny, Respekt, Seznam Zprávy, Aktuálně.cz, Novinky.cz). Weby, které technicky blokují přístup vyhledávání (např. iDNES.cz a Lidovky.cz), zahrnout nelze. Odkazy z jiných webů se v hodnocení nemohou objevit.",
+        en: "The search is technically restricted to a closed list of sources: official state websites (gov.cz — the government, ministries and agencies), the fact-checking outlet Demagog.cz, and news sites rated A, A− or B+ in the NFNŽ MediaRating (incl. ČTK/České noviny, ČT24, iROZHLAS, Deník N, Hospodářské noviny, Respekt, Seznam Zprávy, Aktuálně.cz, Novinky.cz). Sites that technically block search access (e.g. iDNES.cz and Lidovky.cz) cannot be included. Links from other sites cannot appear in the ratings.",
       },
     },
     {
