@@ -2,7 +2,6 @@
 > vladomer@1.0.0 evaluate
 > node scripts/evaluate.js
 
-Evaluating 1 Zásadní priority vlády…   retry — waiting 3s
-ok (0) — 0 search hits, 0 sources kept
+Evaluating 1 Zásadní priority vlády… ok (5) — 40 search hits, 13 sources kept
 
 Wrote 143 evaluations and 3 history snapshots

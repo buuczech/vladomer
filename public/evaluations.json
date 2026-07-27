@@ -3,72 +3,129 @@
     "1.1": {
       "status": "in_progress",
       "comment": {
-        "cs": "Ano, ale…: Vláda pokračuje v iniciativách proti ETS2 a podporuje snížení cen elektřiny, jak potvrzují poslední komunikace. Česko tlačí na změnu evropské energetiky. Ne, ale…: Konkrétní realizace a dopad opatření zůstávají mimo veřejná vyjádření; čekání na výsledky jednání s EU. Přípravy jsou v běhu, ale meritorní efekt pro domácnosti zatím není prokazatelně dosažen.",
-        "en": "Yes, but…: The government continues initiatives against ETS2 and supports electricity price reductions confirmed by recent communications. Czechia pushes for European energy policy change. However…: Specific implementation and impact of measures remain unclear; awaiting EU negotiations results. Preparations are underway, but tangible effects for households have not yet been demonstrated."
+        "cs": "Ano, ale…: Vláda formálně odmítla ETS2 (prosinec 2025) a iniciuje změny na EU úrovni; snížila elektrinu o 10 % převedením poplatku na POZE do státního rozpočtu (41,7 mld. Kč). Ne, ale…: ETS2 byl unijně odložen na 2028 (bez českého zasahu); vláda bojuje proti systému, nikoli pro levnější energii ze zdrojů. Skutečný dopad na ceny zůstává nejistý.",
+        "en": "Yes, but…: Government formally rejected ETS2 (December 2025) and initiates changes at EU level; reduced electricity by 10% by shifting renewable energy fees to state budget (41.7 billion CZK). However…: ETS2 was EU-deferred to 2028 (independent of Czech action); government fights the system, not pursuing cheaper energy from sources. Actual impact on prices remains uncertain."
       },
       "change": {
-        "cs": "Bez nových průlomových zpráv od posledního hodnocení – stav trvá, iniciativy pokračují na administrativní úrovni.",
-        "en": "No major breakthrough news since previous assessment—status continues, initiatives proceed at administrative level."
+        "cs": "Prohloubeno: formální odmítnutí ETS2, konkrétní opatření na snížení elektřiny zavedeno, aktivní diplomacie v EU.",
+        "en": "Deepened: formal ETS2 rejection, concrete electricity reduction measures implemented, active EU diplomacy."
       },
-      "sources": [],
+      "sources": [
+        {
+          "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-odmitla-migracni-pakt-eu-i-novy-system-obchodovani-s-emisnimi-povolenkami--domacnostem-i-firmam-zlevni-elektrinu-224297/",
+          "title": "Vláda Andreje Babiše odmítla migrační pakt EU i nový systém obchodování s emisními povolenkami, domácnostem i firmám zlevní elektřinu | Vláda České republiky"
+        },
+        {
+          "url": "https://www.ceskenoviny.cz/zpravy/uprava-povolenek-nezabrani-zdrazovani-energii-podle-vlady-jsou-zmeny-kosmeticke/2837140",
+          "title": "Úprava povolenek nezabrání zdražování energií, podle vlády jsou změny kosmetické | ČeskéNoviny.cz"
+        },
+        {
+          "url": "https://www.forum24.cz/babisuv-kabinet-po-pul-roce-ministri-popsali-dosavadni-plneni-programoveho-prohlaseni",
+          "title": "Babišův kabinet po půl roce. Ministři popsali dosa... | FORUM 24"
+        }
+      ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-07-27T10:04:39.269Z"
+      "updatedAt": "2026-07-27T15:20:39.231Z"
     },
     "1.2": {
       "status": "in_progress",
       "comment": {
-        "cs": "Ano, ale…: Rozšíření seznamu léků, které mohou předepisovat praktičtí lékaři od 1. 7. 2026 (1200 nových léků), je konkrétní a ověřený krok. Reforma zdravotnictví probíhá. Ne, ale…: Zkrácení čekacích dob vyžaduje dlouhodobou transformaci; opatření z posledních měsíců teprve začíná mít efekt. Bezplatnost zdravotnictví není formulována jednoznačně – sníženými poplatky či úhradou?",
-        "en": "Yes, but…: Expansion of medicines that general practitioners can prescribe from July 1, 2026 (1,200 new drugs) is a concrete and verified step. Healthcare reform is underway. However…: Reducing waiting times requires long-term transformation; recent measures are only beginning to show effect. Free healthcare is not clearly defined—through reduced fees or coverage?"
+        "cs": "Ano, ale…: Rozšíření seznamu léků (1200 nových od 1. 7. 2026), reorganizace pohotovostí na pojišťovny, plány reforem (eŽádanky, elektronizace), investice do nemocnic. Ne, ale…: Systém financován zvýšením plateb za státní pojištěnce (26 mld. Kč), nikoli reformami; deficit zdravotních pojišťoven 15 mld. Kč; čekací doby zůstávají problémem. Reformy jsou zatím na papíře.",
+        "en": "Yes, but…: Expanded drug list (1200 new as of 1 July 2026), emergency service reorganisation to insurers, reform plans (e-requests, digitalisation), hospital investments. However…: System funded by increased state insured payments (26 billion CZK), not reforms; health insurer deficit of 15 billion CZK; waiting times remain problematic. Reforms are still on paper."
       },
       "change": {
-        "cs": "Zdravotnický resortu pokračuje v implementaci; expanze předepisovacích práv je prokazatelně splněna. Čekací doby zřejmě klesají postupně.",
-        "en": "Health ministry continues implementation; expansion of prescribing rights is demonstrably fulfilled. Waiting times appear to be decreasing gradually."
+        "cs": "Zmírňeno: konkrétní kroky na dostupnost léků a reorganizaci služeb, ale rozpočtový dopad bez strukturálních změn.",
+        "en": "Weakened: concrete steps on drug availability and service reorganisation, but budget impact without structural changes."
       },
-      "sources": [],
+      "sources": [
+        {
+          "url": "https://vlada.gov.cz/cz/media-centrum/tiskove-konference/tiskova-konference-k-vyhodnoceni-plneni-programoveho-prohlaseni-vlady-za-prvni-pololeti-roku-2026--9--cervence-2026-227957/",
+          "title": "Tisková konference k vyhodnocení plnění Programového prohlášení vlády za první pololetí roku 2026, 9. července 2026 | Vláda České republiky"
+        },
+        {
+          "url": "https://www.reflex.cz/clanek/komentare/136411/nekonecny-pribeh-zdravotnictvi-v-cerne-dire-mizi-dalsi-miliardy-a-reformy-jsou-stale-v-nedohlednu.html",
+          "title": "Reflex.cz - Nekonečný příběh zdravotnictví: V černé díře mizí další miliardy a reformy jsou stále v nedohlednu"
+        },
+        {
+          "url": "https://cnn.iprima.cz/zmeny-ve-zdravotnictvi-roku-2026-prehledne-slibuji-lepsi-prevenci-i-dostupnost-onkologicke-pece-500818",
+          "title": "Změna ve zdravotnictví PŘEHLEDNĚ: Lepší prevence i dostupnost. Co přináší rok 2026? - CNN Prima NEWS"
+        }
+      ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-07-27T10:04:39.269Z"
+      "updatedAt": "2026-07-27T15:20:39.232Z"
     },
     "1.3": {
       "status": "in_progress",
       "comment": {
-        "cs": "Ano, ale…: Nový stavební zákon s centrální stavební správou a statusem hromadného bydlení za veřejný zájem je schválen a formálně zavedený. Legislativní rámec existuje. Ne, ale…: Dostupnost bydlení se nezmění okamžitě legislativou; efekt závisí na investicích do staveb, kterých je zatím málo. Ceny bytů a pronájmů prozatím trendově rostou.",
-        "en": "Yes, but…: New building law with central construction authority and mass housing status as public interest is approved and formally implemented. Legal framework exists. However…: Housing accessibility won't change immediately through legislation; effect depends on actual construction investments, which remain limited. Property prices and rents are still trending upward."
+        "cs": "Ano, ale…: Stavební zákon schválen (červenec 2026) se statusem hromadného bydlení za veřejný zájem; centrální stavební správa od 1. 1. 2027; zrychlení povolování bylo cílem. Ne, ale…: Opozice kritizuje jako prospěchový developerům; podpora dostupného bydlení snížena (75–85 % místo až 90 %); zákon preferuje velké projekty (>10 000 m²), nikoli běžné stavebníky či sociální bydlení.",
+        "en": "Yes, but…: Building law approved (July 2026) with mass housing status as public interest; central building authority from 1 Jan 2027; permit acceleration was the goal. However…: Opposition criticises as developer-friendly; affordable housing support reduced (75–85% vs. previously up to 90%); law favours large projects (>10,000 m²), not ordinary builders or social housing."
       },
       "change": {
-        "cs": "Legislativa přijata; nyní probíhá transformace stavebního trhu. Efekt na dostupnost bydlení se očekává střednědobě.",
-        "en": "Legislation adopted; transformation of construction market is underway. Impact on housing accessibility expected medium-term."
+        "cs": "Upřesněno: zákon schválen, ale bez záruk sociálního bydlení a s kritickou opozicí expertů na dostupnost.",
+        "en": "Clarified: law approved, but without social housing guarantees and with critical expert opposition on affordability."
       },
-      "sources": [],
+      "sources": [
+        {
+          "url": "https://www.irozhlas.cz/zpravy-domov/poslanci-schvalili-pres-kritiku-opozice-novelu-stavebniho-zakona-vzniknou_2607101532_kvr",
+          "title": "Poslanci schválili přes kritiku opozice novelu stavebního zákona. Vzniknou specializované úřady"
+        },
+        {
+          "url": "https://denikalarm.cz/2026/07/stavebni-zakon-udelal-z-investicnich-bytu-narodni-zajem/",
+          "title": "Stavební zákon udělal z investičních bytů národní zájem Deník Alarm"
+        },
+        {
+          "url": "https://www.ceskenoviny.cz/zpravy/podpora-na-vystavbu-najemniho-bydleni-se-snizi/2840372",
+          "title": "Podpora na výstavbu nájemního bydlení se sníží | ČeskéNoviny.cz"
+        }
+      ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-07-27T10:04:39.269Z"
+      "updatedAt": "2026-07-27T15:20:39.232Z"
     },
     "1.4": {
       "status": "not_started",
       "comment": {
-        "cs": "Ne, ale…: Od zřízení vlády v prosinci 2025 do července 2026 nebyl publikován žádný návrh na zastropování věku odchodu do důchodu na 65 let. Tento bod se v dostupných prohlášeních ministra práce nevyskytuje. Bez konkrétní legislativní iniciativy nelze stav označit za více než „nezahájeno\". Reforma penzí je dlouhodobá a vyžaduje politickou shodu.",
-        "en": "No progress…: Since government formation in December 2025 through July 2026, no draft proposal to cap retirement age at 65 years has been published. This point does not appear in available labor minister statements. Without concrete legislative initiative, status cannot be rated higher than \"not_started.\" Pension reform is long-term and requires political consensus."
+        "cs": "Ne, ale…: Programové prohlášení slibuje zastropování věku odchodu na 65 let. Od prosince 2025 do července 2026 nebyl publikován žádný legislativní návrh. Vláda v červnu 2026 uvedla, že se zmrazování věku přesouvá do další novely, již bez zařazení v legislativním výhledu. Bod zůstává neaktivní bez konkrétní časové vázanosti.",
+        "en": "However…: The programme statement promises capping retirement age at 65. From December 2025 to July 2026, no legislative proposal was published. In June 2026, government stated age cap postponed to next amendment, no longer listed in legislative outlook. Item remains inactive without concrete timeframe."
       },
       "change": {
-        "cs": "První hodnocení – žádný doložitelný krok k realizaci. Téma nebýlo dosud zařazeno do legislativní agendy.",
-        "en": "First assessment – no documented step towards implementation. Topic has not been included in legislative agenda."
+        "cs": "Žádná změna: stav zůstává nezahájený, navíc se trvale odkládá bez viditelného pokroku.",
+        "en": "No change: status remains not started, further continuously deferred without visible progress."
       },
-      "sources": [],
+      "sources": [
+        {
+          "url": "https://www.forum24.cz/babisuv-kabinet-po-pul-roce-ministri-popsali-dosavadni-plneni-programoveho-prohlaseni",
+          "title": "Babišův kabinet po půl roce. Ministři popsali dosa... | FORUM 24"
+        },
+        {
+          "url": "https://www.ceskenoviny.cz/zpravy/vlada-dnes-vyhodnoti-jak-se-ji-darilo-v-prvni-pulce-roku-plnit-program/2848888",
+          "title": "Vláda dnes vyhodnotí, jak se jí dařilo v první půlce roku plnit program | ČeskéNoviny.cz"
+        }
+      ],
       "previousStatus": "not_started",
-      "updatedAt": "2026-07-27T10:04:39.269Z"
+      "updatedAt": "2026-07-27T15:20:39.232Z"
     },
     "1.5": {
       "status": "in_progress",
       "comment": {
-        "cs": "Ano, ale…: Odmítnutí migračního paktu EU je formálně splněno a veřejně deklarováno. Vláda trvá na tvrdší politice vůči migraci. Ne, ale…: Odmítnutí paktu není nulovou tolerancí k migraci; jde o politický postoj. Skutečné počty nelegálních migrantů, jejich deportace a efektivní hraničního dozoru vyžadují operační důkazy, které jsou v průběhu (zesílená kontrola hranic). Nulová tolerance je slogan bez přesné metriky.",
-        "en": "Yes, but…: Rejection of EU migration pact is formally fulfilled and publicly declared. Government maintains hardline migration stance. However…: Pact rejection is not zero tolerance for migration; it's a political position. Actual numbers of illegal migrants, deportations, and effective border surveillance require operational evidence that is ongoing (enhanced border controls). Zero tolerance is a slogan without precise metrics."
+        "cs": "Ano, ale…: Vláda formálně odmítla migrační pakt EU (prosinec 2025), což odpovídá slovu. Ne, ale…: Odmítnutí paktu není nulová tolerance k migraci; zpřísněné azylové pravidla již platila od ledna 2026 (dědictví Fialovy vlády). Nulová tolerance zůstává prohlášením, bez doložitelného dopadu na skutečný počet migrantů či azylantů v zemi.",
+        "en": "Yes, but…: Government formally rejected EU migration pact (December 2025), honouring the pledge. However…: Pact rejection is not zero tolerance on migration; stricter asylum rules already effective from January 2026 (legacy of Fiala government). Zero tolerance remains a declaration without documented impact on actual migrant or asylum seeker numbers."
       },
       "change": {
-        "cs": "Postoj vůči migraci zůstává tvrdý; legislativní operacionalizace pokračuje. Bez metriky efektivnosti nelze odlišit rétoriku od výsledku.",
-        "en": "Stance on migration remains hardline; legislative operationalization continues. Without effectiveness metrics, rhetoric cannot be distinguished from results."
+        "cs": "Konsolidováno: formální odmítnutí paktu potvrzen, ale bez nových konkrétních opatření vůči migraci.",
+        "en": "Consolidated: formal pact rejection confirmed, but no new concrete migration measures."
       },
-      "sources": [],
+      "sources": [
+        {
+          "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-odmitla-migracni-pakt-eu-i-novy-system-obchodovani-s-emisnimi-povolenkami--domacnostem-i-firmam-zlevni-elektrinu-224297/",
+          "title": "Vláda Andreje Babiše odmítla migrační pakt EU i nový systém obchodování s emisními povolenkami, domácnostem i firmám zlevní elektřinu | Vláda České republiky"
+        },
+        {
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/babisova-vlada-ma-na-programu-prvni-radne-zasedani-368331",
+          "title": "Vláda odmítla emisní povolenky ETS 2 i migrační pakt - ČT24"
+        }
+      ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-07-27T10:04:39.269Z"
+      "updatedAt": "2026-07-27T15:20:39.232Z"
     },
     "3.1": {
       "status": "in_progress",
@@ -3104,5 +3161,5 @@
       "updatedAt": "2026-07-17T12:53:10.289Z"
     }
   },
-  "lastUpdated": "2026-07-27T15:17:07.188Z"
+  "lastUpdated": "2026-07-27T15:20:59.249Z"
 }
