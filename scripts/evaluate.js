@@ -52,38 +52,9 @@ const ALLOWED_DOMAINS = [
   "blesk.cz", "cnn.iprima.cz", "newstream.cz", "reflex.cz", "tn.nova.cz",
 ];
 
-// Structured-output schema: the API guarantees the response is valid JSON
-// matching this shape, so prose-around-JSON and escaping bugs can't happen.
-// Field guidance lives in the descriptions (the model reads them), which
-// keeps the prompt itself short.
-const OUTPUT_SCHEMA = {
-  type: "object",
-  properties: {
-    items: {
-      type: "array",
-      items: {
-        type: "object",
-        properties: {
-          id: { type: "string", description: "ID bodu, např. 2.4" },
-          status: { type: "string", enum: ["fulfilled", "in_progress", "not_started", "stalled"] },
-          comment_cs: { type: "string", description: "2–3 věty česky; vyvážené hodnocení ano-ale/ne-ale; částky v „Kč“ (EUR ponech v EUR)" },
-          comment_en: { type: "string", description: "English translation of comment_cs; amounts in \"CZK\" (keep EUR as EUR)" },
-          change_cs: { type: "string", description: "1 věta: co se změnilo oproti předchozímu hodnocení a v jakém kontextu; pokud předchozí hodnocení chybí, přesně „první hodnocení“" },
-          change_en: { type: "string", description: "English translation of change_cs; if no previous assessment, exactly \"first assessment\"" },
-          sources: {
-            type: "array",
-            items: { type: "string" },
-            description: "1–3 PŘESNÉ URL z výsledků vyhledávání, které hodnocení nejvíce podporují; pouze URL, která se skutečně objevila ve vyhledávání – NEVYMÝŠLET",
-          },
-        },
-        required: ["id", "status", "comment_cs", "comment_en", "change_cs", "change_en", "sources"],
-        additionalProperties: false,
-      },
-    },
-  },
-  required: ["items"],
-  additionalProperties: false,
-};
+// NOTE: structured outputs (output_config.format) were tried here and turned
+// out to suppress the web_search tool entirely (0 search hits), just like the
+// assistant prefill did earlier — JSON must stay prompt-enforced.
 
 if (!KEY) {
   console.error("Missing ANTHROPIC_API_KEY. Set it as an env var / repo secret.");
@@ -130,8 +101,13 @@ Stav urči konzervativně (bez důkazu = not_started): fulfilled = prokazatelně
 
 Měny: v českých textech piš „Kč", v anglických „CZK". Je-li částka ve zdroji důvěryhodně uvedena v eurech, ponech EUR v obou jazycích — nepřepočítávej.
 
+Do "sources" uveď 1–3 PŘESNÉ URL z výsledků vyhledávání, které hodnocení nejvíce podporují. Jen URL, která se ve vyhledávání skutečně objevila – NEVYMÝŠLEJ je.
+
 Body (vrať hodnocení pro každé ID):
-${lines}`;
+${lines}
+
+Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný úvodní text, žádné markdown bloky:
+[{"id":"...","status":"fulfilled|in_progress|not_started|stalled","comment_cs":"2–3 věty, vyvážené ano-ale/ne-ale","comment_en":"anglický překlad comment_cs","change_cs":"1 věta: co se změnilo; bez předchozího hodnocení přesně „první hodnocení“","change_en":"anglický překlad change_cs","sources":["https://..."]}]`;
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -141,9 +117,6 @@ ${lines}`;
       max_tokens: 6000,
       messages: [{ role: "user", content: prompt }], // no prefill — lets web_search run
       tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 4, allowed_domains: ALLOWED_DOMAINS }],
-      // Forces the response to be valid JSON matching OUTPUT_SCHEMA — replaces
-      // the old "respond ONLY with a JSON array" prompt instruction.
-      output_config: { format: { type: "json_schema", schema: OUTPUT_SCHEMA } },
     }),
   });
 
