@@ -2,6 +2,7 @@
 > vladomer@1.0.0 evaluate
 > node scripts/evaluate.js
 
-Evaluating 1 Zásadní priority vlády… failed: API 400: {"type":"error","error":{"type":"invalid_request_error","message":"The following domains are not accessible to our user agent: ['idnes.cz', 'lidovky.cz']. Read more: https://support.anthropic.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler"},"request_id":"req_011CdSms1TKkXRXWFRYQYMTX"}
+Evaluating 1 Zásadní priority vlády…   retry — waiting 3s
+ok (0) — 0 search hits, 0 sources kept
 
 Wrote 143 evaluations and 3 history snapshots
