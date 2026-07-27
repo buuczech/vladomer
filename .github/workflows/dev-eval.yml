@@ -29,12 +29,14 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           CHAPTER_LIMIT: "1"
-        run: npm run evaluate
+        # tee the log into the repo so failures are diagnosable without
+        # opening the (login-gated) Actions UI
+        run: npm run evaluate 2>&1 | tee eval-log.txt
 
       - name: Commit test evaluation
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/evaluations.json public/history.json
+          git add public/evaluations.json public/history.json eval-log.txt
           git commit -m "chore: dev test evaluation (chapter 1 only) $(date -u +%F)" || echo "no changes"
           git push || echo "nothing to push"
