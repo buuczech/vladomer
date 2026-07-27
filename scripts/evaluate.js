@@ -30,6 +30,39 @@ const MAX_SOURCES = 3;
 
 const STATUS_CS = { fulfilled: "splněno", in_progress: "probíhá", not_started: "nezahájeno", stalled: "uvázlo" };
 
+// Structured-output schema: the API guarantees the response is valid JSON
+// matching this shape, so prose-around-JSON and escaping bugs can't happen.
+// Field guidance lives in the descriptions (the model reads them), which
+// keeps the prompt itself short.
+const OUTPUT_SCHEMA = {
+  type: "object",
+  properties: {
+    items: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          id: { type: "string", description: "ID bodu, např. 2.4" },
+          status: { type: "string", enum: ["fulfilled", "in_progress", "not_started", "stalled"] },
+          comment_cs: { type: "string", description: "2–3 věty česky; vyvážené hodnocení ano-ale/ne-ale" },
+          comment_en: { type: "string", description: "English translation of comment_cs" },
+          change_cs: { type: "string", description: "1 věta: co se změnilo oproti předchozímu hodnocení a v jakém kontextu; pokud předchozí hodnocení chybí, přesně „první hodnocení“" },
+          change_en: { type: "string", description: "English translation of change_cs; if no previous assessment, exactly \"first assessment\"" },
+          sources: {
+            type: "array",
+            items: { type: "string" },
+            description: "1–3 PŘESNÉ URL z výsledků vyhledávání, které hodnocení nejvíce podporují; pouze URL, která se skutečně objevila ve vyhledávání – NEVYMÝŠLET",
+          },
+        },
+        required: ["id", "status", "comment_cs", "comment_en", "change_cs", "change_en", "sources"],
+        additionalProperties: false,
+      },
+    },
+  },
+  required: ["items"],
+  additionalProperties: false,
+};
+
 if (!KEY) {
   console.error("Missing ANTHROPIC_API_KEY. Set it as an env var / repo secret.");
   process.exit(1);
@@ -62,27 +95,19 @@ async function evaluateChapter(ch, prevEvals, snapshots) {
     })
     .join("\n");
 
-  const prompt = `Jsi nestranný, kritický analytik plnění vládního programu. NEJPRVE vyhledej aktuální zprávy (web search) a hodnoť jen na základě ověřitelných, aktuálních faktů. Vláda Andreje Babiše (ANO, SPD, Motoristé) nastoupila 15. 12. 2025.
+  const prompt = `Jsi nestranný, kritický analytik plnění programu vlády Andreje Babiše (ANO, SPD, Motoristé; ve funkci od 15. 12. 2025). NEJPRVE vyhledej aktuální zprávy (web search) a hodnoť výhradně podle ověřitelných, aktuálních faktů.
 
-Oblast: „${ch.title.cs}".
+Oblast: „${ch.title.cs}"
 
-U KAŽDÉHO bodu zvaž důkazy z VÍCE úhlů, ne jen jeden závěr:
-- „ano, ale…" — co svědčí pro splnění a jaké jsou výhrady (pouze ohlášeno vs. reálně zavedeno, jen částečně, jen formálně, bez dopadu).
-- „ne, ale…" — co svědčí proti splnění a jaké jsou náznaky pokroku či dílčích kroků.
-- Zohledni kritiku opozice i odborníků a rozdíl mezi sliby/návrhy a skutečným dopadem.
+U KAŽDÉHO bodu zvaž důkazy z více úhlů, ne jen jeden závěr:
+- „ano, ale…" — co svědčí pro splnění a s jakými výhradami (jen ohlášeno vs. reálně zavedeno, částečně, formálně, bez dopadu).
+- „ne, ale…" — co svědčí proti splnění a jaké jsou dílčí kroky či náznaky pokroku.
+- Zohledni kritiku opozice i odborníků; rozlišuj sliby/návrhy od skutečného dopadu.
 
-Na základě této vyvážené úvahy urči stav (konzervativně; bez důkazu = not_started):
-fulfilled = prokazatelně splněno; in_progress = aktivně se pracuje (návrh, projednávání); not_started = žádný doložitelný krok; stalled = uvázlo/opuštěno.
+Stav urči konzervativně (bez důkazu = not_started): fulfilled = prokazatelně splněno; in_progress = aktivně se pracuje (návrh, projednávání); not_started = žádný doložitelný krok; stalled = uvázlo/opuštěno.
 
-Je-li uveden předchozí stav, do pole "change" napiš, CO SE ZMĚNILO oproti minulému týdnu, a zasaď to do širšího vývoje. Pokud předchozí hodnocení chybí, do "change" napiš „první hodnocení".
-
-Do pole "sources" uveď 1–3 PŘESNÉ URL z výsledků vyhledávání, které tvé hodnocení nejvíce podporují. Používej jen URL, která se skutečně objevila ve vyhledávání – NEVYMÝŠLEJ je.
-
-Body:
-${lines}
-
-Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný úvodní text, žádné markdown bloky:
-[{"id":"...","status":"fulfilled|in_progress|not_started|stalled","comment_cs":"2–4 věty, vyvážené ano-ale/ne-ale","comment_en":"2–4 sentences","change_cs":"1–2 věty","change_en":"1–2 sentences","sources":["https://...","https://..."]}]`;
+Body (vrať hodnocení pro každé ID):
+${lines}`;
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -92,6 +117,9 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
       max_tokens: 6000,
       messages: [{ role: "user", content: prompt }], // no prefill — lets web_search run
       tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 4 }],
+      // Forces the response to be valid JSON matching OUTPUT_SCHEMA — replaces
+      // the old "respond ONLY with a JSON array" prompt instruction.
+      output_config: { format: { type: "json_schema", schema: OUTPUT_SCHEMA } },
     }),
   });
 
@@ -113,9 +141,18 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
 
   const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
   const clean = text.replace(/```json|```/g, "").trim();
-  const a = clean.indexOf("["), b = clean.lastIndexOf("]");
-  if (a === -1 || b === -1) throw new Error("no JSON array in response");
-  const parsed = JSON.parse(clean.slice(a, b + 1));
+  // With structured output the whole text is valid JSON ({items: [...]}).
+  // Bracket extraction stays as a fallback in case the response is somehow prose-wrapped.
+  let parsed;
+  try {
+    const root = JSON.parse(clean);
+    parsed = Array.isArray(root) ? root : root.items;
+  } catch {
+    const a = clean.indexOf("["), b = clean.lastIndexOf("]");
+    if (a === -1 || b === -1) throw new Error("no JSON array in response");
+    parsed = JSON.parse(clean.slice(a, b + 1));
+  }
+  if (!Array.isArray(parsed)) throw new Error("no JSON array in response");
 
   const out = {};
   let kept = 0;
