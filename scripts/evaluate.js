@@ -45,8 +45,9 @@ const ALLOWED_DOMAINS = [
   "denikalarm.cz", "denikn.cz", "denikreferendum.cz", "e15.cz", "echo24.cz",
   "euro.cz", "forum24.cz", "hn.cz", "irozhlas.cz", "refresher.cz",
   "respekt.cz", "seznamzpravy.cz", "voxpot.cz", "zivotvcesku.cz",
-  // NFNŽ MediaRating — A-
-  "hlidacipes.org", "idnes.cz", "lidovky.cz", "novinky.cz",
+  // NFNŽ MediaRating — A-  (idnes.cz and lidovky.cz omitted: they block
+  // Anthropic's crawler, and one inaccessible domain 400s the whole request)
+  "hlidacipes.org", "novinky.cz",
   // NFNŽ MediaRating — B+
   "blesk.cz", "cnn.iprima.cz", "newstream.cz", "reflex.cz", "tn.nova.cz",
 ];
