@@ -1,7 +1,9 @@
 name: Dev Evaluation Test
 
-# Cheap test run: evaluates only the first chapter (CHAPTER_LIMIT) so you can
-# verify prompt/script changes without spending tokens on all 18 chapters.
+# Cheap test run: evaluates only the first few chapters (CHAPTER_LIMIT) so you
+# can verify prompt/script changes without spending tokens on all 18 chapters.
+# Chapter 2 (Finance, 15 items) is the historically problematic one — keep the
+# limit at 2+ so it stays covered.
 # Deliberately has NO build/deploy-pages step — a run on this branch can
 # never publish to or overwrite the live production site.
 
@@ -25,10 +27,10 @@ jobs:
 
       - run: npm install
 
-      - name: Test evaluation (first chapter only)
+      - name: Test evaluation (first 5 chapters)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          CHAPTER_LIMIT: "1"
+          CHAPTER_LIMIT: "5"
         # tee the log into the repo so failures are diagnosable without
         # opening the (login-gated) Actions UI
         run: npm run evaluate 2>&1 | tee eval-log.txt
@@ -38,5 +40,5 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/evaluations.json public/history.json eval-log.txt
-          git commit -m "chore: dev test evaluation (chapter 1 only) $(date -u +%F)" || echo "no changes"
+          git commit -m "chore: dev test evaluation (first 5 chapters) $(date -u +%F)" || echo "no changes"
           git push || echo "nothing to push"
