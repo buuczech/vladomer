@@ -34,6 +34,23 @@ const STATUS_CS = { fulfilled: "splněno", in_progress: "probíhá", not_started
 // which the merge-based storage would otherwise carry forward forever.
 const VALID_IDS = new Set(CHAPTERS.flatMap((c) => c.groups.flatMap((g) => g.items.map((i) => i.id))));
 
+// Source whitelist, enforced at the API level via web_search allowed_domains —
+// search physically can't return results outside this list. Official sources +
+// NFNŽ MediaRating categories A / A- / B+. Mirrored in the App.jsx methodology.
+const ALLOWED_DOMAINS = [
+  // Official / fact-checking
+  "vlada.gov.cz", "demagog.cz",
+  // NFNŽ MediaRating — A
+  "aktualne.cz", "ceskenoviny.cz", "ct24.ceskatelevize.cz", "denik.cz",
+  "denikalarm.cz", "denikn.cz", "denikreferendum.cz", "e15.cz", "echo24.cz",
+  "euro.cz", "forum24.cz", "hn.cz", "irozhlas.cz", "refresher.cz",
+  "respekt.cz", "seznamzpravy.cz", "voxpot.cz", "zivotvcesku.cz",
+  // NFNŽ MediaRating — A-
+  "hlidacipes.org", "idnes.cz", "lidovky.cz", "novinky.cz",
+  // NFNŽ MediaRating — B+
+  "blesk.cz", "cnn.iprima.cz", "newstream.cz", "reflex.cz", "tn.nova.cz",
+];
+
 // Structured-output schema: the API guarantees the response is valid JSON
 // matching this shape, so prose-around-JSON and escaping bugs can't happen.
 // Field guidance lives in the descriptions (the model reads them), which
@@ -48,8 +65,8 @@ const OUTPUT_SCHEMA = {
         properties: {
           id: { type: "string", description: "ID bodu, např. 2.4" },
           status: { type: "string", enum: ["fulfilled", "in_progress", "not_started", "stalled"] },
-          comment_cs: { type: "string", description: "2–3 věty česky; vyvážené hodnocení ano-ale/ne-ale" },
-          comment_en: { type: "string", description: "English translation of comment_cs" },
+          comment_cs: { type: "string", description: "2–3 věty česky; vyvážené hodnocení ano-ale/ne-ale; částky v „Kč“ (EUR ponech v EUR)" },
+          comment_en: { type: "string", description: "English translation of comment_cs; amounts in \"CZK\" (keep EUR as EUR)" },
           change_cs: { type: "string", description: "1 věta: co se změnilo oproti předchozímu hodnocení a v jakém kontextu; pokud předchozí hodnocení chybí, přesně „první hodnocení“" },
           change_en: { type: "string", description: "English translation of change_cs; if no previous assessment, exactly \"first assessment\"" },
           sources: {
@@ -110,6 +127,8 @@ U KAŽDÉHO bodu zvaž důkazy z více úhlů, ne jen jeden závěr:
 
 Stav urči konzervativně (bez důkazu = not_started): fulfilled = prokazatelně splněno; in_progress = aktivně se pracuje (návrh, projednávání); not_started = žádný doložitelný krok; stalled = uvázlo/opuštěno.
 
+Měny: v českých textech piš „Kč", v anglických „CZK". Je-li částka ve zdroji důvěryhodně uvedena v eurech, ponech EUR v obou jazycích — nepřepočítávej.
+
 Body (vrať hodnocení pro každé ID):
 ${lines}`;
 
@@ -120,7 +139,7 @@ ${lines}`;
       model: MODEL,
       max_tokens: 6000,
       messages: [{ role: "user", content: prompt }], // no prefill — lets web_search run
-      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 4 }],
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 4, allowed_domains: ALLOWED_DOMAINS }],
       // Forces the response to be valid JSON matching OUTPUT_SCHEMA — replaces
       // the old "respond ONLY with a JSON array" prompt instruction.
       output_config: { format: { type: "json_schema", schema: OUTPUT_SCHEMA } },

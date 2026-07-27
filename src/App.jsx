@@ -77,6 +77,13 @@ const METHOD = {
       },
     },
     {
+      h: { cs: "Povolené zdroje", en: "Allowed sources" },
+      p: {
+        cs: "Vyhledávání je technicky omezeno na uzavřený seznam zdrojů: oficiální stránky vlády (vlada.gov.cz), fact-checkingový Demagog.cz a zpravodajské weby hodnocené v ratingu NFNŽ MediaRating ve stupních A, A− a B+ (mj. ČTK/České noviny, ČT24, iROZHLAS, Deník N, Hospodářské noviny, Respekt, Seznam Zprávy, Aktuálně.cz, iDNES.cz, Novinky.cz). Odkazy z jiných webů se v hodnocení nemohou objevit.",
+        en: "The search is technically restricted to a closed list of sources: the official government site (vlada.gov.cz), the fact-checking outlet Demagog.cz, and news sites rated A, A− or B+ in the NFNŽ MediaRating (incl. ČTK/České noviny, ČT24, iROZHLAS, Deník N, Hospodářské noviny, Respekt, Seznam Zprávy, Aktuálně.cz, iDNES.cz, Novinky.cz). Links from other sites cannot appear in the ratings.",
+      },
+    },
+    {
       h: { cs: "Stavy a výpočet plnění", en: "Statuses & how the percentage works" },
       list: {
         cs: [
