@@ -30,6 +30,10 @@ const MAX_SOURCES = 3;
 
 const STATUS_CS = { fulfilled: "splněno", in_progress: "probíhá", not_started: "nezahájeno", stalled: "uvázlo" };
 
+// All real item IDs — guards against the model inventing an ID (e.g. "11.11"),
+// which the merge-based storage would otherwise carry forward forever.
+const VALID_IDS = new Set(CHAPTERS.flatMap((c) => c.groups.flatMap((g) => g.items.map((i) => i.id))));
+
 // Structured-output schema: the API guarantees the response is valid JSON
 // matching this shape, so prose-around-JSON and escaping bugs can't happen.
 // Field guidance lives in the descriptions (the model reads them), which
@@ -157,7 +161,7 @@ ${lines}`;
   const out = {};
   let kept = 0;
   for (const r of parsed) {
-    if (!r || !r.id) continue;
+    if (!r || !r.id || !VALID_IDS.has(r.id)) continue;
     const sources = [];
     if (Array.isArray(r.sources)) {
       const seen = new Set();
@@ -184,9 +188,10 @@ async function callWithBackoff(ch, prevEvals, snapshots, tries = 5) {
   for (let i = 0; i < tries; i++) {
     try { return await evaluateChapter(ch, prevEvals, snapshots); }
     catch (e) {
-      const retryable = /API 429/.test(e.message) || /JSON/.test(e.message);
+      // 429 = rate limit, 5xx/529 = server-side (overloaded) — both worth waiting out
+      const retryable = /API (429|5\d\d)/.test(e.message) || /JSON/.test(e.message);
       if (!retryable || i === tries - 1) throw e;
-      const wait = /API 429/.test(e.message) ? 30000 * (i + 1) : 3000;
+      const wait = /API (429|5\d\d)/.test(e.message) ? 30000 * (i + 1) : 3000;
       console.log(`  retry — waiting ${wait / 1000}s`);
       await new Promise((r) => setTimeout(r, wait));
     }
@@ -197,7 +202,9 @@ async function main() {
   const prevEvals = readJSON(OUT_EVAL, { evals: {} }).evals || {};
   const snapshots = readJSON(OUT_HIST, { snapshots: [] }).snapshots || [];
 
-  const newEvals = { ...prevEvals };
+  // Carry forward only real items — drops any stray invented IDs already in the file
+  const newEvals = {};
+  for (const id in prevEvals) if (VALID_IDS.has(id)) newEvals[id] = prevEvals[id];
   for (const ch of CHAPTERS.slice(0, CHAPTER_LIMIT)) {
     try {
       process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}… `);
