@@ -2,6 +2,12 @@
 > vladomer@1.0.0 evaluate
 > node scripts/evaluate.js
 
-Evaluating 1 Zásadní priority vlády… ok (5) — 40 search hits, 13 sources kept
+Evaluating 1 Zásadní priority vlády…   retry — waiting 3s
+ok (5) — 38 search hits, 14 sources kept
+Evaluating 2 Finance a hospodaření státu… ok (15) — 40 search hits, 15 sources kept
+Evaluating 3 Vnitřní bezpečnost a veřejná správa…   retry — waiting 3s
+ok (8) — 39 search hits, 12 sources kept
+Evaluating 4 Obrana a Armáda ČR… ok (7) — 37 search hits, 13 sources kept
+Evaluating 5 Zahraniční politika… ok (6) — 40 search hits, 13 sources kept
 
 Wrote 143 evaluations and 3 history snapshots
