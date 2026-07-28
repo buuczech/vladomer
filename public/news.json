@@ -1,41 +1,41 @@
 {
-  "generatedAt": "2026-07-28T08:48:32.973Z",
+  "generatedAt": "2026-07-28T09:29:27.146Z",
   "items": [
     {
       "title": {
-        "cs": "Vláda drasticky omezila plochy pro zrychlenou výstavbu větrníků",
-        "en": "Government significantly reduced areas for accelerated wind turbine construction"
+        "cs": "Vláda zmenšila akcelerační zóny pro větrníky na 11 procent původní plochy",
+        "en": "Government reduces wind farm acceleration zones to 11 percent of original area"
       },
       "summary": {
-        "cs": "Kabinet snížil rozsah akceleračních zón z 2685 na 297 kilometrů čtverečních, aby se vyhnul miliardovým sankcím EU.",
-        "en": "Cabinet reduced acceleration zones from 2685 to 297 square kilometers to avoid EU sanctions worth billions."
+        "cs": "Vláda schválila zmrazení rozsahu akceleračních zón pro větrné elektrárny z 2685 km² na pouhých 297 km², což může vést k porušení závazků vůči EU.",
+        "en": "The government approved reducing wind farm acceleration zones from 2,685 km² to just 297 km², risking breach of EU commitments."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/vlada-zmensila-plochu-pro-akceleracni-zony-na-vystavbu-vetrniku/2855508",
+      "url": "https://www.irozhlas.cz/zpravy-domov/vlada-omezila-akceleracni-zony-minimalisticka-varianta-je-zmensuje-na-11-procent_2607271533_kvr",
       "date": "2026-07-27"
     },
     {
       "title": {
-        "cs": "Ministryně Mrázová dostala pokutu za porušení zákona o střetu zájmů",
-        "en": "Minister Mrázová fined for conflict of interest law violation"
+        "cs": "Spor mezi Hradem a vládou o summit NATO dosáhl nové eskalace",
+        "en": "Conflict between President and government over NATO summit reached new escalation"
       },
       "summary": {
-        "cs": "Mostecký magistrát udělil Mrázové pokutu za neuvedení půjčky od rodiny v majetkovém přiznání.",
-        "en": "Most magistrate issued fine to Mrázová for failing to disclose family loan in asset declaration."
+        "cs": "Ústavní soud nařídil vládě zařadit prezidenta do delegace summitu NATO v Ankaře, ale premiér Babiš zůstává vedoucím české delegace.",
+        "en": "Constitutional Court ordered the government to include the president in the NATO summit delegation, but PM Babiš remains the Czech delegation's leader."
       },
-      "url": "https://www.irozhlas.cz/zpravy-domov/uvedla-nepravdive-udaje-ministryne-mrazova-zaplati-pokutu-za-poruseni-zakona-o_2607251050_kma",
-      "date": "2026-07-25"
+      "url": "https://m.echo24.cz/a/HS8nd/prezident-premier-ustavni-spor-krize-ustavni-soud-petr-pavel-andrej-babis-vlada-hrad-samal-ankara-predbezne-opatreni",
+      "date": "2026-07-21"
     },
     {
       "title": {
-        "cs": "Filip Turek slíbil, že nebude vykonávat funkci vládního zmocněnce",
-        "en": "Filip Turek promised not to perform role of government plenipotentiary"
+        "cs": "Ministerstvo životního prostředí zrušuje sekci ochrany klimatu a propouští experty",
+        "en": "Environment ministry eliminates climate protection section and dismisses experts"
       },
       "summary": {
-        "cs": "Poslanec Motoristů oznámil, že do rozhodnutí policie nebude vykonávat funkci zmocněnce pro klimatickou politiku.",
-        "en": "The Motoristé MP announced he will not perform his role as climate policy plenipotentiary pending police investigation."
+        "cs": "Na ministerstvu životního prostředí dochází k reorganizaci, která vedla k rezignaci desítek odborníků na klimatickou politiku.",
+        "en": "Environment ministry restructuring led to resignation of dozens of climate policy experts."
       },
-      "url": "https://denikn.cz/minuta/2137376/",
-      "date": "2026-07-25"
+      "url": "https://denikn.cz/minuta/tema/1335/pruzkum-verejneho-mineni",
+      "date": "2026-07-23"
     }
   ]
 }
