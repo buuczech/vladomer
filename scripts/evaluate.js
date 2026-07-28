@@ -16,7 +16,12 @@
  * dev branch's workflow to test cheaply without spending on all 18).
  */
 import { writeFileSync, readFileSync } from "node:fs";
-import { CHAPTERS } from "../src/data.js";
+import { CHAPTERS, DATES } from "../src/data.js";
+
+// Nothing this cabinet did can predate its own appointment. The first full run
+// on the strict scale credited it with laws published in August 2025 — i.e.
+// the previous government's work — so the cut-off is enforced in code.
+const TERM_START = new Date(DATES.tookOffice).getTime();
 
 const CHAPTER_LIMIT = process.env.CHAPTER_LIMIT ? Number(process.env.CHAPTER_LIMIT) : CHAPTERS.length;
 
@@ -131,7 +136,9 @@ U KAŽDÉHO bodu zvaž důkazy z více úhlů, ne jen jeden závěr:
 
 Stav urči konzervativně a striktně. Bez doložitelného důkazu = not_started.
 
-- fulfilled — POUZE pokud norma prošla CELÝM legislativním procesem (Sněmovna, Senát, podpis prezidenta) a byla vyhlášena ve Sbírce zákonů, nebo u nelegislativního závazku je opatření prokazatelně zavedené a účinné. Do pole "evidence" MUSÍŠ uvést konkrétní doklad (např. „zákon č. 123/2026 Sb., vyhlášen 4. 3. 2026" nebo „účinné od 1. 1. 2026, potvrzeno MF"). Bez tohoto dokladu stav fulfilled NEPOUŽÍVEJ.
+- fulfilled — POUZE pokud norma prošla CELÝM legislativním procesem (Sněmovna, Senát, podpis prezidenta) a byla vyhlášena ve Sbírce zákonů, nebo u nelegislativního závazku je opatření prokazatelně zavedené a účinné. Do pole "evidence" MUSÍŠ uvést konkrétní doklad (např. „zákon č. 123/2026 Sb., vyhlášen 4. 3. 2026") a do "evidence_date" datum toho kroku ve tvaru YYYY-MM-DD. Bez obojího stav fulfilled NEPOUŽÍVEJ.
+
+KRITICKÉ: Tato vláda nastoupila 15. 12. 2025. Zásluhu jí lze přiznat POUZE za kroky učiněné od tohoto data. Zákon vyhlášený dříve (např. v roce 2024 nebo v průběhu roku 2025 před prosincem) je dílem PŘEDCHOZÍ vlády – i když tématicky odpovídá slibu, NENÍ to splnění závazku této vlády. V takovém případě zvol stav podle toho, co udělala TATO vláda.
 - partial — závazek naplněn jen zčásti: norma prošla v osekané podobě, pokrývá jen část slibu, byla přijata s výrazným zpožděním nebo v pozměněné parametrizaci.
 - in_progress — běží reálný legislativní proces: vláda schválila návrh, je v Poslanecké sněmovně či Senátu, ale proces není dokončen.
 - declared — vláda se pouze vyjádřila, přijala usnesení, deklarovala postoj či ustavila pracovní skupinu, ale nezahájila legislativní ani exekutivní krok. Samotné prohlášení ministra sem patří.
@@ -148,7 +155,7 @@ Body (vrať hodnocení pro každé ID):
 ${lines}
 
 Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný úvodní text, žádné markdown bloky:
-[{"id":"...","status":"fulfilled|partial|in_progress|declared|not_started|broken","evidence":"u fulfilled povinný konkrétní doklad (Sbírka zákonů/účinnost), jinak prázdné","unverifiable":false,"comment_cs":"2–3 věty, vyvážené ano-ale/ne-ale","comment_en":"anglický překlad comment_cs","change_cs":"1 věta: co se změnilo; bez předchozího hodnocení přesně „první hodnocení“","change_en":"anglický překlad change_cs","sources":["https://..."]}]`;
+[{"id":"...","status":"fulfilled|partial|in_progress|declared|not_started|broken","evidence":"u fulfilled povinný konkrétní doklad (Sbírka zákonů/účinnost), jinak prázdné","evidence_date":"YYYY-MM-DD u fulfilled, jinak prázdné","unverifiable":false,"comment_cs":"2–3 věty, vyvážené ano-ale/ne-ale","comment_en":"anglický překlad comment_cs","change_cs":"1 věta: co se změnilo; bez předchozího hodnocení přesně „první hodnocení“","change_en":"anglický překlad change_cs","sources":["https://..."]}]`;
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -193,7 +200,8 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
   if (!Array.isArray(parsed)) throw new Error("no JSON array in response");
 
   const out = {};
-  let kept = 0, demoted = 0;
+  let kept = 0;
+  const demoted = { "no-evidence": 0, "no-date": 0, "predates-term": 0 };
   for (const r of parsed) {
     if (!r || !r.id || !VALID_IDS.has(r.id)) continue;
     const sources = [];
@@ -213,18 +221,23 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
        completion is not. */
     let status = VALID.has(r.status) ? r.status : "not_started";
     const evidence = typeof r.evidence === "string" ? r.evidence.trim() : "";
-    let downgraded = false;
-    if (status === "fulfilled" && evidence.length < EVIDENCE_MIN) {
-      status = "partial";
-      downgraded = true;
-      demoted++;
+    const evDate = /^\d{4}-\d{2}-\d{2}$/.test(r.evidence_date || "") ? r.evidence_date : "";
+    let downgradeReason = null;
+    if (status === "fulfilled") {
+      if (evidence.length < EVIDENCE_MIN) downgradeReason = "no-evidence";
+      else if (!evDate) downgradeReason = "no-date";
+      // Credit for work finished before this cabinet took office belongs to
+      // the previous one, however well the topic matches the promise.
+      else if (Date.parse(evDate) < TERM_START) downgradeReason = "predates-term";
     }
+    if (downgradeReason) { status = "partial"; demoted[downgradeReason]++; }
 
     out[r.id] = {
       status,
       evidence,
+      evidenceDate: evDate || undefined,
       unverifiable: r.unverifiable === true,
-      evidenceMissing: downgraded || undefined,
+      evidenceMissing: downgradeReason || undefined,
       comment: { cs: r.comment_cs || "", en: r.comment_en || "" },
       change: { cs: r.change_cs || "", en: r.change_en || "" },
       sources,
@@ -337,8 +350,9 @@ async function main() {
       process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}… `);
       const r = await withBackoff(() => evaluateChapter(ch, prevEvals, snapshots));
       Object.assign(newEvals, r.evals);
+      const dm = Object.entries(r.demoted).filter(([, v]) => v > 0).map(([k, v]) => `${v} ${k}`).join(", ");
       console.log(`ok (${Object.keys(r.evals).length}) — ${r.searchCount} search hits, ${r.kept} sources kept`
-        + (r.demoted ? `, ${r.demoted} unevidenced "fulfilled" downgraded` : ""));
+        + (dm ? `, downgraded: ${dm}` : ""));
     } catch (e) {
       console.log(`failed: ${e.message}`);
     }
@@ -372,6 +386,7 @@ async function main() {
       date: today,
       status: e.status,
       evidence: e.evidence || "",
+      evidence_date: e.evidenceDate || "",
       unverifiable: e.unverifiable === true,
       comment_cs: e.comment?.cs || "",
       comment_en: e.comment?.en || "",
