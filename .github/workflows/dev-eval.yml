@@ -4,11 +4,18 @@ name: Dev Evaluation Test
 # can verify prompt/script changes without spending tokens on all 18 chapters.
 # Chapter 2 (Finance, 15 items) is the historically problematic one — keep the
 # limit at 2+ so it stays covered.
+# For a full 18-chapter run: include [full] in the commit message, or trigger
+# the workflow manually with chapter_limit=18. A full run takes ~30-45 min.
 # Deliberately has NO build/deploy-pages step — a run on this branch can
 # never publish to or overwrite the live production site.
 
 on:
   workflow_dispatch:
+    inputs:
+      chapter_limit:
+        description: "How many chapters to evaluate (18 = full dataset)"
+        required: false
+        default: "5"
   push:
     branches: [dev]
 
@@ -27,10 +34,12 @@ jobs:
 
       - run: npm install
 
-      - name: Test evaluation (first 5 chapters)
+      - name: Test evaluation
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          CHAPTER_LIMIT: "5"
+          # Pushes stay cheap (5 chapters). Put [full] in the commit message —
+          # or use the manual dispatch input — to evaluate all 18.
+          CHAPTER_LIMIT: ${{ github.event.inputs.chapter_limit || (contains(github.event.head_commit.message, '[full]') && '18') || '5' }}
         # tee the log into the repo so failures are diagnosable without
         # opening the (login-gated) Actions UI
         run: npm run evaluate 2>&1 | tee eval-log.txt
@@ -39,6 +48,6 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add public/evaluations.json public/history.json eval-log.txt
-          git commit -m "chore: dev test evaluation (first 5 chapters) $(date -u +%F)" || echo "no changes"
+          git add public/evaluations.json public/history.json public/news.json public/audit.json eval-log.txt
+          git commit -m "chore: dev test evaluation $(date -u +%F)" || echo "no changes"
           git push || echo "nothing to push"

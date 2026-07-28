@@ -24,6 +24,10 @@ const KEY = process.env.ANTHROPIC_API_KEY;
 const MODEL = process.env.EVAL_MODEL || "claude-haiku-4-5-20251001";
 const OUT_EVAL = new URL("../public/evaluations.json", import.meta.url);
 const OUT_HIST = new URL("../public/history.json", import.meta.url);
+const OUT_NEWS = new URL("../public/news.json", import.meta.url);
+// Append-only audit trail: one record per item per run, so any past rating
+// stays inspectable (item id + date + status + the text that justified it).
+const OUT_AUDIT = new URL("../public/audit.json", import.meta.url);
 const VALID = new Set(["fulfilled", "in_progress", "not_started", "stalled"]);
 const HISTORY_WEEKS = 52;
 const MAX_SOURCES = 3;
@@ -67,6 +71,7 @@ function readJSON(url, fallback) {
 }
 function truncate(s, n) { s = s || ""; return s.length > n ? s.slice(0, n) + "…" : s; }
 function normUrl(u) { return (u || "").trim().replace(/\/+$/, "").toLowerCase(); }
+function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, "").replace(/^m\./, ""); } catch { return u; } }
 
 function historyFor(id, snapshots) {
   return snapshots
@@ -178,6 +183,66 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
   return { evals: out, searchCount, kept };
 }
 
+/* Headline news for the past week. Source diversity is enforced in code (one
+   item per domain) rather than trusted to the prompt, and every URL must have
+   come back from the real search — same validation as the ratings. */
+async function fetchHeadlines() {
+  const prompt = `Vyhledej nejdůležitější zprávy z české domácí politiky za posledních 7 dní.
+
+Vyber 5 zpráv s největším významem pro vládní agendu (legislativa, rozhodnutí vlády, personální změny, klíčové politické spory). Každou zprávu vezmi z JINÉHO zpravodajského webu — nikdy dvě zprávy ze stejné domény.
+
+Používej jen URL, která se skutečně objevila ve výsledcích vyhledávání – NEVYMÝŠLEJ je. Nadpis napiš vlastními slovy (nekopíruj titulek).
+
+Odpověz POUZE platným JSON polem, začni [ a skonči ]. Žádný úvodní text, žádné markdown bloky:
+[{"title_cs":"krátký nadpis","title_en":"short headline in English","summary_cs":"1 věta o čem to je","summary_en":"1 sentence in English","url":"https://...","date":"YYYY-MM-DD"}]`;
+
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
+    body: JSON.stringify({
+      model: MODEL,
+      max_tokens: 3000,
+      messages: [{ role: "user", content: prompt }],
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5, allowed_domains: ALLOWED_DOMAINS }],
+    }),
+  });
+  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
+  const data = await res.json();
+
+  const realMap = {};
+  for (const b of data.content || []) {
+    if (b.type === "web_search_tool_result" && Array.isArray(b.content)) {
+      for (const r of b.content) {
+        if (r && r.type === "web_search_result" && r.url) realMap[normUrl(r.url)] = r.url;
+      }
+    }
+  }
+  const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
+  const clean = text.replace(/```json|```/g, "").trim();
+  const a = clean.indexOf("["), b = clean.lastIndexOf("]");
+  if (a === -1 || b === -1) throw new Error("no JSON array in response");
+  const parsed = JSON.parse(clean.slice(a, b + 1));
+
+  const items = [];
+  const seenHosts = new Set();
+  for (const r of parsed) {
+    if (!r || !r.url || !r.title_cs) continue;
+    const realUrl = realMap[normUrl(r.url)];
+    if (!realUrl) continue; // invented link — drop
+    const host = hostOf(realUrl);
+    if (seenHosts.has(host)) continue; // enforce one item per outlet
+    seenHosts.add(host);
+    items.push({
+      title: { cs: r.title_cs, en: r.title_en || r.title_cs },
+      summary: { cs: r.summary_cs || "", en: r.summary_en || r.summary_cs || "" },
+      url: realUrl,
+      date: /^\d{4}-\d{2}-\d{2}$/.test(r.date || "") ? r.date : null,
+    });
+    if (items.length >= 5) break;
+  }
+  return { items, searchCount: Object.keys(realMap).length };
+}
+
 async function callWithBackoff(ch, prevEvals, snapshots, tries = 5) {
   for (let i = 0; i < tries; i++) {
     try { return await evaluateChapter(ch, prevEvals, snapshots); }
@@ -222,7 +287,47 @@ async function main() {
   const capped = kept.slice(-HISTORY_WEEKS);
   writeFileSync(OUT_HIST, JSON.stringify({ snapshots: capped }, null, 2));
 
-  console.log(`\nWrote ${Object.keys(newEvals).length} evaluations and ${capped.length} history snapshots`);
+  /* Audit trail — full record of every rating this run produced. Append-only
+     and never rewritten, so a published rating can always be traced back to
+     the date, status and reasoning it was based on. Only items actually
+     re-evaluated this run are recorded (carried-forward values already have
+     their own earlier entry). */
+  const audit = readJSON(OUT_AUDIT, { entries: [] });
+  const entries = (audit.entries || []).filter((e) => e.date !== today);
+  let recorded = 0;
+  for (const id in newEvals) {
+    const e = newEvals[id];
+    if (!e.updatedAt || e.updatedAt.slice(0, 10) !== today) continue; // not touched this run
+    entries.push({
+      id,
+      date: today,
+      status: e.status,
+      comment_cs: e.comment?.cs || "",
+      comment_en: e.comment?.en || "",
+      change_cs: e.change?.cs || "",
+      sources: (e.sources || []).map((s) => s.url),
+      model: MODEL,
+    });
+    recorded++;
+  }
+  entries.sort((a, b) => (a.date === b.date ? a.id.localeCompare(b.id, "cs", { numeric: true }) : a.date < b.date ? -1 : 1));
+  writeFileSync(OUT_AUDIT, JSON.stringify({ entries }, null, 2));
+
+  console.log(`\nWrote ${Object.keys(newEvals).length} evaluations, ${capped.length} history snapshots, ${recorded} audit records`);
+
+  // Headline news last — a failure here must not lose the evaluation results.
+  try {
+    process.stdout.write("Fetching headlines… ");
+    const n = await fetchHeadlines();
+    if (n.items.length > 0) {
+      writeFileSync(OUT_NEWS, JSON.stringify({ generatedAt: now, items: n.items }, null, 2));
+      console.log(`ok (${n.items.length} from ${n.items.length} outlets) — ${n.searchCount} search hits`);
+    } else {
+      console.log("no usable items — keeping previous news.json");
+    }
+  } catch (e) {
+    console.log(`failed: ${e.message} — keeping previous news.json`);
+  }
 }
 
 main();

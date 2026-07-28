@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { DATES, CHAPTERS, ALL_ITEMS, TOTAL_ITEMS } from "./data.js";
+import {
+  GOVERNMENTS, CURRENT_GOV, CURRENT_EXTERNAL_Q1,
+  QUARTER_COUNT, quarterOf, quarterShort, quarterLabel,
+} from "./governments.js";
 
 /* =========================================================================
    VLÁDOMĚR — production build.
@@ -42,6 +46,12 @@ const T = {
     cs: "Hodnocení generuje AI, je orientační a neoficiální. Může obsahovat chyby.",
     en: "Ratings are AI-generated, indicative and unofficial. They may contain errors.",
   },
+  newsTitle: { cs: "Hlavní zprávy týdne", en: "This week's headlines" },
+  chartsTitle: { cs: "Grafy", en: "Charts" },
+  chartAxisY: { cs: "Splněno (% bodů)", en: "Fulfilled (% of items)" },
+  chartAxisX: { cs: "Kvartál volebního období", en: "Quarter of term" },
+  chartCompare: { cs: "Srovnání s předchozími vládami", en: "Compare with previous cabinets" },
+  chartNoData: { cs: "Zatím není dost týdenních snímků pro křivku. Graf se doplňuje každý pátek.", en: "Not enough weekly snapshots for a curve yet. The chart fills in every Friday." },
 };
 
 const STATUS = {
@@ -114,6 +124,13 @@ const METHOD = {
       },
     },
     {
+      h: { cs: "Auditní záznam", en: "Audit trail" },
+      p: {
+        cs: "Každé jednotlivé hodnocení se trvale ukládá do veřejného auditního souboru: číslo bodu, datum, stav k tomu datu, celý text hodnocení, použité zdroje a model, který ho vytvořil. Záznamy se nikdy nepřepisují, takže lze dohledat i hodnocení, které se později změnilo. Soubor je ke stažení jako audit.json v datech webu.",
+        en: "Every individual rating is permanently recorded in a public audit file: item number, date, the status as of that date, the full rating text, the sources used, and the model that produced it. Records are never rewritten, so a rating that later changed can still be traced. The file is downloadable as audit.json in the site's data.",
+      },
+    },
+    {
       h: { cs: "Omezení a vyloučení odpovědnosti", en: "Limitations & disclaimer" },
       p: {
         cs: "Hodnocení je orientační a generované umělou inteligencí – může obsahovat chyby, zastaralé informace nebo nesprávné posouzení, zejména u sporných témat. Neslouží jako oficiální, právní ani úplný zdroj. Informace si prosím ověřujte v primárních zdrojích. Stav i komentáře se při každém týdenním běhu přepisují.",
@@ -122,6 +139,19 @@ const METHOD = {
     },
   ],
 };
+
+/* Per-environment menu visibility. Set in the branch's committed .env file —
+   dev has everything on, main only what's ready to ship. Flags must be written
+   out statically: Vite substitutes import.meta.env.VITE_* at build time, so a
+   computed key like import.meta.env[`VITE_MENU_${k}`] would silently be undefined.
+   Default is OFF, so a missing .env hides unfinished pages rather than leaking them. */
+const MENU_FLAGS = {
+  about: import.meta.env.VITE_MENU_ABOUT === "true",
+  charts: import.meta.env.VITE_MENU_CHARTS === "true",
+  support: import.meta.env.VITE_MENU_SUPPORT === "true",
+  ideas: import.meta.env.VITE_MENU_IDEAS === "true",
+};
+const MENU_ORDER = ["about", "charts", "support", "ideas"];
 
 // Hamburger-menu pages. Support links are null until a payment channel is
 // set up — the page then shows a "coming soon" note instead of dead buttons.
@@ -188,6 +218,10 @@ const PAGES = {
         },
       },
     ],
+  },
+  charts: {
+    title: { cs: "Grafy", en: "Charts" },
+    chart: true, // rendered by ChartsPage instead of plain sections
   },
   ideas: {
     title: { cs: "Návrhy na zlepšení", en: "Suggest improvements" },
@@ -351,6 +385,32 @@ const CSS = `
 .vm-modal-body ul{margin:6px 0 0;padding-left:18px}
 .vm-modal-body li{font-size:13.2px;line-height:1.55;margin:3px 0}
 .vm-disc{font-size:11.5px;color:var(--muted);margin-top:6px}
+.vm-modal.wide{max-width:860px}
+.vm-chart{width:100%;height:auto;display:block;margin:4px 0 2px;overflow:visible}
+.vm-chart-tick{font-size:10px;fill:var(--muted);font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.vm-chart-axis{font-size:10.5px;fill:var(--muted);font-weight:600}
+.vm-chart-legend{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}
+.vm-legend-item{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--surface-2);border-radius:999px;padding:5px 11px 5px 8px;font-size:12px;cursor:pointer;opacity:.55}
+.vm-legend-item.on{opacity:1;border-color:var(--muted)}
+.vm-legend-item input{margin:0;accent-color:var(--accent);width:13px;height:13px}
+.vm-legend-item .sw{width:9px;height:9px;border-radius:50%;flex:none}
+.vm-legend-item .nm{font-weight:640}
+.vm-legend-item .pd{color:var(--muted);font-size:11px}
+.vm-table-wrap{overflow-x:auto;margin-top:4px}
+.vm-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:440px}
+.vm-table th{text-align:left;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:7px 10px 7px 0;border-bottom:1px solid var(--border);white-space:nowrap}
+.vm-table td{padding:8px 10px 8px 0;border-bottom:1px solid var(--border)}
+.vm-table td .sw{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+.vm-news{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);margin-top:12px;overflow:hidden}
+.vm-news-body{border-top:1px solid var(--border)}
+.vm-news-item{padding:11px 16px;border-top:1px solid var(--border);display:flex;gap:11px;align-items:flex-start}
+.vm-news-item:first-child{border-top:0}
+.vm-news-num{font-size:11px;font-weight:740;color:var(--muted);flex:none;width:14px;text-align:center;margin-top:2px}
+.vm-news-main{flex:1;min-width:0}
+.vm-news-main a{font-size:13.4px;font-weight:640;color:var(--text);text-decoration:none;line-height:1.4}
+.vm-news-main a:hover{color:var(--accent);text-decoration:underline}
+.vm-news-sum{font-size:12.2px;color:var(--muted);margin-top:4px;line-height:1.45}
+.vm-news-host{font-size:10.5px;color:var(--accent);margin-top:4px;font-weight:620}
 @media (max-width:680px){
   .vm-cards{grid-template-columns:1fr;gap:10px}.vm-big{font-size:34px}.vm-brand p{display:none}
   .vm-ch-title{font-size:14px}.vm-mini{display:none}
@@ -421,7 +481,190 @@ function MethodologyModal({ lang, onClose }) {
   );
 }
 
-function PageModal({ pageKey, lang, onClose }) {
+/* ── Charts ────────────────────────────────────────────────────────────────
+   Line chart comparing cumulative "fulfilled %" per quarter of the term.
+   The current cabinet's curve is derived live from weekly snapshots using the
+   STRICT metric (fulfilled / all items) so it is directly comparable with the
+   external series — see src/governments.js for the full reasoning.          */
+const CHART_METHOD = {
+  cs: "Křivky předchozích vlád pocházejí z externí analýzy postavené na auditech Demagog.cz a datech gov.cz. Ty počítají pouze plně splněné sliby. Aby bylo srovnání korektní, používá graf i pro současnou vládu stejně definovanou metriku „splněno / všechny body“ – ne vážené plnění (kde „probíhá“ má poloviční kredit) uváděné na hlavní stránce. Rozdíl je podstatný: vážené plnění je v úvodu období několikanásobně vyšší. I tak srovnávejte s rezervou: vzorky se liší velikostí (156 / 50 / 50 slibů oproti našim 143 bodům), hodnocení předchozích vlád dělali lidští fact-checkeři retrospektivně, naše vzniká průběžně jazykovým modelem.",
+  en: "The previous cabinets' curves come from an external analysis based on Demagog.cz promise audits and gov.cz records. Those count only fully-kept promises. To keep the comparison honest, the chart applies the same definition to the current cabinet — \"fulfilled / all items\" — rather than the weighted score shown on the main page (where \"in progress\" earns half credit). The difference matters: the weighted score runs several times higher early in a term. Even so, compare with care: sample sizes differ (156 / 50 / 50 promises vs. our 143 items), the previous cabinets were assessed retrospectively by human fact-checkers, ours is measured live by a language model.",
+};
+
+function strictPctFromStatuses(statuses) {
+  const ids = Object.keys(statuses || {});
+  if (ids.length === 0) return null;
+  let done = 0;
+  for (const id of ids) if (statuses[id] === "fulfilled") done++;
+  return (done / ids.length) * 100;
+}
+
+/** Live quarterly series for the current cabinet, from weekly snapshots.
+ *  Latest snapshot within each quarter wins. */
+function currentSeries(snapshots, evals, termStartMs) {
+  const out = new Array(QUARTER_COUNT).fill(null);
+  const byQ = {};
+  for (const s of snapshots || []) {
+    if (!s.date || !s.statuses) continue;
+    const q = quarterOf(new Date(s.date).getTime(), termStartMs);
+    if (q === null || q >= QUARTER_COUNT) continue;
+    const pct = strictPctFromStatuses(s.statuses);
+    if (pct === null) continue;
+    if (!byQ[q] || s.date > byQ[q].date) byQ[q] = { date: s.date, pct };
+  }
+  for (const q in byQ) out[q] = byQ[q].pct;
+  // Always include the live "now" value so the curve reaches the present.
+  const nowQ = quarterOf(Date.now(), termStartMs);
+  if (nowQ !== null && nowQ < QUARTER_COUNT) {
+    const live = strictPctFromStatuses(
+      Object.fromEntries(Object.entries(evals || {}).map(([k, v]) => [k, v.status])));
+    if (live !== null) out[nowQ] = live;
+  }
+  return out;
+}
+
+function LineChart({ series, lang, width = 720, height = 360 }) {
+  const padL = 46, padR = 14, padT = 14, padB = 46;
+  const plotW = width - padL - padR, plotH = height - padT - padB;
+  const yMax = 55;
+  const x = (i) => padL + (i / (QUARTER_COUNT - 1)) * plotW;
+  const y = (v) => padT + plotH - (v / yMax) * plotH;
+
+  // Split each series into contiguous segments so null gaps break the line.
+  const segmentsOf = (vals) => {
+    const segs = []; let cur = [];
+    vals.forEach((v, i) => {
+      if (v === null || v === undefined) { if (cur.length) segs.push(cur); cur = []; }
+      else cur.push([i, v]);
+    });
+    if (cur.length) segs.push(cur);
+    return segs;
+  };
+
+  return (
+    <svg viewBox={`0 0 ${width} ${height}`} className="vm-chart" role="img"
+      aria-label={T.chartsTitle[lang]}>
+      {/* y grid + labels */}
+      {[0, 10, 20, 30, 40, 50].map((v) => (
+        <g key={v}>
+          <line x1={padL} y1={y(v)} x2={width - padR} y2={y(v)}
+            stroke="var(--border)" strokeWidth="1" />
+          <text x={padL - 8} y={y(v) + 4} textAnchor="end" className="vm-chart-tick">{v}%</text>
+        </g>
+      ))}
+      {/* x labels — every other quarter to avoid crowding */}
+      {Array.from({ length: QUARTER_COUNT }, (_, i) => i).filter((i) => i % 2 === 0).map((i) => (
+        <text key={i} x={x(i)} y={height - padB + 18} textAnchor="middle" className="vm-chart-tick">
+          {quarterShort(i)}
+        </text>
+      ))}
+      <text x={padL + plotW / 2} y={height - 6} textAnchor="middle" className="vm-chart-axis">
+        {T.chartAxisX[lang]}
+      </text>
+      {/* year separators */}
+      {[4, 8, 12].map((i) => (
+        <line key={i} x1={x(i - 0.5)} y1={padT} x2={x(i - 0.5)} y2={padT + plotH}
+          stroke="var(--border)" strokeWidth="1" strokeDasharray="3 3" />
+      ))}
+      {series.map((s) => (
+        <g key={s.id}>
+          {segmentsOf(s.values).map((seg, si) => (
+            <polyline key={si} fill="none" stroke={s.color}
+              strokeWidth={s.current ? 3 : 2}
+              strokeLinecap="round" strokeLinejoin="round"
+              points={seg.map(([i, v]) => `${x(i)},${y(v)}`).join(" ")} />
+          ))}
+          {s.values.map((v, i) => v === null || v === undefined ? null : (
+            <circle key={i} cx={x(i)} cy={y(v)} r={s.current ? 4 : 3} fill={s.color}
+              stroke="var(--surface)" strokeWidth="1.5">
+              <title>{`${s.label} · ${quarterLabel(i, lang)} · ${v.toFixed(1)} %`}</title>
+            </circle>
+          ))}
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function ChartsPage({ lang, evals, snapshots }) {
+  const [on, setOn] = useState({
+    babis3: true, fiala: true, babis2: true, sobotka: true, babis1: false,
+  });
+  const termStart = new Date(DATES.tookOffice).getTime();
+  const live = useMemo(() => currentSeries(snapshots, evals, termStart), [snapshots, evals, termStart]);
+  const liveCount = live.filter((v) => v !== null).length;
+
+  const series = [
+    ...GOVERNMENTS.filter((g) => on[g.id]).map((g) => ({
+      id: g.id, color: g.color, values: g.series, label: g.name[lang], current: false,
+    })),
+    ...(on.babis3 ? [{
+      id: "babis3", color: CURRENT_GOV.color, values: live,
+      label: CURRENT_GOV.name[lang], current: true,
+    }] : []),
+  ];
+  const all = [...GOVERNMENTS, { ...CURRENT_GOV, promises: TOTAL_ITEMS, final: null }];
+
+  return (
+    <>
+      <h3>{lang === "cs" ? "Plnění programu v čase" : "Delivery over time"}</h3>
+      <p style={{ marginBottom: 10 }}>
+        {lang === "cs"
+          ? "Kumulativní podíl plně splněných bodů podle kvartálu volebního období. Silnější zelená křivka je současná vláda z živého hodnocení."
+          : "Cumulative share of fully-fulfilled items by quarter of the term. The thicker green curve is the current cabinet, from live ratings."}
+      </p>
+      <LineChart series={series} lang={lang} />
+      <div className="vm-chart-legend">
+        {all.map((g) => (
+          <label key={g.id} className={`vm-legend-item ${on[g.id] ? "on" : ""}`}>
+            <input type="checkbox" checked={!!on[g.id]}
+              onChange={() => setOn((o) => ({ ...o, [g.id]: !o[g.id] }))} />
+            <span className="sw" style={{ background: g.color }} />
+            <span className="nm">{g.name[lang]}</span>
+            <span className="pd">{g.period}</span>
+          </label>
+        ))}
+      </div>
+      {liveCount < 2 && <p className="vm-disc" style={{ marginTop: 10 }}>{T.chartNoData[lang]}</p>}
+
+      <h3>{lang === "cs" ? "Konečná bilance ukončených vlád" : "Final tally of completed cabinets"}</h3>
+      <div className="vm-table-wrap">
+        <table className="vm-table">
+          <thead>
+            <tr>
+              <th>{lang === "cs" ? "Vláda" : "Cabinet"}</th>
+              <th>{lang === "cs" ? "Slibů" : "Promises"}</th>
+              <th>{lang === "cs" ? "Splněno" : "Fulfilled"}</th>
+              <th>{lang === "cs" ? "Částečně" : "Partial"}</th>
+              <th>{lang === "cs" ? "Nesplněno" : "Broken"}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {GOVERNMENTS.filter((g) => g.final).map((g) => (
+              <tr key={g.id}>
+                <td><span className="sw" style={{ background: g.color }} /> {g.name[lang]}</td>
+                <td className="vm-mono">{g.promises}</td>
+                <td className="vm-mono" style={{ color: "var(--ok)" }}>{g.final.fulfilled} %</td>
+                <td className="vm-mono" style={{ color: "var(--prog)" }}>{g.final.partial} %</td>
+                <td className="vm-mono" style={{ color: "var(--bad)" }}>{g.final.broken} %</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h3>{lang === "cs" ? "Jak je graf srovnatelný" : "How the comparison works"}</h3>
+      <p>{CHART_METHOD[lang]}</p>
+      <p className="vm-disc" style={{ marginTop: 8 }}>
+        {lang === "cs"
+          ? `Pro pořádek: tatáž externí analýza uvádí pro současnou vládu v Q1/2026 hodnotu ${CURRENT_EXTERNAL_Q1} %. Do grafu ji nemícháme — naše křivka vzniká vlastním měřením.`
+          : `For the record: the same external analysis puts the current cabinet at ${CURRENT_EXTERNAL_Q1}% in Q1/2026. We don't mix it into the chart — our curve comes from our own measurement.`}
+      </p>
+    </>
+  );
+}
+
+function PageModal({ pageKey, lang, evals, snapshots, onClose }) {
   useEffect(() => {
     const onKey = (e) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", onKey);
@@ -430,13 +673,14 @@ function PageModal({ pageKey, lang, onClose }) {
   const page = PAGES[pageKey];
   return (
     <div className="vm-backdrop" onClick={onClose} role="dialog" aria-modal="true">
-      <div className="vm-modal" onClick={(e) => e.stopPropagation()}>
+      <div className={`vm-modal ${page.chart ? "wide" : ""}`} onClick={(e) => e.stopPropagation()}>
         <div className="vm-modal-head">
           <h2>{page.title[lang]}</h2>
           <button className="vm-icon" onClick={onClose} aria-label={T.close[lang]}>✕</button>
         </div>
         <div className="vm-modal-body">
-          {page.sections.map((s, i) => (
+          {page.chart && <ChartsPage lang={lang} evals={evals} snapshots={snapshots} />}
+          {(page.sections || []).map((s, i) => (
             <div key={i}>
               <h3>{s.h[lang]}</h3>
               {s.list && <ul>{s.list[lang].map((li, j) => <li key={j}>{li}</li>)}</ul>}
@@ -484,6 +728,8 @@ export default function App() {
       ? window.matchMedia("(prefers-color-scheme: dark)").matches : false);
   const [evals, setEvals] = useState({});
   const [snapshots, setSnapshots] = useState([]);
+  const [news, setNews] = useState([]);
+  const [newsOpen, setNewsOpen] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [loading, setLoading] = useState(true);
   const [openCh, setOpenCh] = useState({ "1": true });
@@ -503,12 +749,14 @@ export default function App() {
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
-      const [er, hr] = await Promise.all([
+      const [er, hr, nr] = await Promise.all([
         fetch(`${import.meta.env.BASE_URL}evaluations.json?t=${Date.now()}`),
         fetch(`${import.meta.env.BASE_URL}history.json?t=${Date.now()}`),
+        fetch(`${import.meta.env.BASE_URL}news.json?t=${Date.now()}`).catch(() => null),
       ]);
       if (er.ok) { const j = await er.json(); setEvals(j.evals || {}); setLastUpdated(j.lastUpdated || null); }
       if (hr.ok) { const h = await hr.json(); setSnapshots(h.snapshots || []); }
+      if (nr && nr.ok) { const n = await nr.json(); setNews(n.items || []); }
     } catch (e) { /* keep empty state */ }
     setLoading(false);
   }, []);
@@ -582,12 +830,13 @@ export default function App() {
           </div>
           <button className="vm-icon" onClick={() => setDark((d) => !d)} aria-label="theme">{dark ? "☀" : "☾"}</button>
           <div className="vm-menu-wrap">
-            <button className="vm-icon" onClick={() => setMenuOpen((o) => !o)} aria-label="menu" aria-expanded={menuOpen}>☰</button>
+            <button className="vm-icon" onClick={() => setMenuOpen((o) => !o)} aria-label="menu" aria-expanded={menuOpen}
+              hidden={MENU_ORDER.every((k) => !MENU_FLAGS[k])}>☰</button>
             {menuOpen && (
               <>
                 <div className="vm-menu-overlay" onClick={() => setMenuOpen(false)} />
                 <div className="vm-menu" role="menu">
-                  {["about", "support", "ideas"].map((k) => (
+                  {MENU_ORDER.filter((k) => MENU_FLAGS[k]).map((k) => (
                     <button key={k} role="menuitem" onClick={() => { setPage(k); setMenuOpen(false); }}>
                       {PAGES[k].title[lang]}
                     </button>
@@ -641,6 +890,36 @@ export default function App() {
             <span>{t("scope")}: <b>{CHAPTERS.length}</b> · {TOTAL_ITEMS} {t("items")}</span>
           </div>
         </div>
+
+        {news.length > 0 && (
+          <div className="vm-news">
+            <div className="vm-changes-head" onClick={() => setNewsOpen((o) => !o)}>
+              <span className="ttl">{t("newsTitle")}</span>
+              <span className="cnt">{news.length}</span>
+              <svg className={`vm-caret ${newsOpen ? "open" : ""}`} width="14" height="14" viewBox="0 0 14 14">
+                <path d="M5 3l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="2" />
+              </svg>
+            </div>
+            {newsOpen && (
+              <div className="vm-news-body">
+                {news.map((n, i) => (
+                  <div className="vm-news-item" key={i}>
+                    <span className="vm-news-num vm-mono">{i + 1}</span>
+                    <div className="vm-news-main">
+                      <a href={n.url} target="_blank" rel="noopener noreferrer">{n.title[lang] || n.title.cs}</a>
+                      {(n.summary?.[lang] || n.summary?.cs) && (
+                        <div className="vm-news-sum">{n.summary[lang] || n.summary.cs}</div>
+                      )}
+                      <div className="vm-news-host">
+                        {hostOf(n.url)}{n.date ? ` · ${fmtDate(n.date, lang)}` : ""}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {changes.length > 0 && (
           <div className="vm-changes">
@@ -807,7 +1086,7 @@ export default function App() {
       </div>
 
       {showMethod && <MethodologyModal lang={lang} onClose={() => setShowMethod(false)} />}
-      {page && <PageModal pageKey={page} lang={lang} onClose={() => setPage(null)} />}
+      {page && <PageModal pageKey={page} lang={lang} evals={evals} snapshots={snapshots} onClose={() => setPage(null)} />}
     </div>
   );
 }

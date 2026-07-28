@@ -2,5 +2,7 @@ node_modules
 dist
 .DS_Store
 *.local
-.env
 .claude
+# NOTE: .env IS committed — it holds per-branch feature flags (VITE_MENU_*),
+# never secrets. API keys live in GitHub Actions secrets. Local-only overrides
+# belong in .env.local, which *.local above already ignores.
