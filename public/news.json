@@ -1,0 +1,41 @@
+{
+  "generatedAt": "2026-07-28T08:30:43.550Z",
+  "items": [
+    {
+      "title": {
+        "cs": "Prezident Pavel vetoval novelu rozpočtových pravidel",
+        "en": "President Pavel vetoed budget rules amendment"
+      },
+      "summary": {
+        "cs": "Prezident Pavel uplatnil své první veto za vlády Babiše na novelu rozpočtových pravidel, kterou vláda chce přehlasovat.",
+        "en": "President Pavel exercised his first veto under Babiš government, targeting budget rules amendment that coalition plans to override."
+      },
+      "url": "https://www.ceskenoviny.cz/zpravy/prezident-pavel-vetoval-spornou-novelu-rozpoctovych-zakonu/2853858",
+      "date": "2026-07-22"
+    },
+    {
+      "title": {
+        "cs": "Vláda oslabila pravidla o střetu zájmů pro Agrofert",
+        "en": "Government weakened conflict of interest rules for Agrofert"
+      },
+      "summary": {
+        "cs": "Vládní poslanci navrli novelu zákona o střetu zájmů, která by zmírnila zákaz dotací pro firmy vlastněné členy vlády.",
+        "en": "Government MPs proposed amendment to conflict of interest law that would ease restrictions on subsidies for companies owned by cabinet members."
+      },
+      "url": "https://www.irozhlas.cz/zpravy-domov/stret-zajmu-andrej-babise-agrofert-novela-zakona-o-stretu-zajmu-rusi-plosny_2606091504_tec",
+      "date": "2026-06-09"
+    },
+    {
+      "title": {
+        "cs": "Vláda schválila rozsáhlou revizi krizové a obranné legislativy",
+        "en": "Government approved major review of crisis and defense legislation"
+      },
+      "summary": {
+        "cs": "Kabinet schválil záměr přepracovat jedenáct zákonů upravujících obranu státu a krizové řízení.",
+        "en": "Cabinet approved plan to overhaul eleven laws regulating state defense and crisis management."
+      },
+      "url": "https://m.echo24.cz/a/HBETF/vlada-krizova-legislativa-valka-blackout-povoden-armada-hasici-opatreni-pripravenost-kabinet-domaci",
+      "date": "2026-07-09"
+    }
+  ]
+}
