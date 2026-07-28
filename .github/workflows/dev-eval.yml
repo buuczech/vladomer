@@ -24,6 +24,10 @@ permissions:
 
 jobs:
   eval-test:
+    # This file also exists on main (it arrives with every merge). The guard
+    # makes sure a manual dispatch there can never overwrite production data
+    # with a partial 5-chapter run.
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

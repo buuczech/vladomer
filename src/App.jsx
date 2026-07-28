@@ -179,6 +179,8 @@ const SUPPORT_LINKS = {
   githubSponsors: null, // e.g. "https://github.com/sponsors/buuczech"
 };
 const GITHUB_ISSUES_URL = "https://github.com/buuczech/vladomer/issues/new";
+// Form route for people without a GitHub account — most visitors won't have one.
+const SUGGESTION_FORM_URL = "https://forms.gle/G3nQ8hDWfViWJxrn8";
 
 const PAGES = {
   about: {
@@ -255,8 +257,8 @@ const PAGES = {
       {
         h: { cs: "Kde podnět podat", en: "Where to submit" },
         p: {
-          cs: "Podněty sbíráme na GitHubu projektu — založení podnětu vyžaduje bezplatný účet a vše zůstává veřejně dohledatelné, včetně toho, jak jsme podnět vyřešili.",
-          en: "Suggestions are collected on the project's GitHub — filing one requires a free account, and everything stays publicly trackable, including how each suggestion was resolved.",
+          cs: "Nejjednodušší je formulář — nevyžaduje žádný účet a zabere minutu. Máte-li účet na GitHubu, můžete podnět založit rovnou tam: zůstane veřejně dohledatelný včetně toho, jak jsme ho vyřešili.",
+          en: "The form is the easiest route — no account needed and it takes a minute. If you have a GitHub account you can file the suggestion there instead: it stays publicly trackable, including how it was resolved.",
         },
       },
     ],
@@ -403,6 +405,8 @@ const CSS = `
 .vm-menu-overlay{position:fixed;inset:0;z-index:55}
 .vm-btn{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:680;cursor:pointer;text-decoration:none}
 .vm-btn:hover{filter:brightness(1.08)}
+.vm-btn-ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.vm-btn-ghost:hover{background:var(--surface-2);filter:none}
 .vm-empty{padding:30px;text-align:center;color:var(--muted);font-size:13px}
 .vm-backdrop{position:fixed;inset:0;background:rgba(8,10,14,.55);display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;z-index:50;overflow-y:auto}
 .vm-modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,.35);max-width:680px;width:100%;margin:auto}
@@ -758,9 +762,12 @@ function PageModal({ pageKey, lang, evals, snapshots, onClose }) {
             </p>
           )}
           {pageKey === "ideas" && (
-            <p style={{ marginTop: 16 }}>
-              <a className="vm-btn" href={GITHUB_ISSUES_URL} target="_blank" rel="noopener noreferrer">
-                {lang === "cs" ? "Podat návrh na GitHubu" : "Open a suggestion on GitHub"} ↗
+            <p style={{ marginTop: 16, display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <a className="vm-btn" href={SUGGESTION_FORM_URL} target="_blank" rel="noopener noreferrer">
+                {lang === "cs" ? "Vyplnit formulář" : "Fill in the form"} ↗
+              </a>
+              <a className="vm-btn vm-btn-ghost" href={GITHUB_ISSUES_URL} target="_blank" rel="noopener noreferrer">
+                {lang === "cs" ? "Podat na GitHubu" : "File on GitHub"} ↗
               </a>
             </p>
           )}
