@@ -1,41 +1,17 @@
 {
-  "generatedAt": "2026-07-28T10:17:29.966Z",
+  "generatedAt": "2026-07-28T10:31:05.961Z",
   "items": [
     {
       "title": {
-        "cs": "Prezident Pavel vetoval uvolnění pravidel rozpočtové odpovědnosti",
-        "en": "President Pavel vetoes relaxation of fiscal responsibility rules"
+        "cs": "Prezident Pavel vetoval novelu o rozpočtových pravidlech",
+        "en": "President Pavel vetoed budget rules amendment"
       },
       "summary": {
-        "cs": "Prezident vetoval novelu umožňující vládě překročit schválené výdaje státního rozpočtu až o deset procent v případě zhoršení bezpečnostní situace.",
-        "en": "President vetoes amendment allowing government to exceed approved budget spending by up to 10% if security situation worsens."
+        "cs": "Prezident Pavel vetoval spornou novelu upravující veřejné rozpočty s tím, že ohrožuje stabilitu financí a umožňuje neúměrné zadlužování.",
+        "en": "President Pavel vetoed contentious budget law amendment, citing risks to financial stability and allowing excessive government debt."
       },
-      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/prezident-vetoval-uvolneni-pravidel-rozpoctove-odpovednosti-375837",
-      "date": "2026-07-23"
-    },
-    {
-      "title": {
-        "cs": "Nové změny jednaciho řádu vlády omezují transparentnost",
-        "en": "New government rules changes limit transparency"
-      },
-      "summary": {
-        "cs": "Vláda si chce změnit jednací řád týkající se utajování informací na 30 let a umožnění výjimek z připomínkového řízení.",
-        "en": "Government changes internal rules to extend secrecy of information to 30 years and allow exemptions from review procedures."
-      },
-      "url": "https://m.echo24.cz/a/HqPTj/stupen-nebezpeci-riziko-ohrozeni-varovani-vystraha-bis-vnitro-metnar-babis-migrace-rusko-sabotaz-terorismus-lgbt-pochod-berlin-utok-prague-pride",
-      "date": "2026-07-24"
-    },
-    {
-      "title": {
-        "cs": "Macinka potvrdil personální rošádu na vysokých diplomatických postech",
-        "en": "Macinka confirms reshuffle of top diplomatic posts"
-      },
-      "summary": {
-        "cs": "Ministr zahraničí potvrdil, že nový velvyslanec v USA bude Jakub Kulhánek a na pozici v OSN nastoupí Hynek Kmoníček.",
-        "en": "Foreign minister confirms Jakub Kulhánek as new US ambassador and Hynek Kmoníček assuming UN position."
-      },
-      "url": "https://www.ceskenoviny.cz/zpravy/macinka-potvrdil-ze-na-posty-nastoupi-velvyslanci-v-usa-italii-pri-osn-a-oecd/2854041",
-      "date": "2026-07-23"
+      "url": "https://www.ceskenoviny.cz/zpravy/prezident-pavel-vetoval-spornou-novelu-rozpoctovych-zakonu/2853858",
+      "date": "2026-07-22"
     }
   ]
 }
