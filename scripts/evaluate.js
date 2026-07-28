@@ -202,7 +202,7 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
 async function fetchHeadlines() {
   const prompt = `Vyhledej nejdůležitější zprávy z české domácí politiky za posledních 7 dní. Hledej opakovaně a napříč různými zpravodajskými weby.
 
-Vyber 8 konkrétních zpravodajských článků s největším významem pro vládní agendu (legislativa, rozhodnutí vlády, personální změny, klíčové politické spory). Požadavky:
+Vyber 6 konkrétních zpravodajských článků s největším významem pro vládní agendu (legislativa, rozhodnutí vlády, personální změny, klíčové politické spory). Požadavky:
 - Odkazuj na KONKRÉTNÍ článek o konkrétní události, nikdy na rozcestník, rubriku ani titulní stranu.
 - Každý článek z JINÉHO webu — nikdy dva články ze stejné domény.
 - Řaď od nejdůležitější zprávy.
@@ -217,7 +217,7 @@ Odpověz POUZE platným JSON polem, začni [ a skonči ]. Žádný úvodní text
     headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 4000,
+      max_tokens: 6000,
       messages: [{ role: "user", content: prompt }],
       tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 8, allowed_domains: NEWS_DOMAINS }],
     }),
@@ -263,9 +263,12 @@ Odpověz POUZE platným JSON polem, začni [ a skonči ]. Žádný úvodní text
   return { items, searchCount: Object.keys(realMap).length, proposed: parsed.length, drop };
 }
 
-async function callWithBackoff(ch, prevEvals, snapshots, tries = 5) {
+/* Retry wrapper shared by chapter evaluation and headline fetching — both hit
+   the same two flaky failure modes: rate limits / overloaded API, and Haiku
+   occasionally emitting unparseable JSON. */
+async function withBackoff(fn, tries = 5) {
   for (let i = 0; i < tries; i++) {
-    try { return await evaluateChapter(ch, prevEvals, snapshots); }
+    try { return await fn(); }
     catch (e) {
       // 429 = rate limit, 5xx/529 = server-side (overloaded) — both worth waiting out
       const retryable = /API (429|5\d\d)/.test(e.message) || /JSON/.test(e.message);
@@ -287,7 +290,7 @@ async function main() {
   for (const ch of CHAPTERS.slice(0, CHAPTER_LIMIT)) {
     try {
       process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}… `);
-      const r = await callWithBackoff(ch, prevEvals, snapshots);
+      const r = await withBackoff(() => evaluateChapter(ch, prevEvals, snapshots));
       Object.assign(newEvals, r.evals);
       console.log(`ok (${Object.keys(r.evals).length}) — ${r.searchCount} search hits, ${r.kept} sources kept`);
     } catch (e) {
@@ -338,7 +341,7 @@ async function main() {
   // Headline news last — a failure here must not lose the evaluation results.
   try {
     process.stdout.write("Fetching headlines… ");
-    const n = await fetchHeadlines();
+    const n = await withBackoff(fetchHeadlines, 3);
     const why = `proposed ${n.proposed}, dropped ${n.drop.invented} invented / ${n.drop.notArticle} non-article / ${n.drop.dupHost} same-outlet`;
     if (n.items.length > 0) {
       writeFileSync(OUT_NEWS, JSON.stringify({ generatedAt: now, items: n.items }, null, 2));
