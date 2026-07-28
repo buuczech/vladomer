@@ -28,11 +28,24 @@ const OUT_NEWS = new URL("../public/news.json", import.meta.url);
 // Append-only audit trail: one record per item per run, so any past rating
 // stays inspectable (item id + date + status + the text that justified it).
 const OUT_AUDIT = new URL("../public/audit.json", import.meta.url);
-const VALID = new Set(["fulfilled", "in_progress", "not_started", "stalled"]);
+/* Status scale. "fulfilled" is deliberately hard to reach: it requires the law
+   to have completed the whole legislative process and been published in the
+   Sbírka zákonů — the same bar Demagog.cz applies — and the model must produce
+   the evidence for it (see EVIDENCE_MIN below). "unverifiable" is a separate
+   flag, not a status, because it describes the promise's wording rather than
+   the government's progress. */
+const VALID = new Set(["fulfilled", "partial", "in_progress", "declared", "not_started", "broken"]);
 const HISTORY_WEEKS = 52;
 const MAX_SOURCES = 3;
+// A "fulfilled" claim without a concrete citation gets downgraded, so the
+// strongest status can never rest on an unsupported assertion.
+const EVIDENCE_MIN = 12;
 
-const STATUS_CS = { fulfilled: "splněno", in_progress: "probíhá", not_started: "nezahájeno", stalled: "uvázlo" };
+const STATUS_CS = {
+  fulfilled: "splněno", partial: "částečně splněno", in_progress: "probíhá",
+  declared: "jen deklarováno", not_started: "nezahájeno", broken: "porušeno/opuštěno",
+  stalled: "porušeno/opuštěno", // legacy value from the pre-2026-07 scale
+};
 
 // All real item IDs — guards against the model inventing an ID (e.g. "11.11"),
 // which the merge-based storage would otherwise carry forward forever.
@@ -116,7 +129,16 @@ U KAŽDÉHO bodu zvaž důkazy z více úhlů, ne jen jeden závěr:
 - „ne, ale…" — co svědčí proti splnění a jaké jsou dílčí kroky či náznaky pokroku.
 - Zohledni kritiku opozice i odborníků; rozlišuj sliby/návrhy od skutečného dopadu.
 
-Stav urči konzervativně (bez důkazu = not_started): fulfilled = prokazatelně splněno; in_progress = aktivně se pracuje (návrh, projednávání); not_started = žádný doložitelný krok; stalled = uvázlo/opuštěno.
+Stav urči konzervativně a striktně. Bez doložitelného důkazu = not_started.
+
+- fulfilled — POUZE pokud norma prošla CELÝM legislativním procesem (Sněmovna, Senát, podpis prezidenta) a byla vyhlášena ve Sbírce zákonů, nebo u nelegislativního závazku je opatření prokazatelně zavedené a účinné. Do pole "evidence" MUSÍŠ uvést konkrétní doklad (např. „zákon č. 123/2026 Sb., vyhlášen 4. 3. 2026" nebo „účinné od 1. 1. 2026, potvrzeno MF"). Bez tohoto dokladu stav fulfilled NEPOUŽÍVEJ.
+- partial — závazek naplněn jen zčásti: norma prošla v osekané podobě, pokrývá jen část slibu, byla přijata s výrazným zpožděním nebo v pozměněné parametrizaci.
+- in_progress — běží reálný legislativní proces: vláda schválila návrh, je v Poslanecké sněmovně či Senátu, ale proces není dokončen.
+- declared — vláda se pouze vyjádřila, přijala usnesení, deklarovala postoj či ustavila pracovní skupinu, ale nezahájila legislativní ani exekutivní krok. Samotné prohlášení ministra sem patří.
+- not_started — žádný doložitelný krok.
+- broken — vláda jednala v rozporu se slibem, nebo od něj prokazatelně ustoupila.
+
+Do "unverifiable" dej true, pokud je závazek formulován tak obecně, že jeho splnění nelze objektivně změřit (např. „budeme podporovat rodiny" bez měřitelného kritéria). Takové body se nezapočítávají do procent.
 
 Měny: v českých textech piš „Kč", v anglických „CZK". Je-li částka ve zdroji důvěryhodně uvedena v eurech, ponech EUR v obou jazycích — nepřepočítávej.
 
@@ -126,7 +148,7 @@ Body (vrať hodnocení pro každé ID):
 ${lines}
 
 Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný úvodní text, žádné markdown bloky:
-[{"id":"...","status":"fulfilled|in_progress|not_started|stalled","comment_cs":"2–3 věty, vyvážené ano-ale/ne-ale","comment_en":"anglický překlad comment_cs","change_cs":"1 věta: co se změnilo; bez předchozího hodnocení přesně „první hodnocení“","change_en":"anglický překlad change_cs","sources":["https://..."]}]`;
+[{"id":"...","status":"fulfilled|partial|in_progress|declared|not_started|broken","evidence":"u fulfilled povinný konkrétní doklad (Sbírka zákonů/účinnost), jinak prázdné","unverifiable":false,"comment_cs":"2–3 věty, vyvážené ano-ale/ne-ale","comment_en":"anglický překlad comment_cs","change_cs":"1 věta: co se změnilo; bez předchozího hodnocení přesně „první hodnocení“","change_en":"anglický překlad change_cs","sources":["https://..."]}]`;
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -171,7 +193,7 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
   if (!Array.isArray(parsed)) throw new Error("no JSON array in response");
 
   const out = {};
-  let kept = 0;
+  let kept = 0, demoted = 0;
   for (const r of parsed) {
     if (!r || !r.id || !VALID_IDS.has(r.id)) continue;
     const sources = [];
@@ -184,8 +206,25 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
       }
     }
     kept += sources.length;
+
+    /* Enforce the evidence bar: "fulfilled" is only allowed to stand when the
+       model actually cited something (Sbírka entry, effective date). Otherwise
+       it falls back to "partial" — the claim of progress is kept, the claim of
+       completion is not. */
+    let status = VALID.has(r.status) ? r.status : "not_started";
+    const evidence = typeof r.evidence === "string" ? r.evidence.trim() : "";
+    let downgraded = false;
+    if (status === "fulfilled" && evidence.length < EVIDENCE_MIN) {
+      status = "partial";
+      downgraded = true;
+      demoted++;
+    }
+
     out[r.id] = {
-      status: VALID.has(r.status) ? r.status : "not_started",
+      status,
+      evidence,
+      unverifiable: r.unverifiable === true,
+      evidenceMissing: downgraded || undefined,
       comment: { cs: r.comment_cs || "", en: r.comment_en || "" },
       change: { cs: r.change_cs || "", en: r.change_en || "" },
       sources,
@@ -193,7 +232,7 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
       updatedAt: new Date().toISOString(),
     };
   }
-  return { evals: out, searchCount, kept };
+  return { evals: out, searchCount, kept, demoted };
 }
 
 /* Headline news for the past week. Source diversity is enforced in code (one
@@ -298,7 +337,8 @@ async function main() {
       process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}… `);
       const r = await withBackoff(() => evaluateChapter(ch, prevEvals, snapshots));
       Object.assign(newEvals, r.evals);
-      console.log(`ok (${Object.keys(r.evals).length}) — ${r.searchCount} search hits, ${r.kept} sources kept`);
+      console.log(`ok (${Object.keys(r.evals).length}) — ${r.searchCount} search hits, ${r.kept} sources kept`
+        + (r.demoted ? `, ${r.demoted} unevidenced "fulfilled" downgraded` : ""));
     } catch (e) {
       console.log(`failed: ${e.message}`);
     }
@@ -331,6 +371,8 @@ async function main() {
       id,
       date: today,
       status: e.status,
+      evidence: e.evidence || "",
+      unverifiable: e.unverifiable === true,
       comment_cs: e.comment?.cs || "",
       comment_en: e.comment?.en || "",
       change_cs: e.change?.cs || "",

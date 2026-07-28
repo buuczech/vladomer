@@ -21,7 +21,11 @@ const T = {
   daysToElection: { cs: "Do voleb (odhad)", en: "To election (est.)" },
   overall: { cs: "Plnění programu", en: "Programme delivery" },
   statDone: { cs: "splněno", en: "fulfilled" },
+  statPartial: { cs: "částečně", en: "partial" },
   statProg: { cs: "probíhá", en: "in progress" },
+  statUnver: { cs: "neměřitelných", en: "unmeasurable" },
+  evidenceLabel: { cs: "Doloženo", en: "Evidence" },
+  unverBadge: { cs: "neměřitelné", en: "unmeasurable" },
   days: { cs: "dní", en: "days" },
   evaluated: { cs: "hodnoceno", en: "evaluated" },
   ofItems: { cs: "z", en: "of" },
@@ -56,12 +60,19 @@ const T = {
   chartNoData: { cs: "Zatím není dost týdenních snímků pro křivku. Graf se doplňuje každý pátek.", en: "Not enough weekly snapshots for a curve yet. The chart fills in every Friday." },
 };
 
+/* Six-point scale, ordered by how far a commitment has actually got.
+   "rank" drives the ▲/▼ change arrows; "score" is kept only to mark which
+   statuses count as rated at all (null = excluded from every percentage). */
 const STATUS = {
-  fulfilled: { cs: "Splněno", en: "Done", color: "var(--ok)", score: 1, glyph: "✓", rank: 3 },
-  in_progress: { cs: "Probíhá", en: "In progress", color: "var(--prog)", score: 0.5, glyph: "◐", rank: 2 },
-  not_started: { cs: "Nezahájeno", en: "Not started", color: "var(--muted)", score: 0, glyph: "○", rank: 1 },
-  stalled: { cs: "Uvázlo / opuštěno", en: "Stalled / dropped", color: "var(--bad)", score: 0, glyph: "✕", rank: 0 },
-  pending: { cs: "Nehodnoceno", en: "Unrated", color: "var(--pending)", score: null, glyph: "–", rank: 1 },
+  fulfilled:   { cs: "Splněno", en: "Fulfilled", color: "var(--ok)", score: 1, glyph: "✓", rank: 5 },
+  partial:     { cs: "Částečně splněno", en: "Partially fulfilled", color: "var(--partial)", score: 1, glyph: "◕", rank: 4 },
+  in_progress: { cs: "Probíhá", en: "In progress", color: "var(--prog)", score: 1, glyph: "◐", rank: 3 },
+  declared:    { cs: "Jen deklarováno", en: "Declared only", color: "var(--declared)", score: 1, glyph: "◌", rank: 2 },
+  not_started: { cs: "Nezahájeno", en: "Not started", color: "var(--muted)", score: 1, glyph: "○", rank: 1 },
+  broken:      { cs: "Porušeno / opuštěno", en: "Broken / dropped", color: "var(--bad)", score: 1, glyph: "✕", rank: 0 },
+  // Legacy value from the pre-2026-07 scale; kept so old snapshots still render.
+  stalled:     { cs: "Porušeno / opuštěno", en: "Broken / dropped", color: "var(--bad)", score: 1, glyph: "✕", rank: 0 },
+  pending:     { cs: "Nehodnoceno", en: "Unrated", color: "var(--pending)", score: null, glyph: "–", rank: 1 },
 };
 
 const METHOD = {
@@ -99,23 +110,29 @@ const METHOD = {
       h: { cs: "Stavy a výpočet plnění", en: "Statuses & how the percentage works" },
       list: {
         cs: [
-          "Splněno – prokazatelně zavedeno.",
-          "Probíhá – aktivně se pracuje, např. návrh či projednávání.",
+          "Splněno – norma prošla celým legislativním procesem (Sněmovna, Senát, prezident) a byla vyhlášena ve Sbírce zákonů, případně je nelegislativní opatření prokazatelně zavedené a účinné.",
+          "Částečně splněno – závazek naplněn jen zčásti: osekaná podoba, jen část slibu, výrazné zpoždění nebo změněné parametry.",
+          "Probíhá – běží reálný legislativní proces, ale není dokončen.",
+          "Jen deklarováno – vláda se vyjádřila, přijala usnesení či ustavila pracovní skupinu, ale nezahájila legislativní ani exekutivní krok.",
           "Nezahájeno – žádný doložitelný krok.",
-          "Uvázlo / opuštěno – pokrok se zastavil nebo byl bod opuštěn.",
+          "Porušeno / opuštěno – vláda jednala v rozporu se slibem nebo od něj ustoupila.",
+          "Neměřitelné – závazek je formulován tak obecně, že jej nelze objektivně změřit. Vyřazuje se z procent.",
           "Nehodnoceno – zatím neposouzeno (do procent se nepočítá).",
         ],
         en: [
-          "Fulfilled – verifiably implemented.",
-          "In progress – actively being worked on, e.g. a bill or debate.",
+          "Fulfilled – the law completed the entire legislative process (Chamber, Senate, President) and was published in the Collection of Laws, or a non-legislative measure is verifiably in force.",
+          "Partially fulfilled – only part of the commitment was delivered: scaled back, partial coverage, major delay, or altered parameters.",
+          "In progress – a real legislative process is under way but not finished.",
+          "Declared only – the government stated a position, passed a resolution or set up a working group, but took no legislative or executive step.",
           "Not started – no verifiable step taken.",
-          "Stalled / dropped – progress halted or item abandoned.",
+          "Broken / dropped – the government acted against the commitment or abandoned it.",
+          "Unmeasurable – worded too vaguely to assess objectively. Excluded from the percentages.",
           "Unrated – not yet assessed (excluded from the percentages).",
         ],
       },
       p: {
-        cs: "Uvádíme dvě samostatná čísla, ne jedno souhrnné skóre. „Splněno“ je podíl prokazatelně dotažených bodů – hodnotíme striktně, stejně jako to dělá Demagog.cz i vládní odpočty, takže je číslo srovnatelné. „Probíhá“ je podíl rozpracovaných bodů a ukazuje aktivitu vlády; nepřičítá se ke splnění, protože rozdělaná práce není výsledek. Dřívější verze webu používala vážené skóre, kde „probíhá“ mělo poloviční kredit – od toho jsme ustoupili, protože takové číslo bylo z valné většiny tvořeno pouhou rozpracovaností a působilo výrazně příznivěji, než odpovídalo skutečnosti.",
-        en: "We report two separate figures rather than one combined score. \"Fulfilled\" is the share of verifiably delivered items — scored strictly, the same way Demagog.cz and government reviews score promises, so the number is comparable. \"In progress\" is the share of items being worked on; it shows activity but is never added to delivery, because work started is not a result. An earlier version of this site used a weighted score giving \"in progress\" half credit — we dropped it, because such a figure was overwhelmingly made up of mere activity and read far more favourably than the facts warranted.",
+        cs: "Uvádíme samostatná čísla, ne jedno souhrnné skóre. „Splněno“ je podíl prokazatelně dotažených bodů – hodnotíme striktně stejně jako Demagog.cz i vládní odpočty, takže je číslo srovnatelné. „Částečně“ a „probíhá“ se uvádějí zvlášť a ke splnění se nepřičítají, protože rozdělaná práce není výsledek. Dřívější verze webu používala vážené skóre, kde „probíhá“ mělo poloviční kredit – od toho jsme ustoupili, protože takové číslo bylo z valné většiny tvořeno pouhou rozpracovaností a působilo výrazně příznivěji, než odpovídalo skutečnosti.\n\nStav „splněno“ navíc nelze udělit bez konkrétního dokladu: model musí uvést číslo a datum vyhlášení ve Sbírce zákonů, případně datum účinnosti opatření. Pokud doklad chybí, systém stav automaticky sníží na „částečně splněno“ – tvrzení o dokončení tak nikdy nestojí jen na slově modelu. Doklad je vidět u každého splněného bodu pod jeho hodnocením.",
+        en: "We report separate figures rather than one combined score. \"Fulfilled\" is the share of verifiably delivered items — scored strictly, the same way Demagog.cz and government reviews score promises, so the number is comparable. \"Partial\" and \"in progress\" are reported separately and never added to delivery, because work started is not a result. An earlier version of this site used a weighted score giving \"in progress\" half credit — we dropped it, because such a figure was overwhelmingly made up of mere activity and read far more favourably than the facts warranted.\n\nThe \"fulfilled\" status additionally cannot be awarded without concrete proof: the model must cite the number and publication date in the Collection of Laws, or the date a measure took effect. If that proof is missing, the system automatically downgrades the status to \"partially fulfilled\" — so a claim of completion never rests on the model's word alone. The proof is shown under each fulfilled item's rating.",
       },
     },
     {
@@ -268,7 +285,7 @@ const CSS = `
 :root{
   --bg:#F4F6F8; --surface:#ffffff; --surface-2:#EEF1F5; --text:#0F172A;
   --muted:#5B6577; --border:#E2E7EF; --shadow:0 1px 2px rgba(15,23,42,.05),0 8px 24px rgba(15,23,42,.05);
-  --accent:#3B5BDB; --ok:#059669; --prog:#B45309; --bad:#DC2626; --pending:#94A0B2;
+  --accent:#3B5BDB; --ok:#059669; --partial:#4D7C0F; --prog:#B45309; --declared:#64748B; --bad:#DC2626; --pending:#94A0B2;
   --cz-blue:#11457e; --cz-red:#d7141a;
   --grad-a:#3B5BDB; --grad-b:#059669;
   --grad:linear-gradient(90deg,var(--grad-a),var(--grad-b));
@@ -276,7 +293,7 @@ const CSS = `
 [data-theme="dark"]{
   --bg:#0B0F19; --surface:#121824; --surface-2:#0E1523; --text:#E8EDF7;
   --muted:#8B96AB; --border:#232C3D; --shadow:0 1px 2px rgba(0,0,0,.45),0 12px 32px rgba(0,0,0,.4);
-  --accent:#5B7BE8; --ok:#10B981; --prog:#F59E0B; --bad:#EF4444; --pending:#5B6577;
+  --accent:#5B7BE8; --ok:#10B981; --partial:#84CC16; --prog:#F59E0B; --declared:#8B96AB; --bad:#EF4444; --pending:#5B6577;
   --cz-blue:#3f7fd6; --cz-red:#ff5a5f;
   --grad-a:#3B5BDB; --grad-b:#10B981;
 }
@@ -343,10 +360,14 @@ const CSS = `
 .vm-mini > i{display:block;height:100%}
 .vm-mini > i.done{background:var(--ok)}
 .vm-mini > i.prog{background:var(--prog);opacity:.55}
-.vm-dual{display:flex;gap:16px}
+.vm-dual{display:flex;gap:13px;flex-wrap:wrap}
 .vm-dual > div{display:flex;flex-direction:column}
 .vm-dual .n{font-size:22px;font-weight:780;letter-spacing:-.02em;line-height:1.1}
-.vm-dual .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;margin-top:2px}
+.vm-dual > div.sm .n{font-size:15px;font-weight:740}
+.vm-dual .l{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin-top:2px}
+.vm-pill-unver{color:var(--muted);border:1px dashed var(--muted)}
+.vm-evi{display:block;font-size:12.3px;line-height:1.45;padding:5px 8px;background:var(--bg);border-radius:6px;border-left:2px solid var(--ok)}
+.vm-mini > i.partial{background:var(--partial);opacity:.8}
 .vm-caret{color:var(--muted);transition:transform .2s;flex:none}
 .vm-caret.open{transform:rotate(90deg)}
 .vm-ch-body{border-top:1px solid var(--border);padding:6px 0}
@@ -430,21 +451,22 @@ const CSS = `
    progress. Flat fills here on purpose — colour carries meaning (it matches
    the status colours used throughout), so a decorative gradient would blur
    the distinction the gauge exists to make. */
-function Ring({ done, prog, size = 64 }) {
+function Ring({ done, partial, prog, size = 64 }) {
   const r = (size - 8) / 2, c = 2 * Math.PI * r;
   const seg = (pct) => (Math.max(0, Math.min(100, pct)) / 100) * c;
   const rot = `rotate(-90 ${size / 2} ${size / 2})`;
   const common = { cx: size / 2, cy: size / 2, r, fill: "none", strokeWidth: 7, transform: rot };
+  const t = { transition: "stroke-dasharray .5s, stroke-dashoffset .5s" };
+  // Arcs stack in order of progress so the dial reads outward from delivered.
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
       <circle {...common} stroke="var(--border)" />
-      {/* in-progress arc sits after the delivered arc, so the two read as one dial */}
-      <circle {...common} stroke="var(--prog)" opacity="0.55"
-        strokeDasharray={`${seg(prog)} ${c}`} strokeDashoffset={-seg(done)}
-        style={{ transition: "stroke-dasharray .5s, stroke-dashoffset .5s" }} />
-      <circle {...common} stroke="var(--ok)" strokeLinecap="round"
-        strokeDasharray={`${seg(done)} ${c}`}
-        style={{ transition: "stroke-dasharray .5s" }} />
+      <circle {...common} stroke="var(--prog)" opacity="0.5" style={t}
+        strokeDasharray={`${seg(prog)} ${c}`} strokeDashoffset={-seg(done + partial)} />
+      <circle {...common} stroke="var(--partial)" opacity="0.75" style={t}
+        strokeDasharray={`${seg(partial)} ${c}`} strokeDashoffset={-seg(done)} />
+      <circle {...common} stroke="var(--ok)" strokeLinecap="round" style={t}
+        strokeDasharray={`${seg(done)} ${c}`} />
     </svg>
   );
 }
@@ -481,7 +503,9 @@ function MethodologyModal({ lang, onClose }) {
             <div key={i}>
               <h3>{s.h[lang]}</h3>
               {s.list && <ul>{s.list[lang].map((li, j) => <li key={j}>{li}</li>)}</ul>}
-              {s.p && <p style={{ marginTop: s.list ? 8 : 0 }}>{s.p[lang]}</p>}
+              {s.p && s.p[lang].split("\n\n").map((para, k) => (
+                <p key={k} style={{ marginTop: k === 0 ? (s.list ? 8 : 0) : 8 }}>{para}</p>
+              ))}
             </div>
           ))}
           <p className="vm-disc">
@@ -697,7 +721,9 @@ function PageModal({ pageKey, lang, evals, snapshots, onClose }) {
             <div key={i}>
               <h3>{s.h[lang]}</h3>
               {s.list && <ul>{s.list[lang].map((li, j) => <li key={j}>{li}</li>)}</ul>}
-              {s.p && <p style={{ marginTop: s.list ? 8 : 0 }}>{s.p[lang]}</p>}
+              {s.p && s.p[lang].split("\n\n").map((para, k) => (
+                <p key={k} style={{ marginTop: k === 0 ? (s.list ? 8 : 0) : 8 }}>{para}</p>
+              ))}
             </div>
           ))}
           {pageKey === "about" && (
@@ -787,19 +813,24 @@ export default function App() {
      credit — a weighted blend put 84% of the headline figure on work that
      merely started, which is neither defensible nor comparable with how
      Demagog.cz and government reviews score promises. */
-  const { donePct, progPct, evaluatedCount } = useMemo(() => {
-    let done = 0, prog = 0, n = 0;
+  const { donePct, partialPct, progPct, evaluatedCount, unverifiableCount } = useMemo(() => {
+    let done = 0, partial = 0, prog = 0, n = 0, unver = 0;
     for (const it of ALL_ITEMS) {
       const e = evals[it.id];
       if (!e || !STATUS[e.status] || STATUS[e.status].score === null) continue;
+      // Commitments too vague to measure are excluded from the denominator
+      // rather than scored — counting them either way would distort the result.
+      if (e.unverifiable) { unver++; continue; }
       n++;
       if (e.status === "fulfilled") done++;
+      else if (e.status === "partial") partial++;
       else if (e.status === "in_progress") prog++;
     }
     return {
       donePct: n ? (done / n) * 100 : 0,
+      partialPct: n ? (partial / n) * 100 : 0,
       progPct: n ? (prog / n) * 100 : 0,
-      evaluatedCount: n,
+      evaluatedCount: n, unverifiableCount: unver,
     };
   }, [evals]);
   const pct1 = (v) => (v >= 10 || v === 0 ? Math.round(v) : Math.round(v * 10) / 10);
@@ -818,16 +849,18 @@ export default function App() {
   }, [evals]);
 
   const chapterStats = useCallback((ch) => {
-    let done = 0, prog = 0, n = 0, tot = 0;
+    let done = 0, partial = 0, prog = 0, n = 0, tot = 0;
     for (const g of ch.groups) for (const it of g.items) {
       tot++; const e = evals[it.id];
-      if (!e || !STATUS[e.status] || STATUS[e.status].score === null) continue;
+      if (!e || !STATUS[e.status] || STATUS[e.status].score === null || e.unverifiable) continue;
       n++;
       if (e.status === "fulfilled") done++;
+      else if (e.status === "partial") partial++;
       else if (e.status === "in_progress") prog++;
     }
     return {
       done: n ? (done / n) * 100 : 0,
+      partial: n ? (partial / n) * 100 : 0,
       prog: n ? (prog / n) * 100 : 0,
       evaluated: n, total: tot,
     };
@@ -847,7 +880,7 @@ export default function App() {
   const filtering = query !== "" || filter !== "all";
   function setAllOpen(open) { const o = {}; if (open) CHAPTERS.forEach((c) => (o[c.id] = true)); setOpenCh(o); }
   const next = nextFriday(lastUpdated ? new Date(lastUpdated) : new Date(now));
-  const filterOpts = ["all", "fulfilled", "in_progress", "not_started", "stalled", "pending"];
+  const filterOpts = ["all", "fulfilled", "partial", "in_progress", "declared", "not_started", "broken", "pending"];
 
   return (
     <div className="vm-root" data-theme={dark ? "dark" : "light"}>
@@ -901,19 +934,26 @@ export default function App() {
             <div className="vm-card">
               <div className="lab">{t("overall")}</div>
               <div className="vm-gauge-wrap">
-                <Ring done={donePct} prog={progPct} />
+                <Ring done={donePct} partial={partialPct} prog={progPct} />
                 <div className="vm-dual">
                   <div>
                     <span className="n vm-mono" style={{ color: "var(--ok)" }}>{pct1(donePct)}%</span>
                     <span className="l">{t("statDone")}</span>
                   </div>
-                  <div>
+                  <div className="sm">
+                    <span className="n vm-mono" style={{ color: "var(--partial)" }}>{pct1(partialPct)}%</span>
+                    <span className="l">{t("statPartial")}</span>
+                  </div>
+                  <div className="sm">
                     <span className="n vm-mono" style={{ color: "var(--prog)" }}>{pct1(progPct)}%</span>
                     <span className="l">{t("statProg")}</span>
                   </div>
                 </div>
               </div>
-              <div className="vm-sub">{evaluatedCount} {t("ofItems")} {TOTAL_ITEMS} {t("evaluated")}</div>
+              <div className="vm-sub">
+                {evaluatedCount} {t("ofItems")} {TOTAL_ITEMS} {t("evaluated")}
+                {unverifiableCount > 0 && ` · ${unverifiableCount} ${t("statUnver")}`}
+              </div>
             </div>
           </div>
           <p className="vm-methodrow">
@@ -1027,8 +1067,9 @@ export default function App() {
                   <span className="vm-ch-title">{ch.title[lang]}</span>
                   <span className="vm-ch-prog">
                     <span className="vm-mini" title={st.evaluated
-                      ? `${t("statDone")} ${pct1(st.done)} % · ${t("statProg")} ${pct1(st.prog)} %` : ""}>
+                      ? `${t("statDone")} ${pct1(st.done)} % · ${t("statPartial")} ${pct1(st.partial)} % · ${t("statProg")} ${pct1(st.prog)} %` : ""}>
                       <i className="done" style={{ width: `${st.done}%` }} />
+                      <i className="partial" style={{ width: `${st.partial}%` }} />
                       <i className="prog" style={{ width: `${st.prog}%` }} />
                     </span>
                     <span className="vm-ch-pct vm-mono" style={{ color: st.evaluated && st.done > 0 ? "var(--ok)" : undefined }}>
@@ -1065,7 +1106,8 @@ export default function App() {
                                   <div className="vm-it-text">{it[lang]}</div>
                                   <div className="vm-it-foot">
                                     <span className="vm-pill" style={{ color: sObj.color, border: `1px solid ${sObj.color}` }}>{sObj[lang]}</span>
-                                    {tr && <span className="vm-trend" style={{ color: tr.c }} title={`${STATUS[e.previousStatus][lang]} → ${sObj[lang]}`}>{tr.g}</span>}
+                                    {e?.unverifiable && <span className="vm-pill vm-pill-unver">{t("unverBadge")}</span>}
+                                    {tr && <span className="vm-trend" style={{ color: tr.c }} title={`${STATUS[e.previousStatus]?.[lang] || ""} → ${sObj[lang]}`}>{tr.g}</span>}
                                     <span className="vm-id vm-mono">#{it.id}</span>
                                     {hasNote && (
                                       <button className="vm-cmt-btn" onClick={() => setOpenCmt((o) => ({ ...o, [it.id]: !o[it.id] }))}>
@@ -1077,6 +1119,12 @@ export default function App() {
                                   {cmtOpen && e && (
                                     <div className="vm-cmt">
                                       {e.comment && (e.comment[lang] || e.comment.cs) && <span>{e.comment[lang] || e.comment.cs}</span>}
+                                      {e.evidence && (
+                                        <>
+                                          <span className="clab">{t("evidenceLabel")}</span>
+                                          <span className="vm-evi">{e.evidence}</span>
+                                        </>
+                                      )}
                                       {e.change && (e.change[lang] || e.change.cs) && (
                                         <>
                                           <span className="clab">{t("changeLabel")}</span>
