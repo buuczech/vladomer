@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { DATES, CHAPTERS, ALL_ITEMS, TOTAL_ITEMS } from "./data.js";
+import {
+  GOVERNMENTS, CURRENT_GOV, CURRENT_EXTERNAL_Q1,
+  QUARTER_COUNT, quarterOf, quarterLabel,
+} from "./governments.js";
 
 /* =========================================================================
    VLÁDOMĚR — production build.
@@ -16,6 +20,12 @@ const T = {
   daysInPower: { cs: "Ve funkci", en: "In office" },
   daysToElection: { cs: "Do voleb (odhad)", en: "To election (est.)" },
   overall: { cs: "Plnění programu", en: "Programme delivery" },
+  statDone: { cs: "splněno", en: "fulfilled" },
+  statPartial: { cs: "částečně", en: "partial" },
+  statProg: { cs: "probíhá", en: "in progress" },
+  statUnver: { cs: "neměřitelných", en: "unmeasurable" },
+  evidenceLabel: { cs: "Doloženo", en: "Evidence" },
+  unverBadge: { cs: "neměřitelné", en: "unmeasurable" },
   days: { cs: "dní", en: "days" },
   evaluated: { cs: "hodnoceno", en: "evaluated" },
   ofItems: { cs: "z", en: "of" },
@@ -42,14 +52,27 @@ const T = {
     cs: "Hodnocení generuje AI, je orientační a neoficiální. Může obsahovat chyby.",
     en: "Ratings are AI-generated, indicative and unofficial. They may contain errors.",
   },
+  newsTitle: { cs: "Hlavní zprávy týdne", en: "This week's headlines" },
+  chartsTitle: { cs: "Grafy", en: "Charts" },
+  chartAxisY: { cs: "Splněno (% bodů)", en: "Fulfilled (% of items)" },
+  chartAxisX: { cs: "Kvartál volebního období", en: "Quarter of term" },
+  chartCompare: { cs: "Srovnání s předchozími vládami", en: "Compare with previous cabinets" },
+  chartNoData: { cs: "Zatím není dost týdenních snímků pro křivku. Graf se doplňuje každý pátek.", en: "Not enough weekly snapshots for a curve yet. The chart fills in every Friday." },
 };
 
+/* Six-point scale, ordered by how far a commitment has actually got.
+   "rank" drives the ▲/▼ change arrows; "score" is kept only to mark which
+   statuses count as rated at all (null = excluded from every percentage). */
 const STATUS = {
-  fulfilled: { cs: "Splněno", en: "Done", color: "var(--ok)", score: 1, glyph: "✓", rank: 3 },
-  in_progress: { cs: "Probíhá", en: "In progress", color: "var(--prog)", score: 0.5, glyph: "◐", rank: 2 },
-  not_started: { cs: "Nezahájeno", en: "Not started", color: "var(--muted)", score: 0, glyph: "○", rank: 1 },
-  stalled: { cs: "Uvázlo / opuštěno", en: "Stalled / dropped", color: "var(--bad)", score: 0, glyph: "✕", rank: 0 },
-  pending: { cs: "Nehodnoceno", en: "Unrated", color: "var(--pending)", score: null, glyph: "–", rank: 1 },
+  fulfilled:   { cs: "Splněno", en: "Fulfilled", color: "var(--ok)", score: 1, glyph: "✓", rank: 5 },
+  partial:     { cs: "Částečně splněno", en: "Partially fulfilled", color: "var(--partial)", score: 1, glyph: "◕", rank: 4 },
+  in_progress: { cs: "Probíhá", en: "In progress", color: "var(--prog)", score: 1, glyph: "◐", rank: 3 },
+  declared:    { cs: "Jen deklarováno", en: "Declared only", color: "var(--declared)", score: 1, glyph: "◌", rank: 2 },
+  not_started: { cs: "Nezahájeno", en: "Not started", color: "var(--muted)", score: 1, glyph: "○", rank: 1 },
+  broken:      { cs: "Porušeno / opuštěno", en: "Broken / dropped", color: "var(--bad)", score: 1, glyph: "✕", rank: 0 },
+  // Legacy value from the pre-2026-07 scale; kept so old snapshots still render.
+  stalled:     { cs: "Porušeno / opuštěno", en: "Broken / dropped", color: "var(--bad)", score: 1, glyph: "✕", rank: 0 },
+  pending:     { cs: "Nehodnoceno", en: "Unrated", color: "var(--pending)", score: null, glyph: "–", rank: 1 },
 };
 
 const METHOD = {
@@ -77,26 +100,39 @@ const METHOD = {
       },
     },
     {
+      h: { cs: "Povolené zdroje", en: "Allowed sources" },
+      p: {
+        cs: "Vyhledávání je technicky omezeno na uzavřený seznam zdrojů: oficiální weby státu (gov.cz — vláda, ministerstva a úřady), fact-checkingový Demagog.cz a zpravodajské weby hodnocené v ratingu NFNŽ MediaRating ve stupních A, A− a B+ (mj. ČTK/České noviny, ČT24, iROZHLAS, Deník N, Hospodářské noviny, Respekt, Seznam Zprávy, Aktuálně.cz, Novinky.cz). Weby, které technicky blokují přístup vyhledávání (např. iDNES.cz a Lidovky.cz), zahrnout nelze. Odkazy z jiných webů se v hodnocení nemohou objevit.",
+        en: "The search is technically restricted to a closed list of sources: official state websites (gov.cz — the government, ministries and agencies), the fact-checking outlet Demagog.cz, and news sites rated A, A− or B+ in the NFNŽ MediaRating (incl. ČTK/České noviny, ČT24, iROZHLAS, Deník N, Hospodářské noviny, Respekt, Seznam Zprávy, Aktuálně.cz, Novinky.cz). Sites that technically block search access (e.g. iDNES.cz and Lidovky.cz) cannot be included. Links from other sites cannot appear in the ratings.",
+      },
+    },
+    {
       h: { cs: "Stavy a výpočet plnění", en: "Statuses & how the percentage works" },
       list: {
         cs: [
-          "Splněno – prokazatelně zavedeno (počítá se jako 100 %).",
-          "Probíhá – aktivně se pracuje, např. návrh či projednávání (50 %).",
-          "Nezahájeno – žádný doložitelný krok (0 %).",
-          "Uvázlo / opuštěno – pokrok se zastavil nebo byl bod opuštěn (0 %).",
-          "Nehodnoceno – zatím neposouzeno (do procenta se nepočítá).",
+          "Splněno – norma prošla celým legislativním procesem (Sněmovna, Senát, prezident) a byla vyhlášena ve Sbírce zákonů, případně je nelegislativní opatření prokazatelně zavedené a účinné.",
+          "Částečně splněno – závazek naplněn jen zčásti: osekaná podoba, jen část slibu, výrazné zpoždění nebo změněné parametry.",
+          "Probíhá – běží reálný legislativní proces, ale není dokončen.",
+          "Jen deklarováno – vláda se vyjádřila, přijala usnesení či ustavila pracovní skupinu, ale nezahájila legislativní ani exekutivní krok.",
+          "Nezahájeno – žádný doložitelný krok.",
+          "Porušeno / opuštěno – vláda jednala v rozporu se slibem nebo od něj ustoupila.",
+          "Neměřitelné – závazek je formulován tak obecně, že jej nelze objektivně změřit. Vyřazuje se z procent.",
+          "Nehodnoceno – zatím neposouzeno (do procent se nepočítá).",
         ],
         en: [
-          "Done – verifiably implemented (counts as 100%).",
-          "In progress – actively being worked on, e.g. a bill or debate (50%).",
-          "Not started – no verifiable step taken (0%).",
-          "Stalled / dropped – progress halted or item abandoned (0%).",
-          "Unrated – not yet assessed (excluded from the percentage).",
+          "Fulfilled – the law completed the entire legislative process (Chamber, Senate, President) and was published in the Collection of Laws, or a non-legislative measure is verifiably in force.",
+          "Partially fulfilled – only part of the commitment was delivered: scaled back, partial coverage, major delay, or altered parameters.",
+          "In progress – a real legislative process is under way but not finished.",
+          "Declared only – the government stated a position, passed a resolution or set up a working group, but took no legislative or executive step.",
+          "Not started – no verifiable step taken.",
+          "Broken / dropped – the government acted against the commitment or abandoned it.",
+          "Unmeasurable – worded too vaguely to assess objectively. Excluded from the percentages.",
+          "Unrated – not yet assessed (excluded from the percentages).",
         ],
       },
       p: {
-        cs: "Celkové „plnění programu“ je průměr těchto hodnot přes všechny hodnocené body.",
-        en: "The overall \"programme delivery\" figure is the average of these values across all rated items.",
+        cs: "Uvádíme samostatná čísla, ne jedno souhrnné skóre. „Splněno“ je podíl prokazatelně dotažených bodů – hodnotíme striktně stejně jako Demagog.cz i vládní odpočty, takže je číslo srovnatelné. „Částečně“ a „probíhá“ se uvádějí zvlášť a ke splnění se nepřičítají, protože rozdělaná práce není výsledek. Dřívější verze webu používala vážené skóre, kde „probíhá“ mělo poloviční kredit – od toho jsme ustoupili, protože takové číslo bylo z valné většiny tvořeno pouhou rozpracovaností a působilo výrazně příznivěji, než odpovídalo skutečnosti.\n\nStav „splněno“ navíc nelze udělit bez konkrétního dokladu: model musí uvést číslo a datum vyhlášení ve Sbírce zákonů, případně datum účinnosti opatření. Pokud doklad chybí, systém stav automaticky sníží na „částečně splněno“ – tvrzení o dokončení tak nikdy nestojí jen na slově modelu. Doklad je vidět u každého splněného bodu pod jeho hodnocením.\n\nStrojově kontrolujeme i datum: uznáváme pouze kroky učiněné od 15. 12. 2025, kdy vláda nastoupila. Zákon vyhlášený dříve je dílem předchozí vlády, i když tématicky odpovídá slibu, a hodnocení se automaticky sníží. Tuto kontrolu jsme doplnili poté, co si model v prvním běhu připsal ve prospěch vlády normy vyhlášené v srpnu 2025.",
+        en: "We report separate figures rather than one combined score. \"Fulfilled\" is the share of verifiably delivered items — scored strictly, the same way Demagog.cz and government reviews score promises, so the number is comparable. \"Partial\" and \"in progress\" are reported separately and never added to delivery, because work started is not a result. An earlier version of this site used a weighted score giving \"in progress\" half credit — we dropped it, because such a figure was overwhelmingly made up of mere activity and read far more favourably than the facts warranted.\n\nThe \"fulfilled\" status additionally cannot be awarded without concrete proof: the model must cite the number and publication date in the Collection of Laws, or the date a measure took effect. If that proof is missing, the system automatically downgrades the status to \"partially fulfilled\" — so a claim of completion never rests on the model's word alone. The proof is shown under each fulfilled item's rating.\n\nThe date is checked automatically too: only steps taken since 15 Dec 2025, when the cabinet took office, are credited. A law published earlier is the previous government's work even if it matches the promise thematically, and the rating is downgraded automatically. We added this check after the model's first run credited this cabinet with laws published in August 2025.",
       },
     },
     {
@@ -107,6 +143,13 @@ const METHOD = {
       },
     },
     {
+      h: { cs: "Auditní záznam", en: "Audit trail" },
+      p: {
+        cs: "Každé jednotlivé hodnocení se trvale ukládá do veřejného auditního souboru: číslo bodu, datum, stav k tomu datu, celý text hodnocení, použité zdroje a model, který ho vytvořil. Záznamy se nikdy nepřepisují, takže lze dohledat i hodnocení, které se později změnilo. Soubor je ke stažení jako audit.json v datech webu.",
+        en: "Every individual rating is permanently recorded in a public audit file: item number, date, the status as of that date, the full rating text, the sources used, and the model that produced it. Records are never rewritten, so a rating that later changed can still be traced. The file is downloadable as audit.json in the site's data.",
+      },
+    },
+    {
       h: { cs: "Omezení a vyloučení odpovědnosti", en: "Limitations & disclaimer" },
       p: {
         cs: "Hodnocení je orientační a generované umělou inteligencí – může obsahovat chyby, zastaralé informace nebo nesprávné posouzení, zejména u sporných témat. Neslouží jako oficiální, právní ani úplný zdroj. Informace si prosím ověřujte v primárních zdrojích. Stav i komentáře se při každém týdenním běhu přepisují.",
@@ -114,6 +157,112 @@ const METHOD = {
       },
     },
   ],
+};
+
+/* Per-environment menu visibility. Set in the branch's committed .env file —
+   dev has everything on, main only what's ready to ship. Flags must be written
+   out statically: Vite substitutes import.meta.env.VITE_* at build time, so a
+   computed key like import.meta.env[`VITE_MENU_${k}`] would silently be undefined.
+   Default is OFF, so a missing .env hides unfinished pages rather than leaking them. */
+const MENU_FLAGS = {
+  about: import.meta.env.VITE_MENU_ABOUT === "true",
+  charts: import.meta.env.VITE_MENU_CHARTS === "true",
+  support: import.meta.env.VITE_MENU_SUPPORT === "true",
+  ideas: import.meta.env.VITE_MENU_IDEAS === "true",
+};
+const MENU_ORDER = ["about", "charts", "support", "ideas"];
+
+// Hamburger-menu pages. Support links are null until a payment channel is
+// set up — the page then shows a "coming soon" note instead of dead buttons.
+const SUPPORT_LINKS = {
+  buymeacoffee: null, // e.g. "https://buymeacoffee.com/..."
+  githubSponsors: null, // e.g. "https://github.com/sponsors/buuczech"
+};
+const GITHUB_ISSUES_URL = "https://github.com/buuczech/vladomer/issues/new";
+// Form route for people without a GitHub account — most visitors won't have one.
+const SUGGESTION_FORM_URL = "https://forms.gle/G3nQ8hDWfViWJxrn8";
+
+const PAGES = {
+  about: {
+    title: { cs: "O projektu", en: "About the project" },
+    sections: [
+      {
+        h: { cs: "Co je Vládoměr", en: "What Vládoměr is" },
+        p: {
+          cs: "Vládoměr je nezávislý občanský projekt, který týden po týdnu sleduje, jak vláda plní vlastní programové prohlášení. Každý z 143 bodů programu hodnotí jazykový model podle veřejné metodiky a s odkazy na dohledatelné zdroje, aby si každý mohl hodnocení sám ověřit.",
+          en: "Vládoměr is an independent civic project that tracks, week by week, how the government is delivering on its own programme statement. Each of the 143 programme items is assessed by a language model following a public methodology, with verifiable source links so anyone can check the ratings themselves.",
+        },
+      },
+      {
+        h: { cs: "Kdo za tím stojí", en: "Who is behind it" },
+        p: {
+          cs: "Projekt vytváří a provozuje jediný autor ve volném čase, s využitím AI nástrojů pro vývoj i hodnocení. Kompletní kód i data jsou otevřené na GitHubu (github.com/buuczech/vladomer) — kdokoli může zkontrolovat, jak hodnocení vzniká.",
+          en: "The project is built and run by a single author in their spare time, using AI tools for both development and evaluation. The full code and data are open on GitHub (github.com/buuczech/vladomer) — anyone can inspect how the ratings are produced.",
+        },
+      },
+      {
+        h: { cs: "Deklarace nestrannosti", en: "Impartiality declaration" },
+        list: {
+          cs: [
+            "Tvůrce není členem žádné politické strany ani hnutí.",
+            "Projekt nepřijímá finanční ani jinou podporu od politických stran, hnutí nebo subjektů na ně napojených.",
+            "Hodnocení generuje jazykový model podle veřejné metodiky; tvůrce do jednotlivých hodnocení ručně nezasahuje.",
+            "Zdroje jsou technicky omezeny na transparentní seznam důvěryhodných webů (viz Metodika).",
+            "Kritika i uznání vlády vyplývají výhradně z dat, nikoli z postojů tvůrce.",
+          ],
+          en: [
+            "The author is not a member of any political party or movement.",
+            "The project accepts no financial or other support from political parties, movements, or entities connected to them.",
+            "Ratings are generated by a language model following a public methodology; the author does not manually alter individual ratings.",
+            "Sources are technically restricted to a transparent list of trusted sites (see Methodology).",
+            "Criticism and credit alike follow from the data, not from the author's views.",
+          ],
+        },
+      },
+    ],
+  },
+  support: {
+    title: { cs: "Podpořte Vládoměr", en: "Support Vládoměr" },
+    sections: [
+      {
+        h: { cs: "Proč podpora", en: "Why support" },
+        p: {
+          cs: "Vládoměr je zdarma, bez reklam a bez sledování. Provoz ale není nulový: každé týdenní AI hodnocení všech 143 bodů stojí peníze (tokeny jazykového modelu s vyhledáváním) a k tomu doména. Vše zatím platí autor z vlastní kapsy.",
+          en: "Vládoměr is free, ad-free and tracker-free. Running it isn't free though: each weekly AI evaluation of all 143 items costs money (language-model tokens with web search), plus the domain. So far the author covers it all out of pocket.",
+        },
+      },
+      {
+        h: { cs: "Jak přispět", en: "How to contribute" },
+        p: {
+          cs: "Možnosti podpory právě připravujeme — brzy zde najdete platební bránu pro jednorázový i pravidelný příspěvek.",
+          en: "Support options are being set up — a payment option for one-off or recurring contributions will appear here soon.",
+        },
+      },
+    ],
+  },
+  charts: {
+    title: { cs: "Grafy", en: "Charts" },
+    chart: true, // rendered by ChartsPage instead of plain sections
+  },
+  ideas: {
+    title: { cs: "Návrhy na zlepšení", en: "Suggest improvements" },
+    sections: [
+      {
+        h: { cs: "Vaše zpětná vazba", en: "Your feedback" },
+        p: {
+          cs: "Narazili jste na chybné hodnocení, nefunkční odkaz, nebo máte nápad na novou funkci? Budeme rádi za každý podnět. U chybného hodnocení prosím uveďte číslo bodu (např. #2.4) a odkaz na zdroj, který hodnocení vyvrací.",
+          en: "Found a wrong rating, a broken link, or have an idea for a new feature? Every suggestion helps. For a wrong rating, please include the item number (e.g. #2.4) and a link to a source that contradicts it.",
+        },
+      },
+      {
+        h: { cs: "Kde podnět podat", en: "Where to submit" },
+        p: {
+          cs: "Nejjednodušší je formulář — nevyžaduje žádný účet a zabere minutu. Máte-li účet na GitHubu, můžete podnět založit rovnou tam: zůstane veřejně dohledatelný včetně toho, jak jsme ho vyřešili.",
+          en: "The form is the easiest route — no account needed and it takes a minute. If you have a GitHub account you can file the suggestion there instead: it stays publicly trackable, including how it was resolved.",
+        },
+      },
+    ],
+  },
 };
 
 function daysBetween(a, b) { return Math.floor((b - a) / 86400000); }
@@ -128,20 +277,27 @@ function trend(from, to) {
   const a = (STATUS[to]?.rank ?? 1) - (STATUS[from]?.rank ?? 1);
   return a > 0 ? { g: "▲", c: "var(--ok)" } : a < 0 ? { g: "▼", c: "var(--bad)" } : { g: "→", c: "var(--muted)" };
 }
-function hostOf(url) { try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; } }
+function hostOf(url) { try { return new URL(url).hostname.replace(/^(www|m)\./, ""); } catch { return url; } }
 
 const CSS = `
+/* "Institutional Cyberpunk" palette — deep slate/charcoal foundation, indigo
+   accent for chrome, emerald/amber/red reserved for status data, gradient
+   fills on gauges. Light mode uses slightly deepened status colors so text
+   on white keeps AA contrast; dark mode uses the spec values verbatim. */
 :root{
-  --bg:#f5f6f8; --surface:#ffffff; --surface-2:#fafbfc; --text:#161a1f;
-  --muted:#6b7480; --border:#e4e7ec; --shadow:0 1px 2px rgba(20,26,31,.05),0 8px 24px rgba(20,26,31,.04);
-  --accent:#1d4ed8; --ok:#137a4b; --prog:#b76e00; --bad:#b42318; --pending:#9aa3ad;
+  --bg:#F4F6F8; --surface:#ffffff; --surface-2:#EEF1F5; --text:#0F172A;
+  --muted:#5B6577; --border:#E2E7EF; --shadow:0 1px 2px rgba(15,23,42,.05),0 8px 24px rgba(15,23,42,.05);
+  --accent:#3B5BDB; --ok:#059669; --partial:#4D7C0F; --prog:#B45309; --declared:#64748B; --bad:#DC2626; --pending:#94A0B2;
   --cz-blue:#11457e; --cz-red:#d7141a;
+  --grad-a:#3B5BDB; --grad-b:#059669;
+  --grad:linear-gradient(90deg,var(--grad-a),var(--grad-b));
 }
 [data-theme="dark"]{
-  --bg:#0d1014; --surface:#161b21; --surface-2:#1b212a; --text:#e7ebf0;
-  --muted:#8a94a1; --border:#262e38; --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px rgba(0,0,0,.35);
-  --accent:#6f9bff; --ok:#3fcf8e; --prog:#e0a23a; --bad:#f87166; --pending:#6b7480;
+  --bg:#0B0F19; --surface:#121824; --surface-2:#0E1523; --text:#E8EDF7;
+  --muted:#8B96AB; --border:#232C3D; --shadow:0 1px 2px rgba(0,0,0,.45),0 12px 32px rgba(0,0,0,.4);
+  --accent:#5B7BE8; --ok:#10B981; --partial:#84CC16; --prog:#F59E0B; --declared:#8B96AB; --bad:#EF4444; --pending:#5B6577;
   --cz-blue:#3f7fd6; --cz-red:#ff5a5f;
+  --grad-a:#3B5BDB; --grad-b:#10B981;
 }
 *{box-sizing:border-box}
 .vm-root{background:var(--bg);color:var(--text);min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Inter,Helvetica,Arial,sans-serif;font-feature-settings:"tnum" on,"lnum" on;line-height:1.5;transition:background .25s,color .25s}
@@ -202,8 +358,18 @@ const CSS = `
 .vm-ch-title{font-weight:680;font-size:15px;letter-spacing:-.01em;flex:1;min-width:0}
 .vm-ch-prog{display:flex;align-items:center;gap:10px;flex:none}
 .vm-ch-pct{font-size:12.5px;font-weight:720;width:38px;text-align:right}
-.vm-mini{width:70px;height:6px;border-radius:6px;background:var(--border);overflow:hidden}
-.vm-mini > i{display:block;height:100%;background:var(--accent)}
+.vm-mini{width:70px;height:6px;border-radius:6px;background:var(--border);overflow:hidden;display:flex}
+.vm-mini > i{display:block;height:100%}
+.vm-mini > i.done{background:var(--ok)}
+.vm-mini > i.prog{background:var(--prog);opacity:.55}
+.vm-dual{display:flex;gap:13px;flex-wrap:wrap}
+.vm-dual > div{display:flex;flex-direction:column}
+.vm-dual .n{font-size:22px;font-weight:780;letter-spacing:-.02em;line-height:1.1}
+.vm-dual > div.sm .n{font-size:15px;font-weight:740}
+.vm-dual .l{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin-top:2px}
+.vm-pill-unver{color:var(--muted);border:1px dashed var(--muted)}
+.vm-evi{display:block;font-size:12.3px;line-height:1.45;padding:5px 8px;background:var(--bg);border-radius:6px;border-left:2px solid var(--ok)}
+.vm-mini > i.partial{background:var(--partial);opacity:.8}
 .vm-caret{color:var(--muted);transition:transform .2s;flex:none}
 .vm-caret.open{transform:rotate(90deg)}
 .vm-ch-body{border-top:1px solid var(--border);padding:6px 0}
@@ -230,7 +396,17 @@ const CSS = `
 .vm-id{font-size:10.5px;color:var(--muted)}
 .vm-foot{margin-top:26px;font-size:12px;color:var(--muted);line-height:1.6}
 .vm-foot a{color:var(--accent)}
-.vm-foot .vm-link{appearance:none;border:0;background:transparent;color:var(--accent);font:inherit;font-weight:650;cursor:pointer;padding:0;text-decoration:underline}
+.vm-link{appearance:none;border:0;background:transparent;color:var(--accent);font:inherit;font-weight:650;cursor:pointer;padding:0;text-decoration:underline}
+.vm-methodrow{margin:12px 0 0;font-size:12px;color:var(--muted)}
+.vm-menu-wrap{position:relative}
+.vm-menu{position:absolute;right:0;top:38px;background:var(--surface);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);min-width:220px;z-index:60;overflow:hidden;padding:4px}
+.vm-menu button{display:block;width:100%;text-align:left;appearance:none;border:0;background:transparent;color:var(--text);font-size:13px;font-weight:620;padding:10px 12px;border-radius:8px;cursor:pointer}
+.vm-menu button:hover{background:var(--surface-2)}
+.vm-menu-overlay{position:fixed;inset:0;z-index:55}
+.vm-btn{display:inline-flex;align-items:center;gap:7px;background:var(--accent);color:#fff;border:0;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:680;cursor:pointer;text-decoration:none}
+.vm-btn:hover{filter:brightness(1.08)}
+.vm-btn-ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.vm-btn-ghost:hover{background:var(--surface-2);filter:none}
 .vm-empty{padding:30px;text-align:center;color:var(--muted);font-size:13px}
 .vm-backdrop{position:fixed;inset:0;background:rgba(8,10,14,.55);display:flex;align-items:flex-start;justify-content:center;padding:24px 16px;z-index:50;overflow-y:auto}
 .vm-modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,.35);max-width:680px;width:100%;margin:auto}
@@ -242,6 +418,32 @@ const CSS = `
 .vm-modal-body ul{margin:6px 0 0;padding-left:18px}
 .vm-modal-body li{font-size:13.2px;line-height:1.55;margin:3px 0}
 .vm-disc{font-size:11.5px;color:var(--muted);margin-top:6px}
+.vm-modal.wide{max-width:860px}
+.vm-chart{width:100%;height:auto;display:block;margin:4px 0 2px;overflow:visible}
+.vm-chart-tick{font-size:10px;fill:var(--muted);font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.vm-chart-axis{font-size:10.5px;fill:var(--muted);font-weight:600}
+.vm-chart-legend{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 2px}
+.vm-legend-item{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border);background:var(--surface-2);border-radius:999px;padding:5px 11px 5px 8px;font-size:12px;cursor:pointer;opacity:.55}
+.vm-legend-item.on{opacity:1;border-color:var(--muted)}
+.vm-legend-item input{margin:0;accent-color:var(--accent);width:13px;height:13px}
+.vm-legend-item .sw{width:9px;height:9px;border-radius:50%;flex:none}
+.vm-legend-item .nm{font-weight:640}
+.vm-legend-item .pd{color:var(--muted);font-size:11px}
+.vm-table-wrap{overflow-x:auto;margin-top:4px}
+.vm-table{width:100%;border-collapse:collapse;font-size:12.5px;min-width:440px}
+.vm-table th{text-align:left;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding:7px 10px 7px 0;border-bottom:1px solid var(--border);white-space:nowrap}
+.vm-table td{padding:8px 10px 8px 0;border-bottom:1px solid var(--border)}
+.vm-table td .sw{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}
+.vm-news{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);margin-top:12px;overflow:hidden}
+.vm-news-body{border-top:1px solid var(--border)}
+.vm-news-item{padding:11px 16px;border-top:1px solid var(--border);display:flex;gap:11px;align-items:flex-start}
+.vm-news-item:first-child{border-top:0}
+.vm-news-num{font-size:11px;font-weight:740;color:var(--muted);flex:none;width:14px;text-align:center;margin-top:2px}
+.vm-news-main{flex:1;min-width:0}
+.vm-news-main a{font-size:13.4px;font-weight:640;color:var(--text);text-decoration:none;line-height:1.4}
+.vm-news-main a:hover{color:var(--accent);text-decoration:underline}
+.vm-news-sum{font-size:12.2px;color:var(--muted);margin-top:4px;line-height:1.45}
+.vm-news-host{font-size:10.5px;color:var(--accent);margin-top:4px;font-weight:620}
 @media (max-width:680px){
   .vm-cards{grid-template-columns:1fr;gap:10px}.vm-big{font-size:34px}.vm-brand p{display:none}
   .vm-ch-title{font-size:14px}.vm-mini{display:none}
@@ -249,14 +451,26 @@ const CSS = `
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 `;
 
-function Ring({ pct, size = 64 }) {
-  const r = (size - 8) / 2, c = 2 * Math.PI * r, off = c - (pct / 100) * c;
+/* Two-segment gauge: solid emerald for delivered, muted amber for work in
+   progress. Flat fills here on purpose — colour carries meaning (it matches
+   the status colours used throughout), so a decorative gradient would blur
+   the distinction the gauge exists to make. */
+function Ring({ done, partial, prog, size = 64 }) {
+  const r = (size - 8) / 2, c = 2 * Math.PI * r;
+  const seg = (pct) => (Math.max(0, Math.min(100, pct)) / 100) * c;
+  const rot = `rotate(-90 ${size / 2} ${size / 2})`;
+  const common = { cx: size / 2, cy: size / 2, r, fill: "none", strokeWidth: 7, transform: rot };
+  const t = { transition: "stroke-dasharray .5s, stroke-dashoffset .5s" };
+  // Arcs stack in order of progress so the dial reads outward from delivered.
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--border)" strokeWidth="7" />
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--accent)" strokeWidth="7"
-        strokeLinecap="round" strokeDasharray={c} strokeDashoffset={off}
-        transform={`rotate(-90 ${size / 2} ${size / 2})`} style={{ transition: "stroke-dashoffset .5s" }} />
+      <circle {...common} stroke="var(--border)" />
+      <circle {...common} stroke="var(--prog)" opacity="0.5" style={t}
+        strokeDasharray={`${seg(prog)} ${c}`} strokeDashoffset={-seg(done + partial)} />
+      <circle {...common} stroke="var(--partial)" opacity="0.75" style={t}
+        strokeDasharray={`${seg(partial)} ${c}`} strokeDashoffset={-seg(done)} />
+      <circle {...common} stroke="var(--ok)" strokeLinecap="round" style={t}
+        strokeDasharray={`${seg(done)} ${c}`} />
     </svg>
   );
 }
@@ -293,13 +507,270 @@ function MethodologyModal({ lang, onClose }) {
             <div key={i}>
               <h3>{s.h[lang]}</h3>
               {s.list && <ul>{s.list[lang].map((li, j) => <li key={j}>{li}</li>)}</ul>}
-              {s.p && <p style={{ marginTop: s.list ? 8 : 0 }}>{s.p[lang]}</p>}
+              {s.p && s.p[lang].split("\n\n").map((para, k) => (
+                <p key={k} style={{ marginTop: k === 0 ? (s.list ? 8 : 0) : 8 }}>{para}</p>
+              ))}
             </div>
           ))}
           <p className="vm-disc">
             {T.source[lang]} ·{" "}
             <a href="https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/" target="_blank" rel="noopener noreferrer">vlada.gov.cz</a>
           </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Charts ────────────────────────────────────────────────────────────────
+   Line chart comparing cumulative "fulfilled %" per quarter of the term.
+   The current cabinet's curve is derived live from weekly snapshots using the
+   STRICT metric (fulfilled / all items) so it is directly comparable with the
+   external series — see src/governments.js for the full reasoning.          */
+const CHART_METHOD = {
+  cs: "Křivky předchozích vlád pocházejí z externí analýzy postavené na auditech Demagog.cz a datech gov.cz. Ty počítají pouze plně splněné sliby – stejně jako ukazatel „splněno“ na hlavní stránce, takže se srovnává totéž s tímtéž. Přesto srovnávejte s rezervou: vzorky se liší velikostí (156 / 50 / 50 slibů oproti našim 143 bodům), hodnocení předchozích vlád dělali lidští fact-checkeři retrospektivně po skončení mandátu, zatímco naše vzniká průběžně jazykovým modelem.",
+  en: "The previous cabinets' curves come from an external analysis based on Demagog.cz promise audits and gov.cz records. Those count only fully-kept promises — the same definition as the \"fulfilled\" figure on the main page, so the chart compares like with like. Even so, compare with care: sample sizes differ (156 / 50 / 50 promises vs. our 143 items), the previous cabinets were assessed retrospectively by human fact-checkers after their term ended, while ours is measured live by a language model.",
+};
+
+function strictPctFromStatuses(statuses) {
+  const ids = Object.keys(statuses || {});
+  if (ids.length === 0) return null;
+  let done = 0;
+  for (const id of ids) if (statuses[id] === "fulfilled") done++;
+  return (done / ids.length) * 100;
+}
+
+/** Live quarterly series for the current cabinet, from weekly snapshots.
+ *  Latest snapshot within each quarter wins. */
+function currentSeries(snapshots, evals, termStartMs) {
+  const out = new Array(QUARTER_COUNT).fill(null);
+  const byQ = {};
+  for (const s of snapshots || []) {
+    if (!s.date || !s.statuses) continue;
+    const q = quarterOf(new Date(s.date).getTime(), termStartMs);
+    if (q === null || q >= QUARTER_COUNT) continue;
+    const pct = strictPctFromStatuses(s.statuses);
+    if (pct === null) continue;
+    if (!byQ[q] || s.date > byQ[q].date) byQ[q] = { date: s.date, pct };
+  }
+  for (const q in byQ) out[q] = byQ[q].pct;
+  // Always include the live "now" value so the curve reaches the present.
+  const nowQ = quarterOf(Date.now(), termStartMs);
+  if (nowQ !== null && nowQ < QUARTER_COUNT) {
+    const live = strictPctFromStatuses(
+      Object.fromEntries(Object.entries(evals || {}).map(([k, v]) => [k, v.status])));
+    if (live !== null) out[nowQ] = live;
+  }
+  return out;
+}
+
+function LineChart({ series, lang, width = 720, height = 400 }) {
+  const padL = 46, padR = 14, padT = 14, padB = 58;
+  const plotW = width - padL - padR, plotH = height - padT - padB;
+  const yMax = 100;
+  const x = (i) => padL + (i / (QUARTER_COUNT - 1)) * plotW;
+  const y = (v) => padT + plotH - (v / yMax) * plotH;
+
+  // Split each series into contiguous segments so null gaps break the line.
+  const segmentsOf = (vals) => {
+    const segs = []; let cur = [];
+    vals.forEach((v, i) => {
+      if (v === null || v === undefined) { if (cur.length) segs.push(cur); cur = []; }
+      else cur.push([i, v]);
+    });
+    if (cur.length) segs.push(cur);
+    return segs;
+  };
+
+  return (
+    <svg viewBox={`0 0 ${width} ${height}`} className="vm-chart" role="img"
+      aria-label={T.chartsTitle[lang]}>
+      {/* y grid every 10 % across the full 0–100 scale */}
+      {Array.from({ length: 11 }, (_, k) => k * 10).map((v) => (
+        <g key={v}>
+          <line x1={padL} y1={y(v)} x2={width - padR} y2={y(v)}
+            stroke="var(--border)" strokeWidth="1" />
+          <text x={padL - 8} y={y(v) + 4} textAnchor="end" className="vm-chart-tick">{v}%</text>
+        </g>
+      ))}
+      {/* one gridline per quarter; the year boundary after Q4 is heavier */}
+      {Array.from({ length: QUARTER_COUNT }, (_, i) => i).map((i) => (
+        <line key={i} x1={x(i)} y1={padT} x2={x(i)} y2={padT + plotH}
+          stroke="var(--border)" strokeWidth="1" />
+      ))}
+      {[3, 7, 11].map((i) => (
+        <line key={`y${i}`} x1={x(i + 0.5)} y1={padT} x2={x(i + 0.5)} y2={padT + plotH}
+          stroke="var(--muted)" strokeWidth="2" opacity="0.65" />
+      ))}
+      {/* x labels: Q1–Q4 repeating, with the term year called out underneath */}
+      {Array.from({ length: QUARTER_COUNT }, (_, i) => i).map((i) => (
+        <text key={i} x={x(i)} y={height - padB + 17} textAnchor="middle" className="vm-chart-tick">
+          {`Q${(i % 4) + 1}`}
+        </text>
+      ))}
+      {[0, 1, 2, 3].map((yr) => (
+        <text key={yr} x={(x(yr * 4) + x(yr * 4 + 3)) / 2} y={height - padB + 34}
+          textAnchor="middle" className="vm-chart-axis">
+          {lang === "cs" ? `${yr + 1}. rok` : `Year ${yr + 1}`}
+        </text>
+      ))}
+      <text x={padL + plotW / 2} y={height - 4} textAnchor="middle" className="vm-chart-axis">
+        {T.chartAxisX[lang]}
+      </text>
+      {series.map((s) => (
+        <g key={s.id}>
+          {segmentsOf(s.values).map((seg, si) => (
+            <polyline key={si} fill="none" stroke={s.color}
+              strokeWidth={s.current ? 3 : 2}
+              strokeLinecap="round" strokeLinejoin="round"
+              points={seg.map(([i, v]) => `${x(i)},${y(v)}`).join(" ")} />
+          ))}
+          {s.values.map((v, i) => v === null || v === undefined ? null : (
+            <circle key={i} cx={x(i)} cy={y(v)} r={s.current ? 4 : 3} fill={s.color}
+              stroke="var(--surface)" strokeWidth="1.5">
+              <title>{`${s.label} · ${quarterLabel(i, lang)} · ${v.toFixed(1)} %`}</title>
+            </circle>
+          ))}
+        </g>
+      ))}
+    </svg>
+  );
+}
+
+function ChartsPage({ lang, evals, snapshots }) {
+  const [on, setOn] = useState({
+    babis3: true, fiala: true, babis2: true, sobotka: true, babis1: false,
+  });
+  const termStart = new Date(DATES.tookOffice).getTime();
+  const live = useMemo(() => currentSeries(snapshots, evals, termStart), [snapshots, evals, termStart]);
+  const liveCount = live.filter((v) => v !== null).length;
+
+  const series = [
+    ...GOVERNMENTS.filter((g) => on[g.id]).map((g) => ({
+      id: g.id, color: g.color, values: g.series, label: g.name[lang], current: false,
+    })),
+    ...(on.babis3 ? [{
+      id: "babis3", color: CURRENT_GOV.color, values: live,
+      label: CURRENT_GOV.name[lang], current: true,
+    }] : []),
+  ];
+  const all = [...GOVERNMENTS, { ...CURRENT_GOV, promises: TOTAL_ITEMS, final: null }];
+
+  return (
+    <>
+      <h3>{lang === "cs" ? "Plnění programu v čase" : "Delivery over time"}</h3>
+      <p style={{ marginBottom: 10 }}>
+        {lang === "cs"
+          ? "Kumulativní podíl plně splněných bodů podle kvartálu volebního období. Silnější zelená křivka je současná vláda z živého hodnocení."
+          : "Cumulative share of fully-fulfilled items by quarter of the term. The thicker green curve is the current cabinet, from live ratings."}
+      </p>
+      <LineChart series={series} lang={lang} />
+      <div className="vm-chart-legend">
+        {all.map((g) => (
+          <label key={g.id} className={`vm-legend-item ${on[g.id] ? "on" : ""}`}>
+            <input type="checkbox" checked={!!on[g.id]}
+              onChange={() => setOn((o) => ({ ...o, [g.id]: !o[g.id] }))} />
+            <span className="sw" style={{ background: g.color }} />
+            <span className="nm">{g.name[lang]}</span>
+            <span className="pd">{g.period}</span>
+          </label>
+        ))}
+      </div>
+      {liveCount < 2 && <p className="vm-disc" style={{ marginTop: 10 }}>{T.chartNoData[lang]}</p>}
+
+      <h3>{lang === "cs" ? "Konečná bilance ukončených vlád" : "Final tally of completed cabinets"}</h3>
+      <div className="vm-table-wrap">
+        <table className="vm-table">
+          <thead>
+            <tr>
+              <th>{lang === "cs" ? "Vláda" : "Cabinet"}</th>
+              <th>{lang === "cs" ? "Slibů" : "Promises"}</th>
+              <th>{lang === "cs" ? "Splněno" : "Fulfilled"}</th>
+              <th>{lang === "cs" ? "Částečně" : "Partial"}</th>
+              <th>{lang === "cs" ? "Nesplněno" : "Broken"}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {GOVERNMENTS.filter((g) => g.final).map((g) => (
+              <tr key={g.id}>
+                <td><span className="sw" style={{ background: g.color }} /> {g.name[lang]}</td>
+                <td className="vm-mono">{g.promises}</td>
+                <td className="vm-mono" style={{ color: "var(--ok)" }}>{g.final.fulfilled} %</td>
+                <td className="vm-mono" style={{ color: "var(--prog)" }}>{g.final.partial} %</td>
+                <td className="vm-mono" style={{ color: "var(--bad)" }}>{g.final.broken} %</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h3>{lang === "cs" ? "Jak je graf srovnatelný" : "How the comparison works"}</h3>
+      <p>{CHART_METHOD[lang]}</p>
+      <p className="vm-disc" style={{ marginTop: 8 }}>
+        {lang === "cs"
+          ? `Pro pořádek: tatáž externí analýza uvádí pro současnou vládu v Q1/2026 hodnotu ${CURRENT_EXTERNAL_Q1} %. Do grafu ji nemícháme — naše křivka vzniká vlastním měřením.`
+          : `For the record: the same external analysis puts the current cabinet at ${CURRENT_EXTERNAL_Q1}% in Q1/2026. We don't mix it into the chart — our curve comes from our own measurement.`}
+      </p>
+    </>
+  );
+}
+
+function PageModal({ pageKey, lang, evals, snapshots, onClose }) {
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+  const page = PAGES[pageKey];
+  return (
+    <div className="vm-backdrop" onClick={onClose} role="dialog" aria-modal="true">
+      <div className={`vm-modal ${page.chart ? "wide" : ""}`} onClick={(e) => e.stopPropagation()}>
+        <div className="vm-modal-head">
+          <h2>{page.title[lang]}</h2>
+          <button className="vm-icon" onClick={onClose} aria-label={T.close[lang]}>✕</button>
+        </div>
+        <div className="vm-modal-body">
+          {page.chart && <ChartsPage lang={lang} evals={evals} snapshots={snapshots} />}
+          {(page.sections || []).map((s, i) => (
+            <div key={i}>
+              <h3>{s.h[lang]}</h3>
+              {s.list && <ul>{s.list[lang].map((li, j) => <li key={j}>{li}</li>)}</ul>}
+              {s.p && s.p[lang].split("\n\n").map((para, k) => (
+                <p key={k} style={{ marginTop: k === 0 ? (s.list ? 8 : 0) : 8 }}>{para}</p>
+              ))}
+            </div>
+          ))}
+          {pageKey === "about" && (
+            <p style={{ marginTop: 16 }}>
+              <a className="vm-btn" href="https://github.com/buuczech/vladomer" target="_blank" rel="noopener noreferrer">
+                GitHub ↗
+              </a>
+            </p>
+          )}
+          {pageKey === "support" && (SUPPORT_LINKS.buymeacoffee || SUPPORT_LINKS.githubSponsors) && (
+            <p style={{ marginTop: 16, display: "flex", gap: 10, flexWrap: "wrap" }}>
+              {SUPPORT_LINKS.buymeacoffee && (
+                <a className="vm-btn" href={SUPPORT_LINKS.buymeacoffee} target="_blank" rel="noopener noreferrer">
+                  ☕ {lang === "cs" ? "Přispět" : "Contribute"}
+                </a>
+              )}
+              {SUPPORT_LINKS.githubSponsors && (
+                <a className="vm-btn" href={SUPPORT_LINKS.githubSponsors} target="_blank" rel="noopener noreferrer">
+                  ♥ GitHub Sponsors
+                </a>
+              )}
+            </p>
+          )}
+          {pageKey === "ideas" && (
+            <p style={{ marginTop: 16, display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <a className="vm-btn" href={SUGGESTION_FORM_URL} target="_blank" rel="noopener noreferrer">
+                {lang === "cs" ? "Vyplnit formulář" : "Fill in the form"} ↗
+              </a>
+              <a className="vm-btn vm-btn-ghost" href={GITHUB_ISSUES_URL} target="_blank" rel="noopener noreferrer">
+                {lang === "cs" ? "Podat na GitHubu" : "File on GitHub"} ↗
+              </a>
+            </p>
+          )}
         </div>
       </div>
     </div>
@@ -313,12 +784,16 @@ export default function App() {
       ? window.matchMedia("(prefers-color-scheme: dark)").matches : false);
   const [evals, setEvals] = useState({});
   const [snapshots, setSnapshots] = useState([]);
+  const [news, setNews] = useState([]);
+  const [newsOpen, setNewsOpen] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [loading, setLoading] = useState(true);
   const [openCh, setOpenCh] = useState({ "1": true });
   const [openCmt, setOpenCmt] = useState({});
   const [changesOpen, setChangesOpen] = useState(true);
   const [showMethod, setShowMethod] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [page, setPage] = useState(null); // "about" | "support" | "ideas"
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState("all");
   const [now, setNow] = useState(Date.now());
@@ -330,12 +805,14 @@ export default function App() {
   const loadData = useCallback(async () => {
     setLoading(true);
     try {
-      const [er, hr] = await Promise.all([
+      const [er, hr, nr] = await Promise.all([
         fetch(`${import.meta.env.BASE_URL}evaluations.json?t=${Date.now()}`),
         fetch(`${import.meta.env.BASE_URL}history.json?t=${Date.now()}`),
+        fetch(`${import.meta.env.BASE_URL}news.json?t=${Date.now()}`).catch(() => null),
       ]);
       if (er.ok) { const j = await er.json(); setEvals(j.evals || {}); setLastUpdated(j.lastUpdated || null); }
       if (hr.ok) { const h = await hr.json(); setSnapshots(h.snapshots || []); }
+      if (nr && nr.ok) { const n = await nr.json(); setNews(n.items || []); }
     } catch (e) { /* keep empty state */ }
     setLoading(false);
   }, []);
@@ -348,14 +825,32 @@ export default function App() {
   const termTotal = daysBetween(new Date(DATES.tookOffice).getTime(), electionMs);
   const termPct = Math.min(100, Math.max(0, (daysIn / termTotal) * 100));
 
-  const { overallPct, evaluatedCount } = useMemo(() => {
-    let sum = 0, n = 0;
+  /* Strict scoring: an item counts as delivered only when it is actually
+     fulfilled. "In progress" is reported separately rather than earning half
+     credit — a weighted blend put 84% of the headline figure on work that
+     merely started, which is neither defensible nor comparable with how
+     Demagog.cz and government reviews score promises. */
+  const { donePct, partialPct, progPct, evaluatedCount, unverifiableCount } = useMemo(() => {
+    let done = 0, partial = 0, prog = 0, n = 0, unver = 0;
     for (const it of ALL_ITEMS) {
       const e = evals[it.id];
-      if (e && STATUS[e.status] && STATUS[e.status].score !== null) { sum += STATUS[e.status].score; n++; }
+      if (!e || !STATUS[e.status] || STATUS[e.status].score === null) continue;
+      // Commitments too vague to measure are excluded from the denominator
+      // rather than scored — counting them either way would distort the result.
+      if (e.unverifiable) { unver++; continue; }
+      n++;
+      if (e.status === "fulfilled") done++;
+      else if (e.status === "partial") partial++;
+      else if (e.status === "in_progress") prog++;
     }
-    return { overallPct: n ? Math.round((sum / n) * 100) : 0, evaluatedCount: n };
+    return {
+      donePct: n ? (done / n) * 100 : 0,
+      partialPct: n ? (partial / n) * 100 : 0,
+      progPct: n ? (prog / n) * 100 : 0,
+      evaluatedCount: n, unverifiableCount: unver,
+    };
   }, [evals]);
+  const pct1 = (v) => (v >= 10 || v === 0 ? Math.round(v) : Math.round(v * 10) / 10);
 
   const changes = useMemo(() => {
     const map = {};
@@ -371,12 +866,21 @@ export default function App() {
   }, [evals]);
 
   const chapterStats = useCallback((ch) => {
-    let sum = 0, n = 0, tot = 0;
+    let done = 0, partial = 0, prog = 0, n = 0, tot = 0;
     for (const g of ch.groups) for (const it of g.items) {
       tot++; const e = evals[it.id];
-      if (e && STATUS[e.status] && STATUS[e.status].score !== null) { sum += STATUS[e.status].score; n++; }
+      if (!e || !STATUS[e.status] || STATUS[e.status].score === null || e.unverifiable) continue;
+      n++;
+      if (e.status === "fulfilled") done++;
+      else if (e.status === "partial") partial++;
+      else if (e.status === "in_progress") prog++;
     }
-    return { pct: n ? Math.round((sum / n) * 100) : 0, evaluated: n, total: tot };
+    return {
+      done: n ? (done / n) * 100 : 0,
+      partial: n ? (partial / n) * 100 : 0,
+      prog: n ? (prog / n) * 100 : 0,
+      evaluated: n, total: tot,
+    };
   }, [evals]);
 
   const statusOf = (id) => (evals[id] ? evals[id].status : "pending");
@@ -393,7 +897,7 @@ export default function App() {
   const filtering = query !== "" || filter !== "all";
   function setAllOpen(open) { const o = {}; if (open) CHAPTERS.forEach((c) => (o[c.id] = true)); setOpenCh(o); }
   const next = nextFriday(lastUpdated ? new Date(lastUpdated) : new Date(now));
-  const filterOpts = ["all", "fulfilled", "in_progress", "not_started", "stalled", "pending"];
+  const filterOpts = ["all", "fulfilled", "partial", "in_progress", "declared", "not_started", "broken", "pending"];
 
   return (
     <div className="vm-root" data-theme={dark ? "dark" : "light"}>
@@ -408,6 +912,22 @@ export default function App() {
             <button className={lang === "en" ? "on" : ""} onClick={() => setLang("en")}>EN</button>
           </div>
           <button className="vm-icon" onClick={() => setDark((d) => !d)} aria-label="theme">{dark ? "☀" : "☾"}</button>
+          <div className="vm-menu-wrap">
+            <button className="vm-icon" onClick={() => setMenuOpen((o) => !o)} aria-label="menu" aria-expanded={menuOpen}
+              hidden={MENU_ORDER.every((k) => !MENU_FLAGS[k])}>☰</button>
+            {menuOpen && (
+              <>
+                <div className="vm-menu-overlay" onClick={() => setMenuOpen(false)} />
+                <div className="vm-menu" role="menu">
+                  {MENU_ORDER.filter((k) => MENU_FLAGS[k]).map((k) => (
+                    <button key={k} role="menuitem" onClick={() => { setPage(k); setMenuOpen(false); }}>
+                      {PAGES[k].title[lang]}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
@@ -431,14 +951,32 @@ export default function App() {
             <div className="vm-card">
               <div className="lab">{t("overall")}</div>
               <div className="vm-gauge-wrap">
-                <Ring pct={overallPct} />
-                <div>
-                  <div className="vm-pct vm-mono">{overallPct}%</div>
-                  <div className="vm-sub">{evaluatedCount} {t("ofItems")} {TOTAL_ITEMS} {t("evaluated")}</div>
+                <Ring done={donePct} partial={partialPct} prog={progPct} />
+                <div className="vm-dual">
+                  <div>
+                    <span className="n vm-mono" style={{ color: "var(--ok)" }}>{pct1(donePct)}%</span>
+                    <span className="l">{t("statDone")}</span>
+                  </div>
+                  <div className="sm">
+                    <span className="n vm-mono" style={{ color: "var(--partial)" }}>{pct1(partialPct)}%</span>
+                    <span className="l">{t("statPartial")}</span>
+                  </div>
+                  <div className="sm">
+                    <span className="n vm-mono" style={{ color: "var(--prog)" }}>{pct1(progPct)}%</span>
+                    <span className="l">{t("statProg")}</span>
+                  </div>
                 </div>
+              </div>
+              <div className="vm-sub">
+                {evaluatedCount} {t("ofItems")} {TOTAL_ITEMS} {t("evaluated")}
+                {unverifiableCount > 0 && ` · ${unverifiableCount} ${t("statUnver")}`}
               </div>
             </div>
           </div>
+          <p className="vm-methodrow">
+            <button className="vm-link" onClick={() => setShowMethod(true)}>{t("methodologyBtn")}</button>
+            {" · "}{t("disclaimerShort")}
+          </p>
         </div>
 
         <div className="vm-controls">
@@ -449,6 +987,36 @@ export default function App() {
             <span>{t("scope")}: <b>{CHAPTERS.length}</b> · {TOTAL_ITEMS} {t("items")}</span>
           </div>
         </div>
+
+        {news.length > 0 && (
+          <div className="vm-news">
+            <div className="vm-changes-head" onClick={() => setNewsOpen((o) => !o)}>
+              <span className="ttl">{t("newsTitle")}</span>
+              <span className="cnt">{news.length}</span>
+              <svg className={`vm-caret ${newsOpen ? "open" : ""}`} width="14" height="14" viewBox="0 0 14 14">
+                <path d="M5 3l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="2" />
+              </svg>
+            </div>
+            {newsOpen && (
+              <div className="vm-news-body">
+                {news.map((n, i) => (
+                  <div className="vm-news-item" key={i}>
+                    <span className="vm-news-num vm-mono">{i + 1}</span>
+                    <div className="vm-news-main">
+                      <a href={n.url} target="_blank" rel="noopener noreferrer">{n.title[lang] || n.title.cs}</a>
+                      {(n.summary?.[lang] || n.summary?.cs) && (
+                        <div className="vm-news-sum">{n.summary[lang] || n.summary.cs}</div>
+                      )}
+                      <div className="vm-news-host">
+                        {hostOf(n.url)}{n.date ? ` · ${fmtDate(n.date, lang)}` : ""}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {changes.length > 0 && (
           <div className="vm-changes">
@@ -515,8 +1083,15 @@ export default function App() {
                   <span className="vm-ch-num vm-mono">{ch.id}</span>
                   <span className="vm-ch-title">{ch.title[lang]}</span>
                   <span className="vm-ch-prog">
-                    <span className="vm-mini"><i style={{ width: `${st.pct}%` }} /></span>
-                    <span className="vm-ch-pct vm-mono">{st.evaluated ? `${st.pct}%` : "–"}</span>
+                    <span className="vm-mini" title={st.evaluated
+                      ? `${t("statDone")} ${pct1(st.done)} % · ${t("statPartial")} ${pct1(st.partial)} % · ${t("statProg")} ${pct1(st.prog)} %` : ""}>
+                      <i className="done" style={{ width: `${st.done}%` }} />
+                      <i className="partial" style={{ width: `${st.partial}%` }} />
+                      <i className="prog" style={{ width: `${st.prog}%` }} />
+                    </span>
+                    <span className="vm-ch-pct vm-mono" style={{ color: st.evaluated && st.done > 0 ? "var(--ok)" : undefined }}>
+                      {st.evaluated ? `${pct1(st.done)}%` : "–"}
+                    </span>
                   </span>
                   <svg className={`vm-caret ${open ? "open" : ""}`} width="14" height="14" viewBox="0 0 14 14">
                     <path d="M5 3l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="2" />
@@ -548,7 +1123,8 @@ export default function App() {
                                   <div className="vm-it-text">{it[lang]}</div>
                                   <div className="vm-it-foot">
                                     <span className="vm-pill" style={{ color: sObj.color, border: `1px solid ${sObj.color}` }}>{sObj[lang]}</span>
-                                    {tr && <span className="vm-trend" style={{ color: tr.c }} title={`${STATUS[e.previousStatus][lang]} → ${sObj[lang]}`}>{tr.g}</span>}
+                                    {e?.unverifiable && <span className="vm-pill vm-pill-unver">{t("unverBadge")}</span>}
+                                    {tr && <span className="vm-trend" style={{ color: tr.c }} title={`${STATUS[e.previousStatus]?.[lang] || ""} → ${sObj[lang]}`}>{tr.g}</span>}
                                     <span className="vm-id vm-mono">#{it.id}</span>
                                     {hasNote && (
                                       <button className="vm-cmt-btn" onClick={() => setOpenCmt((o) => ({ ...o, [it.id]: !o[it.id] }))}>
@@ -560,6 +1136,15 @@ export default function App() {
                                   {cmtOpen && e && (
                                     <div className="vm-cmt">
                                       {e.comment && (e.comment[lang] || e.comment.cs) && <span>{e.comment[lang] || e.comment.cs}</span>}
+                                      {e.evidence && (
+                                        <>
+                                          <span className="clab">{t("evidenceLabel")}</span>
+                                          <span className="vm-evi">
+                                            {e.evidence}
+                                            {e.evidenceDate && <b className="vm-mono"> · {fmtDate(e.evidenceDate, lang)}</b>}
+                                          </span>
+                                        </>
+                                      )}
                                       {e.change && (e.change[lang] || e.change.cs) && (
                                         <>
                                           <span className="clab">{t("changeLabel")}</span>
@@ -615,6 +1200,7 @@ export default function App() {
       </div>
 
       {showMethod && <MethodologyModal lang={lang} onClose={() => setShowMethod(false)} />}
+      {page && <PageModal pageKey={page} lang={lang} evals={evals} snapshots={snapshots} onClose={() => setPage(null)} />}
     </div>
   );
 }

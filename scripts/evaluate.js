@@ -11,19 +11,86 @@
  * JSON is kept clean via instruction + bracket extraction + retry instead.
  *
  * Run:  ANTHROPIC_API_KEY=sk-ant-... npm run evaluate
+ *
+ * Set CHAPTER_LIMIT=1 to only evaluate the first N chapters (used by the
+ * dev branch's workflow to test cheaply without spending on all 18).
  */
 import { writeFileSync, readFileSync } from "node:fs";
-import { CHAPTERS } from "../src/data.js";
+import { CHAPTERS, DATES } from "../src/data.js";
+
+// Nothing this cabinet did can predate its own appointment. The first full run
+// on the strict scale credited it with laws published in August 2025 — i.e.
+// the previous government's work — so the cut-off is enforced in code.
+const TERM_START = new Date(DATES.tookOffice).getTime();
+
+const CHAPTER_LIMIT = process.env.CHAPTER_LIMIT ? Number(process.env.CHAPTER_LIMIT) : CHAPTERS.length;
 
 const KEY = process.env.ANTHROPIC_API_KEY;
 const MODEL = process.env.EVAL_MODEL || "claude-haiku-4-5-20251001";
 const OUT_EVAL = new URL("../public/evaluations.json", import.meta.url);
 const OUT_HIST = new URL("../public/history.json", import.meta.url);
-const VALID = new Set(["fulfilled", "in_progress", "not_started", "stalled"]);
+const OUT_NEWS = new URL("../public/news.json", import.meta.url);
+// Append-only audit trail: one record per item per run, so any past rating
+// stays inspectable (item id + date + status + the text that justified it).
+const OUT_AUDIT = new URL("../public/audit.json", import.meta.url);
+/* Status scale. "fulfilled" is deliberately hard to reach: it requires the law
+   to have completed the whole legislative process and been published in the
+   Sbírka zákonů — the same bar Demagog.cz applies — and the model must produce
+   the evidence for it (see EVIDENCE_MIN below). "unverifiable" is a separate
+   flag, not a status, because it describes the promise's wording rather than
+   the government's progress. */
+const VALID = new Set(["fulfilled", "partial", "in_progress", "declared", "not_started", "broken"]);
 const HISTORY_WEEKS = 52;
 const MAX_SOURCES = 3;
+// A "fulfilled" claim without a concrete citation gets downgraded, so the
+// strongest status can never rest on an unsupported assertion.
+const EVIDENCE_MIN = 12;
 
-const STATUS_CS = { fulfilled: "splněno", in_progress: "probíhá", not_started: "nezahájeno", stalled: "uvázlo" };
+const STATUS_CS = {
+  fulfilled: "splněno", partial: "částečně splněno", in_progress: "probíhá",
+  declared: "jen deklarováno", not_started: "nezahájeno", broken: "porušeno/opuštěno",
+  stalled: "porušeno/opuštěno", // legacy value from the pre-2026-07 scale
+};
+
+// All real item IDs — guards against the model inventing an ID (e.g. "11.11"),
+// which the merge-based storage would otherwise carry forward forever.
+const VALID_IDS = new Set(CHAPTERS.flatMap((c) => c.groups.flatMap((g) => g.items.map((i) => i.id))));
+
+// Source whitelist, enforced at the API level via web_search allowed_domains —
+// search physically can't return results outside this list. Official sources +
+// NFNŽ MediaRating categories A / A- / B+. Mirrored in the App.jsx methodology.
+const ALLOWED_DOMAINS = [
+  // Official (gov.cz covers all government subdomains — vlada, ministries,
+  // NSA, DIA, …) / fact-checking
+  "gov.cz", "demagog.cz",
+  // NFNŽ MediaRating — A
+  "aktualne.cz", "ceskenoviny.cz", "ct24.ceskatelevize.cz", "denik.cz",
+  "denikalarm.cz", "denikn.cz", "denikreferendum.cz", "e15.cz", "echo24.cz",
+  "euro.cz", "forum24.cz", "hn.cz", "irozhlas.cz", "refresher.cz",
+  "respekt.cz", "seznamzpravy.cz", "voxpot.cz", "zivotvcesku.cz",
+  // NFNŽ MediaRating — A-  (idnes.cz and lidovky.cz omitted: they block
+  // Anthropic's crawler, and one inaccessible domain 400s the whole request)
+  "hlidacipes.org", "novinky.cz",
+  // NFNŽ MediaRating — B+
+  "blesk.cz", "cnn.iprima.cz", "newstream.cz", "reflex.cz", "tn.nova.cz",
+];
+
+/* Headlines use a narrower list than the ratings: only journalism, and only
+   the higher-rated outlets. gov.cz and demagog.cz are dropped because a
+   government portal is not independent news reporting (the first run returned
+   a generic vlada.gov.cz index page as a "headline"), and the B+ tabloid /
+   commentary tier is dropped so the week's news isn't led by celebrity-desk
+   coverage. NFNŽ MediaRating A + A- only. */
+const NEWS_DOMAINS = [
+  "aktualne.cz", "ceskenoviny.cz", "ct24.ceskatelevize.cz", "denik.cz",
+  "denikalarm.cz", "denikn.cz", "denikreferendum.cz", "e15.cz", "echo24.cz",
+  "euro.cz", "forum24.cz", "hn.cz", "irozhlas.cz", "respekt.cz",
+  "seznamzpravy.cz", "voxpot.cz", "zivotvcesku.cz", "hlidacipes.org", "novinky.cz",
+];
+
+// NOTE: structured outputs (output_config.format) were tried here and turned
+// out to suppress the web_search tool entirely (0 search hits), just like the
+// assistant prefill did earlier — JSON must stay prompt-enforced.
 
 if (!KEY) {
   console.error("Missing ANTHROPIC_API_KEY. Set it as an env var / repo secret.");
@@ -35,6 +102,20 @@ function readJSON(url, fallback) {
 }
 function truncate(s, n) { s = s || ""; return s.length > n ? s.slice(0, n) + "…" : s; }
 function normUrl(u) { return (u || "").trim().replace(/\/+$/, "").toLowerCase(); }
+function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, "").replace(/^m\./, ""); } catch { return u; } }
+
+/* A "č. NNN/YYYY Sb." marker states the year the norm was PUBLISHED. If that
+   year doesn't match the date the model gave, the date is something else —
+   typically a later effective-from date, which is how the term-start check got
+   bypassed ("č. 270/2025 Sb., účinný od 1. ledna 2026" dated 2026-01-01).
+   Amending laws legitimately cite older acts, so only the newest year in the
+   string is judged: that is the norm being claimed as the achievement. */
+function evidenceYearMismatch(evidence, evDate) {
+  const years = [...String(evidence).matchAll(/\b\d{1,4}\s*\/\s*(\d{4})\s*Sb\b/gi)]
+    .map((m) => Number(m[1]));
+  if (years.length === 0) return false; // non-legislative step — date check applies alone
+  return Math.max(...years) !== Number(evDate.slice(0, 4));
+}
 
 function historyFor(id, snapshots) {
   return snapshots
@@ -57,27 +138,39 @@ async function evaluateChapter(ch, prevEvals, snapshots) {
     })
     .join("\n");
 
-  const prompt = `Jsi nestranný, kritický analytik plnění vládního programu. NEJPRVE vyhledej aktuální zprávy (web search) a hodnoť jen na základě ověřitelných, aktuálních faktů. Vláda Andreje Babiše (ANO, SPD, Motoristé) nastoupila 15. 12. 2025.
+  const prompt = `Jsi nestranný, kritický analytik plnění programu vlády Andreje Babiše (ANO, SPD, Motoristé; ve funkci od 15. 12. 2025). NEJPRVE vyhledej aktuální zprávy (web search) a hodnoť výhradně podle ověřitelných, aktuálních faktů.
 
-Oblast: „${ch.title.cs}".
+Oblast: „${ch.title.cs}"
 
-U KAŽDÉHO bodu zvaž důkazy z VÍCE úhlů, ne jen jeden závěr:
-- „ano, ale…" — co svědčí pro splnění a jaké jsou výhrady (pouze ohlášeno vs. reálně zavedeno, jen částečně, jen formálně, bez dopadu).
-- „ne, ale…" — co svědčí proti splnění a jaké jsou náznaky pokroku či dílčích kroků.
-- Zohledni kritiku opozice i odborníků a rozdíl mezi sliby/návrhy a skutečným dopadem.
+U KAŽDÉHO bodu zvaž důkazy z více úhlů, ne jen jeden závěr:
+- „ano, ale…" — co svědčí pro splnění a s jakými výhradami (jen ohlášeno vs. reálně zavedeno, částečně, formálně, bez dopadu).
+- „ne, ale…" — co svědčí proti splnění a jaké jsou dílčí kroky či náznaky pokroku.
+- Zohledni kritiku opozice i odborníků; rozlišuj sliby/návrhy od skutečného dopadu.
 
-Na základě této vyvážené úvahy urči stav (konzervativně; bez důkazu = not_started):
-fulfilled = prokazatelně splněno; in_progress = aktivně se pracuje (návrh, projednávání); not_started = žádný doložitelný krok; stalled = uvázlo/opuštěno.
+Stav urči konzervativně a striktně. Bez doložitelného důkazu = not_started.
 
-Je-li uveden předchozí stav, do pole "change" napiš, CO SE ZMĚNILO oproti minulému týdnu, a zasaď to do širšího vývoje. Pokud předchozí hodnocení chybí, do "change" napiš „první hodnocení".
+- fulfilled — POUZE pokud norma prošla CELÝM legislativním procesem (Sněmovna, Senát, podpis prezidenta) a byla vyhlášena ve Sbírce zákonů, nebo u nelegislativního závazku je opatření prokazatelně zavedené a účinné. Do pole "evidence" MUSÍŠ uvést konkrétní doklad (např. „zákon č. 123/2026 Sb., vyhlášen 4. 3. 2026") a do "evidence_date" datum ve tvaru YYYY-MM-DD. Bez obojího stav fulfilled NEPOUŽÍVEJ.
 
-Do pole "sources" uveď 1–3 PŘESNÉ URL z výsledků vyhledávání, které tvé hodnocení nejvíce podporují. Používej jen URL, která se skutečně objevila ve vyhledávání – NEVYMÝŠLEJ je.
+Do "evidence_date" patří datum, kdy vláda ten krok UDĚLALA – tedy datum vyhlášení ve Sbírce zákonů, u exekutivního kroku datum jeho přijetí. NIKDY neuváděj datum budoucí účinnosti: norma vyhlášená v listopadu 2025 s účinností od 1. 1. 2026 má evidence_date 2025-11-xx, ne 2026-01-01.
 
-Body:
+KRITICKÉ: Tato vláda nastoupila 15. 12. 2025. Zásluhu jí lze přiznat POUZE za kroky učiněné od tohoto data. Zákon vyhlášený dříve je dílem PŘEDCHOZÍ vlády – i když tématicky odpovídá slibu a účinnosti nabyl až za této vlády, NENÍ to splnění jejího závazku. Poznáš to podle značky ve Sbírce: „č. 270/2025 Sb." byl vyhlášen v roce 2025, tedy před nástupem této vlády, pokud nešlo o samý závěr prosince. V takovém případě zvol stav podle toho, co udělala TATO vláda.
+- partial — závazek naplněn jen zčásti: norma prošla v osekané podobě, pokrývá jen část slibu, byla přijata s výrazným zpožděním nebo v pozměněné parametrizaci.
+- in_progress — běží reálný legislativní proces: vláda schválila návrh, je v Poslanecké sněmovně či Senátu, ale proces není dokončen.
+- declared — vláda se pouze vyjádřila, přijala usnesení, deklarovala postoj či ustavila pracovní skupinu, ale nezahájila legislativní ani exekutivní krok. Samotné prohlášení ministra sem patří.
+- not_started — žádný doložitelný krok.
+- broken — vláda jednala v rozporu se slibem, nebo od něj prokazatelně ustoupila.
+
+Do "unverifiable" dej true, pokud je závazek formulován tak obecně, že jeho splnění nelze objektivně změřit (např. „budeme podporovat rodiny" bez měřitelného kritéria). Takové body se nezapočítávají do procent.
+
+Měny: v českých textech piš „Kč", v anglických „CZK". Je-li částka ve zdroji důvěryhodně uvedena v eurech, ponech EUR v obou jazycích — nepřepočítávej.
+
+Do "sources" uveď 1–3 PŘESNÉ URL z výsledků vyhledávání, které hodnocení nejvíce podporují. Jen URL, která se ve vyhledávání skutečně objevila – NEVYMÝŠLEJ je.
+
+Body (vrať hodnocení pro každé ID):
 ${lines}
 
 Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný úvodní text, žádné markdown bloky:
-[{"id":"...","status":"fulfilled|in_progress|not_started|stalled","comment_cs":"2–4 věty, vyvážené ano-ale/ne-ale","comment_en":"2–4 sentences","change_cs":"1–2 věty","change_en":"1–2 sentences","sources":["https://...","https://..."]}]`;
+[{"id":"...","status":"fulfilled|partial|in_progress|declared|not_started|broken","evidence":"u fulfilled povinný konkrétní doklad (Sbírka zákonů/účinnost), jinak prázdné","evidence_date":"YYYY-MM-DD u fulfilled, jinak prázdné","unverifiable":false,"comment_cs":"2–3 věty, vyvážené ano-ale/ne-ale","comment_en":"anglický překlad comment_cs","change_cs":"1 věta: co se změnilo; bez předchozího hodnocení přesně „první hodnocení“","change_en":"anglický překlad change_cs","sources":["https://..."]}]`;
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -86,7 +179,7 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
       model: MODEL,
       max_tokens: 6000,
       messages: [{ role: "user", content: prompt }], // no prefill — lets web_search run
-      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 4 }],
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 4, allowed_domains: ALLOWED_DOMAINS }],
     }),
   });
 
@@ -108,14 +201,24 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
 
   const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
   const clean = text.replace(/```json|```/g, "").trim();
-  const a = clean.indexOf("["), b = clean.lastIndexOf("]");
-  if (a === -1 || b === -1) throw new Error("no JSON array in response");
-  const parsed = JSON.parse(clean.slice(a, b + 1));
+  // With structured output the whole text is valid JSON ({items: [...]}).
+  // Bracket extraction stays as a fallback in case the response is somehow prose-wrapped.
+  let parsed;
+  try {
+    const root = JSON.parse(clean);
+    parsed = Array.isArray(root) ? root : root.items;
+  } catch {
+    const a = clean.indexOf("["), b = clean.lastIndexOf("]");
+    if (a === -1 || b === -1) throw new Error("no JSON array in response");
+    parsed = JSON.parse(clean.slice(a, b + 1));
+  }
+  if (!Array.isArray(parsed)) throw new Error("no JSON array in response");
 
   const out = {};
   let kept = 0;
+  const demoted = { "no-evidence": 0, "no-date": 0, "predates-term": 0, "date-mismatch": 0 };
   for (const r of parsed) {
-    if (!r || !r.id) continue;
+    if (!r || !r.id || !VALID_IDS.has(r.id)) continue;
     const sources = [];
     if (Array.isArray(r.sources)) {
       const seen = new Set();
@@ -126,8 +229,31 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
       }
     }
     kept += sources.length;
+
+    /* Enforce the evidence bar: "fulfilled" is only allowed to stand when the
+       model actually cited something (Sbírka entry, effective date). Otherwise
+       it falls back to "partial" — the claim of progress is kept, the claim of
+       completion is not. */
+    let status = VALID.has(r.status) ? r.status : "not_started";
+    const evidence = typeof r.evidence === "string" ? r.evidence.trim() : "";
+    const evDate = /^\d{4}-\d{2}-\d{2}$/.test(r.evidence_date || "") ? r.evidence_date : "";
+    let downgradeReason = null;
+    if (status === "fulfilled") {
+      if (evidence.length < EVIDENCE_MIN) downgradeReason = "no-evidence";
+      else if (!evDate) downgradeReason = "no-date";
+      // Credit for work finished before this cabinet took office belongs to
+      // the previous one, however well the topic matches the promise.
+      else if (Date.parse(evDate) < TERM_START) downgradeReason = "predates-term";
+      else if (evidenceYearMismatch(evidence, evDate)) downgradeReason = "date-mismatch";
+    }
+    if (downgradeReason) { status = "partial"; demoted[downgradeReason]++; }
+
     out[r.id] = {
-      status: VALID.has(r.status) ? r.status : "not_started",
+      status,
+      evidence,
+      evidenceDate: evDate || undefined,
+      unverifiable: r.unverifiable === true,
+      evidenceMissing: downgradeReason || undefined,
       comment: { cs: r.comment_cs || "", en: r.comment_en || "" },
       change: { cs: r.change_cs || "", en: r.change_en || "" },
       sources,
@@ -135,16 +261,93 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
       updatedAt: new Date().toISOString(),
     };
   }
-  return { evals: out, searchCount, kept };
+  return { evals: out, searchCount, kept, demoted };
 }
 
-async function callWithBackoff(ch, prevEvals, snapshots, tries = 5) {
+/* Headline news for the past week. Source diversity is enforced in code (one
+   item per domain) rather than trusted to the prompt, and every URL must have
+   come back from the real search — same validation as the ratings. */
+async function fetchHeadlines() {
+  const prompt = `Vyhledej nejdůležitější zprávy z české domácí politiky za POSLEDNÍCH 7 DNÍ (dnes je ${new Date().toISOString().slice(0, 10)}). Starší zprávy nezařazuj – budou vyřazeny. Hledej opakovaně a napříč různými zpravodajskými weby.
+
+Vyber 6 konkrétních zpravodajských článků s největším významem pro vládní agendu (legislativa, rozhodnutí vlády, personální změny, klíčové politické spory). Požadavky:
+- Odkazuj na KONKRÉTNÍ článek o konkrétní události, nikdy na rozcestník, rubriku ani titulní stranu.
+- Každý článek z JINÉHO webu — nikdy dva články ze stejné domény.
+- Řaď od nejdůležitější zprávy.
+
+Používej jen URL, která se skutečně objevila ve výsledcích vyhledávání – NEVYMÝŠLEJ je. Nadpis napiš vlastními slovy (nekopíruj titulek).
+
+Odpověz POUZE platným JSON polem, začni [ a skonči ]. Žádný úvodní text, žádné markdown bloky:
+[{"title_cs":"krátký nadpis","title_en":"short headline in English","summary_cs":"1 věta o čem to je","summary_en":"1 sentence in English","url":"https://...","date":"YYYY-MM-DD"}]`;
+
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
+    body: JSON.stringify({
+      model: MODEL,
+      max_tokens: 6000,
+      messages: [{ role: "user", content: prompt }],
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 8, allowed_domains: NEWS_DOMAINS }],
+    }),
+  });
+  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
+  const data = await res.json();
+
+  const realMap = {};
+  for (const b of data.content || []) {
+    if (b.type === "web_search_tool_result" && Array.isArray(b.content)) {
+      for (const r of b.content) {
+        if (r && r.type === "web_search_result" && r.url) realMap[normUrl(r.url)] = r.url;
+      }
+    }
+  }
+  const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
+  const clean = text.replace(/```json|```/g, "").trim();
+  const a = clean.indexOf("["), b = clean.lastIndexOf("]");
+  if (a === -1 || b === -1) throw new Error("no JSON array in response");
+  const parsed = JSON.parse(clean.slice(a, b + 1));
+
+  const items = [];
+  const seenHosts = new Set();
+  const drop = { invented: 0, dupHost: 0, notArticle: 0, tooOld: 0 };
+  // "This week's headlines" must actually be from this week — the model
+  // otherwise slips in months-old stories. 10 days allows for a late-running
+  // Friday job without letting stale news through.
+  const oldest = Date.now() - 10 * 86400000;
+  for (const r of parsed) {
+    if (!r || !r.url || !r.title_cs) continue;
+    const when = /^\d{4}-\d{2}-\d{2}$/.test(r.date || "") ? Date.parse(r.date) : NaN;
+    if (!Number.isNaN(when) && when < oldest) { drop.tooOld++; continue; }
+    const realUrl = realMap[normUrl(r.url)];
+    if (!realUrl) { drop.invented++; continue; }
+    // Reject section fronts / index pages — a headline must point at a story.
+    const path = (() => { try { return new URL(realUrl).pathname; } catch { return "/"; } })();
+    if (path.length < 12 || /^\/(index|scripts)\b/.test(path)) { drop.notArticle++; continue; }
+    const host = hostOf(realUrl);
+    if (seenHosts.has(host)) { drop.dupHost++; continue; } // one item per outlet
+    seenHosts.add(host);
+    items.push({
+      title: { cs: r.title_cs, en: r.title_en || r.title_cs },
+      summary: { cs: r.summary_cs || "", en: r.summary_en || r.summary_cs || "" },
+      url: realUrl,
+      date: /^\d{4}-\d{2}-\d{2}$/.test(r.date || "") ? r.date : null,
+    });
+    if (items.length >= 5) break;
+  }
+  return { items, searchCount: Object.keys(realMap).length, proposed: parsed.length, drop };
+}
+
+/* Retry wrapper shared by chapter evaluation and headline fetching — both hit
+   the same two flaky failure modes: rate limits / overloaded API, and Haiku
+   occasionally emitting unparseable JSON. */
+async function withBackoff(fn, tries = 5) {
   for (let i = 0; i < tries; i++) {
-    try { return await evaluateChapter(ch, prevEvals, snapshots); }
+    try { return await fn(); }
     catch (e) {
-      const retryable = /API 429/.test(e.message) || /JSON/.test(e.message);
+      // 429 = rate limit, 5xx/529 = server-side (overloaded) — both worth waiting out
+      const retryable = /API (429|5\d\d)/.test(e.message) || /JSON/.test(e.message);
       if (!retryable || i === tries - 1) throw e;
-      const wait = /API 429/.test(e.message) ? 30000 * (i + 1) : 3000;
+      const wait = /API (429|5\d\d)/.test(e.message) ? 30000 * (i + 1) : 3000;
       console.log(`  retry — waiting ${wait / 1000}s`);
       await new Promise((r) => setTimeout(r, wait));
     }
@@ -155,13 +358,17 @@ async function main() {
   const prevEvals = readJSON(OUT_EVAL, { evals: {} }).evals || {};
   const snapshots = readJSON(OUT_HIST, { snapshots: [] }).snapshots || [];
 
-  const newEvals = { ...prevEvals };
-  for (const ch of CHAPTERS) {
+  // Carry forward only real items — drops any stray invented IDs already in the file
+  const newEvals = {};
+  for (const id in prevEvals) if (VALID_IDS.has(id)) newEvals[id] = prevEvals[id];
+  for (const ch of CHAPTERS.slice(0, CHAPTER_LIMIT)) {
     try {
       process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}… `);
-      const r = await callWithBackoff(ch, prevEvals, snapshots);
+      const r = await withBackoff(() => evaluateChapter(ch, prevEvals, snapshots));
       Object.assign(newEvals, r.evals);
-      console.log(`ok (${Object.keys(r.evals).length}) — ${r.searchCount} search hits, ${r.kept} sources kept`);
+      const dm = Object.entries(r.demoted).filter(([, v]) => v > 0).map(([k, v]) => `${v} ${k}`).join(", ");
+      console.log(`ok (${Object.keys(r.evals).length}) — ${r.searchCount} search hits, ${r.kept} sources kept`
+        + (dm ? `, downgraded: ${dm}` : ""));
     } catch (e) {
       console.log(`failed: ${e.message}`);
     }
@@ -179,7 +386,51 @@ async function main() {
   const capped = kept.slice(-HISTORY_WEEKS);
   writeFileSync(OUT_HIST, JSON.stringify({ snapshots: capped }, null, 2));
 
-  console.log(`\nWrote ${Object.keys(newEvals).length} evaluations and ${capped.length} history snapshots`);
+  /* Audit trail — full record of every rating this run produced. Append-only
+     and never rewritten, so a published rating can always be traced back to
+     the date, status and reasoning it was based on. Only items actually
+     re-evaluated this run are recorded (carried-forward values already have
+     their own earlier entry). */
+  const audit = readJSON(OUT_AUDIT, { entries: [] });
+  const entries = (audit.entries || []).filter((e) => e.date !== today);
+  let recorded = 0;
+  for (const id in newEvals) {
+    const e = newEvals[id];
+    if (!e.updatedAt || e.updatedAt.slice(0, 10) !== today) continue; // not touched this run
+    entries.push({
+      id,
+      date: today,
+      status: e.status,
+      evidence: e.evidence || "",
+      evidence_date: e.evidenceDate || "",
+      unverifiable: e.unverifiable === true,
+      comment_cs: e.comment?.cs || "",
+      comment_en: e.comment?.en || "",
+      change_cs: e.change?.cs || "",
+      sources: (e.sources || []).map((s) => s.url),
+      model: MODEL,
+    });
+    recorded++;
+  }
+  entries.sort((a, b) => (a.date === b.date ? a.id.localeCompare(b.id, "cs", { numeric: true }) : a.date < b.date ? -1 : 1));
+  writeFileSync(OUT_AUDIT, JSON.stringify({ entries }, null, 2));
+
+  console.log(`\nWrote ${Object.keys(newEvals).length} evaluations, ${capped.length} history snapshots, ${recorded} audit records`);
+
+  // Headline news last — a failure here must not lose the evaluation results.
+  try {
+    process.stdout.write("Fetching headlines… ");
+    const n = await withBackoff(fetchHeadlines, 3);
+    const why = `proposed ${n.proposed}, dropped ${n.drop.invented} invented / ${n.drop.notArticle} non-article / ${n.drop.tooOld} stale / ${n.drop.dupHost} same-outlet`;
+    if (n.items.length > 0) {
+      writeFileSync(OUT_NEWS, JSON.stringify({ generatedAt: now, items: n.items }, null, 2));
+      console.log(`ok (${n.items.length} items) — ${n.searchCount} search hits, ${why}`);
+    } else {
+      console.log(`no usable items (${why}) — keeping previous news.json`);
+    }
+  } catch (e) {
+    console.log(`failed: ${e.message} — keeping previous news.json`);
+  }
 }
 
 main();
