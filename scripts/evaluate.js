@@ -57,6 +57,19 @@ const ALLOWED_DOMAINS = [
   "blesk.cz", "cnn.iprima.cz", "newstream.cz", "reflex.cz", "tn.nova.cz",
 ];
 
+/* Headlines use a narrower list than the ratings: only journalism, and only
+   the higher-rated outlets. gov.cz and demagog.cz are dropped because a
+   government portal is not independent news reporting (the first run returned
+   a generic vlada.gov.cz index page as a "headline"), and the B+ tabloid /
+   commentary tier is dropped so the week's news isn't led by celebrity-desk
+   coverage. NFNŽ MediaRating A + A- only. */
+const NEWS_DOMAINS = [
+  "aktualne.cz", "ceskenoviny.cz", "ct24.ceskatelevize.cz", "denik.cz",
+  "denikalarm.cz", "denikn.cz", "denikreferendum.cz", "e15.cz", "echo24.cz",
+  "euro.cz", "forum24.cz", "hn.cz", "irozhlas.cz", "respekt.cz",
+  "seznamzpravy.cz", "voxpot.cz", "zivotvcesku.cz", "hlidacipes.org", "novinky.cz",
+];
+
 // NOTE: structured outputs (output_config.format) were tried here and turned
 // out to suppress the web_search tool entirely (0 search hits), just like the
 // assistant prefill did earlier — JSON must stay prompt-enforced.
@@ -187,9 +200,12 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
    item per domain) rather than trusted to the prompt, and every URL must have
    come back from the real search — same validation as the ratings. */
 async function fetchHeadlines() {
-  const prompt = `Vyhledej nejdůležitější zprávy z české domácí politiky za posledních 7 dní.
+  const prompt = `Vyhledej nejdůležitější zprávy z české domácí politiky za posledních 7 dní. Hledej opakovaně a napříč různými zpravodajskými weby.
 
-Vyber 5 zpráv s největším významem pro vládní agendu (legislativa, rozhodnutí vlády, personální změny, klíčové politické spory). Každou zprávu vezmi z JINÉHO zpravodajského webu — nikdy dvě zprávy ze stejné domény.
+Vyber 8 konkrétních zpravodajských článků s největším významem pro vládní agendu (legislativa, rozhodnutí vlády, personální změny, klíčové politické spory). Požadavky:
+- Odkazuj na KONKRÉTNÍ článek o konkrétní události, nikdy na rozcestník, rubriku ani titulní stranu.
+- Každý článek z JINÉHO webu — nikdy dva články ze stejné domény.
+- Řaď od nejdůležitější zprávy.
 
 Používej jen URL, která se skutečně objevila ve výsledcích vyhledávání – NEVYMÝŠLEJ je. Nadpis napiš vlastními slovy (nekopíruj titulek).
 
@@ -201,9 +217,9 @@ Odpověz POUZE platným JSON polem, začni [ a skonči ]. Žádný úvodní text
     headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 3000,
+      max_tokens: 4000,
       messages: [{ role: "user", content: prompt }],
-      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 5, allowed_domains: ALLOWED_DOMAINS }],
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 8, allowed_domains: NEWS_DOMAINS }],
     }),
   });
   if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
@@ -225,12 +241,16 @@ Odpověz POUZE platným JSON polem, začni [ a skonči ]. Žádný úvodní text
 
   const items = [];
   const seenHosts = new Set();
+  const drop = { invented: 0, dupHost: 0, notArticle: 0 };
   for (const r of parsed) {
     if (!r || !r.url || !r.title_cs) continue;
     const realUrl = realMap[normUrl(r.url)];
-    if (!realUrl) continue; // invented link — drop
+    if (!realUrl) { drop.invented++; continue; }
+    // Reject section fronts / index pages — a headline must point at a story.
+    const path = (() => { try { return new URL(realUrl).pathname; } catch { return "/"; } })();
+    if (path.length < 12 || /^\/(index|scripts)\b/.test(path)) { drop.notArticle++; continue; }
     const host = hostOf(realUrl);
-    if (seenHosts.has(host)) continue; // enforce one item per outlet
+    if (seenHosts.has(host)) { drop.dupHost++; continue; } // one item per outlet
     seenHosts.add(host);
     items.push({
       title: { cs: r.title_cs, en: r.title_en || r.title_cs },
@@ -240,7 +260,7 @@ Odpověz POUZE platným JSON polem, začni [ a skonči ]. Žádný úvodní text
     });
     if (items.length >= 5) break;
   }
-  return { items, searchCount: Object.keys(realMap).length };
+  return { items, searchCount: Object.keys(realMap).length, proposed: parsed.length, drop };
 }
 
 async function callWithBackoff(ch, prevEvals, snapshots, tries = 5) {
@@ -319,11 +339,12 @@ async function main() {
   try {
     process.stdout.write("Fetching headlines… ");
     const n = await fetchHeadlines();
+    const why = `proposed ${n.proposed}, dropped ${n.drop.invented} invented / ${n.drop.notArticle} non-article / ${n.drop.dupHost} same-outlet`;
     if (n.items.length > 0) {
       writeFileSync(OUT_NEWS, JSON.stringify({ generatedAt: now, items: n.items }, null, 2));
-      console.log(`ok (${n.items.length} from ${n.items.length} outlets) — ${n.searchCount} search hits`);
+      console.log(`ok (${n.items.length} items) — ${n.searchCount} search hits, ${why}`);
     } else {
-      console.log("no usable items — keeping previous news.json");
+      console.log(`no usable items (${why}) — keeping previous news.json`);
     }
   } catch (e) {
     console.log(`failed: ${e.message} — keeping previous news.json`);
