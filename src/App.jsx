@@ -20,6 +20,8 @@ const T = {
   daysInPower: { cs: "Ve funkci", en: "In office" },
   daysToElection: { cs: "Do voleb (odhad)", en: "To election (est.)" },
   overall: { cs: "Plnění programu", en: "Programme delivery" },
+  statDone: { cs: "splněno", en: "fulfilled" },
+  statProg: { cs: "probíhá", en: "in progress" },
   days: { cs: "dní", en: "days" },
   evaluated: { cs: "hodnoceno", en: "evaluated" },
   ofItems: { cs: "z", en: "of" },
@@ -97,23 +99,23 @@ const METHOD = {
       h: { cs: "Stavy a výpočet plnění", en: "Statuses & how the percentage works" },
       list: {
         cs: [
-          "Splněno – prokazatelně zavedeno (počítá se jako 100 %).",
-          "Probíhá – aktivně se pracuje, např. návrh či projednávání (50 %).",
-          "Nezahájeno – žádný doložitelný krok (0 %).",
-          "Uvázlo / opuštěno – pokrok se zastavil nebo byl bod opuštěn (0 %).",
-          "Nehodnoceno – zatím neposouzeno (do procenta se nepočítá).",
+          "Splněno – prokazatelně zavedeno.",
+          "Probíhá – aktivně se pracuje, např. návrh či projednávání.",
+          "Nezahájeno – žádný doložitelný krok.",
+          "Uvázlo / opuštěno – pokrok se zastavil nebo byl bod opuštěn.",
+          "Nehodnoceno – zatím neposouzeno (do procent se nepočítá).",
         ],
         en: [
-          "Done – verifiably implemented (counts as 100%).",
-          "In progress – actively being worked on, e.g. a bill or debate (50%).",
-          "Not started – no verifiable step taken (0%).",
-          "Stalled / dropped – progress halted or item abandoned (0%).",
-          "Unrated – not yet assessed (excluded from the percentage).",
+          "Fulfilled – verifiably implemented.",
+          "In progress – actively being worked on, e.g. a bill or debate.",
+          "Not started – no verifiable step taken.",
+          "Stalled / dropped – progress halted or item abandoned.",
+          "Unrated – not yet assessed (excluded from the percentages).",
         ],
       },
       p: {
-        cs: "Celkové „plnění programu“ je průměr těchto hodnot přes všechny hodnocené body.",
-        en: "The overall \"programme delivery\" figure is the average of these values across all rated items.",
+        cs: "Uvádíme dvě samostatná čísla, ne jedno souhrnné skóre. „Splněno“ je podíl prokazatelně dotažených bodů – hodnotíme striktně, stejně jako to dělá Demagog.cz i vládní odpočty, takže je číslo srovnatelné. „Probíhá“ je podíl rozpracovaných bodů a ukazuje aktivitu vlády; nepřičítá se ke splnění, protože rozdělaná práce není výsledek. Dřívější verze webu používala vážené skóre, kde „probíhá“ mělo poloviční kredit – od toho jsme ustoupili, protože takové číslo bylo z valné většiny tvořeno pouhou rozpracovaností a působilo výrazně příznivěji, než odpovídalo skutečnosti.",
+        en: "We report two separate figures rather than one combined score. \"Fulfilled\" is the share of verifiably delivered items — scored strictly, the same way Demagog.cz and government reviews score promises, so the number is comparable. \"In progress\" is the share of items being worked on; it shows activity but is never added to delivery, because work started is not a result. An earlier version of this site used a weighted score giving \"in progress\" half credit — we dropped it, because such a figure was overwhelmingly made up of mere activity and read far more favourably than the facts warranted.",
       },
     },
     {
@@ -256,7 +258,7 @@ function trend(from, to) {
   const a = (STATUS[to]?.rank ?? 1) - (STATUS[from]?.rank ?? 1);
   return a > 0 ? { g: "▲", c: "var(--ok)" } : a < 0 ? { g: "▼", c: "var(--bad)" } : { g: "→", c: "var(--muted)" };
 }
-function hostOf(url) { try { return new URL(url).hostname.replace(/^www\./, ""); } catch { return url; } }
+function hostOf(url) { try { return new URL(url).hostname.replace(/^(www|m)\./, ""); } catch { return url; } }
 
 const CSS = `
 /* "Institutional Cyberpunk" palette — deep slate/charcoal foundation, indigo
@@ -337,8 +339,14 @@ const CSS = `
 .vm-ch-title{font-weight:680;font-size:15px;letter-spacing:-.01em;flex:1;min-width:0}
 .vm-ch-prog{display:flex;align-items:center;gap:10px;flex:none}
 .vm-ch-pct{font-size:12.5px;font-weight:720;width:38px;text-align:right}
-.vm-mini{width:70px;height:6px;border-radius:6px;background:var(--border);overflow:hidden}
-.vm-mini > i{display:block;height:100%;background:var(--grad)}
+.vm-mini{width:70px;height:6px;border-radius:6px;background:var(--border);overflow:hidden;display:flex}
+.vm-mini > i{display:block;height:100%}
+.vm-mini > i.done{background:var(--ok)}
+.vm-mini > i.prog{background:var(--prog);opacity:.55}
+.vm-dual{display:flex;gap:16px}
+.vm-dual > div{display:flex;flex-direction:column}
+.vm-dual .n{font-size:22px;font-weight:780;letter-spacing:-.02em;line-height:1.1}
+.vm-dual .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;margin-top:2px}
 .vm-caret{color:var(--muted);transition:transform .2s;flex:none}
 .vm-caret.open{transform:rotate(90deg)}
 .vm-ch-body{border-top:1px solid var(--border);padding:6px 0}
@@ -418,20 +426,25 @@ const CSS = `
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 `;
 
-function Ring({ pct, size = 64 }) {
-  const r = (size - 8) / 2, c = 2 * Math.PI * r, off = c - (pct / 100) * c;
+/* Two-segment gauge: solid emerald for delivered, muted amber for work in
+   progress. Flat fills here on purpose — colour carries meaning (it matches
+   the status colours used throughout), so a decorative gradient would blur
+   the distinction the gauge exists to make. */
+function Ring({ done, prog, size = 64 }) {
+  const r = (size - 8) / 2, c = 2 * Math.PI * r;
+  const seg = (pct) => (Math.max(0, Math.min(100, pct)) / 100) * c;
+  const rot = `rotate(-90 ${size / 2} ${size / 2})`;
+  const common = { cx: size / 2, cy: size / 2, r, fill: "none", strokeWidth: 7, transform: rot };
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-      <defs>
-        <linearGradient id="vm-ring-grad" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" style={{ stopColor: "var(--grad-a)" }} />
-          <stop offset="100%" style={{ stopColor: "var(--grad-b)" }} />
-        </linearGradient>
-      </defs>
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--border)" strokeWidth="7" />
-      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="url(#vm-ring-grad)" strokeWidth="7"
-        strokeLinecap="round" strokeDasharray={c} strokeDashoffset={off}
-        transform={`rotate(-90 ${size / 2} ${size / 2})`} style={{ transition: "stroke-dashoffset .5s" }} />
+      <circle {...common} stroke="var(--border)" />
+      {/* in-progress arc sits after the delivered arc, so the two read as one dial */}
+      <circle {...common} stroke="var(--prog)" opacity="0.55"
+        strokeDasharray={`${seg(prog)} ${c}`} strokeDashoffset={-seg(done)}
+        style={{ transition: "stroke-dasharray .5s, stroke-dashoffset .5s" }} />
+      <circle {...common} stroke="var(--ok)" strokeLinecap="round"
+        strokeDasharray={`${seg(done)} ${c}`}
+        style={{ transition: "stroke-dasharray .5s" }} />
     </svg>
   );
 }
@@ -487,8 +500,8 @@ function MethodologyModal({ lang, onClose }) {
    STRICT metric (fulfilled / all items) so it is directly comparable with the
    external series — see src/governments.js for the full reasoning.          */
 const CHART_METHOD = {
-  cs: "Křivky předchozích vlád pocházejí z externí analýzy postavené na auditech Demagog.cz a datech gov.cz. Ty počítají pouze plně splněné sliby. Aby bylo srovnání korektní, používá graf i pro současnou vládu stejně definovanou metriku „splněno / všechny body“ – ne vážené plnění (kde „probíhá“ má poloviční kredit) uváděné na hlavní stránce. Rozdíl je podstatný: vážené plnění je v úvodu období několikanásobně vyšší. I tak srovnávejte s rezervou: vzorky se liší velikostí (156 / 50 / 50 slibů oproti našim 143 bodům), hodnocení předchozích vlád dělali lidští fact-checkeři retrospektivně, naše vzniká průběžně jazykovým modelem.",
-  en: "The previous cabinets' curves come from an external analysis based on Demagog.cz promise audits and gov.cz records. Those count only fully-kept promises. To keep the comparison honest, the chart applies the same definition to the current cabinet — \"fulfilled / all items\" — rather than the weighted score shown on the main page (where \"in progress\" earns half credit). The difference matters: the weighted score runs several times higher early in a term. Even so, compare with care: sample sizes differ (156 / 50 / 50 promises vs. our 143 items), the previous cabinets were assessed retrospectively by human fact-checkers, ours is measured live by a language model.",
+  cs: "Křivky předchozích vlád pocházejí z externí analýzy postavené na auditech Demagog.cz a datech gov.cz. Ty počítají pouze plně splněné sliby – stejně jako ukazatel „splněno“ na hlavní stránce, takže se srovnává totéž s tímtéž. Přesto srovnávejte s rezervou: vzorky se liší velikostí (156 / 50 / 50 slibů oproti našim 143 bodům), hodnocení předchozích vlád dělali lidští fact-checkeři retrospektivně po skončení mandátu, zatímco naše vzniká průběžně jazykovým modelem.",
+  en: "The previous cabinets' curves come from an external analysis based on Demagog.cz promise audits and gov.cz records. Those count only fully-kept promises — the same definition as the \"fulfilled\" figure on the main page, so the chart compares like with like. Even so, compare with care: sample sizes differ (156 / 50 / 50 promises vs. our 143 items), the previous cabinets were assessed retrospectively by human fact-checkers after their term ended, while ours is measured live by a language model.",
 };
 
 function strictPctFromStatuses(statuses) {
@@ -769,14 +782,27 @@ export default function App() {
   const termTotal = daysBetween(new Date(DATES.tookOffice).getTime(), electionMs);
   const termPct = Math.min(100, Math.max(0, (daysIn / termTotal) * 100));
 
-  const { overallPct, evaluatedCount } = useMemo(() => {
-    let sum = 0, n = 0;
+  /* Strict scoring: an item counts as delivered only when it is actually
+     fulfilled. "In progress" is reported separately rather than earning half
+     credit — a weighted blend put 84% of the headline figure on work that
+     merely started, which is neither defensible nor comparable with how
+     Demagog.cz and government reviews score promises. */
+  const { donePct, progPct, evaluatedCount } = useMemo(() => {
+    let done = 0, prog = 0, n = 0;
     for (const it of ALL_ITEMS) {
       const e = evals[it.id];
-      if (e && STATUS[e.status] && STATUS[e.status].score !== null) { sum += STATUS[e.status].score; n++; }
+      if (!e || !STATUS[e.status] || STATUS[e.status].score === null) continue;
+      n++;
+      if (e.status === "fulfilled") done++;
+      else if (e.status === "in_progress") prog++;
     }
-    return { overallPct: n ? Math.round((sum / n) * 100) : 0, evaluatedCount: n };
+    return {
+      donePct: n ? (done / n) * 100 : 0,
+      progPct: n ? (prog / n) * 100 : 0,
+      evaluatedCount: n,
+    };
   }, [evals]);
+  const pct1 = (v) => (v >= 10 || v === 0 ? Math.round(v) : Math.round(v * 10) / 10);
 
   const changes = useMemo(() => {
     const map = {};
@@ -792,12 +818,19 @@ export default function App() {
   }, [evals]);
 
   const chapterStats = useCallback((ch) => {
-    let sum = 0, n = 0, tot = 0;
+    let done = 0, prog = 0, n = 0, tot = 0;
     for (const g of ch.groups) for (const it of g.items) {
       tot++; const e = evals[it.id];
-      if (e && STATUS[e.status] && STATUS[e.status].score !== null) { sum += STATUS[e.status].score; n++; }
+      if (!e || !STATUS[e.status] || STATUS[e.status].score === null) continue;
+      n++;
+      if (e.status === "fulfilled") done++;
+      else if (e.status === "in_progress") prog++;
     }
-    return { pct: n ? Math.round((sum / n) * 100) : 0, evaluated: n, total: tot };
+    return {
+      done: n ? (done / n) * 100 : 0,
+      prog: n ? (prog / n) * 100 : 0,
+      evaluated: n, total: tot,
+    };
   }, [evals]);
 
   const statusOf = (id) => (evals[id] ? evals[id].status : "pending");
@@ -868,12 +901,19 @@ export default function App() {
             <div className="vm-card">
               <div className="lab">{t("overall")}</div>
               <div className="vm-gauge-wrap">
-                <Ring pct={overallPct} />
-                <div>
-                  <div className="vm-pct vm-mono">{overallPct}%</div>
-                  <div className="vm-sub">{evaluatedCount} {t("ofItems")} {TOTAL_ITEMS} {t("evaluated")}</div>
+                <Ring done={donePct} prog={progPct} />
+                <div className="vm-dual">
+                  <div>
+                    <span className="n vm-mono" style={{ color: "var(--ok)" }}>{pct1(donePct)}%</span>
+                    <span className="l">{t("statDone")}</span>
+                  </div>
+                  <div>
+                    <span className="n vm-mono" style={{ color: "var(--prog)" }}>{pct1(progPct)}%</span>
+                    <span className="l">{t("statProg")}</span>
+                  </div>
                 </div>
               </div>
+              <div className="vm-sub">{evaluatedCount} {t("ofItems")} {TOTAL_ITEMS} {t("evaluated")}</div>
             </div>
           </div>
           <p className="vm-methodrow">
@@ -986,8 +1026,14 @@ export default function App() {
                   <span className="vm-ch-num vm-mono">{ch.id}</span>
                   <span className="vm-ch-title">{ch.title[lang]}</span>
                   <span className="vm-ch-prog">
-                    <span className="vm-mini"><i style={{ width: `${st.pct}%` }} /></span>
-                    <span className="vm-ch-pct vm-mono">{st.evaluated ? `${st.pct}%` : "–"}</span>
+                    <span className="vm-mini" title={st.evaluated
+                      ? `${t("statDone")} ${pct1(st.done)} % · ${t("statProg")} ${pct1(st.prog)} %` : ""}>
+                      <i className="done" style={{ width: `${st.done}%` }} />
+                      <i className="prog" style={{ width: `${st.prog}%` }} />
+                    </span>
+                    <span className="vm-ch-pct vm-mono" style={{ color: st.evaluated && st.done > 0 ? "var(--ok)" : undefined }}>
+                      {st.evaluated ? `${pct1(st.done)}%` : "–"}
+                    </span>
                   </span>
                   <svg className={`vm-caret ${open ? "open" : ""}`} width="14" height="14" viewBox="0 0 14 14">
                     <path d="M5 3l4 4-4 4" fill="none" stroke="currentColor" strokeWidth="2" />

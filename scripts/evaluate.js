@@ -200,7 +200,7 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
    item per domain) rather than trusted to the prompt, and every URL must have
    come back from the real search — same validation as the ratings. */
 async function fetchHeadlines() {
-  const prompt = `Vyhledej nejdůležitější zprávy z české domácí politiky za posledních 7 dní. Hledej opakovaně a napříč různými zpravodajskými weby.
+  const prompt = `Vyhledej nejdůležitější zprávy z české domácí politiky za POSLEDNÍCH 7 DNÍ (dnes je ${new Date().toISOString().slice(0, 10)}). Starší zprávy nezařazuj – budou vyřazeny. Hledej opakovaně a napříč různými zpravodajskými weby.
 
 Vyber 6 konkrétních zpravodajských článků s největším významem pro vládní agendu (legislativa, rozhodnutí vlády, personální změny, klíčové politické spory). Požadavky:
 - Odkazuj na KONKRÉTNÍ článek o konkrétní události, nikdy na rozcestník, rubriku ani titulní stranu.
@@ -241,9 +241,15 @@ Odpověz POUZE platným JSON polem, začni [ a skonči ]. Žádný úvodní text
 
   const items = [];
   const seenHosts = new Set();
-  const drop = { invented: 0, dupHost: 0, notArticle: 0 };
+  const drop = { invented: 0, dupHost: 0, notArticle: 0, tooOld: 0 };
+  // "This week's headlines" must actually be from this week — the model
+  // otherwise slips in months-old stories. 10 days allows for a late-running
+  // Friday job without letting stale news through.
+  const oldest = Date.now() - 10 * 86400000;
   for (const r of parsed) {
     if (!r || !r.url || !r.title_cs) continue;
+    const when = /^\d{4}-\d{2}-\d{2}$/.test(r.date || "") ? Date.parse(r.date) : NaN;
+    if (!Number.isNaN(when) && when < oldest) { drop.tooOld++; continue; }
     const realUrl = realMap[normUrl(r.url)];
     if (!realUrl) { drop.invented++; continue; }
     // Reject section fronts / index pages — a headline must point at a story.
@@ -342,7 +348,7 @@ async function main() {
   try {
     process.stdout.write("Fetching headlines… ");
     const n = await withBackoff(fetchHeadlines, 3);
-    const why = `proposed ${n.proposed}, dropped ${n.drop.invented} invented / ${n.drop.notArticle} non-article / ${n.drop.dupHost} same-outlet`;
+    const why = `proposed ${n.proposed}, dropped ${n.drop.invented} invented / ${n.drop.notArticle} non-article / ${n.drop.tooOld} stale / ${n.drop.dupHost} same-outlet`;
     if (n.items.length > 0) {
       writeFileSync(OUT_NEWS, JSON.stringify({ generatedAt: now, items: n.items }, null, 2));
       console.log(`ok (${n.items.length} items) — ${n.searchCount} search hits, ${why}`);
