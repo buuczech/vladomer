@@ -2,14 +2,29 @@
 > vladomer@1.0.0 evaluate
 > node scripts/evaluate.js
 
-Evaluating 1 Zásadní priority vlády… ok (5) — 40 search hits, 11 sources kept
-Evaluating 2 Finance a hospodaření státu… ok (15) — 40 search hits, 16 sources kept
+Evaluating 1 Zásadní priority vlády… ok (5) — 40 search hits, 14 sources kept
+Evaluating 2 Finance a hospodaření státu… ok (15) — 40 search hits, 15 sources kept
 Evaluating 3 Vnitřní bezpečnost a veřejná správa…   retry — waiting 3s
-  retry — waiting 3s
-ok (8) — 40 search hits, 17 sources kept
-Evaluating 4 Obrana a Armáda ČR… ok (7) — 39 search hits, 17 sources kept
+ok (8) — 39 search hits, 23 sources kept
+Evaluating 4 Obrana a Armáda ČR… ok (7) — 38 search hits, 11 sources kept
 Evaluating 5 Zahraniční politika…   retry — waiting 3s
   retry — waiting 3s
-ok (6) — 40 search hits, 13 sources kept
+ok (6) — 40 search hits, 12 sources kept
+Evaluating 6 Právo a spravedlnost… ok (9) — 35 search hits, 14 sources kept
+Evaluating 7 Hospodářství, průmysl a energetika…   retry — waiting 3s
+ok (10) — 40 search hits, 14 sources kept
+Evaluating 8 Doprava… ok (9) — 40 search hits, 19 sources kept
+Evaluating 9 Vzdělávání… ok (9) — 39 search hits, 13 sources kept
+Evaluating 10 Sociální politika a zaměstnanost… ok (10) — 40 search hits, 16 sources kept
+Evaluating 11 Zdravotnictví… ok (10) — 40 search hits, 23 sources kept
+Evaluating 12 Zemědělství… ok (7) — 40 search hits, 15 sources kept
+Evaluating 13 Životní prostředí… ok (8) — 40 search hits, 8 sources kept
+Evaluating 14 Kultura… ok (6) — 40 search hits, 11 sources kept
+Evaluating 15 Bydlení a regionální rozvoj… ok (7) — 40 search hits, 19 sources kept
+Evaluating 16 Sport, prevence a zdraví… ok (6) — 34 search hits, 15 sources kept
+Evaluating 17 Věda, výzkum a inovace… ok (5) — 37 search hits, 10 sources kept
+Evaluating 18 Digitalizace…   retry — waiting 3s
+ok (6) — 38 search hits, 9 sources kept
 
-Wrote 143 evaluations and 3 history snapshots
+Wrote 143 evaluations, 4 history snapshots, 143 audit records
+Fetching headlines… ok (2 from 2 outlets) — 28 search hits
