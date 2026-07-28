@@ -1,17 +1,29 @@
 {
-  "generatedAt": "2026-07-28T10:31:05.961Z",
+  "generatedAt": "2026-07-28T11:34:29.140Z",
   "items": [
     {
       "title": {
-        "cs": "Prezident Pavel vetoval novelu o rozpočtových pravidlech",
-        "en": "President Pavel vetoed budget rules amendment"
+        "cs": "Turek se vzdá funkce zmocněnce během vyšetřování nehody",
+        "en": "Turek to suspend as government coordinator during accident investigation"
       },
       "summary": {
-        "cs": "Prezident Pavel vetoval spornou novelu upravující veřejné rozpočty s tím, že ohrožuje stabilitu financí a umožňuje neúměrné zadlužování.",
-        "en": "President Pavel vetoed contentious budget law amendment, citing risks to financial stability and allowing excessive government debt."
+        "cs": "Poslanec Motoristů Filip Turek nebude do rozhodnutí policie vykonávat funkci vládního zmocněnce pro Green Deal, v případě viny rezignuje.",
+        "en": "MP Filip Turek will not perform role of government coordinator for Green Deal until police decision, will resign if found liable for accident."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/prezident-pavel-vetoval-spornou-novelu-rozpoctovych-zakonu/2853858",
-      "date": "2026-07-22"
+      "url": "https://denikn.cz/2136914/funkci-vladniho-zmocnence-vykonavat-nebudu-slibil-turek-a-vyrazil-na-cestu-chystanou-ministerstvem/",
+      "date": "2026-07-24"
+    },
+    {
+      "title": {
+        "cs": "Chat Control 1: Česko podpořilo regulaci komunikace s výjimkou šifrování",
+        "en": "Chat Control 1: Czech Republic supported communication regulation with encryption exception"
+      },
+      "summary": {
+        "cs": "Česká republika podpořila upravené pravidla pro dobrovolnou kontrolu komunikace na internetu, původně slibovaný Chat Control ale vlád odmítá.",
+        "en": "Czech Republic backed voluntary internet communication monitoring rules, but government rejects mandatory Chat Control 2."
+      },
+      "url": "https://m.echo24.cz/a/HFZUg/zpravy-zahranici-smirovaci-vyjimku-cr-podporila-navrh-ek-na-chat-control-2-je-neprijatelny-metnar",
+      "date": "2026-07-24"
     }
   ]
 }
