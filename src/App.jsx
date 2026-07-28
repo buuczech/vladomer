@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { DATES, CHAPTERS, ALL_ITEMS, TOTAL_ITEMS } from "./data.js";
 import {
   GOVERNMENTS, CURRENT_GOV, CURRENT_EXTERNAL_Q1,
-  QUARTER_COUNT, quarterOf, quarterShort, quarterLabel,
+  QUARTER_COUNT, quarterOf, quarterLabel,
 } from "./governments.js";
 
 /* =========================================================================
@@ -560,10 +560,10 @@ function currentSeries(snapshots, evals, termStartMs) {
   return out;
 }
 
-function LineChart({ series, lang, width = 720, height = 360 }) {
-  const padL = 46, padR = 14, padT = 14, padB = 46;
+function LineChart({ series, lang, width = 720, height = 400 }) {
+  const padL = 46, padR = 14, padT = 14, padB = 58;
   const plotW = width - padL - padR, plotH = height - padT - padB;
-  const yMax = 55;
+  const yMax = 100;
   const x = (i) => padL + (i / (QUARTER_COUNT - 1)) * plotW;
   const y = (v) => padT + plotH - (v / yMax) * plotH;
 
@@ -581,28 +581,38 @@ function LineChart({ series, lang, width = 720, height = 360 }) {
   return (
     <svg viewBox={`0 0 ${width} ${height}`} className="vm-chart" role="img"
       aria-label={T.chartsTitle[lang]}>
-      {/* y grid + labels */}
-      {[0, 10, 20, 30, 40, 50].map((v) => (
+      {/* y grid every 10 % across the full 0–100 scale */}
+      {Array.from({ length: 11 }, (_, k) => k * 10).map((v) => (
         <g key={v}>
           <line x1={padL} y1={y(v)} x2={width - padR} y2={y(v)}
             stroke="var(--border)" strokeWidth="1" />
           <text x={padL - 8} y={y(v) + 4} textAnchor="end" className="vm-chart-tick">{v}%</text>
         </g>
       ))}
-      {/* x labels — every other quarter to avoid crowding */}
-      {Array.from({ length: QUARTER_COUNT }, (_, i) => i).filter((i) => i % 2 === 0).map((i) => (
-        <text key={i} x={x(i)} y={height - padB + 18} textAnchor="middle" className="vm-chart-tick">
-          {quarterShort(i)}
+      {/* one gridline per quarter; the year boundary after Q4 is heavier */}
+      {Array.from({ length: QUARTER_COUNT }, (_, i) => i).map((i) => (
+        <line key={i} x1={x(i)} y1={padT} x2={x(i)} y2={padT + plotH}
+          stroke="var(--border)" strokeWidth="1" />
+      ))}
+      {[3, 7, 11].map((i) => (
+        <line key={`y${i}`} x1={x(i + 0.5)} y1={padT} x2={x(i + 0.5)} y2={padT + plotH}
+          stroke="var(--muted)" strokeWidth="2" opacity="0.65" />
+      ))}
+      {/* x labels: Q1–Q4 repeating, with the term year called out underneath */}
+      {Array.from({ length: QUARTER_COUNT }, (_, i) => i).map((i) => (
+        <text key={i} x={x(i)} y={height - padB + 17} textAnchor="middle" className="vm-chart-tick">
+          {`Q${(i % 4) + 1}`}
         </text>
       ))}
-      <text x={padL + plotW / 2} y={height - 6} textAnchor="middle" className="vm-chart-axis">
+      {[0, 1, 2, 3].map((yr) => (
+        <text key={yr} x={(x(yr * 4) + x(yr * 4 + 3)) / 2} y={height - padB + 34}
+          textAnchor="middle" className="vm-chart-axis">
+          {lang === "cs" ? `${yr + 1}. rok` : `Year ${yr + 1}`}
+        </text>
+      ))}
+      <text x={padL + plotW / 2} y={height - 4} textAnchor="middle" className="vm-chart-axis">
         {T.chartAxisX[lang]}
       </text>
-      {/* year separators */}
-      {[4, 8, 12].map((i) => (
-        <line key={i} x1={x(i - 0.5)} y1={padT} x2={x(i - 0.5)} y2={padT + plotH}
-          stroke="var(--border)" strokeWidth="1" strokeDasharray="3 3" />
-      ))}
       {series.map((s) => (
         <g key={s.id}>
           {segmentsOf(s.values).map((seg, si) => (

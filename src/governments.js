@@ -30,9 +30,6 @@ export function quarterLabel(i, lang) {
   const q = (i % 4) + 1, y = Math.floor(i / 4) + 1;
   return lang === "cs" ? `Q${q}/${y}. rok` : `Q${q}/yr ${y}`;
 }
-export function quarterShort(i) {
-  return `Q${(i % 4) + 1}/${Math.floor(i / 4) + 1}`;
-}
 
 /** Which quarter of the term a date falls into (0-based, null if before start). */
 export function quarterOf(dateMs, termStartMs) {
