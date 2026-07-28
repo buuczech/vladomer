@@ -1,40 +1,40 @@
 {
-  "generatedAt": "2026-07-28T09:29:27.146Z",
+  "generatedAt": "2026-07-28T10:17:29.966Z",
   "items": [
     {
       "title": {
-        "cs": "Vláda zmenšila akcelerační zóny pro větrníky na 11 procent původní plochy",
-        "en": "Government reduces wind farm acceleration zones to 11 percent of original area"
+        "cs": "Prezident Pavel vetoval uvolnění pravidel rozpočtové odpovědnosti",
+        "en": "President Pavel vetoes relaxation of fiscal responsibility rules"
       },
       "summary": {
-        "cs": "Vláda schválila zmrazení rozsahu akceleračních zón pro větrné elektrárny z 2685 km² na pouhých 297 km², což může vést k porušení závazků vůči EU.",
-        "en": "The government approved reducing wind farm acceleration zones from 2,685 km² to just 297 km², risking breach of EU commitments."
+        "cs": "Prezident vetoval novelu umožňující vládě překročit schválené výdaje státního rozpočtu až o deset procent v případě zhoršení bezpečnostní situace.",
+        "en": "President vetoes amendment allowing government to exceed approved budget spending by up to 10% if security situation worsens."
       },
-      "url": "https://www.irozhlas.cz/zpravy-domov/vlada-omezila-akceleracni-zony-minimalisticka-varianta-je-zmensuje-na-11-procent_2607271533_kvr",
-      "date": "2026-07-27"
+      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/prezident-vetoval-uvolneni-pravidel-rozpoctove-odpovednosti-375837",
+      "date": "2026-07-23"
     },
     {
       "title": {
-        "cs": "Spor mezi Hradem a vládou o summit NATO dosáhl nové eskalace",
-        "en": "Conflict between President and government over NATO summit reached new escalation"
+        "cs": "Nové změny jednaciho řádu vlády omezují transparentnost",
+        "en": "New government rules changes limit transparency"
       },
       "summary": {
-        "cs": "Ústavní soud nařídil vládě zařadit prezidenta do delegace summitu NATO v Ankaře, ale premiér Babiš zůstává vedoucím české delegace.",
-        "en": "Constitutional Court ordered the government to include the president in the NATO summit delegation, but PM Babiš remains the Czech delegation's leader."
+        "cs": "Vláda si chce změnit jednací řád týkající se utajování informací na 30 let a umožnění výjimek z připomínkového řízení.",
+        "en": "Government changes internal rules to extend secrecy of information to 30 years and allow exemptions from review procedures."
       },
-      "url": "https://m.echo24.cz/a/HS8nd/prezident-premier-ustavni-spor-krize-ustavni-soud-petr-pavel-andrej-babis-vlada-hrad-samal-ankara-predbezne-opatreni",
-      "date": "2026-07-21"
+      "url": "https://m.echo24.cz/a/HqPTj/stupen-nebezpeci-riziko-ohrozeni-varovani-vystraha-bis-vnitro-metnar-babis-migrace-rusko-sabotaz-terorismus-lgbt-pochod-berlin-utok-prague-pride",
+      "date": "2026-07-24"
     },
     {
       "title": {
-        "cs": "Ministerstvo životního prostředí zrušuje sekci ochrany klimatu a propouští experty",
-        "en": "Environment ministry eliminates climate protection section and dismisses experts"
+        "cs": "Macinka potvrdil personální rošádu na vysokých diplomatických postech",
+        "en": "Macinka confirms reshuffle of top diplomatic posts"
       },
       "summary": {
-        "cs": "Na ministerstvu životního prostředí dochází k reorganizaci, která vedla k rezignaci desítek odborníků na klimatickou politiku.",
-        "en": "Environment ministry restructuring led to resignation of dozens of climate policy experts."
+        "cs": "Ministr zahraničí potvrdil, že nový velvyslanec v USA bude Jakub Kulhánek a na pozici v OSN nastoupí Hynek Kmoníček.",
+        "en": "Foreign minister confirms Jakub Kulhánek as new US ambassador and Hynek Kmoníček assuming UN position."
       },
-      "url": "https://denikn.cz/minuta/tema/1335/pruzkum-verejneho-mineni",
+      "url": "https://www.ceskenoviny.cz/zpravy/macinka-potvrdil-ze-na-posty-nastoupi-velvyslanci-v-usa-italii-pri-osn-a-oecd/2854041",
       "date": "2026-07-23"
     }
   ]

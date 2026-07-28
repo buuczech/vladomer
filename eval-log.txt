@@ -2,33 +2,18 @@
 > vladomer@1.0.0 evaluate
 > node scripts/evaluate.js
 
-Evaluating 1 Zásadní priority vlády…   retry — waiting 3s
-  retry — waiting 3s
-ok (5) — 40 search hits, 11 sources kept
+Evaluating 1 Zásadní priority vlády… ok (5) — 39 search hits, 10 sources kept
 Evaluating 2 Finance a hospodaření státu…   retry — waiting 3s
-ok (15) — 39 search hits, 12 sources kept
-Evaluating 3 Vnitřní bezpečnost a veřejná správa… ok (8) — 40 search hits, 16 sources kept, downgraded: 1 predates-term
-Evaluating 4 Obrana a Armáda ČR…   retry — waiting 3s
   retry — waiting 3s
   retry — waiting 3s
-ok (7) — 40 search hits, 12 sources kept
-Evaluating 5 Zahraniční politika…   retry — waiting 3s
-ok (6) — 40 search hits, 12 sources kept
-Evaluating 6 Právo a spravedlnost… ok (9) — 39 search hits, 14 sources kept
-Evaluating 7 Hospodářství, průmysl a energetika… ok (10) — 40 search hits, 15 sources kept
-Evaluating 8 Doprava… ok (9) — 40 search hits, 14 sources kept
-Evaluating 9 Vzdělávání…   retry — waiting 3s
-ok (9) — 40 search hits, 14 sources kept
-Evaluating 10 Sociální politika a zaměstnanost…   retry — waiting 3s
-ok (10) — 39 search hits, 26 sources kept
-Evaluating 11 Zdravotnictví… ok (10) — 40 search hits, 13 sources kept
-Evaluating 12 Zemědělství… ok (7) — 40 search hits, 13 sources kept
-Evaluating 13 Životní prostředí… ok (8) — 40 search hits, 11 sources kept
-Evaluating 14 Kultura… ok (6) — 40 search hits, 13 sources kept
-Evaluating 15 Bydlení a regionální rozvoj… ok (7) — 39 search hits, 11 sources kept
-Evaluating 16 Sport, prevence a zdraví… ok (6) — 40 search hits, 11 sources kept
-Evaluating 17 Věda, výzkum a inovace… ok (5) — 36 search hits, 11 sources kept
-Evaluating 18 Digitalizace… ok (6) — 36 search hits, 13 sources kept
+  retry — waiting 3s
+ok (15) — 38 search hits, 19 sources kept
+Evaluating 3 Vnitřní bezpečnost a veřejná správa…   retry — waiting 3s
+  retry — waiting 3s
+  retry — waiting 3s
+ok (8) — 39 search hits, 14 sources kept
+Evaluating 4 Obrana a Armáda ČR… ok (7) — 39 search hits, 12 sources kept
+Evaluating 5 Zahraniční politika… ok (6) — 40 search hits, 13 sources kept
 
 Wrote 143 evaluations, 4 history snapshots, 143 audit records
-Fetching headlines… no usable items (proposed 0, dropped 0 invented / 0 non-article / 0 stale / 0 same-outlet) — keeping previous news.json
+Fetching headlines… ok (3 items) — 53 search hits, proposed 6, dropped 0 invented / 0 non-article / 2 stale / 1 same-outlet
