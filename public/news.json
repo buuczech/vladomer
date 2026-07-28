@@ -1,41 +1,41 @@
 {
-  "generatedAt": "2026-07-28T08:30:43.550Z",
+  "generatedAt": "2026-07-28T08:48:32.973Z",
   "items": [
     {
       "title": {
-        "cs": "Prezident Pavel vetoval novelu rozpočtových pravidel",
-        "en": "President Pavel vetoed budget rules amendment"
+        "cs": "Vláda drasticky omezila plochy pro zrychlenou výstavbu větrníků",
+        "en": "Government significantly reduced areas for accelerated wind turbine construction"
       },
       "summary": {
-        "cs": "Prezident Pavel uplatnil své první veto za vlády Babiše na novelu rozpočtových pravidel, kterou vláda chce přehlasovat.",
-        "en": "President Pavel exercised his first veto under Babiš government, targeting budget rules amendment that coalition plans to override."
+        "cs": "Kabinet snížil rozsah akceleračních zón z 2685 na 297 kilometrů čtverečních, aby se vyhnul miliardovým sankcím EU.",
+        "en": "Cabinet reduced acceleration zones from 2685 to 297 square kilometers to avoid EU sanctions worth billions."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/prezident-pavel-vetoval-spornou-novelu-rozpoctovych-zakonu/2853858",
-      "date": "2026-07-22"
+      "url": "https://www.ceskenoviny.cz/zpravy/vlada-zmensila-plochu-pro-akceleracni-zony-na-vystavbu-vetrniku/2855508",
+      "date": "2026-07-27"
     },
     {
       "title": {
-        "cs": "Vláda oslabila pravidla o střetu zájmů pro Agrofert",
-        "en": "Government weakened conflict of interest rules for Agrofert"
+        "cs": "Ministryně Mrázová dostala pokutu za porušení zákona o střetu zájmů",
+        "en": "Minister Mrázová fined for conflict of interest law violation"
       },
       "summary": {
-        "cs": "Vládní poslanci navrli novelu zákona o střetu zájmů, která by zmírnila zákaz dotací pro firmy vlastněné členy vlády.",
-        "en": "Government MPs proposed amendment to conflict of interest law that would ease restrictions on subsidies for companies owned by cabinet members."
+        "cs": "Mostecký magistrát udělil Mrázové pokutu za neuvedení půjčky od rodiny v majetkovém přiznání.",
+        "en": "Most magistrate issued fine to Mrázová for failing to disclose family loan in asset declaration."
       },
-      "url": "https://www.irozhlas.cz/zpravy-domov/stret-zajmu-andrej-babise-agrofert-novela-zakona-o-stretu-zajmu-rusi-plosny_2606091504_tec",
-      "date": "2026-06-09"
+      "url": "https://www.irozhlas.cz/zpravy-domov/uvedla-nepravdive-udaje-ministryne-mrazova-zaplati-pokutu-za-poruseni-zakona-o_2607251050_kma",
+      "date": "2026-07-25"
     },
     {
       "title": {
-        "cs": "Vláda schválila rozsáhlou revizi krizové a obranné legislativy",
-        "en": "Government approved major review of crisis and defense legislation"
+        "cs": "Filip Turek slíbil, že nebude vykonávat funkci vládního zmocněnce",
+        "en": "Filip Turek promised not to perform role of government plenipotentiary"
       },
       "summary": {
-        "cs": "Kabinet schválil záměr přepracovat jedenáct zákonů upravujících obranu státu a krizové řízení.",
-        "en": "Cabinet approved plan to overhaul eleven laws regulating state defense and crisis management."
+        "cs": "Poslanec Motoristů oznámil, že do rozhodnutí policie nebude vykonávat funkci zmocněnce pro klimatickou politiku.",
+        "en": "The Motoristé MP announced he will not perform his role as climate policy plenipotentiary pending police investigation."
       },
-      "url": "https://m.echo24.cz/a/HBETF/vlada-krizova-legislativa-valka-blackout-povoden-armada-hasici-opatreni-pripravenost-kabinet-domaci",
-      "date": "2026-07-09"
+      "url": "https://denikn.cz/minuta/2137376/",
+      "date": "2026-07-25"
     }
   ]
 }
