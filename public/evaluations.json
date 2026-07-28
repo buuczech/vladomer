@@ -506,7 +506,7 @@
       "updatedAt": "2026-07-28T09:44:50.265Z"
     },
     "6.2": {
-      "status": "fulfilled",
+      "status": "partial",
       "evidence": "Zákon č. 270/2025 Sb., účinný od 1. ledna 2026 (tvrdá limita pro snížení trestu při intoxikaci)",
       "evidenceDate": "2026-01-01",
       "unverifiable": false,
@@ -525,7 +525,8 @@
         }
       ],
       "previousStatus": "fulfilled",
-      "updatedAt": "2026-07-28T09:44:50.265Z"
+      "updatedAt": "2026-07-28T09:44:50.265Z",
+      "evidenceMissing": "date-mismatch"
     },
     "6.3": {
       "status": "broken",
@@ -2099,7 +2100,7 @@
       "updatedAt": "2026-07-28T09:57:49.961Z"
     },
     "17.3": {
-      "status": "fulfilled",
+      "status": "partial",
       "evidence": "Novela zákona č. 586/1992 Sb. o daních z příjmů, účinná od 1. ledna 2026",
       "evidenceDate": "2026-01-01",
       "unverifiable": false,
@@ -2122,7 +2123,8 @@
         }
       ],
       "previousStatus": "fulfilled",
-      "updatedAt": "2026-07-28T09:57:49.961Z"
+      "updatedAt": "2026-07-28T09:57:49.961Z",
+      "evidenceMissing": "date-mismatch"
     },
     "17.4": {
       "status": "partial",
@@ -2451,7 +2453,7 @@
       "updatedAt": "2026-07-28T09:42:14.030Z"
     },
     "4.6": {
-      "status": "fulfilled",
+      "status": "partial",
       "evidence": "Nařízení vlády č. 211/2025 Sb., Nařízení vlády č. 270/2025 Sb.",
       "evidenceDate": "2026-01-01",
       "unverifiable": false,
@@ -2474,7 +2476,8 @@
         }
       ],
       "previousStatus": "fulfilled",
-      "updatedAt": "2026-07-28T09:42:14.030Z"
+      "updatedAt": "2026-07-28T09:42:14.030Z",
+      "evidenceMissing": "date-mismatch"
     },
     "4.7": {
       "status": "in_progress",

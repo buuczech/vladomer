@@ -104,6 +104,19 @@ function truncate(s, n) { s = s || ""; return s.length > n ? s.slice(0, n) + "�
 function normUrl(u) { return (u || "").trim().replace(/\/+$/, "").toLowerCase(); }
 function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, "").replace(/^m\./, ""); } catch { return u; } }
 
+/* A "č. NNN/YYYY Sb." marker states the year the norm was PUBLISHED. If that
+   year doesn't match the date the model gave, the date is something else —
+   typically a later effective-from date, which is how the term-start check got
+   bypassed ("č. 270/2025 Sb., účinný od 1. ledna 2026" dated 2026-01-01).
+   Amending laws legitimately cite older acts, so only the newest year in the
+   string is judged: that is the norm being claimed as the achievement. */
+function evidenceYearMismatch(evidence, evDate) {
+  const years = [...String(evidence).matchAll(/\b\d{1,4}\s*\/\s*(\d{4})\s*Sb\b/gi)]
+    .map((m) => Number(m[1]));
+  if (years.length === 0) return false; // non-legislative step — date check applies alone
+  return Math.max(...years) !== Number(evDate.slice(0, 4));
+}
+
 function historyFor(id, snapshots) {
   return snapshots
     .map((s) => (s.statuses && s.statuses[id] ? `${s.date} ${STATUS_CS[s.statuses[id]] || s.statuses[id]}` : null))
@@ -136,9 +149,11 @@ U KAŽDÉHO bodu zvaž důkazy z více úhlů, ne jen jeden závěr:
 
 Stav urči konzervativně a striktně. Bez doložitelného důkazu = not_started.
 
-- fulfilled — POUZE pokud norma prošla CELÝM legislativním procesem (Sněmovna, Senát, podpis prezidenta) a byla vyhlášena ve Sbírce zákonů, nebo u nelegislativního závazku je opatření prokazatelně zavedené a účinné. Do pole "evidence" MUSÍŠ uvést konkrétní doklad (např. „zákon č. 123/2026 Sb., vyhlášen 4. 3. 2026") a do "evidence_date" datum toho kroku ve tvaru YYYY-MM-DD. Bez obojího stav fulfilled NEPOUŽÍVEJ.
+- fulfilled — POUZE pokud norma prošla CELÝM legislativním procesem (Sněmovna, Senát, podpis prezidenta) a byla vyhlášena ve Sbírce zákonů, nebo u nelegislativního závazku je opatření prokazatelně zavedené a účinné. Do pole "evidence" MUSÍŠ uvést konkrétní doklad (např. „zákon č. 123/2026 Sb., vyhlášen 4. 3. 2026") a do "evidence_date" datum ve tvaru YYYY-MM-DD. Bez obojího stav fulfilled NEPOUŽÍVEJ.
 
-KRITICKÉ: Tato vláda nastoupila 15. 12. 2025. Zásluhu jí lze přiznat POUZE za kroky učiněné od tohoto data. Zákon vyhlášený dříve (např. v roce 2024 nebo v průběhu roku 2025 před prosincem) je dílem PŘEDCHOZÍ vlády – i když tématicky odpovídá slibu, NENÍ to splnění závazku této vlády. V takovém případě zvol stav podle toho, co udělala TATO vláda.
+Do "evidence_date" patří datum, kdy vláda ten krok UDĚLALA – tedy datum vyhlášení ve Sbírce zákonů, u exekutivního kroku datum jeho přijetí. NIKDY neuváděj datum budoucí účinnosti: norma vyhlášená v listopadu 2025 s účinností od 1. 1. 2026 má evidence_date 2025-11-xx, ne 2026-01-01.
+
+KRITICKÉ: Tato vláda nastoupila 15. 12. 2025. Zásluhu jí lze přiznat POUZE za kroky učiněné od tohoto data. Zákon vyhlášený dříve je dílem PŘEDCHOZÍ vlády – i když tématicky odpovídá slibu a účinnosti nabyl až za této vlády, NENÍ to splnění jejího závazku. Poznáš to podle značky ve Sbírce: „č. 270/2025 Sb." byl vyhlášen v roce 2025, tedy před nástupem této vlády, pokud nešlo o samý závěr prosince. V takovém případě zvol stav podle toho, co udělala TATO vláda.
 - partial — závazek naplněn jen zčásti: norma prošla v osekané podobě, pokrývá jen část slibu, byla přijata s výrazným zpožděním nebo v pozměněné parametrizaci.
 - in_progress — běží reálný legislativní proces: vláda schválila návrh, je v Poslanecké sněmovně či Senátu, ale proces není dokončen.
 - declared — vláda se pouze vyjádřila, přijala usnesení, deklarovala postoj či ustavila pracovní skupinu, ale nezahájila legislativní ani exekutivní krok. Samotné prohlášení ministra sem patří.
@@ -201,7 +216,7 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
 
   const out = {};
   let kept = 0;
-  const demoted = { "no-evidence": 0, "no-date": 0, "predates-term": 0 };
+  const demoted = { "no-evidence": 0, "no-date": 0, "predates-term": 0, "date-mismatch": 0 };
   for (const r of parsed) {
     if (!r || !r.id || !VALID_IDS.has(r.id)) continue;
     const sources = [];
@@ -229,6 +244,7 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
       // Credit for work finished before this cabinet took office belongs to
       // the previous one, however well the topic matches the promise.
       else if (Date.parse(evDate) < TERM_START) downgradeReason = "predates-term";
+      else if (evidenceYearMismatch(evidence, evDate)) downgradeReason = "date-mismatch";
     }
     if (downgradeReason) { status = "partial"; demoted[downgradeReason]++; }
 
