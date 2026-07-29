@@ -1,53 +1,17 @@
 {
-  "generatedAt": "2026-07-29T09:36:44.207Z",
+  "generatedAt": "2026-07-28T10:31:05.961Z",
   "items": [
     {
       "title": {
-        "cs": "Prezident Pavel vetoval novelu rozpočtových zákonů",
-        "en": "President Pavel vetoed budget responsibility amendment"
+        "cs": "Prezident Pavel vetoval novelu o rozpočtových pravidlech",
+        "en": "President Pavel vetoed budget rules amendment"
       },
       "summary": {
-        "cs": "Prezident Petr Pavel vetoval spornou novelu rozpočtových zákonů, která by umožnila vládě překročit schválené výdaje až o 10 procent.",
-        "en": "President Petr Pavel vetoed controversial budget law amendment that would allow government to exceed approved spending by up to 10 percent."
+        "cs": "Prezident Pavel vetoval spornou novelu upravující veřejné rozpočty s tím, že ohrožuje stabilitu financí a umožňuje neúměrné zadlužování.",
+        "en": "President Pavel vetoed contentious budget law amendment, citing risks to financial stability and allowing excessive government debt."
       },
-      "url": "https://www.irozhlas.cz/zpravy-domov/pavel-vetoval-novelu-rozpoctovych-zakonu-ohrozuje-podle-nej-dlouhodobou_2607221625_jar",
+      "url": "https://www.ceskenoviny.cz/zpravy/prezident-pavel-vetoval-spornou-novelu-rozpoctovych-zakonu/2853858",
       "date": "2026-07-22"
-    },
-    {
-      "title": {
-        "cs": "Ekonomové varují před rozvolňováním rozpočtových pravidel",
-        "en": "Economists warn against loosening budget rules"
-      },
-      "summary": {
-        "cs": "Dvacítka českých ekonomů včetně bývalých guvernérů ČNB apeluje na poslance, aby se zabývali věcnými důvody pro prezidentovo veto rozpočtové novely.",
-        "en": "Two dozen Czech economists including former central bank governors appeal to MPs to address substantive reasons for presidential budget law veto."
-      },
-      "url": "https://www.ceskenoviny.cz/zpravy/ekonomove-varovali-pred-rozvolnovanim-rozpoctovych-pravidel/2855802",
-      "date": "2026-07-28"
-    },
-    {
-      "title": {
-        "cs": "Zákaz mobilů ve školách od září 2027",
-        "en": "Cell phone ban in schools from September 2027"
-      },
-      "summary": {
-        "cs": "Vláda podpořila novelu školského zákona, která zakáže používání mobilů a elektronických zařízení na základních školách a v mateřských školách.",
-        "en": "Government approved amendment banning cell phones and electronic devices in elementary and kindergarten schools starting September 2027."
-      },
-      "url": "https://m.echo24.cz/a/HmUvE/zpravy-domov-zakaz-mobilu-ve-skolach-rozdeluje-cesko-pomuze-detem-nebo-jde-o-zbytecny-zakon",
-      "date": "2026-07-26"
-    },
-    {
-      "title": {
-        "cs": "Odvolán ředitel ústavu jaderné ochrany kvůli školení Číňanů",
-        "en": "Director of nuclear institute fired over Chinese military training"
-      },
-      "summary": {
-        "cs": "Šéf hasičů odvolal ředitele ústavu jaderné ochrany Tomáše Dropu kvůli školení čínských vojenských expertů.",
-        "en": "Fire chief dismissed director of nuclear institute over training sessions for Chinese military experts."
-      },
-      "url": "https://ct24.ceskatelevize.cz/tema/politika-887",
-      "date": "2026-07-24"
     }
   ]
 }
