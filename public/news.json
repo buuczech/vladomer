@@ -1,29 +1,29 @@
 {
-  "generatedAt": "2026-07-28T11:34:29.140Z",
+  "generatedAt": "2026-07-29T08:50:55.194Z",
   "items": [
     {
       "title": {
-        "cs": "Turek se vzdá funkce zmocněnce během vyšetřování nehody",
-        "en": "Turek to suspend as government coordinator during accident investigation"
+        "cs": "Vláda prosazuje zákony skrz poslanecké návrhy bez připomínkového řízení",
+        "en": "Government pushes laws through parliamentary proposals bypassing comment procedures"
       },
       "summary": {
-        "cs": "Poslanec Motoristů Filip Turek nebude do rozhodnutí policie vykonávat funkci vládního zmocněnce pro Green Deal, v případě viny rezignuje.",
-        "en": "MP Filip Turek will not perform role of government coordinator for Green Deal until police decision, will resign if found liable for accident."
+        "cs": "Vládní koalice ANO, SPD a Motoristé za posledních šest měsíců prosadila 26 návrhů zákonů skrz poslance místo klasického vládního procesu, čímž se vyhýbá připomínkovému řízení a námitkám odborníků.",
+        "en": "The ruling coalition of ANO, SPD and Motoristé has pushed 26 law proposals through parliament members in the past six months instead of the standard government process, thereby avoiding comment procedures and expert objections."
       },
-      "url": "https://denikn.cz/2136914/funkci-vladniho-zmocnence-vykonavat-nebudu-slibil-turek-a-vyrazil-na-cestu-chystanou-ministerstvem/",
-      "date": "2026-07-24"
+      "url": "https://www.irozhlas.cz/zpravy-domov/nebezpecne-tendence-obchazet-legislativni-proces-vlada-prosazuje-zakony-skrz_2607290700_jar",
+      "date": "2026-07-29"
     },
     {
       "title": {
-        "cs": "Chat Control 1: Česko podpořilo regulaci komunikace s výjimkou šifrování",
-        "en": "Chat Control 1: Czech Republic supported communication regulation with encryption exception"
+        "cs": "Pavel vetoval novelu rozpočtových zákonů, koalice chce veto přehlasovat",
+        "en": "President Pavel vetoed budget law amendment, coalition plans to override veto"
       },
       "summary": {
-        "cs": "Česká republika podpořila upravené pravidla pro dobrovolnou kontrolu komunikace na internetu, původně slibovaný Chat Control ale vlád odmítá.",
-        "en": "Czech Republic backed voluntary internet communication monitoring rules, but government rejects mandatory Chat Control 2."
+        "cs": "Prezident Petr Pavel vetoval spornou novelu rozpočtových zákonů s tím, že ohrožuje stabilitu financí, ale vládní koalice má většinu a chystá se veto přehlasovat.",
+        "en": "President Petr Pavel vetoed a controversial budget law amendment claiming it threatens financial stability, but the ruling coalition has the majority and plans to override the veto."
       },
-      "url": "https://m.echo24.cz/a/HFZUg/zpravy-zahranici-smirovaci-vyjimku-cr-podporila-navrh-ek-na-chat-control-2-je-neprijatelny-metnar",
-      "date": "2026-07-24"
+      "url": "https://www.ceskenoviny.cz/zpravy/pavel-vetoval-novelu-rozpoctovych-zakonu-koalice-chce-veto-prehlasovat/2853858",
+      "date": "2026-07-22"
     }
   ]
 }

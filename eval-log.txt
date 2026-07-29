@@ -4,12 +4,13 @@
 
 Evaluating 1 Zásadní priority vlády… ok (5) — 40 search hits, 13 sources kept
 Evaluating 2 Finance a hospodaření státu…   retry — waiting 3s
+ok (15) — 38 search hits, 23 sources kept
+Evaluating 3 Vnitřní bezpečnost a veřejná správa… ok (8) — 40 search hits, 13 sources kept
+Evaluating 4 Obrana a Armáda ČR…   retry — waiting 3s
   retry — waiting 3s
-ok (15) — 40 search hits, 20 sources kept
-Evaluating 3 Vnitřní bezpečnost a veřejná správa… ok (8) — 38 search hits, 9 sources kept
-Evaluating 4 Obrana a Armáda ČR… ok (7) — 40 search hits, 15 sources kept
-Evaluating 5 Zahraniční politika… ok (6) — 40 search hits, 14 sources kept
+ok (7) — 40 search hits, 14 sources kept, downgraded: 1 predates-term
+Evaluating 5 Zahraniční politika…   retry — waiting 3s
+ok (6) — 40 search hits, 12 sources kept
 
-Wrote 143 evaluations, 4 history snapshots, 143 audit records
-Fetching headlines…   retry — waiting 3s
-ok (2 items) — 73 search hits, proposed 6, dropped 0 invented / 0 non-article / 2 stale / 2 same-outlet
+Wrote 143 evaluations, 5 history snapshots, 41 audit records
+Fetching headlines… ok (2 items) — 59 search hits, proposed 7, dropped 0 invented / 0 non-article / 2 stale / 3 same-outlet
