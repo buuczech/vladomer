@@ -41,8 +41,14 @@ const CHAPTER_LIMIT = process.env.CHAPTER_LIMIT ? Number(process.env.CHAPTER_LIM
 const KEY = process.env.ANTHROPIC_API_KEY;
 const MODEL = process.env.EVAL_MODEL || NAST.model; // env still wins, for one-off experiments
 /* Operational, deliberately NOT in nastaveni.txt: too low silently truncates
-   the JSON reply, which looks like a model failure and burns retries. */
+   the JSON reply, which looks like a model failure and burns retries.
+   Separate budgets because every web_search round is part of the output —
+   the headline call does up to vyhledavani_zpravy of them (12) against the
+   chapter call's 4, so it needs materially more room before the JSON starts.
+   Raising vyhledavani_zpravy without raising this is what broke the
+   2026-07-29 run ("no JSON array in response"). */
 const MAX_TOKENS = 6000;
+const MAX_TOKENS_ZPRAVY = 12000;
 
 const OUT_EVAL = new URL("../public/evaluations.json", import.meta.url);
 const OUT_HIST = new URL("../public/history.json", import.meta.url);
@@ -246,7 +252,7 @@ async function fetchHeadlines() {
     headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: MAX_TOKENS,
+      max_tokens: MAX_TOKENS_ZPRAVY,
       messages: [{ role: "user", content: prompt }],
       tools: [{ type: "web_search_20250305", name: "web_search", max_uses: NAST.vyhledavani_zpravy, allowed_domains: WEBY_ZPRAVY }],
     }),
@@ -265,7 +271,15 @@ async function fetchHeadlines() {
   const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
   const clean = text.replace(/```json|```/g, "").trim();
   const a = clean.indexOf("["), b = clean.lastIndexOf("]");
-  if (a === -1 || b === -1) throw new Error("no JSON array in response");
+  if (a === -1 || b === -1) {
+    /* Say WHY, or the next person guesses. stop_reason "max_tokens" means the
+       reply was cut off — every web_search round is itself part of the output,
+       so raising the search count eats the budget the JSON needs. */
+    const searches = (data.content || []).filter((x) => x.type === "server_tool_use").length;
+    throw new Error(`no JSON array in response (stop_reason=${data.stop_reason}, `
+      + `searches=${searches}, out_tokens=${data.usage?.output_tokens}, text=${clean.length}b: `
+      + `${JSON.stringify(clean.slice(0, 120))})`);
+  }
   const parsed = JSON.parse(clean.slice(a, b + 1));
 
   const items = [];
