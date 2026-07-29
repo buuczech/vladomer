@@ -69,6 +69,7 @@ const SCHEMA = {
   vyhledavani_hodnoceni: { type: "int", min: 1, max: 10 },
   vyhledavani_zpravy: { type: "int", min: 1, max: 15 },
   pocet_zprav: { type: "int", min: 1, max: 12 },
+  zprav_navic_k_vyberu: { type: "int", min: 0, max: 10 },
   zpravy_pocet_dni: { type: "int", min: 1, max: 30 },
   zpravy_tolerance_dni: { type: "int", min: 0, max: 14 },
 };

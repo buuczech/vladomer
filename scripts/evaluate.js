@@ -43,9 +43,6 @@ const MODEL = process.env.EVAL_MODEL || NAST.model; // env still wins, for one-o
 /* Operational, deliberately NOT in nastaveni.txt: too low silently truncates
    the JSON reply, which looks like a model failure and burns retries. */
 const MAX_TOKENS = 6000;
-// A couple more headlines are requested than get published — some are dropped
-// as invented URLs, section fronts, stale, or a second story from one outlet.
-const NEWS_HEADROOM = 2;
 
 const OUT_EVAL = new URL("../public/evaluations.json", import.meta.url);
 const OUT_HIST = new URL("../public/history.json", import.meta.url);
@@ -240,7 +237,7 @@ async function fetchHeadlines() {
   const prompt = render("prompt-zpravy.md", {
     DNESNI_DATUM: new Date().toISOString().slice(0, 10),
     POCET_DNI: NAST.zpravy_pocet_dni,
-    POCET_ZPRAV_K_NAVRZENI: NAST.pocet_zprav + NEWS_HEADROOM,
+    POCET_ZPRAV_K_NAVRZENI: NAST.pocet_zprav + NAST.zprav_navic_k_vyberu,
   });
   assertFields(prompt, ["title_cs", "title_en", "summary_cs", "summary_en", "url", "date"], "prompt-zpravy.md");
 
@@ -338,7 +335,7 @@ function preflight() {
     const n = render("prompt-zpravy.md", {
       DNESNI_DATUM: "2026-01-01",
       POCET_DNI: NAST.zpravy_pocet_dni,
-      POCET_ZPRAV_K_NAVRZENI: NAST.pocet_zprav + NEWS_HEADROOM,
+      POCET_ZPRAV_K_NAVRZENI: NAST.pocet_zprav + NAST.zprav_navic_k_vyberu,
     });
     assertFields(n, ["title_cs", "title_en", "summary_cs", "summary_en", "url", "date"], "prompt-zpravy.md");
   } catch (e) {

@@ -42,13 +42,19 @@ historie_v_promptu = 6
 # Víc = důkladnější a dražší. Běh má 18 oblastí. (1 až 10)
 vyhledavani_hodnoceni = 4
 
-# Totéž pro sběr zpráv týdne — jeden dotaz za celý běh. (1 až 15)
-vyhledavani_zpravy = 8
+# Totéž pro sběr zpráv týdne — jeden dotaz za celý běh. Vyšší číslo =
+# pestřejší nabídka webů, ze kterých se pak vybírá. (1 až 15)
+vyhledavani_zpravy = 12
 
-# Kolik zpráv se na webu zobrazí. Modelu se jich schválně říká o dvě
-# víc, protože část jich vypadne (vymyšlený odkaz, dvě zprávy ze
-# stejného webu, příliš stará zpráva). (1 až 12)
+# Kolik zpráv se na webu zobrazí. (1 až 12)
 pocet_zprav = 5
+
+# O kolik zpráv navíc se modelu řekne. Část kandidátů vždy vypadne —
+# vymyšlený odkaz, rozcestník místo článku, příliš stará zpráva, nebo
+# druhá zpráva ze stejného webu (z jednoho webu bereme jen jednu).
+# Když se na webu zobrazuje méně zpráv než pocet_zprav, zvyš tohle
+# číslo; v logu běhu je vidět, kolik a proč jich vypadlo. (0 až 10)
+zprav_navic_k_vyberu = 4
 
 # Jak staré zprávy se ještě berou jako „zprávy týdne". (1 až 30)
 zpravy_pocet_dni = 7
