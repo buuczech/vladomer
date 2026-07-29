@@ -42,9 +42,11 @@ historie_v_promptu = 6
 # Víc = důkladnější a dražší. Běh má 18 oblastí. (1 až 10)
 vyhledavani_hodnoceni = 4
 
-# Totéž pro sběr zpráv týdne — jeden dotaz za celý běh. Vyšší číslo =
-# pestřejší nabídka webů, ze kterých se pak vybírá. (1 až 15)
-vyhledavani_zpravy = 12
+# Totéž pro sběr zpráv týdne — jeden dotaz za celý běh. (1 až 15)
+# POZOR, vyšší číslo nepomáhá: při 12 model navrhl jen 3 zprávy z 9
+# žádaných, při 8 dodal všech 7. Výsledky vyhledávání zaplní kontext
+# a odpověď je pak kratší a častěji nevalidní.
+vyhledavani_zpravy = 8
 
 # Kolik zpráv se na webu zobrazí. (1 až 12)
 pocet_zprav = 5
@@ -59,6 +61,7 @@ zprav_navic_k_vyberu = 4
 # Jak staré zprávy se ještě berou jako „zprávy týdne". (1 až 30)
 zpravy_pocet_dni = 7
 
-# Rezerva navíc, kdyby se páteční běh opozdil. Skutečná hranice je
-# zpravy_pocet_dni + zpravy_tolerance_dni = 10 dní. (0 až 14)
-zpravy_tolerance_dni = 3
+# Rezerva navíc, kdyby se páteční běh opozdil, a zároveň úleva pro
+# případ, kdy za týden nebylo dost zpráv. Skutečná hranice je
+# zpravy_pocet_dni + zpravy_tolerance_dni = 12 dní. (0 až 14)
+zpravy_tolerance_dni = 5
