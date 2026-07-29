@@ -1,5 +1,9 @@
 /* Shared data: imported by both the React app (src/App.jsx) and the
-   server-side evaluation script (scripts/evaluate.mjs). Single source of truth. */
+   server-side evaluation script (scripts/evaluate.js). Single source of truth.
+
+   The model id lives in scripts/nastaveni/nastaveni.txt and the status scale
+   in scripts/evaluate.js (STATUSES) — both used to be duplicated here, which
+   meant editing this file appeared to work but changed nothing. */
 
 export const DATES = {
   tookOffice: "2025-12-15T00:00:00",
@@ -7,11 +11,6 @@ export const DATES = {
   confidenceVote: "2026-01-15",
   electionEstimate: "2029-10-05T00:00:00", // estimated; CZ elections held early October
 };
-
-// Haiku is used for token efficiency. Swap to "claude-sonnet-4-6" for deeper analysis.
-export const EVAL_MODEL = "claude-haiku-4-5-20251001";
-
-export const STATUS_KEYS = ["fulfilled", "in_progress", "not_started", "stalled"];
 
 export const CHAPTERS = [
   {

@@ -1,0 +1,25 @@
+# Weby pro „Hlavní zprávy týdne".
+# Užší seznam než u hodnocení: jen žurnalistika, kategorie NFNŽ A a A-.
+# Chybí tu schválně:
+#   - gov.cz a demagog.cz — vládní portál není nezávislé zpravodajství
+#   - bulvárnější kategorie B+ — aby týden nevedly celebritní zprávy
+
+aktualne.cz
+ceskenoviny.cz
+ct24.ceskatelevize.cz
+denik.cz
+denikalarm.cz
+denikn.cz
+denikreferendum.cz
+e15.cz
+echo24.cz
+euro.cz
+forum24.cz
+hn.cz
+irozhlas.cz
+respekt.cz
+seznamzpravy.cz
+voxpot.cz
+zivotvcesku.cz
+hlidacipes.org
+novinky.cz

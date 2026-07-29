@@ -1,0 +1,44 @@
+# Weby, ze kterých se smí čerpat při hodnocení jednotlivých bodů.
+# Jeden web na řádek. Řádek začínající # je poznámka.
+# Vyhledávání fyzicky nemůže vrátit výsledek odjinud než z tohoto seznamu.
+#
+# POZOR: když sem přidáš web, který blokuje vyhledávacího robota Anthropicu
+# (např. idnes.cz nebo lidovky.cz), selže CELÝ dotaz, ne jen ten jeden web.
+#
+# Tento seznam je popsán i v metodice na webu (src/App.jsx, sekce
+# „Povolené zdroje") — po změně ji uprav také.
+
+# Oficiální weby státu (gov.cz pokrývá všechny vládní subdomény) a fact-checking
+gov.cz
+demagog.cz
+
+# NFNŽ MediaRating — A
+aktualne.cz
+ceskenoviny.cz
+ct24.ceskatelevize.cz
+denik.cz
+denikalarm.cz
+denikn.cz
+denikreferendum.cz
+e15.cz
+echo24.cz
+euro.cz
+forum24.cz
+hn.cz
+irozhlas.cz
+refresher.cz
+respekt.cz
+seznamzpravy.cz
+voxpot.cz
+zivotvcesku.cz
+
+# NFNŽ MediaRating — A-
+hlidacipes.org
+novinky.cz
+
+# NFNŽ MediaRating — B+
+blesk.cz
+cnn.iprima.cz
+newstream.cz
+reflex.cz
+tn.nova.cz

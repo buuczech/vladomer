@@ -47,7 +47,15 @@ That's it — the site is online and updates itself weekly.
 
 ## Cost
 
-Each weekly run is 18 API calls (one per chapter) on Haiku with web search enabled — a few cents per week. Change the model with the `EVAL_MODEL` env var (e.g. `claude-sonnet-4-6` for deeper analysis).
+Each weekly run is 18 API calls (one per chapter) on Haiku with web search enabled — a few cents per week.
+
+**Prompts and settings live in [`scripts/nastaveni/`](scripts/nastaveni/) as plain text** — the prompts themselves, the model, source whitelists, and the tunable numbers. Edit them without touching JavaScript; see [`scripts/nastaveni/NAVOD.md`](scripts/nastaveni/NAVOD.md). A bad edit stops the run with a readable error *before* any API call, leaving last week's data live. To preview exactly what would be sent, without spending anything:
+
+```bash
+ANTHROPIC_API_KEY=x node --import ./scripts/dev/dump-prompts.js scripts/evaluate.js
+```
+
+The `EVAL_MODEL` env var still overrides `model` in `nastaveni.txt` for one-off experiments.
 
 ## Editing the checklist
 

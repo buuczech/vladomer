@@ -17,34 +17,57 @@
  */
 import { writeFileSync, readFileSync } from "node:fs";
 import { CHAPTERS, DATES } from "../src/data.js";
+import { render, readList, readSettings, assertFields } from "./lib/nastaveni.js";
+
+/* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
+   upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
+   chybou ještě před prvním voláním API — nikdy nemůže vzniknout napůl
+   vyrenderovaný prompt. */
+const NAST = readSettings();
+const WEBY_HODNOCENI = readList("weby-hodnoceni.txt");
+const WEBY_ZPRAVY = readList("weby-zpravy.txt");
 
 // Nothing this cabinet did can predate its own appointment. The first full run
 // on the strict scale credited it with laws published in August 2025 — i.e.
 // the previous government's work — so the cut-off is enforced in code.
-const TERM_START = new Date(DATES.tookOffice).getTime();
+const TERM_START_DATE = new Date(DATES.tookOffice);
+const TERM_START = TERM_START_DATE.getTime();
+// The prompt receives this same value, so it can no longer state a term start
+// that differs from the one the checks enforce. Renders as "15. 12. 2025".
+const TERM_START_CS = `${TERM_START_DATE.getDate()}. ${TERM_START_DATE.getMonth() + 1}. ${TERM_START_DATE.getFullYear()}`;
 
 const CHAPTER_LIMIT = process.env.CHAPTER_LIMIT ? Number(process.env.CHAPTER_LIMIT) : CHAPTERS.length;
 
 const KEY = process.env.ANTHROPIC_API_KEY;
-const MODEL = process.env.EVAL_MODEL || "claude-haiku-4-5-20251001";
+const MODEL = process.env.EVAL_MODEL || NAST.model; // env still wins, for one-off experiments
+/* Operational, deliberately NOT in nastaveni.txt: too low silently truncates
+   the JSON reply, which looks like a model failure and burns retries. */
+const MAX_TOKENS = 6000;
+// A couple more headlines are requested than get published — some are dropped
+// as invented URLs, section fronts, stale, or a second story from one outlet.
+const NEWS_HEADROOM = 2;
+
 const OUT_EVAL = new URL("../public/evaluations.json", import.meta.url);
 const OUT_HIST = new URL("../public/history.json", import.meta.url);
 const OUT_NEWS = new URL("../public/news.json", import.meta.url);
 // Append-only audit trail: one record per item per run, so any past rating
 // stays inspectable (item id + date + status + the text that justified it).
 const OUT_AUDIT = new URL("../public/audit.json", import.meta.url);
-/* Status scale. "fulfilled" is deliberately hard to reach: it requires the law
-   to have completed the whole legislative process and been published in the
-   Sbírka zákonů — the same bar Demagog.cz applies — and the model must produce
-   the evidence for it (see EVIDENCE_MIN below). "unverifiable" is a separate
-   flag, not a status, because it describes the promise's wording rather than
-   the government's progress. */
-const VALID = new Set(["fulfilled", "partial", "in_progress", "declared", "not_started", "broken"]);
-const HISTORY_WEEKS = 52;
-const MAX_SOURCES = 3;
+/* Status scale, strongest first. This array IS the contract: VALID validates
+   the reply against it and the prompt's JSON example receives it via
+   {{SEZNAM_STAVU}}, so the two can no longer drift apart. Prose definitions
+   live in scripts/nastaveni/prompt-hodnoceni.md; the site's labels and colours
+   live in src/App.jsx STATUS (deliberately separate — different casing and
+   purpose). "fulfilled" is hard to reach on purpose: the law must have cleared
+   the whole legislative process and been published in the Sbírka zákonů, and
+   the model must supply the evidence. */
+const STATUSES = ["fulfilled", "partial", "in_progress", "declared", "not_started", "broken"];
+const VALID = new Set(STATUSES);
+const HISTORY_WEEKS = NAST.historie_tydnu;
+const MAX_SOURCES = NAST.maximalne_zdroju;
 // A "fulfilled" claim without a concrete citation gets downgraded, so the
 // strongest status can never rest on an unsupported assertion.
-const EVIDENCE_MIN = 12;
+const EVIDENCE_MIN = NAST.minimalni_delka_dokladu;
 
 const STATUS_CS = {
   fulfilled: "splněno", partial: "částečně splněno", in_progress: "probíhá",
@@ -56,37 +79,7 @@ const STATUS_CS = {
 // which the merge-based storage would otherwise carry forward forever.
 const VALID_IDS = new Set(CHAPTERS.flatMap((c) => c.groups.flatMap((g) => g.items.map((i) => i.id))));
 
-// Source whitelist, enforced at the API level via web_search allowed_domains —
-// search physically can't return results outside this list. Official sources +
-// NFNŽ MediaRating categories A / A- / B+. Mirrored in the App.jsx methodology.
-const ALLOWED_DOMAINS = [
-  // Official (gov.cz covers all government subdomains — vlada, ministries,
-  // NSA, DIA, …) / fact-checking
-  "gov.cz", "demagog.cz",
-  // NFNŽ MediaRating — A
-  "aktualne.cz", "ceskenoviny.cz", "ct24.ceskatelevize.cz", "denik.cz",
-  "denikalarm.cz", "denikn.cz", "denikreferendum.cz", "e15.cz", "echo24.cz",
-  "euro.cz", "forum24.cz", "hn.cz", "irozhlas.cz", "refresher.cz",
-  "respekt.cz", "seznamzpravy.cz", "voxpot.cz", "zivotvcesku.cz",
-  // NFNŽ MediaRating — A-  (idnes.cz and lidovky.cz omitted: they block
-  // Anthropic's crawler, and one inaccessible domain 400s the whole request)
-  "hlidacipes.org", "novinky.cz",
-  // NFNŽ MediaRating — B+
-  "blesk.cz", "cnn.iprima.cz", "newstream.cz", "reflex.cz", "tn.nova.cz",
-];
 
-/* Headlines use a narrower list than the ratings: only journalism, and only
-   the higher-rated outlets. gov.cz and demagog.cz are dropped because a
-   government portal is not independent news reporting (the first run returned
-   a generic vlada.gov.cz index page as a "headline"), and the B+ tabloid /
-   commentary tier is dropped so the week's news isn't led by celebrity-desk
-   coverage. NFNŽ MediaRating A + A- only. */
-const NEWS_DOMAINS = [
-  "aktualne.cz", "ceskenoviny.cz", "ct24.ceskatelevize.cz", "denik.cz",
-  "denikalarm.cz", "denikn.cz", "denikreferendum.cz", "e15.cz", "echo24.cz",
-  "euro.cz", "forum24.cz", "hn.cz", "irozhlas.cz", "respekt.cz",
-  "seznamzpravy.cz", "voxpot.cz", "zivotvcesku.cz", "hlidacipes.org", "novinky.cz",
-];
 
 // NOTE: structured outputs (output_config.format) were tried here and turned
 // out to suppress the web_search tool entirely (0 search hits), just like the
@@ -121,7 +114,7 @@ function historyFor(id, snapshots) {
   return snapshots
     .map((s) => (s.statuses && s.statuses[id] ? `${s.date} ${STATUS_CS[s.statuses[id]] || s.statuses[id]}` : null))
     .filter(Boolean)
-    .slice(-6)
+    .slice(-NAST.historie_v_promptu)
     .join(", ");
 }
 
@@ -131,55 +124,31 @@ async function evaluateChapter(ch, prevEvals, snapshots) {
     .map((it) => {
       const p = prevEvals[it.id];
       const prev = p
-        ? `předchozí stav: ${STATUS_CS[p.status] || p.status}; předchozí komentář: "${truncate((p.comment && p.comment.cs) || "", 180)}"`
+        ? `předchozí stav: ${STATUS_CS[p.status] || p.status}; předchozí komentář: "${truncate((p.comment && p.comment.cs) || "", NAST.delka_predchoziho_komentare)}"`
         : "bez předchozího hodnocení";
       const hist = historyFor(it.id, snapshots);
       return `- [${it.id}] ${it.cs}\n   ${prev}${hist ? `; historie stavu: ${hist}` : ""}`;
     })
     .join("\n");
 
-  const prompt = `Jsi nestranný, kritický analytik plnění programu vlády Andreje Babiše (ANO, SPD, Motoristé; ve funkci od 15. 12. 2025). NEJPRVE vyhledej aktuální zprávy (web search) a hodnoť výhradně podle ověřitelných, aktuálních faktů.
-
-Oblast: „${ch.title.cs}"
-
-U KAŽDÉHO bodu zvaž důkazy z více úhlů, ne jen jeden závěr:
-- „ano, ale…" — co svědčí pro splnění a s jakými výhradami (jen ohlášeno vs. reálně zavedeno, částečně, formálně, bez dopadu).
-- „ne, ale…" — co svědčí proti splnění a jaké jsou dílčí kroky či náznaky pokroku.
-- Zohledni kritiku opozice i odborníků; rozlišuj sliby/návrhy od skutečného dopadu.
-
-Stav urči konzervativně a striktně. Bez doložitelného důkazu = not_started.
-
-- fulfilled — POUZE pokud norma prošla CELÝM legislativním procesem (Sněmovna, Senát, podpis prezidenta) a byla vyhlášena ve Sbírce zákonů, nebo u nelegislativního závazku je opatření prokazatelně zavedené a účinné. Do pole "evidence" MUSÍŠ uvést konkrétní doklad (např. „zákon č. 123/2026 Sb., vyhlášen 4. 3. 2026") a do "evidence_date" datum ve tvaru YYYY-MM-DD. Bez obojího stav fulfilled NEPOUŽÍVEJ.
-
-Do "evidence_date" patří datum, kdy vláda ten krok UDĚLALA – tedy datum vyhlášení ve Sbírce zákonů, u exekutivního kroku datum jeho přijetí. NIKDY neuváděj datum budoucí účinnosti: norma vyhlášená v listopadu 2025 s účinností od 1. 1. 2026 má evidence_date 2025-11-xx, ne 2026-01-01.
-
-KRITICKÉ: Tato vláda nastoupila 15. 12. 2025. Zásluhu jí lze přiznat POUZE za kroky učiněné od tohoto data. Zákon vyhlášený dříve je dílem PŘEDCHOZÍ vlády – i když tématicky odpovídá slibu a účinnosti nabyl až za této vlády, NENÍ to splnění jejího závazku. Poznáš to podle značky ve Sbírce: „č. 270/2025 Sb." byl vyhlášen v roce 2025, tedy před nástupem této vlády, pokud nešlo o samý závěr prosince. V takovém případě zvol stav podle toho, co udělala TATO vláda.
-- partial — závazek naplněn jen zčásti: norma prošla v osekané podobě, pokrývá jen část slibu, byla přijata s výrazným zpožděním nebo v pozměněné parametrizaci.
-- in_progress — běží reálný legislativní proces: vláda schválila návrh, je v Poslanecké sněmovně či Senátu, ale proces není dokončen.
-- declared — vláda se pouze vyjádřila, přijala usnesení, deklarovala postoj či ustavila pracovní skupinu, ale nezahájila legislativní ani exekutivní krok. Samotné prohlášení ministra sem patří.
-- not_started — žádný doložitelný krok.
-- broken — vláda jednala v rozporu se slibem, nebo od něj prokazatelně ustoupila.
-
-Do "unverifiable" dej true, pokud je závazek formulován tak obecně, že jeho splnění nelze objektivně změřit (např. „budeme podporovat rodiny" bez měřitelného kritéria). Takové body se nezapočítávají do procent.
-
-Měny: v českých textech piš „Kč", v anglických „CZK". Je-li částka ve zdroji důvěryhodně uvedena v eurech, ponech EUR v obou jazycích — nepřepočítávej.
-
-Do "sources" uveď 1–3 PŘESNÉ URL z výsledků vyhledávání, které hodnocení nejvíce podporují. Jen URL, která se ve vyhledávání skutečně objevila – NEVYMÝŠLEJ je.
-
-Body (vrať hodnocení pro každé ID):
-${lines}
-
-Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný úvodní text, žádné markdown bloky:
-[{"id":"...","status":"fulfilled|partial|in_progress|declared|not_started|broken","evidence":"u fulfilled povinný konkrétní doklad (Sbírka zákonů/účinnost), jinak prázdné","evidence_date":"YYYY-MM-DD u fulfilled, jinak prázdné","unverifiable":false,"comment_cs":"2–3 věty, vyvážené ano-ale/ne-ale","comment_en":"anglický překlad comment_cs","change_cs":"1 věta: co se změnilo; bez předchozího hodnocení přesně „první hodnocení“","change_en":"anglický překlad change_cs","sources":["https://..."]}]`;
+  const prompt = render("prompt-hodnoceni.md", {
+    DATUM_NASTUPU_VLADY: TERM_START_CS,
+    NAZEV_OBLASTI: ch.title.cs,
+    MAX_ZDROJU: MAX_SOURCES,
+    SEZNAM_BODU: lines,
+    SEZNAM_STAVU: STATUSES.join("|"),
+  });
+  assertFields(prompt, ["comment_cs", "comment_en", "change_cs", "change_en",
+    "evidence", "evidence_date", "unverifiable", "sources"], "prompt-hodnoceni.md");
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 6000,
+      max_tokens: MAX_TOKENS,
       messages: [{ role: "user", content: prompt }], // no prefill — lets web_search run
-      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 4, allowed_domains: ALLOWED_DOMAINS }],
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: NAST.vyhledavani_hodnoceni, allowed_domains: WEBY_HODNOCENI }],
     }),
   });
 
@@ -268,26 +237,21 @@ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný
    item per domain) rather than trusted to the prompt, and every URL must have
    come back from the real search — same validation as the ratings. */
 async function fetchHeadlines() {
-  const prompt = `Vyhledej nejdůležitější zprávy z české domácí politiky za POSLEDNÍCH 7 DNÍ (dnes je ${new Date().toISOString().slice(0, 10)}). Starší zprávy nezařazuj – budou vyřazeny. Hledej opakovaně a napříč různými zpravodajskými weby.
-
-Vyber 6 konkrétních zpravodajských článků s největším významem pro vládní agendu (legislativa, rozhodnutí vlády, personální změny, klíčové politické spory). Požadavky:
-- Odkazuj na KONKRÉTNÍ článek o konkrétní události, nikdy na rozcestník, rubriku ani titulní stranu.
-- Každý článek z JINÉHO webu — nikdy dva články ze stejné domény.
-- Řaď od nejdůležitější zprávy.
-
-Používej jen URL, která se skutečně objevila ve výsledcích vyhledávání – NEVYMÝŠLEJ je. Nadpis napiš vlastními slovy (nekopíruj titulek).
-
-Odpověz POUZE platným JSON polem, začni [ a skonči ]. Žádný úvodní text, žádné markdown bloky:
-[{"title_cs":"krátký nadpis","title_en":"short headline in English","summary_cs":"1 věta o čem to je","summary_en":"1 sentence in English","url":"https://...","date":"YYYY-MM-DD"}]`;
+  const prompt = render("prompt-zpravy.md", {
+    DNESNI_DATUM: new Date().toISOString().slice(0, 10),
+    POCET_DNI: NAST.zpravy_pocet_dni,
+    POCET_ZPRAV_K_NAVRZENI: NAST.pocet_zprav + NEWS_HEADROOM,
+  });
+  assertFields(prompt, ["title_cs", "title_en", "summary_cs", "summary_en", "url", "date"], "prompt-zpravy.md");
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
     headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
     body: JSON.stringify({
       model: MODEL,
-      max_tokens: 6000,
+      max_tokens: MAX_TOKENS,
       messages: [{ role: "user", content: prompt }],
-      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: 8, allowed_domains: NEWS_DOMAINS }],
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: NAST.vyhledavani_zpravy, allowed_domains: WEBY_ZPRAVY }],
     }),
   });
   if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
@@ -313,7 +277,7 @@ Odpověz POUZE platným JSON polem, začni [ a skonči ]. Žádný úvodní text
   // "This week's headlines" must actually be from this week — the model
   // otherwise slips in months-old stories. 10 days allows for a late-running
   // Friday job without letting stale news through.
-  const oldest = Date.now() - 10 * 86400000;
+  const oldest = Date.now() - (NAST.zpravy_pocet_dni + NAST.zpravy_tolerance_dni) * 86400000;
   for (const r of parsed) {
     if (!r || !r.url || !r.title_cs) continue;
     const when = /^\d{4}-\d{2}-\d{2}$/.test(r.date || "") ? Date.parse(r.date) : NaN;
@@ -332,7 +296,7 @@ Odpověz POUZE platným JSON polem, začni [ a skonči ]. Žádný úvodní text
       url: realUrl,
       date: /^\d{4}-\d{2}-\d{2}$/.test(r.date || "") ? r.date : null,
     });
-    if (items.length >= 5) break;
+    if (items.length >= NAST.pocet_zprav) break;
   }
   return { items, searchCount: Object.keys(realMap).length, proposed: parsed.length, drop };
 }
@@ -354,7 +318,37 @@ async function withBackoff(fn, tries = 5) {
   }
 }
 
+/* Renders both prompts once, before any API call, so a bad edit in
+   scripts/nastaveni/ stops the run immediately. Without this the per-chapter
+   try/catch would swallow the same error 18 times and the run would finish
+   "successfully" having evaluated nothing — the worst possible outcome,
+   because it looks like a normal run in the log. */
+function preflight() {
+  try {
+    const p = render("prompt-hodnoceni.md", {
+      DATUM_NASTUPU_VLADY: TERM_START_CS,
+      NAZEV_OBLASTI: "kontrola",
+      MAX_ZDROJU: MAX_SOURCES,
+      SEZNAM_BODU: "- [0.0] kontrola",
+      SEZNAM_STAVU: STATUSES.join("|"),
+    });
+    assertFields(p, ["comment_cs", "comment_en", "change_cs", "change_en",
+      "evidence", "evidence_date", "unverifiable", "sources"], "prompt-hodnoceni.md");
+
+    const n = render("prompt-zpravy.md", {
+      DNESNI_DATUM: "2026-01-01",
+      POCET_DNI: NAST.zpravy_pocet_dni,
+      POCET_ZPRAV_K_NAVRZENI: NAST.pocet_zprav + NEWS_HEADROOM,
+    });
+    assertFields(n, ["title_cs", "title_en", "summary_cs", "summary_en", "url", "date"], "prompt-zpravy.md");
+  } catch (e) {
+    console.error(`\nCHYBA V NASTAVENÍ — běh se nespustil, na webu zůstávají data z minulého týdne.\n\n  ${e.message}\n`);
+    process.exit(1);
+  }
+}
+
 async function main() {
+  preflight();
   const prevEvals = readJSON(OUT_EVAL, { evals: {} }).evals || {};
   const snapshots = readJSON(OUT_HIST, { snapshots: [] }).snapshots || [];
 

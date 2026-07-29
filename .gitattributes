@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Čteno za běhu skriptem scripts/evaluate.js — musí být stejné na Windows
+# i v CI, takže Git je při checkoutu nesmí převádět na CRLF.
+scripts/nastaveni/* text eol=lf

@@ -1,0 +1,58 @@
+# ==========================================================
+#  NASTAVENÍ TÝDENNÍHO HODNOCENÍ
+#
+#  Uprav hodnotu za znakem "=" a soubor ulož. Nic jiného neměň.
+#  Řádek začínající znakem # je jen poznámka.
+#
+#  Když bude hodnota mimo povolený rozsah nebo název překlepnutý,
+#  běh se zastaví srozumitelnou chybou JEŠTĚ PŘED voláním API —
+#  na webu zůstane minulý týden a nic se nerozbije.
+#
+#  Soubor ukládej v kódování UTF-8 (Poznámkový blok: Uložit jako
+#  → Kódování: UTF-8), jinak se rozbije diakritika.
+# ==========================================================
+
+# Který model Claude hodnocení píše.
+#   claude-haiku-4-5-20251001 = levný a rychlý (výchozí)
+#   claude-sonnet-4-6         = několikanásobně dražší, ale důkladnější
+model = claude-haiku-4-5-20251001
+
+# Kolik odkazů na zdroje se smí zobrazit u jednoho bodu. (1 až 5)
+maximalne_zdroju = 3
+
+# Jak dlouhý musí být doklad, aby stav „splněno" obstál. Když model
+# neuvede aspoň tolik znaků konkrétního dokladu (číslo ve Sbírce
+# zákonů, datum účinnosti), sníží se stav na „částečně splněno".
+# Vyšší číslo = přísnější web. (0 až 200)
+minimalni_delka_dokladu = 12
+
+# Kolik znaků z minulotýdenního komentáře model uvidí jako kontext.
+# Delší = víc souvislosti mezi týdny, ale dražší běh. (40 až 1000)
+delka_predchoziho_komentare = 180
+
+# Kolik týdenních snímků se uchovává pro graf vývoje. 52 = jeden rok.
+# (4 až 520)
+historie_tydnu = 52
+
+# Kolik posledních stavů daného bodu se modelu ukáže v promptu.
+# (0 až 20)
+historie_v_promptu = 6
+
+# Kolikrát smí model vyhledávat na webu při hodnocení jedné oblasti.
+# Víc = důkladnější a dražší. Běh má 18 oblastí. (1 až 10)
+vyhledavani_hodnoceni = 4
+
+# Totéž pro sběr zpráv týdne — jeden dotaz za celý běh. (1 až 15)
+vyhledavani_zpravy = 8
+
+# Kolik zpráv se na webu zobrazí. Modelu se jich schválně říká o dvě
+# víc, protože část jich vypadne (vymyšlený odkaz, dvě zprávy ze
+# stejného webu, příliš stará zpráva). (1 až 12)
+pocet_zprav = 5
+
+# Jak staré zprávy se ještě berou jako „zprávy týdne". (1 až 30)
+zpravy_pocet_dni = 7
+
+# Rezerva navíc, kdyby se páteční běh opozdil. Skutečná hranice je
+# zpravy_pocet_dni + zpravy_tolerance_dni = 10 dní. (0 až 14)
+zpravy_tolerance_dni = 3
