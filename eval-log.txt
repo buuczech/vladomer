@@ -2,16 +2,16 @@
 > vladomer@1.0.0 evaluate
 > node scripts/evaluate.js
 
-Evaluating 1 Zásadní priority vlády… ok (5) — 39 search hits, 9 sources kept
-Evaluating 2 Finance a hospodaření státu…   retry — waiting 3s
-ok (15) — 40 search hits, 15 sources kept
-Evaluating 3 Vnitřní bezpečnost a veřejná správa… ok (8) — 39 search hits, 12 sources kept
-Evaluating 4 Obrana a Armáda ČR… ok (7) — 40 search hits, 14 sources kept
-Evaluating 5 Zahraniční politika… ok (6) — 40 search hits, 9 sources kept
-  korektura 3 odmítla: 3.4|comment_cs: změnil se počet záporů
-  korektura 4 odmítla: 4.2|comment_cs: změnil se počet záporů; 4.7|comment_cs: změnil se počet záporů
-Korektura: 52 úryvků opraveno, 3 oprav odmítnuto, 5 dávek (claude-sonnet-4-6)
+Evaluating 1 Zásadní priority vlády… ok (5) — 40 search hits, 12 sources kept
+Evaluating 2 Finance a hospodaření státu… ok (15) — 40 search hits, 12 sources kept
+Evaluating 3 Vnitřní bezpečnost a veřejná správa… ok (8) — 39 search hits, 21 sources kept
+Evaluating 4 Obrana a Armáda ČR… ok (7) — 40 search hits, 12 sources kept
+Evaluating 5 Zahraniční politika… ok (6) — 39 search hits, 9 sources kept
+  korektura 1 odmítla: 1.3|change_en: délka se změnila o 44 znaků
+  korektura 2 odmítla: 2.9|comment_cs: změnil se počet záporů
+Korektura: 30 úryvků mechanicky očištěno, 20 opraveno modelem, 2 oprav odmítnuto, 5 dávek (claude-sonnet-4-6)
 
 Wrote 143 evaluations, 5 history snapshots, 41 audit records
 Fetching headlines…   retry — waiting 3s
-no usable items (proposed 0, dropped 0 invented / 0 non-article / 0 stale / 0 same-outlet) — keeping previous news.json
+  korektura zpráv: 1 opraveno, 0 odmítnuto
+ok (4 items) — 71 search hits, proposed 9, dropped 0 invented / 0 non-article / 2 stale / 3 same-outlet

@@ -1,17 +1,53 @@
 {
-  "generatedAt": "2026-07-28T10:31:05.961Z",
+  "generatedAt": "2026-07-30T15:18:43.619Z",
   "items": [
     {
       "title": {
-        "cs": "Prezident Pavel vetoval novelu o rozpočtových pravidlech",
-        "en": "President Pavel vetoed budget rules amendment"
+        "cs": "Prezident Pavel vetoval novelu rozpočtových zákonů",
+        "en": "President Pavel vetoed budget law amendments"
       },
       "summary": {
-        "cs": "Prezident Pavel vetoval spornou novelu upravující veřejné rozpočty s tím, že ohrožuje stabilitu financí a umožňuje neúměrné zadlužování.",
-        "en": "President Pavel vetoed contentious budget law amendment, citing risks to financial stability and allowing excessive government debt."
+        "cs": "Prezident Petr Pavel vetoval novelu upravující veřejné rozpočty, která podle něj ohrožuje stabilitu veřejných financí a umožňuje vládě neúměrné zadlužování; koalice chce veto přehlasovat.",
+        "en": "President Pavel vetoed amendments to budget laws, saying they threaten financial stability and allow excessive government debt; coalition plans to override the veto."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/prezident-pavel-vetoval-spornou-novelu-rozpoctovych-zakonu/2853858",
+      "url": "https://www.ceskenoviny.cz/zpravy/pavel-vetoval-novelu-rozpoctovych-zakonu-koalice-chce-veto-prehlasovat/2853858",
       "date": "2026-07-22"
+    },
+    {
+      "title": {
+        "cs": "Vláda schválila zákaz mobilních telefonů ve školách",
+        "en": "Government approved ban on mobile phones in schools"
+      },
+      "summary": {
+        "cs": "Kabinet jednomyslně podpořil návrh Babiše a Plagy na plošný zákaz používání mobilních telefonů ve školách od září 2027.",
+        "en": "Cabinet unanimously supported the proposal by Babiš and Plaga for a nationwide ban on mobile phones in schools starting September 2027."
+      },
+      "url": "https://www.irozhlas.cz/zpravy-domov/vlada-podporila-zakaz-mobilu-na-skolach-predlozil-ho-plaga-a-babis-platit-ma-od_2607201502_jva",
+      "date": "2026-07-20"
+    },
+    {
+      "title": {
+        "cs": "Vláda omezila výstavbu větrných elektráren v akceleračních zónách",
+        "en": "Government scaled back wind farm acceleration zones"
+      },
+      "summary": {
+        "cs": "Vláda redukovala plán na výstavbu větrníků z původních 2685 kilometrů čtverečních na pouhých 297 kilometrů, aby se vyhnula pokutě od EU.",
+        "en": "Cabinet reduced planned wind farm acceleration zones from 2,685 square kilometers to just 297 square kilometers to avoid EU penalties."
+      },
+      "url": "https://www.echo24.cz/a/HWWbf/zpravy-domaci-akceleracni-zony-vlada-babis-vetrniky-obnovitelne-zdroje-vitr-slunce",
+      "date": "2026-07-27"
+    },
+    {
+      "title": {
+        "cs": "Babiš potvrdil, že rozpočet bude pod 400 miliard schodku",
+        "en": "Babiš confirmed budget deficit will be below 400 billion"
+      },
+      "summary": {
+        "cs": "Premiér oznámil, že schodek státního rozpočtu na příští rok bude významně pod 400 miliard korun a vláda splní závazek NATO na 2 procenta HDP na obranu.",
+        "en": "Premier announced next year's budget deficit will be significantly below 400 billion crowns and government will meet NATO commitment of 2 percent GDP for defense."
+      },
+      "url": "https://ct24.ceskatelevize.cz/clanek/media/souhrn-zasadni-udalosti-utery-28-cervence-376040",
+      "date": "2026-07-28"
     }
   ]
 }
