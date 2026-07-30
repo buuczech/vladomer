@@ -9,14 +9,17 @@
  * Spouštět po každé úpravě prompt-korektura.md nebo korektura.js.
  */
 import { readFileSync } from "node:fs";
-import { render, assertFields } from "../lib/nastaveni.js";
-import { ocisti, zkontrolujOpravu, POLE_KOREKTURY, jazykPole, ctiPole } from "../lib/korektura.js";
+import { render } from "../lib/nastaveni.js";
+import { ocisti, zkontrolujOpravu, opravDavku, POLE_KOREKTURY, jazykPole, ctiPole } from "../lib/korektura.js";
 
 const evals = JSON.parse(readFileSync(new URL("../../public/evaluations.json", import.meta.url), "utf8")).evals;
 
-// 1 — prompt se musí vyrenderovat a obsahovat povinná pole
+// 1 — prompt se musí vyrenderovat a ukázat model očekávaný tvar odpovědi
 const p = render("prompt-korektura.md", { SEZNAM_STAVU_CS: "- probíhá", SEZNAM_TEXTU: "[0.0|comment_cs] ukázka" });
-assertFields(p, ["id", "text"], "prompt-korektura.md");
+if (!p.includes("[1.1|comment_cs]")) {
+  console.log("CHYBA: v promptu chybí ukázka tvaru odpovědi [1.1|comment_cs]");
+  process.exit(1);
+}
 console.log("=".repeat(72));
 console.log(p);
 console.log("=".repeat(72) + "\n");
@@ -86,6 +89,38 @@ for (const [k, a, b] of opravy) {
   const d = zkontrolujOpravu(a, b, { jazyk: "cs" });
   if (d) { chyb++; console.log(`  CHYBA: „${k}" ODMÍTNUTA → ${d}`); } else console.log(`  ok  ${k}`);
 }
+
+// 4 — rozklad odpovědi modelu. Texty jsou plné uvozovek, na kterých se
+//     v prvním ostrém běhu rozbil JSON; řádkový tvar je escapovat nemusí.
+console.log("\nRozklad odpovědi modelu:");
+const puvodniFetch = globalThis.fetch;
+async function zkusOdpoved(popis, odpoved, davka, ocekavanoOpraveno) {
+  globalThis.fetch = async () => ({ ok: true, json: async () => ({ content: [{ type: "text", text: odpoved }] }) });
+  try {
+    const r = await opravDavku(davka, { model: "x", key: "x", maxTokens: 100 });
+    if (r.zmeneno === ocekavanoOpraveno) console.log(`  ok  ${popis} → ${r.zmeneno} opraveno`);
+    else { chyb++; console.log(`  CHYBA ${popis}: čekáno ${ocekavanoOpraveno}, vráceno ${r.zmeneno}`); }
+    return r;
+  } catch (e) {
+    if (ocekavanoOpraveno === -1) { console.log(`  ok  ${popis} → hlásí chybu: ${e.message.slice(0, 60)}`); return null; }
+    chyb++; console.log(`  CHYBA ${popis}: ${e.message.slice(0, 80)}`);
+    return null;
+  } finally { globalThis.fetch = puvodniFetch; }
+}
+
+const davkaS = [
+  { klic: "1.1|comment_cs", id: "1.1", pole: "comment_cs", text: 'Prvé hodnocení: „slub“ byl porušen v roce 2026.' },
+  { klic: "2.4|change_en", id: "2.4", pole: "change_en", text: 'The government "approved" the plan in 2026.' },
+];
+await zkusOdpoved("text s uvozovkami (rozbíjel JSON)",
+  '[1.1|comment_cs] První hodnocení: „slib“ byl porušen v roce 2026.\n'
+  + '[2.4|change_en] The government "approved" the plan in 2026.', davkaS, 1); // druhý beze změny
+await zkusOdpoved("prázdná odpověď", "", davkaS, 0);
+await zkusOdpoved("odpověď [] z dump-prompts", "[]", davkaS, 0);
+await zkusOdpoved("obalené markdownem", '```\n[1.1|comment_cs] První hodnocení: „slib“ byl porušen v roce 2026.\n```', davkaS, 1);
+await zkusOdpoved("vymyšlený identifikátor", "[9.9|comment_cs] Nějaký text.", davkaS, 0);
+await zkusOdpoved("úplně jiný tvar odpovědi", "Opravil jsem tyto úryvky:\n1. První hodnocení…", davkaS, -1);
+await zkusOdpoved("podvrh se změněným rokem", "[1.1|comment_cs] První hodnocení: „slib“ byl porušen v roce 2027.", davkaS, 0);
 
 console.log(chyb ? `\nSELHALO: ${chyb} chyb.` : "\nVŠE V POŘÁDKU.");
 process.exit(chyb ? 1 : 0);

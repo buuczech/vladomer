@@ -145,7 +145,15 @@ export async function opravDavku(davka, { model, key, maxTokens, stropProcent = 
     SEZNAM_STAVU_CS,
     SEZNAM_TEXTU: seznam,
   });
-  assertFields(prompt, ["id", "text"], "prompt-korektura.md");
+  /* Odpověď se schválně nežádá v JSONu. Opravované texty jsou plné uvozovek
+     („…" i rovných) a model je uvnitř JSON řetězce nedokáže spolehlivě
+     escapovat — 2 z 5 dávek prvního ostrého běhu skončily na
+     „Expected double-quoted property name in JSON", a to i po opakování.
+     Řádkový tvar escapování nepotřebuje vůbec a je shodný se vstupem. */
+  if (!prompt.includes("[1.1|comment_cs]")) {
+    throw new Error("prompt-korektura.md: v ukázce odpovědi chybí řádek "
+      + "začínající [1.1|comment_cs] — bez něj model neví, jaký tvar odpovědi se čeká.");
+  }
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
@@ -161,26 +169,32 @@ export async function opravDavku(davka, { model, key, maxTokens, stropProcent = 
   const data = await res.json();
 
   const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
-  const clean = text.replace(/```json|```/g, "").trim();
-  let parsed;
-  try {
-    const root = JSON.parse(clean);
-    parsed = Array.isArray(root) ? root : root.items;
-  } catch {
-    const a = clean.indexOf("["), b = clean.lastIndexOf("]");
-    if (a === -1 || b === -1) {
-      throw new Error(`no JSON array in response (stop_reason=${data.stop_reason}, `
-        + `out_tokens=${data.usage?.output_tokens}, text=${clean.length}b)`);
-    }
-    parsed = JSON.parse(clean.slice(a, b + 1));
+  const clean = text.replace(/```[a-z]*\n?|```/g, "").trim();
+
+  /* Prázdná odpověď je legitimní: model nenašel co opravit. Musí projít i
+     přes podstrčený fetch v dump-prompts.js, který vrací "[]". */
+  const parsed = [];
+  const spatneRadky = [];
+  for (const radek of clean.split("\n")) {
+    const r = radek.trim();
+    if (!r || r === "[]") continue;
+    const m = r.match(/^\[([^\]]+)\]\s*(.+)$/);
+    if (!m) { spatneRadky.push(r.slice(0, 60)); continue; }
+    parsed.push({ id: m[1].trim(), text: m[2].trim() });
   }
-  if (!Array.isArray(parsed)) throw new Error("no JSON array in response");
+  /* Když nepřišel ani jeden použitelný řádek, ale něco model napsal, je to
+     porucha tvaru odpovědi — a musí obsahovat "JSON", aby to withBackoff
+     zopakoval (rozhoduje se podle textu hlášky). */
+  if (parsed.length === 0 && spatneRadky.length > 0) {
+    throw new Error(`odpověď nemá očekávaný tvar [id] text — JSON/řádkový rozklad selhal `
+      + `(stop_reason=${data.stop_reason}, out_tokens=${data.usage?.output_tokens}, `
+      + `první řádek: ${JSON.stringify(spatneRadky[0])})`);
+  }
 
   const podleKlice = new Map(davka.map((z) => [z.klic, z]));
   const opravy = [];
   const duvody = [];
   for (const r of parsed) {
-    if (!r || typeof r.id !== "string" || typeof r.text !== "string") continue;
     const z = podleKlice.get(r.id);
     if (!z) { duvody.push(`${r.id}: neznámý identifikátor`); continue; } // vymyšlené id
     const duvod = zkontrolujOpravu(z.text, r.text, {
@@ -190,6 +204,7 @@ export async function opravDavku(davka, { model, key, maxTokens, stropProcent = 
     if (duvod) { if (duvod !== "beze změny") duvody.push(`${r.id}: ${duvod}`); continue; }
     opravy.push({ id: z.id, pole: z.pole, text: ocisti(r.text.trim(), jazykPole(z.pole)) });
   }
+  if (spatneRadky.length) duvody.push(`${spatneRadky.length} řádků v nečitelném tvaru`);
 
   /* Pojistka proti pokaženému promptu nebo modelu, který se rozhodne přepsat
      všechno. Raději nepublikovat žádnou opravu než nepozorovaně přepsat
