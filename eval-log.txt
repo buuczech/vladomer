@@ -2,24 +2,8 @@
 > vladomer@1.0.0 evaluate
 > node scripts/evaluate.js
 
-Evaluating 1 Zásadní priority vlády… ok (5) — 39 search hits, 7 sources kept
-Evaluating 2 Finance a hospodaření státu…   retry — waiting 3s
-  retry — waiting 3s
-  retry — waiting 3s
-  retry — waiting 3s
-ok (15) — 40 search hits, 21 sources kept
-Evaluating 3 Vnitřní bezpečnost a veřejná správa… ok (8) — 37 search hits, 15 sources kept, downgraded: 1 predates-term
-Evaluating 4 Obrana a Armáda ČR… ok (7) — 40 search hits, 10 sources kept
-Evaluating 5 Zahraniční politika… ok (6) — 40 search hits, 16 sources kept
-  retry — waiting 3s
-  retry — waiting 3s
-  korektura 2 selhala: Expected double-quoted property name in JSON at position 1180 — kapitola zůstává bez korektury
-  retry — waiting 3s
-  retry — waiting 3s
-  korektura 4 selhala: Expected ',' or '}' after property value in JSON at position 111 — kapitola zůstává bez korektury
-Korektura: 18 úryvků opraveno, 0 oprav odmítnuto, 5 dávek, 2 selhalo (claude-sonnet-4-6)
 
-Wrote 143 evaluations, 5 history snapshots, 41 audit records
-Fetching headlines…   retry — waiting 3s
-  retry — waiting 3s
-no usable items (proposed 0, dropped 0 invented / 0 non-article / 0 stale / 0 same-outlet) — keeping previous news.json
+CHYBA V NASTAVENÍ — běh se nespustil, na webu zůstávají data z minulého týdne.
+
+  prompt-korektura.md: v ukázce JSON na konci souboru chybí povinná pole: id, text. Názvy polí v uvozovkách se nesmí měnit.
+
