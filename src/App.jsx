@@ -29,6 +29,7 @@ const T = {
   days: { cs: "dní", en: "days" },
   evaluated: { cs: "hodnoceno", en: "evaluated" },
   ofItems: { cs: "z", en: "of" },
+  notRatedYet: { cs: "první hodnocení zatím neproběhlo", en: "the first assessment has not run yet" },
   lastUpdated: { cs: "Naposledy aktualizováno", en: "Last updated" },
   nextUpdate: { cs: "Další hodnocení", en: "Next evaluation" },
   never: { cs: "zatím neproběhlo", en: "not yet run" },
@@ -851,6 +852,12 @@ export default function App() {
     };
   }, [evals]);
   const pct1 = (v) => (v >= 10 || v === 0 ? Math.round(v) : Math.round(v * 10) / 10);
+  /* Before the first run there is nothing to divide by, and every percentage
+     computes to 0. "0 % splněno" is a claim about the cabinet; "–" is the
+     absence of one. Chapter rows already make that distinction — the headline
+     gauge has to make it too, or the site states a falsehood until the first
+     Friday. */
+  const pctOrDash = (v) => (evaluatedCount ? `${pct1(v)}%` : "–");
 
   const changes = useMemo(() => {
     const map = {};
@@ -954,22 +961,24 @@ export default function App() {
                 <Ring done={donePct} partial={partialPct} prog={progPct} />
                 <div className="vm-dual">
                   <div>
-                    <span className="n vm-mono" style={{ color: "var(--ok)" }}>{pct1(donePct)}%</span>
+                    <span className="n vm-mono" style={{ color: "var(--ok)" }}>{pctOrDash(donePct)}</span>
                     <span className="l">{t("statDone")}</span>
                   </div>
                   <div className="sm">
-                    <span className="n vm-mono" style={{ color: "var(--partial)" }}>{pct1(partialPct)}%</span>
+                    <span className="n vm-mono" style={{ color: "var(--partial)" }}>{pctOrDash(partialPct)}</span>
                     <span className="l">{t("statPartial")}</span>
                   </div>
                   <div className="sm">
-                    <span className="n vm-mono" style={{ color: "var(--prog)" }}>{pct1(progPct)}%</span>
+                    <span className="n vm-mono" style={{ color: "var(--prog)" }}>{pctOrDash(progPct)}</span>
                     <span className="l">{t("statProg")}</span>
                   </div>
                 </div>
               </div>
               <div className="vm-sub">
-                {evaluatedCount} {t("ofItems")} {TOTAL_ITEMS} {t("evaluated")}
-                {unverifiableCount > 0 && ` · ${unverifiableCount} ${t("statUnver")}`}
+                {evaluatedCount
+                  ? <>{evaluatedCount} {t("ofItems")} {TOTAL_ITEMS} {t("evaluated")}
+                      {unverifiableCount > 0 && ` · ${unverifiableCount} ${t("statUnver")}`}</>
+                  : t("notRatedYet")}
               </div>
             </div>
           </div>
