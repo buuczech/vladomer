@@ -411,7 +411,25 @@ async function main() {
      Filtr updatedAt: newEvals je předvyplněné minulým týdnem, takže bez něj
      by se každý týden znovu platila korektura už publikovaných textů. */
   const puvodni = {}; // id -> { pole: text před jakoukoli korekturou }
-  const kor = { zmeneno: 0, odmitnuto: 0, davek: 0, selhalo: 0 };
+  const kor = { zmeneno: 0, odmitnuto: 0, davek: 0, selhalo: 0, ocisteno: 0 };
+
+  /* Mechanická očista projíždí VŠECHNY body, ne jen ty dnes přehodnocené —
+     je zdarma, a <cite> značka nebo syrový klíč stavu v textu z minulého
+     týdne je na webu vidět stejně jako v dnešním. Bez toho by vada v bodě,
+     který se zrovna nehodnotil, přežila do dalšího plného běhu. */
+  for (const id in newEvals) {
+    const e = newEvals[id];
+    for (const pole of POLE_KOREKTURY) {
+      const syrovy = ctiPole(e, pole);
+      if (!syrovy) continue;
+      const cisty = ocisti(syrovy, jazykPole(pole));
+      if (cisty === syrovy) continue;
+      (puvodni[id] = puvodni[id] || {})[pole] = syrovy;
+      zapisPole(e, pole, cisty);
+      kor.ocisteno++;
+    }
+  }
+
   for (const ch of CHAPTERS.slice(0, CHAPTER_LIMIT)) {
     const davka = [];
     for (const it of ch.groups.flatMap((g) => g.items)) {
@@ -453,8 +471,8 @@ async function main() {
     }
     await new Promise((r) => setTimeout(r, 2000));
   }
-  console.log(`Korektura: ${kor.zmeneno} úryvků opraveno, ${kor.odmitnuto} oprav odmítnuto, `
-    + `${kor.davek} dávek${kor.selhalo ? `, ${kor.selhalo} selhalo` : ""}`
+  console.log(`Korektura: ${kor.ocisteno} úryvků mechanicky očištěno, ${kor.zmeneno} opraveno modelem, `
+    + `${kor.odmitnuto} oprav odmítnuto, ${kor.davek} dávek${kor.selhalo ? `, ${kor.selhalo} selhalo` : ""}`
     + (NAST.korektura === 1 ? ` (${KOR_MODEL})` : " — model vypnutý, jen mechanická očista"));
 
   writeFileSync(OUT_EVAL, JSON.stringify({ evals: newEvals, lastUpdated: now }, null, 2));
