@@ -10,6 +10,7 @@ Kódování: UTF-8*. Jinak se rozbije diakritika a běh se zastaví chybou.
 |---|---|
 | `prompt-hodnoceni.md` | Zadání pro model, který hodnotí jednotlivé body programu |
 | `prompt-zpravy.md` | Zadání pro výběr „Hlavních zpráv týdne" |
+| `prompt-korektura.md` | Zadání pro jazykovou korekturu hotových textů |
 | `nastaveni.txt` | Čísla a model — kolik zdrojů, jak přísné hodnocení, kolik zpráv |
 | `weby-hodnoceni.txt` | Weby, ze kterých se smí čerpat při hodnocení |
 | `weby-zpravy.txt` | Weby pro zprávy týdne (užší seznam, jen zpravodajství) |
@@ -48,6 +49,14 @@ Vypíše přesně to, co by se odeslalo do API, ale nic neodešle a nic nezaplat
 Datové soubory zůstanou nedotčené.
 
 ## Pozor na souvislosti
+
+- V `prompt-korektura.md` je oddíl „CO NESMÍŠ ZMĚNIT". Neškrtej z něj. Program
+  sice každou opravu kontroluje a podezřelou zahodí, ale prompt je první obrana
+  — bez něj se bude většina oprav zahazovat a korektura přestane být k něčemu,
+  aniž by to bylo poznat jinak než z logu.
+- Korekturu si můžeš vyzkoušet zdarma: `node scripts/dev/test-korektura.js`
+  vypíše prompt, ukáže všechny mechanické opravy na ostrých datech a ověří,
+  že kontrola faktů odmítá podvržené opravy.
 
 - Seznam v `weby-hodnoceni.txt` je popsaný i v metodice na webu
   (`src/App.jsx`, sekce „Povolené zdroje"). Po změně uprav i ji, ať web netvrdí
