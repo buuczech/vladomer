@@ -128,6 +128,22 @@ export function zkontrolujOpravu(puvodni, opraveny, { jazyk = "cs", minDelka = 0
 const SEZNAM_STAVU_CS = ["fulfilled", "partial", "in_progress", "declared", "not_started", "broken"]
   .map((k) => `- ${STAV_POPIS[k].cs}`).join("\n");
 
+/* Obdoba assertFields() pro korekturu. Ta kontroluje názvy polí v ukázce
+   JSON — jenže korektura schválně JSON nepoužívá: opravované texty jsou plné
+   uvozovek („…" i rovných) a model je uvnitř JSON řetězce nedokáže spolehlivě
+   escapovat (2 z 5 dávek prvního ostrého běhu skončily na „Expected
+   double-quoted property name in JSON", a to i po opakování). Řádkový tvar
+   escapování nepotřebuje vůbec.
+   Volá se z opravDavku() i z preflight() v evaluate.js — proto je tady, a ne
+   dvakrát opsaná; první verze měla kontrolu na obou místech a při změně
+   formátu se rozešly. */
+export function zkontrolujPrompt(prompt) {
+  if (!prompt.includes("[1.1|comment_cs]")) {
+    throw new Error("prompt-korektura.md: v ukázce odpovědi chybí řádek "
+      + "začínající [1.1|comment_cs] — bez něj model neví, jaký tvar odpovědi se čeká.");
+  }
+}
+
 /**
  * davka: [{ klic, id, pole, text }]
  * Vrací { opravy: [{id, pole, text}], zmeneno, odmitnuto, celkem, duvody }.
@@ -145,15 +161,7 @@ export async function opravDavku(davka, { model, key, maxTokens, stropProcent = 
     SEZNAM_STAVU_CS,
     SEZNAM_TEXTU: seznam,
   });
-  /* Odpověď se schválně nežádá v JSONu. Opravované texty jsou plné uvozovek
-     („…" i rovných) a model je uvnitř JSON řetězce nedokáže spolehlivě
-     escapovat — 2 z 5 dávek prvního ostrého běhu skončily na
-     „Expected double-quoted property name in JSON", a to i po opakování.
-     Řádkový tvar escapování nepotřebuje vůbec a je shodný se vstupem. */
-  if (!prompt.includes("[1.1|comment_cs]")) {
-    throw new Error("prompt-korektura.md: v ukázce odpovědi chybí řádek "
-      + "začínající [1.1|comment_cs] — bez něj model neví, jaký tvar odpovědi se čeká.");
-  }
+  zkontrolujPrompt(prompt);
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",

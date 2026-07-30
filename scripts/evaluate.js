@@ -19,7 +19,7 @@ import { writeFileSync, readFileSync } from "node:fs";
 import { CHAPTERS, DATES } from "../src/data.js";
 import { render, readList, readSettings, assertFields } from "./lib/nastaveni.js";
 import {
-  POLE_KOREKTURY, jazykPole, ctiPole, zapisPole, ocisti, opravDavku,
+  POLE_KOREKTURY, jazykPole, ctiPole, zapisPole, ocisti, opravDavku, zkontrolujPrompt,
 } from "./lib/korektura.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
@@ -365,7 +365,9 @@ function preflight() {
       SEZNAM_STAVU_CS: "- kontrola",
       SEZNAM_TEXTU: "[0.0|comment_cs] kontrola",
     });
-    assertFields(k, ["id", "text"], "prompt-korektura.md");
+    // Korektura nevrací JSON, ale řádky „[id] text" — kontroluje se tvar
+    // odpovědi. Táž funkce, jakou používá opravDavku(), aby se nemohly rozejít.
+    zkontrolujPrompt(k);
   } catch (e) {
     console.error(`\nCHYBA V NASTAVENÍ — běh se nespustil, na webu zůstávají data z minulého týdne.\n\n  ${e.message}\n`);
     process.exit(1);
