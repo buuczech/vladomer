@@ -1,4 +1,4 @@
-# ==========================================================
+﻿# ==========================================================
 #  NASTAVENÍ TÝDENNÍHO HODNOCENÍ
 #
 #  Uprav hodnotu za znakem "=" a soubor ulož. Nic jiného neměň.
@@ -65,3 +65,33 @@ zpravy_pocet_dni = 7
 # případ, kdy za týden nebylo dost zpráv. Skutečná hranice je
 # zpravy_pocet_dni + zpravy_tolerance_dni = 12 dní. (0 až 14)
 zpravy_tolerance_dni = 5
+
+# ==========================================================
+#  JAZYKOVÁ KOREKTURA
+# ==========================================================
+
+# Po vyhodnocení projde druhý model hotové texty a opraví překlepy,
+# pády, slovakismy a cizí slova. Fakta, čísla, data ani citace zákonů
+# měnit nesmí — hlídá to kontrola v programu, která podezřelou opravu
+# zahodí a ponechá původní text.
+#
+# Logická hodnota (ano/ne) v tomto souboru neexistuje, používá se 0/1.
+#   0 = vypnuto (nic se neplatí; odstranění značek <cite> a překlad
+#       syrových klíčů jako „in_progress" běží i tak, je zdarma)
+#   1 = zapnuto
+korektura = 1
+
+# Který model korekturu dělá. MUSÍ být jiný a silnější než ten, který
+# texty psal — model své vlastní slovakismy nevidí.
+#   claude-sonnet-4-6 = doporučeno, ~0,60 $ za běh (výchozí)
+#   claude-opus-4-8   = nejdůkladnější, ~0,95 $ za běh
+#   claude-sonnet-5   = NEPOUŽÍVAT bez zásahu do programu: sám od sebe
+#                       zapíná „přemýšlení", které se vejde do stejného
+#                       limitu jako odpověď, a hrozí useknutí JSONu.
+korektura_model = claude-sonnet-4-6
+
+# Pojistka. Když model v jedné kapitole přepíše víc než tolik procent
+# úryvků, zahodí se celá dávka a kapitola zůstane neopravená. Chrání
+# před pokaženým promptem, po kterém by model začal texty přepisovat
+# místo opravovat. V praxi se opravuje kolem 50 %. (0 až 100)
+korektura_nejvic_zmen_procent = 80

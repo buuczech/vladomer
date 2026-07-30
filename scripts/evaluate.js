@@ -18,6 +18,9 @@
 import { writeFileSync, readFileSync } from "node:fs";
 import { CHAPTERS, DATES } from "../src/data.js";
 import { render, readList, readSettings, assertFields } from "./lib/nastaveni.js";
+import {
+  POLE_KOREKTURY, jazykPole, ctiPole, zapisPole, ocisti, opravDavku, zkontrolujPrompt,
+} from "./lib/korektura.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
    upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
@@ -40,6 +43,7 @@ const CHAPTER_LIMIT = process.env.CHAPTER_LIMIT ? Number(process.env.CHAPTER_LIM
 
 const KEY = process.env.ANTHROPIC_API_KEY;
 const MODEL = process.env.EVAL_MODEL || NAST.model; // env still wins, for one-off experiments
+const KOR_MODEL = process.env.KOREKTURA_MODEL || NAST.korektura_model;
 /* Operational, deliberately NOT in nastaveni.txt: too low silently truncates
    the JSON reply, which looks like a model failure and burns retries.
    Separate budgets because every web_search round is part of the output —
@@ -49,6 +53,10 @@ const MODEL = process.env.EVAL_MODEL || NAST.model; // env still wins, for one-o
    2026-07-29 run ("no JSON array in response"). */
 const MAX_TOKENS = 6000;
 const MAX_TOKENS_ZPRAVY = 12000;
+/* Korektura nevyhledává, ale vrací celý opravený úryvek, ne jen opravené
+   slovo. Největší dávka (kapitola 2, 15 bodů, oba jazyky) má ~10 500 znaků;
+   přepsaná celá vyjde asi na 4 300 tokenů. 8000 je dvojnásobná rezerva. */
+const MAX_TOKENS_KOREKTURA = 8000;
 
 const OUT_EVAL = new URL("../public/evaluations.json", import.meta.url);
 const OUT_HIST = new URL("../public/history.json", import.meta.url);
@@ -352,6 +360,14 @@ function preflight() {
       POCET_ZPRAV_K_NAVRZENI: NAST.pocet_zprav + NAST.zprav_navic_k_vyberu,
     });
     assertFields(n, ["title_cs", "title_en", "summary_cs", "summary_en", "url", "date"], "prompt-zpravy.md");
+
+    const k = render("prompt-korektura.md", {
+      SEZNAM_STAVU_CS: "- kontrola",
+      SEZNAM_TEXTU: "[0.0|comment_cs] kontrola",
+    });
+    // Korektura nevrací JSON, ale řádky „[id] text" — kontroluje se tvar
+    // odpovědi. Táž funkce, jakou používá opravDavku(), aby se nemohly rozejít.
+    zkontrolujPrompt(k);
   } catch (e) {
     console.error(`\nCHYBA V NASTAVENÍ — běh se nespustil, na webu zůstávají data z minulého týdne.\n\n  ${e.message}\n`);
     process.exit(1);
@@ -382,6 +398,83 @@ async function main() {
 
   const now = new Date().toISOString();
   const today = now.slice(0, 10);
+
+  /* Jazyková korektura ---------------------------------------------------
+     Běží až po vyhodnocení všech kapitol, těsně před zápisem. Selhání
+     kterékoli dávky znamená, že se ta kapitola publikuje neopravená — nikdy
+     to nesmí shodit celý běh.
+
+     Mechanická očista (<cite>, syrové klíče stavu) se dělá VŽDY, i při
+     korektura = 0: nic nestojí a je to jediná záruka, že se značka na web
+     nedostane. Modelem se opravuje jen jazyk.
+
+     Filtr updatedAt: newEvals je předvyplněné minulým týdnem, takže bez něj
+     by se každý týden znovu platila korektura už publikovaných textů. */
+  const puvodni = {}; // id -> { pole: text před jakoukoli korekturou }
+  const kor = { zmeneno: 0, odmitnuto: 0, davek: 0, selhalo: 0, ocisteno: 0 };
+
+  /* Mechanická očista projíždí VŠECHNY body, ne jen ty dnes přehodnocené —
+     je zdarma, a <cite> značka nebo syrový klíč stavu v textu z minulého
+     týdne je na webu vidět stejně jako v dnešním. Bez toho by vada v bodě,
+     který se zrovna nehodnotil, přežila do dalšího plného běhu. */
+  for (const id in newEvals) {
+    const e = newEvals[id];
+    for (const pole of POLE_KOREKTURY) {
+      const syrovy = ctiPole(e, pole);
+      if (!syrovy) continue;
+      const cisty = ocisti(syrovy, jazykPole(pole));
+      if (cisty === syrovy) continue;
+      (puvodni[id] = puvodni[id] || {})[pole] = syrovy;
+      zapisPole(e, pole, cisty);
+      kor.ocisteno++;
+    }
+  }
+
+  for (const ch of CHAPTERS.slice(0, CHAPTER_LIMIT)) {
+    const davka = [];
+    for (const it of ch.groups.flatMap((g) => g.items)) {
+      const e = newEvals[it.id];
+      if (!e || !e.updatedAt || e.updatedAt.slice(0, 10) !== today) continue; // not touched this run
+      for (const pole of POLE_KOREKTURY) {
+        const syrovy = ctiPole(e, pole);
+        if (!syrovy) continue;
+        const cisty = ocisti(syrovy, jazykPole(pole));
+        if (cisty !== syrovy) {
+          (puvodni[it.id] = puvodni[it.id] || {})[pole] = syrovy;
+          zapisPole(e, pole, cisty);
+          kor.zmeneno++;
+        }
+        davka.push({ klic: `${it.id}|${pole}`, id: it.id, pole, text: cisty });
+      }
+    }
+    if (NAST.korektura !== 1 || davka.length === 0) continue;
+    kor.davek++;
+    try {
+      const r = await withBackoff(() => opravDavku(davka, {
+        model: KOR_MODEL, key: KEY, maxTokens: MAX_TOKENS_KOREKTURA,
+        stropProcent: NAST.korektura_nejvic_zmen_procent, minDelkaDokladu: EVIDENCE_MIN,
+      }), 3);
+      for (const o of r.opravy) {
+        const e = newEvals[o.id];
+        puvodni[o.id] = puvodni[o.id] || {};
+        // Když už tu pole je, drží v sobě text před mechanickou očistou —
+        // to je ten skutečně původní a ten patří do auditu.
+        if (!(o.pole in puvodni[o.id])) puvodni[o.id][o.pole] = ctiPole(e, o.pole);
+        zapisPole(e, o.pole, o.text);
+      }
+      kor.zmeneno += r.zmeneno;
+      kor.odmitnuto += r.odmitnuto;
+      if (r.duvody.length) console.log(`  korektura ${ch.id} odmítla: ${r.duvody.join("; ")}`);
+    } catch (e) {
+      kor.selhalo++;
+      console.log(`  korektura ${ch.id} selhala: ${e.message} — kapitola zůstává bez korektury`);
+    }
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+  console.log(`Korektura: ${kor.ocisteno} úryvků mechanicky očištěno, ${kor.zmeneno} opraveno modelem, `
+    + `${kor.odmitnuto} oprav odmítnuto, ${kor.davek} dávek${kor.selhalo ? `, ${kor.selhalo} selhalo` : ""}`
+    + (NAST.korektura === 1 ? ` (${KOR_MODEL})` : " — model vypnutý, jen mechanická očista"));
+
   writeFileSync(OUT_EVAL, JSON.stringify({ evals: newEvals, lastUpdated: now }, null, 2));
 
   const statuses = {};
@@ -412,8 +505,14 @@ async function main() {
       comment_cs: e.comment?.cs || "",
       comment_en: e.comment?.en || "",
       change_cs: e.change?.cs || "",
+      // change_en tu dosud chyběl. S korekturou by bylo absurdní zapisovat
+      // původní znění pole, jehož výsledek audit vůbec neuvádí.
+      change_en: e.change?.en || "",
       sources: (e.sources || []).map((s) => s.url),
       model: MODEL,
+      /* Původní znění se ukládá JEN u polí, která se opravdu změnila —
+         u čistého textu se klíč "original" vůbec nevytvoří. */
+      ...(puvodni[id] ? { original: puvodni[id], proofread_model: KOR_MODEL } : {}),
     });
     recorded++;
   }
@@ -428,6 +527,35 @@ async function main() {
     const n = await withBackoff(fetchHeadlines, 3);
     const why = `proposed ${n.proposed}, dropped ${n.drop.invented} invented / ${n.drop.notArticle} non-article / ${n.drop.tooOld} stale / ${n.drop.dupHost} same-outlet`;
     if (n.items.length > 0) {
+      /* Zprávy se opravují zvlášť: načítají se schválně až nakonec, aby
+         jejich selhání nemohlo zahodit hodnocení, takže v době korektury
+         hodnocení ještě neexistují. Auditní soubor zprávy nesleduje, proto
+         se u nich původní znění nikam neukládá. */
+      const davkaZ = [];
+      n.items.forEach((it, i) => {
+        for (const skupina of ["title", "summary"]) {
+          for (const jaz of ["cs", "en"]) {
+            if (!it[skupina] || !it[skupina][jaz]) continue;
+            it[skupina][jaz] = ocisti(it[skupina][jaz], jaz);
+            davkaZ.push({ klic: `${i}|${skupina}_${jaz}`, id: String(i), pole: `${skupina}_${jaz}`, text: it[skupina][jaz] });
+          }
+        }
+      });
+      if (NAST.korektura === 1 && davkaZ.length) {
+        try {
+          const rk = await withBackoff(() => opravDavku(davkaZ, {
+            model: KOR_MODEL, key: KEY, maxTokens: MAX_TOKENS_KOREKTURA,
+            stropProcent: NAST.korektura_nejvic_zmen_procent,
+          }), 3);
+          for (const o of rk.opravy) {
+            const [skupina, jaz] = o.pole.split("_");
+            n.items[Number(o.id)][skupina][jaz] = o.text;
+          }
+          console.log(`  korektura zpráv: ${rk.zmeneno} opraveno, ${rk.odmitnuto} odmítnuto`);
+        } catch (e) {
+          console.log(`  korektura zpráv selhala: ${e.message} — zprávy jdou ven bez korektury`);
+        }
+      }
       writeFileSync(OUT_NEWS, JSON.stringify({ generatedAt: now, items: n.items }, null, 2));
       console.log(`ok (${n.items.length} items) — ${n.searchCount} search hits, ${why}`);
     } else {

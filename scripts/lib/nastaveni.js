@@ -72,6 +72,10 @@ const SCHEMA = {
   zprav_navic_k_vyberu: { type: "int", min: 0, max: 10 },
   zpravy_pocet_dni: { type: "int", min: 1, max: 30 },
   zpravy_tolerance_dni: { type: "int", min: 0, max: 14 },
+  // Logická hodnota se zapisuje jako 0/1 — jiný typ tenhle soubor nezná.
+  korektura: { type: "int", min: 0, max: 1 },
+  korektura_model: { type: "text" },
+  korektura_nejvic_zmen_procent: { type: "int", min: 0, max: 100 },
 };
 
 export function readSettings(name = "nastaveni.txt") {
