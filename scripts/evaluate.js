@@ -292,6 +292,17 @@ async function fetchHeadlines() {
       + `${JSON.stringify(clean.slice(0, 600))})`);
   }
   const parsed = JSON.parse(clean.slice(a, b + 1));
+  /* Prázdné pole je platná odpověď, ale skoro nikdy pravdivá — v české
+     politice se za týden vždycky něco stane. Tři běhy 30. 7. 2026 to ukázaly
+     názorně: dva vrátily 0 návrhů, třetí o šest hodin později 9 návrhů ze
+     71 výsledků vyhledávání. Stejný prompt, stejné nastavení, stejný den.
+     Je to loterie, ne prázdný týden, a jediná obrana je zkusit to znovu.
+     Cena: nejvýš 3 volání jednou týdně. Bez toho zůstane panel prázdný
+     celý týden kvůli jednomu nepovedenému losu. */
+  if (parsed.length === 0) {
+    throw new Error(`${RETRY_MARK} model nenavrhl žádnou zprávu `
+      + `(${Object.keys(realMap).length} výsledků vyhledávání)`);
+  }
 
   const items = [];
   const seenHosts = new Set();
@@ -325,13 +336,16 @@ async function fetchHeadlines() {
 
 /* Retry wrapper shared by chapter evaluation and headline fetching — both hit
    the same two flaky failure modes: rate limits / overloaded API, and Haiku
-   occasionally emitting unparseable JSON. */
+   occasionally emitting unparseable JSON.
+   RETRY_MARK is the third: a call that succeeded but came back useless. */
+const RETRY_MARK = "[opakovat]";
 async function withBackoff(fn, tries = 5) {
   for (let i = 0; i < tries; i++) {
     try { return await fn(); }
     catch (e) {
       // 429 = rate limit, 5xx/529 = server-side (overloaded) — both worth waiting out
-      const retryable = /API (429|5\d\d)/.test(e.message) || /JSON/.test(e.message);
+      const retryable = /API (429|5\d\d)/.test(e.message) || /JSON/.test(e.message)
+        || e.message.includes(RETRY_MARK);
       if (!retryable || i === tries - 1) throw e;
       const wait = /API (429|5\d\d)/.test(e.message) ? 30000 * (i + 1) : 3000;
       console.log(`  retry — waiting ${wait / 1000}s`);
@@ -562,7 +576,7 @@ async function main() {
       writeFileSync(OUT_NEWS, JSON.stringify({ generatedAt: now, items: n.items }, null, 2));
       console.log(`ok (${n.items.length} items) — ${n.searchCount} search hits, ${why}`);
     } else {
-      console.log(`no usable items (${why}) — keeping previous news.json`);
+      console.log(`no usable items — ${n.searchCount} search hits, ${why} — keeping previous news.json`);
     }
   } catch (e) {
     console.log(`failed: ${e.message} — keeping previous news.json`);
