@@ -2,137 +2,141 @@
   "evals": {
     "1.1": {
       "status": "partial",
-      "evidence": "Usnesení vlády č. 16/2025 o odmítnutí ETS2 (16. 12. 2025); Nařízení vlády č. 473/2025 Sb. ke snížení cen elektřiny, vyhlášeno v prosinci 2025; převod 17 mld Kč na POZE do rozpočtu 2026, schváleno 15. 12. 2025",
-      "evidenceDate": "2025-12-16",
+      "evidence": "Vláda schválila přesun poplatku POZE ze zákazníků na státní rozpočet (snížení regulované složky elektřiny). Dopis premiéra ze 20. 4. 2026 deklaruje pozici k ETS2, ale neimplementování není dosud právně zakotveno.",
+      "evidenceDate": "2026-04-20",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda formálně odmítla ETS2 usnesením a přesunula poplatek POZE na rozpočet (snížení cen elektřiny ≈10-15% pro domácnosti). Ovšem ETS2 zůstává na úrovni EU zavazující; vláda jej pouze nebude implementovat do českého právního řádu. V únoru 2026 se připojila ke koalici 18 zemí za zmírňující úpravy ETS2, nikoliv jeho zrušení. Odmítnutí je tedy deklarativní s částečným dopadem na ochranu domácností před zdražováním.",
-        "en": "Government formally rejected ETS2 via resolution and transferred POZE fee to budget (price reduction ~10-15% for households). However, ETS2 remains binding at EU level; government will only refuse to implement it in Czech law. In February 2026, it joined a coalition of 18 countries seeking mitigating ETS2 changes, not abolition. Rejection is thus declarative with partial impact on protecting households from price increases."
+        "cs": "Vláda zlepšila přístupnost energií přesunem POZE na rozpočet, což snížilo regulované sazby. Formálně však odmítla ETS2 jen usnesením bez právní účinnosti; na úrovni EU zůstává nová směrnice zavazující. Lodě pro vlastní energetiku (ČEZ) či jaderné projekty se posunuly, nikoliv nevratně.",
+        "en": "The government improved energy affordability by shifting the POZE fee to the state budget, lowering regulated rates. However, formal rejection of ETS2 was only by resolution without legal force; EU directive remains binding. Measures for energy sovereignty (ČEZ) or nuclear projects were repositioned but not finalized."
       },
       "change": {
-        "cs": "Deklarativní odmítnutí ETS2 v prosinci 2025; opatření ke snížení cen elektřiny přijato bez nové legislativy (nařízení vlády), nikoliv zákonem.",
-        "en": "Declarative rejection of ETS2 in December 2025; legislative measures to reduce electricity prices adopted without new legislation (government regulation), not by statute."
+        "cs": "První hodnocení: vláda učinila přechodný krok ke snižování cen, ale nemá právní záruku proti zavádění ETS2, které EU prosazuje.",
+        "en": "First assessment: the government took a transitional step to lower prices but lacks legal safeguards against EU-driven ETS2 implementation."
       },
       "sources": [
         {
-          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/babisova-vlada-ma-na-programu-prvni-radne-zasedani-368331",
-          "title": "Vláda odmítla emisní povolenky ETS 2 i migrační pakt - ČT24"
+          "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/dopis-premiera-babise-lidrum-eu--predsedkyni-evropske-komise-a-predsedovi-evropske-rady-ohledne-vysokych-cen-energii-a-revize-systemu-ets-1-a-2-226501/",
+          "title": "Dopis premiéra Babiše lídrům EU, předsedkyni Evropské komise a předsedovi Evropské rady ohledně vysokých cen energií a revize systému ETS 1 a 2 | Vláda České republiky"
         },
         {
-          "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-odmitla-migracni-pakt-eu-i-novy-system-obchodovani-s-emisnimi-povolenkami--domacnostem-i-firmam-zlevni-elektrinu-224297/",
-          "title": "Vláda Andreje Babiše odmítla migrační pakt EU i nový systém obchodování s emisními povolenkami, domácnostem i firmám zlevní elektřinu | Vláda České republiky"
+          "url": "https://eru.gov.cz/eru-vydal-cenove-vymery-kterymi-stanovi-regulovane-ceny-elektriny-plynu-na-rok-2026-0",
+          "title": "ERÚ vydal cenové výměry, kterými stanoví regulované ceny elektřiny a plynu na rok 2026 | eru.gov.cz"
         },
         {
-          "url": "https://mzp.gov.cz/cz/agenda/klima-a-energetika/emisni-obchodovani/eu-ets2-emisni-obchodovani-v-sektoru-budov-silnicni",
-          "title": "EU ETS2 - Emisní obchodování v sektoru budov, silniční dopravy a dalších odvětví | Ministerstvo životního prostředí"
+          "url": "https://www.forum24.cz/babisuv-kabinet-po-pul-roce-ministri-popsali-dosavadni-plneni-programoveho-prohlaseni",
+          "title": "Babišův kabinet po půl roce. Ministři popsali dosa... | FORUM 24"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-07-30T15:14:13.820Z"
+      "updatedAt": "2026-08-04T07:19:19.523Z"
     },
     "1.2": {
       "status": "in_progress",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "E-žádanky běží pilotně bez povinnosti od ledna 2026; povinnost se posunula z července 2026 na červenec 2027. Ministr Vojtěch uvedl, že e-žádanky jsou součástí novely elektronizace zdravotnictví, která je v procesu (meziresortní připomínkování). Koordinátoři onkologické péče jsou zaváděni od ledna 2026, ale to je opatření předchozí vlády. Čekací doby nejsou dosud systematicky měřeny, ačkoliv to bylo slibem. Zdravotnictví řeší finanční stabilizaci a zvýšení plateb za státní pojištěnce.",
-        "en": "E-requests running pilot without obligation from January 2026; obligation postponed from July 2026 to July 2027. Minister Vojtěch stated e-requests are part of eHealth legislation amendment in progress (inter-departmental review). Oncology care coordinators being introduced from January 2026, but this is previous government measure. Waiting times not yet systematically measured, though promised. Healthcare addressing financial stabilization, increased payments for state insured persons."
+        "cs": "E-žádanky běží v pilotním režimu od ledna 2026 bez povinnosti. Ministr Vojtěch v červnu 2026 deklaroval, že novela pro povinnost jde do legislativního procesu, ale termín povinnosti se posunul z původního července 2026 na dobu dopo uplynutí legislativy (patrně 2027).",
+        "en": "E-request forms operate in pilot mode since January 2026 without obligation. Minister Vojtěch declared in June 2026 that legislation for mandatory use will enter parliamentary process, but the deadline shifted from original July 2026 to post-legislative timeline."
       },
       "change": {
-        "cs": "Bez nové legislativy vlády—e-žádanky pokračují v původním harmonogramu z předchozí vlády, posunuto o rok; opatření na zkrácení čekacích dob bez doložitelné legislativy.",
-        "en": "No new government legislation—e-requests continue on original previous government schedule, delayed by one year; measures to reduce waiting times lack verifiable legislation."
+        "cs": "První hodnocení: vláda nenaplnila původní slib na rychlé zavedení a povinnost se odkládá.",
+        "en": "First assessment: government has not met original pledge for rapid rollout; mandatory implementation is postponed."
       },
       "sources": [
         {
-          "url": "https://mzd.gov.cz/tiskove-centrum-mz/elektronizace-zdravotnictvi-pokracuje-ministerstvo-predstavilo-nove-moznosti-prace-se-zdravotnickymi-daty-i-dalsi-legislativni-zmeny/",
-          "title": "Elektronizace zdravotnictví pokračuje. Ministerstvo představilo nové možnosti práce se zdravotnickými daty i další legislativní změny – Ministerstvo zdravotnictví"
+          "url": "https://mzd.gov.cz/ministr-adam-vojtech-planuji-zustat-cele-ctyri-roky/",
+          "title": "Ministr Adam Vojtěch: Plánuji zůstat celé čtyři roky – Ministerstvo zdravotnictví"
         },
         {
-          "url": "https://mzd.gov.cz/tiskove-centrum-mz/ministr-zdravotnictvi-vlastimil-valek-predstavil-hlavni-zmeny-zdravotnicke-legislativy-od-ledna-2026-a-zhodnotil-uplynule-ctyri-roky-v-cele-ministerstva-zdravotnictvi/",
-          "title": "Ministr zdravotnictví Vlastimil Válek představil hlavní změny zdravotnické legislativy od ledna 2026 a zhodnotil uplynulé čtyři roky v čele Ministerstva zdravotnictví – Ministerstvo zdravotnictví"
+          "url": "https://mzd.gov.cz/tiskove-centrum-mz/spusteni-nove-digitalni-sluzby-portal-lekare-a-pacienta/",
+          "title": "Ministerstvo zdravotnictví spouští nové digitální služby: Portál lékaře a pacienta přinese první verzi elektronických žádanek i klíčové informace o pacientech – Ministerstvo zdravotnictví"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-07-30T15:14:13.821Z"
+      "updatedAt": "2026-08-04T07:19:19.523Z"
     },
     "1.3": {
       "status": "in_progress",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Novela stavebního zákona prošla Sněmovnou 10. 7. 2026 (89 hlasů vládní koalice). Zavádí centrální stavební správu a prohlašuje stavby bytů >10 000 m² za veřejný zájem, což zjednoduší výstavbu bytů. Opozice však kritizuje, že zákon upřednostňuje developery, ne dostupné bydlení pro občany (definici dostupného bydlení vláda ze zákona vyřadila). Senát zákon ještě posuzuje; bez podpisu prezidenta není účinný. Zatím je to legislativní krok, ne naplnění cíle dostupného bydlení.",
-        "en": "Building Law amendment passed the Chamber on 10 July 2026 (89 coalition votes). Introduces central building administration and declares multi-unit buildings >10,000 m² public interest, easing construction. But opposition criticizes that the law favors developers, not affordable housing for citizens (government removed the affordable housing definition). Senate still reviewing; not effective without presidential signature. So far a legislative step, not affordable housing goal fulfillment."
+        "cs": "Novela stavebního zákona prošla Sněmovnou 10. 7. 2026 s 89 hlasy vládní koalice, nyní v Senátu. Zavádí centrální stavební správu a prohlašuje stavby bytů >10 000 m² za veřejný zájem. Realizace správy začne 2027, plně funkční bude 2028. Procesní kroky učiněny, ale norma dosud není vyhlášena.",
+        "en": "Building law amendment passed Chamber on 10 July 2026 with 89 coalition votes, now in Senate. Introduces central building administration and declares buildings >10,000 m² as public interest. Implementation starts 2027, full function 2028. Process steps taken but law not yet published."
       },
       "change": {
-        "cs": "Novela stavebního zákona schválena Sněmovnou, nyní v Senátu (Senát ji musí posoudit a prezident podepsat); bez dokončení závěrečného procesu není závazek naplněn.",
-        "en": "Building Law amendment approved by Chamber, in Senate (Senate must review and president sign); without final process no commitment fulfillment."
+        "cs": "První hodnocení: legislativní proces probíhá, ale finální norma dosud není platná.",
+        "en": "First assessment: legislative process underway but final law not yet in force."
       },
       "sources": [
-        {
-          "url": "https://novystavebnizakon.gov.cz/",
-          "title": "Nový stavební zákon 2026 — Ministerstvo pro místní rozvoj"
-        },
         {
           "url": "https://www.ceskenoviny.cz/zpravy/snemovna-schvalila-stavebni-novelu-podle-opozice-nahrava-developerum/2849378",
           "title": "Sněmovna schválila stavební novelu, podle opozice nahrává developerům | ČeskéNoviny.cz"
         },
         {
-          "url": "https://denikalarm.cz/2026/07/stavebni-zakon-udelal-z-investicnich-bytu-narodni-zajem/",
-          "title": "Stavební zákon udělal z investičních bytů národní zájem Deník Alarm"
+          "url": "https://www.ceskenoviny.cz/zpravy/2800045",
+          "title": "Vláda schválila plán zavádění centrální stavební správy, hotová bude v r. 2028 | ČeskéNoviny.cz"
+        },
+        {
+          "url": "https://mmr.gov.cz/cs/ministerstvo/stavebni-pravo/stavebni-zakon-2026",
+          "title": "Nový stavební zákon 2026 — Ministerstvo pro místní rozvoj"
         }
       ],
-      "previousStatus": "partial",
-      "updatedAt": "2026-07-30T15:14:13.821Z"
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-08-04T07:19:19.523Z"
     },
     "1.4": {
       "status": "in_progress",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda schválila první důchodovou novelu se zvýšením pro 80+ (500 Kč/měs. od 1. 1. 2027). Klíčový slib—zastropování věku na 65 let (bez dalšího zvyšování hranice)—se odkládá do druhé vlny legislativy. Novela schválena vládou, prošla Sněmovnou, Senátem (23. 8. 2026), čeká podpis prezidenta. Prezident Pavel uvažuje o vetu. Bez podpisu není účinná. Klíčový slib věku zůstává nerealizován.",
-        "en": "Government approved first pension amendment with increase for 80+ (CZK 500/month from 1 Jan 2027). Key promise—capping retirement age at 65 (no further increases)—deferred to second legislative wave. Amendment approved by government, passed Chamber, Senate (23 Aug 2026), awaiting presidential signature. President Pavel considering veto. Without signature, not effective. Key age promise remains unrealized."
+        "cs": "Vláda schválila první důchodovou novelu se zvýšením pro seniory 80+ (500 Kč/měs. od 1. 1. 2027). Klíčový slib – zastropování věku na 65 let bez dalšího zvyšování – se odkládá do druhé novely, která není dosud schválena. Status: návrh připraven, ale v únoru 2026 se odsunul do dalšího legislativního cyklu.",
+        "en": "Government approved first pension amendment with increase for 80+ seniors (500 CZK/month from 1 Jan 2027). Key pledge—capping retirement age at 65—deferred to second amendment not yet approved. Status: draft prepared but postponed to later legislative cycle as of February 2026."
       },
       "change": {
-        "cs": "Částečné řešení — zvýšení pro nejstarší; zastropování věku odloženo; bez podpisu prezidenta není účinné.",
-        "en": "Partial solution—increase for oldest; age cap deferred; not effective without presidential signature."
+        "cs": "První hodnocení: vláda částečně jedná (zvýšení 80+) ale odkládá klíčový slib (strop věku).",
+        "en": "First assessment: government partially acts (80+ increase) but postpones key pledge (age ceiling)."
       },
       "sources": [
         {
-          "url": "https://ct24.ceskatelevize.cz/tema/zdenek-nytra-5082",
-          "title": "Zdeněk Nytra — ČT24 — Česká televize"
+          "url": "https://www.forum24.cz/babisuv-kabinet-po-pul-roce-ministri-popsali-dosavadni-plneni-programoveho-prohlaseni",
+          "title": "Babišův kabinet po půl roce. Ministři popsali dosa... | FORUM 24"
         },
         {
-          "url": "https://vlada.gov.cz/cz/media-centrum/tiskove-konference/tiskova-konference-po-jednani-vlady--2--ledna-2026-225116/",
-          "title": "Tisková konference po jednání vlády, 2. února 2026 | Vláda České republiky"
+          "url": "https://www.ceskenoviny.cz/zpravy/vlada-hodnotila-plneni-programu-podle-babise-se-dari-opozice-nesouhlasi/2848888",
+          "title": "Vláda hodnotila plnění programu, podle Babiše se daří, opozice nesouhlasí | ČeskéNoviny.cz"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-07-30T15:14:13.821Z"
+      "updatedAt": "2026-08-04T07:19:19.523Z"
     },
     "1.5": {
       "status": "declared",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda odmítla migrační pakt usnesením 16. 12. 2025 (formální deklarace bez právní účinnosti; pakt zůstává pro Česko závazný). Schválila nový zákon o pobytu cizinců (zahájila legislativní proces). Ministr Metnar (Vnitro) posílil zpřísňování podmínek pobytu. Nulová tolerance nelegální migrace však zůstává deklarací; konkrétní legislativní opatření dosud nejsou dokončena. Opatření o sociálních dávkách a MPSV jsou v procesu bez měřitelného výsledku na nelegální migraci.",
-        "en": "Government rejected the EU migration pact via resolution on 16 Dec 2025 (formal declaration without legal effect; pact remains binding for Czechia). Approved new law on foreigner residence (initiated legislative process). Interior Minister Metnar strengthened residence condition restrictions. But zero tolerance for illegal migration remains a declaration; specific legislative measures are not yet complete. Welfare and MPSV measures are in process with no measurable impact on illegal migration."
+        "cs": "Vláda odmítla migrační pakt usnesením 16. 12. 2025 (formální deklarace bez právní účinnosti; pakt zůstává pro Česko závazný). Schválila nový zákon o pobytu cizinců – legislativní proces běží, konkrétní text nebyl dosud vyhlášen ve Sbírce zákonů. Mimo právní rámec zůstává nulová tolerance pouze prohlášením.",
+        "en": "Government rejected migration pact by resolution on 16 Dec 2025 (formal declaration without legal force; pact remains binding for Czechia). Approved new law on alien residence—legislative process underway but text not yet published. Zero tolerance remains at statement level."
       },
       "change": {
-        "cs": "Formální odmítnutí paktu bez právní účinnosti; legislativní procesy v běhu bez účinné realizace nulové tolerance.",
-        "en": "Formal pact rejection without legal effect; legislative processes underway without effective zero-tolerance implementation."
+        "cs": "První hodnocení: vláda pouze deklaruje postoj, konkrétní legislativu ještě nezavádí.",
+        "en": "First assessment: government merely declares position; concrete legislation not yet implemented."
       },
       "sources": [
         {
-          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/babisova-vlada-ma-na-programu-prvni-radne-zasedani-368331",
-          "title": "Vláda odmítla emisní povolenky ETS 2 i migrační pakt - ČT24"
+          "url": "https://www.ceskenoviny.cz/zpravy/vlada-hodnotila-plneni-programu-podle-babise-se-dari-opozice-nesouhlasi/2848888",
+          "title": "Vláda hodnotila plnění programu, podle Babiše se daří, opozice nesouhlasí | ČeskéNoviny.cz"
         },
         {
-          "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-odmitla-migracni-pakt-eu-i-novy-system-obchodovani-s-emisnimi-povolenkami--domacnostem-i-firmam-zlevni-elektrinu-224297/",
-          "title": "Vláda Andreje Babiše odmítla migrační pakt EU i nový systém obchodování s emisními povolenkami, domácnostem i firmám zlevní elektřinu | Vláda České republiky"
+          "url": "https://uv.gov.cz/cz/media-centrum/aktualne/vysledky-jednani-vlady-25--kvetna-2026-227135/",
+          "title": "Výsledky jednání vlády 25. května 2026 | Vláda České republiky"
+        },
+        {
+          "url": "https://demagog.cz/diskuze/vladni-zavazky-pod-lupou-overujeme-sliby-vlady-andreje-babise-7f52f80b-67fa-4982-8311-d7d3a154f036",
+          "title": "Vládní závazky pod lupou: Ověřujeme sliby vlády Andreje Babiše — Demagog.cz"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-07-30T15:14:13.821Z"
+      "updatedAt": "2026-08-04T07:19:19.523Z"
     },
     "3.1": {
       "status": "in_progress",
@@ -3420,5 +3424,5 @@
       "updatedAt": "2026-07-30T15:15:28.121Z"
     }
   },
-  "lastUpdated": "2026-07-30T15:18:43.619Z"
+  "lastUpdated": "2026-08-04T07:19:39.539Z"
 }
