@@ -31,6 +31,7 @@ const T = {
   evaluated: { cs: "hodnoceno", en: "evaluated" },
   ofItems: { cs: "z", en: "of" },
   notRatedYet: { cs: "první hodnocení zatím neproběhlo", en: "the first assessment has not run yet" },
+  textVersion: { cs: "Textový výpis všech bodů", en: "Plain-text listing of every commitment" },
   lastUpdated: { cs: "Naposledy aktualizováno", en: "Last updated" },
   nextUpdate: { cs: "Další hodnocení", en: "Next evaluation" },
   never: { cs: "zatím neproběhlo", en: "not yet run" },
@@ -1214,6 +1215,11 @@ export default function App() {
         <div className="vm-foot">
           <p>
             <button className="vm-link" onClick={() => setShowMethod(true)}>{t("methodologyBtn")}</button>
+            {" · "}
+            {/* Táž data bez JavaScriptu — pro tisk, čtečky a roboty, kteří
+                aplikaci nespustí. Odkaz musí být vidět: stránka dostupná jen
+                robotům by byla cloaking. */}
+            <a href={lang === "cs" ? "./prehled/" : "./overview/"}>{t("textVersion")}</a>
             {" · "}<CookieSettingsLink lang={lang} onOpen={() => setCookieOpen((n) => n + 1)} />
           </p>
           <p>{t("disclaimerShort")}</p>
