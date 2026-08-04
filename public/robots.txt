@@ -1,5 +1,4 @@
-# TESTING: block all crawlers. When you go public, replace the two lines below with:
-#   User-agent: *
-#   Allow: /
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://vladomer.cz/sitemap.xml

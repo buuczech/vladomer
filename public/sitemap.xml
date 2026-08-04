@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Jediná adresa: Vládoměr je jednostránková aplikace, kapitoly i sekce
+     v menu jsou stavy uvnitř stránky, ne samostatné URL. Značka <lastmod>
+     tu schválně není — hodnocení se mění každý pátek a zapsané datum by
+     bylo od soboty nepravdivé. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://vladomer.cz/</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+</urlset>
