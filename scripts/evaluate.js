@@ -282,11 +282,14 @@ async function fetchHeadlines() {
   if (a === -1 || b === -1) {
     /* Say WHY, or the next person guesses. stop_reason "max_tokens" means the
        reply was cut off — every web_search round is itself part of the output,
-       so raising the search count eats the budget the JSON needs. */
+       so raising the search count eats the budget the JSON needs. "end_turn"
+       with few tokens means the opposite: the model finished, in prose, and
+       declined. 600 znaků, ne 120 — po běhu 3. 8. 2026 zbyla jen věta
+       "Bohužel nemůžu poskytnout požadovan…" a důvod byl uříznutý. */
     const searches = (data.content || []).filter((x) => x.type === "server_tool_use").length;
     throw new Error(`no JSON array in response (stop_reason=${data.stop_reason}, `
       + `searches=${searches}, out_tokens=${data.usage?.output_tokens}, text=${clean.length}b: `
-      + `${JSON.stringify(clean.slice(0, 120))})`);
+      + `${JSON.stringify(clean.slice(0, 600))})`);
   }
   const parsed = JSON.parse(clean.slice(a, b + 1));
 
