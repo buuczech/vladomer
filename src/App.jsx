@@ -4,6 +4,7 @@ import {
   GOVERNMENTS, CURRENT_GOV, CURRENT_EXTERNAL_Q1,
   QUARTER_COUNT, quarterOf, quarterLabel,
 } from "./governments.js";
+import CookieBar, { CookieSettingsLink } from "./CookieBar.jsx";
 
 /* =========================================================================
    VLÁDOMĚR — production build.
@@ -397,6 +398,16 @@ const CSS = `
 .vm-id{font-size:10.5px;color:var(--muted)}
 .vm-foot{margin-top:26px;font-size:12px;color:var(--muted);line-height:1.6}
 .vm-foot a{color:var(--accent)}
+/* Consent bar. Fixed to the bottom so it is unmissable, but it must never
+   cover the content permanently — both buttons dismiss it for good. */
+.vm-cookie{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--surface);
+  border-top:1px solid var(--border);box-shadow:0 -12px 32px rgba(0,0,0,.25);
+  padding:14px 16px calc(14px + env(safe-area-inset-bottom));
+  display:flex;flex-wrap:wrap;align-items:center;gap:12px;justify-content:center}
+.vm-cookie p{margin:0;font-size:12.6px;line-height:1.55;color:var(--text);max-width:760px;flex:1 1 320px}
+.vm-cookie-btns{display:flex;gap:8px;flex:0 0 auto}
+.vm-cookie-ok{appearance:none;border:1px solid var(--accent);background:var(--accent);color:#fff;
+  font-weight:680;font-size:12.5px;padding:8px 14px;border-radius:10px;cursor:pointer}
 .vm-link{appearance:none;border:0;background:transparent;color:var(--accent);font:inherit;font-weight:650;cursor:pointer;padding:0;text-decoration:underline}
 .vm-methodrow{margin:12px 0 0;font-size:12px;color:var(--muted)}
 .vm-menu-wrap{position:relative}
@@ -793,6 +804,8 @@ export default function App() {
   const [openCmt, setOpenCmt] = useState({});
   const [changesOpen, setChangesOpen] = useState(true);
   const [showMethod, setShowMethod] = useState(false);
+  // Bumped by the footer link; CookieBar re-opens on every change.
+  const [cookieOpen, setCookieOpen] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [page, setPage] = useState(null); // "about" | "support" | "ideas"
   const [query, setQuery] = useState("");
@@ -1199,7 +1212,10 @@ export default function App() {
         </div>
 
         <div className="vm-foot">
-          <p><button className="vm-link" onClick={() => setShowMethod(true)}>{t("methodologyBtn")}</button></p>
+          <p>
+            <button className="vm-link" onClick={() => setShowMethod(true)}>{t("methodologyBtn")}</button>
+            {" · "}<CookieSettingsLink lang={lang} onOpen={() => setCookieOpen((n) => n + 1)} />
+          </p>
           <p>{t("disclaimerShort")}</p>
           <p>
             {t("source")} · <a href="https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/" target="_blank" rel="noopener noreferrer">vlada.gov.cz</a>
@@ -1210,6 +1226,7 @@ export default function App() {
 
       {showMethod && <MethodologyModal lang={lang} onClose={() => setShowMethod(false)} />}
       {page && <PageModal pageKey={page} lang={lang} evals={evals} snapshots={snapshots} onClose={() => setPage(null)} />}
+      <CookieBar lang={lang} openSignal={cookieOpen} />
     </div>
   );
 }
