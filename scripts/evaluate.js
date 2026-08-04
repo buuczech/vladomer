@@ -382,6 +382,7 @@ async function main() {
   // Carry forward only real items — drops any stray invented IDs already in the file
   const newEvals = {};
   for (const id in prevEvals) if (VALID_IDS.has(id)) newEvals[id] = prevEvals[id];
+  let failedChapters = 0;
   for (const ch of CHAPTERS.slice(0, CHAPTER_LIMIT)) {
     try {
       process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}… `);
@@ -391,6 +392,7 @@ async function main() {
       console.log(`ok (${Object.keys(r.evals).length}) — ${r.searchCount} search hits, ${r.kept} sources kept`
         + (dm ? `, downgraded: ${dm}` : ""));
     } catch (e) {
+      failedChapters++;
       console.log(`failed: ${e.message}`);
     }
     await new Promise((r) => setTimeout(r, 20000));
@@ -477,12 +479,26 @@ async function main() {
 
   writeFileSync(OUT_EVAL, JSON.stringify({ evals: newEvals, lastUpdated: now }, null, 2));
 
-  const statuses = {};
-  for (const id in newEvals) statuses[id] = newEvals[id].status;
-  const kept = snapshots.filter((s) => s.date !== today);
-  kept.push({ date: today, statuses });
-  const capped = kept.slice(-HISTORY_WEEKS);
-  writeFileSync(OUT_HIST, JSON.stringify({ snapshots: capped }, null, 2));
+  /* Týdenní snímek pro graf — jen když běh opravdu projel všechny kapitoly.
+     Chyba kapitoly se výše polyká, aby jedna nedostupná kapitola neshodila
+     celý běh; snímek se ale počítá jako podíl z ohodnocených bodů, takže
+     z běhu, kde polovina kapitol spadla na limity API, vyjde číslo o
+     dostupnosti API, ne o plnění programu. 31. 7. 2026 takový snímek vznikl
+     (60 ze 143 bodů) a v grafu by seděl jako plnohodnotný týden.
+     evaluations.json a audit.json se zapisují vždy — hodnocení, která
+     proběhla, jsou platná a patří ven i do auditní stopy. */
+  let capped = snapshots.slice(-HISTORY_WEEKS);
+  if (failedChapters) {
+    console.log(`Snímek do historie se nezapisuje: ${failedChapters} kapitol selhalo, `
+      + `graf by ukázal neúplný týden`);
+  } else {
+    const statuses = {};
+    for (const id in newEvals) statuses[id] = newEvals[id].status;
+    const kept = snapshots.filter((s) => s.date !== today);
+    kept.push({ date: today, statuses });
+    capped = kept.slice(-HISTORY_WEEKS);
+    writeFileSync(OUT_HIST, JSON.stringify({ snapshots: capped }, null, 2));
+  }
 
   /* Audit trail — full record of every rating this run produced. Append-only
      and never rewritten, so a published rating can always be traced back to
