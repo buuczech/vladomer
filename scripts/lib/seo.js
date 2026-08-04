@@ -62,6 +62,11 @@ export function jsonLd({ evaluationsPath, items, totalItems, tookOffice }) {
       description: popis,
       url: `${ORIGIN}/`,
       isAccessibleForFree: true,
+      /* CC BY 4.0 — volné použití včetně komerčního, ale s uvedením zdroje.
+         Atribuce je tu ta podstatná část: je to jediný nástroj, kterým se dá
+         chtít, aby převzatá čísla nesla, odkud jsou. Kryje výběr závazků a
+         texty hodnocení, ne samotná fakta a ne odkazované články. */
+      license: "https://creativecommons.org/licenses/by/4.0/",
       inLanguage: ["cs", "en"],
       /* Hodnotí jazykový model podle veřejné metodiky, ne redakce. Uvádět to
          ve strukturovaných datech je poctivé — kdo data přebírá, má vědět,

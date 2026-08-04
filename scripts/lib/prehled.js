@@ -42,6 +42,8 @@ const T = {
     nemeritelne: "neměřitelné",
     zdrojProgramu: "Zdroj: programové prohlášení vlády",
     dataText: "Data ke stažení",
+    licence: "Data a hodnocení jsou k volnému použití s uvedením zdroje pod licencí",
+    citace: (d) => `Doporučené uvedení: „Zdroj: Vládoměr (vladomer.cz), CC BY 4.0${d ? `, stav k ${d}` : ""}.“`,
     stavy: {
       fulfilled: "Splněno", partial: "Částečně splněno", in_progress: "Probíhá",
       declared: "Jen deklarováno", not_started: "Nezahájeno", broken: "Porušeno / opuštěno",
@@ -71,6 +73,8 @@ const T = {
     nemeritelne: "unmeasurable",
     zdrojProgramu: "Source: the government's programme statement",
     dataText: "Download the data",
+    licence: "The data and assessments are free to reuse with attribution, under",
+    citace: (d) => `Suggested attribution: “Source: Vládoměr (vladomer.cz), CC BY 4.0${d ? `, as of ${d}` : ""}.”`,
     stavy: {
       fulfilled: "Fulfilled", partial: "Partially fulfilled", in_progress: "In progress",
       declared: "Declared only", not_started: "Not started", broken: "Broken / abandoned",
@@ -241,6 +245,8 @@ ${telo}
 </main>
 <footer>
 <p>${esc(t.zdrojProgramu)} · <a href="https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/">vlada.gov.cz</a></p>
+<p>${esc(t.licence)} <a href="https://creativecommons.org/licenses/by/4.0/deed.cs" rel="license">CC BY 4.0</a>.
+${esc(t.citace(kdy))}</p>
 <p><a href="../">vladomer.cz</a></p>
 </footer>
 </div>

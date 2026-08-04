@@ -32,6 +32,10 @@ const T = {
   ofItems: { cs: "z", en: "of" },
   notRatedYet: { cs: "první hodnocení zatím neproběhlo", en: "the first assessment has not run yet" },
   textVersion: { cs: "Textový výpis všech bodů", en: "Plain-text listing of every commitment" },
+  licenceLine: {
+    cs: "Data a hodnocení jsou k volnému použití s uvedením zdroje:",
+    en: "The data and assessments are free to reuse with attribution:",
+  },
   lastUpdated: { cs: "Naposledy aktualizováno", en: "Last updated" },
   nextUpdate: { cs: "Další hodnocení", en: "Next evaluation" },
   never: { cs: "zatím neproběhlo", en: "not yet run" },
@@ -1226,6 +1230,12 @@ export default function App() {
           <p>
             {t("source")} · <a href="https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/" target="_blank" rel="noopener noreferrer">vlada.gov.cz</a>
             {" "}· {lang === "cs" ? "schváleno" : "approved"} {fmtDate(DATES.programmeApproved, lang)} · {lang === "cs" ? "důvěra" : "confidence vote"} {fmtDate(DATES.confidenceVote, lang)}
+          </p>
+          {/* Licence patří na web, ne jen do strukturovaných dat — tvrdit ji
+              strojům a lidem ne by bylo nekonzistentní. */}
+          <p>
+            {t("licenceLine")}{" "}
+            <a href="https://creativecommons.org/licenses/by/4.0/deed.cs" rel="license noopener noreferrer" target="_blank">CC BY 4.0</a>
           </p>
         </div>
       </div>
