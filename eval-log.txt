@@ -3,8 +3,9 @@
 > node scripts/evaluate.js
 
 Evaluating 1 Zásadní priority vlády…   retry — waiting 3s
-ok (5) — 39 search hits, 13 sources kept
-Korektura: 0 úryvků mechanicky očištěno, 2 opraveno modelem, 0 oprav odmítnuto, 1 dávek (claude-sonnet-4-6)
+ok (5) — 40 search hits, 9 sources kept
+Korektura: 3 úryvků mechanicky očištěno, 3 opraveno modelem, 0 oprav odmítnuto, 1 dávek (claude-sonnet-4-6)
 
 Wrote 143 evaluations, 6 history snapshots, 5 audit records
-Fetching headlines… no usable items (proposed 0, dropped 0 invented / 0 non-article / 0 stale / 0 same-outlet) — keeping previous news.json
+Fetching headlines…   korektura zpráv: 1 opraveno, 0 odmítnuto
+ok (4 items) — 67 search hits, proposed 4, dropped 0 invented / 0 non-article / 0 stale / 0 same-outlet

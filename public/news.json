@@ -1,53 +1,53 @@
 {
-  "generatedAt": "2026-07-30T15:18:43.619Z",
+  "generatedAt": "2026-08-04T07:25:10.684Z",
   "items": [
     {
       "title": {
-        "cs": "Prezident Pavel vetoval novelu rozpočtových zákonů",
-        "en": "President Pavel vetoed budget law amendments"
+        "cs": "Ministr zahraničí Macinka mění vedení Českých center a kritizuje politický aktivismus",
+        "en": "Foreign Minister Macinka changes leadership of Czech Centers and criticizes political activism"
       },
       "summary": {
-        "cs": "Prezident Petr Pavel vetoval novelu upravující veřejné rozpočty, která podle něj ohrožuje stabilitu veřejných financí a umožňuje vládě neúměrné zadlužování; koalice chce veto přehlasovat.",
-        "en": "President Pavel vetoed amendments to budget laws, saying they threaten financial stability and allow excessive government debt; coalition plans to override the veto."
+        "cs": "Ministr Petr Macinka odvolal ředitelku Českých center a na nového ředitele jmenoval velvyslance Ivana Jukla, přičemž avizoval reorganizaci a kritiku tzv. kulturních válek.",
+        "en": "Foreign Minister Petr Macinka dismissed the director of Czech Centers and appointed ambassador Ivan Jukl as the new director, announcing reorganization and criticism of so-called cultural wars."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/pavel-vetoval-novelu-rozpoctovych-zakonu-koalice-chce-veto-prehlasovat/2853858",
-      "date": "2026-07-22"
+      "url": "https://www.echo24.cz/a/Hy9rb/ceska-centra-expo-macinka-jukl-vystava-finance-problemy-pride-budapest-czechia-cesko-czech-republic-cerninsky-palac-zahranici",
+      "date": "2026-07-31"
     },
     {
       "title": {
-        "cs": "Vláda schválila zákaz mobilních telefonů ve školách",
-        "en": "Government approved ban on mobile phones in schools"
+        "cs": "Ministr Macinka bránil zákaz vstupu novinářce Deníku N na tiskovou konferenci",
+        "en": "Minister Macinka defended ban on journalist from Deník N at press conference"
       },
       "summary": {
-        "cs": "Kabinet jednomyslně podpořil návrh Babiše a Plagy na plošný zákaz používání mobilních telefonů ve školách od září 2027.",
-        "en": "Cabinet unanimously supported the proposal by Babiš and Plaga for a nationwide ban on mobile phones in schools starting September 2027."
+        "cs": "Ministerstvo zahraničí nepustilo novinářku Deníku N Zdislavu Pokornou na tiskovou konferenci a ministr Macinka si z ní dělal legraci s poznámkou o alternativních médiích.",
+        "en": "Foreign Ministry refused to allow Deník N journalist Zdislava Pokorná into a press conference and minister Macinka joked about allowing 'alternative media and conspiracy blogs' instead."
       },
-      "url": "https://www.irozhlas.cz/zpravy-domov/vlada-podporila-zakaz-mobilu-na-skolach-predlozil-ho-plaga-a-babis-platit-ma-od_2607201502_jva",
-      "date": "2026-07-20"
+      "url": "https://zpravy.aktualne.cz/domaci/mzv-opet-nepustilo-novinarku-na-tiskovou-konferenci-syndikat-vyzval-k-bojkotu/r~aaa29a356fa6263e580fb9e3c0cbc7a1/?lp=1",
+      "date": "2026-07-31"
     },
     {
       "title": {
-        "cs": "Vláda omezila výstavbu větrných elektráren v akceleračních zónách",
-        "en": "Government scaled back wind farm acceleration zones"
+        "cs": "Vláda omezuje zákony přes poslanecké návrhy a obchází kontrolu odborníků",
+        "en": "Government bypasses expert review by proposing laws through parliament instead of proper channels"
       },
       "summary": {
-        "cs": "Vláda redukovala plán na výstavbu větrníků z původních 2685 kilometrů čtverečních na pouhých 297 kilometrů, aby se vyhnula pokutě od EU.",
-        "en": "Cabinet reduced planned wind farm acceleration zones from 2,685 square kilometers to just 297 square kilometers to avoid EU penalties."
+        "cs": "Koaliční poslanci místo vlády předkládají zákony poslaneckými návrhy, což umožňuje obejít připomínkové řízení; za půl roku tak vzniklo 26 návrhů bez běžné odborné kontroly.",
+        "en": "Coalition MPs instead of government submit laws as parliamentary amendments, bypassing normal review processes; 26 such proposals were created in six months without expert vetting."
       },
-      "url": "https://www.echo24.cz/a/HWWbf/zpravy-domaci-akceleracni-zony-vlada-babis-vetrniky-obnovitelne-zdroje-vitr-slunce",
-      "date": "2026-07-27"
+      "url": "https://www.irozhlas.cz/zpravy-domov/nebezpecne-tendence-obchazet-legislativni-proces-vlada-prosazuje-zakony-skrz_2607290700_jar",
+      "date": "2026-07-29"
     },
     {
       "title": {
-        "cs": "Babiš potvrdil, že rozpočet bude pod 400 miliard schodku",
-        "en": "Babiš confirmed budget deficit will be below 400 billion"
+        "cs": "Babiš vyhodnocuje plnění programového prohlášení za první polovinu roku",
+        "en": "Babiš evaluates government program fulfillment for first half of year"
       },
       "summary": {
-        "cs": "Premiér oznámil, že schodek státního rozpočtu na příští rok bude významně pod 400 miliard korun a vláda splní závazek NATO na 2 procenta HDP na obranu.",
-        "en": "Premier announced next year's budget deficit will be significantly below 400 billion crowns and government will meet NATO commitment of 2 percent GDP for defense."
+        "cs": "Premiér prohlásil, že vláda splnila zhruba 35 procent programového prohlášení, vyzdvihl snížení cen energií a zareagoval na ceny pohonných hmot.",
+        "en": "PM stated the government fulfilled approximately 35% of its program, highlighting energy price reductions and reaction to fuel prices."
       },
-      "url": "https://ct24.ceskatelevize.cz/clanek/media/souhrn-zasadni-udalosti-utery-28-cervence-376040",
-      "date": "2026-07-28"
+      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/babisova-vlada-vyhodnocuje-plneni-programoveho-prohlaseni-za-prvni-pololeti-375387",
+      "date": "2026-07-31"
     }
   ]
 }
