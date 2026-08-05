@@ -21,6 +21,12 @@ import { render, readList, readSettings, assertFields } from "./lib/nastaveni.js
 import {
   POLE_KOREKTURY, jazykPole, ctiPole, zapisPole, ocisti, opravDavku, zkontrolujPrompt,
 } from "./lib/korektura.js";
+/* Sestavení promptů žije v samostatném modulu, protože je používá i build
+   pro sekci „Použité prompty" na webu. Tady se tedy nic neskládá ručně —
+   jinak by se ukázka na webu mohla rozejít s tím, co se opravdu odesílá. */
+import {
+  STATUSES, STATUS_CS, promptHodnoceni, promptZpravy, promptHodnoceniKontrola,
+} from "./lib/prompty.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
    upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
@@ -33,11 +39,7 @@ const WEBY_ZPRAVY = readList("weby-zpravy.txt");
 // Nothing this cabinet did can predate its own appointment. The first full run
 // on the strict scale credited it with laws published in August 2025 — i.e.
 // the previous government's work — so the cut-off is enforced in code.
-const TERM_START_DATE = new Date(DATES.tookOffice);
-const TERM_START = TERM_START_DATE.getTime();
-// The prompt receives this same value, so it can no longer state a term start
-// that differs from the one the checks enforce. Renders as "15. 12. 2025".
-const TERM_START_CS = `${TERM_START_DATE.getDate()}. ${TERM_START_DATE.getMonth() + 1}. ${TERM_START_DATE.getFullYear()}`;
+const TERM_START = new Date(DATES.tookOffice).getTime();
 
 const CHAPTER_LIMIT = process.env.CHAPTER_LIMIT ? Number(process.env.CHAPTER_LIMIT) : CHAPTERS.length;
 
@@ -64,27 +66,18 @@ const OUT_NEWS = new URL("../public/news.json", import.meta.url);
 // Append-only audit trail: one record per item per run, so any past rating
 // stays inspectable (item id + date + status + the text that justified it).
 const OUT_AUDIT = new URL("../public/audit.json", import.meta.url);
-/* Status scale, strongest first. This array IS the contract: VALID validates
-   the reply against it and the prompt's JSON example receives it via
-   {{SEZNAM_STAVU}}, so the two can no longer drift apart. Prose definitions
-   live in scripts/nastaveni/prompt-hodnoceni.md; the site's labels and colours
-   live in src/App.jsx STATUS (deliberately separate — different casing and
-   purpose). "fulfilled" is hard to reach on purpose: the law must have cleared
-   the whole legislative process and been published in the Sbírka zákonů, and
-   the model must supply the evidence. */
-const STATUSES = ["fulfilled", "partial", "in_progress", "declared", "not_started", "broken"];
+/* STATUSES je kontrakt mezi promptem a parserem — bydlí v lib/prompty.js
+   u promptu, který ho vyhlašuje přes {{SEZNAM_STAVU}}. Prozaické definice jsou
+   v scripts/nastaveni/prompt-hodnoceni.md; popisky a barvy na webu jsou zvlášť
+   v src/App.jsx STATUS (jiná velikost písmen, jiný účel). Stav „fulfilled" je
+   schválně těžko dosažitelný: norma musí projít celým legislativním procesem
+   a vyjít ve Sbírce zákonů, a model to musí doložit. */
 const VALID = new Set(STATUSES);
 const HISTORY_WEEKS = NAST.historie_tydnu;
 const MAX_SOURCES = NAST.maximalne_zdroju;
 // A "fulfilled" claim without a concrete citation gets downgraded, so the
 // strongest status can never rest on an unsupported assertion.
 const EVIDENCE_MIN = NAST.minimalni_delka_dokladu;
-
-const STATUS_CS = {
-  fulfilled: "splněno", partial: "částečně splněno", in_progress: "probíhá",
-  declared: "jen deklarováno", not_started: "nezahájeno", broken: "porušeno/opuštěno",
-  stalled: "porušeno/opuštěno", // legacy value from the pre-2026-07 scale
-};
 
 // All real item IDs — guards against the model inventing an ID (e.g. "11.11"),
 // which the merge-based storage would otherwise carry forward forever.
@@ -104,7 +97,6 @@ if (!KEY) {
 function readJSON(url, fallback) {
   try { return JSON.parse(readFileSync(url, "utf8")); } catch { return fallback; }
 }
-function truncate(s, n) { s = s || ""; return s.length > n ? s.slice(0, n) + "…" : s; }
 function normUrl(u) { return (u || "").trim().replace(/\/+$/, "").toLowerCase(); }
 function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, "").replace(/^m\./, ""); } catch { return u; } }
 
@@ -121,34 +113,9 @@ function evidenceYearMismatch(evidence, evDate) {
   return Math.max(...years) !== Number(evDate.slice(0, 4));
 }
 
-function historyFor(id, snapshots) {
-  return snapshots
-    .map((s) => (s.statuses && s.statuses[id] ? `${s.date} ${STATUS_CS[s.statuses[id]] || s.statuses[id]}` : null))
-    .filter(Boolean)
-    .slice(-NAST.historie_v_promptu)
-    .join(", ");
-}
-
 async function evaluateChapter(ch, prevEvals, snapshots) {
   const items = ch.groups.flatMap((g) => g.items);
-  const lines = items
-    .map((it) => {
-      const p = prevEvals[it.id];
-      const prev = p
-        ? `předchozí stav: ${STATUS_CS[p.status] || p.status}; předchozí komentář: "${truncate((p.comment && p.comment.cs) || "", NAST.delka_predchoziho_komentare)}"`
-        : "bez předchozího hodnocení";
-      const hist = historyFor(it.id, snapshots);
-      return `- [${it.id}] ${it.cs}\n   ${prev}${hist ? `; historie stavu: ${hist}` : ""}`;
-    })
-    .join("\n");
-
-  const prompt = render("prompt-hodnoceni.md", {
-    DATUM_NASTUPU_VLADY: TERM_START_CS,
-    NAZEV_OBLASTI: ch.title.cs,
-    MAX_ZDROJU: MAX_SOURCES,
-    SEZNAM_BODU: lines,
-    SEZNAM_STAVU: STATUSES.join("|"),
-  });
+  const prompt = promptHodnoceni(ch, prevEvals, snapshots);
   assertFields(prompt, ["comment_cs", "comment_en", "change_cs", "change_en",
     "evidence", "evidence_date", "unverifiable", "sources"], "prompt-hodnoceni.md");
 
@@ -248,11 +215,7 @@ async function evaluateChapter(ch, prevEvals, snapshots) {
    item per domain) rather than trusted to the prompt, and every URL must have
    come back from the real search — same validation as the ratings. */
 async function fetchHeadlines() {
-  const prompt = render("prompt-zpravy.md", {
-    DNESNI_DATUM: new Date().toISOString().slice(0, 10),
-    POCET_DNI: NAST.zpravy_pocet_dni,
-    POCET_ZPRAV_K_NAVRZENI: NAST.pocet_zprav + NAST.zprav_navic_k_vyberu,
-  });
+  const prompt = promptZpravy(new Date().toISOString().slice(0, 10));
   assertFields(prompt, ["title_cs", "title_en", "summary_cs", "summary_en", "url", "date"], "prompt-zpravy.md");
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
@@ -361,21 +324,11 @@ async function withBackoff(fn, tries = 5) {
    because it looks like a normal run in the log. */
 function preflight() {
   try {
-    const p = render("prompt-hodnoceni.md", {
-      DATUM_NASTUPU_VLADY: TERM_START_CS,
-      NAZEV_OBLASTI: "kontrola",
-      MAX_ZDROJU: MAX_SOURCES,
-      SEZNAM_BODU: "- [0.0] kontrola",
-      SEZNAM_STAVU: STATUSES.join("|"),
-    });
+    const p = promptHodnoceniKontrola();
     assertFields(p, ["comment_cs", "comment_en", "change_cs", "change_en",
       "evidence", "evidence_date", "unverifiable", "sources"], "prompt-hodnoceni.md");
 
-    const n = render("prompt-zpravy.md", {
-      DNESNI_DATUM: "2026-01-01",
-      POCET_DNI: NAST.zpravy_pocet_dni,
-      POCET_ZPRAV_K_NAVRZENI: NAST.pocet_zprav + NAST.zprav_navic_k_vyberu,
-    });
+    const n = promptZpravy("2026-01-01");
     assertFields(n, ["title_cs", "title_en", "summary_cs", "summary_en", "url", "date"], "prompt-zpravy.md");
 
     const k = render("prompt-korektura.md", {

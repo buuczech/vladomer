@@ -150,7 +150,10 @@ export function zkontrolujPrompt(prompt) {
  * Chybové hlášky musí obsahovat „API 4xx/5xx" nebo „JSON", jinak je
  * withBackoff() v evaluate.js nezopakuje.
  */
-export async function opravDavku(davka, { model, key, maxTokens, stropProcent = 100, minDelkaDokladu = 0 }) {
+/* Vyčleněno z opravDavku(), aby se týž prompt dal sestavit i bez volání API —
+   potřebuje ho build pro ukázku v sekci „Použité prompty". Kdyby si ho stránka
+   skládala po svém, rozešel by se s tím, co se opravdu odesílá. */
+export function promptKorektury(davka) {
   const seznam = davka
     // Ochrana render(): „{{" kdekoli v datech by vyhodilo výjimku o zbylém
     // zástupném textu. Dnes se to nevyskytuje, ale data píše model.
@@ -162,6 +165,11 @@ export async function opravDavku(davka, { model, key, maxTokens, stropProcent = 
     SEZNAM_TEXTU: seznam,
   });
   zkontrolujPrompt(prompt);
+  return prompt;
+}
+
+export async function opravDavku(davka, { model, key, maxTokens, stropProcent = 100, minDelkaDokladu = 0 }) {
+  const prompt = promptKorektury(davka);
 
   const res = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
