@@ -32,6 +32,29 @@ const T = {
   ofItems: { cs: "z", en: "of" },
   notRatedYet: { cs: "první hodnocení zatím neproběhlo", en: "the first assessment has not run yet" },
   textVersion: { cs: "Textový výpis všech bodů", en: "Plain-text listing of every commitment" },
+  promptsIntro: {
+    cs: "Každý pátek ráno spustí server program, který za vás položí jazykovému modelu několik otázek a z odpovědí sestaví to, co vidíte na webu. Otázky nejsou pokaždé jiné — jsou to tři pevné texty, které tu jsou celé a doslova. Nic dalšího model nedostane.",
+    en: "Every Friday morning a program runs on the server, puts a handful of questions to a language model and assembles what you see on the site from the answers. The questions are not improvised — they are three fixed texts, reproduced here in full and verbatim. The model receives nothing else.",
+  },
+  promptsSablona: {
+    cs: "Prompty jsou šablony. Značka jako {{SEZNAM_BODU}} se před odesláním nahradí skutečnými daty — konkrétními body programu, jejich minulotýdenním stavem, dnešním datem. Proto je u každého i ukázka, jak text vypadá ve chvíli, kdy se odesílá. Ukázky se skládají stejným kódem jako ostrý běh, takže se nemohou rozejít.",
+    en: "The prompts are templates. A marker such as {{SEZNAM_BODU}} is replaced with real data before sending — the actual commitments, their status a week ago, today's date. That is why each one is shown as it looks at the moment it is sent, too. The examples are assembled by the same code as the live run, so they cannot drift apart.",
+  },
+  promptModel: { cs: "Použitý model", en: "Model used" },
+  promptSablona: { cs: "Doslovné znění", en: "Verbatim text" },
+  promptUkazka: { cs: "Ukázka po doplnění dat", en: "Example with data filled in" },
+  promptSoubor: { cs: "Soubor na GitHubu", en: "File on GitHub" },
+  promptZdroje: { cs: "Weby, ze kterých model smí čerpat", en: "Sites the model may draw on" },
+  promptZdrojeP: {
+    cs: "Model nehledá po celém internetu. Vyhledávání je technicky omezeno na tyhle domény — na nic jiného se nedostane, i kdyby chtěl.",
+    en: "The model does not search the whole internet. Its search is technically restricted to these domains — it cannot reach anything else, even if it tried.",
+  },
+  promptZdrojeH: { cs: "Pro hodnocení", en: "For assessments" },
+  promptZdrojeZ: { cs: "Pro zprávy týdne", en: "For the weekly headlines" },
+  promptLoading: { cs: "Načítám prompty…", en: "Loading prompts…" },
+  promptError: { cs: "Prompty se nepodařilo načíst.", en: "The prompts could not be loaded." },
+  promptShow: { cs: "Zobrazit", en: "Show" },
+  promptHide: { cs: "Skrýt", en: "Hide" },
   licenceLine: {
     cs: "Data a hodnocení jsou k volnému použití s uvedením zdroje:",
     en: "The data and assessments are free to reuse with attribution:",
@@ -171,11 +194,12 @@ const METHOD = {
    Default is OFF, so a missing .env hides unfinished pages rather than leaking them. */
 const MENU_FLAGS = {
   about: import.meta.env.VITE_MENU_ABOUT === "true",
+  prompts: import.meta.env.VITE_MENU_PROMPTS === "true",
   charts: import.meta.env.VITE_MENU_CHARTS === "true",
   support: import.meta.env.VITE_MENU_SUPPORT === "true",
   ideas: import.meta.env.VITE_MENU_IDEAS === "true",
 };
-const MENU_ORDER = ["about", "charts", "support", "ideas"];
+const MENU_ORDER = ["about", "prompts", "charts", "support", "ideas"];
 
 // Hamburger-menu pages. Support links are null until a payment channel is
 // set up — the page then shows a "coming soon" note instead of dead buttons.
@@ -193,7 +217,36 @@ const BMC = {
   cs: { src: "./bmc-cs.svg", w: 280, alt: "Podpořte Vládoměr přes Buy Me a Coffee" },
   en: { src: "./bmc-en.svg", w: 262, alt: "Support Vládoměr via Buy Me a Coffee" },
 };
+const GITHUB_REPO_URL = "https://github.com/buuczech/vladomer";
 const GITHUB_ISSUES_URL = "https://github.com/buuczech/vladomer/issues/new";
+
+/* Popisky k promptům. Psané pro člověka, který o jazykových modelech neví nic:
+   žádný žargon, žádné tokeny, žádná teplota. Samotné znění promptů a použitý
+   model se načítají z prompty.json, který vzniká při buildu — tady je jen to,
+   co je potřeba dovysvětlit. */
+const PROMPT_POPIS = {
+  hodnoceni: {
+    nadpis: { cs: "Hodnocení jedné oblasti", en: "Assessing one area" },
+    p: {
+      cs: "Tenhle prompt se odešle osmnáctkrát za běh, pokaždé pro jednu oblast programu. Model dostane body té oblasti, u každého minulotýdenní stav a komentář, a smí si k nim vyhledat informace — ale jen na pevném seznamu webů níže. Odpoví jednotně strukturovaným výpisem, který program hned kontroluje: odkaz, který se ve výsledcích vyhledávání nikdy neobjevil, se zahazuje jako vymyšlený, a stav „splněno“ bez konkrétního dokladu (číslo ve Sbírce zákonů, datum účinnosti) se automaticky snižuje na „částečně splněno“.",
+      en: "This prompt is sent eighteen times per run, once for each area of the programme. The model receives that area's commitments, each with last week's status and comment, and may look things up — but only across the fixed list of sites below. It answers in a uniform structured form that the program checks immediately: a link that never appeared in the search results is discarded as invented, and a \"fulfilled\" status without concrete evidence (a Collection of Laws number, a date of effect) is automatically downgraded to \"partially fulfilled\".",
+    },
+  },
+  zpravy: {
+    nadpis: { cs: "Zprávy týdne", en: "This week's headlines" },
+    p: {
+      cs: "Jednou za běh se model zeptá na nejdůležitější zprávy z domácí politiky. Vybírá jen z novinářských webů — vládní ani ověřovací servery v tomhle seznamu schválně nejsou, aby týden nevedla tisková zpráva úřadu. Z každé redakce se bere nejvýš jedna zpráva. Program pak vyřadí vymyšlené odkazy, rozcestníky místo článků a zprávy starší než dvanáct dní, a zbytek zkrátí na pět.",
+      en: "Once per run the model is asked for the most important domestic-politics stories. It picks only from journalistic outlets — government and fact-checking sites are deliberately absent from this list, so the week is not led by an official press release. At most one story is taken per outlet. The program then drops invented links, section fronts instead of articles, and anything older than twelve days, and trims the rest to five.",
+    },
+  },
+  korektura: {
+    nadpis: { cs: "Jazyková korektura", en: "Language proofreading" },
+    p: {
+      cs: "Hotové texty nakonec projde druhý model — a schválně jiný a silnější než ten, který je psal, protože model své vlastní chyby nevidí. Smí opravovat jenom jazyk. Než se oprava přijme, program porovná původní a opravený text: když se změnilo číslo, citace zákona, odkaz nebo počet záporů, oprava se zahodí a zůstane původní znění. Zrovna ten zápor je to podstatné — přidané nebo ubrané „ne“ obrací tvrzení o vládě naruby a model nemá jak ověřit, které je správně.",
+      en: "Finished texts are finally passed through a second model — deliberately a different, stronger one than wrote them, because a model cannot see its own mistakes. It may correct language only. Before a correction is accepted, the program compares the original and the revision: if a number, a law citation, a link or the count of negations changed, the correction is discarded and the original text stands. The negation check is the important one — an added or removed \"not\" reverses a claim about the government, and the model has no way to verify which reading is right.",
+    },
+  },
+};
 // Form route for people without a GitHub account — most visitors won't have one.
 const SUGGESTION_FORM_URL = "https://forms.gle/G3nQ8hDWfViWJxrn8";
 
@@ -233,7 +286,7 @@ const PAGES = {
             "Criticism and credit alike follow from the data, not from the author's views.",
           ],
         },
-        /* Druhá odrážka byla dřív tvrzení „projekt nepřijímá podporu od stran".
+        /* Druhá odrážka byla dřív tvrzení „projekt nepřijímá podporu od stran“.
            To ale nikdo s otevřenou platební bránou nemůže zaručit — stačí, aby
            někdo poslal stovku pod jménem strany. Slíbit jde jen chování, ne
            výsledek, a přiznaný limit unese víc než absolutní věta, kterou lze
@@ -267,6 +320,10 @@ const PAGES = {
   charts: {
     title: { cs: "Grafy", en: "Charts" },
     chart: true, // rendered by ChartsPage instead of plain sections
+  },
+  prompts: {
+    title: { cs: "Použité prompty", en: "Prompts used" },
+    prompts: true, // rendered by PromptsPage instead of plain sections
   },
   ideas: {
     title: { cs: "Návrhy na zlepšení", en: "Suggest improvements" },
@@ -453,6 +510,21 @@ const CSS = `
 .vm-modal-body li{font-size:13.2px;line-height:1.55;margin:3px 0}
 .vm-disc{font-size:11.5px;color:var(--muted);margin-top:6px}
 .vm-modal.wide{max-width:860px}
+/* Prompty se zobrazují doslova, včetně zalomení a odsazení — proto <pre>.
+   Dlouhý řádek se musí zalomit, ne roztáhnout okno; pre-wrap + break-word. */
+.vm-prompt{border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:16px 0 0;background:var(--surface-2)}
+.vm-prompt h4{font-size:15px;font-weight:740;margin:0 0 4px}
+.vm-prompt .meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--muted);margin:0 0 10px}
+.vm-prompt .meta b{color:var(--text);font-family:ui-monospace,"DejaVu Sans Mono",monospace;font-weight:600}
+.vm-prompt p{font-size:13.4px;line-height:1.6;margin:0 0 10px}
+.vm-code{margin:0;padding:12px 14px;background:var(--bg);border:1px solid var(--border);border-radius:10px;
+  font:12.4px/1.55 ui-monospace,"DejaVu Sans Mono",monospace;color:var(--text);
+  white-space:pre-wrap;overflow-wrap:break-word;max-height:420px;overflow-y:auto}
+.vm-toggle{display:flex;align-items:center;gap:8px;margin:10px 0 0}
+.vm-toggle .lab{font-size:12.5px;font-weight:700;color:var(--muted)}
+.vm-domains{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0;padding:0;list-style:none}
+.vm-domains li{font:12px/1 ui-monospace,"DejaVu Sans Mono",monospace;color:var(--text);
+  background:var(--surface-2);border:1px solid var(--border);border-radius:999px;padding:5px 9px}
 .vm-chart{width:100%;height:auto;display:block;margin:4px 0 2px;overflow:visible}
 .vm-chart-tick{font-size:10px;fill:var(--muted);font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
 .vm-chart-axis{font-size:10.5px;fill:var(--muted);font-weight:600}
@@ -749,6 +821,79 @@ function ChartsPage({ lang, evals, snapshots }) {
   );
 }
 
+/* Použité prompty. prompty.json vzniká při buildu a nese doslovné znění šablon,
+   model u každé a ukázku po doplnění dat. Načítá se až při otevření sekce —
+   je to ~30 kB pro stránku, kterou většina návštěvníků nikdy neotevře, takže
+   do loadData() na úvodní obrazovce nepatří. */
+function PromptsPage({ lang }) {
+  const t = (k) => T[k][lang];
+  const [data, setData] = useState(null);
+  const [stav, setStav] = useState("nacitam"); // nacitam | ok | chyba
+  const [otevreno, setOtevreno] = useState({}); // id -> zobrazit ukázku
+
+  useEffect(() => {
+    let zruseno = false;
+    fetch(`${import.meta.env.BASE_URL}prompty.json?t=${Date.now()}`)
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error("HTTP"))))
+      .then((j) => { if (!zruseno) { setData(j); setStav("ok"); } })
+      .catch(() => { if (!zruseno) setStav("chyba"); });
+    return () => { zruseno = true; };
+  }, []);
+
+  if (stav === "nacitam") return <p>{t("promptLoading")}</p>;
+  if (stav === "chyba") return <p>{t("promptError")}</p>;
+
+  return (
+    <>
+      <p>{t("promptsIntro")}</p>
+      <p>{t("promptsSablona")}</p>
+
+      {data.prompty.map((p) => {
+        const popis = PROMPT_POPIS[p.id];
+        const open = !!otevreno[p.id];
+        return (
+          <div className="vm-prompt" key={p.id}>
+            <h4>{popis ? popis.nadpis[lang] : p.id}</h4>
+            <div className="meta">
+              <span>{t("promptModel")}: <b>{p.model}</b></span>
+              <a href={`${GITHUB_REPO_URL}/blob/main/${p.soubor}`} target="_blank" rel="noopener noreferrer">
+                {t("promptSoubor")} ↗
+              </a>
+            </div>
+            {popis && <p>{popis.p[lang]}</p>}
+
+            <div className="vm-toggle"><span className="lab">{t("promptSablona")}</span></div>
+            <pre className="vm-code">{p.sablona}</pre>
+
+            {p.ukazka && (
+              <>
+                <div className="vm-toggle">
+                  <button className="vm-ghost" onClick={() => setOtevreno((o) => ({ ...o, [p.id]: !open }))}>
+                    {open ? t("promptHide") : t("promptShow")} · {t("promptUkazka")}
+                    {p.ukazkaPopis ? ` (${p.ukazkaPopis})` : ""}
+                  </button>
+                </div>
+                {open && <pre className="vm-code" style={{ marginTop: 8 }}>{p.ukazka}</pre>}
+              </>
+            )}
+          </div>
+        );
+      })}
+
+      <div className="vm-prompt">
+        <h4>{t("promptZdroje")}</h4>
+        <p>{t("promptZdrojeP")}</p>
+        {[["promptZdrojeH", data.zdroje.hodnoceni], ["promptZdrojeZ", data.zdroje.zpravy]].map(([k, list]) => (
+          <div key={k} style={{ marginTop: 10 }}>
+            <div className="vm-toggle"><span className="lab">{t(k)} ({list.length})</span></div>
+            <ul className="vm-domains">{list.map((d) => <li key={d}>{d}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
 function PageModal({ pageKey, lang, evals, snapshots, onClose }) {
   useEffect(() => {
     const onKey = (e) => { if (e.key === "Escape") onClose(); };
@@ -758,13 +903,14 @@ function PageModal({ pageKey, lang, evals, snapshots, onClose }) {
   const page = PAGES[pageKey];
   return (
     <div className="vm-backdrop" onClick={onClose} role="dialog" aria-modal="true">
-      <div className={`vm-modal ${page.chart ? "wide" : ""}`} onClick={(e) => e.stopPropagation()}>
+      <div className={`vm-modal ${page.chart || page.prompts ? "wide" : ""}`} onClick={(e) => e.stopPropagation()}>
         <div className="vm-modal-head">
           <h2>{page.title[lang]}</h2>
           <button className="vm-icon" onClick={onClose} aria-label={T.close[lang]}>✕</button>
         </div>
         <div className="vm-modal-body">
           {page.chart && <ChartsPage lang={lang} evals={evals} snapshots={snapshots} />}
+          {page.prompts && <PromptsPage lang={lang} />}
           {(page.sections || []).map((s, i) => (
             <div key={i}>
               <h3>{s.h[lang]}</h3>
