@@ -39,8 +39,6 @@ const T = {
   lastUpdated: { cs: "Naposledy aktualizováno", en: "Last updated" },
   nextUpdate: { cs: "Další hodnocení", en: "Next evaluation" },
   never: { cs: "zatím neproběhlo", en: "not yet run" },
-  refresh: { cs: "Obnovit", en: "Refresh" },
-  loading: { cs: "Načítám…", en: "Loading…" },
   expandAll: { cs: "Rozbalit vše", en: "Expand all" },
   collapseAll: { cs: "Sbalit vše", en: "Collapse all" },
   searchPlaceholder: { cs: "Hledat v bodech programu…", en: "Search the programme…" },
@@ -816,7 +814,6 @@ export default function App() {
   const [news, setNews] = useState([]);
   const [newsOpen, setNewsOpen] = useState(true);
   const [lastUpdated, setLastUpdated] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [openCh, setOpenCh] = useState({ "1": true });
   const [openCmt, setOpenCmt] = useState({});
   const [changesOpen, setChangesOpen] = useState(true);
@@ -833,8 +830,10 @@ export default function App() {
 
   useEffect(() => { const id = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(id); }, []);
 
+  /* Volá se jen jednou při startu. Tlačítko „Obnovit“ tu bývalo, ale data se
+     mění jednou týdně, takže kliknutí prakticky nikdy nic nezměnilo a jen
+     budilo dojem, že je co obnovovat. */
   const loadData = useCallback(async () => {
-    setLoading(true);
     try {
       const [er, hr, nr] = await Promise.all([
         fetch(`${import.meta.env.BASE_URL}evaluations.json?t=${Date.now()}`),
@@ -845,7 +844,6 @@ export default function App() {
       if (hr.ok) { const h = await hr.json(); setSnapshots(h.snapshots || []); }
       if (nr && nr.ok) { const n = await nr.json(); setNews(n.items || []); }
     } catch (e) { /* keep empty state */ }
-    setLoading(false);
   }, []);
 
   useEffect(() => { loadData(); }, [loadData]);
@@ -1019,7 +1017,6 @@ export default function App() {
         </div>
 
         <div className="vm-controls">
-          <button className="vm-ghost" onClick={loadData} disabled={loading}>↻ {loading ? t("loading") : t("refresh")}</button>
           <div className="vm-meta">
             <span>{t("lastUpdated")}: <b>{lastUpdated ? fmtDate(lastUpdated, lang) : t("never")}</b></span>
             <span>{t("nextUpdate")}: <b>{fmtDate(next, lang)}</b></span>
