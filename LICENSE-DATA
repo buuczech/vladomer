@@ -3,6 +3,11 @@
 Zdrojový kód má vlastní licenci (MIT), viz LICENSE. Tenhle soubor se týká
 obsahu, ne programu.
 
+(Odkaz míří jen jedním směrem schválně: v souboru LICENSE nesmí být nic navíc
+kromě samotného znění MIT. GitHub porovnává obsah se standardními texty, a
+jakákoli přidaná věta znamená, že licenci nerozpozná a repozitář označí jako
+„Other“.)
+
 ## Co je pod CC BY 4.0
 
 Hodnocení plnění programového prohlášení, tedy obsah souborů
