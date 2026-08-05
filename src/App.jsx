@@ -55,6 +55,8 @@ const T = {
   promptError: { cs: "Prompty se nepodařilo načíst.", en: "The prompts could not be loaded." },
   promptShow: { cs: "Zobrazit", en: "Show" },
   promptHide: { cs: "Skrýt", en: "Hide" },
+  openOnGithub: { cs: "Zdrojový kód a data na GitHubu", en: "Source code and data on GitHub" },
+  seePrompts: { cs: "Zobrazit použité prompty", en: "See the prompts used" },
   licenceLine: {
     cs: "Data a hodnocení jsou k volnému použití s uvedením zdroje:",
     en: "The data and assessments are free to reuse with attribution:",
@@ -106,13 +108,9 @@ const STATUS = {
 const METHOD = {
   title: { cs: "Metodika a vyloučení odpovědnosti", en: "Methodology & disclaimer" },
   sections: [
-    {
-      h: { cs: "Co je Vládoměr", en: "What this is" },
-      p: {
-        cs: "Vládoměr je nezávislý, neoficiální nástroj, který sleduje, jak se plní jednotlivé body programového prohlášení vlády. Není nijak spojen s vládou ani s žádnou politickou stranou a má informativní, občanský účel.",
-        en: "Vládoměr is an independent, unofficial tool that tracks how individual commitments in the government's programme statement are being delivered. It is not affiliated with the government or any political party and serves an informational, civic purpose.",
-      },
-    },
+    /* Co Vládoměr je a kdo za ním stojí, patří na stránku O projektu — tady
+       je jen tolik, aby metodika dávala smysl i tomu, kdo přišel rovnou sem
+       z odkazu pod ukazatelem. */
     {
       h: { cs: "Zdroj dat", en: "Data source" },
       p: {
@@ -129,9 +127,13 @@ const METHOD = {
     },
     {
       h: { cs: "Povolené zdroje", en: "Allowed sources" },
+      /* Výčet konkrétních domén tu dřív byl taky — a rozcházel se se seznamem,
+         který se opravdu používá. Teď je pravda na jednom místě: v souborech
+         weby-*.txt, které sekce Použité prompty vypisuje celé. Tady zůstává
+         jen pravidlo, podle kterého se do nich zdroje vybírají. */
       p: {
-        cs: "Vyhledávání je technicky omezeno na uzavřený seznam zdrojů: oficiální weby státu (gov.cz — vláda, ministerstva a úřady), fact-checkingový Demagog.cz a zpravodajské weby hodnocené v ratingu NFNŽ MediaRating ve stupních A, A− a B+ (mj. ČTK/České noviny, ČT24, iROZHLAS, Deník N, Hospodářské noviny, Respekt, Seznam Zprávy, Aktuálně.cz, Novinky.cz). Weby, které technicky blokují přístup vyhledávání (např. iDNES.cz a Lidovky.cz), zahrnout nelze. Odkazy z jiných webů se v hodnocení nemohou objevit.",
-        en: "The search is technically restricted to a closed list of sources: official state websites (gov.cz — the government, ministries and agencies), the fact-checking outlet Demagog.cz, and news sites rated A, A− or B+ in the NFNŽ MediaRating (incl. ČTK/České noviny, ČT24, iROZHLAS, Deník N, Hospodářské noviny, Respekt, Seznam Zprávy, Aktuálně.cz, Novinky.cz). Sites that technically block search access (e.g. iDNES.cz and Lidovky.cz) cannot be included. Links from other sites cannot appear in the ratings.",
+        cs: "Vyhledávání je technicky omezeno na uzavřený seznam zdrojů: oficiální weby státu (gov.cz — vláda, ministerstva a úřady), fact-checkingový Demagog.cz a zpravodajské weby hodnocené v ratingu NFNŽ MediaRating ve stupních A, A− a B+. Bulvární tituly zařazené nejsou. Weby, které technicky blokují přístup vyhledávání (např. iDNES.cz a Lidovky.cz), zahrnout nelze, i kdybychom chtěli. Odkazy z jiných webů se v hodnocení nemohou objevit.\n\nÚplný výpis obou seznamů — zvlášť pro hodnocení a zvlášť pro zprávy týdne — najdete v sekci Použité prompty.",
+        en: "The search is technically restricted to a closed list of sources: official state websites (gov.cz — the government, ministries and agencies), the fact-checking outlet Demagog.cz, and news sites rated A, A− or B+ in the NFNŽ MediaRating. Tabloids are not included. Sites that technically block search access (e.g. iDNES.cz and Lidovky.cz) cannot be included even if we wanted to. Links from other sites cannot appear in the ratings.\n\nBoth lists — one for the assessments, one for the weekly headlines — are reproduced in full under Prompts used.",
       },
     },
     {
@@ -194,12 +196,15 @@ const METHOD = {
    Default is OFF, so a missing .env hides unfinished pages rather than leaking them. */
 const MENU_FLAGS = {
   about: import.meta.env.VITE_MENU_ABOUT === "true",
+  faq: import.meta.env.VITE_MENU_FAQ === "true",
   prompts: import.meta.env.VITE_MENU_PROMPTS === "true",
   charts: import.meta.env.VITE_MENU_CHARTS === "true",
   support: import.meta.env.VITE_MENU_SUPPORT === "true",
   ideas: import.meta.env.VITE_MENU_IDEAS === "true",
 };
-const MENU_ORDER = ["about", "prompts", "charts", "support", "ideas"];
+/* Pořadí odpovídá tomu, jak se čtenář ptá: co to je → na co se lidi ptají →
+   jak přesně to funguje → čísla v čase → podpora → zpětná vazba. */
+const MENU_ORDER = ["about", "faq", "prompts", "charts", "support", "ideas"];
 
 // Hamburger-menu pages. Support links are null until a payment channel is
 // set up — the page then shows a "coming soon" note instead of dead buttons.
@@ -257,8 +262,8 @@ const PAGES = {
       {
         h: { cs: "Co je Vládoměr", en: "What Vládoměr is" },
         p: {
-          cs: "Vládoměr je nezávislý občanský projekt, který týden po týdnu sleduje, jak vláda plní vlastní programové prohlášení. Každý z 143 bodů programu hodnotí jazykový model podle veřejné metodiky a s odkazy na dohledatelné zdroje, aby si každý mohl hodnocení sám ověřit.",
-          en: "Vládoměr is an independent civic project that tracks, week by week, how the government is delivering on its own programme statement. Each of the 143 programme items is assessed by a language model following a public methodology, with verifiable source links so anyone can check the ratings themselves.",
+          cs: "Vládoměr je nezávislý občanský projekt, který týden po týdnu sleduje, jak vláda plní vlastní programové prohlášení. Není nijak spojen s vládou ani s žádnou politickou stranou.\n\nVšech 143 bodů hodnotí jazykový model a u každého uvádí zdroje, ze kterých vycházel — smyslem není říct vám, co si máte myslet, ale dát vám dohledatelný odrazový můstek. Jak přesně hodnocení vzniká a co jednotlivé stavy znamenají, popisuje Metodika; doslovné instrukce pro model jsou v sekci Použité prompty.",
+          en: "Vládoměr is an independent civic project that tracks, week by week, how the government is delivering on its own programme statement. It is not affiliated with the government or any political party.\n\nAll 143 items are assessed by a language model, each with the sources it drew on — the point is not to tell you what to think, but to give you a traceable starting point. How the ratings are produced and what each status means is set out in the Methodology; the literal instructions given to the model are under Prompts used.",
         },
       },
       {
@@ -324,6 +329,100 @@ const PAGES = {
   prompts: {
     title: { cs: "Použité prompty", en: "Prompts used" },
     prompts: true, // rendered by PromptsPage instead of plain sections
+  },
+  /* FAQ. Nadpis sekce = otázka, odstavec = odpověď — vystačí si se stávajícím
+     vykreslováním sekcí, vlastní komponenta není potřeba.
+     Záměrně jsou tu i nepříjemné otázky (zaujatost, rozpor s čísly vlády,
+     důvěra v AI). FAQ, které se vyhýbá tomu, na co se lidé opravdu ptají,
+     důvěryhodnosti spíš uškodí. Odpovědi neopakují metodiku, odkazují na ni. */
+  faq: {
+    title: { cs: "Často kladené dotazy", en: "FAQ" },
+    sections: [
+      {
+        h: { cs: "Hodnotí to umělá inteligence. Proč bych tomu měl věřit?", en: "It’s rated by AI. Why should I trust it?" },
+        p: {
+          cs: "Nemusíte — a právě proto je web postavený tak, aby si šlo všechno ověřit. U každého bodu jsou odkazy na zdroje, ze kterých hodnocení vychází. Instrukce, které model dostane, jsou zveřejněné do posledního znaku v sekci Použité prompty. Každé hodnocení se navíc trvale ukládá do auditního souboru, který se nikdy nepřepisuje.\n\nModel taky nemá poslední slovo. Program jeho odpověď kontroluje: odkaz, který se ve vyhledávání neobjevil, vyhodí jako vymyšlený, a stav „splněno“ bez konkrétního dokladu automaticky sníží. Berte to jako rychlý první průchod, který ukáže, kam se podívat — ne jako rozsudek.",
+          en: "You don’t have to — which is why the site is built so that everything can be checked. Every item lists the sources its rating draws on. The instructions the model receives are published to the last character under Prompts used. And every rating is permanently recorded in an audit file that is never rewritten.\n\nThe model also doesn’t get the last word. The program checks its answer: a link that never appeared in the search is discarded as invented, and a “fulfilled” status without concrete evidence is automatically downgraded. Treat it as a fast first pass that shows you where to look — not as a verdict.",
+        },
+      },
+      {
+        h: { cs: "Není to zaujaté proti vládě?", en: "Isn’t this biased against the government?" },
+        p: {
+          cs: "Autor není členem žádné strany a do jednotlivých hodnocení ručně nezasahuje — viz Deklarace nestrannosti v sekci O projektu. Model dostává u všech 143 bodů stejné instrukce a je v nich výslovně vedený k tomu, aby vážil argumenty z obou stran.\n\nUpřímně ale: úplná nestrannost se zaručit nedá. Jazykový model se učil z textů, které nestranné nejsou, a výběr povolených zpravodajských webů je taky rozhodnutí. Proto jsou zdroje u každého bodu vidět — když vám hodnocení přijde křivé, můžete si přečíst, z čeho vzniklo, a napsat nám.",
+          en: "The author belongs to no party and does not manually alter individual ratings — see the impartiality declaration under About. The model receives identical instructions for all 143 items and is explicitly told to weigh arguments from both sides.\n\nHonestly, though: complete impartiality cannot be guaranteed. A language model learns from texts that are not impartial, and choosing which news sites it may read is itself a decision. That is why the sources are shown on every item — if a rating looks skewed to you, you can read what it was based on and tell us.",
+        },
+      },
+      {
+        h: { cs: "Premiér mluví o desítkách procent, vy o jednotkách. Kdo lže?", en: "The Prime Minister cites tens of percent, you cite single digits. Who is lying?" },
+        p: {
+          cs: "Nikdo — počítá se něco jiného. Vládní odpočty obvykle započítávají i to, co je rozpracované nebo schválené vládou a čeká na Sněmovnu. Vládoměr počítá jako splněné jen to, co prošlo celým legislativním procesem a vyšlo ve Sbírce zákonů.\n\nRozdělaná práce se tu neztrácí, jen se uvádí zvlášť jako „částečně splněno“ a „probíhá“. Součet těch tří čísel je k vládnímu údaji podstatně blíž. Přísné počítání jsme zvolili proto, aby šlo číslo srovnat s tím, jak plnění slibů měří Demagog.cz a jak se hodnotily předchozí vlády v grafu.",
+          en: "Nobody — the two count different things. Government reviews usually include work in progress and bills approved by cabinet but still awaiting parliament. Vládoměr counts an item as delivered only once it has cleared the entire legislative process and been published in the Collection of Laws.\n\nWork in progress isn’t lost here, it is simply reported separately as “partially fulfilled” and “in progress”. Add those three figures together and you land much closer to the government’s number. We chose the strict count so the figure is comparable with how Demagog.cz scores promises and how previous cabinets are measured in the chart.",
+        },
+      },
+      {
+        h: { cs: "Proč je splněno tak málo?", en: "Why is so little fulfilled?" },
+        p: {
+          cs: "Ze dvou důvodů, a ani jeden není „vláda nic nedělá“. Za prvé kvůli tomu přísnému počítání výše. Za druhé kvůli času: legislativní proces trvá měsíce, takže na začátku volebního období je nízké číslo očekávatelné a samo o sobě nic neznamená. Zajímavý je až jeho vývoj v čase — od toho je graf.",
+          en: "For two reasons, and neither is “the government is doing nothing”. First, the strict counting described above. Second, time: legislation takes months, so a low figure early in a term is expected and means little on its own. What matters is how it moves — that is what the chart is for.",
+        },
+      },
+      {
+        h: { cs: "Našel jsem chybné hodnocení. Co s tím?", en: "I found a wrong rating. What now?" },
+        p: {
+          cs: "Napište nám — formulář i GitHub najdete v sekci Návrhy na zlepšení. Nejvíc pomůže, když uvedete číslo bodu (třeba #2.4) a odkaz na zdroj, který hodnocení vyvrací.\n\nJednotlivá hodnocení se ručně nepřepisují: bylo by to přesně to zasahování, kterému se web brání. Když je chyba systematická, opraví se instrukce pro model nebo kontroly v programu a projeví se to při dalším týdenním běhu.",
+          en: "Tell us — the form and GitHub are both under Suggest improvements. It helps most if you give the item number (say #2.4) and a link to a source that contradicts the rating.\n\nIndividual ratings are not edited by hand: that would be exactly the interference this site guards against. Where an error is systematic, the model’s instructions or the program’s checks get fixed and the change shows up in the next weekly run.",
+        },
+      },
+      {
+        h: { cs: "Jak často se to aktualizuje?", en: "How often is it updated?" },
+        p: {
+          cs: "Každý pátek v 9:00 UTC. Běh trvá zhruba půl hodiny a přepíše stavy i komentáře u všech bodů. Datum posledního hodnocení je vždy nahoře na stránce.",
+          en: "Every Friday at 09:00 UTC. The run takes about half an hour and rewrites the statuses and comments for every item. The date of the latest assessment is always shown at the top of the page.",
+        },
+      },
+      {
+        h: { cs: "Proč tam chybí iDNES, Blesk nebo jiný web?", en: "Why is iDNES, Blesk or some other site missing?" },
+        p: {
+          cs: "Model smí hledat jen na uzavřeném seznamu webů — kompletní výpis obou seznamů je v sekci Použité prompty. Bulvár tam schválně není. iDNES.cz a Lidovky.cz chybí z jiného důvodu: technicky blokují přístup vyhledávání, takže je zařadit nejde, i kdybychom chtěli.",
+          en: "The model may only search a closed list of sites — both lists are reproduced in full under Prompts used. Tabloids are deliberately absent. iDNES.cz and Lidovky.cz are missing for a different reason: they technically block search access, so they cannot be included even if we wanted to.",
+        },
+      },
+      {
+        h: { cs: "Jak poznám, že jste data zpětně nezměnili?", en: "How do I know you haven’t quietly changed the data?" },
+        p: {
+          cs: "Nijak nám nemusíte věřit. Celý web i všechna data jsou na GitHubu a každý týdenní běh je samostatný commit — jde se podívat, co přesně se kdy změnilo, a vrátit se k libovolnému staršímu stavu. K tomu existuje auditní soubor audit.json, do kterého se hodnocení přidávají a nikdy se nepřepisují.",
+          en: "You don’t have to take our word for it. The whole site and all its data are on GitHub, and each weekly run is a separate commit — you can see exactly what changed and when, and go back to any earlier state. On top of that there is audit.json, an append-only file where ratings are added and never rewritten.",
+        },
+      },
+      {
+        h: { cs: "Můžu vaše data použít?", en: "Can I reuse your data?" },
+        p: {
+          cs: "Ano, i komerčně, stačí uvést zdroj — hodnocení a data jsou pod licencí CC BY 4.0, zdrojový kód pod MIT. Prosíme jen, abyste u čísla uváděli i datum: přepisuje se každý pátek, takže údaj bez data je za týden nepravdivý. Doporučený tvar citace je v souboru LICENSE-DATA na GitHubu.",
+          en: "Yes, commercially too, as long as you credit the source — the assessments and data are under CC BY 4.0, the source code under MIT. We only ask that you quote the date alongside the figure: it is rewritten every Friday, so a number without one is wrong within the week. The suggested wording is in LICENSE-DATA on GitHub.",
+        },
+      },
+      {
+        h: { cs: "Kdo to platí a sledujete návštěvníky?", en: "Who pays for this, and do you track visitors?" },
+        p: {
+          cs: "Provoz platí autor ze svého; je to řádově pár tisíc korun ročně za tokeny modelu a doménu. Příspěvky od politických stran, hnutí a napojených subjektů se vracejí — podrobnosti jsou v Deklaraci nestrannosti.\n\nMěření návštěvnosti se spustí jedině tehdy, když k němu dáte souhlas v liště dole. Když ho odmítnete, neodesílá se nic a rozhodnutí jde kdykoli změnit odkazem v patičce.",
+          en: "The author pays for it personally; it runs to a few thousand crowns a year for model tokens and the domain. Contributions from political parties, movements and connected entities are refunded — the details are in the impartiality declaration.\n\nAnalytics only start if you consent in the bar at the bottom. Decline and nothing is sent; you can change your mind at any time via the link in the footer.",
+        },
+      },
+      {
+        h: { cs: "Kdo vybral těch 143 bodů?", en: "Who chose the 143 items?" },
+        p: {
+          cs: "Vycházejí přímo z programového prohlášení vlády schváleného 5. 1. 2026. Znění je zkrácené do sledovatelných položek, protože původní dokument je psaný souvislým textem a mnoho odstavců obsahuje víc slibů najednou. Zkrácení dělal autor, ne model — a je to nejsubjektivnější část celého projektu. Úplné znění je na vlada.gov.cz a seznam bodů je otevřený na GitHubu, takže výběr jde zkontrolovat i rozporovat.",
+          en: "They come straight from the programme statement approved on 5 Jan 2026. The wording is condensed into trackable items because the original is continuous prose and many paragraphs contain several promises at once. The condensing was done by the author, not the model — and it is the most subjective part of the whole project. The full text is at vlada.gov.cz and the list of items is open on GitHub, so the selection can be checked and challenged.",
+        },
+      },
+      {
+        h: { cs: "Co znamená „neměřitelné“?", en: "What does “unmeasurable” mean?" },
+        p: {
+          cs: "Některé závazky jsou formulované tak obecně, že se u nich nedá objektivně říct, jestli jsou splněné — třeba slib „podporovat“ něco. Takové body se z procent vyřazují, aby je neředily ani jedním směrem. Ve výpisu jsou označené a jejich počet je vidět pod hlavním ukazatelem.",
+          en: "Some commitments are worded so broadly that there is no objective way to say whether they are met — a promise to “support” something, for instance. Those items are excluded from the percentages so they cannot dilute them either way. They are marked in the listing and their count is shown under the headline figure.",
+        },
+      },
+    ],
   },
   ideas: {
     title: { cs: "Návrhy na zlepšení", en: "Suggest improvements" },
@@ -510,6 +609,8 @@ const CSS = `
 .vm-modal-body li{font-size:13.2px;line-height:1.55;margin:3px 0}
 .vm-disc{font-size:11.5px;color:var(--muted);margin-top:6px}
 .vm-modal.wide{max-width:860px}
+.vm-pagelinks{margin:22px 0 0;padding-top:14px;border-top:1px solid var(--border);
+  font-size:13px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center}
 /* Prompty se zobrazují doslova, včetně zalomení a odsazení — proto <pre>.
    Dlouhý řádek se musí zalomit, ne roztáhnout okno; pre-wrap + break-word. */
 .vm-prompt{border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin:16px 0 0;background:var(--surface-2)}
@@ -595,7 +696,8 @@ function Timeline({ id, snapshots, lang }) {
   );
 }
 
-function MethodologyModal({ lang, onClose }) {
+function MethodologyModal({ lang, onClose, onOpenPrompts }) {
+  const t = (k) => T[k][lang];
   useEffect(() => {
     const onKey = (e) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", onKey);
@@ -618,6 +720,15 @@ function MethodologyModal({ lang, onClose }) {
               ))}
             </div>
           ))}
+          {/* Metodika popisuje pravidla, Použité prompty ukazují doslovné
+              instrukce, podle kterých se ta pravidla vynucují. Odkaz se
+              zobrazí jen tam, kde je ta sekce zapnutá. */}
+          <p className="vm-pagelinks">
+            {MENU_FLAGS.prompts && onOpenPrompts && (
+              <><button className="vm-link" onClick={onOpenPrompts}>{t("seePrompts")}</button>{" · "}</>
+            )}
+            <a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">{t("openOnGithub")} ↗</a>
+          </p>
           <p className="vm-disc">
             {T.source[lang]} ·{" "}
             <a href="https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/" target="_blank" rel="noopener noreferrer">vlada.gov.cz</a>
@@ -895,6 +1006,7 @@ function PromptsPage({ lang }) {
 }
 
 function PageModal({ pageKey, lang, evals, snapshots, onClose }) {
+  const t = (k) => T[k][lang];
   useEffect(() => {
     const onKey = (e) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", onKey);
@@ -920,13 +1032,6 @@ function PageModal({ pageKey, lang, evals, snapshots, onClose }) {
               ))}
             </div>
           ))}
-          {pageKey === "about" && (
-            <p style={{ marginTop: 16 }}>
-              <a className="vm-btn" href="https://github.com/buuczech/vladomer" target="_blank" rel="noopener noreferrer">
-                GitHub ↗
-              </a>
-            </p>
-          )}
           {pageKey === "support" && (SUPPORT_LINKS.buymeacoffee || SUPPORT_LINKS.githubSponsors) && (
             <p style={{ marginTop: 16, display: "flex", gap: 10, flexWrap: "wrap" }}>
               {SUPPORT_LINKS.buymeacoffee && (
@@ -953,6 +1058,11 @@ function PageModal({ pageKey, lang, evals, snapshots, onClose }) {
               </a>
             </p>
           )}
+          {/* Odkaz na repozitář na každé vysvětlující stránce, ne jen na jedné.
+              Kdo si čte, jak web funguje, má mít zdroj na dosah odkudkoli. */}
+          <p className="vm-pagelinks">
+            <a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">{t("openOnGithub")} ↗</a>
+          </p>
         </div>
       </div>
     </div>
@@ -1404,7 +1514,13 @@ export default function App() {
         </div>
       </div>
 
-      {showMethod && <MethodologyModal lang={lang} onClose={() => setShowMethod(false)} />}
+      {showMethod && (
+        <MethodologyModal
+          lang={lang}
+          onClose={() => setShowMethod(false)}
+          onOpenPrompts={() => { setShowMethod(false); setPage("prompts"); }}
+        />
+      )}
       {page && <PageModal pageKey={page} lang={lang} evals={evals} snapshots={snapshots} onClose={() => setPage(null)} />}
       <CookieBar lang={lang} openSignal={cookieOpen} />
     </div>
