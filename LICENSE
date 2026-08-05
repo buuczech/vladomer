@@ -1,46 +1,29 @@
-# Licence
+MIT License
 
-## Data a hodnocení — CC BY 4.0
+Copyright (c) 2026 Vládoměr (vladomer.cz)
 
-Hodnocení plnění programového prohlášení, tedy obsah souborů
-`public/evaluations.json`, `public/history.json`, `public/audit.json`,
-`public/news.json`, výběr a formulace závazků v `src/data.js` a texty
-zveřejněné na vladomer.cz, jsou dostupné pod licencí
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-**Creative Commons Uveďte původ 4.0 Mezinárodní (CC BY 4.0)**
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-- shrnutí: https://creativecommons.org/licenses/by/4.0/deed.cs
-- plné znění: https://creativecommons.org/licenses/by/4.0/legalcode.cs
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
-Smíte je volně kopírovat, šířit, upravovat a použít i komerčně, pokud uvedete
-zdroj. Doporučený tvar uvedení:
+---
 
-> Zdroj: Vládoměr (vladomer.cz), CC BY 4.0. Stav k <datum hodnocení>.
+This licence covers the SOURCE CODE only — the application, the build setup
+and the scripts.
 
-Datum uvádějte proto, že se hodnocení přepisuje každý pátek — číslo bez data
-je za týden nepravdivé.
-
-### Co licence nekryje
-
-**Samotná fakta.** Že vláda schválila zákon nebo že norma vyšla ve Sbírce
-zákonů, není ničí duševní vlastnictví. Licence se vztahuje na výběr závazků,
-jejich uspořádání a texty hodnocení, ne na skutečnosti, které popisují.
-
-**Odkazované články.** Zdroje uvedené u jednotlivých bodů patří svým autorům
-a redakcím. Odkaz na ně licence neuděluje.
-
-**Programové prohlášení vlády.** Původní dokument vydala vláda České
-republiky, viz vlada.gov.cz.
-
-### Jak hodnocení vzniká
-
-Hodnocení generuje jazykový model podle zveřejněné metodiky. Je orientační a
-neoficiální, může obsahovat chyby a nenahrazuje ověření v primárních zdrojích.
-Kdo data přebírá, měl by to uvést spolu se zdrojem.
-
-## Zdrojový kód
-
-Na zdrojový kód aplikace a skriptů se licence výše **nevztahuje** a zatím pro
-něj není udělena žádná licence — platí tedy výchozí stav, kdy jsou práva
-vyhrazena. Creative Commons licence nejsou pro software určené, kód potřebuje
-vlastní (typicky MIT nebo Apache 2.0).
+The assessment data and texts are licensed separately, under CC BY 4.0.
+See LICENSE-DATA.
