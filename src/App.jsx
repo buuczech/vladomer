@@ -182,8 +182,18 @@ const MENU_ORDER = ["about", "charts", "support", "ideas"];
 // Hamburger-menu pages. Support links are null until a payment channel is
 // set up — the page then shows a "coming soon" note instead of dead buttons.
 const SUPPORT_LINKS = {
-  buymeacoffee: null, // e.g. "https://buymeacoffee.com/..."
+  buymeacoffee: "https://www.buymeacoffee.com/buuczech",
   githubSponsors: null, // e.g. "https://github.com/sponsors/buuczech"
+};
+/* Oficiální tlačítko Buy Me a Coffee, ale servírované z našeho webu, ne
+   z img.buymeacoffee.com. Načítání odtamtud by při otevření sekce poslalo
+   IP adresu návštěvníka na cizí server bez jeho souhlasu — přesně to, čemu
+   se web vyhýbá u Analytics, kde se kvůli tomu ptáme.
+   Jejich SVG má font Bree Serif vložený jako base64, takže vypadá stejně
+   jako originál a nedotahuje si nic. */
+const BMC = {
+  cs: { src: "./bmc-cs.svg", w: 280, alt: "Podpořte Vládoměr přes Buy Me a Coffee" },
+  en: { src: "./bmc-en.svg", w: 262, alt: "Support Vládoměr via Buy Me a Coffee" },
 };
 const GITHUB_ISSUES_URL = "https://github.com/buuczech/vladomer/issues/new";
 // Form route for people without a GitHub account — most visitors won't have one.
@@ -241,8 +251,8 @@ const PAGES = {
       {
         h: { cs: "Jak přispět", en: "How to contribute" },
         p: {
-          cs: "Možnosti podpory právě připravujeme — brzy zde najdete platební bránu pro jednorázový i pravidelný příspěvek.",
-          en: "Support options are being set up — a payment option for one-off or recurring contributions will appear here soon.",
+          cs: "Přispět můžete přes Buy Me a Coffee — jednorázově, bez registrace a v libovolné výši. Příspěvky jdou na týdenní hodnocení a provoz domény, nic víc. Podpora není podmínkou ničeho: web zůstane celý zdarma, bez reklam a bez placených částí.",
+          en: "You can contribute through Buy Me a Coffee — one-off, no account needed, any amount. Contributions go towards the weekly assessment and the domain, nothing else. Supporting is not a condition of anything: the site stays entirely free, ad-free, with no paid sections.",
         },
       },
     ],
@@ -767,8 +777,10 @@ function PageModal({ pageKey, lang, evals, snapshots, onClose }) {
           {pageKey === "support" && (SUPPORT_LINKS.buymeacoffee || SUPPORT_LINKS.githubSponsors) && (
             <p style={{ marginTop: 16, display: "flex", gap: 10, flexWrap: "wrap" }}>
               {SUPPORT_LINKS.buymeacoffee && (
-                <a className="vm-btn" href={SUPPORT_LINKS.buymeacoffee} target="_blank" rel="noopener noreferrer">
-                  ☕ {lang === "cs" ? "Přispět" : "Contribute"}
+                <a href={SUPPORT_LINKS.buymeacoffee} target="_blank" rel="noopener noreferrer">
+                  <img src={BMC[lang].src} alt={BMC[lang].alt}
+                       width={BMC[lang].w} height={50}
+                       style={{ display: "block", maxWidth: "100%", height: "auto" }} />
                 </a>
               )}
               {SUPPORT_LINKS.githubSponsors && (
