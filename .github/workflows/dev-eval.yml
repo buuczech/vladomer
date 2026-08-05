@@ -18,6 +18,14 @@ on:
         default: "5"
   push:
     branches: [dev]
+    # Jen když se změní to, co běh ověřuje. Bez filtru stál každý push na dev
+    # 5 kapitol hodnocení, korekturu i vyhledávání zpráv — i když šlo o přesun
+    # tlačítka v JSX, na kterém výsledek hodnocení nijak nezávisí.
+    # src/data.js tu je schválně: mění se v něm znění závazků, a ta se hodnotí.
+    paths:
+      - "scripts/**"
+      - "src/data.js"
+      - ".github/workflows/dev-eval.yml"
 
 permissions:
   contents: write
