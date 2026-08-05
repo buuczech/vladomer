@@ -258,8 +258,8 @@ const PAGES = {
       {
         h: { cs: "Jak přispět", en: "How to contribute" },
         p: {
-          cs: "Přispět můžete přes Buy Me a Coffee — jednorázově, bez registrace a v libovolné výši. Příspěvky jdou na týdenní hodnocení a provoz domény, nic víc. Podpora není podmínkou ničeho: web zůstane celý zdarma, bez reklam a bez placených částí.",
-          en: "You can contribute through Buy Me a Coffee — one-off, no account needed, any amount. Contributions go towards the weekly assessment and the domain, nothing else. Supporting is not a condition of anything: the site stays entirely free, ad-free, with no paid sections.",
+          cs: "Přispět můžete přes Buy Me a Coffee — jednorázově, bez registrace a v libovolné výši. Příspěvky jdou na týdenní hodnocení a provoz domény, nic víc. Podpora není podmínkou ničeho: web zůstane celý zdarma, bez reklam a bez placených částí.\n\nPříspěvky od politických stran, hnutí a napojených subjektů se vracejí — pravidlo i jeho meze najdete v Deklaraci nestrannosti v sekci O projektu.",
+          en: "You can contribute through Buy Me a Coffee — one-off, no account needed, any amount. Contributions go towards the weekly assessment and the domain, nothing else. Supporting is not a condition of anything: the site stays entirely free, ad-free, with no paid sections.\n\nContributions from political parties, movements and connected entities are refunded — the rule and its limits are set out in the impartiality declaration under About.",
         },
       },
     ],
