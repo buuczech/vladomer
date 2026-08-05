@@ -1,4 +1,29 @@
 {
-  "generatedAt": null,
-  "items": []
+  "generatedAt": "2026-08-05T07:18:05.489Z",
+  "items": [
+    {
+      "title": {
+        "cs": "Nová superdávka začíná fungovat naplno s příchodem statisíců domácností",
+        "en": "New social benefit starts operating at full capacity with hundreds of thousands of households"
+      },
+      "summary": {
+        "cs": "Od 1. srpna 2026 přechází do nového systému superdávky přes 238 tisíc dosavadních příjemců sociálních dávek, které nahrazuje jednotná dávka státní sociální pomoci s novými pravidly.",
+        "en": "As of August 1, 2026, over 238,000 existing social benefit recipients transition to the new unified social assistance system with new eligibility criteria."
+      },
+      "url": "https://www.denik.cz/cesko/superdavka-termin-srpen-zmeny-pravidla-motivacni-bonusy/",
+      "date": "2026-07-28"
+    },
+    {
+      "title": {
+        "cs": "Ivan Jukl se stává novým generálním ředitelem Českých center s redukčním plánem",
+        "en": "Ivan Jukl becomes new head of Czech Centers with restructuring plan"
+      },
+      "summary": {
+        "cs": "Ministr zahraničí Petr Macinka odvolal dosavadní generální ředitelku Českých center a jmenoval končícího velvyslance v Egyptě Ivana Jukla, který plánuje posílení zahraničních sítí a redukci pražského ústředí.",
+        "en": "Foreign Minister Petr Macinka removed the previous director of Czech Centers and appointed Ambassador from Egypt Ivan Jukl, who plans to strengthen foreign networks and reduce Prague headquarters."
+      },
+      "url": "https://www.irozhlas.cz/zpravy-domov/jukl-budu-mezi-ceskymi-centry-hledat-dobrou-praxi-nekteri-lide-s-nami-zustanou_2607311942_kma",
+      "date": "2026-07-31"
+    }
+  ]
 }
