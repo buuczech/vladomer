@@ -3,10 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <!-- TESTING: keep the site out of search engines. REMOVE this line when you go public. -->
-    <meta name="robots" content="noindex, nofollow" />
     <title>Vládoměr — plnění programového prohlášení vlády</title>
     <meta name="description" content="Sledování plnění programového prohlášení vlády ČR. / Tracking delivery of the Czech government's programme statement." />
+    <!-- SVG first for browsers that take it, PNG as the fallback for those
+         that don't. apple-touch-icon is what iOS uses on the home screen. -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="128x128" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0F172A" />
+    <link rel="canonical" href="https://vladomer.cz/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://vladomer.cz/" />
+    <meta property="og:site_name" content="Vládoměr" />
+    <meta property="og:locale" content="cs_CZ" />
+    <meta property="og:title" content="Vládoměr — plnění programového prohlášení vlády" />
+    <meta property="og:description" content="Kolik ze 143 bodů programového prohlášení vlády je splněno? Hodnocení se aktualizuje každý týden." />
+    <!-- Obrázek nese aktuální čísla a překresluje ho scripts/og-image.js při
+         každém týdenním běhu. Adresa musí být absolutní, roboti sociálních
+         sítí relativní nepřečtou. -->
+    <meta property="og:image" content="https://vladomer.cz/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Vládoměr — podíl splněných bodů programového prohlášení vlády" />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <div id="root"></div>

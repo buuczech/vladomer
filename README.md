@@ -65,6 +65,21 @@ All commitments live in `src/data.js` as `{ id, cs, en }`. Add, reword, or regro
 
 Import the repo, framework preset **Vite**, build `npm run build`, output `dist`. Hosting works instantly, but keep the **GitHub Actions** workflow for the Friday evaluation (free-tier cron on these hosts is more limited) — it commits `evaluations.json` back to the repo, which triggers a redeploy.
 
+## Licence
+
+Two licences, because code and content are different things and Creative
+Commons licences are not meant for software:
+
+| | |
+|---|---|
+| Source code — app, build, scripts | **MIT** — see [LICENSE](LICENSE) |
+| Assessments, item texts, the JSON data | **CC BY 4.0** — see [LICENSE-DATA](LICENSE-DATA) |
+
+Reusing the figures? Include the date — the assessment is overwritten every
+Friday, so a number without one is wrong within the week:
+
+> Zdroj: Vládoměr (vladomer.cz), CC BY 4.0. Stav k &lt;datum&gt;.
+
 ## Notes
 
 - The election counter targets an **estimated** early-October 2029 date (regular four-year term); update `DATES.electionEstimate` in `src/data.js` once the date is set.

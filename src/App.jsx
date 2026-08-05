@@ -4,6 +4,7 @@ import {
   GOVERNMENTS, CURRENT_GOV, CURRENT_EXTERNAL_Q1,
   QUARTER_COUNT, quarterOf, quarterLabel,
 } from "./governments.js";
+import CookieBar, { CookieSettingsLink } from "./CookieBar.jsx";
 
 /* =========================================================================
    VLÁDOMĚR — production build.
@@ -29,6 +30,12 @@ const T = {
   days: { cs: "dní", en: "days" },
   evaluated: { cs: "hodnoceno", en: "evaluated" },
   ofItems: { cs: "z", en: "of" },
+  notRatedYet: { cs: "první hodnocení zatím neproběhlo", en: "the first assessment has not run yet" },
+  textVersion: { cs: "Textový výpis všech bodů", en: "Plain-text listing of every commitment" },
+  licenceLine: {
+    cs: "Data a hodnocení jsou k volnému použití s uvedením zdroje:",
+    en: "The data and assessments are free to reuse with attribution:",
+  },
   lastUpdated: { cs: "Naposledy aktualizováno", en: "Last updated" },
   nextUpdate: { cs: "Další hodnocení", en: "Next evaluation" },
   never: { cs: "zatím neproběhlo", en: "not yet run" },
@@ -396,6 +403,16 @@ const CSS = `
 .vm-id{font-size:10.5px;color:var(--muted)}
 .vm-foot{margin-top:26px;font-size:12px;color:var(--muted);line-height:1.6}
 .vm-foot a{color:var(--accent)}
+/* Consent bar. Fixed to the bottom so it is unmissable, but it must never
+   cover the content permanently — both buttons dismiss it for good. */
+.vm-cookie{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--surface);
+  border-top:1px solid var(--border);box-shadow:0 -12px 32px rgba(0,0,0,.25);
+  padding:14px 16px calc(14px + env(safe-area-inset-bottom));
+  display:flex;flex-wrap:wrap;align-items:center;gap:12px;justify-content:center}
+.vm-cookie p{margin:0;font-size:12.6px;line-height:1.55;color:var(--text);max-width:760px;flex:1 1 320px}
+.vm-cookie-btns{display:flex;gap:8px;flex:0 0 auto}
+.vm-cookie-ok{appearance:none;border:1px solid var(--accent);background:var(--accent);color:#fff;
+  font-weight:680;font-size:12.5px;padding:8px 14px;border-radius:10px;cursor:pointer}
 .vm-link{appearance:none;border:0;background:transparent;color:var(--accent);font:inherit;font-weight:650;cursor:pointer;padding:0;text-decoration:underline}
 .vm-methodrow{margin:12px 0 0;font-size:12px;color:var(--muted)}
 .vm-menu-wrap{position:relative}
@@ -792,6 +809,8 @@ export default function App() {
   const [openCmt, setOpenCmt] = useState({});
   const [changesOpen, setChangesOpen] = useState(true);
   const [showMethod, setShowMethod] = useState(false);
+  // Bumped by the footer link; CookieBar re-opens on every change.
+  const [cookieOpen, setCookieOpen] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
   const [page, setPage] = useState(null); // "about" | "support" | "ideas"
   const [query, setQuery] = useState("");
@@ -851,6 +870,12 @@ export default function App() {
     };
   }, [evals]);
   const pct1 = (v) => (v >= 10 || v === 0 ? Math.round(v) : Math.round(v * 10) / 10);
+  /* Before the first run there is nothing to divide by, and every percentage
+     computes to 0. "0 % splněno" is a claim about the cabinet; "–" is the
+     absence of one. Chapter rows already make that distinction — the headline
+     gauge has to make it too, or the site states a falsehood until the first
+     Friday. */
+  const pctOrDash = (v) => (evaluatedCount ? `${pct1(v)}%` : "–");
 
   const changes = useMemo(() => {
     const map = {};
@@ -954,22 +979,24 @@ export default function App() {
                 <Ring done={donePct} partial={partialPct} prog={progPct} />
                 <div className="vm-dual">
                   <div>
-                    <span className="n vm-mono" style={{ color: "var(--ok)" }}>{pct1(donePct)}%</span>
+                    <span className="n vm-mono" style={{ color: "var(--ok)" }}>{pctOrDash(donePct)}</span>
                     <span className="l">{t("statDone")}</span>
                   </div>
                   <div className="sm">
-                    <span className="n vm-mono" style={{ color: "var(--partial)" }}>{pct1(partialPct)}%</span>
+                    <span className="n vm-mono" style={{ color: "var(--partial)" }}>{pctOrDash(partialPct)}</span>
                     <span className="l">{t("statPartial")}</span>
                   </div>
                   <div className="sm">
-                    <span className="n vm-mono" style={{ color: "var(--prog)" }}>{pct1(progPct)}%</span>
+                    <span className="n vm-mono" style={{ color: "var(--prog)" }}>{pctOrDash(progPct)}</span>
                     <span className="l">{t("statProg")}</span>
                   </div>
                 </div>
               </div>
               <div className="vm-sub">
-                {evaluatedCount} {t("ofItems")} {TOTAL_ITEMS} {t("evaluated")}
-                {unverifiableCount > 0 && ` · ${unverifiableCount} ${t("statUnver")}`}
+                {evaluatedCount
+                  ? <>{evaluatedCount} {t("ofItems")} {TOTAL_ITEMS} {t("evaluated")}
+                      {unverifiableCount > 0 && ` · ${unverifiableCount} ${t("statUnver")}`}</>
+                  : t("notRatedYet")}
               </div>
             </div>
           </div>
@@ -1190,17 +1217,32 @@ export default function App() {
         </div>
 
         <div className="vm-foot">
-          <p><button className="vm-link" onClick={() => setShowMethod(true)}>{t("methodologyBtn")}</button></p>
+          <p>
+            <button className="vm-link" onClick={() => setShowMethod(true)}>{t("methodologyBtn")}</button>
+            {" · "}
+            {/* Táž data bez JavaScriptu — pro tisk, čtečky a roboty, kteří
+                aplikaci nespustí. Odkaz musí být vidět: stránka dostupná jen
+                robotům by byla cloaking. */}
+            <a href={lang === "cs" ? "./prehled/" : "./overview/"}>{t("textVersion")}</a>
+            {" · "}<CookieSettingsLink lang={lang} onOpen={() => setCookieOpen((n) => n + 1)} />
+          </p>
           <p>{t("disclaimerShort")}</p>
           <p>
             {t("source")} · <a href="https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/" target="_blank" rel="noopener noreferrer">vlada.gov.cz</a>
             {" "}· {lang === "cs" ? "schváleno" : "approved"} {fmtDate(DATES.programmeApproved, lang)} · {lang === "cs" ? "důvěra" : "confidence vote"} {fmtDate(DATES.confidenceVote, lang)}
+          </p>
+          {/* Licence patří na web, ne jen do strukturovaných dat — tvrdit ji
+              strojům a lidem ne by bylo nekonzistentní. */}
+          <p>
+            {t("licenceLine")}{" "}
+            <a href="https://creativecommons.org/licenses/by/4.0/deed.cs" rel="license noopener noreferrer" target="_blank">CC BY 4.0</a>
           </p>
         </div>
       </div>
 
       {showMethod && <MethodologyModal lang={lang} onClose={() => setShowMethod(false)} />}
       {page && <PageModal pageKey={page} lang={lang} evals={evals} snapshots={snapshots} onClose={() => setPage(null)} />}
+      <CookieBar lang={lang} openSignal={cookieOpen} />
     </div>
   );
 }

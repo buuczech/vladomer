@@ -39,6 +39,14 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: npm run evaluate
 
+      # Náhledový obrázek pro sdílení nese aktuální čísla, takže se překresluje
+      # spolu s daty. Kreslí ho headless Chrome (na runneru předinstalovaný).
+      # Selhání nesmí shodit nasazení — u odkazu zůstane minulý obrázek, což je
+      # nesrovnatelně méně zlé než zahozený týdenní běh.
+      - name: Refresh share image
+        if: ${{ github.event_name != 'push' }}
+        run: node scripts/og-image.js || echo "og-image selhalo — ponechávám minulý obrázek"
+
       - name: Commit refreshed evaluations
         if: ${{ github.event_name != 'push' }}
         run: |
@@ -47,7 +55,7 @@ jobs:
           # All four must be staged: history.json feeds the trend chart and
           # audit.json is the append-only record the methodology promises.
           # Staging only evaluations.json meant neither ever grew on main.
-          git add public/evaluations.json public/history.json public/news.json public/audit.json
+          git add public/evaluations.json public/history.json public/news.json public/audit.json public/og.png
           git commit -m "chore: weekly evaluation $(date -u +%F)" || echo "no changes"
           git push || echo "nothing to push"
 

@@ -1,5 +1,31 @@
-# TESTING: block all crawlers. When you go public, replace the two lines below with:
-#   User-agent: *
-#   Allow: /
+# Vládoměr — vše je veřejné a roboti jsou vítáni, včetně těch, kteří sbírají
+# podklady pro odpovědi jazykových modelů. Smyslem projektu je, aby se lidé
+# dozvěděli, jak vláda plní programové prohlášení; být citovaným zdrojem je
+# k tomu nejkratší cesta. Data jsou stejně volně ke stažení jako JSON.
+#
+# Roboti níže jsou vypsaní jmenovitě, přestože je pravidlo pro "*" pouští
+# dovnitř tak jako tak. Je to dokumentace rozhodnutí, ne funkční nastavení —
+# aby bylo za rok zřejmé, že je to záměr, a ne zapomenuté výchozí nastavení.
+#
+# Pozor: přístup zakázat lze, ale zabránit chybnému citování ne. Proti tomu
+# funguje jedině to, že výhrada a datum jsou v textu neoddělitelně u čísla
+# (viz /prehled/) — ne robots.txt.
+
 User-agent: *
-Disallow: /
+Allow: /
+
+# Vyhledávání a odpovědi jazykových modelů
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: Meta-ExternalAgent
+User-agent: Bytespider
+User-agent: CCBot
+Allow: /
+
+Sitemap: https://vladomer.cz/sitemap.xml

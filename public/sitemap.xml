@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Interaktivní aplikace má jedinou adresu: kapitoly i sekce v menu jsou
+     stavy uvnitř stránky, ne samostatná URL. Textový výpis má adresy dvě,
+     jednu na jazyk, protože bez JavaScriptu se jazyk přepnout nedá.
+     Značka <lastmod> tu schválně není — hodnocení se mění každý pátek
+     a zapsané datum by bylo od soboty nepravdivé. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://vladomer.cz/</loc>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://vladomer.cz/prehled/</loc>
+    <changefreq>weekly</changefreq>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://vladomer.cz/prehled/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vladomer.cz/overview/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vladomer.cz/prehled/" />
+  </url>
+  <url>
+    <loc>https://vladomer.cz/overview/</loc>
+    <changefreq>weekly</changefreq>
+    <xhtml:link rel="alternate" hreflang="cs" href="https://vladomer.cz/prehled/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://vladomer.cz/overview/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://vladomer.cz/prehled/" />
+  </url>
+</urlset>

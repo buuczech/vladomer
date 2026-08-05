@@ -1,0 +1,47 @@
+# Licence dat a hodnocení — CC BY 4.0
+
+Zdrojový kód má vlastní licenci (MIT), viz LICENSE. Tenhle soubor se týká
+obsahu, ne programu.
+
+(Odkaz míří jen jedním směrem schválně: v souboru LICENSE nesmí být nic navíc
+kromě samotného znění MIT. GitHub porovnává obsah se standardními texty, a
+jakákoli přidaná věta znamená, že licenci nerozpozná a repozitář označí jako
+„Other“.)
+
+## Co je pod CC BY 4.0
+
+Hodnocení plnění programového prohlášení, tedy obsah souborů
+`public/evaluations.json`, `public/history.json`, `public/audit.json`,
+`public/news.json`, výběr a formulace závazků v `src/data.js` a texty
+zveřejněné na vladomer.cz, jsou dostupné pod licencí
+
+**Creative Commons Uveďte původ 4.0 Mezinárodní (CC BY 4.0)**
+
+- shrnutí: https://creativecommons.org/licenses/by/4.0/deed.cs
+- plné znění: https://creativecommons.org/licenses/by/4.0/legalcode.cs
+
+Smíte je volně kopírovat, šířit, upravovat a použít i komerčně, pokud uvedete
+zdroj. Doporučený tvar uvedení:
+
+> Zdroj: Vládoměr (vladomer.cz), CC BY 4.0. Stav k <datum hodnocení>.
+
+Datum uvádějte proto, že se hodnocení přepisuje každý pátek — číslo bez data
+je za týden nepravdivé.
+
+## Co licence nekryje
+
+**Samotná fakta.** Že vláda schválila zákon nebo že norma vyšla ve Sbírce
+zákonů, není ničí duševní vlastnictví. Licence se vztahuje na výběr závazků,
+jejich uspořádání a texty hodnocení, ne na skutečnosti, které popisují.
+
+**Odkazované články.** Zdroje uvedené u jednotlivých bodů patří svým autorům
+a redakcím. Odkaz na ně licence neuděluje.
+
+**Programové prohlášení vlády.** Původní dokument vydala vláda České
+republiky, viz vlada.gov.cz.
+
+## Jak hodnocení vzniká
+
+Hodnocení generuje jazykový model podle zveřejněné metodiky. Je orientační a
+neoficiální, může obsahovat chyby a nenahrazuje ověření v primárních zdrojích.
+Kdo data přebírá, měl by to uvést spolu se zdrojem.
