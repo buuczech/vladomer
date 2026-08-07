@@ -326,7 +326,29 @@ async function publish() {
     return;
   }
 
-  const post = await graph(`${IG_ID}/media_publish`, { creation_id: kontejner.id }, "POST");
+  /* Krátká pauza po FINISHED. Režim „zkouska" ukázal, že kontejner se vytvoří
+     i zpracuje v pořádku a padá výhradně media_publish — což vypadá na to, že
+     stav FINISHED předbíhá skutečnou připravenost na straně Meta. */
+  await new Promise((r) => setTimeout(r, 5000));
+
+  let post;
+  try {
+    post = await graph(`${IG_ID}/media_publish`, { creation_id: kontejner.id }, "POST");
+  } catch (chyba) {
+    console.log(`První pokus o zveřejnění selhal: ${chyba.message}`);
+    /* Než se to zkusí znovu, ověřit, že první volání opravdu neprošlo. POST
+       není idempotentní — kdyby se odpověď jen ztratila cestou, druhý pokus
+       by vyvěsil tentýž příspěvek podruhé. */
+    const posledni = await graph(`${IG_ID}/media`, { fields: "id,timestamp", limit: "1" });
+    const t = posledni.data?.[0]?.timestamp;
+    if (t && Date.now() - Date.parse(t) < 5 * 60 * 1000) {
+      console.log(`Příspěvek přesto vyšel (${posledni.data[0].id}) — druhý pokus se nedělá.`);
+      return;
+    }
+    console.log("Nic nevyšlo, zkouší se znovu za 15 s…");
+    await new Promise((r) => setTimeout(r, 15000));
+    post = await graph(`${IG_ID}/media_publish`, { creation_id: kontejner.id }, "POST");
+  }
   console.log(`Zveřejněno. ID příspěvku: ${post.id}`);
 }
 
