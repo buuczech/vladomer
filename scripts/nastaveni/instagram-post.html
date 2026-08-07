@@ -37,23 +37,26 @@
 <div style="flex:1;background:#3f7fd6"></div>
 <div style="flex:1;background:#ff5a5f"></div>
 </div>
-<div style="flex:1;display:flex;flex-direction:column;padding:52px 64px 44px">
+<div style="flex:1;display:flex;flex-direction:column;padding:44px 60px 40px">
 
-<div style="display:flex;align-items:center;gap:16px;flex:none">
-<svg viewBox="0 0 64 64" style="width:115px;height:90px;flex:none">
+<!-- Jméno profilu je na Instagramu hned nad obrázkem, tak ho tu neopakujeme.
+     Zbylo místo se rozdělilo do písma — příspěvek se čte hlavně v malém
+     náhledu ve feedu, kde drobný text zanikne. -->
+<div style="display:flex;align-items:center;gap:20px;flex:none">
+<svg viewBox="0 0 64 64" style="width:96px;height:96px;flex:none">
   <rect width="64" height="64" rx="14" fill="#0F172A"></rect>
   <path d="M 16 44 A 20 20 0 1 1 48 44" stroke="#38BDF8" stroke-width="6" fill="none" stroke-linecap="round"></path>
   <path d="M 32 32 L 44 20" stroke="#F43F5E" stroke-width="5" stroke-linecap="round"></path>
   <circle cx="32" cy="32" r="5" fill="#F43F5E"></circle>
 </svg>
 <div>
-<div style="font-size:34px;font-weight:760;letter-spacing:-.02em">Vládoměr</div>
-<div style="font-size:20px;color:#8B96AB;margin-top:2px">{{PODTITUL}}</div>
+<div style="font-size:46px;font-weight:780;letter-spacing:-.02em;line-height:1.05">{{PODTITUL}}</div>
+<div style="font-size:28px;color:#8B96AB;margin-top:4px">{{DATUM}}</div>
 </div>
 </div>
 
-<div style="display:flex;align-items:center;justify-content:center;gap:44px;flex:none;margin:8px 0">
-<svg width="188" height="188" viewBox="0 0 188 188" style="flex:none;width:334px;height:242px">
+<div style="display:flex;align-items:center;justify-content:center;gap:40px;flex:none;margin:14px 0 4px">
+<svg width="188" height="188" viewBox="0 0 188 188" style="flex:none;width:290px;height:262px">
 <circle cx="94" cy="94" r="80" fill="none" stroke-width="15" stroke="#232C3D" transform="rotate(-90 94 94)"></circle>
 <circle cx="94" cy="94" r="80" fill="none" stroke-width="15" stroke="#F59E0B" opacity="0.5" transform="rotate(-90 94 94)" stroke-dasharray="{{PROG_DASH}}" stroke-dashoffset="{{PROG_OFFSET}}"></circle>
 <circle cx="94" cy="94" r="80" fill="none" stroke-width="15" stroke="#84CC16" opacity="0.75" transform="rotate(-90 94 94)" stroke-dasharray="{{PARTIAL_DASH}}" stroke-dashoffset="{{PARTIAL_OFFSET}}"></circle>
@@ -61,38 +64,38 @@
 <circle cx="94" cy="94" r="80" fill="none" stroke-width="15" stroke="#10B981" stroke-linecap="round" transform="rotate(-90 94 94)" stroke-dasharray="{{DONE_DASH}}"></circle>
 </svg>
 <div>
-<div style="font-size:120px;font-weight:780;letter-spacing:-.04em;line-height:.9;font-variant-numeric:tabular-nums">{{PCT}}&#8239;%</div>
-<div style="font-size:24px;color:#8B96AB;margin-top:8px">{{PCT_POPIS}}</div>
+<div style="font-size:158px;font-weight:800;letter-spacing:-.045em;line-height:.88;font-variant-numeric:tabular-nums">{{PCT}}&#8239;%</div>
+<div style="font-size:30px;color:#8B96AB;margin-top:10px">{{PCT_POPIS}}</div>
 </div>
 </div>
 
 <div style="display:flex;gap:12px;flex:none">
-<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:14px;padding:14px 12px;text-align:center">
-<div style="display:flex;align-items:center;justify-content:center;gap:7px"><span style="width:11px;height:11px;border-radius:50%;background:#10B981;flex:none"></span><span style="font-size:16px;color:#8B96AB;font-weight:620">{{POPIS_SPLNENO}}</span></div>
-<div style="font-size:32px;font-weight:780;margin-top:6px;font-variant-numeric:tabular-nums">{{DONE}}&#8239;%</div>
+<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:16px;padding:18px 12px;text-align:center">
+<div style="display:flex;align-items:center;justify-content:center;gap:7px"><span style="width:14px;height:14px;border-radius:50%;background:#10B981;flex:none"></span><span style="font-size:19px;color:#8B96AB;font-weight:620">{{POPIS_SPLNENO}}</span></div>
+<div style="font-size:40px;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums">{{DONE}}&#8239;%</div>
 </div>
-<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:14px;padding:14px 12px;text-align:center">
-<div style="display:flex;align-items:center;justify-content:center;gap:7px"><span style="width:11px;height:11px;border-radius:50%;background:#84CC16;flex:none"></span><span style="font-size:16px;color:#8B96AB;font-weight:620">{{POPIS_CASTECNE}}</span></div>
-<div style="font-size:32px;font-weight:780;margin-top:6px;font-variant-numeric:tabular-nums">{{PARTIAL}}&#8239;%</div>
+<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:16px;padding:18px 12px;text-align:center">
+<div style="display:flex;align-items:center;justify-content:center;gap:7px"><span style="width:14px;height:14px;border-radius:50%;background:#84CC16;flex:none"></span><span style="font-size:19px;color:#8B96AB;font-weight:620">{{POPIS_CASTECNE}}</span></div>
+<div style="font-size:40px;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums">{{PARTIAL}}&#8239;%</div>
 </div>
-<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:14px;padding:14px 12px;text-align:center">
-<div style="display:flex;align-items:center;justify-content:center;gap:7px"><span style="width:11px;height:11px;border-radius:50%;background:#F59E0B;flex:none"></span><span style="font-size:16px;color:#8B96AB;font-weight:620">{{POPIS_PROBIHA}}</span></div>
-<div style="font-size:32px;font-weight:780;margin-top:6px;font-variant-numeric:tabular-nums">{{PROG}}&#8239;%</div>
+<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:16px;padding:18px 12px;text-align:center">
+<div style="display:flex;align-items:center;justify-content:center;gap:7px"><span style="width:14px;height:14px;border-radius:50%;background:#F59E0B;flex:none"></span><span style="font-size:19px;color:#8B96AB;font-weight:620">{{POPIS_PROBIHA}}</span></div>
+<div style="font-size:40px;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums">{{PROG}}&#8239;%</div>
 </div>
-<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:14px;padding:14px 12px;text-align:center">
-<div style="display:flex;align-items:center;justify-content:center;gap:7px"><span style="width:11px;height:11px;border-radius:50%;background:#EF4444;flex:none"></span><span style="font-size:16px;color:#8B96AB;font-weight:620">{{POPIS_PORUSENO}}</span></div>
-<div style="font-size:32px;font-weight:780;margin-top:6px;font-variant-numeric:tabular-nums">{{BROKEN}}&#8239;%</div>
+<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:16px;padding:18px 12px;text-align:center">
+<div style="display:flex;align-items:center;justify-content:center;gap:7px"><span style="width:14px;height:14px;border-radius:50%;background:#EF4444;flex:none"></span><span style="font-size:19px;color:#8B96AB;font-weight:620">{{POPIS_PORUSENO}}</span></div>
+<div style="font-size:40px;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums">{{BROKEN}}&#8239;%</div>
 </div>
 </div>
 
-<div style="margin-top:20px;font-size:16px;text-transform:uppercase;letter-spacing:.08em;color:#8B96AB;font-weight:700;flex:none">{{NADPIS_ZMEN}}</div>
-<div style="flex:1;display:flex;flex-direction:column;gap:10px;margin-top:10px;min-height:0">
+<div style="margin-top:26px;font-size:19px;text-transform:uppercase;letter-spacing:.09em;color:#8B96AB;font-weight:750;flex:none">{{NADPIS_ZMEN}}</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px;margin-top:12px;min-height:0">
 {{RADKY_ZMEN}}
 </div>
 
-<div style="margin-top:20px;padding-top:20px;border-top:1px solid #232C3D;display:flex;justify-content:space-between;align-items:baseline;font-size:20px;color:#8B96AB;flex:none">
-<span>{{DATUM}}</span>
-<span style="font-variant-numeric:tabular-nums">vladomer.cz</span>
+<div style="margin-top:24px;padding-top:22px;border-top:1px solid #232C3D;display:flex;justify-content:space-between;align-items:baseline;font-size:24px;color:#8B96AB;flex:none">
+<span>Hodnotí AI podle veřejné metodiky</span>
+<span style="color:#E8EDF7;font-weight:700">vladomer.cz</span>
 </div>
 </div>
 </div>

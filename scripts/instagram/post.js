@@ -103,17 +103,20 @@ function nactiData() {
 function radekZmeny(z) {
   const tr = z.smer > 0 ? "▲" : z.smer < 0 ? "▼" : "→";
   const cl = z.smer > 0 ? "chg-up" : z.smer < 0 ? "chg-down" : "chg-same";
-  const text = `${z.nazev} — z „${NAZEV[z.z]}“ na „${NAZEV[z.na]}“.`;
-  return `<div style="background:#121824;border:1px solid #232C3D;border-left:4px solid #5B7BE8;border-radius:0 12px 12px 0;padding:16px 20px;display:flex;align-items:flex-start;gap:12px;flex:1">
-<span class="${cl}" style="font-size:24px;font-weight:800;flex:none;margin-top:1px">${tr}</span>
-<div style="font-size:22px;line-height:1.35">${esc(text)}</div>
+  /* Cílový stav je zvýrazněný — je to ta informace, kvůli které se člověk
+     u příspěvku zastaví. Výchozí stav je potlačený, slouží jen jako kontext. */
+  const barva = z.smer > 0 ? "#10B981" : z.smer < 0 ? "#EF4444" : "#8B96AB";
+  return `<div style="background:#121824;border:1px solid #232C3D;border-left:6px solid ${barva};border-radius:0 14px 14px 0;padding:18px 24px;display:flex;align-items:center;gap:16px;flex:1">
+<span class="${cl}" style="font-size:32px;font-weight:800;flex:none">${tr}</span>
+<div style="font-size:26px;line-height:1.3">${esc(z.nazev)}<br>
+<span style="color:#8B96AB">z „${esc(NAZEV[z.z])}“ na </span><span style="color:${barva};font-weight:700">„${esc(NAZEV[z.na])}“</span></div>
 </div>`;
 }
 
 function radekBezeZmen() {
-  return `<div style="background:#121824;border:1px solid #232C3D;border-left:4px solid #5B7BE8;border-radius:0 12px 12px 0;padding:16px 20px;display:flex;align-items:center;gap:12px;flex:1">
-<span class="chg-same" style="font-size:24px;font-weight:800;flex:none">→</span>
-<div style="font-size:22px;line-height:1.35">Žádný bod tento týden nezměnil stav.</div>
+  return `<div style="background:#121824;border:1px solid #232C3D;border-left:6px solid #8B96AB;border-radius:0 14px 14px 0;padding:18px 24px;display:flex;align-items:center;gap:16px;flex:1">
+<span class="chg-same" style="font-size:32px;font-weight:800;flex:none">→</span>
+<div style="font-size:26px;line-height:1.3">Žádný bod tento týden nezměnil stav.</div>
 </div>`;
 }
 
@@ -123,6 +126,7 @@ function obrazekHtml(d, vybrane) {
   const datum = new Date(d.lastUpdated).toLocaleDateString("cs-CZ",
     { day: "numeric", month: "long", year: "numeric" });
   return render("instagram-post.html", {
+    // Jméno profilu je nad obrázkem, tak ho tu neopakujeme.
     PODTITUL: "Týdenní shrnutí",
     PCT: cislo(d.done),
     PCT_POPIS: "splněno z programu",
@@ -135,7 +139,7 @@ function obrazekHtml(d, vybrane) {
     POPIS_PROBIHA: "Probíhá", POPIS_PORUSENO: "Porušeno",
     NADPIS_ZMEN: "Změny týdne",
     RADKY_ZMEN: vybrane.length ? vybrane.map(radekZmeny).join("\n") : radekBezeZmen(),
-    DATUM: `Stav k ${datum}`,
+    DATUM: datum,
   });
 }
 
