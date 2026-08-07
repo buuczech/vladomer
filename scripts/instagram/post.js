@@ -202,17 +202,44 @@ function vykresli(html, cil) {
   } finally { rmSync(dir, { recursive: true, force: true }); }
 }
 
-async function graph(cesta, telo) {
-  const url = `${API}/${cesta}`;
-  const res = telo
-    ? await fetch(url, { method: "POST", body: new URLSearchParams(telo) })
-    : await fetch(url);
-  const j = await res.json();
+/* Token se předává v parametrech, nikdy ne v cestě — chybová hláška pak smí
+   uvést, které volání spadlo, aniž by ho vypsala do veřejného logu běhu.
+   Vypisuje se i kód chyby: „Media ID is not available" samo o sobě neřekne,
+   jestli je problém v účtu, v kontejneru, nebo v obrázku. */
+async function graph(cesta, params = {}, metoda = "GET") {
+  const p = new URLSearchParams({ ...params, access_token: TOKEN });
+  const res = metoda === "POST"
+    ? await fetch(`${API}/${cesta}`, { method: "POST", body: p })
+    : await fetch(`${API}/${cesta}?${p}`);
+  const j = await res.json().catch(() => ({}));
   if (!res.ok || j.error) {
-    // Token se do hlášky nikdy nedostane — logy běhu jsou veřejné.
-    throw new Error(`Graph API ${res.status}: ${j.error?.message || JSON.stringify(j)}`);
+    const e = j.error || {};
+    const kod = e.code ? ` [kód ${e.code}${e.error_subcode ? `/${e.error_subcode}` : ""}]` : "";
+    const uziv = e.error_user_msg ? ` — ${e.error_user_msg}` : "";
+    throw new Error(`Graph API ${res.status} u ${metoda} /${cesta}: `
+      + `${e.message || JSON.stringify(j)}${kod}${uziv}`);
   }
   return j;
+}
+
+/* Ověří, že nastavené IG_USER_ID je opravdu instagramový účet, a když ne,
+   najde a vypíše to správné. Volá se i před publikací: bez toho se špatné ID
+   projeví až nesrozumitelnou hláškou od Meta uprostřed zveřejňování. */
+async function ucet() {
+  try {
+    return await graph(IG_ID, { fields: "username" });
+  } catch (chyba) {
+    let napoveda = "";
+    try {
+      const s = await graph("me/accounts", { fields: "name,instagram_business_account{id,username}" });
+      const ig = (s.data || []).map((x) => x.instagram_business_account).filter(Boolean);
+      napoveda = ig.length
+        ? `\n        Oprav secret IG_USER_ID na: ${ig[0].id}   (@${ig[0].username})`
+        : "\n        Token nevidí žádný Instagram Business účet — zkontroluj přiřazení "
+          + "v Business settings → System users → Add assets.";
+    } catch { /* diagnostika je bonus, původní chyba je důležitější */ }
+    throw new Error(`IG_USER_ID nevypadá jako instagramový účet.\n        ${chyba.message}${napoveda}`);
+  }
 }
 
 const TOKEN = process.env.IG_ACCESS_TOKEN;
@@ -275,17 +302,21 @@ async function publish() {
   const kontrola = await fetch(url, { method: "HEAD" });
   if (!kontrola.ok) throw new Error(`obrázek není veřejně dostupný (${kontrola.status}) na ${url} — commit se asi nedostal na GitHub`);
 
-  const kontejner = await graph(`${IG_ID}/media`, { image_url: url, caption: text, access_token: TOKEN });
+  const u = await ucet();
+  console.log(`Publikuje se na @${u.username} (${IG_ID}).`);
+
+  const kontejner = await graph(`${IG_ID}/media`, { image_url: url, caption: text }, "POST");
+  console.log(`Kontejner vytvořen: ${kontejner.id}`);
 
   for (let i = 0; i < 20; i++) {
-    const s = await graph(`${kontejner.id}?fields=status_code,status&access_token=${TOKEN}`);
-    if (s.status_code === "FINISHED") break;
+    const s = await graph(kontejner.id, { fields: "status_code,status" });
+    if (s.status_code === "FINISHED") { console.log("Obrázek připraven."); break; }
     if (s.status_code === "ERROR") throw new Error(`Instagram obrázek odmítl: ${s.status || "bez detailu"}`);
-    if (i === 19) throw new Error("Kontejner se do 60 s nepřipravil.");
+    if (i === 19) throw new Error(`kontejner se do 60 s nepřipravil (poslední stav: ${s.status_code || "neznámý"})`);
     await new Promise((r) => setTimeout(r, 3000));
   }
 
-  const post = await graph(`${IG_ID}/media_publish`, { creation_id: kontejner.id, access_token: TOKEN });
+  const post = await graph(`${IG_ID}/media_publish`, { creation_id: kontejner.id }, "POST");
   console.log(`Zveřejněno. ID příspěvku: ${post.id}`);
 }
 
@@ -297,10 +328,10 @@ async function publish() {
    ptáš uzlu, který není instagramový účet (typicky ID systémového uživatele
    nebo stránky). Sama o sobě neřekne nic o tom, co s tím. */
 async function verify() {
-  const ja = await graph(`me?fields=id,name&access_token=${TOKEN}`);
+  const ja = await graph("me", { fields: "id,name" });
   console.log(`Token patří: ${ja.name || "(bez jména)"} (${ja.id})`);
 
-  const stranky = await graph(`me/accounts?fields=name,instagram_business_account{id,username}&access_token=${TOKEN}`);
+  const stranky = await graph("me/accounts", { fields: "name,instagram_business_account{id,username}" });
   const nalezene = [];
   for (const s of stranky.data || []) {
     const ig = s.instagram_business_account;
@@ -318,13 +349,17 @@ async function verify() {
       + "firemní a propojený se stránkou");
   }
 
+  const u = await ucet();
+  console.log(`\nNastavené IG_USER_ID sedí: @${u.username}. Můžeš spustit režim dry.`);
+
+  /* Publikace se ověřit nedá, aniž by se opravdu publikovalo — ale aspoň se
+     zkontroluje, že účet content publishing vůbec nabízí. */
   try {
-    const u = await graph(`${IG_ID}?fields=username&access_token=${TOKEN}`);
-    console.log(`\nNastavené IG_USER_ID sedí: @${u.username}. Můžeš spustit režim dry.`);
-  } catch {
-    const spravne = nalezene[0];
-    throw new Error(`nastavené IG_USER_ID (${IG_ID}) není instagramový účet.\n`
-      + `        Oprav secret IG_USER_ID na: ${spravne.id}   (@${spravne.username})`);
+    const limit = await graph(`${IG_ID}/content_publishing_limit`, { fields: "quota_usage,config" });
+    const q = (limit.data && limit.data[0]) || {};
+    console.log(`Publikační kvóta: využito ${q.quota_usage ?? "?"} z ${q.config?.quota_total ?? "?"} za 24 h.`);
+  } catch (e) {
+    console.log(`Kvótu zjistit nelze (${e.message}) — účet možná nemá povolené publikování přes API.`);
   }
 }
 
