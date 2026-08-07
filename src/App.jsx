@@ -24,6 +24,7 @@ const T = {
   statDone: { cs: "splněno", en: "fulfilled" },
   statPartial: { cs: "částečně", en: "partial" },
   statProg: { cs: "probíhá", en: "in progress" },
+  statBroken: { cs: "porušeno", en: "broken" },
   statUnver: { cs: "neměřitelných", en: "unmeasurable" },
   evidenceLabel: { cs: "Doloženo", en: "Evidence" },
   unverBadge: { cs: "neměřitelné", en: "unmeasurable" },
@@ -662,16 +663,22 @@ const CSS = `
    progress. Flat fills here on purpose — colour carries meaning (it matches
    the status colours used throughout), so a decorative gradient would blur
    the distinction the gauge exists to make. */
-function Ring({ done, partial, prog, size = 64 }) {
+function Ring({ done, partial, prog, broken, size = 64 }) {
   const r = (size - 8) / 2, c = 2 * Math.PI * r;
   const seg = (pct) => (Math.max(0, Math.min(100, pct)) / 100) * c;
   const rot = `rotate(-90 ${size / 2} ${size / 2})`;
   const common = { cx: size / 2, cy: size / 2, r, fill: "none", strokeWidth: 7, transform: rot };
   const t = { transition: "stroke-dasharray .5s, stroke-dashoffset .5s" };
-  // Arcs stack in order of progress so the dial reads outward from delivered.
+  /* Arcs stack in order of progress so the dial reads outward from delivered,
+     and "broken" sits last, right before the empty grey. The dial therefore
+     runs best → worst and the red cannot be mistaken for progress — which is
+     why it can be shown at all: a longer arc must never read as a better
+     result. */
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
       <circle {...common} stroke="var(--border)" />
+      <circle {...common} stroke="var(--bad)" opacity="0.8" style={t}
+        strokeDasharray={`${seg(broken)} ${c}`} strokeDashoffset={-seg(done + partial + prog)} />
       <circle {...common} stroke="var(--prog)" opacity="0.5" style={t}
         strokeDasharray={`${seg(prog)} ${c}`} strokeDashoffset={-seg(done + partial)} />
       <circle {...common} stroke="var(--partial)" opacity="0.75" style={t}
@@ -1124,8 +1131,8 @@ export default function App() {
      credit — a weighted blend put 84% of the headline figure on work that
      merely started, which is neither defensible nor comparable with how
      Demagog.cz and government reviews score promises. */
-  const { donePct, partialPct, progPct, evaluatedCount, unverifiableCount } = useMemo(() => {
-    let done = 0, partial = 0, prog = 0, n = 0, unver = 0;
+  const { donePct, partialPct, progPct, brokenPct, evaluatedCount, unverifiableCount } = useMemo(() => {
+    let done = 0, partial = 0, prog = 0, broken = 0, n = 0, unver = 0;
     for (const it of ALL_ITEMS) {
       const e = evals[it.id];
       if (!e || !STATUS[e.status] || STATUS[e.status].score === null) continue;
@@ -1136,11 +1143,14 @@ export default function App() {
       if (e.status === "fulfilled") done++;
       else if (e.status === "partial") partial++;
       else if (e.status === "in_progress") prog++;
+      // Porušené sliby se počítají zvlášť. Jsou to jediná čísla, která jdou
+      // proti vládě, a vynechávat je z přehledu, kde jsou tři příznivější,
+      // by bylo zkreslení výběrem.
+      else if (e.status === "broken" || e.status === "stalled") broken++;
     }
+    const p = (x) => (n ? (x / n) * 100 : 0);
     return {
-      donePct: n ? (done / n) * 100 : 0,
-      partialPct: n ? (partial / n) * 100 : 0,
-      progPct: n ? (prog / n) * 100 : 0,
+      donePct: p(done), partialPct: p(partial), progPct: p(prog), brokenPct: p(broken),
       evaluatedCount: n, unverifiableCount: unver,
     };
   }, [evals]);
@@ -1251,7 +1261,7 @@ export default function App() {
             <div className="vm-card">
               <div className="lab">{t("overall")}</div>
               <div className="vm-gauge-wrap">
-                <Ring done={donePct} partial={partialPct} prog={progPct} />
+                <Ring done={donePct} partial={partialPct} prog={progPct} broken={brokenPct} />
                 <div className="vm-dual">
                   <div>
                     <span className="n vm-mono" style={{ color: "var(--ok)" }}>{pctOrDash(donePct)}</span>
@@ -1264,6 +1274,10 @@ export default function App() {
                   <div className="sm">
                     <span className="n vm-mono" style={{ color: "var(--prog)" }}>{pctOrDash(progPct)}</span>
                     <span className="l">{t("statProg")}</span>
+                  </div>
+                  <div className="sm">
+                    <span className="n vm-mono" style={{ color: "var(--bad)" }}>{pctOrDash(brokenPct)}</span>
+                    <span className="l">{t("statBroken")}</span>
                   </div>
                 </div>
               </div>
