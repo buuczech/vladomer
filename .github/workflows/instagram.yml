@@ -16,11 +16,11 @@ on:
   workflow_dispatch:
     inputs:
       rezim:
-        description: "verify = jen ověřit přístup · dry = sestavit a ukázat · post = zveřejnit"
+        description: "verify = ověřit přístup · dry = sestavit · zkouska = vše kromě zveřejnění · post = zveřejnit"
         required: true
         default: dry
         type: choice
-        options: [verify, dry, post]
+        options: [verify, dry, zkouska, post]
 
 permissions:
   contents: write          # kvůli commitu do ig-archive/
@@ -64,7 +64,7 @@ jobs:
           if-no-files-found: error
 
       - name: Uložit do archivu
-        if: env.REZIM == 'post' && steps.build.outputs.preskocit != 'true'
+        if: (env.REZIM == 'post' || env.REZIM == 'zkouska') && steps.build.outputs.preskocit != 'true'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -76,6 +76,8 @@ jobs:
           # než Instagram půjde obrázek stáhnout.
           sleep 10
 
+      # zkouska projde stejnou cestou jako post, jen vynechá poslední, nevratný
+      # krok — na hledání toho, kde publikování vázne, aniž by něco vyšlo ven.
       - name: Zveřejnit
-        if: env.REZIM == 'post' && steps.build.outputs.preskocit != 'true'
-        run: node scripts/instagram/post.js --rezim publish
+        if: (env.REZIM == 'post' || env.REZIM == 'zkouska') && steps.build.outputs.preskocit != 'true'
+        run: node scripts/instagram/post.js --rezim publish ${{ env.REZIM == 'zkouska' && '--bez-publikace' || '' }}

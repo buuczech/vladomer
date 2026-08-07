@@ -54,6 +54,10 @@ if (!["verify", "build", "publish"].includes(REZIM)) {
 }
 // --vyzaduj-dnesni: build skončí bez výstupu, když data nejsou z dneška.
 const VYZADUJ_DNESNI = process.argv.includes("--vyzaduj-dnesni");
+/* --bez-publikace: projde celou cestu zveřejnění včetně vytvoření kontejneru
+   a čekání na zpracování obrázku, ale poslední, nevratný krok neudělá.
+   Kontejner sám od sebe do 24 h vyprší, takže po tom nic nezůstane. */
+const BEZ_PUBLIKACE = process.argv.includes("--bez-publikace");
 
 function esc(s) {
   return String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;")
@@ -314,6 +318,12 @@ async function publish() {
     if (s.status_code === "ERROR") throw new Error(`Instagram obrázek odmítl: ${s.status || "bez detailu"}`);
     if (i === 19) throw new Error(`kontejner se do 60 s nepřipravil (poslední stav: ${s.status_code || "neznámý"})`);
     await new Promise((r) => setTimeout(r, 3000));
+  }
+
+  if (BEZ_PUBLIKACE) {
+    console.log("\nRežim bez publikace — kontejner je připravený, poslední krok se neprovádí.");
+    console.log("Kdyby to spadlo až tady, chyba by byla v samotném media_publish.");
+    return;
   }
 
   const post = await graph(`${IG_ID}/media_publish`, { creation_id: kontejner.id }, "POST");
