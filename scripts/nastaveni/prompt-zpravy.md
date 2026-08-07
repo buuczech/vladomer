@@ -5,7 +5,9 @@ Vyber NEJVÝŠE {{POCET_ZPRAV_K_NAVRZENI}} konkrétních zpravodajských článk
 - Každý článek z JINÉHO webu — nikdy dva články ze stejné domény.
 - Řaď od nejdůležitější zprávy.
 
-{{POCET_ZPRAV_K_NAVRZENI}} je horní mez, ne úkol ke splnění. Kolik jich najdeš, tolik vrať — o prázdninách nebo v klidném týdnu jich tolik prostě není. Tři skutečné zprávy jsou lepší výsledek než devět doplněných okrajovými články, a mnohem lepší než žádná odpověď. Když nenajdeš ani jednu, vrať prázdné pole [].
+{{POCET_ZPRAV_K_NAVRZENI}} je horní mez, ne úkol ke splnění. Tři skutečné zprávy jsou lepší výsledek než devět doplněných okrajovými články.
+
+ALE: prázdná odpověď je skoro vždycky chyba. V české politice se za týden vždycky něco stane — schůze vlády, sněmovní jednání, vyjádření ministra, spor koalice s opozicí. Když ti vyhledávání vrátilo jakýkoli článek o vládě, parlamentu, ministerstvech nebo politických stranách, VYBER Z NĚJ. Prázdné pole vrať jedině tehdy, když vyhledávání nevrátilo vůbec nic použitelného — ne když ti zprávy připadají málo důležité. O tom, co je dost zajímavé, nerozhoduješ ty: raději méně významná skutečná zpráva než nic.
 
 Používej jen URL, která se skutečně objevila ve výsledcích vyhledávání – NEVYMÝŠLEJ je. Nadpis napiš vlastními slovy (nekopíruj titulek).
 

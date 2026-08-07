@@ -263,6 +263,11 @@ async function fetchHeadlines() {
      Cena: nejvýš 3 volání jednou týdně. Bez toho zůstane panel prázdný
      celý týden kvůli jednomu nepovedenému losu. */
   if (parsed.length === 0) {
+    /* Vypsat, co model měl k dispozici. Bez toho se nedá odlišit „vyhledávání
+       nic nenašlo" od „našlo, ale model to zahodil" — a to je přesně rozdíl
+       mezi chybou v seznamu webů a chybou v promptu. */
+    const url = Object.values(realMap).slice(0, 5);
+    if (url.length) console.log(`  z čeho model vybíral: ${url.map((u) => hostOf(u)).join(", ")}…`);
     throw new Error(`${RETRY_MARK} model nenavrhl žádnou zprávu `
       + `(${Object.keys(realMap).length} výsledků vyhledávání)`);
   }
