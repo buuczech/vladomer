@@ -289,16 +289,51 @@ async function publish() {
   console.log(`Zveřejněno. ID příspěvku: ${post.id}`);
 }
 
+/* Ověření přístupu. Nejdřív si přes stránky najde, jaká Instagram Business ID
+   token vlastně vidí, a teprve pak zkontroluje nastavené IG_USER_ID — když
+   nesedí, rovnou vypíše to správné číslo.
+   Vzniklo poté, co první ostrý pokus skončil na „(#100) Tried accessing
+   nonexisting field (media_count)": to je hláška, kterou dostaneš, když se
+   ptáš uzlu, který není instagramový účet (typicky ID systémového uživatele
+   nebo stránky). Sama o sobě neřekne nic o tom, co s tím. */
+async function verify() {
+  const ja = await graph(`me?fields=id,name&access_token=${TOKEN}`);
+  console.log(`Token patří: ${ja.name || "(bez jména)"} (${ja.id})`);
+
+  const stranky = await graph(`me/accounts?fields=name,instagram_business_account{id,username}&access_token=${TOKEN}`);
+  const nalezene = [];
+  for (const s of stranky.data || []) {
+    const ig = s.instagram_business_account;
+    console.log(ig
+      ? `  stránka „${s.name}" → Instagram @${ig.username}, IG_USER_ID = ${ig.id}`
+      : `  stránka „${s.name}" → žádný propojený Instagram Business účet`);
+    if (ig) nalezene.push(ig);
+  }
+  if (!(stranky.data || []).length) {
+    throw new Error("token nevidí žádnou facebookovou stránku — systémovému uživateli není "
+      + "přiřazená (Business settings → System users → Add assets → Pages)");
+  }
+  if (!nalezene.length) {
+    throw new Error("žádná stránka nemá propojený Instagram Business účet — účet musí být "
+      + "firemní a propojený se stránkou");
+  }
+
+  try {
+    const u = await graph(`${IG_ID}?fields=username&access_token=${TOKEN}`);
+    console.log(`\nNastavené IG_USER_ID sedí: @${u.username}. Můžeš spustit režim dry.`);
+  } catch {
+    const spravne = nalezene[0];
+    throw new Error(`nastavené IG_USER_ID (${IG_ID}) není instagramový účet.\n`
+      + `        Oprav secret IG_USER_ID na: ${spravne.id}   (@${spravne.username})`);
+  }
+}
+
 async function main() {
   if (REZIM !== "build" && (!TOKEN || !IG_ID)) {
     console.error("Chybí IG_ACCESS_TOKEN nebo IG_USER_ID.");
     process.exit(1);
   }
-  if (REZIM === "verify") {
-    const u = await graph(`${IG_ID}?fields=username,media_count&access_token=${TOKEN}`);
-    console.log(`Přihlášení funguje: @${u.username}, ${u.media_count} příspěvků.`);
-    return;
-  }
+  if (REZIM === "verify") return verify();
   if (REZIM === "build") return build();
   return publish();
 }
