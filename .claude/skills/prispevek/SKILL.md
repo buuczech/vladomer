@@ -39,15 +39,49 @@ doložit.
 4. **Pošli obrázky uživateli** nástrojem na odeslání souborů a počkej.
 5. **Připomínky** → uprav zadání, překresli, pošli znovu. Zdarma, klidně
    několikrát.
-6. **Až výslovně řekne, že se má publikovat** (ne dřív):
-   - `git add ig-posts/… ig-archive/adhoc/…` a commit s `[skip ci]`
-   - `git push`
-   - `gh workflow run instagram.yml -f rezim=adhoc -f zadani=ig-posts/…json`
-   - zkontroluj výsledek běhu a řekni, jak dopadl
+6. **Až výslovně schválí obsah, zeptej se: hned, nebo naplánovat?**
+   Nabídni obojí, nerozhoduj za něj.
 
 **Nikdy nepublikuj bez výslovného souhlasu k tomu konkrétnímu příspěvku.**
 Zveřejnění se nedá vzít zpět a jde ven pod cizím jménem. Souhlas s jedním
 příspěvkem neplatí pro další.
+
+### A) Hned
+
+```
+git add ig-posts/… ig-archive/adhoc/…       # commit s [skip ci]
+git push
+gh workflow run instagram.yml -f rezim=adhoc -f zadani=ig-posts/…json
+```
+
+Zkontroluj výsledek běhu a řekni, jak dopadl.
+
+### B) Naplánovat
+
+Zeptej se na datum a čas, doplň do zadání `publikovat_v` **v ISO tvaru
+i s posunem** (v létě `+02:00`, v zimě `+01:00`) a commitni:
+
+```json
+"publikovat_v": "2026-08-14T19:00:00+02:00"
+```
+
+```
+git add ig-posts/… ig-archive/adhoc/…       # commit s [skip ci]
+git push
+```
+
+Žádné workflow nespouštěj. Hodinový cron
+(`.github/workflows/instagram-naplanovane.yml`) si příspěvek sám najde, až
+nastane čas, a **zveřejní ho jednou**. Řekni uživateli, kdy to vyjde, a dodej,
+že běh startuje v 5 minut po celé, takže to může být o pár minut později.
+
+**Zrušit nebo přesunout** naplánovaný příspěvek jde do té doby změnou nebo
+smazáním `publikovat_v` v zadání (a commitem). Potom už ne.
+
+Automat si do zadání zapisuje pole `publikovano` — nesahej na něj. Když v něm
+je `pokus` bez `id`, znamená to, že se zveřejnění nepovedlo; příspěvek se sám
+znovu nezkusí, protože duplicita na profilu je horší než nevydaný příspěvek.
+Podívej se do logu běhu, sprav příčinu a pole smaž ručně.
 
 ## Tvar zadání
 
