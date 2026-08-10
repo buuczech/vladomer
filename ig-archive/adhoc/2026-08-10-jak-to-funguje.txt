@@ -1,0 +1,9 @@
+Vládoměr vypadá jako obyčejná stránka s čísly. Pod ní je program, který se každý pátek sám spustí, projde program vlády kapitolu po kapitole a nechá ho ohodnotit jazykovým modelem.
+
+Zajímavější než to, co model dělá, je ale to, co dělat nesmí. Nesmí citovat odkaz, který se ve vyhledávání neobjevil. Nesmí napsat „splněno“ bez konkrétního dokladu s datem. A druhý model, který po něm text učesává, nesmí změnit ani jedno číslo — když to zkusí, jeho úprava se zahodí a zůstane původní věta.
+
+Žádné z těch pravidel není napsané v zadání pro model. Všechna jsou v programu, protože prosba sama o sobě nestačila. A skoro každé vzniklo až potom, co se něco pokazilo.
+
+Celý kód i všechna data jsou volně na GitHubu, zadání pro model je zveřejněné doslova na vladomer.cz.
+
+#vladomer #ai #technologie #opensource #transparentnost
