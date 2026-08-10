@@ -1,0 +1,71 @@
+{
+  "titulek": "5,7 % nebo 50 %? Obojí je pravda.",
+  "podtitulek": "Z častých dotazů na Vládoměr",
+  "stitek": "Vysvětlení",
+  "popisek": "Nejčastější dotazy na Vládoměr — a odpovědi, které jsou celé na webu.\n\nTa úplně nejčastější: proč vláda mluví o desítkách procent a Vládoměr o jednotkách. Nikdo nelže, počítá se něco jiného. Splněné je tu jen to, co prošlo celým legislativním procesem a vyšlo ve Sbírce zákonů. Rozdělaná práce se neztrácí, uvádí se zvlášť.\n\nK 7. 8. 2026: splněno 5,7 %, částečně splněno 15 %, probíhá 29 %. Součet těch tří čísel je přesně 50 %.\n\nCelé FAQ i s odpověďmi na nepříjemné otázky je na vladomer.cz.\n\n#vladomer #politika #vlada #cesko #transparentnost",
+  "slidy": [
+    {
+      "nadpis": "Proč vláda hlásí víc?",
+      "typ": "odrazky",
+      "body": [
+        "Vládní odpočty obvykle počítají i to, co je rozpracované nebo čeká na Sněmovnu.",
+        "Vládoměr počítá jako splněné jen to, co vyšlo ve Sbírce zákonů.",
+        "K 7. 8. 2026: splněno 5,7 %.",
+        "Se započtením „částečně splněno“ a „probíhá“ přesně 50 %.",
+        "Stejná data, jiné pravidlo. Nikdo nelže."
+      ]
+    },
+    {
+      "nadpis": "Hodnotí to AI. Proč tomu věřit?",
+      "typ": "odrazky",
+      "body": [
+        "Nemusíte. Web je postavený tak, aby šlo všechno ověřit.",
+        "U každého bodu jsou odkazy na zdroje, ze kterých hodnocení vychází.",
+        "Zadání pro model je zveřejněné do posledního znaku.",
+        "Odkaz, který se ve vyhledávání neobjevil, program vyhodí jako vymyšlený.",
+        "Je to rychlý první průchod, ne rozsudek."
+      ]
+    },
+    {
+      "nadpis": "Není to zaujaté proti vládě?",
+      "typ": "odrazky",
+      "body": [
+        "Autor není členem žádné strany a do hodnocení ručně nezasahuje.",
+        "Všech 143 bodů dostává stejné instrukce.",
+        "Model je v nich vedený k tomu, aby vážil argumenty obou stran.",
+        "Úplnou nestrannost ale zaručit nejde — model se učil z textů, které nestranné nejsou.",
+        "Proto jsou u každého bodu vidět zdroje."
+      ]
+    },
+    {
+      "nadpis": "Proč je splněno tak málo?",
+      "typ": "odrazky",
+      "body": [
+        "Za prvé kvůli tomu přísnému počítání.",
+        "Za druhé kvůli času: legislativní proces trvá měsíce.",
+        "Nízké číslo na začátku volebního období je očekávatelné.",
+        "Samo o sobě nic neznamená. Zajímavý je až jeho vývoj v čase."
+      ]
+    },
+    {
+      "nadpis": "Jak poznám, že data neměníte zpětně?",
+      "typ": "odrazky",
+      "body": [
+        "Celý web i všechna data jsou na GitHubu.",
+        "Každý týdenní běh je samostatný commit.",
+        "Jde se podívat, co přesně se kdy změnilo.",
+        "Hodnocení se navíc ukládají do souboru, který se nikdy nepřepisuje."
+      ]
+    },
+    {
+      "nadpis": "Našli jste chybné hodnocení?",
+      "typ": "kroky",
+      "body": [
+        "Napište číslo bodu (třeba #2.4) a odkaz na zdroj, který hodnocení vyvrací.",
+        "Formulář i GitHub jsou v sekci Návrhy na zlepšení.",
+        "Jednotlivá hodnocení se ručně nepřepisují — to je to zasahování, kterému se web brání.",
+        "Systematickou chybu opraví změna instrukcí a projeví se při dalším běhu."
+      ]
+    }
+  ]
+}
