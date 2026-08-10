@@ -1,0 +1,99 @@
+<!doctype html>
+<!--
+  Instagram carousel, slide 1 ze 2 — souhrnná čísla. 1080×1080.
+
+  Přeneseno z návrhu „Instagram — Weekly Summary Carousel" ve Vládoměr Design
+  System. Vnější obal s mezerou mezi slidy, který návrh má, je jen náhledové
+  lešení designového nástroje — slide je samostatná stránka.
+
+  Runtime nástroje (support.js, 70 kB Reactu) se nepřenáší: šablona má všechny
+  barvy i písmo inline a žádnou CSS proměnnou nepoužívá. Logo je vložené přímo.
+
+  Barvy odpovídají tmavému motivu webu (--ok, --partial, --prog, --bad
+  v src/App.jsx). Když se změní tam, změň je i tady.
+
+  Zástupné texty dosazuje render() z scripts/lib/nastaveni.js. Ten shodí běh,
+  když zbyde jakýkoli nedosazený symbol — na profil se tak nedostane obrázek
+  s prázdným místem místo čísla. (Do komentáře se proto nesmí napsat dvojitá
+  složená závorka, kontrola ji najde i tady.)
+
+  VELIKOST_CISLA se počítá v post.js podle délky řetězce: „12 %" se do prstence
+  vejde při 220 px, „5,7 %" už ne.
+-->
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<style>
+  body{margin:0}
+  *{box-sizing:border-box}
+</style>
+</head>
+<body>
+<div style="width:1080px;height:1080px;background:#0B0F19;color:#E8EDF7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'DejaVu Sans',Helvetica,Arial,sans-serif;position:relative;overflow:hidden;display:flex;flex-direction:column">
+<div style="height:14px;display:flex;flex:none">
+<div style="flex:1;background:#fff"></div>
+<div style="flex:1;background:#3f7fd6"></div>
+<div style="flex:1;background:#ff5a5f"></div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;padding:56px 72px 60px;position:relative">
+
+<div style="display:flex;align-items:flex-start;justify-content:space-between;flex:none;gap:24px">
+<div style="display:flex;align-items:center;gap:18px">
+<svg viewBox="0 0 64 64" style="width:76px;height:76px;flex:none">
+  <rect width="64" height="64" rx="14" fill="#0F172A"></rect>
+  <path d="M 16 44 A 20 20 0 1 1 48 44" stroke="#38BDF8" stroke-width="6" fill="none" stroke-linecap="round"></path>
+  <path d="M 32 32 L 44 20" stroke="#F43F5E" stroke-width="5" stroke-linecap="round"></path>
+  <circle cx="32" cy="32" r="5" fill="#F43F5E"></circle>
+</svg>
+<div>
+<div style="font-size:34px;font-weight:800;letter-spacing:-.02em;color:#fff;white-space:nowrap">{{NADPIS}}</div>
+<div style="font-size:22px;color:#8B96AB;margin-top:6px;white-space:nowrap">{{DATUM}}</div>
+</div>
+</div>
+<div style="font-size:20px;font-weight:700;color:#8B96AB;background:#121824;border:1px solid #232C3D;border-radius:999px;padding:8px 18px;flex:none">1/2</div>
+</div>
+
+<div style="flex:1;display:flex;align-items:center;justify-content:center;position:relative;margin:8px 0">
+<svg width="560" height="560" viewBox="0 0 188 188">
+<circle cx="94" cy="94" r="80" fill="none" stroke-width="17" stroke="#161D2B" transform="rotate(-90 94 94)"></circle>
+<circle cx="94" cy="94" r="80" fill="none" stroke-width="17" stroke="#F59E0B" opacity="0.55" transform="rotate(-90 94 94)" stroke-dasharray="{{PROG_DASH}}" stroke-dashoffset="{{PROG_OFFSET}}"></circle>
+<circle cx="94" cy="94" r="80" fill="none" stroke-width="17" stroke="#84CC16" opacity="0.8" transform="rotate(-90 94 94)" stroke-dasharray="{{PARTIAL_DASH}}" stroke-dashoffset="{{PARTIAL_OFFSET}}"></circle>
+<circle cx="94" cy="94" r="80" fill="none" stroke-width="17" stroke="#EF4444" opacity="0.9" transform="rotate(-90 94 94)" stroke-dasharray="{{BROKEN_DASH}}" stroke-dashoffset="{{BROKEN_OFFSET}}"></circle>
+<circle cx="94" cy="94" r="80" fill="none" stroke-width="17" stroke="#10B981" stroke-linecap="round" transform="rotate(-90 94 94)" stroke-dasharray="{{DONE_DASH}}"></circle>
+</svg>
+<div style="position:absolute;display:flex;flex-direction:column;align-items:center">
+<div style="font-weight:820;letter-spacing:-.045em;line-height:.85;font-variant-numeric:tabular-nums;white-space:nowrap"><span style="font-size:{{VELIKOST_CISLA}}px">{{PCT}}</span><span style="font-size:{{VELIKOST_PROCENTA}}px;margin-left:.08em">%</span></div>
+<div style="font-size:26px;color:#8B96AB;margin-top:10px;text-align:center;max-width:420px">{{PCT_POPIS}}</div>
+</div>
+</div>
+
+<div style="display:flex;gap:14px;flex:none">
+<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:16px;padding:18px 12px;text-align:center">
+<div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="width:13px;height:13px;border-radius:50%;background:#10B981;flex:none"></span><span style="font-size:18px;color:#8B96AB;font-weight:640">{{POPIS_SPLNENO}}</span></div>
+<div style="font-size:40px;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums">{{DONE}}&#8239;%</div>
+</div>
+<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:16px;padding:18px 12px;text-align:center">
+<div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="width:13px;height:13px;border-radius:50%;background:#84CC16;flex:none"></span><span style="font-size:18px;color:#8B96AB;font-weight:640">{{POPIS_CASTECNE}}</span></div>
+<div style="font-size:40px;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums">{{PARTIAL}}&#8239;%</div>
+</div>
+<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:16px;padding:18px 12px;text-align:center">
+<div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="width:13px;height:13px;border-radius:50%;background:#F59E0B;flex:none"></span><span style="font-size:18px;color:#8B96AB;font-weight:640">{{POPIS_PROBIHA}}</span></div>
+<div style="font-size:40px;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums">{{PROG}}&#8239;%</div>
+</div>
+<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:16px;padding:18px 12px;text-align:center">
+<div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="width:13px;height:13px;border-radius:50%;background:#EF4444;flex:none"></span><span style="font-size:18px;color:#8B96AB;font-weight:640">{{POPIS_PORUSENO}}</span></div>
+<div style="font-size:40px;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums">{{BROKEN}}&#8239;%</div>
+</div>
+</div>
+
+<div style="margin-top:28px;padding-top:24px;border-top:1px solid #232C3D;display:flex;justify-content:space-between;align-items:flex-end;flex:none">
+<div style="font-size:19px;color:#8B96AB;line-height:1.4">
+<div>{{VYHRADA}}</div>
+<div style="font-size:16px;color:#5B6472;margin-top:4px">vladomer.cz</div>
+</div>
+<div style="font-size:19px;font-weight:700;color:#5B7BE8;background:rgba(91,123,232,.14);border-radius:999px;padding:10px 20px">{{STITEK_DALSI}} →</div>
+</div>
+</div>
+</div>
+</body>
+</html>

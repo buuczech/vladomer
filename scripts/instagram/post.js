@@ -1,8 +1,9 @@
 /* scripts/instagram/post.js — týdenní příspěvek na Instagram.
  *
  * Běží v pátek večer, po ranním hodnocení. Vezme data z public/evaluations.json,
- * vykreslí čtvercový obrázek podle scripts/nastaveni/instagram-post.html, složí
- * popisek z nejvýraznějších změn a zveřejní to přes Graph API.
+ * vykreslí dvoustránkový carousel podle šablon scripts/nastaveni/instagram-1-*
+ * a instagram-2-*, složí popisek z nejvýraznějších změn a zveřejní to přes
+ * Graph API.
  *
  * Tři režimy (--rezim):
  *   verify   ověří jen přihlášení k účtu, nic nekreslí ani neposílá
@@ -100,35 +101,57 @@ function nactiData() {
   };
 }
 
+const RAMECEK = "background:#121824;border:1px solid #232C3D;border-radius:20px;"
+  + "padding:30px 32px;display:flex;align-items:center;gap:26px;flex:1";
+const KOLECKO = "width:64px;height:64px;border-radius:50%;display:flex;align-items:center;"
+  + "justify-content:center;font-size:30px;font-weight:800;flex:none";
+
 function radekZmeny(z) {
   const tr = z.smer > 0 ? "▲" : z.smer < 0 ? "▼" : "→";
   const cl = z.smer > 0 ? "chg-up" : z.smer < 0 ? "chg-down" : "chg-same";
   /* Cílový stav je zvýrazněný — je to ta informace, kvůli které se člověk
      u příspěvku zastaví. Výchozí stav je potlačený, slouží jen jako kontext. */
   const barva = z.smer > 0 ? "#10B981" : z.smer < 0 ? "#EF4444" : "#8B96AB";
-  return `<div style="background:#121824;border:1px solid #232C3D;border-left:6px solid ${barva};border-radius:0 14px 14px 0;padding:18px 24px;display:flex;align-items:center;gap:16px;flex:1">
-<span class="${cl}" style="font-size:32px;font-weight:800;flex:none">${tr}</span>
-<div style="font-size:26px;line-height:1.3">${esc(z.nazev)}<br>
-<span style="color:#8B96AB">z „${esc(NAZEV[z.z])}“ na </span><span style="color:${barva};font-weight:700">„${esc(NAZEV[z.na])}“</span></div>
+  return `<div style="${RAMECEK}">
+<div class="${cl}" style="${KOLECKO}">${tr}</div>
+<div style="font-size:32px;line-height:1.32;font-weight:560">${esc(z.nazev)}<br>
+<span style="color:#8B96AB">z „${esc(NAZEV[z.z])}“ na </span><span style="color:${barva};font-weight:760">„${esc(NAZEV[z.na])}“</span></div>
 </div>`;
 }
 
 function radekBezeZmen() {
-  return `<div style="background:#121824;border:1px solid #232C3D;border-left:6px solid #8B96AB;border-radius:0 14px 14px 0;padding:18px 24px;display:flex;align-items:center;gap:16px;flex:1">
-<span class="chg-same" style="font-size:32px;font-weight:800;flex:none">→</span>
-<div style="font-size:26px;line-height:1.3">Žádný bod tento týden nezměnil stav.</div>
+  return `<div style="${RAMECEK}">
+<div class="chg-same" style="${KOLECKO}">→</div>
+<div style="font-size:32px;line-height:1.32;font-weight:560">Žádný bod tento týden nezměnil stav.</div>
 </div>`;
 }
 
-function obrazekHtml(d, vybrane) {
+const NADPIS = "Týdenní shrnutí";   // jméno profilu je nad obrázkem, neopakuje se
+const VYHRADA = "Hodnotí AI podle veřejné metodiky.";
+const datumCS = (iso) => new Date(iso).toLocaleDateString("cs-CZ",
+  { day: "numeric", month: "long", year: "numeric" });
+
+/* Číslo sedí uvnitř prstence, jehož vnitřní průměr vychází zhruba na 426 px.
+   Návrh počítá s 220 px, jenže to platí jen pro celé číslo jako „12". Naše
+   „5,7" je o dva znaky delší a při 190 px stále přetékalo přes oblouk.
+   Znak „%" je v téhle váze písma nejširší glyf z celého řetězce, proto se
+   sází menší než číslo — číslo tak zůstane velké a celek se vejde. */
+function velikostCisla(text) {
+  if (text.length <= 2) return 230;   // „12"
+  if (text.length === 3) return 185;  // „5,7"
+  if (text.length === 4) return 155;
+  return 130;
+}
+const velikostProcenta = (v) => Math.round(v * 0.42);
+
+function slideSouhrn(d) {
   const r = 80, c = 2 * Math.PI * r;
   const seg = (v) => (v / 100) * c;
-  const datum = new Date(d.lastUpdated).toLocaleDateString("cs-CZ",
-    { day: "numeric", month: "long", year: "numeric" });
-  return render("instagram-post.html", {
-    // Jméno profilu je nad obrázkem, tak ho tu neopakujeme.
-    PODTITUL: "Týdenní shrnutí",
+  return render("instagram-1-souhrn.html", {
+    NADPIS, DATUM: datumCS(d.lastUpdated), VYHRADA,
     PCT: cislo(d.done),
+    VELIKOST_CISLA: velikostCisla(cislo(d.done)),
+    VELIKOST_PROCENTA: velikostProcenta(velikostCisla(cislo(d.done))),
     PCT_POPIS: "splněno z programu",
     DONE: cislo(d.done), PARTIAL: cislo(d.partial), PROG: cislo(d.prog), BROKEN: cislo(d.broken),
     DONE_DASH: `${seg(d.done)} ${c}`,
@@ -137,9 +160,16 @@ function obrazekHtml(d, vybrane) {
     BROKEN_DASH: `${seg(d.broken)} ${c}`, BROKEN_OFFSET: -seg(d.done + d.partial + d.prog),
     POPIS_SPLNENO: "Splněno", POPIS_CASTECNE: "Částečně",
     POPIS_PROBIHA: "Probíhá", POPIS_PORUSENO: "Porušeno",
+    // Štítek musí slíbit to, co na dalším slidu opravdu je.
+    STITEK_DALSI: "Změny týdne",
+  });
+}
+
+function slideZmeny(d, vybrane) {
+  return render("instagram-2-zmeny.html", {
+    NADPIS, DATUM: datumCS(d.lastUpdated), VYHRADA,
     NADPIS_ZMEN: "Změny týdne",
     RADKY_ZMEN: vybrane.length ? vybrane.map(radekZmeny).join("\n") : radekBezeZmen(),
-    DATUM: datum,
   });
 }
 
@@ -285,44 +315,73 @@ async function build() {
 
   mkdirSync(ARCHIV, { recursive: true });
   const zaklad = dataZ || dnes;
-  const bajtu = vykresli(obrazekHtml(d, vybrane), join(ARCHIV, `${zaklad}.jpg`));
+  /* Carousel je vždycky dvoustránkový, i v týdnu beze změn — druhý slide pak
+     nese jeden poctivý řádek. Jedna cesta kódem: kdyby se podle počtu změn
+     přepínalo mezi jedním obrázkem a carouselem, měla by publikace dva tvary,
+     a to je krok, který se nedá vzít zpět. */
+  for (const [i, html] of [slideSouhrn(d), slideZmeny(d, vybrane)].entries()) {
+    const jmeno = `${zaklad}-${i + 1}.jpg`;
+    const bajtu = vykresli(html, join(ARCHIV, jmeno));
+    console.log(`Slide ${i + 1}: ig-archive/${jmeno} (${bajtu} b, ${W}×${W}, JPEG)`);
+  }
   writeFileSync(join(ARCHIV, `${zaklad}.txt`), text, "utf8");
 
-  console.log(`Obrázek: ig-archive/${zaklad}.jpg (${bajtu} b, ${W}×${W}, JPEG)`);
   console.log(`Změn celkem ${d.zmeny.length}, v příspěvku ${vybrane.length}.`);
   console.log("--- popisek ---\n" + text + "\n--- konec popisku ---");
 }
 
+/* Počká, až si Instagram obrázek stáhne a zpracuje. */
+async function pockejNaKontejner(id, popis) {
+  for (let i = 0; i < 20; i++) {
+    const s = await graph(id, { fields: "status_code,status" });
+    if (s.status_code === "FINISHED") { console.log(`  ${popis} připraven.`); return; }
+    if (s.status_code === "ERROR") throw new Error(`Instagram ${popis} odmítl: ${s.status || "bez detailu"}`);
+    if (i === 19) throw new Error(`${popis} se do 60 s nepřipravil (poslední stav: ${s.status_code || "neznámý"})`);
+    await new Promise((r) => setTimeout(r, 3000));
+  }
+}
+
 async function publish() {
   const zaklad = jmenoSouboru();
-  const obrazek = join(ARCHIV, `${zaklad}.jpg`);
+  const soubory = [1, 2].map((i) => `${zaklad}-${i}.jpg`);
   const popis = join(ARCHIV, `${zaklad}.txt`);
-  if (!existsSync(obrazek) || !existsSync(popis)) {
-    throw new Error(`v ig-archive/ chybí ${zaklad}.jpg nebo ${zaklad}.txt — nejdřív musí proběhnout build`);
+  const chybi = soubory.filter((f) => !existsSync(join(ARCHIV, f)));
+  if (chybi.length || !existsSync(popis)) {
+    throw new Error(`v ig-archive/ chybí ${[...chybi, ...(existsSync(popis) ? [] : [`${zaklad}.txt`])].join(", ")}`
+      + " — nejdřív musí proběhnout build");
   }
   const text = readFileSync(popis, "utf8");
 
   const repo = process.env.GITHUB_REPOSITORY || "buuczech/vladomer";
   const vetev = process.env.GITHUB_REF_NAME || "main";
-  const url = `https://raw.githubusercontent.com/${repo}/${vetev}/ig-archive/${zaklad}.jpg`;
+  const adresy = soubory.map((f) => `https://raw.githubusercontent.com/${repo}/${vetev}/ig-archive/${f}`);
 
-  // Instagram si obrázek stahuje sám, takže musí být v tuhle chvíli veřejný.
-  const kontrola = await fetch(url, { method: "HEAD" });
-  if (!kontrola.ok) throw new Error(`obrázek není veřejně dostupný (${kontrola.status}) na ${url} — commit se asi nedostal na GitHub`);
+  // Instagram si obrázky stahuje sám, takže musí být v tuhle chvíli veřejné.
+  for (const url of adresy) {
+    const kontrola = await fetch(url, { method: "HEAD" });
+    if (!kontrola.ok) throw new Error(`obrázek není veřejně dostupný (${kontrola.status}) na ${url} — commit se asi nedostal na GitHub`);
+  }
 
   const u = await ucet();
   console.log(`Publikuje se na @${u.username} (${IG_ID}).`);
 
-  const kontejner = await graph(`${IG_ID}/media`, { image_url: url, caption: text }, "POST");
-  console.log(`Kontejner vytvořen: ${kontejner.id}`);
-
-  for (let i = 0; i < 20; i++) {
-    const s = await graph(kontejner.id, { fields: "status_code,status" });
-    if (s.status_code === "FINISHED") { console.log("Obrázek připraven."); break; }
-    if (s.status_code === "ERROR") throw new Error(`Instagram obrázek odmítl: ${s.status || "bez detailu"}`);
-    if (i === 19) throw new Error(`kontejner se do 60 s nepřipravil (poslední stav: ${s.status_code || "neznámý"})`);
-    await new Promise((r) => setTimeout(r, 3000));
+  /* Carousel se skládá ze tří kontejnerů: jeden na každý slide s příznakem
+     is_carousel_item, a nad nimi rodič typu CAROUSEL. Popisek patří na rodiče,
+     ne na jednotlivé položky — na položce by se zahodil. Pořadí v children
+     určuje pořadí ve feedu, souhrn tedy první. */
+  const deti = [];
+  for (const [i, url] of adresy.entries()) {
+    const k = await graph(`${IG_ID}/media`, { image_url: url, is_carousel_item: "true" }, "POST");
+    console.log(`Slide ${i + 1}: kontejner ${k.id}`);
+    await pockejNaKontejner(k.id, `slide ${i + 1}`);
+    deti.push(k.id);
   }
+
+  const kontejner = await graph(`${IG_ID}/media`, {
+    media_type: "CAROUSEL", children: deti.join(","), caption: text,
+  }, "POST");
+  console.log(`Carousel vytvořen: ${kontejner.id}`);
+  await pockejNaKontejner(kontejner.id, "carousel");
 
   if (BEZ_PUBLIKACE) {
     console.log("\nRežim bez publikace — kontejner je připravený, poslední krok se neprovádí.");
