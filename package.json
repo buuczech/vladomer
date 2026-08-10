@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "evaluate": "node scripts/evaluate.js",
     "og": "node scripts/og-image.js",
-    "instagram": "node scripts/instagram/post.js"
+    "instagram": "node scripts/instagram/post.js",
+    "prispevek": "node scripts/instagram/adhoc.js"
   },
   "dependencies": {
     "react": "^18.3.1",

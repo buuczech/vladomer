@@ -21,19 +21,20 @@
  * vymyslet. Nepoužívá se text change.cs: umí tvrdit „stav zůstává nezahájený"
  * u bodu, kterému se stav změnil. Bere se název bodu a přechod stavů.
  */
-import { writeFileSync, readFileSync, existsSync, mkdirSync, mkdtempSync, rmSync } from "node:fs";
-import { execFileSync } from "node:child_process";
-import { tmpdir } from "node:os";
-import { join, dirname } from "node:path";
+import { writeFileSync, readFileSync, existsSync, mkdirSync } from "node:fs";
+import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { render } from "../lib/nastaveni.js";
 import { ALL_ITEMS, TOTAL_ITEMS } from "../../src/data.js";
+/* Vykreslení i publikace jsou ve sdíleném modulu — používá je i adhoc.js.
+   Zveřejnění je jediný nevratný krok v projektu a smí existovat jen jednou. */
+import {
+  STRANA as W, vykresli, publikujCarousel, overPristup, surovaAdresa,
+} from "../lib/instagram.js";
 
 const KOREN = fileURLToPath(new URL("../../", import.meta.url));
 const EVAL = join(KOREN, "public", "evaluations.json");
 const ARCHIV = join(KOREN, "ig-archive");
-const API = "https://graph.facebook.com/v21.0";
-const W = 1080;
 
 /* Táž přísná metrika jako src/App.jsx, og-image.js, seo.js a prehled.js.
    Je to páté místo — když se změní pravidlo, musí se změnit všude. */
@@ -203,85 +204,6 @@ function popisek(d, vybrane) {
   return r.join("\n");
 }
 
-function chrome() {
-  const kand = [
-    process.env.CHROME_PATH,
-    "google-chrome-stable", "google-chrome", "chromium-browser", "chromium",
-    "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-    "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-  ].filter(Boolean);
-  for (const c of kand) {
-    if (c.includes("\\") && !existsSync(c)) continue;
-    try { execFileSync(c, ["--version"], { stdio: "ignore", timeout: 20000 }); return c; } catch { /* další */ }
-  }
-  throw new Error("Chrome nenalezen — nastav CHROME_PATH");
-}
-
-/* Instagram u image_url přijímá JPEG; PNG odmítne. Chrome odvodí formát
-   z přípony .jpg (ověřeno: vrací FF D8 FF). Kontrola magických bajtů níže je
-   tu proto, že na tohle chování se nedá spolehnout napříč verzemi — a poslat
-   PNG s příponou .jpg by skončilo záhadnou chybou až na straně Meta. */
-function vykresli(html, cil) {
-  const dir = mkdtempSync(join(tmpdir(), "vm-ig-"));
-  try {
-    const f = join(dir, "post.html");
-    writeFileSync(f, html, "utf8");
-    execFileSync(chrome(), [
-      "--headless", "--disable-gpu", "--hide-scrollbars", "--no-sandbox",
-      "--force-device-scale-factor=1", `--window-size=${W},${W}`,
-      `--screenshot=${cil}`, `file://${f.replace(/\\/g, "/")}`,
-    ], { stdio: "ignore", timeout: 60000 });
-    const raw = readFileSync(cil);
-    if (raw.subarray(0, 3).toString("hex") !== "ffd8ff") {
-      throw new Error(`výsledek není JPEG (začíná ${raw.subarray(0, 4).toString("hex")}) — `
-        + "Instagram by ho odmítl; tahle verze Chromu neodvozuje formát z přípony");
-    }
-    return raw.length;
-  } finally { rmSync(dir, { recursive: true, force: true }); }
-}
-
-/* Token se předává v parametrech, nikdy ne v cestě — chybová hláška pak smí
-   uvést, které volání spadlo, aniž by ho vypsala do veřejného logu běhu.
-   Vypisuje se i kód chyby: „Media ID is not available" samo o sobě neřekne,
-   jestli je problém v účtu, v kontejneru, nebo v obrázku. */
-async function graph(cesta, params = {}, metoda = "GET") {
-  const p = new URLSearchParams({ ...params, access_token: TOKEN });
-  const res = metoda === "POST"
-    ? await fetch(`${API}/${cesta}`, { method: "POST", body: p })
-    : await fetch(`${API}/${cesta}?${p}`);
-  const j = await res.json().catch(() => ({}));
-  if (!res.ok || j.error) {
-    const e = j.error || {};
-    const kod = e.code ? ` [kód ${e.code}${e.error_subcode ? `/${e.error_subcode}` : ""}]` : "";
-    const uziv = e.error_user_msg ? ` — ${e.error_user_msg}` : "";
-    throw new Error(`Graph API ${res.status} u ${metoda} /${cesta}: `
-      + `${e.message || JSON.stringify(j)}${kod}${uziv}`);
-  }
-  return j;
-}
-
-/* Ověří, že nastavené IG_USER_ID je opravdu instagramový účet, a když ne,
-   najde a vypíše to správné. Volá se i před publikací: bez toho se špatné ID
-   projeví až nesrozumitelnou hláškou od Meta uprostřed zveřejňování. */
-async function ucet() {
-  try {
-    return await graph(IG_ID, { fields: "username" });
-  } catch (chyba) {
-    let napoveda = "";
-    try {
-      const s = await graph("me/accounts", { fields: "name,instagram_business_account{id,username}" });
-      const ig = (s.data || []).map((x) => x.instagram_business_account).filter(Boolean);
-      napoveda = ig.length
-        ? `\n        Oprav secret IG_USER_ID na: ${ig[0].id}   (@${ig[0].username})`
-        : "\n        Token nevidí žádný Instagram Business účet — zkontroluj přiřazení "
-          + "v Business settings → System users → Add assets.";
-    } catch { /* diagnostika je bonus, původní chyba je důležitější */ }
-    throw new Error(`IG_USER_ID nevypadá jako instagramový účet.\n        ${chyba.message}${napoveda}`);
-  }
-}
-
-const TOKEN = process.env.IG_ACCESS_TOKEN;
-const IG_ID = process.env.IG_USER_ID;
 
 // Umožní workflow poznat, že se má zbytek kroků přeskočit, bez chybného běhu.
 function vystup(klic, hodnota) {
@@ -350,120 +272,19 @@ async function publish() {
     throw new Error(`v ig-archive/ chybí ${[...chybi, ...(existsSync(popis) ? [] : [`${zaklad}.txt`])].join(", ")}`
       + " — nejdřív musí proběhnout build");
   }
-  const text = readFileSync(popis, "utf8");
-
-  const repo = process.env.GITHUB_REPOSITORY || "buuczech/vladomer";
-  const vetev = process.env.GITHUB_REF_NAME || "main";
-  const adresy = soubory.map((f) => `https://raw.githubusercontent.com/${repo}/${vetev}/ig-archive/${f}`);
-
-  // Instagram si obrázky stahuje sám, takže musí být v tuhle chvíli veřejné.
-  for (const url of adresy) {
-    const kontrola = await fetch(url, { method: "HEAD" });
-    if (!kontrola.ok) throw new Error(`obrázek není veřejně dostupný (${kontrola.status}) na ${url} — commit se asi nedostal na GitHub`);
-  }
-
-  const u = await ucet();
-  console.log(`Publikuje se na @${u.username} (${IG_ID}).`);
-
-  /* Carousel se skládá ze tří kontejnerů: jeden na každý slide s příznakem
-     is_carousel_item, a nad nimi rodič typu CAROUSEL. Popisek patří na rodiče,
-     ne na jednotlivé položky — na položce by se zahodil. Pořadí v children
-     určuje pořadí ve feedu, souhrn tedy první. */
-  const deti = [];
-  for (const [i, url] of adresy.entries()) {
-    const k = await graph(`${IG_ID}/media`, { image_url: url, is_carousel_item: "true" }, "POST");
-    console.log(`Slide ${i + 1}: kontejner ${k.id}`);
-    await pockejNaKontejner(k.id, `slide ${i + 1}`);
-    deti.push(k.id);
-  }
-
-  const kontejner = await graph(`${IG_ID}/media`, {
-    media_type: "CAROUSEL", children: deti.join(","), caption: text,
-  }, "POST");
-  console.log(`Carousel vytvořen: ${kontejner.id}`);
-  await pockejNaKontejner(kontejner.id, "carousel");
-
-  if (BEZ_PUBLIKACE) {
-    console.log("\nRežim bez publikace — kontejner je připravený, poslední krok se neprovádí.");
-    console.log("Kdyby to spadlo až tady, chyba by byla v samotném media_publish.");
-    return;
-  }
-
-  /* Krátká pauza po FINISHED. Režim „zkouska" ukázal, že kontejner se vytvoří
-     i zpracuje v pořádku a padá výhradně media_publish — což vypadá na to, že
-     stav FINISHED předbíhá skutečnou připravenost na straně Meta. */
-  await new Promise((r) => setTimeout(r, 5000));
-
-  let post;
-  try {
-    post = await graph(`${IG_ID}/media_publish`, { creation_id: kontejner.id }, "POST");
-  } catch (chyba) {
-    console.log(`První pokus o zveřejnění selhal: ${chyba.message}`);
-    /* Než se to zkusí znovu, ověřit, že první volání opravdu neprošlo. POST
-       není idempotentní — kdyby se odpověď jen ztratila cestou, druhý pokus
-       by vyvěsil tentýž příspěvek podruhé. */
-    const posledni = await graph(`${IG_ID}/media`, { fields: "id,timestamp", limit: "1" });
-    const t = posledni.data?.[0]?.timestamp;
-    if (t && Date.now() - Date.parse(t) < 5 * 60 * 1000) {
-      console.log(`Příspěvek přesto vyšel (${posledni.data[0].id}) — druhý pokus se nedělá.`);
-      return;
-    }
-    console.log("Nic nevyšlo, zkouší se znovu za 15 s…");
-    await new Promise((r) => setTimeout(r, 15000));
-    post = await graph(`${IG_ID}/media_publish`, { creation_id: kontejner.id }, "POST");
-  }
-  console.log(`Zveřejněno. ID příspěvku: ${post.id}`);
-}
-
-/* Ověření přístupu. Nejdřív si přes stránky najde, jaká Instagram Business ID
-   token vlastně vidí, a teprve pak zkontroluje nastavené IG_USER_ID — když
-   nesedí, rovnou vypíše to správné číslo.
-   Vzniklo poté, co první ostrý pokus skončil na „(#100) Tried accessing
-   nonexisting field (media_count)": to je hláška, kterou dostaneš, když se
-   ptáš uzlu, který není instagramový účet (typicky ID systémového uživatele
-   nebo stránky). Sama o sobě neřekne nic o tom, co s tím. */
-async function verify() {
-  const ja = await graph("me", { fields: "id,name" });
-  console.log(`Token patří: ${ja.name || "(bez jména)"} (${ja.id})`);
-
-  const stranky = await graph("me/accounts", { fields: "name,instagram_business_account{id,username}" });
-  const nalezene = [];
-  for (const s of stranky.data || []) {
-    const ig = s.instagram_business_account;
-    console.log(ig
-      ? `  stránka „${s.name}" → Instagram @${ig.username}, IG_USER_ID = ${ig.id}`
-      : `  stránka „${s.name}" → žádný propojený Instagram Business účet`);
-    if (ig) nalezene.push(ig);
-  }
-  if (!(stranky.data || []).length) {
-    throw new Error("token nevidí žádnou facebookovou stránku — systémovému uživateli není "
-      + "přiřazená (Business settings → System users → Add assets → Pages)");
-  }
-  if (!nalezene.length) {
-    throw new Error("žádná stránka nemá propojený Instagram Business účet — účet musí být "
-      + "firemní a propojený se stránkou");
-  }
-
-  const u = await ucet();
-  console.log(`\nNastavené IG_USER_ID sedí: @${u.username}. Můžeš spustit režim dry.`);
-
-  /* Publikace se ověřit nedá, aniž by se opravdu publikovalo — ale aspoň se
-     zkontroluje, že účet content publishing vůbec nabízí. */
-  try {
-    const limit = await graph(`${IG_ID}/content_publishing_limit`, { fields: "quota_usage,config" });
-    const q = (limit.data && limit.data[0]) || {};
-    console.log(`Publikační kvóta: využito ${q.quota_usage ?? "?"} z ${q.config?.quota_total ?? "?"} za 24 h.`);
-  } catch (e) {
-    console.log(`Kvótu zjistit nelze (${e.message}) — účet možná nemá povolené publikování přes API.`);
-  }
+  await publikujCarousel(
+    soubory.map((f) => surovaAdresa(`ig-archive/${f}`)),
+    readFileSync(popis, "utf8"),
+    { bezPublikace: BEZ_PUBLIKACE },
+  );
 }
 
 async function main() {
-  if (REZIM !== "build" && (!TOKEN || !IG_ID)) {
+  if (REZIM !== "build" && (!process.env.IG_ACCESS_TOKEN || !process.env.IG_USER_ID)) {
     console.error("Chybí IG_ACCESS_TOKEN nebo IG_USER_ID.");
     process.exit(1);
   }
-  if (REZIM === "verify") return verify();
+  if (REZIM === "verify") return overPristup();
   if (REZIM === "build") return build();
   return publish();
 }
