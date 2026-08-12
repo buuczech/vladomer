@@ -1,0 +1,40 @@
+{
+  "titulek": "Začíná školní rok. Devět slibů o vzdělávání",
+  "podtitulek": "Kapitola Vzdělávání po osmi měsících",
+  "stitek": "Kapitola",
+  "publikovat_v": "2026-09-01T18:00:00+02:00",
+  "popisek": "Programové prohlášení má ve školství devět bodů. K 7. 8. 2026 z nich není splněný ani jeden a ani jeden není splněný částečně. Čtyři zůstávají u deklarace, tři nezačaly, dva běží.\n\nNejvíc je to vidět na platech. Slib zní 50 000 Kč nástupní plat učitele a 75 000 Kč průměrný plat na konci volebního období. Skutečný průměr byl mezi dubnem a červnem 2026 zhruba 53 až 55 tisíc. Cíl ministerstvo potvrzuje, krok k němu zatím doložit nejde.\n\nCo se hýbe: revize inkluze, kde se změnilo přidělování asistentů pedagoga školám, a registry pedagogických pracovníků a žáků. Co nezačalo: změna přijímaček na střední školy, rozšíření duálního vzdělávání a navýšení kapacit Erasmus+.\n\nOsm měsíců je na velký zákon krátká doba, to platí i tady. Nejbližší tvrdý test ale přijde brzy: návrh rozpočtu na rok 2027 musí vláda poslat Sněmovně do konce září. Peníze na platy v něm buď budou, nebo nebudou.\n\nStav k 7. 8. 2026, přepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz.\n\n#vladomer #skolstvi #vzdelavani #politika #cesko #ucitele",
+  "slidy": [
+    {
+      "nadpis": "Devět závazků, žádný splněný",
+      "typ": "odrazky",
+      "body": [
+        "Kapitola Vzdělávání má v programu devět bodů.",
+        "Splněno: 0. Částečně splněno: 0.",
+        "Probíhá 2, deklarováno 4, nezahájeno 3.",
+        "Stav k 7. 8. 2026."
+      ]
+    },
+    {
+      "nadpis": "Platy: tři čísla",
+      "typ": "odrazky",
+      "body": [
+        "Slib: nástupní plat učitele 50 000 Kč.",
+        "Slib: průměrný plat 75 000 Kč na konci volebního období.",
+        "Skutečnost duben až červen 2026: zhruba 53 až 55 tisíc.",
+        "Oba sliby jsou u „deklarováno“. Cíl potvrzený, krok nedoložený."
+      ]
+    },
+    {
+      "nadpis": "Co běží a co nezačalo",
+      "typ": "odrazky",
+      "body": [
+        "Běží: revize inkluze a registry pedagogů a žáků.",
+        "Nezačalo: změna přijímaček na střední školy.",
+        "Nezačalo: rozšíření duálního vzdělávání a učňovství.",
+        "Nezačalo: navýšení kapacit Erasmus+.",
+        "Rozpočet na rok 2027 jde do Sněmovny do konce září."
+      ]
+    }
+  ]
+}

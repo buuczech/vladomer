@@ -1,0 +1,39 @@
+{
+  "titulek": "Dvanáct slibů, které nejdou splnit",
+  "podtitulek": "Co o programu prozradila data",
+  "stitek": "Zjištění",
+  "publikovat_v": "2026-08-25T18:00:00+02:00",
+  "popisek": "Dvanáct ze 143 závazků programového prohlášení je formulovaných jako odmítnutí. Nepřijmout euro. Odmítnout migrační pakt. Nezvyšovat daně. Neimplementovat ETS2.\n\nAni jeden z nich nemá k 7. 8. 2026 stav „splněno“ — a mít ho ani nemůže. „Splněno“ znamená doložený hotový krok s konkrétním datem. Odmítnutí žádný hotový krok nemá: trvá, dokud trvá, a odškrtnout se dá teprve na konci volebního období. Devět jich stojí na „deklarováno“, tři na „porušeno“.\n\nOpačný pól je vidět mezi osmi splněnými body. Dva z nich jsou zrušené funkce ministrů — pro evropské záležitosti a pro vědu. Obojí šlo bez zákona, pouhým rozhodnutím vlády. Rozhodnutí se odškrtnout dá, postoj ne.\n\nJe to vlastnost stupnice, ne obvinění vlády ani chyba modelu. Píšeme o tom právě proto, že těch dvanáct bodů táhne celkové procento dolů i ve chvíli, kdy vláda postoj drží. Proto se rozpad po kapitolách čte líp než jedno souhrnné číslo.\n\nvladomer.cz\n\n#vladomer #politika #vlada #cesko #data #transparentnost",
+  "slidy": [
+    {
+      "nadpis": "Slib formulovaný jako odmítnutí",
+      "typ": "odrazky",
+      "body": [
+        "Dvanáct ze 143 závazků je formulovaných jako odmítnutí.",
+        "Nepřijmout euro. Odmítnout migrační pakt. Nezvyšovat daně.",
+        "Ani jeden z nich nemá k 7. 8. 2026 stav „splněno“.",
+        "Devět je u „deklarováno“, tři u „porušeno“."
+      ]
+    },
+    {
+      "nadpis": "Proč to tak dopadá",
+      "typ": "odrazky",
+      "body": [
+        "„Splněno“ znamená doložený hotový krok s konkrétním datem.",
+        "Odmítnutí žádný hotový krok nemá. Trvá, dokud trvá.",
+        "Odškrtnout se dá teprve na konci volebního období.",
+        "Není to obvinění vlády ani chyba modelu. Je to vlastnost stupnice."
+      ]
+    },
+    {
+      "nadpis": "Opačný pól",
+      "typ": "odrazky",
+      "body": [
+        "Osm bodů má stav „splněno“. Dva z nich jsou zrušené funkce ministrů.",
+        "Pro evropské záležitosti a pro vědu. Obojí bez zákona.",
+        "Rozhodnutí vlády se odškrtnout dá, postoj ne.",
+        "Nejrychleji jde to, co stát přestane dělat."
+      ]
+    }
+  ]
+}

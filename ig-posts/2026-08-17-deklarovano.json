@@ -1,0 +1,40 @@
+{
+  "titulek": "44 slibů zůstalo u prohlášení",
+  "podtitulek": "Největší skupina ze všech 143",
+  "stitek": "Data",
+  "publikovat_v": "2026-08-17T18:00:00+02:00",
+  "popisek": "Ze 143 závazků programového prohlášení jich 44 stojí na stavu „deklarováno“. Je to největší jediná skupina — větší než rozdělaná práce a několikanásobně větší než hotové věci.\n\n„Deklarováno“ znamená, že vláda se k tématu vyjádřila. Přijala usnesení, ministr to řekl na tiskové konferenci, vznikla pracovní skupina. Legislativní ani exekutivní krok ale nezačal.\n\nNejvíc takových bodů je v Dopravě (5 z 9), Životním prostředí (5 z 8) a Vzdělávání (4 z 9). Ve čtyřech kapitolách z osmnácti je „deklarováno“ nejčastějším stavem vůbec.\n\nOsm měsíců po nástupu vlády to samo o sobě není špatná zpráva — velké zákony trvají déle než čtvrtletí. Zajímavé bude až to, jestli se ta hromada začne rozpouštět, a kterým směrem. Nahoru vede „probíhá“, dolů „porušeno“.\n\nStav k 7. 8. 2026, přepočítává se každý pátek. Rozpad po kapitolách je na vladomer.cz.\n\n#vladomer #politika #vlada #cesko #data #transparentnost",
+  "slidy": [
+    {
+      "nadpis": "Jak vypadá 143 slibů",
+      "typ": "odrazky",
+      "body": [
+        "Deklarováno: 44. Největší jediná skupina.",
+        "Probíhá: 41. Tam běží legislativní proces.",
+        "Částečně splněno 21, nezahájeno 19, porušeno 10.",
+        "Splněno: 8.",
+        "Stav k 7. 8. 2026."
+      ]
+    },
+    {
+      "nadpis": "Co znamená deklarováno",
+      "typ": "odrazky",
+      "body": [
+        "Vláda přijala usnesení, ministr to řekl, vznikla pracovní skupina.",
+        "Legislativní ani exekutivní krok ale nezačal.",
+        "Je to víc než ticho a míň než první krok.",
+        "Nejvíc jich je v Dopravě (5 z 9) a Životním prostředí (5 z 8)."
+      ]
+    },
+    {
+      "nadpis": "Proč to samo o sobě není verdikt",
+      "typ": "odrazky",
+      "body": [
+        "Vláda je ve funkci osm měsíců, od 15. 12. 2025.",
+        "Velký zákon se stihne za rok, ne za čtvrtletí.",
+        "Zajímavý je až posun z „deklarováno“ na „probíhá“.",
+        "Opačný směr existuje taky a jmenuje se „porušeno“."
+      ]
+    }
+  ]
+}
