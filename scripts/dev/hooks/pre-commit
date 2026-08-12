@@ -1,0 +1,54 @@
+#!/bin/sh
+# Zastaví commit, ve kterém by odcházel klíč nebo token.
+#
+# .gitignore hlídá .env.local, ale nechrání před tím, že klíč někdo napíše
+# přímo do sledovaného souboru — do ladicího skriptu, do ukázky v dokumentaci,
+# do komentáře. Tenhle repozitář je veřejný, takže takový překlep se nedá vzít
+# zpět: jakmile se to jednou pushne, klíč je potřeba zneplatnit, ne smazat.
+#
+# Zapnutí (v čerstvém klonu se musí udělat ručně, hooky se neverzují):
+#     git config core.hooksPath scripts/dev/hooks
+#
+# Vypnout jednorázově se dá přes „git commit --no-verify" — dělej to jen
+# tehdy, když víš přesně proč.
+
+nalezeno=0
+
+# Soubory, které nemají v repozitáři co dělat, ani když je někdo přidá silou.
+zakazane=$(git diff --cached --name-only --diff-filter=ACM | grep -E '(^|/)\.env\.local$')
+if [ -n "$zakazane" ]; then
+  echo "ZASTAVENO: do commitu se dostal soubor, který má zůstat lokální:"
+  echo "$zakazane" | sed 's/^/    /'
+  nalezeno=1
+fi
+
+# Obsah, který vypadá jako tajemství. Hledá se v tom, co se opravdu commituje,
+# ne v pracovní kopii — na tom záleží.
+#
+# HLÁSÍ SE JEN ČÍSLO ŘÁDKU, NIKDY JEHO OBSAH. Vypsat nalezený řádek by bylo
+# pohodlnější, ale hook běží i tam, kde se výstup ukládá — v logu CI, v historii
+# terminálu, v přepisu konverzace s asistentem. Nález by tím tajemství přesunul
+# jenom jinam. (Naučeno tvrdě: první verze řádky vypisovala a klíč se tak dostal
+# do přepisu session.)
+for soubor in $(git diff --cached --name-only --diff-filter=ACM); do
+  case "$soubor" in
+    scripts/dev/hooks/pre-commit) continue ;;   # vzory níž nejsou nález
+  esac
+  obsah=$(git show ":$soubor" 2>/dev/null) || continue
+  radky=$(printf '%s' "$obsah" | grep -nE \
+    -e 'sk_[0-9a-f]{32,}' \
+    -e '(IG_ACCESS_TOKEN|ELEVENLABS_API_KEY|ANTHROPIC_API_KEY)[[:space:]]*=[[:space:]]*[A-Za-z0-9_-]{20,}' \
+    -e 'EAA[A-Za-z0-9]{40,}' | cut -d: -f1 | tr '\n' ' ')
+  if [ -n "$radky" ]; then
+    echo "ZASTAVENO: $soubor — vypadá jako klíč nebo token na řádku: $radky"
+    nalezeno=1
+  fi
+done
+
+if [ "$nalezeno" -ne 0 ]; then
+  echo ""
+  echo "Klíče patří do .env.local (lokálně) nebo do GitHub Actions secrets."
+  echo "Kdyby klíč přesto někdy odešel, nestačí ho smazat — musí se zneplatnit."
+  exit 1
+fi
+exit 0

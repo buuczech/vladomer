@@ -13,6 +13,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 
 export const STRANA = 1080;          // Instagram čtverec
+export const REEL_SIRKA = 1080;      // reel je na výšku 9:16
+export const REEL_VYSKA = 1920;
 export const MAX_SLIDU = 10;         // carousel bere 2 až 10 položek
 const API = "https://graph.facebook.com/v21.0";
 
@@ -35,14 +37,14 @@ export function chrome() {
    z přípony .jpg (ověřeno: vrací FF D8 FF). Kontrola magických bajtů je tu
    proto, že na tohle chování se nedá spolehnout napříč verzemi — a poslat PNG
    s příponou .jpg by skončilo záhadnou chybou až na straně Meta. */
-export function vykresli(html, cil) {
+export function vykresli(html, cil, sirka = STRANA, vyska = STRANA) {
   const dir = mkdtempSync(join(tmpdir(), "vm-ig-"));
   try {
     const f = join(dir, "slide.html");
     writeFileSync(f, html, "utf8");
     execFileSync(chrome(), [
       "--headless", "--disable-gpu", "--hide-scrollbars", "--no-sandbox",
-      "--force-device-scale-factor=1", `--window-size=${STRANA},${STRANA}`,
+      "--force-device-scale-factor=1", `--window-size=${sirka},${vyska}`,
       `--screenshot=${cil}`, `file://${f.replace(/\\/g, "/")}`,
     ], { stdio: "ignore", timeout: 60000 });
     const raw = readFileSync(cil);
@@ -99,14 +101,21 @@ export async function ucet() {
   }
 }
 
-/** Počká, až si Instagram obrázek stáhne a zpracuje. */
-export async function pockejNaKontejner(id, popis) {
-  for (let i = 0; i < 20; i++) {
+/**
+ * Počká, až si Instagram média stáhne a zpracuje.
+ * Obrázek bývá hotový do několika vteřin; video se překóduje i minuty, proto
+ * si volající může čekání prodloužit.
+ */
+export async function pockejNaKontejner(id, popis, { pokusu = 20, krok = 3000 } = {}) {
+  for (let i = 0; i < pokusu; i++) {
     const s = await graph(id, { fields: "status_code,status" });
     if (s.status_code === "FINISHED") { console.log(`  ${popis} připraven.`); return; }
     if (s.status_code === "ERROR") throw new Error(`Instagram ${popis} odmítl: ${s.status || "bez detailu"}`);
-    if (i === 19) throw new Error(`${popis} se do 60 s nepřipravil (poslední stav: ${s.status_code || "neznámý"})`);
-    await new Promise((r) => setTimeout(r, 3000));
+    if (i === pokusu - 1) {
+      throw new Error(`${popis} se do ${Math.round((pokusu * krok) / 1000)} s nepřipravil `
+        + `(poslední stav: ${s.status_code || "neznámý"})`);
+    }
+    await new Promise((r) => setTimeout(r, krok));
   }
 }
 
@@ -145,6 +154,15 @@ export async function publikujCarousel(adresy, popisek, { bezPublikace = false }
   console.log(`Carousel vytvořen: ${rodic.id}`);
   await pockejNaKontejner(rodic.id, "carousel");
 
+  return zverejni(rodic.id, { bezPublikace });
+}
+
+/**
+ * Poslední, nevratný krok: z připraveného kontejneru udělá příspěvek.
+ * Sdílejí ho carousel i reel — tohle volání se v projektu smí vyskytovat
+ * jen tady, aby se pravidla kolem něj nedala omylem obejít.
+ */
+async function zverejni(kontejnerId, { bezPublikace = false } = {}) {
   if (bezPublikace) {
     console.log("\nRežim bez publikace — kontejner je připravený, poslední krok se neprovádí.");
     console.log("Kdyby to spadlo až tady, chyba by byla v samotném media_publish.");
@@ -157,7 +175,7 @@ export async function publikujCarousel(adresy, popisek, { bezPublikace = false }
   await new Promise((r) => setTimeout(r, 5000));
 
   try {
-    const post = await graph(`${IG_ID()}/media_publish`, { creation_id: rodic.id }, "POST");
+    const post = await graph(`${IG_ID()}/media_publish`, { creation_id: kontejnerId }, "POST");
     console.log(`Zveřejněno. ID příspěvku: ${post.id}`);
     return post.id;
   } catch (chyba) {
@@ -173,10 +191,43 @@ export async function publikujCarousel(adresy, popisek, { bezPublikace = false }
     }
     console.log("Nic nevyšlo, zkouší se znovu za 15 s…");
     await new Promise((r) => setTimeout(r, 15000));
-    const post = await graph(`${IG_ID()}/media_publish`, { creation_id: rodic.id }, "POST");
+    const post = await graph(`${IG_ID()}/media_publish`, { creation_id: kontejnerId }, "POST");
     console.log(`Zveřejněno. ID příspěvku: ${post.id}`);
     return post.id;
   }
+}
+
+/**
+ * Zveřejní reel z veřejně dostupné adresy videa.
+ * Vrací ID příspěvku, nebo null v režimu bez publikace.
+ *
+ * Reel nemůže mít hudbu z katalogu Instagramu — ta jde přidat jen v aplikaci
+ * při ručním nahrání. Přes API vyjde s tou zvukovou stopou, kterou má video.
+ */
+export async function publikujReel(adresa, popisek, { bezPublikace = false } = {}) {
+  const k = await fetch(adresa, { method: "HEAD" });
+  if (!k.ok) {
+    throw new Error(`video není veřejně dostupné (${k.status}) na ${adresa} — `
+      + "commit se asi nedostal na GitHub");
+  }
+  const mb = Number(k.headers.get("content-length") || 0) / 1048576;
+  console.log(`Video: ${mb ? `${mb.toFixed(1)} MB` : "neznámá velikost"}.`);
+
+  const u = await ucet();
+  console.log(`Publikuje se na @${u.username}.`);
+
+  /* share_to_feed dostane reel i do mřížky profilu; bez něj sedí jen v záložce
+     Reels a na profilu po něm není stopa. */
+  const kontejner = await graph(`${IG_ID()}/media`, {
+    media_type: "REELS", video_url: adresa, caption: popisek, share_to_feed: "true",
+  }, "POST");
+  console.log(`Kontejner reelu: ${kontejner.id}`);
+
+  /* Instagram si video stáhne a překóduje; u obrázku jsou to vteřiny, tady
+     klidně minuty. Proto se čeká až deset minut. */
+  await pockejNaKontejner(kontejner.id, "reel", { pokusu: 60, krok: 10000 });
+
+  return zverejni(kontejner.id, { bezPublikace });
 }
 
 /** Ověření přístupu, které nic nezveřejní. */

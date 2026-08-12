@@ -12,3 +12,5 @@ dist
 
 # dev-only diagnostic output, must not reach main
 eval-log.txt
+
+ig-archive/hlas-cache/

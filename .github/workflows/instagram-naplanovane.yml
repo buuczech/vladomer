@@ -4,6 +4,8 @@ name: Instagram — naplánovaný příspěvek
 # v minulosti a ještě nevyšlo. Když ano, zveřejní ho — jednou. Naplánování je
 # tedy jednorázové, i když se sem chodí pravidelně.
 #
+# Platí pro carousely i reely; plánovač je jeden a druh pozná podle pole „typ".
+#
 # Schválně samostatné workflow, ne další cron v instagram.yml: tam by se
 # plánovaný běh nedal odlišit od pátečního automatu jinak než porovnáváním
 # cronu, a rozbít týdenní příspěvek kvůli tomuhle nestojí za to.
@@ -51,9 +53,20 @@ jobs:
           git commit -m "chore: publikuje se ${{ steps.najdi.outputs.zadani }} [skip ci]"
           git push
 
-      - name: Zveřejnit
-        if: steps.najdi.outputs.zadani != ''
+      # Carousel i reel čekají v repozitáři hotové — schválil jsi je před
+      # commitem. Liší se jen tím, který skript je vyzvedne; „druh" určil
+      # plánovač podle pole „typ" v zadání.
+      - name: Zveřejnit carousel
+        if: steps.najdi.outputs.druh == 'carousel'
         run: node scripts/instagram/adhoc.js --rezim publish --zadani "${{ steps.najdi.outputs.zadani }}"
+
+      # Instagram video stahuje a překódovává i několik minut, proto delší
+      # limit než výchozích šest hodin nepotřebuje, ale krok se nesmí zabít
+      # dřív, než dojede čekání na kontejner.
+      - name: Zveřejnit reel
+        if: steps.najdi.outputs.druh == 'reel'
+        timeout-minutes: 20
+        run: node scripts/instagram/reel.js --rezim publish --zadani "${{ steps.najdi.outputs.zadani }}"
 
       # Doplní do zadání ID příspěvku. Když tenhle krok selže, nic zlého se
       # nestalo — příspěvek už je venku a značka z předchozího commitu drží.

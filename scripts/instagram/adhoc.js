@@ -9,6 +9,10 @@
  *   … --bez-publikace                                                  zkouška
  *   node scripts/instagram/adhoc.js --rezim naplanovane                najde, co je na čase
  *
+ * Režim „naplanovane" je společný pro carousely i reely — hlídá celou složku
+ * ig-posts/ a u nalezeného zadání jen řekne, o jaký druh jde. Vlastní reel
+ * pak sestaví a zveřejní scripts/instagram/reel.js.
+ *
  * Publikuje se vždy PŘESNĚ to, co se vykreslilo a schválilo — obrázky se
  * v žádném kroku nekreslí znovu. Runner má jiné fonty než Windows, takže
  * překreslení by mohlo zalomit text jinak, než jsi viděl.
@@ -30,9 +34,8 @@ import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync } from 
 import { join, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 import { render } from "../lib/nastaveni.js";
-import {
-  STRANA, MAX_SLIDU, vykresli, publikujCarousel, surovaAdresa,
-} from "../lib/instagram.js";
+import { STRANA, vykresli, publikujCarousel, surovaAdresa } from "../lib/instagram.js";
+import { zkontrolujCarousel, zkontroluj as zkontrolujCokoli } from "../lib/zadani.js";
 
 const KOREN = fileURLToPath(new URL("../../", import.meta.url));
 const ARCHIV = join(KOREN, "ig-archive", "adhoc");
@@ -50,30 +53,6 @@ const BEZ_PUBLIKACE = process.argv.includes("--bez-publikace");
 function esc(s) {
   return String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;")
     .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-}
-
-/* Zadání píše člověk, takže se kontroluje dřív, než se cokoli vykreslí —
-   chyba v souboru má spadnout hned a srozumitelně, ne až na Instagramu. */
-function zkontroluj(z) {
-  const chyby = [];
-  if (!z.titulek) chyby.push("chybí „titulek“");
-  if (!z.popisek) chyby.push("chybí „popisek“");
-  if (!Array.isArray(z.slidy) || !z.slidy.length) chyby.push("chybí „slidy“ (aspoň jeden)");
-  (z.slidy || []).forEach((s, i) => {
-    const kde = `slide ${i + 1}`;
-    if (!s.nadpis) chyby.push(`${kde}: chybí „nadpis“`);
-    if (!Array.isArray(s.body) || !s.body.length) chyby.push(`${kde}: chybí „body“`);
-    if (s.typ && !["odrazky", "kroky"].includes(s.typ)) {
-      chyby.push(`${kde}: „typ“ musí být „odrazky“ nebo „kroky“, ne „${s.typ}“`);
-    }
-    if ((s.body || []).length > 5) chyby.push(`${kde}: ${s.body.length} bodů se na slide nevejde, nejvýš 5`);
-  });
-  // Obálka plus informační slidy; Instagram bere v carouselu 2 až 10 obrázků.
-  const celkem = 1 + (z.slidy || []).length;
-  if (celkem > MAX_SLIDU) {
-    chyby.push(`celkem ${celkem} slidů, Instagram jich v carouselu unese nejvýš ${MAX_SLIDU}`);
-  }
-  if (chyby.length) throw new Error(`zadání není v pořádku:\n        - ${chyby.join("\n        - ")}`);
 }
 
 /* Delší titulek se musí zmenšit, jinak přeteče přes spodní štítek. */
@@ -122,7 +101,8 @@ function nactiZadani() {
   let z;
   try { z = JSON.parse(readFileSync(ZADANI, "utf8")); }
   catch (e) { throw new Error(`zadání není platný JSON: ${e.message}`); }
-  zkontroluj(z);
+  if (z.typ === "reel") throw new Error("tohle zadání je reel — patří do scripts/instagram/reel.js");
+  zkontrolujCarousel(z);
   return z;
 }
 
@@ -189,20 +169,32 @@ function naplanovane() {
     }
     if (kdy > ted) continue;
 
-    zkontroluj(z);   // ať se vadné zadání pozná dřív, než se cokoli označí
+    // Ať se vadné zadání pozná dřív, než se cokoli označí. Plánovač je
+    // společný pro carousely i reely, proto se druh pozná až tady.
+    const druh = zkontrolujCokoli(z);
+
+    /* Značku smí zapsat jen běh v Actions. Spustit tenhle režim lokálně je
+       přirozený způsob, jak se podívat, co je na řadě — a bez téhle pojistky
+       by taková kontrola označila skutečný příspěvek za rozpracovaný. */
+    if (!process.env.GITHUB_ACTIONS) {
+      console.log(`Na čase: ${f} — ${druh} (plánováno na ${z.publikovat_v})`);
+      console.log("Lokální běh, značka se nezapisuje. Publikuje se z GitHub Actions.");
+      return;
+    }
+
     z.publikovano = { pokus: new Date(ted).toISOString() };
     writeFileSync(cesta, `${JSON.stringify(z, null, 2)}\n`, "utf8");
 
-    console.log(`Na čase: ${f} (plánováno na ${z.publikovat_v})`);
+    console.log(`Na čase: ${f} — ${druh} (plánováno na ${z.publikovat_v})`);
     if (process.env.GITHUB_OUTPUT) {
-      writeFileSync(process.env.GITHUB_OUTPUT, `zadani=ig-posts/${f}\n`, { flag: "a" });
+      writeFileSync(process.env.GITHUB_OUTPUT, `zadani=ig-posts/${f}\ndruh=${druh}\n`, { flag: "a" });
     }
     return;   // jeden běh, jeden příspěvek
   }
 
   console.log("Nic naplánovaného na teď.");
   if (process.env.GITHUB_OUTPUT) {
-    writeFileSync(process.env.GITHUB_OUTPUT, "zadani=\n", { flag: "a" });
+    writeFileSync(process.env.GITHUB_OUTPUT, "zadani=\ndruh=\n", { flag: "a" });
   }
 }
 

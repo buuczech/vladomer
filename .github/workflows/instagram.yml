@@ -16,15 +16,20 @@ on:
   workflow_dispatch:
     inputs:
       rezim:
-        description: "verify = ověřit přístup · dry = sestavit · zkouska = vše kromě zveřejnění · post = zveřejnit · adhoc = zveřejnit schválený příspěvek"
+        description: "verify = ověřit přístup · dry = sestavit · zkouska = vše kromě zveřejnění · post = zveřejnit · adhoc = zveřejnit schválený příspěvek · reel = zveřejnit schválený reel"
         required: true
         default: dry
         type: choice
-        options: [verify, dry, zkouska, post, adhoc]
+        options: [verify, dry, zkouska, post, adhoc, reel]
       zadani:
-        description: "jen pro adhoc: cesta k zadání, např. ig-posts/2026-08-10-o-vladomeru.json"
+        description: "jen pro adhoc a reel: cesta k zadání, např. ig-posts/2026-08-10-o-vladomeru.json"
         required: false
         type: string
+      bez_publikace:
+        description: "jen pro adhoc a reel: projít vše kromě posledního, nevratného kroku"
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write          # kvůli commitu do ig-archive/
@@ -56,11 +61,11 @@ jobs:
       # výsledek prohlédnout kdykoli.
       - name: Sestavit příspěvek
         id: build
-        if: env.REZIM != 'verify' && env.REZIM != 'adhoc'
+        if: env.REZIM == 'dry' || env.REZIM == 'zkouska' || env.REZIM == 'post'
         run: node scripts/instagram/post.js --rezim build ${{ env.REZIM == 'post' && '--vyzaduj-dnesni' || '' }}
 
       - name: Přiložit k běhu ke stažení
-        if: env.REZIM != 'verify' && env.REZIM != 'adhoc' && steps.build.outputs.preskocit != 'true'
+        if: (env.REZIM == 'dry' || env.REZIM == 'zkouska' || env.REZIM == 'post') && steps.build.outputs.preskocit != 'true'
         uses: actions/upload-artifact@v4
         with:
           name: instagram-prispevek
@@ -94,4 +99,14 @@ jobs:
         if: env.REZIM == 'adhoc'
         run: |
           test -n "${{ inputs.zadani }}" || { echo "Režim adhoc potřebuje vstup „zadani\"."; exit 1; }
-          node scripts/instagram/adhoc.js --rezim publish --zadani "${{ inputs.zadani }}"
+          node scripts/instagram/adhoc.js --rezim publish --zadani "${{ inputs.zadani }}" ${{ inputs.bez_publikace && '--bez-publikace' || '' }}
+
+      # Totéž pro reel: video už leží v ig-archive/reels/ přesně tak, jak jsi
+      # ho schválil, a znovu se nekóduje. Delší limit proto, že Instagram video
+      # stahuje a překódovává i několik minut.
+      - name: Zveřejnit reel
+        if: env.REZIM == 'reel'
+        timeout-minutes: 20
+        run: |
+          test -n "${{ inputs.zadani }}" || { echo "Režim reel potřebuje vstup „zadani\"."; exit 1; }
+          node scripts/instagram/reel.js --rezim publish --zadani "${{ inputs.zadani }}" ${{ inputs.bez_publikace && '--bez-publikace' || '' }}

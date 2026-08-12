@@ -1,0 +1,22 @@
+Původ podkresových skladeb
+==========================
+
+Vygenerováno přes ElevenLabs Music (model music_v2), délka 40 s.
+Účet Vládoměru je na tarifu Starter, který dává komerční licenci včetně
+videí na sociálních sítích. Vyloučené je šíření na hudební streamovací
+služby (Spotify a spol.) a distribuce do TV a rozhlasu — nic z toho neděláme.
+Uvedení zdroje vyžaduje jen free plán, ten nepoužíváme.
+
+Přesná zadání, kdyby bylo potřeba něco vygenerovat znovu nebo dogenerovat:
+
+--- vychozi.mp3 ---
+Understated underscore for a factual data explainer. Soft muted piano, warm analog synth pad, gentle steady pulse. Level and neutral in mood — neither uplifting nor sad, never triumphant. Instrumental only, no vocals, no spoken word. Even, unchanging texture from start to finish: no build, no drop, no climax, no fills. No prominent melody that would compete with a speaking voice. Clean, modern production, suitable as a quiet bed under narration.
+
+--- vazny.mp3 ---
+Restrained, sombre but dignified underscore. Low sustained strings, sparse piano notes, slow steady pulse. Serious and factual, never ominous, never melodramatic, no tension-building. Instrumental only, no vocals, no spoken word. Even, unchanging texture from start to finish: no build, no drop, no climax, no fills. No prominent melody that would compete with a speaking voice. Clean, modern production, suitable as a quiet bed under narration.
+
+--- svizny.mp3 ---
+Light underscore with gentle forward motion. Soft plucked synth, muted electric piano, understated steady groove. Mildly positive but calm and professional, never bouncy or cheerful. Instrumental only, no vocals, no spoken word. Even, unchanging texture from start to finish: no build, no drop, no climax, no fills. No prominent melody that would compete with a speaking voice. Clean, modern production, suitable as a quiet bed under narration.
+
+--- tichy.mp3 ---
+Very sparse ambient bed. Slow warm pad, an occasional soft piano note, almost no rhythm. Extremely understated, designed to sit far behind a voice. Instrumental only, no vocals, no spoken word. Even, unchanging texture from start to finish: no build, no drop, no climax, no fills. No prominent melody that would compete with a speaking voice. Clean, modern production, suitable as a quiet bed under narration.
