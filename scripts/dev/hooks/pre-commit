@@ -34,6 +34,9 @@ for soubor in $(git diff --cached --name-only --diff-filter=ACM); do
   case "$soubor" in
     scripts/dev/hooks/pre-commit) continue ;;   # vzory níž nejsou nález
   esac
+  # Binární soubory se přeskakují — klíč v nich nebude a načítání by jen
+  # sypalo varování o nulových bajtech (hudba pod reely, obrázky příspěvků).
+  git diff --cached --numstat -- "$soubor" | grep -q '^-' && continue
   obsah=$(git show ":$soubor" 2>/dev/null) || continue
   radky=$(printf '%s' "$obsah" | grep -nE \
     -e 'sk_[0-9a-f]{32,}' \
