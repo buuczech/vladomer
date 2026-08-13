@@ -1099,11 +1099,13 @@ export default function App() {
   const [evals, setEvals] = useState({});
   const [snapshots, setSnapshots] = useState([]);
   const [news, setNews] = useState([]);
-  const [newsOpen, setNewsOpen] = useState(true);
+  // Po načtení je sbalené všechno — na začátku má být vidět souhrn a rozcestník,
+  // ne rozevřený obsah, kterým se musí uživatel proscrollovat k tomu, co hledá.
+  const [newsOpen, setNewsOpen] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(null);
-  const [openCh, setOpenCh] = useState({ "1": true });
+  const [openCh, setOpenCh] = useState({});
   const [openCmt, setOpenCmt] = useState({});
-  const [changesOpen, setChangesOpen] = useState(true);
+  const [changesOpen, setChangesOpen] = useState(false);
   const [showMethod, setShowMethod] = useState(false);
   // Bumped by the footer link; CookieBar re-opens on every change.
   const [cookieOpen, setCookieOpen] = useState(0);
