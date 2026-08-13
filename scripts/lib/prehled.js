@@ -28,7 +28,7 @@ const T = {
     zpet: "Interaktivní verze na vladomer.cz",
     druhyJazyk: "English version",
     souhrn: "Souhrn",
-    splneno: "splněno", castecne: "částečně splněno", probiha: "probíhá",
+    splneno: "splněno", castecne: "částečně splněno", probiha: "probíhá", poruseno: "porušeno",
     hodnocenoZ: (n, c) => `${n} z ${c} závazků hodnoceno`,
     vyhrada: "Hodnotí jazykový model podle veřejné metodiky. Orientační a neoficiální, ne oficiální statistika.",
     stavK: "Stav k",
@@ -59,7 +59,7 @@ const T = {
     zpet: "Interactive version at vladomer.cz",
     druhyJazyk: "Česká verze",
     souhrn: "Summary",
-    splneno: "fulfilled", castecne: "partially fulfilled", probiha: "in progress",
+    splneno: "fulfilled", castecne: "partially fulfilled", probiha: "in progress", poruseno: "broken",
     hodnocenoZ: (n, c) => `${n} of ${c} commitments assessed`,
     vyhrada: "Rated by a language model following a public methodology. Indicative and unofficial, not an official statistic.",
     stavK: "As of",
@@ -105,7 +105,7 @@ function datum(iso, lang) {
 /* Stejná přísná metrika jako src/App.jsx i scripts/og-image.js. Kdyby se
    rozešly, tvrdí každá stránka jiné číslo o téže vládě. */
 function metriky(items, evals) {
-  let done = 0, partial = 0, prog = 0, n = 0, unver = 0;
+  let done = 0, partial = 0, prog = 0, broken = 0, n = 0, unver = 0;
   for (const it of items) {
     const v = evals[it.id];
     if (!v || !SCORED.has(v.status)) continue;
@@ -114,10 +114,11 @@ function metriky(items, evals) {
     if (v.status === "fulfilled") done++;
     else if (v.status === "partial") partial++;
     else if (v.status === "in_progress") prog++;
+    else if (v.status === "broken" || v.status === "stalled") broken++;
   }
   const p = (x) => (n ? (x / n) * 100 : 0);
   const one = (v) => (v >= 10 || v === 0 ? Math.round(v) : Math.round(v * 10) / 10);
-  return { done: one(p(done)), partial: one(p(partial)), prog: one(p(prog)), n, unver };
+  return { done: one(p(done)), partial: one(p(partial)), prog: one(p(prog)), broken: one(p(broken)), n, unver };
 }
 
 const CSS = `
@@ -175,6 +176,7 @@ export function renderPrehled(lang, { chapters, evals, lastUpdated, totalItems }
     [t.splneno, m.done, BARVY.fulfilled],
     [t.castecne, m.partial, BARVY.partial],
     [t.probiha, m.prog, BARVY.in_progress],
+    [t.poruseno, m.broken, BARVY.broken],
   ].map(([k, v, c]) =>
     `<div><dt>${esc(k)}</dt><dd style="color:${c}">${procento(v)}</dd></div>`
   ).join("");

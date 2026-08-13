@@ -1,0 +1,112 @@
+name: Instagram — týdenní příspěvek
+
+# Samostatné workflow. Do týdenního hodnocení ani do nasazení webu nezasahuje:
+# obrázek se ukládá do ig-archive/ (tedy mimo public/) a commit nese [skip ci],
+# takže nespustí Deploy Vládoměr.
+#
+# Instagram si obrázek stahuje sám z veřejné adresy, proto ten pořádek kroků:
+# sestavit → commitnout a pushnout → teprve pak zveřejnit.
+
+on:
+  schedule:
+    # 17:00 UTC = 19:00 v letním čase, 18:00 v zimním. GitHub cron letní čas
+    # neumí; hodinový posun v zimě je proti složitosti obcházení přijatelný.
+    # Hodnocení běží v 9:00 UTC, takže je mezi tím osm hodin rezervy.
+    - cron: "0 17 * * 5"
+  workflow_dispatch:
+    inputs:
+      rezim:
+        description: "verify = ověřit přístup · dry = sestavit · zkouska = vše kromě zveřejnění · post = zveřejnit · adhoc = zveřejnit schválený příspěvek · reel = zveřejnit schválený reel"
+        required: true
+        default: dry
+        type: choice
+        options: [verify, dry, zkouska, post, adhoc, reel]
+      zadani:
+        description: "jen pro adhoc a reel: cesta k zadání, např. ig-posts/2026-08-10-o-vladomeru.json"
+        required: false
+        type: string
+      bez_publikace:
+        description: "jen pro adhoc a reel: projít vše kromě posledního, nevratného kroku"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write          # kvůli commitu do ig-archive/
+
+concurrency:
+  group: instagram
+  cancel-in-progress: false
+
+jobs:
+  prispevek:
+    runs-on: ubuntu-latest
+    env:
+      # Plánovaný běh vždycky publikuje; ruční běh podle volby.
+      REZIM: ${{ github.event_name == 'schedule' && 'post' || inputs.rezim }}
+      IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Ověřit přístup k účtu
+        if: env.REZIM == 'verify'
+        run: node scripts/instagram/post.js --rezim verify
+
+      # --vyzaduj-dnesni jen u ostrého běhu: kdyby ranní hodnocení spadlo,
+      # nevyjde týden starý stav jako novinka. U dry se sestaví vždycky, ať jde
+      # výsledek prohlédnout kdykoli.
+      - name: Sestavit příspěvek
+        id: build
+        if: env.REZIM == 'dry' || env.REZIM == 'zkouska' || env.REZIM == 'post'
+        run: node scripts/instagram/post.js --rezim build ${{ env.REZIM == 'post' && '--vyzaduj-dnesni' || '' }}
+
+      - name: Přiložit k běhu ke stažení
+        if: (env.REZIM == 'dry' || env.REZIM == 'zkouska' || env.REZIM == 'post') && steps.build.outputs.preskocit != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: instagram-prispevek
+          path: ig-archive/*
+          if-no-files-found: error
+
+      - name: Uložit do archivu
+        if: (env.REZIM == 'post' || env.REZIM == 'zkouska') && steps.build.outputs.preskocit != 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ig-archive
+          # [skip ci] drží nasazení webu stranou — tenhle commit se ho netýká.
+          git commit -m "chore: instagram $(date -u +%F) [skip ci]" || echo "beze změn"
+          git push
+          # Push je asynchronní vůči raw.githubusercontent; chvíli počkat,
+          # než Instagram půjde obrázek stáhnout.
+          sleep 10
+
+      # zkouska projde stejnou cestou jako post, jen vynechá poslední, nevratný
+      # krok — na hledání toho, kde publikování vázne, aniž by něco vyšlo ven.
+      - name: Zveřejnit
+        if: (env.REZIM == 'post' || env.REZIM == 'zkouska') && steps.build.outputs.preskocit != 'true'
+        run: node scripts/instagram/post.js --rezim publish ${{ env.REZIM == 'zkouska' && '--bez-publikace' || '' }}
+
+      # Nepravidelný příspěvek. Obrázky i popisek už jsou v repozitáři —
+      # schválil jsi je před commitem a znovu se nekreslí. Runner má jiné fonty
+      # než Windows, takže překreslení by mohlo zalomit text jinak, než jsi
+      # viděl; u schvalovaného obsahu musí vyjít přesně to, co bylo odsouhlaseno.
+      - name: Zveřejnit nepravidelný příspěvek
+        if: env.REZIM == 'adhoc'
+        run: |
+          test -n "${{ inputs.zadani }}" || { echo "Režim adhoc potřebuje vstup „zadani\"."; exit 1; }
+          node scripts/instagram/adhoc.js --rezim publish --zadani "${{ inputs.zadani }}" ${{ inputs.bez_publikace && '--bez-publikace' || '' }}
+
+      # Totéž pro reel: video už leží v ig-archive/reels/ přesně tak, jak jsi
+      # ho schválil, a znovu se nekóduje. Delší limit proto, že Instagram video
+      # stahuje a překódovává i několik minut.
+      - name: Zveřejnit reel
+        if: env.REZIM == 'reel'
+        timeout-minutes: 20
+        run: |
+          test -n "${{ inputs.zadani }}" || { echo "Režim reel potřebuje vstup „zadani\"."; exit 1; }
+          node scripts/instagram/reel.js --rezim publish --zadani "${{ inputs.zadani }}" ${{ inputs.bez_publikace && '--bez-publikace' || '' }}

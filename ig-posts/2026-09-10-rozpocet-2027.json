@@ -1,0 +1,40 @@
+{
+  "titulek": "Do konce září musí přijít rozpočet",
+  "podtitulek": "Čtyři sliby, které u něj půjde zkontrolovat",
+  "stitek": "Kontrola",
+  "publikovat_v": "2026-09-10T18:00:00+02:00",
+  "popisek": "Návrh zákona o státním rozpočtu předkládá vláda předsedovi Sněmovny nejpozději tři měsíce před začátkem rozpočtového roku. Určuje to § 101 jednacího řádu Poslanecké sněmovny. Pro rozpočet na rok 2027 to znamená do 30. září 2026.\n\nJe to jeden z mála termínů v politice, který má pevné datum — a proto se u něj dobře kontroluje. Programové prohlášení je text, rozpočet jsou čísla. Slib, který stojí peníze, se v něm buď objeví, nebo neobjeví.\n\nČtyři body Vládoměru, na které se vyplatí dívat, a jejich stav k 7. 8. 2026:\n#2.1 Udržet deficit bezpečně pod 3 % HDP — deklarováno\n#2.2 Postupně snižovat deficit — porušeno\n#2.7 Snížit daň z příjmů firem na 19 % — porušeno\n#9.1 Výdaje na vzdělávání k průměru OECD — deklarováno\n\nPozor na jednu věc: samotné předložení návrhu nikoho neposune na „splněno“, nejvýš na „probíhá“. „Splněno“ přijde až po schválení a vyhlášení ve Sbírce zákonů, což u rozpočtu bývá v prosinci. Do té doby platí, že „vláda schválila“ není totéž co „platí“.\n\nVládoměr nepředpovídá. Jen si předem řekne, co bude kontrolovat.\n\n#vladomer #rozpocet #politika #vlada #cesko #transparentnost",
+  "slidy": [
+    {
+      "nadpis": "Termín, který se nedá odložit",
+      "typ": "odrazky",
+      "body": [
+        "Vláda předkládá návrh rozpočtu předsedovi Sněmovny.",
+        "Lhůta je tři měsíce před začátkem rozpočtového roku.",
+        "Určuje ji § 101 jednacího řádu Poslanecké sněmovny.",
+        "Pro rok 2027 to znamená do 30. září 2026."
+      ]
+    },
+    {
+      "nadpis": "Čtyři body, které rozpočet prověří",
+      "typ": "odrazky",
+      "body": [
+        "#2.1 Udržet deficit bezpečně pod 3 % HDP — deklarováno.",
+        "#2.2 Postupně snižovat deficit — porušeno.",
+        "#2.7 Snížit daň z příjmů firem na 19 % — porušeno.",
+        "#9.1 Výdaje na vzdělávání k průměru OECD — deklarováno.",
+        "Stavy k 7. 8. 2026."
+      ]
+    },
+    {
+      "nadpis": "Co předložení návrhu udělá",
+      "typ": "odrazky",
+      "body": [
+        "Návrh poslaný Sněmovně posune bod nejvýš na „probíhá“.",
+        "„Splněno“ přijde až po vyhlášení ve Sbírce zákonů.",
+        "Rozpočet Sněmovna obvykle schvaluje až v prosinci.",
+        "„Vláda schválila“ není totéž co „platí“."
+      ]
+    }
+  ]
+}

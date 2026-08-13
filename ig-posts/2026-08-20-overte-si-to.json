@@ -1,0 +1,40 @@
+{
+  "titulek": "Ověřte si jedno hodnocení za tři minuty",
+  "podtitulek": "Návod, jak Vládoměr zkontrolovat",
+  "stitek": "Návod",
+  "publikovat_v": "2026-08-20T18:00:00+02:00",
+  "popisek": "Hodnocení na Vládoměru píše jazykový model. Může se splést — a občas se splete. Celý web je proto postavený tak, aby to šlo zjistit bez nás. Nepotřebujete účet, nic se neinstaluje, stačí prohlížeč.\n\nChcete-li jít hlouběji: sekce Metodika popisuje pravidla, podle kterých se známkuje, a sekce Použité prompty ukazuje doslovné zadání pro model včetně seznamu webů, na kterých směl hledat. Všechna data jsou na GitHubu a každý týdenní běh je samostatný commit, takže jde dohledat, co přesně se kdy změnilo.\n\nKdyž najdete chybu, napište nám číslo bodu a odkaz, který hodnocení vyvrací. Jednotlivá hodnocení ručně nepřepisujeme — to je přesně to zasahování, kterému se web brání. Opraví se pravidlo a projeví se to při dalším pátečním běhu.\n\nvladomer.cz\n\n#vladomer #transparentnost #ai #politika #cesko #factchecking",
+  "slidy": [
+    {
+      "nadpis": "Postup",
+      "typ": "kroky",
+      "body": [
+        "Otevřete vladomer.cz.",
+        "Do políčka „Hledat v bodech programu…“ napište klíčové slovo.",
+        "Rozklikněte bod. Uvidíte odůvodnění a pod ním „Zdroje hodnocení“.",
+        "Otevřete zdroj. Jsou to odkazy na skutečné články, ne citace.",
+        "Porovnejte, jestli odůvodnění odpovídá tomu, co ve zdroji stojí."
+      ]
+    },
+    {
+      "nadpis": "Na co se dívat",
+      "typ": "odrazky",
+      "body": [
+        "Sedí datum? Za kroky před 15. 12. 2025 tahle vláda zásluhu nemá.",
+        "Sedí stupeň? „Splněno“ chce hotový zákon, ne schválený návrh.",
+        "Není zdroj o něčem trochu jiném? To je nejčastější chyba modelu.",
+        "Chybí u „splněno“ konkrétní doklad s datem? Pak tam nemá co dělat."
+      ]
+    },
+    {
+      "nadpis": "Když najdete chybu",
+      "typ": "kroky",
+      "body": [
+        "Poznamenejte si číslo bodu, třeba #2.4.",
+        "Najděte odkaz na zdroj, který hodnocení vyvrací.",
+        "Pošlete obojí formulářem v sekci Návrhy na zlepšení.",
+        "Jednotlivá hodnocení se ručně nepřepisují. Opraví se pravidlo."
+      ]
+    }
+  ]
+}

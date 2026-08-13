@@ -1,0 +1,9 @@
+Hodnocení na Vládoměru píše jazykový model. Může se splést — a občas se splete. Celý web je proto postavený tak, aby to šlo zjistit bez nás. Nepotřebujete účet, nic se neinstaluje, stačí prohlížeč.
+
+Chcete-li jít hlouběji: sekce Metodika popisuje pravidla, podle kterých se známkuje, a sekce Použité prompty ukazuje doslovné zadání pro model včetně seznamu webů, na kterých směl hledat. Všechna data jsou na GitHubu a každý týdenní běh je samostatný commit, takže jde dohledat, co přesně se kdy změnilo.
+
+Když najdete chybu, napište nám číslo bodu a odkaz, který hodnocení vyvrací. Jednotlivá hodnocení ručně nepřepisujeme — to je přesně to zasahování, kterému se web brání. Opraví se pravidlo a projeví se to při dalším pátečním běhu.
+
+vladomer.cz
+
+#vladomer #transparentnost #ai #politika #cesko #factchecking

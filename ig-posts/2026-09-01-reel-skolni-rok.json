@@ -1,0 +1,54 @@
+{
+  "typ": "reel",
+  "hudba": "vychozi.mp3",
+  "publikovat_v": "2026-09-01T18:00:00+02:00",
+  "popisek": "Programové prohlášení má ve školství devět bodů. K 7. 8. 2026 z nich není splněný ani jeden a ani jeden není splněný částečně. Čtyři zůstávají u deklarace, tři nezačaly, dva běží.\n\nNejvíc je to vidět na platech. Slib zní 50 000 Kč nástupní plat učitele a 75 000 Kč průměrný plat na konci volebního období. Skutečný průměr byl mezi dubnem a červnem 2026 zhruba 53 až 55 tisíc. Cíl ministerstvo potvrzuje, krok k němu zatím doložit nejde.\n\nCo se hýbe: revize inkluze, kde se změnilo přidělování asistentů pedagoga školám, a registry pedagogických pracovníků a žáků. Co nezačalo: změna přijímaček na střední školy, rozšíření duálního vzdělávání a učňovství a navýšení kapacit Erasmus+.\n\nOsm měsíců je na velký zákon krátká doba, to platí i tady. Nejbližší tvrdý test ale přijde brzy: návrh rozpočtu na rok 2027 musí vláda poslat Sněmovně do konce září. Peníze na platy v něm buď budou, nebo nebudou.\n\nPřepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #skolstvi #vzdelavani #politika #cesko #ucitele",
+  "sceny": [
+    {
+      "typ": "cislo",
+      "nadpis": "SPLNĚNÝCH SLIBŮ O ŠKOLSTVÍ",
+      "cislo": "0",
+      "jednotka": "",
+      "barva": "bad",
+      "popis": "z devíti závazků kapitoly Vzdělávání",
+      "dovetek": "Stav k 7. 8. 2026",
+      "komentar": "Programové prohlášení má ve školství devět bodů. Splněný není ani jeden.",
+      "trvani": 5
+    },
+    {
+      "typ": "body",
+      "nadpis": "Jak na tom těch devět je",
+      "styl": "odrazky",
+      "body": [
+        "Splněno i částečně splněno: 0.",
+        "Probíhá: 2.",
+        "Deklarováno: 4.",
+        "Nezahájeno: 3."
+      ],
+      "komentar": "Dva body běží, čtyři zůstaly u prohlášení, tři nezačaly.",
+      "trvani": 6
+    },
+    {
+      "typ": "cislo",
+      "nadpis": "SLÍBENÝ PRŮMĚRNÝ PLAT UČITELE",
+      "cislo": "75 000",
+      "jednotka": "Kč",
+      "barva": "neutral",
+      "popis": "Skutečnost duben až červen 2026: 53 až 55 tisíc",
+      "dovetek": "Cíl na konec volebního období. Stav slibu: deklarováno.",
+      "komentar": "Slíbený průměrný plat na konci období je sedmdesát pět tisíc. Teď je to zhruba padesát tři až padesát pět.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "Kde se to ukáže",
+      "styl": "odrazky",
+      "body": [
+        "Rozpočet na rok 2027 jde do Sněmovny do konce září.",
+        "Peníze na platy v něm budou, nebo nebudou."
+      ],
+      "komentar": "Rozpočet na příští rok musí jít do Sněmovny do konce září.",
+      "trvani": 5
+    }
+  ]
+}

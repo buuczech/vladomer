@@ -1,0 +1,52 @@
+<!doctype html>
+<!--
+  Scéna reelu: jedno velké číslo. 1080×1920 (9:16).
+
+  Číslo je tady hlavní sdělení, proto zabírá skoro celou plochu. VELIKOST_CISLA
+  počítá reel.js podle délky řetězce — „5,6" je o dva znaky delší než „12"
+  a při pevné velikosti by přeteklo. Znak „%" se sází menší než číslice, je to
+  v téhle váze písma nejširší glyf.
+
+  K bezpečné zóně a k trikolóře platí totéž co v reel-text.html.
+
+  Dosazuje render() z scripts/lib/nastaveni.js; nedosazený symbol shodí běh.
+-->
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<style>
+  body{margin:0}
+  *{box-sizing:border-box}
+  .trikolora{display:flex;width:96px;height:7px;border-radius:4px;overflow:hidden}
+  .trikolora i{flex:1}
+</style>
+</head>
+<body>
+<div style="width:1080px;height:1920px;background:#0B0F19;color:#E8EDF7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'DejaVu Sans',Helvetica,Arial,sans-serif;position:relative;overflow:hidden">
+<div style="position:absolute;inset:190px 90px 400px;display:flex;flex-direction:column">
+
+<div style="display:flex;align-items:center;gap:22px;flex:none">
+<svg viewBox="0 0 64 64" style="width:68px;height:68px;flex:none">
+  <rect width="64" height="64" rx="14" fill="#0F172A"></rect>
+  <path d="M 16 44 A 20 20 0 1 1 48 44" stroke="#38BDF8" stroke-width="6" fill="none" stroke-linecap="round"></path>
+  <path d="M 32 32 L 44 20" stroke="#F43F5E" stroke-width="5" stroke-linecap="round"></path>
+  <circle cx="32" cy="32" r="5" fill="#F43F5E"></circle>
+</svg>
+<div>
+  <div style="font-size:26px;font-weight:800;letter-spacing:.14em;color:#5B7BE8">VLÁDOMĚR</div>
+  <div class="trikolora" style="margin-top:10px"><i style="background:#fff"></i><i style="background:#3f7fd6"></i><i style="background:#ff5a5f"></i></div>
+</div>
+</div>
+
+<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;min-height:0">
+<div style="font-size:34px;font-weight:800;letter-spacing:.14em;color:#5B7BE8;text-transform:uppercase">{{NADPIS}}</div>
+<div style="margin-top:44px;font-weight:840;letter-spacing:-.05em;line-height:.86;font-variant-numeric:tabular-nums;white-space:nowrap;color:{{BARVA}}"><span style="font-size:{{VELIKOST_CISLA}}px">{{CISLO}}</span><span style="font-size:{{VELIKOST_JEDNOTKY}}px;margin-left:.08em">{{JEDNOTKA}}</span></div>
+<div style="margin-top:64px;font-size:44px;color:#E8EDF7;line-height:1.35;max-width:840px;text-wrap:pretty">{{POPIS}}</div>
+<div style="margin-top:28px;font-size:30px;color:#8B96AB;line-height:1.4;max-width:820px;text-wrap:pretty">{{DOVETEK}}</div>
+</div>
+
+<div style="text-align:center;font-size:28px;color:#5B6472;flex:none">vladomer.cz</div>
+</div>
+</div>
+</body>
+</html>

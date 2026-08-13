@@ -1,0 +1,76 @@
+{
+  "titulek": "Co se stane, když si model vymyslí odkaz?",
+  "podtitulek": "Jak Vládoměr funguje zevnitř",
+  "stitek": "Zevnitř",
+  "publikovat_v": "2026-08-12T13:00:00+02:00",
+  "popisek": "Vládoměr vypadá jako obyčejná stránka s čísly. Pod ní je program, který se každý pátek sám spustí, projde program vlády kapitolu po kapitole a nechá ho ohodnotit jazykovým modelem.\n\nZajímavější než to, co model dělá, je ale to, co dělat nesmí. Nesmí citovat odkaz, který se ve vyhledávání neobjevil. Nesmí napsat „splněno“ bez konkrétního dokladu s datem. A druhý model, který po něm text učesává, nesmí změnit ani jedno číslo — když to zkusí, jeho úprava se zahodí a zůstane původní věta.\n\nŽádné z těch pravidel není napsané v zadání pro model. Všechna jsou v programu, protože prosba sama o sobě nestačila. A skoro každé vzniklo až potom, co se něco pokazilo.\n\nCelý kód i všechna data jsou volně na GitHubu, zadání pro model je zveřejněné doslova na vladomer.cz.\n\n#vladomer #ai #technologie #opensource #transparentnost",
+  "slidy": [
+    {
+      "nadpis": "Co se děje každý pátek",
+      "typ": "kroky",
+      "body": [
+        "Dopoledne se sám spustí program. Nikdo u toho nesedí.",
+        "Projde všech 18 kapitol programu vlády a u každé se zeptá modelu.",
+        "Model si k tomu smí vyhledávat, ale jen na 27 povolených webech.",
+        "Odpovědi se uloží a web se přepíše.",
+        "Celé to trvá zhruba půl hodiny."
+      ]
+    },
+    {
+      "nadpis": "Když stránku otevřete, AI se nespustí",
+      "typ": "odrazky",
+      "body": [
+        "Web je jen hotový text a čísla, spočítané dopředu.",
+        "Žádné čekání, žádný dotaz na model, žádný účet za vaši návštěvu.",
+        "Model se ptá jednou týdně, ne pokaždé, když někdo přijde.",
+        "Proto celý provoz vyjde na pár tisíc korun ročně."
+      ]
+    },
+    {
+      "nadpis": "Vymyšlené odkazy jdou pryč",
+      "typ": "odrazky",
+      "body": [
+        "Modely si občas vymyslí zdroj, který vypadá naprosto věrohodně.",
+        "Program si proto pamatuje, co vyhledávání opravdu našlo.",
+        "Odkaz, který v tom seznamu není, se smaže.",
+        "U každého bodu tak zbydou nejvýš tři zdroje — a ty jdou otevřít."
+      ]
+    },
+    {
+      "nadpis": "Kdo nedoloží, nemá splněno",
+      "typ": "odrazky",
+      "body": [
+        "„Splněno“ musí model podepřít konkrétním dokladem a datem.",
+        "Když doklad chybí, hodnocení samo spadne na „částečně splněno“.",
+        "Když je doklad starší než nástup vlády, zásluha patří té předchozí.",
+        "Nerozhoduje o tom slušné chování modelu, ale program."
+      ]
+    },
+    {
+      "nadpis": "Druhý model text učeše, fakta měnit nesmí",
+      "typ": "odrazky",
+      "body": [
+        "Hotové věty po hodnocení projde ještě druhý model a opraví jazyk.",
+        "Nesmí nic dohledávat. Jen sloh.",
+        "Každá jeho úprava se porovná s původním textem.",
+        "Změnil číslo, odkaz nebo slovíčko „ne“? Úprava se zahodí.",
+        "Radši překlep než tiše přepsané číslo."
+      ]
+    },
+    {
+      "nadpis": "Radši nic než nesmysl",
+      "typ": "odrazky",
+      "body": [
+        "Když je něco špatně nastavené, běh se zastaví hned na začátku.",
+        "Na webu pak zůstanou data z minulého týdne.",
+        "To je pořád lepší než běh, který projde a vydá 143 prázdných hodnocení.",
+        "Chyba, které si nikdo nevšimne, je ta nejdražší."
+      ]
+    }
+  ],
+  "publikovano": {
+    "pokus": "2026-08-12T11:53:35.981Z",
+    "id": "18065345780750510",
+    "kdy": "2026-08-12T11:54:19.975Z"
+  }
+}

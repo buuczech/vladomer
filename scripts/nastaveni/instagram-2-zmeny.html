@@ -1,0 +1,63 @@
+<!doctype html>
+<!--
+  Instagram carousel, slide 2 ze 2 — změny týdne. 1080×1080.
+
+  Hlavička se schválně opakuje ze slidu 1 (viz instagram-1-souhrn.html); dva
+  čitelné soubory se upravují snáz než skládačka ze sdílených kousků, a render()
+  pracuje se soubory.
+
+  Řádky změn se generují v post.js (1 až 3 podle toho, kolik jich týden
+  přinesl) — tři prázdné rámečky ve slabém týdnu vypadají rozbitě.
+  Tónovaná kolečka u šipek jsou tady ve <style>, protože se na ně generované
+  řádky odkazují třídou.
+-->
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<style>
+  body{margin:0}
+  *{box-sizing:border-box}
+  .chg-up{color:#10B981;background:rgba(16,185,129,.16)}
+  .chg-down{color:#EF4444;background:rgba(239,68,68,.16)}
+  .chg-same{color:#8B96AB;background:rgba(139,150,171,.16)}
+</style>
+</head>
+<body>
+<div style="width:1080px;height:1080px;background:#0B0F19;color:#E8EDF7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'DejaVu Sans',Helvetica,Arial,sans-serif;position:relative;overflow:hidden;display:flex;flex-direction:column">
+<div style="height:14px;display:flex;flex:none">
+<div style="flex:1;background:#fff"></div>
+<div style="flex:1;background:#3f7fd6"></div>
+<div style="flex:1;background:#ff5a5f"></div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;padding:56px 72px 60px">
+
+<div style="display:flex;align-items:flex-start;justify-content:space-between;flex:none;gap:24px">
+<div style="display:flex;align-items:center;gap:18px">
+<svg viewBox="0 0 64 64" style="width:76px;height:76px;flex:none">
+  <rect width="64" height="64" rx="14" fill="#0F172A"></rect>
+  <path d="M 16 44 A 20 20 0 1 1 48 44" stroke="#38BDF8" stroke-width="6" fill="none" stroke-linecap="round"></path>
+  <path d="M 32 32 L 44 20" stroke="#F43F5E" stroke-width="5" stroke-linecap="round"></path>
+  <circle cx="32" cy="32" r="5" fill="#F43F5E"></circle>
+</svg>
+<div>
+<div style="font-size:34px;font-weight:800;letter-spacing:-.02em;color:#fff;white-space:nowrap">{{NADPIS}}</div>
+<div style="font-size:22px;color:#8B96AB;margin-top:6px;white-space:nowrap">{{DATUM}}</div>
+</div>
+</div>
+<div style="font-size:20px;font-weight:700;color:#8B96AB;background:#121824;border:1px solid #232C3D;border-radius:999px;padding:8px 18px;flex:none">2/2</div>
+</div>
+
+<div style="margin-top:36px;font-size:68px;font-weight:820;letter-spacing:-.03em;line-height:1.02;flex:none">{{NADPIS_ZMEN}}</div>
+
+<div style="flex:1;display:flex;flex-direction:column;gap:22px;margin-top:44px;min-height:0">
+{{RADKY_ZMEN}}
+</div>
+
+<div style="margin-top:28px;padding-top:24px;border-top:1px solid #232C3D;font-size:19px;color:#8B96AB;line-height:1.4;flex:none">
+<div>{{VYHRADA}}</div>
+<div style="font-size:16px;color:#5B6472;margin-top:4px">vladomer.cz</div>
+</div>
+</div>
+</div>
+</body>
+</html>

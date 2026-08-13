@@ -1,0 +1,79 @@
+name: Instagram — naplánovaný příspěvek
+
+# Jednou za hodinu se podívá, jestli některé zadání v ig-posts/ má „publikovat_v"
+# v minulosti a ještě nevyšlo. Když ano, zveřejní ho — jednou. Naplánování je
+# tedy jednorázové, i když se sem chodí pravidelně.
+#
+# Platí pro carousely i reely; plánovač je jeden a druh pozná podle pole „typ".
+#
+# Schválně samostatné workflow, ne další cron v instagram.yml: tam by se
+# plánovaný běh nedal odlišit od pátečního automatu jinak než porovnáváním
+# cronu, a rozbít týdenní příspěvek kvůli tomuhle nestojí za to.
+#
+# Sdílí s ním concurrency skupinu, takže se ty dva nikdy nepotkají.
+
+on:
+  schedule:
+    - cron: "5 * * * *"      # každou hodinu v 5 minut
+  workflow_dispatch:          # ruční kontrola, chová se stejně
+
+permissions:
+  contents: write
+
+concurrency:
+  group: instagram
+  cancel-in-progress: false
+
+jobs:
+  naplanovane:
+    runs-on: ubuntu-latest
+    env:
+      IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+      IG_USER_ID: ${{ secrets.IG_USER_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      # Najde, co je na čase, a rovnou to označí. Značka se commituje ještě
+      # PŘED zveřejněním: kdyby příspěvek vyšel a commit značky pak selhal,
+      # další hodinový běh by ho vyvěsil podruhé. Takhle je nejhorší možný
+      # výsledek nezveřejněný příspěvek, což je vidět a dá se spravit.
+      - name: Najít, co je na čase
+        id: najdi
+        run: node scripts/instagram/adhoc.js --rezim naplanovane
+
+      - name: Označit jako rozpracované
+        if: steps.najdi.outputs.zadani != ''
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ig-posts
+          git commit -m "chore: publikuje se ${{ steps.najdi.outputs.zadani }} [skip ci]"
+          git push
+
+      # Carousel i reel čekají v repozitáři hotové — schválil jsi je před
+      # commitem. Liší se jen tím, který skript je vyzvedne; „druh" určil
+      # plánovač podle pole „typ" v zadání.
+      - name: Zveřejnit carousel
+        if: steps.najdi.outputs.druh == 'carousel'
+        run: node scripts/instagram/adhoc.js --rezim publish --zadani "${{ steps.najdi.outputs.zadani }}"
+
+      # Instagram video stahuje a překódovává i několik minut, proto delší
+      # limit než výchozích šest hodin nepotřebuje, ale krok se nesmí zabít
+      # dřív, než dojede čekání na kontejner.
+      - name: Zveřejnit reel
+        if: steps.najdi.outputs.druh == 'reel'
+        timeout-minutes: 20
+        run: node scripts/instagram/reel.js --rezim publish --zadani "${{ steps.najdi.outputs.zadani }}"
+
+      # Doplní do zadání ID příspěvku. Když tenhle krok selže, nic zlého se
+      # nestalo — příspěvek už je venku a značka z předchozího commitu drží.
+      - name: Zapsat výsledek
+        if: steps.najdi.outputs.zadani != ''
+        continue-on-error: true
+        run: |
+          git add ig-posts
+          git diff --cached --quiet || git commit -m "chore: zveřejněno ${{ steps.najdi.outputs.zadani }} [skip ci]"
+          git push || echo "nepodařilo se zapsat ID, příspěvek je ale venku"

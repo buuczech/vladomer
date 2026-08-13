@@ -2,10 +2,15 @@ node_modules
 dist
 .DS_Store
 *.local
-.claude
+# Nastavení editoru se neverzuje, ale dovednosti ano — /prispevek musí být
+# k dispozici komukoli, kdo repozitář naklonuje.
+.claude/*
+!.claude/skills/
 # NOTE: .env IS committed — it holds per-branch feature flags (VITE_MENU_*),
 # never secrets. API keys live in GitHub Actions secrets. Local-only overrides
 # belong in .env.local, which *.local above already ignores.
 
 # dev-only diagnostic output, must not reach main
 eval-log.txt
+
+ig-archive/hlas-cache/

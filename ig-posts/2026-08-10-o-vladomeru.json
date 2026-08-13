@@ -1,0 +1,28 @@
+{
+  "titulek": "Kdo hlídá, jestli vláda dělá, co slíbila?",
+  "podtitulek": "O Vládoměru",
+  "stitek": "Více",
+  "popisek": "Vládoměr sleduje plnění programového prohlášení vlády — bod po bodu, každý týden.\n\nHodnotí jazykový model podle veřejné metodiky, která je celá zveřejněná včetně doslovného znění zadání. U každého bodu jsou zdroje, ze kterých hodnocení vychází.\n\nvladomer.cz\n\n#vladomer #politika #vlada #cesko #transparentnost",
+  "slidy": [
+    {
+      "nadpis": "Co Vládoměr dělá",
+      "typ": "odrazky",
+      "body": [
+        "Sleduje, jak vláda plní programové prohlášení — bod po bodu.",
+        "143 závazků, přehodnocených každý pátek.",
+        "U každého bodu jsou zdroje, ze kterých hodnocení vychází.",
+        "Kód i data jsou otevřené: MIT a CC BY 4.0."
+      ]
+    },
+    {
+      "nadpis": "Jak vzniká hodnocení",
+      "typ": "kroky",
+      "body": [
+        "Závazky se vypíšou z programového prohlášení vlády.",
+        "Model každý týden posoudí stav podle veřejné metodiky.",
+        "Program odpověď zkontroluje: vymyšlené odkazy vyhodí.",
+        "Výsledek se zveřejní i s auditní stopou na vladomer.cz."
+      ]
+    }
+  ]
+}

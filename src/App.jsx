@@ -16,7 +16,10 @@ import CookieBar, { CookieSettingsLink } from "./CookieBar.jsx";
 
 const T = {
   appTitle: { cs: "Vládoměr", en: "Govern-o-meter" },
-  appSubtitle: { cs: "Sledování plnění programového prohlášení vlády", en: "Tracking delivery of the government's programme statement" },
+  appSubtitle: {
+    cs: "Sledování plnění programového prohlášení vlády s pomocí AI",
+    en: "Tracking delivery of the government's programme statement with AI",
+  },
   govLabel: { cs: "Vláda Andreje Babiše · ANO + SPD + Motoristé sobě", en: "Babiš cabinet · ANO + SPD + Motoristé sobě" },
   daysInPower: { cs: "Ve funkci", en: "In office" },
   daysToElection: { cs: "Do voleb (odhad)", en: "To election (est.)" },
@@ -494,6 +497,18 @@ const CSS = `
 .vm-brand{display:flex;flex-direction:column;min-width:0}
 .vm-brand h1{font-size:19px;font-weight:760;letter-spacing:-.02em;margin:0;white-space:nowrap}
 .vm-brand p{margin:0;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Že hodnocení dělá AI, patří k názvu webu, ne až do metodiky — na mobilu se
+   proto neschovává. Musí se ale zalomit: na úzkém displeji by se z jednoho
+   řádku s výpustkou stalo „Sledování plnění programo…“, což neřekne nic. */
+@media (max-width:680px){
+  .vm-brand p{white-space:normal;overflow:visible;font-size:11.5px;line-height:1.3}
+  /* Zalomený podtitulek roztáhl značku a squeezl ovládání: tlačítko EN se
+     překrylo s přepínačem motivu. Ovládací prvky se proto nesmí smršťovat
+     a značka si vezme, co zbude. */
+  .vm-topbar{gap:8px}
+  .vm-brand{flex:1 1 auto}
+  .vm-seg, .vm-topbar > .vm-icon{flex:none}
+}
 .vm-spacer{flex:1}
 .vm-seg{display:inline-flex;border:1px solid var(--border);border-radius:9px;overflow:hidden;background:var(--surface-2)}
 .vm-seg button{appearance:none;border:0;background:transparent;color:var(--muted);padding:6px 10px;font-size:12.5px;font-weight:620;cursor:pointer}
@@ -653,7 +668,7 @@ const CSS = `
 .vm-news-sum{font-size:12.2px;color:var(--muted);margin-top:4px;line-height:1.45}
 .vm-news-host{font-size:10.5px;color:var(--accent);margin-top:4px;font-weight:620}
 @media (max-width:680px){
-  .vm-cards{grid-template-columns:1fr;gap:10px}.vm-big{font-size:34px}.vm-brand p{display:none}
+  .vm-cards{grid-template-columns:1fr;gap:10px}.vm-big{font-size:34px}
   .vm-ch-title{font-size:14px}.vm-mini{display:none}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
@@ -1084,11 +1099,13 @@ export default function App() {
   const [evals, setEvals] = useState({});
   const [snapshots, setSnapshots] = useState([]);
   const [news, setNews] = useState([]);
-  const [newsOpen, setNewsOpen] = useState(true);
+  // Po načtení je sbalené všechno — na začátku má být vidět souhrn a rozcestník,
+  // ne rozevřený obsah, kterým se musí uživatel proscrollovat k tomu, co hledá.
+  const [newsOpen, setNewsOpen] = useState(false);
   const [lastUpdated, setLastUpdated] = useState(null);
-  const [openCh, setOpenCh] = useState({ "1": true });
+  const [openCh, setOpenCh] = useState({});
   const [openCmt, setOpenCmt] = useState({});
-  const [changesOpen, setChangesOpen] = useState(true);
+  const [changesOpen, setChangesOpen] = useState(false);
   const [showMethod, setShowMethod] = useState(false);
   // Bumped by the footer link; CookieBar re-opens on every change.
   const [cookieOpen, setCookieOpen] = useState(0);
