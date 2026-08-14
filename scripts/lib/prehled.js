@@ -40,6 +40,16 @@ const T = {
     zdroje: "Zdroje",
     nehodnoceno: "Nehodnoceno",
     nemeritelne: "neměřitelné",
+    /* Bez tohohle by ve výpisu stál odznak „částečně splněno“ nad komentářem,
+       který tvrdí opak — a tenhle výpis čtou hlavně roboti, kteří si to
+       nerozklíčují. Stejné texty jsou v aplikaci. */
+    snizeno: "Sníženo kontrolou",
+    snizenoProc: {
+      "no-evidence": "model uvedl „splněno“, ale nedoložil to ničím konkrétním.",
+      "no-date": "model uvedl „splněno“, ale doklad nemá datum.",
+      "predates-term": "doložený krok proběhl před nástupem této vlády.",
+      "date-mismatch": "jediné, co doklad váže k této vládě, je den, kdy starší předpis začal platit.",
+    },
     zdrojProgramu: "Zdroj: programové prohlášení vlády",
     dataText: "Data ke stažení",
     licence: "Data a hodnocení jsou k volnému použití s uvedením zdroje pod licencí",
@@ -71,6 +81,13 @@ const T = {
     zdroje: "Sources",
     nehodnoceno: "Unrated",
     nemeritelne: "unmeasurable",
+    snizeno: "Downgraded by check",
+    snizenoProc: {
+      "no-evidence": "the model said “fulfilled” but cited nothing concrete.",
+      "no-date": "the model said “fulfilled” but the evidence carries no date.",
+      "predates-term": "the step cited happened before this cabinet took office.",
+      "date-mismatch": "the only thing tying the evidence to this cabinet is the day an older rule took effect.",
+    },
     zdrojProgramu: "Source: the government's programme statement",
     dataText: "Download the data",
     licence: "The data and assessments are free to reuse with attribution, under",
@@ -154,6 +171,7 @@ li.item:last-child{border-bottom:0}
 .badge{display:inline-block;font-size:12.5px;font-weight:700;color:#fff;padding:3px 9px;border-radius:999px;white-space:nowrap}
 .cmt{margin:8px 0 0;color:var(--fg)}
 .ev{margin:8px 0 0;font-size:14.5px;color:var(--muted)}
+.dg{margin:8px 0 0;font-size:14.5px;padding:6px 10px;border-left:3px solid #B45309;background:rgba(180,83,9,.07)}
 .src{margin:8px 0 0;padding:0;list-style:none;font-size:14px}
 .src li{margin:3px 0}
 footer{margin-top:52px;padding-top:20px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
@@ -189,6 +207,7 @@ export function renderPrehled(lang, { chapters, evals, lastUpdated, totalItems }
         const barva = (e && BARVY[e.status]) || "#6B7280";
         const komentar = e && e.comment && e.comment[lang] ? e.comment[lang] : "";
         const doklad = e && e.evidence ? e.evidence : "";
+        const snizeno = e && t.snizenoProc[e.evidenceMissing] ? e.evidenceMissing : "";
         const zdroje = (e && Array.isArray(e.sources) ? e.sources : [])
           .filter((s) => s && s.url)
           .map((s) => `<li><a href="${esc(s.url)}">${esc(s.title || s.url)}</a></li>`)
@@ -198,6 +217,9 @@ export function renderPrehled(lang, { chapters, evals, lastUpdated, totalItems }
           + `<span class="badge" style="background:${barva}">${esc(stav)}</span>`
           + `<span class="id">#${esc(it.id)}</span></div>`
           + (e && e.unverifiable ? `<p class="ev">(${esc(t.nemeritelne)})</p>` : "")
+          // Před komentářem, ne za ním: rámuje ho, aby čtenář nenarazil nejdřív
+          // na tvrzení modelu o splnění a až potom zjistil, že neobstálo.
+          + (snizeno ? `<p class="dg"><strong>${esc(t.snizeno)}:</strong> ${esc(t.snizenoProc[snizeno])}</p>` : "")
           + (komentar ? `<p class="cmt">${esc(komentar)}</p>` : "")
           + (doklad ? `<p class="ev"><strong>${esc(t.doklad)}:</strong> ${esc(doklad)}</p>` : "")
           + (zdroje ? `<ul class="src">${zdroje}</ul>` : "")
