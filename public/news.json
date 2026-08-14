@@ -1,4 +1,29 @@
 {
-  "generatedAt": null,
-  "items": []
+  "generatedAt": "2026-08-14T10:26:09.489Z",
+  "items": [
+    {
+      "title": {
+        "cs": "Kulturní komunita proti nové politice ministerstva",
+        "en": "Cultural community opposes new ministry policy"
+      },
+      "summary": {
+        "cs": "Profesní organizace a kulturní instituce vyzvaly vládu ke stažení Státní kulturní politiky 2026–2030 kvůli netransparentní přípravě.",
+        "en": "Professional organizations called on the government to withdraw the new State Cultural Policy due to non-transparent preparation."
+      },
+      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/ke-stazeni-vladni-kulturni-politiky-vyzvaly-profesni-organizace-spolky-i-odbory-376431",
+      "date": "2026-08-09"
+    },
+    {
+      "title": {
+        "cs": "Babiš plánuje masivní redukci na úřadu vlády",
+        "en": "Babiš plans massive cuts at Office of Government"
+      },
+      "summary": {
+        "cs": "Premiér avizuje snížení rozpočtu úřadu vlády o skoro 730 milionů korun a ztrátu téměř 250 zaměstnanců do konce roku.",
+        "en": "Premier announces budget cuts of almost 730 million crowns and loss of nearly 250 employees by year-end."
+      },
+      "url": "https://www.echo24.cz/a/HARth/zpravy-ekonomika-skrty-statni-zamestnanci-urad-vlady-250-uspora-730-milionu-babis-uspory",
+      "date": "2026-08-12"
+    }
+  ]
 }

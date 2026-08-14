@@ -22,6 +22,7 @@ There is no test runner and no linter. Two free offline checks stand in for them
 
 ```bash
 node scripts/dev/test-korektura.js      # proofreading guard: forged corrections must be rejected
+node scripts/dev/test-zabrany.js        # evidence bar for "fulfilled", against real past evidence
 ANTHROPIC_API_KEY=x CHAPTER_LIMIT=18 \
   node --import ./scripts/dev/dump-prompts.js scripts/evaluate.js   # prints every prompt, sends nothing
 ```
@@ -59,7 +60,11 @@ Three separate things share one repository:
 
 **Dead ends, already paid for:** structured outputs (`output_config.format`) and assistant prefill each silently suppress the `web_search` tool, leaving the model with no sources. JSON stays prompt-enforced. Raising `vyhledavani_zpravy` makes the headline step worse, not better — search rounds consume the same output budget the JSON needs.
 
-**Guards belong in code, not prompts.** The model has repeatedly produced true-but-irrelevant facts that instructions alone did not stop: `evaluate.js` therefore drops invented URLs, downgrades a `fulfilled` claim with no citation, and refuses evidence dated before the cabinet took office.
+**Guards belong in code, not prompts.** The model has repeatedly produced true-but-irrelevant facts that instructions alone did not stop: `evaluate.js` therefore drops invented URLs, downgrades a `fulfilled` claim with no citation, and refuses evidence dated before the cabinet took office. The rule itself lives in `scripts/lib/dukaz.js`, not in `evaluate.js`, because already-published data has to be recomputable by exactly the same rule (`scripts/dev/prepocet-degradaci.js`); two copies would drift.
+
+**A guard that is too eager is as damaging as no guard.** The date check used to compare the year inside a cited act number against the evidence date, which quietly demoted the single most common way a promise gets delivered here — an amendment to an older act ("novela zákona č. 117/1995 Sb., schválená 8. 7. 2026"). It cost two `fulfilled` items in one week and made the site *understate* delivery, which for a watchdog is the worst direction to be wrong in. Comparing years cannot work: this cabinet took office on 15 December, so "2025" is ambiguous. The rule now asks whether the *only* thing tying the claim to the term is the day an older rule took effect. Any change here needs `test-zabrany.js`, whose fixtures are verbatim evidence strings from real runs.
+
+**`audit.json` is append-only and the site says so in three places** (methodology, FAQ, "how do I know you're not making this up"). Corrections are appended as new entries carrying an `oprava` field — never written over the original row. Breaking that promise to fix a number would cost more than the number is worth.
 
 ### Branches and flags
 

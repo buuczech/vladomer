@@ -70,6 +70,35 @@ const T = {
   never: { cs: "zatím neproběhlo", en: "not yet run" },
   expandAll: { cs: "Rozbalit vše", en: "Expand all" },
   collapseAll: { cs: "Sbalit vše", en: "Collapse all" },
+
+  /* Když program sníží stav, který model označil za splněný, zůstane
+     v komentáři jeho původní argumentace. Bez tohohle vysvětlení stojí na webu
+     odznak „částečně splněno“ nad větou „slib byl naplněn“ a vypadá to, že si
+     stránka protiřečí. Přiznaná neshoda je lepší než skrytá — verdikt webu je
+     ten po kontrole, komentář je názor modelu před ní. */
+  demotedBadge: { cs: "sníženo kontrolou", en: "downgraded by check" },
+  demotedLead: {
+    cs: "Model uvedl „splněno“. Automatická kontrola dokladu ho nepotvrdila:",
+    en: "The model said “fulfilled”. The automatic evidence check did not confirm it:",
+  },
+  demotedWhy: {
+    "no-evidence": {
+      cs: "u tvrzení o splnění nebyl uveden žádný konkrétní doklad.",
+      en: "no concrete evidence was given for the claim of completion.",
+    },
+    "no-date": {
+      cs: "doklad neuvádí datum, ke kterému se mělo splnění stát.",
+      en: "the evidence gives no date for when completion happened.",
+    },
+    "predates-term": {
+      cs: "doložený krok proběhl před nástupem této vlády, zásluha tedy patří té předchozí.",
+      en: "the step cited happened before this cabinet took office, so the credit belongs to the previous one.",
+    },
+    "date-mismatch": {
+      cs: "jediné, co doklad váže k této vládě, je den, kdy starší předpis začal platit — ne krok, který by vláda sama udělala.",
+      en: "the only thing tying the evidence to this cabinet is the day an older rule took effect — not any step the cabinet itself took.",
+    },
+  },
   searchPlaceholder: { cs: "Hledat v bodech programu…", en: "Search the programme…" },
   filterAll: { cs: "Vše", en: "All" },
   source: { cs: "Zdroj: programové prohlášení vlády", en: "Source: government programme statement" },
@@ -564,6 +593,10 @@ const CSS = `
 .vm-dual > div.sm .n{font-size:15px;font-weight:740}
 .vm-dual .l{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin-top:2px}
 .vm-pill-unver{color:var(--muted);border:1px dashed var(--muted)}
+/* Snížení kontrolou: žlutá jako u „částečně“, protože přesně tam bod spadl. */
+.vm-pill-demoted{color:var(--partial);border:1px dashed var(--partial)}
+.vm-demoted{font-size:12.3px;line-height:1.45;padding:6px 9px;margin-bottom:8px;
+  background:var(--bg);border-radius:6px;border-left:2px solid var(--partial)}
 .vm-evi{display:block;font-size:12.3px;line-height:1.45;padding:5px 8px;background:var(--bg);border-radius:6px;border-left:2px solid var(--ok)}
 .vm-mini > i.partial{background:var(--partial);opacity:.8}
 .vm-caret{color:var(--muted);transition:transform .2s;flex:none}
@@ -1442,7 +1475,10 @@ export default function App() {
                           const changed = e && e.previousStatus && e.previousStatus !== e.status;
                           const tr = changed ? trend(e.previousStatus, e.status) : null;
                           const hasSrc = e && Array.isArray(e.sources) && e.sources.length > 0;
-                          const hasNote = e && ((e.comment && (e.comment[lang] || e.comment.cs)) || (e.change && (e.change[lang] || e.change.cs)) || hasSrc);
+                          // Vysvětlení snížení musí jít otevřít i u bodu, kde by
+                          // jinak nebylo co číst — jinak by o něm nikdo nevěděl.
+                          const demoted = e && T.demotedWhy[e.evidenceMissing] ? e.evidenceMissing : null;
+                          const hasNote = e && ((e.comment && (e.comment[lang] || e.comment.cs)) || (e.change && (e.change[lang] || e.change.cs)) || hasSrc || demoted);
                           return (
                             <div className="vm-it" key={it.id}>
                               <div className="vm-it-row">
@@ -1456,6 +1492,7 @@ export default function App() {
                                   <div className="vm-it-foot">
                                     <span className="vm-pill" style={{ color: sObj.color, border: `1px solid ${sObj.color}` }}>{sObj[lang]}</span>
                                     {e?.unverifiable && <span className="vm-pill vm-pill-unver">{t("unverBadge")}</span>}
+                                    {demoted && <span className="vm-pill vm-pill-demoted">{t("demotedBadge")}</span>}
                                     {tr && <span className="vm-trend" style={{ color: tr.c }} title={`${STATUS[e.previousStatus]?.[lang] || ""} → ${sObj[lang]}`}>{tr.g}</span>}
                                     <span className="vm-id vm-mono">#{it.id}</span>
                                     {hasNote && (
@@ -1467,6 +1504,12 @@ export default function App() {
                                   </div>
                                   {cmtOpen && e && (
                                     <div className="vm-cmt">
+                                      {demoted && (
+                                        <div className="vm-demoted">
+                                          <b>{t("demotedLead")}</b>{" "}
+                                          {T.demotedWhy[demoted][lang]}
+                                        </div>
+                                      )}
                                       {e.comment && (e.comment[lang] || e.comment.cs) && <span>{e.comment[lang] || e.comment.cs}</span>}
                                       {e.evidence && (
                                         <>

@@ -27,6 +27,7 @@ import {
 import {
   STATUSES, STATUS_CS, promptHodnoceni, promptZpravy, promptHodnoceniKontrola,
 } from "./lib/prompty.js";
+import { duvodDegradace } from "./lib/dukaz.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
    upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
@@ -39,7 +40,6 @@ const WEBY_ZPRAVY = readList("weby-zpravy.txt");
 // Nothing this cabinet did can predate its own appointment. The first full run
 // on the strict scale credited it with laws published in August 2025 — i.e.
 // the previous government's work — so the cut-off is enforced in code.
-const TERM_START = new Date(DATES.tookOffice).getTime();
 
 const CHAPTER_LIMIT = process.env.CHAPTER_LIMIT ? Number(process.env.CHAPTER_LIMIT) : CHAPTERS.length;
 
@@ -100,18 +100,6 @@ function readJSON(url, fallback) {
 function normUrl(u) { return (u || "").trim().replace(/\/+$/, "").toLowerCase(); }
 function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, "").replace(/^m\./, ""); } catch { return u; } }
 
-/* A "č. NNN/YYYY Sb." marker states the year the norm was PUBLISHED. If that
-   year doesn't match the date the model gave, the date is something else —
-   typically a later effective-from date, which is how the term-start check got
-   bypassed ("č. 270/2025 Sb., účinný od 1. ledna 2026" dated 2026-01-01).
-   Amending laws legitimately cite older acts, so only the newest year in the
-   string is judged: that is the norm being claimed as the achievement. */
-function evidenceYearMismatch(evidence, evDate) {
-  const years = [...String(evidence).matchAll(/\b\d{1,4}\s*\/\s*(\d{4})\s*Sb\b/gi)]
-    .map((m) => Number(m[1]));
-  if (years.length === 0) return false; // non-legislative step — date check applies alone
-  return Math.max(...years) !== Number(evDate.slice(0, 4));
-}
 
 async function evaluateChapter(ch, prevEvals, snapshots) {
   const items = ch.groups.flatMap((g) => g.items);
@@ -184,15 +172,10 @@ async function evaluateChapter(ch, prevEvals, snapshots) {
     let status = VALID.has(r.status) ? r.status : "not_started";
     const evidence = typeof r.evidence === "string" ? r.evidence.trim() : "";
     const evDate = /^\d{4}-\d{2}-\d{2}$/.test(r.evidence_date || "") ? r.evidence_date : "";
-    let downgradeReason = null;
-    if (status === "fulfilled") {
-      if (evidence.length < EVIDENCE_MIN) downgradeReason = "no-evidence";
-      else if (!evDate) downgradeReason = "no-date";
-      // Credit for work finished before this cabinet took office belongs to
-      // the previous one, however well the topic matches the promise.
-      else if (Date.parse(evDate) < TERM_START) downgradeReason = "predates-term";
-      else if (evidenceYearMismatch(evidence, evDate)) downgradeReason = "date-mismatch";
-    }
+    // Samo pravidlo je v lib/dukaz.js, aby se podle něj dala přepočítat i data,
+    // která už jsou venku — dvě kopie by se časem rozešly.
+    const downgradeReason = duvodDegradace(status, evidence, evDate,
+      { minDelkaDokladu: EVIDENCE_MIN, nastup: DATES.tookOffice });
     if (downgradeReason) { status = "partial"; demoted[downgradeReason]++; }
 
     out[r.id] = {
