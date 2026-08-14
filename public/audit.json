@@ -9110,6 +9110,61 @@
         "https://nku.gov.cz/cz/pro-media/tiskove-zpravy/padesat-miliard-na-projekty-digitalizace-nestacilo--stat-sliboval-od-roku-2025-plne-digitalni-sluzby--podarilo-se-to-jen-u-18--z-nich-id15329/"
       ],
       "model": "claude-haiku-4-5-20251001"
+    },
+    {
+      "id": "10.4",
+      "date": "2026-08-14",
+      "status": "fulfilled",
+      "evidence": "zákon č. 117/1995 Sb., o státní sociální podpoře, schválený Sněmovnou 8. 7. 2026, Senátem 29. 7. 2026, nábytí účinnosti 1. 10. 2026 pro nově narozené děti od 1. 1. 2027",
+      "evidence_date": "2026-07-29",
+      "unverifiable": false,
+      "comment_cs": "Vláda schválila zvýšení rodičovského příspěvku na 400 000 Kč (z 350 000 Kč) pro jedno nejmladší dítě. Sněmovna jej schválila 8. 7. 2026, Senát 29. 7. 2026. Zvýšení platí pro děti narozené od 1. 1. 2027. Opatření prošlo celým legislativním procesem a podpis prezidenta je deklarován. Slib byl naplněn.",
+      "comment_en": "The government approved an increase in parental allowance to 400,000 CZK (from 350,000 CZK) for one youngest child. Parliament approved it on 8 July 2026, Senate on 29 July 2026. The increase applies to children born from 1 January 2027. The measure has completed the full legislative process and presidential signature is declared. The promise was fulfilled.",
+      "change_cs": "Zvýšení rodičovského příspěvku bylo úspěšně schváleno v obou komorách parlamentu a je připraveno k podpisu prezidenta.",
+      "change_en": "The increase in parental allowance was successfully approved by both chambers of parliament and is ready for presidential signature.",
+      "sources": [
+        "https://www.ceskenoviny.cz/zpravy/senat-schvalil-rust-rodicovske-na-400000-kc-a-vyzval-k-zavedeni-jeji-valorizace/2853703",
+        "https://mpsv.gov.cz/senat-schvalil-zvyseni-rodicovskeho-prispevku-na-400-000-korun-i-upravy-superdavky"
+      ],
+      "model": "claude-haiku-4-5-20251001",
+      "original": {
+        "comment_cs": "Vláda schválila zvýšení rodičovského příspěvku na 400 000 Kč (z 350 000 Kč) pro jednoho nejstaršího dítěte. Sněmovna jej schválila 8. 7. 2026, Senát 29. 7. 2026. Zvýšení platí pro děti narozené od 1. 1. 2027. Opatření projděním celým legislativním procesem a podpis prezidenta je deklarován. Slub byl naplněn."
+      },
+      "proofread_model": "claude-sonnet-4-6",
+      "oprava": {
+        "puvodni_stav": "partial",
+        "puvodni_zaznam": "2026-08-14",
+        "duvod": "Automatická kontrola „date-mismatch“ zafungovala chybně: srážela novely starších předpisů. Pravidlo bylo opraveno a stav přepočítán.",
+        "bez_noveho_hodnoceni": true
+      }
+    },
+    {
+      "id": "14.1",
+      "date": "2026-08-14",
+      "status": "fulfilled",
+      "evidence": "Nařízení vlády č. 341/2017 Sb. (valorizace od 1. dubna 2026)",
+      "evidence_date": "2026-01-22",
+      "unverifiable": false,
+      "comment_cs": "Vláda schválila 9% valorizaci platů v kultuře od 1. dubna 2026, u státních institucí navíc 1% nadtarifní složka (dohoda tripartity ze 22. ledna 2026). Slib je splněn, ačkoliv kritici (včetně ministra Klempíře) prosazovali vyšší zvýšení. Realizován je tedy v dohodnuté, ne maximální podobě.",
+      "comment_en": "The government approved a 9% salary increase for culture workers from April 1, 2026, with an additional 1% non-tariff component for state institutions (tripartite agreement of January 22, 2026). The commitment is fulfilled, although critics (including Minister Klempíř) advocated for higher increases. Thus it is realized in an agreed, not maximum form.",
+      "change_cs": "Stav zůstává na úrovni splnění, výši zvýšení potvrdilo podepsání dohody tripartity.",
+      "change_en": "Status remains at fulfilled level; the salary increase amount was confirmed by the tripartite agreement signing.",
+      "sources": [
+        "https://ct24.ceskatelevize.cz/clanek/domaci/kulturni-instituce-a-odbory-pozaduji-stejnou-castku-z-rozpoctu-jaka-byla-loni-372142",
+        "https://denikreferendum.cz/clanek/238472-platy-vkulture-jsouzalostne-chystane-navyseni-tarifu-nestaci"
+      ],
+      "model": "claude-haiku-4-5-20251001",
+      "original": {
+        "comment_en": "The government approved a 9% salary increase for culture workers from April 1, 2026, with an additional 1% non-tariff component for state institutions (tripartite agreement of January 22, 2026). The commitment is fulfilled, although critics (including Minister Klempíř) advocated for higher increases. Thus it is realized in agreed, not maximum form.",
+        "change_cs": "Stav zůstává na úrovni fulfille (splnění), výši zvýšení potvrdilo podepsání dohody tripartity."
+      },
+      "proofread_model": "claude-sonnet-4-6",
+      "oprava": {
+        "puvodni_stav": "partial",
+        "puvodni_zaznam": "2026-08-14",
+        "duvod": "Automatická kontrola „date-mismatch“ zafungovala chybně: srážela novely starších předpisů. Pravidlo bylo opraveno a stav přepočítán.",
+        "bez_noveho_hodnoceni": true
+      }
     }
   ]
 }
