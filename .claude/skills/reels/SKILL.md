@@ -241,9 +241,12 @@ licenci. Když si nejsi jistý, na kterém plánu účet je, zeptej se.
 **Zveřejní se přesně to video, které bylo schváleno.** Workflow ho znovu
 nekóduje.
 
-**Prázdné místo nahoře a dole je záměr.** Instagram si přes okraje reelu kreslí
-popisek, jméno účtu a tlačítka, takže obsah drží v bezpečné zóně. Ve
-staženém souboru to vypadá jako moc volného místa, v aplikaci ne.
+**Prázdné místo nahoře a dole je záměr**, a je ho hodně, protože se tam potkávají
+tři věci: Instagram si přes okraje reelu kreslí popisek a tlačítka, na profilu
+z reelu ukazuje jen výřez 3:4, a pomalé najetí obsah ještě kousek roztlačí ven.
+Bezpečná zóna je proto 285 px nahoře a 510 px dole. Ve staženém souboru to
+vypadá jako moc volného místa, v aplikaci ne — **nezmenšuj ji**, čísla jsou
+spočítaná a jejich odvození je v komentáři v `reel-text.html`.
 
 **Pohyb dělá ffmpeg, ne prohlížeč.** Každá scéna je jedna vykreslená obrazovka
 1080×1920, přes kterou se pomalu najíždí, a scény se prolínají. Animace uvnitř

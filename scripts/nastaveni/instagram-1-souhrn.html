@@ -29,13 +29,13 @@
 </style>
 </head>
 <body>
-<div style="width:1080px;height:1080px;background:#0B0F19;color:#E8EDF7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'DejaVu Sans',Helvetica,Arial,sans-serif;position:relative;overflow:hidden;display:flex;flex-direction:column">
+<div style="width:1080px;height:1440px;background:#0B0F19;color:#E8EDF7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'DejaVu Sans',Helvetica,Arial,sans-serif;position:relative;overflow:hidden;display:flex;flex-direction:column">
 <div style="height:14px;display:flex;flex:none">
 <div style="flex:1;background:#fff"></div>
 <div style="flex:1;background:#3f7fd6"></div>
 <div style="flex:1;background:#ff5a5f"></div>
 </div>
-<div style="flex:1;display:flex;flex-direction:column;padding:56px 72px 60px;position:relative">
+<div style="flex:1;display:flex;flex-direction:column;padding:64px 80px 68px;position:relative">
 
 <div style="display:flex;align-items:flex-start;justify-content:space-between;flex:none;gap:24px">
 <div style="display:flex;align-items:center;gap:18px">
@@ -46,43 +46,46 @@
   <circle cx="32" cy="32" r="5" fill="#F43F5E"></circle>
 </svg>
 <div>
-<div style="font-size:34px;font-weight:800;letter-spacing:-.02em;color:#fff;white-space:nowrap">{{NADPIS}}</div>
-<div style="font-size:22px;color:#8B96AB;margin-top:6px;white-space:nowrap">{{DATUM}}</div>
+<div style="font-size:40px;font-weight:800;letter-spacing:-.02em;color:#fff;white-space:nowrap">{{NADPIS}}</div>
+<div style="font-size:26px;color:#8B96AB;margin-top:7px;white-space:nowrap">{{DATUM}}</div>
 </div>
 </div>
-<div style="font-size:20px;font-weight:700;color:#8B96AB;background:#121824;border:1px solid #232C3D;border-radius:999px;padding:8px 18px;flex:none">1/2</div>
+<div style="font-size:20px;font-weight:700;color:#8B96AB;background:#121824;border:1px solid #232C3D;border-radius:999px;padding:9px 20px;flex:none">1/2</div>
 </div>
 
 <div style="flex:1;display:flex;align-items:center;justify-content:center;position:relative;margin:8px 0">
-<svg width="560" height="560" viewBox="0 0 188 188">
+<svg width="672" height="672" viewBox="0 0 188 188">
+<!-- Stoh, ne řada výsečí: nejdelší oblouk vespod, nejkratší navrchu, takže
+     barvy do sebe přecházejí. Bez průhlednosti — v překryvu by se mísily
+     a odstíny by přestaly odpovídat legendě. Délky počítá post.js. -->
 <circle cx="94" cy="94" r="80" fill="none" stroke-width="17" stroke="#161D2B" transform="rotate(-90 94 94)"></circle>
-<circle cx="94" cy="94" r="80" fill="none" stroke-width="17" stroke="#F59E0B" opacity="0.55" transform="rotate(-90 94 94)" stroke-dasharray="{{PROG_DASH}}" stroke-dashoffset="{{PROG_OFFSET}}"></circle>
-<circle cx="94" cy="94" r="80" fill="none" stroke-width="17" stroke="#84CC16" opacity="0.8" transform="rotate(-90 94 94)" stroke-dasharray="{{PARTIAL_DASH}}" stroke-dashoffset="{{PARTIAL_OFFSET}}"></circle>
-<circle cx="94" cy="94" r="80" fill="none" stroke-width="17" stroke="#EF4444" opacity="0.9" transform="rotate(-90 94 94)" stroke-dasharray="{{BROKEN_DASH}}" stroke-dashoffset="{{BROKEN_OFFSET}}"></circle>
-<circle cx="94" cy="94" r="80" fill="none" stroke-width="17" stroke="#10B981" stroke-linecap="round" transform="rotate(-90 94 94)" stroke-dasharray="{{DONE_DASH}}"></circle>
+<circle cx="94" cy="94" r="80" fill="none" stroke-width="17" stroke="#EF4444" stroke-linecap="{{BROKEN_CAP}}" transform="rotate(-90 94 94)" stroke-dasharray="{{BROKEN_DASH}}" stroke-dashoffset="{{BROKEN_OFFSET}}"></circle>
+<circle cx="94" cy="94" r="80" fill="none" stroke-width="17" stroke="#F59E0B" stroke-linecap="{{PROG_CAP}}" transform="rotate(-90 94 94)" stroke-dasharray="{{PROG_DASH}}" stroke-dashoffset="{{PROG_OFFSET}}"></circle>
+<circle cx="94" cy="94" r="80" fill="none" stroke-width="17" stroke="#84CC16" stroke-linecap="{{PARTIAL_CAP}}" transform="rotate(-90 94 94)" stroke-dasharray="{{PARTIAL_DASH}}" stroke-dashoffset="{{PARTIAL_OFFSET}}"></circle>
+<circle cx="94" cy="94" r="80" fill="none" stroke-width="17" stroke="#10B981" stroke-linecap="{{DONE_CAP}}" transform="rotate(-90 94 94)" stroke-dasharray="{{DONE_DASH}}" stroke-dashoffset="{{DONE_OFFSET}}"></circle>
 </svg>
 <div style="position:absolute;display:flex;flex-direction:column;align-items:center">
 <div style="font-weight:820;letter-spacing:-.045em;line-height:.85;font-variant-numeric:tabular-nums;white-space:nowrap"><span style="font-size:{{VELIKOST_CISLA}}px">{{PCT}}</span><span style="font-size:{{VELIKOST_PROCENTA}}px;margin-left:.08em">%</span></div>
-<div style="font-size:26px;color:#8B96AB;margin-top:10px;text-align:center;max-width:420px">{{PCT_POPIS}}</div>
+<div style="font-size:30px;color:#8B96AB;margin-top:12px;text-align:center;max-width:500px">{{PCT_POPIS}}</div>
 </div>
 </div>
 
-<div style="display:flex;gap:14px;flex:none">
-<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:16px;padding:18px 12px;text-align:center">
-<div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="width:13px;height:13px;border-radius:50%;background:#10B981;flex:none"></span><span style="font-size:18px;color:#8B96AB;font-weight:640">{{POPIS_SPLNENO}}</span></div>
-<div style="font-size:40px;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums">{{DONE}}&#8239;%</div>
+<div style="display:flex;gap:17px;flex:none">
+<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:18px;padding:24px 14px;text-align:center">
+<div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="width:15px;height:15px;border-radius:50%;background:#10B981;flex:none"></span><span style="font-size:21px;color:#8B96AB;font-weight:640">{{POPIS_SPLNENO}}</span></div>
+<div style="font-size:48px;font-weight:800;margin-top:10px;font-variant-numeric:tabular-nums">{{DONE}}&#8239;%</div>
 </div>
-<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:16px;padding:18px 12px;text-align:center">
-<div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="width:13px;height:13px;border-radius:50%;background:#84CC16;flex:none"></span><span style="font-size:18px;color:#8B96AB;font-weight:640">{{POPIS_CASTECNE}}</span></div>
-<div style="font-size:40px;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums">{{PARTIAL}}&#8239;%</div>
+<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:18px;padding:24px 14px;text-align:center">
+<div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="width:15px;height:15px;border-radius:50%;background:#84CC16;flex:none"></span><span style="font-size:21px;color:#8B96AB;font-weight:640">{{POPIS_CASTECNE}}</span></div>
+<div style="font-size:48px;font-weight:800;margin-top:10px;font-variant-numeric:tabular-nums">{{PARTIAL}}&#8239;%</div>
 </div>
-<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:16px;padding:18px 12px;text-align:center">
-<div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="width:13px;height:13px;border-radius:50%;background:#F59E0B;flex:none"></span><span style="font-size:18px;color:#8B96AB;font-weight:640">{{POPIS_PROBIHA}}</span></div>
-<div style="font-size:40px;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums">{{PROG}}&#8239;%</div>
+<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:18px;padding:24px 14px;text-align:center">
+<div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="width:15px;height:15px;border-radius:50%;background:#F59E0B;flex:none"></span><span style="font-size:21px;color:#8B96AB;font-weight:640">{{POPIS_PROBIHA}}</span></div>
+<div style="font-size:48px;font-weight:800;margin-top:10px;font-variant-numeric:tabular-nums">{{PROG}}&#8239;%</div>
 </div>
-<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:16px;padding:18px 12px;text-align:center">
-<div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="width:13px;height:13px;border-radius:50%;background:#EF4444;flex:none"></span><span style="font-size:18px;color:#8B96AB;font-weight:640">{{POPIS_PORUSENO}}</span></div>
-<div style="font-size:40px;font-weight:800;margin-top:8px;font-variant-numeric:tabular-nums">{{BROKEN}}&#8239;%</div>
+<div style="flex:1;background:#121824;border:1px solid #232C3D;border-radius:18px;padding:24px 14px;text-align:center">
+<div style="display:flex;align-items:center;justify-content:center;gap:8px"><span style="width:15px;height:15px;border-radius:50%;background:#EF4444;flex:none"></span><span style="font-size:21px;color:#8B96AB;font-weight:640">{{POPIS_PORUSENO}}</span></div>
+<div style="font-size:48px;font-weight:800;margin-top:10px;font-variant-numeric:tabular-nums">{{BROKEN}}&#8239;%</div>
 </div>
 </div>
 

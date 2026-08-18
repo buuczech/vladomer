@@ -100,6 +100,9 @@ Podívej se do logu běhu, sprav příčinu a pole smaž ručně.
 
 - `typ`: `odrazky` (modrá tečka) nebo `kroky` (číslované kolečko)
 - **nejvýš 5 bodů na slide**, jinak se nevejdou
+- slidy jsou **1080 × 1440 px (3:4)** — od roku 2026 výchozí formát Instagramu
+  místo čtverce; v jednom carouselu musí mít všechny slidy stejný poměr, jinak
+  ho Instagram odmítne. Řeší se to samo, jen na to nesahej
 - **nejvýš 9 slidů** plus obálka — Instagram bere v carouselu 10 obrázků
 - Skript zadání zkontroluje a při chybě spadne dřív, než cokoli vykreslí
 

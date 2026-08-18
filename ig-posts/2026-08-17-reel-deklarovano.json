@@ -2,7 +2,7 @@
   "typ": "reel",
   "hudba": "vychozi.mp3",
   "publikovat_v": "2026-08-17T18:00:00+02:00",
-  "popisek": "Ze 143 závazků programového prohlášení jich 44 stojí na stavu „deklarováno“. Je to největší jediná skupina — víc než pětinásobek toho, co je hotové.\n\n„Deklarováno“ znamená, že vláda se k tématu vyjádřila. Přijala usnesení, ministr to řekl na tiskové konferenci, vznikla pracovní skupina. Legislativní ani exekutivní krok ale nezačal.\n\nNejvíc takových bodů je v Dopravě (5 z 9), Životním prostředí (5 z 8) a Vzdělávání (4 z 9). Ve čtyřech kapitolách z osmnácti je „deklarováno“ nejčastějším stavem vůbec.\n\nCelý rozpad k 7. 8. 2026: splněno 8, částečně splněno 21, probíhá 41, deklarováno 44, nezahájeno 19, porušeno 10.\n\nOsm měsíců po nástupu vlády to samo o sobě není špatná zpráva — velké zákony trvají déle než čtvrtletí. Zajímavé bude až to, jestli se ta hromada začne rozpouštět, a kterým směrem. Nahoru vede „probíhá“, dolů „porušeno“.\n\nPřepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #politika #vlada #cesko #data #transparentnost",
+  "popisek": "Ze 143 závazků programového prohlášení jich 44 je teď ve stavu „probíhá“ — poprvé je to větší skupina než „deklarováno“ (41), kde donedávna vedlo.\n\n„Probíhá“ znamená, že legislativní proces reálně běží: vláda návrh schválila a poslala ho do Sněmovny nebo Senátu, ale proces není dokončený.\n\n„Probíhá“ je teď nejčastějším stavem v sedmi kapitolách z osmnácti, nejvýrazněji ve Financích a hospodaření státu (5 z 15).\n\nCelý rozpad k 14. 8. 2026: splněno 8, částečně splněno 26, probíhá 44, deklarováno 41, nezahájeno 15, porušeno 9.\n\nOsm měsíců po nástupu vlády to samo o sobě není verdikt — velký zákon se stihne za rok, ne za čtvrtletí. Zajímavé bude, kolik z těch 44 rozjetých doběhne až do vyhlášení ve Sbírce zákonů.\n\nPřepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #politika #vlada #cesko #data #transparentnost",
   "sceny": [
     {
       "typ": "cislo",
@@ -10,9 +10,9 @@
       "cislo": "44",
       "jednotka": "",
       "barva": "neutral",
-      "popis": "zůstalo u prohlášení",
-      "dovetek": "Stav k 7. 8. 2026",
-      "komentar": "Čtyřicet čtyři slibů z programu vlády zůstalo u pouhého prohlášení.",
+      "popis": "je teď „probíhá“, ne jen ohlášeno",
+      "dovetek": "Stav k 14. 8. 2026",
+      "komentar": "Čtyřicet čtyři slibů z programu vlády teď reálně prochází legislativním procesem.",
       "trvani": 5
     },
     {
@@ -20,11 +20,11 @@
       "nadpis": "Co to znamená",
       "styl": "odrazky",
       "body": [
-        "Vláda přijala usnesení nebo to řekl ministr.",
-        "Zákon ani exekutivní krok ale nezačal.",
-        "Je to víc než ticho a míň než první krok."
+        "Vláda návrh schválila a poslala ho dál.",
+        "Je ve Sněmovně nebo v Senátu.",
+        "Proces ale ještě není dokončený."
       ],
-      "komentar": "Vláda se vyjádřila. Zákon ani exekutivní krok ale nezačal.",
+      "komentar": "Návrh je schválený a v parlamentu. Proces ale ještě neskončil.",
       "trvani": 6
     },
     {
@@ -33,9 +33,9 @@
       "cislo": "8",
       "jednotka": "",
       "barva": "neutral",
-      "popis": "Deklarovaných je víc než pětkrát tolik",
-      "dovetek": "Stav k 7. 8. 2026",
-      "komentar": "Hotových slibů je osm. Deklarovaných víc než pětkrát tolik.",
+      "popis": "Rozjetých je víc než pětkrát tolik",
+      "dovetek": "Stav k 14. 8. 2026",
+      "komentar": "Hotových slibů je osm. Rozjetých víc než pětkrát tolik.",
       "trvani": 5
     },
     {
@@ -45,10 +45,15 @@
       "body": [
         "Vláda je ve funkci osm měsíců.",
         "Velký zákon se stihne za rok, ne za čtvrtletí.",
-        "Zajímavý je až posun na „probíhá“."
+        "Zajímavý bude až posun na „splněno“."
       ],
-      "komentar": "Osm měsíců po nástupu to není špatná zpráva. Zajímavý je až ten posun.",
+      "komentar": "Osm měsíců po nástupu to není verdikt. Zajímavý bude až ten posun.",
       "trvani": 6
     }
-  ]
+  ],
+  "publikovano": {
+    "pokus": "2026-08-17T16:36:38.924Z",
+    "id": "18091703411538109",
+    "kdy": "2026-08-17T16:38:28.960Z"
+  }
 }

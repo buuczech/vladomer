@@ -12,7 +12,11 @@ import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
-export const STRANA = 1080;          // Instagram čtverec
+/* Instagram doporučuje pro příspěvky a carousely 3:4; čtverec 1080×1080 byl
+   výchozí do roku 2026. Na výšku zabere v mřížce profilu i ve feedu víc
+   místa a nemusí se ručně ořezávat. */
+export const SIRKA = 1080;
+export const VYSKA = 1440;
 export const REEL_SIRKA = 1080;      // reel je na výšku 9:16
 export const REEL_VYSKA = 1920;
 export const MAX_SLIDU = 10;         // carousel bere 2 až 10 položek
@@ -37,7 +41,7 @@ export function chrome() {
    z přípony .jpg (ověřeno: vrací FF D8 FF). Kontrola magických bajtů je tu
    proto, že na tohle chování se nedá spolehnout napříč verzemi — a poslat PNG
    s příponou .jpg by skončilo záhadnou chybou až na straně Meta. */
-export function vykresli(html, cil, sirka = STRANA, vyska = STRANA) {
+export function vykresli(html, cil, sirka = SIRKA, vyska = VYSKA) {
   const dir = mkdtempSync(join(tmpdir(), "vm-ig-"));
   try {
     const f = join(dir, "slide.html");
