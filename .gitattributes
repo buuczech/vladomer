@@ -3,4 +3,6 @@
 
 # Čteno za běhu skriptem scripts/evaluate.js — musí být stejné na Windows
 # i v CI, takže Git je při checkoutu nesmí převádět na CRLF.
-scripts/nastaveni/* text eol=lf
+# Dvě hvězdičky, ne jedna: „*" v gitattributes nepřekročí lomítko, takže
+# jednohvězdičkový vzor míjel podadresáře (chytlo se to na scripts/nastaveni/hudba/).
+scripts/nastaveni/** text eol=lf
