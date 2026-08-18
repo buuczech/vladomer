@@ -7,11 +7,25 @@
   a typografie, aby reel seděl k webu i k příspěvkům: pozadí #0B0F19,
   trikolóra, modrá #5B7BE8 na značku.
 
-  Prázdné místo dole není omyl. Instagram si přes spodní pětinu reelu kreslí
-  popisek, jméno účtu a tlačítka a přes horní okraj svoje záhlaví; obsah proto
-  drží uvnitř bezpečné zóny (nahoře 190 px, dole 400 px). Ze stejného důvodu
-  není trikolóra pruhem přes celou šířku — pomalé najetí ffmpegu ořízne pár
-  desítek pixelů u okrajů a pruh by zmizel. Drží se proto u loga.
+  Prázdné místo nahoře a dole není omyl, drží se tam dvě různá omezení naráz.
+  Instagram si přes okraje reelu kreslí svoje ovládání — zakázaná zóna je
+  220 px nahoře a 450 px dole. A na profilu se z reelu ukazuje jen výřez 3:4,
+  tedy 1080 × 1440 z celých 1920 px na výšku. Průnik obojího je pásmo
+  240 až 1440 px: platí pro ovládání i pro ten výřez, ať už ho Instagram bere
+  od horní hrany, nebo ze středu.
+
+  Odsazení je ale ještě větší, 285 a 510 px, a to kvůli pomalému najetí.
+  zoompan zvětšuje odstup od středu až o 6 %, takže obsah položený přesně na
+  hranici se ve výsledném videu přes ni vytlačí — naměřeno 212 a 1457 px místo
+  240 a 1440. Předsadí se proto o ten zoom: 960 − 720/1,06 ≈ 285 shora,
+  960 + 480/1,06 ≈ 1412 zdola. MĚNÍ-LI SE ZOOM v scripts/instagram/reel.js,
+  musí se přepočítat i tahle čísla.
+
+  Po stranách stačí 35 px, držíme 90 — text u kraje stejně nevypadá dobře.
+
+  Ze stejného soudku: trikolóra není pruh přes celou šířku, protože pomalé
+  najetí ffmpegu ořízne pár desítek pixelů u okrajů a pruh by zmizel. Drží se
+  proto u loga.
 
   Text musí být čitelný na mobilu bez zvuku a za pár vteřin — proto velké
   písmo a málo slov. VELIKOST_TITULKU počítá reel.js podle délky.
@@ -31,7 +45,7 @@
 </head>
 <body>
 <div style="width:1080px;height:1920px;background:#0B0F19;color:#E8EDF7;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'DejaVu Sans',Helvetica,Arial,sans-serif;position:relative;overflow:hidden">
-<div style="position:absolute;inset:190px 90px 400px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+<div style="position:absolute;inset:285px 90px 510px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
 
 <svg viewBox="0 0 64 64" style="width:148px;height:148px;flex:none">
   <rect width="64" height="64" rx="14" fill="#0F172A"></rect>

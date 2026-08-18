@@ -29,7 +29,7 @@ import { ALL_ITEMS, TOTAL_ITEMS } from "../../src/data.js";
 /* Vykreslení i publikace jsou ve sdíleném modulu — používá je i adhoc.js.
    Zveřejnění je jediný nevratný krok v projektu a smí existovat jen jednou. */
 import {
-  STRANA as W, vykresli, publikujCarousel, overPristup, surovaAdresa,
+  SIRKA, VYSKA, vykresli, publikujCarousel, overPristup, surovaAdresa,
 } from "../lib/instagram.js";
 
 const KOREN = fileURLToPath(new URL("../../", import.meta.url));
@@ -102,10 +102,13 @@ function nactiData() {
   };
 }
 
-const RAMECEK = "background:#121824;border:1px solid #232C3D;border-radius:20px;"
-  + "padding:30px 32px;display:flex;align-items:center;gap:26px;flex:1";
-const KOLECKO = "width:64px;height:64px;border-radius:50%;display:flex;align-items:center;"
-  + "justify-content:center;font-size:30px;font-weight:800;flex:none";
+/* flex:none, ne flex:1 — od formátu 3:4 je na slidu o 360 px víc a řádky by
+   se roztáhly přes celou plochu, kdyby změny byly jen dvě. Výšku určuje text,
+   svislé vystředění řeší kontejner v šabloně. */
+const RAMECEK = "background:#121824;border:1px solid #232C3D;border-radius:22px;"
+  + "padding:36px 38px;display:flex;align-items:center;gap:30px;flex:none";
+const KOLECKO = "width:76px;height:76px;border-radius:50%;display:flex;align-items:center;"
+  + "justify-content:center;font-size:35px;font-weight:800;flex:none";
 
 function radekZmeny(z) {
   const tr = z.smer > 0 ? "▲" : z.smer < 0 ? "▼" : "→";
@@ -115,7 +118,7 @@ function radekZmeny(z) {
   const barva = z.smer > 0 ? "#10B981" : z.smer < 0 ? "#EF4444" : "#8B96AB";
   return `<div style="${RAMECEK}">
 <div class="${cl}" style="${KOLECKO}">${tr}</div>
-<div style="font-size:32px;line-height:1.32;font-weight:560">${esc(z.nazev)}<br>
+<div style="font-size:37px;line-height:1.32;font-weight:560">${esc(z.nazev)}<br>
 <span style="color:#8B96AB">z „${esc(NAZEV[z.z])}“ na </span><span style="color:${barva};font-weight:760">„${esc(NAZEV[z.na])}“</span></div>
 </div>`;
 }
@@ -123,7 +126,7 @@ function radekZmeny(z) {
 function radekBezeZmen() {
   return `<div style="${RAMECEK}">
 <div class="chg-same" style="${KOLECKO}">→</div>
-<div style="font-size:32px;line-height:1.32;font-weight:560">Žádný bod tento týden nezměnil stav.</div>
+<div style="font-size:37px;line-height:1.32;font-weight:560">Žádný bod tento týden nezměnil stav.</div>
 </div>`;
 }
 
@@ -132,22 +135,55 @@ const VYHRADA = "Hodnotí AI podle veřejné metodiky.";
 const datumCS = (iso) => new Date(iso).toLocaleDateString("cs-CZ",
   { day: "numeric", month: "long", year: "numeric" });
 
-/* Číslo sedí uvnitř prstence, jehož vnitřní průměr vychází zhruba na 426 px.
+/* Číslo sedí uvnitř prstence, jehož vnitřní průměr vychází zhruba na 511 px.
    Návrh počítá s 220 px, jenže to platí jen pro celé číslo jako „12". Naše
    „5,7" je o dva znaky delší a při 190 px stále přetékalo přes oblouk.
    Znak „%" je v téhle váze písma nejširší glyf z celého řetězce, proto se
    sází menší než číslo — číslo tak zůstane velké a celek se vejde. */
 function velikostCisla(text) {
-  if (text.length <= 2) return 230;   // „12"
-  if (text.length === 3) return 185;  // „5,7"
-  if (text.length === 4) return 155;
-  return 130;
+  if (text.length <= 2) return 276;   // „12"
+  if (text.length === 3) return 222;  // „5,7"
+  if (text.length === 4) return 186;
+  return 156;
 }
 const velikostProcenta = (v) => Math.round(v * 0.42);
 
+/* Prstenec je STOH, ne řada sousedících výsečí: každý oblouk začíná na dvanácté
+   a je delší než ten nad ním, takže barvy do sebe přecházejí a v místě styku
+   není zaškrcení. Kreslí se od nejdelšího (porušeno) po nejkratší (splněno).
+
+   Zaoblený konec ale přesahuje o polovinu tloušťky na každé straně, takže
+   oblouk vykreslený „na míru" je o celou tloušťku delší. Při t = 17 a r = 80
+   to dělá 3,4 % kruhu: „splněno" 5,7 % by se nakreslilo jako 9,1 %. To je
+   u prstence, který má sdělovat podíl, lež — tím nebezpečnější, že vypadá
+   dobře. Délka se proto o přesah zkrátí a začátek posune, aby VYKRESLENÝ
+   rozsah i s čepičkami odpovídal skutečnému podílu.
+
+   Kumulativní hodnota kratší než tloušťka se zaoblit nedá, aniž by se
+   nafoukla — 3,4 % je podlaha. Takový oblouk se vykreslí rovně a ve své pravé
+   délce: jeden jinak zakončený oblouk je pořád lepší než jeden, který lže.
+   Není to teoretické, „splněno" už 3,5 % bylo.
+
+   Průhlednost se tu použít nesmí. Ve stohu by se překrývající barvy mísily
+   (žlutá přes červenou dá oranžovou) a odstíny by přestaly odpovídat legendě. */
+function oblouk(kumulativne, tloustka, obvod) {
+  if (kumulativne <= tloustka) {
+    return { dash: `${kumulativne} ${obvod}`, offset: 0, cap: "butt" };
+  }
+  return {
+    dash: `${kumulativne - tloustka} ${obvod}`,
+    offset: -tloustka / 2,
+    cap: "round",
+  };
+}
+
 function slideSouhrn(d) {
-  const r = 80, c = 2 * Math.PI * r;
+  const r = 80, c = 2 * Math.PI * r, t = 17;
   const seg = (v) => (v / 100) * c;
+  const done = oblouk(seg(d.done), t, c);
+  const partial = oblouk(seg(d.done + d.partial), t, c);
+  const prog = oblouk(seg(d.done + d.partial + d.prog), t, c);
+  const broken = oblouk(seg(d.done + d.partial + d.prog + d.broken), t, c);
   return render("instagram-1-souhrn.html", {
     NADPIS, DATUM: datumCS(d.lastUpdated), VYHRADA,
     PCT: cislo(d.done),
@@ -155,10 +191,10 @@ function slideSouhrn(d) {
     VELIKOST_PROCENTA: velikostProcenta(velikostCisla(cislo(d.done))),
     PCT_POPIS: "splněno z programu",
     DONE: cislo(d.done), PARTIAL: cislo(d.partial), PROG: cislo(d.prog), BROKEN: cislo(d.broken),
-    DONE_DASH: `${seg(d.done)} ${c}`,
-    PARTIAL_DASH: `${seg(d.partial)} ${c}`, PARTIAL_OFFSET: -seg(d.done),
-    PROG_DASH: `${seg(d.prog)} ${c}`, PROG_OFFSET: -seg(d.done + d.partial),
-    BROKEN_DASH: `${seg(d.broken)} ${c}`, BROKEN_OFFSET: -seg(d.done + d.partial + d.prog),
+    DONE_DASH: done.dash, DONE_OFFSET: done.offset, DONE_CAP: done.cap,
+    PARTIAL_DASH: partial.dash, PARTIAL_OFFSET: partial.offset, PARTIAL_CAP: partial.cap,
+    PROG_DASH: prog.dash, PROG_OFFSET: prog.offset, PROG_CAP: prog.cap,
+    BROKEN_DASH: broken.dash, BROKEN_OFFSET: broken.offset, BROKEN_CAP: broken.cap,
     POPIS_SPLNENO: "Splněno", POPIS_CASTECNE: "Částečně",
     POPIS_PROBIHA: "Probíhá", POPIS_PORUSENO: "Porušeno",
     // Štítek musí slíbit to, co na dalším slidu opravdu je.
@@ -244,7 +280,7 @@ async function build() {
   for (const [i, html] of [slideSouhrn(d), slideZmeny(d, vybrane)].entries()) {
     const jmeno = `${zaklad}-${i + 1}.jpg`;
     const bajtu = vykresli(html, join(ARCHIV, jmeno));
-    console.log(`Slide ${i + 1}: ig-archive/${jmeno} (${bajtu} b, ${W}×${W}, JPEG)`);
+    console.log(`Slide ${i + 1}: ig-archive/${jmeno} (${bajtu} b, ${SIRKA}×${VYSKA}, JPEG)`);
   }
   writeFileSync(join(ARCHIV, `${zaklad}.txt`), text, "utf8");
 

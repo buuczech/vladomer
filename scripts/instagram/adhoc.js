@@ -34,7 +34,7 @@ import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync } from 
 import { join, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 import { render } from "../lib/nastaveni.js";
-import { STRANA, vykresli, publikujCarousel, surovaAdresa } from "../lib/instagram.js";
+import { SIRKA, VYSKA, vykresli, publikujCarousel, surovaAdresa } from "../lib/instagram.js";
 import { zkontrolujCarousel, zkontroluj as zkontrolujCokoli } from "../lib/zadani.js";
 
 const KOREN = fileURLToPath(new URL("../../", import.meta.url));
@@ -57,20 +57,20 @@ function esc(s) {
 
 /* Delší titulek se musí zmenšit, jinak přeteče přes spodní štítek. */
 function velikostTitulku(t) {
-  if (t.length <= 34) return 88;
-  if (t.length <= 52) return 72;
-  if (t.length <= 76) return 60;
-  return 52;
+  if (t.length <= 34) return 106;
+  if (t.length <= 52) return 86;
+  if (t.length <= 76) return 72;
+  return 62;
 }
-const velikostNadpisu = (t) => (t.length <= 28 ? 64 : t.length <= 44 ? 54 : 46);
+const velikostNadpisu = (t) => (t.length <= 28 ? 76 : t.length <= 44 ? 64 : 55);
 
 function radek(text, typ, poradi) {
   const znacka = typ === "kroky"
     ? `<div class="badge-num">${String(poradi).padStart(2, "0")}</div>`
     : `<div class="badge-dot"></div>`;
-  return `<div style="background:#121824;border:1px solid #232C3D;border-radius:20px;padding:28px 32px;display:flex;align-items:center;gap:26px;flex:1">
+  return `<div style="background:#121824;border:1px solid #232C3D;border-radius:20px;padding:34px 38px;display:flex;align-items:center;gap:30px;flex:none">
 ${znacka}
-<div style="font-size:29px;line-height:1.38;font-weight:560">${esc(text)}</div>
+<div style="font-size:34px;line-height:1.38;font-weight:560">${esc(text)}</div>
 </div>`;
 }
 
@@ -117,7 +117,7 @@ function build() {
   html.forEach((h, i) => {
     const jmeno = `${zaklad}-${i + 1}.jpg`;
     const bajtu = vykresli(h, join(ARCHIV, jmeno));
-    console.log(`Slide ${i + 1}/${html.length}: ig-archive/adhoc/${jmeno} (${bajtu} b, ${STRANA}×${STRANA}, JPEG)`);
+    console.log(`Slide ${i + 1}/${html.length}: ig-archive/adhoc/${jmeno} (${bajtu} b, ${SIRKA}×${VYSKA}, JPEG)`);
   });
   writeFileSync(join(ARCHIV, `${zaklad}.txt`), z.popisek, "utf8");
   console.log("--- popisek ---\n" + z.popisek + "\n--- konec popisku ---");

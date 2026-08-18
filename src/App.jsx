@@ -713,26 +713,45 @@ const CSS = `
    the distinction the gauge exists to make. */
 function Ring({ done, partial, prog, broken, size = 64 }) {
   const r = (size - 8) / 2, c = 2 * Math.PI * r;
+  const sirka = 7;
   const seg = (pct) => (Math.max(0, Math.min(100, pct)) / 100) * c;
   const rot = `rotate(-90 ${size / 2} ${size / 2})`;
-  const common = { cx: size / 2, cy: size / 2, r, fill: "none", strokeWidth: 7, transform: rot };
+  const common = { cx: size / 2, cy: size / 2, r, fill: "none", strokeWidth: sirka, transform: rot };
   const t = { transition: "stroke-dasharray .5s, stroke-dashoffset .5s" };
-  /* Arcs stack in order of progress so the dial reads outward from delivered,
-     and "broken" sits last, right before the empty grey. The dial therefore
-     runs best → worst and the red cannot be mistaken for progress — which is
-     why it can be shown at all: a longer arc must never read as a better
-     result. */
+
+  /* Prstenec je STOH, ne řada sousedících výsečí: každý oblouk začíná na
+     dvanácté a je delší než ten nad ním, takže barvy do sebe přecházejí a mezi
+     nimi není zaškrcení. Kreslí se od nejdelšího po nejkratší.
+
+     Zaoblený konec přesahuje o polovinu tloušťky na každé straně, takže by
+     každý oblouk vyšel o celou tloušťku delší, než jaký podíl představuje —
+     při size 64 skoro o 4 % kruhu. Délka se proto zkrátí a začátek posune, aby
+     vykreslený rozsah i s čepičkami odpovídal skutečnosti. Kumulativní hodnota
+     kratší než tloušťka se zaoblit nedá bez nafouknutí, ta se nechá rovná ve
+     své pravé délce: jinak zakončený oblouk je lepší než nepravdivý.
+
+     Průhlednost se tu použít nesmí — ve stohu by se překrývající barvy mísily
+     a odstíny by přestaly odpovídat legendě.
+     Totéž počítá scripts/instagram/post.js pro prstenec na příspěvku. */
+  const oblouk = (kumulativne) => (kumulativne <= sirka
+    ? { strokeDasharray: `${kumulativne} ${c}`, strokeDashoffset: 0, strokeLinecap: "butt" }
+    : {
+      strokeDasharray: `${kumulativne - sirka} ${c}`,
+      strokeDashoffset: -sirka / 2,
+      strokeLinecap: "round",
+    });
+
   return (
     <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
       <circle {...common} stroke="var(--border)" />
-      <circle {...common} stroke="var(--bad)" opacity="0.8" style={t}
-        strokeDasharray={`${seg(broken)} ${c}`} strokeDashoffset={-seg(done + partial + prog)} />
-      <circle {...common} stroke="var(--prog)" opacity="0.5" style={t}
-        strokeDasharray={`${seg(prog)} ${c}`} strokeDashoffset={-seg(done + partial)} />
-      <circle {...common} stroke="var(--partial)" opacity="0.75" style={t}
-        strokeDasharray={`${seg(partial)} ${c}`} strokeDashoffset={-seg(done)} />
-      <circle {...common} stroke="var(--ok)" strokeLinecap="round" style={t}
-        strokeDasharray={`${seg(done)} ${c}`} />
+      <circle {...common} stroke="var(--bad)" style={t}
+        {...oblouk(seg(done + partial + prog + broken))} />
+      <circle {...common} stroke="var(--prog)" style={t}
+        {...oblouk(seg(done + partial + prog))} />
+      <circle {...common} stroke="var(--partial)" style={t}
+        {...oblouk(seg(done + partial))} />
+      <circle {...common} stroke="var(--ok)" style={t}
+        {...oblouk(seg(done))} />
     </svg>
   );
 }
