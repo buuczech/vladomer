@@ -46,6 +46,14 @@ jobs:
 
       - run: npm install
 
+      # Zdarma a offline. Když je rozbité pravidlo, ať to spadne dřív, než se
+      # za běh zaplatí.
+      - name: Offline checks
+        run: |
+          node scripts/dev/test-zabrany.js
+          node scripts/dev/test-korektura.js
+          node scripts/dev/test-konzistence.js
+
       - name: Test evaluation
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -66,3 +74,10 @@ jobs:
           git add -f eval-log.txt
           git commit -m "chore: dev test evaluation $(date -u +%F)" || echo "no changes"
           git push || echo "nothing to push"
+
+      # Na rozdíl od deploy.yml běží kontrola AŽ PO commitu: tahle větev nikam
+      # nenasazuje, takže rozbitá data tu nikomu neublíží, zatímco eval-log.txt
+      # je jediný způsob, jak si přečíst, co se v běhu stalo — a ten by se při
+      # dřívějším pádu vůbec nezapsal.
+      - name: Check fresh data
+        run: node scripts/dev/test-konzistence.js

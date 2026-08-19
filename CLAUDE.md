@@ -18,16 +18,21 @@ npm run prispevek -- --zadani ig-posts/….json     # ad-hoc carousel
 npm run reel -- --zadani ig-posts/….json          # ad-hoc reel (needs ffmpeg)
 ```
 
-There is no test runner and no linter. Two free offline checks stand in for them and should be run after touching what they cover:
+There is no test runner and no linter. Three free offline checks stand in for them and should be run after touching what they cover:
 
 ```bash
 node scripts/dev/test-korektura.js      # proofreading guard: forged corrections must be rejected
 node scripts/dev/test-zabrany.js        # evidence bar for "fulfilled", against real past evidence
+node scripts/dev/test-konzistence.js    # published data against itself and against the five metric sites
 ANTHROPIC_API_KEY=x CHAPTER_LIMIT=18 \
   node --import ./scripts/dev/dump-prompts.js scripts/evaluate.js   # prints every prompt, sends nothing
 ```
 
+All three run in CI on every push (`deploy.yml`, `dev-eval.yml`), and `test-konzistence.js` runs again on the weekly run's fresh data *before* it is committed: a failure there uploads the produced JSON as an artifact and stops the job, so the site keeps last week's data rather than publishing something that contradicts itself. It separates **CHYBA** (exit 1 — the site is inconsistent now) from **VAROVÁNÍ** (exit 0 — one data value away from being inconsistent); a warning is a finding, not noise. It imports its rules from `lib/dukaz.js`, `lib/korektura.js` and `src/data.js` rather than restating them, for the same reason `prepocet-degradaci.js` does.
+
 `dump-prompts` is the tool for any change that could alter what the model receives: capture its output before and after and diff. An empty diff is the proof. It restores `public/*.json` on exit, so it cannot clobber live data.
+
+The `/kontrola` skill (`.claude/skills/kontrola/`) drives a wider audit — data consistency, fact-check, UI, code, security — on top of those three. Its reports go to `kontroly/`, which is gitignored on purpose: a security finding in a public repo is a disclosure.
 
 ## What costs money
 

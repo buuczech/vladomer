@@ -14,3 +14,7 @@ dist
 eval-log.txt
 
 ig-archive/hlas-cache/
+
+# Reporty z kontrol (/kontrola). Nesmí do repozitáře: bezpečnostní nález
+# v public repu je zveřejnění zranitelnosti dřív, než je opravená.
+kontroly/
