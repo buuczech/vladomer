@@ -13,7 +13,10 @@
 import { readFileSync } from "node:fs";
 
 const ORIGIN = "https://vladomer.cz";
-const SCORED = new Set(["fulfilled", "partial", "in_progress", "declared", "not_started", "broken"]);
+/* Táž množina jako v App.jsx (score: 1), og-image.js, prehled.js a
+   instagram/post.js. "stalled" je stará hodnota škály z doby před 7/2026 —
+   drží se tu, aby všech pět míst počítalo jmenovatel ze stejných stavů. */
+const SCORED = new Set(["fulfilled", "partial", "in_progress", "declared", "not_started", "broken", "stalled"]);
 
 export function jsonLd({ evaluationsPath, items, totalItems, tookOffice }) {
   let evals = {}, lastUpdated = null;

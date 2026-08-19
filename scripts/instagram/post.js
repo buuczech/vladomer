@@ -37,8 +37,11 @@ const EVAL = join(KOREN, "public", "evaluations.json");
 const ARCHIV = join(KOREN, "ig-archive");
 
 /* Táž přísná metrika jako src/App.jsx, og-image.js, seo.js a prehled.js.
-   Je to páté místo — když se změní pravidlo, musí se změnit všude. */
-const HODNOCENE = new Set(["fulfilled", "partial", "in_progress", "declared", "not_started", "broken"]);
+   Je to páté místo — když se změní pravidlo, musí se změnit všude; shodu
+   hlídá scripts/dev/test-konzistence.js, skupina F. "stalled" je stará
+   hodnota škály z doby před 7/2026 a do jmenovatele patří stejně jako
+   v App.jsx (score: 1). */
+const HODNOCENE = new Set(["fulfilled", "partial", "in_progress", "declared", "not_started", "broken", "stalled"]);
 const RANK = { fulfilled: 5, partial: 4, in_progress: 3, declared: 2, not_started: 1, broken: 0, stalled: 0 };
 const NAZEV = {
   fulfilled: "splněno", partial: "částečně splněno", in_progress: "probíhá",

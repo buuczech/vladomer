@@ -26,8 +26,11 @@ const EVAL = new URL("../public/evaluations.json", import.meta.url);
 const W = 1200, H = 630;
 
 /* Stejná pravidla jako donePct v src/App.jsx: bod bez hodnocení se nepočítá
-   vůbec a neměřitelné body jsou mimo jmenovatel, ne v něm. */
-const SCORED = new Set(["fulfilled", "partial", "in_progress", "declared", "not_started", "broken"]);
+   vůbec a neměřitelné body jsou mimo jmenovatel, ne v něm.
+   "stalled" je stará hodnota škály z doby před 7/2026. Do jmenovatele patří
+   proto, že tam patří i v App.jsx (score: 1) — a kdyby tady chyběla, počítal
+   by sdílený obrázek z jiného počtu bodů než stránka, na kterou odkazuje. */
+const SCORED = new Set(["fulfilled", "partial", "in_progress", "declared", "not_started", "broken", "stalled"]);
 
 function metriky() {
   const evals = JSON.parse(readFileSync(EVAL, "utf8"));

@@ -105,7 +105,10 @@ const BARVY = {
   declared: "#6B7280", not_started: "#6B7280", broken: "#BE123C", stalled: "#BE123C",
 };
 
-const SCORED = new Set(["fulfilled", "partial", "in_progress", "declared", "not_started", "broken"]);
+/* "stalled" je stará hodnota škály z doby před 7/2026. Musí tu být, aby se
+   jmenovatel shodoval s App.jsx (score: 1) — a taky proto, že metriky() ji
+   níž počítá do „porušeno“, což by bez ní byl kód, který nikdy nenastane. */
+const SCORED = new Set(["fulfilled", "partial", "in_progress", "declared", "not_started", "broken", "stalled"]);
 
 function esc(s) {
   return String(s == null ? "" : s)
