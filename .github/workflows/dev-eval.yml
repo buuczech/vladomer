@@ -44,15 +44,16 @@ jobs:
         with:
           node-version: 20
 
-      - run: npm install
+      - run: npm ci
 
-      # Zdarma a offline. Když je rozbité pravidlo, ať to spadne dřív, než se
-      # za běh zaplatí.
+      # Testy pravidel, ne dat. Zdarma a offline. Když je rozbité pravidlo,
+      # ať to spadne dřív, než se za běh zaplatí. Konzistence dat se tu
+      # nekontroluje ze stejného důvodu jako v deploy.yml — nález v už
+      # zveřejněných datech spraví právě až ten běh, který následuje.
       - name: Offline checks
         run: |
           node scripts/dev/test-zabrany.js
           node scripts/dev/test-korektura.js
-          node scripts/dev/test-konzistence.js
 
       - name: Test evaluation
         env:

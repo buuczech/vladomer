@@ -27,7 +27,7 @@ import {
 import {
   STATUSES, STATUS_CS, promptHodnoceni, promptZpravy, promptHodnoceniKontrola,
 } from "./lib/prompty.js";
-import { duvodDegradace } from "./lib/dukaz.js";
+import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
    upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
@@ -78,6 +78,7 @@ const MAX_SOURCES = NAST.maximalne_zdroju;
 // A "fulfilled" claim without a concrete citation gets downgraded, so the
 // strongest status can never rest on an unsupported assertion.
 const EVIDENCE_MIN = NAST.minimalni_delka_dokladu;
+const LATKA_PORUSENO = NAST.latka_poruseno === 1;
 
 // All real item IDs — guards against the model inventing an ID (e.g. "11.11"),
 // which the merge-based storage would otherwise carry forward forever.
@@ -151,7 +152,8 @@ async function evaluateChapter(ch, prevEvals, snapshots) {
 
   const out = {};
   let kept = 0;
-  const demoted = { "no-evidence": 0, "no-date": 0, "predates-term": 0, "date-mismatch": 0 };
+  const demoted = { "no-evidence": 0, "no-date": 0, "predates-term": 0, "date-mismatch": 0,
+    "not-through-process": 0, "broken-no-evidence": 0 };
   for (const r of parsed) {
     if (!r || !r.id || !VALID_IDS.has(r.id)) continue;
     const sources = [];
@@ -175,8 +177,8 @@ async function evaluateChapter(ch, prevEvals, snapshots) {
     // Samo pravidlo je v lib/dukaz.js, aby se podle něj dala přepočítat i data,
     // která už jsou venku — dvě kopie by se časem rozešly.
     const downgradeReason = duvodDegradace(status, evidence, evDate,
-      { minDelkaDokladu: EVIDENCE_MIN, nastup: DATES.tookOffice });
-    if (downgradeReason) { status = "partial"; demoted[downgradeReason]++; }
+      { minDelkaDokladu: EVIDENCE_MIN, nastup: DATES.tookOffice, latkaPoruseno: LATKA_PORUSENO });
+    if (downgradeReason) { status = CIL_DEGRADACE[downgradeReason]; demoted[downgradeReason]++; }
 
     out[r.id] = {
       status,

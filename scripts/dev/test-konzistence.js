@@ -26,7 +26,7 @@ import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { ALL_ITEMS, TOTAL_ITEMS, CHAPTERS, DATES } from "../../src/data.js";
 import { STATUSES } from "../lib/prompty.js";
-import { duvodDegradace } from "../lib/dukaz.js";
+import { duvodDegradace, CIL_DEGRADACE } from "../lib/dukaz.js";
 import { ocisti } from "../lib/korektura.js";
 import { readSettings, readList } from "../lib/nastaveni.js";
 import { jsonLd } from "../lib/seo.js";
@@ -43,7 +43,7 @@ const WEBY_ZPRAVY = readList("weby-zpravy.txt");
 
 const PLATNA_ID = new Set(ALL_ITEMS.map((it) => it.id));
 const PLATNE_STAVY = new Set(STATUSES);
-const DUVODY_DEGRADACE = ["no-evidence", "no-date", "predates-term", "date-mismatch"];
+const DUVODY_DEGRADACE = Object.keys(CIL_DEGRADACE);
 
 /* Systémová vada by jinak vypsala 143 řádků a utopila v nich zbytek. */
 const MAX_UKAZEK = 5;
@@ -140,7 +140,8 @@ const evals = EV.evals || {};
 //  C — laťka na doklad. Přepočítá se týmž pravidlem, jakým běh rozhodoval.
 // ===========================================================================
 {
-  const PRAVIDLA = { minDelkaDokladu: NAST.minimalni_delka_dokladu, nastup: DATES.tookOffice };
+  const PRAVIDLA = { minDelkaDokladu: NAST.minimalni_delka_dokladu, nastup: DATES.tookOffice,
+    latkaPoruseno: NAST.latka_poruseno === 1 };
   const neobstalo = [], spatnaDegradace = [], neznamyDuvod = [];
   for (const it of ALL_ITEMS) {
     const e = evals[it.id];
@@ -149,11 +150,15 @@ const evals = EV.evals || {};
     if (e.status === "fulfilled" && duvod) neobstalo.push(`${it.id} (${duvod})`);
     if (e.evidenceMissing) {
       if (!DUVODY_DEGRADACE.includes(e.evidenceMissing)) neznamyDuvod.push(`${it.id} (${e.evidenceMissing})`);
-      if (e.status !== "partial") spatnaDegradace.push(`${it.id} (${e.status})`);
+      /* Kam se sráží, říká CIL_DEGRADACE — natvrdo „partial“ to být nesmí,
+         protože obvinění bez dokladu padá na „jen deklarováno“. */
+      else if (e.status !== CIL_DEGRADACE[e.evidenceMissing]) {
+        spatnaDegradace.push(`${it.id} (${e.status}, čekáno ${CIL_DEGRADACE[e.evidenceMissing]})`);
+      }
     }
   }
   if (neobstalo.length) chyba("C", `„splněno“ neprojde laťkou na doklad u ${neobstalo.length} bodů: ${vzorek(neobstalo)}`);
-  if (spatnaDegradace.length) chyba("C", `evidenceMissing u bodu, který není „částečně splněno“: ${vzorek(spatnaDegradace)}`);
+  if (spatnaDegradace.length) chyba("C", `evidenceMissing u bodu s jiným stavem, než na jaký se sráží: ${vzorek(spatnaDegradace)}`);
   if (neznamyDuvod.length) chyba("C", `neznámý důvod degradace: ${vzorek(neznamyDuvod)}`);
   if (!neobstalo.length && !spatnaDegradace.length && !neznamyDuvod.length) {
     ok("C", "každé „splněno“ obstojí a každá degradace má platný důvod");
@@ -366,6 +371,28 @@ const AUDIT = ctiJson("public/audit.json");
       + "\n         Dnes to nic nekazí, protože žádný bod ten stav nemá. Jakmile ho dostane,"
       + "\n         začne web hlásit dvě různá procenta o téže vládě.");
   } else ok("F", `všech ${Object.keys(jmenovatele).length} míst počítá jmenovatel ze stejných stavů`);
+
+  /* Geometrie oblouků je schválně zdvojená mezi Ring v App.jsx a oblouk
+     v instagram/post.js — nesdílí se přes hranici src/scripts. Nikdo ji
+     dosud nehlídal, přitom zaoblený konec bez zkrácení nafoukne 5,7 % na
+     9,1 %. Neporovnává se text, ale to, co musí platit v obou: délka se
+     krátí o tloušťku, začátek se posouvá o polovinu, a segment kratší než
+     tloušťka se nezaobluje. */
+  const geometrie = {
+    "src/App.jsx (Ring)": cti("src/App.jsx"),
+    "scripts/instagram/post.js (oblouk)": cti("scripts/instagram/post.js"),
+  };
+  const chybiVzor = [];
+  for (const [kde, kod] of Object.entries(geometrie)) {
+    const zkraceni = /kumulativne\s*-\s*(sirka|tloustka)/.test(kod);
+    const posun = /-\s*(sirka|tloustka)\s*\/\s*2/.test(kod);
+    const butt = /kumulativne\s*<=\s*(sirka|tloustka)/.test(kod) && /"butt"/.test(kod);
+    if (!zkraceni || !posun || !butt) {
+      chybiVzor.push(`${kde} (${[!zkraceni && "zkrácení", !posun && "posun", !butt && "rovný konec"].filter(Boolean).join(", ")})`);
+    }
+  }
+  if (chybiVzor.length) chyba("F", `geometrie prstence neodpovídá pravidlu o zaoblených koncích: ${chybiVzor.join("; ")}`);
+  else ok("F", "obě geometrie prstence krátí oblouk o tloušťku a nezaoblují krátký segment");
 }
 
 // ===========================================================================

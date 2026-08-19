@@ -182,7 +182,8 @@ function oblouk(kumulativne, tloustka, obvod) {
 
 function slideSouhrn(d) {
   const r = 80, c = 2 * Math.PI * r, t = 17;
-  const seg = (v) => (v / 100) * c;
+  // Ořez jako v Ring v src/App.jsx — obě geometrie se musí chovat stejně.
+  const seg = (v) => (Math.max(0, Math.min(100, v)) / 100) * c;
   const done = oblouk(seg(d.done), t, c);
   const partial = oblouk(seg(d.done + d.partial), t, c);
   const prog = oblouk(seg(d.done + d.partial + d.prog), t, c);

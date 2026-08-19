@@ -98,6 +98,14 @@ const T = {
       cs: "jediné, co doklad váže k této vládě, je den, kdy starší předpis začal platit — ne krok, který by vláda sama udělala.",
       en: "the only thing tying the evidence to this cabinet is the day an older rule took effect — not any step the cabinet itself took.",
     },
+    "not-through-process": {
+      cs: "doklad popisuje návrh, který teprve míří do Sněmovny — ne normu, která prošla celým legislativním procesem.",
+      en: "the evidence describes a bill still on its way to parliament — not a law that completed the legislative process.",
+    },
+    "broken-no-evidence": {
+      cs: "pro tvrzení o porušení slibu nebyl uveden žádný konkrétní doklad.",
+      en: "no concrete evidence was given for the claim that the promise was broken.",
+    },
   },
   searchPlaceholder: { cs: "Hledat v bodech programu…", en: "Search the programme…" },
   filterAll: { cs: "Vše", en: "All" },
@@ -492,6 +500,18 @@ function trend(from, to) {
 }
 function hostOf(url) { try { return new URL(url).hostname.replace(/^(www|m)\./, ""); } catch { return url; } }
 
+/* Adresy pocházejí z modelu. Dnes je hlídá pipeline — vyhledávání smí vracet
+   jen povolené domény a evaluate.js zahodí odkaz, který se ve výsledcích
+   nevyskytl — jenže to je ochrana jinde, než kde se odkaz vykresluje. Schéma
+   javascript: v href je klikatelný skript, tak se sem pouští jen http(s).
+   Zásada projektu zní, že zábrany patří do kódu, ne do promptu. */
+function bezpecnyOdkaz(url) {
+  try {
+    const u = new URL(url);
+    return u.protocol === "http:" || u.protocol === "https:" ? u.href : null;
+  } catch { return null; }
+}
+
 const CSS = `
 /* "Institutional Cyberpunk" palette — deep slate/charcoal foundation, indigo
    accent for chrome, emerald/amber/red reserved for status data, gradient
@@ -500,7 +520,7 @@ const CSS = `
 :root{
   --bg:#F4F6F8; --surface:#ffffff; --surface-2:#EEF1F5; --text:#0F172A;
   --muted:#5B6577; --border:#E2E7EF; --shadow:0 1px 2px rgba(15,23,42,.05),0 8px 24px rgba(15,23,42,.05);
-  --accent:#3B5BDB; --ok:#059669; --partial:#4D7C0F; --prog:#B45309; --declared:#64748B; --bad:#DC2626; --pending:#94A0B2;
+  --accent:#3B5BDB; --ok:#047857; --partial:#4D7C0F; --prog:#B45309; --declared:#64748B; --bad:#DC2626; --pending:#94A0B2;
   --cz-blue:#11457e; --cz-red:#d7141a;
   --grad-a:#3B5BDB; --grad-b:#059669;
   --grad:linear-gradient(90deg,var(--grad-a),var(--grad-b));
@@ -580,7 +600,7 @@ const CSS = `
 .vm-ch{background:var(--surface);border:1px solid var(--border);border-radius:14px;box-shadow:var(--shadow);overflow:hidden}
 .vm-ch-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;user-select:none}
 .vm-ch-num{font-size:12px;font-weight:740;color:var(--muted);width:22px;flex:none;text-align:center}
-.vm-ch-title{font-weight:680;font-size:15px;letter-spacing:-.01em;flex:1;min-width:0}
+.vm-ch-title{font-weight:680;font-size:15px;letter-spacing:-.01em;flex:1;min-width:0;margin:0}
 .vm-ch-prog{display:flex;align-items:center;gap:10px;flex:none}
 .vm-ch-pct{font-size:12.5px;font-weight:720;width:38px;text-align:right}
 .vm-mini{width:70px;height:6px;border-radius:6px;background:var(--border);overflow:hidden;display:flex}
@@ -602,7 +622,7 @@ const CSS = `
 .vm-caret{color:var(--muted);transition:transform .2s;flex:none}
 .vm-caret.open{transform:rotate(90deg)}
 .vm-ch-body{border-top:1px solid var(--border);padding:6px 0}
-.vm-grp-title{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;padding:12px 16px 6px}
+.vm-grp-title{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:700;padding:12px 16px 6px;margin:0}
 .vm-it{padding:9px 16px;border-top:1px solid var(--border)}
 .vm-it:first-of-type{border-top:0}
 .vm-it-row{display:flex;align-items:flex-start;gap:11px}
@@ -1387,7 +1407,7 @@ export default function App() {
                   <div className="vm-news-item" key={i}>
                     <span className="vm-news-num vm-mono">{i + 1}</span>
                     <div className="vm-news-main">
-                      <a href={n.url} target="_blank" rel="noopener noreferrer">{n.title[lang] || n.title.cs}</a>
+                      <a href={bezpecnyOdkaz(n.url) || undefined} target="_blank" rel="noopener noreferrer">{n.title[lang] || n.title.cs}</a>
                       {(n.summary?.[lang] || n.summary?.cs) && (
                         <div className="vm-news-sum">{n.summary[lang] || n.summary.cs}</div>
                       )}
@@ -1465,7 +1485,7 @@ export default function App() {
               <div className="vm-ch" key={ch.id}>
                 <div className="vm-ch-head" onClick={() => setOpenCh((o) => ({ ...o, [ch.id]: !o[ch.id] }))}>
                   <span className="vm-ch-num vm-mono">{ch.id}</span>
-                  <span className="vm-ch-title">{ch.title[lang]}</span>
+                  <h2 className="vm-ch-title">{ch.title[lang]}</h2>
                   <span className="vm-ch-prog">
                     <span className="vm-mini" title={st.evaluated
                       ? `${t("statDone")} ${pct1(st.done)} % · ${t("statPartial")} ${pct1(st.partial)} % · ${t("statProg")} ${pct1(st.prog)} %` : ""}>
@@ -1485,7 +1505,7 @@ export default function App() {
                   <div className="vm-ch-body">
                     {groups.map((g, gi) => (
                       <div key={gi}>
-                        <div className="vm-grp-title">{g.title[lang]}</div>
+                        <h3 className="vm-grp-title">{g.title[lang]}</h3>
                         {g.items.map((it) => {
                           const status = statusOf(it.id);
                           const sObj = STATUS[status];
@@ -1550,7 +1570,7 @@ export default function App() {
                                           <span className="clab">{t("sourcesLabel")}</span>
                                           <div className="vm-src">
                                             {e.sources.map((s, i) => (
-                                              <a key={i} href={s.url} target="_blank" rel="noopener noreferrer" title={s.url}>
+                                              <a key={i} href={bezpecnyOdkaz(s.url) || undefined} target="_blank" rel="noopener noreferrer" title={s.url}>
                                                 {s.title || s.url} <span className="host">· {hostOf(s.url)}</span>
                                               </a>
                                             ))}

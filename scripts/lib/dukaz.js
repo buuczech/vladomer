@@ -83,19 +83,70 @@ export function jeJenDatumUcinnosti(dukaz, datum) {
   return [...vsechnaData(dukaz)].every((d) => d === datum);
 }
 
-/**
- * Vrátí důvod, proč „splněno“ neobstálo, nebo null.
- * U jiných stavů vrací vždy null — laťka platí jen na „splněno“.
+/* Doklad, který popisuje ROZDĚLANÝ legislativní proces, ne dokončený.
+ *
+ * Prompt tohle říká výslovně — „fulfilled POUZE pokud norma prošla CELÝM
+ * legislativním procesem" — a model to přesto porušil: bod 14.4 měl stav
+ * „splněno" s dokladem „Vláda schválila návrh zákona… směřuje k Poslanecké
+ * sněmovně" a v komentáři si pravidlo přepsal na „tímto krokem legislativního
+ * procesu je závazek splněn". Instrukce v promptu tedy nestačí a pravidlo
+ * patří do kódu.
+ *
+ * Rozhoduje se dvojicí značek: text musí mluvit o rozpracovanosti A ZÁROVEŇ
+ * neuvádět nic, co dokončení dokládá. Bod 10.4 („zákon č. 117/1995 Sb. …
+ * schválený Sněmovnou 8. 7. 2026, Senátem 29. 7. 2026") zmiňuje Sněmovnu
+ * taky, ale nese i Sbírku a Senát, takže projde.
  */
-export function duvodDegradace(stav, dukaz, datum, { minDelkaDokladu, nastup }) {
+const ROZDELANO = /(návrh\s+(?:zákona|novely)|směřuje|míří\s+do|čeká\s+na|putuje|prošl\p{L}*\s+vládou|v\s+(?:prvním|druhém|třetím)\s+čtení|projednáv\p{L}*)/iu;
+const DOKONCENO = /(\bSb\.|Sbírc\p{L}*|Sbírk\p{L}*|vyhlášen\p{L}*|podepsal|prezident\p{L}*|Senát\p{L}*\s+(?:schválil|schválen\p{L}*|prošel)|nabyl\p{L}*\s+účinnosti)/iu;
+
+export function jeNedokoncenyProces(dukaz) {
+  const t = String(dukaz || "");
+  return ROZDELANO.test(t) && !DOKONCENO.test(t);
+}
+
+/* Kam který důvod stav posune. Dřív to bylo natvrdo „partial" v evaluate.js,
+   jenže laťka u „porušeno" musí srážet jinam: obvinění bez dokladu není
+   částečné splnění, je to „nevíme, že se to stalo". */
+export const CIL_DEGRADACE = {
+  "no-evidence": "partial",
+  "no-date": "partial",
+  "predates-term": "partial",
+  "date-mismatch": "partial",
+  "not-through-process": "in_progress",
+  "broken-no-evidence": "declared",
+};
+
+/**
+ * Vrátí důvod, proč stav neobstál, nebo null. Kam se stav posune, říká
+ * CIL_DEGRADACE.
+ *
+ * Laťka platí na „splněno“ vždy a na „porušeno“ jen když je zapnutá
+ * příznakem latkaPoruseno. To rozlišení je schválně: prompt až do srpna 2026
+ * modelu výslovně říkal, že mimo „splněno“ má být doklad prázdný, takže
+ * všech devět tehdejších „porušeno“ ho prázdné má a zapnutá laťka by je
+ * naráz srazila — přesně ta příliš horlivá zábrana, kterou popisuje
+ * CLAUDE.md. Zapíná se až ve chvíli, kdy si o doklad říká i prompt.
+ */
+export function duvodDegradace(stav, dukaz, datum, { minDelkaDokladu, nastup, latkaPoruseno = false }) {
+  const kratky = String(dukaz || "").length < minDelkaDokladu;
+
+  /* Obvinění z porušení slibu je stejně silné tvrzení jako tvrzení o splnění
+     a stálo web dvakrát: bod 7.2 označil za porušený slib „neimplementovat
+     ETS2“ ve chvíli, kdy ho vláda prokazatelně dodržela. Bez dokladu se
+     obvinění nemá o co opřít, tak spadne na „jen deklarováno“. */
+  if (stav === "broken") return latkaPoruseno && kratky ? "broken-no-evidence" : null;
+
   if (stav !== "fulfilled") return null;
 
-  if (String(dukaz || "").length < minDelkaDokladu) return "no-evidence";
+  if (kratky) return "no-evidence";
   if (!datum) return "no-date";
   // Zásluha za práci dokončenou před nástupem vlády patří té předchozí,
   // jakkoli dobře téma na slib sedí.
   if (Date.parse(datum) < new Date(nastup).getTime()) return "predates-term";
   // Klíč zůstává „date-mismatch“ kvůli datům, která už jsou venku.
   if (jeJenDatumUcinnosti(dukaz, datum)) return "date-mismatch";
+  // Návrh, který teprve míří do Sněmovny, není norma, která prošla.
+  if (jeNedokoncenyProces(dukaz)) return "not-through-process";
   return null;
 }

@@ -29,16 +29,24 @@ jobs:
         with:
           node-version: 20
 
-      - run: npm install
+      - run: npm ci
 
-      # Tři offline kontroly. Nic nestojí, nic neodesílají, běží pár vteřin.
-      # Jsou první, protože nasadit data, která si protiřečí, je horší než
-      # nenasadit nic — u webu, jehož jediný kapitál je důvěryhodnost.
+      # Testy PRAVIDEL, ne dat. Nic nestojí, nic neodesílají, běží pár vteřin.
+      # Musí být první: když je rozbité pravidlo, ať to spadne dřív, než se
+      # za hodnocení zaplatí.
       - name: Offline checks
         run: |
           node scripts/dev/test-zabrany.js
           node scripts/dev/test-korektura.js
-          node scripts/dev/test-konzistence.js
+
+      # Konzistence UŽ ZVEŘEJNĚNÝCH dat. Schválně NEblokuje: data jsou v tu
+      # chvíli dávno venku, takže zastavené nasazení nic nespraví — jen by
+      # zabránilo i té změně, která je opravou. A hlavně tenhle krok nesmí
+      # předcházet hodnocení: páteční běh je jediné, co takový nález umí
+      # spravit, a kontrola před ním by ho zablokovala napořád.
+      - name: Check published data
+        continue-on-error: true
+        run: node scripts/dev/test-konzistence.js
 
       # Run the AI evaluation only on the Friday schedule or a manual run,
       # not on ordinary code pushes. Needs the ANTHROPIC_API_KEY repo secret.

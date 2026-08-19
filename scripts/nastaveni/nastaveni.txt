@@ -26,6 +26,20 @@ maximalne_zdroju = 3
 # Vyšší číslo = přísnější web. (0 až 200)
 minimalni_delka_dokladu = 12
 
+# Vyžadovat doklad i u stavu „porušeno". Obvinění z porušení slibu
+# je stejně silné tvrzení jako tvrzení o splnění, ale až do srpna 2026
+# si o doklad říkal prompt jen u „splněno" — a web tak vydával obvinění,
+# která neměla o co se opřít. Když je zapnuto a doklad chybí, stav
+# spadne na „jen deklarováno".
+#
+# ZAPÍNEJ AŽ POTÉ, co proběhl aspoň jeden běh s upraveným promptem
+# a v logu je vidět, že model doklad u „porušeno" opravdu dodává.
+# Zapnuto dřív by naráz srazilo všechny porušené sliby, protože jejich
+# doklad je prázdný podle staré instrukce, ne vinou modelu.
+#   0 = vypnuto (výchozí)
+#   1 = zapnuto
+latka_poruseno = 0
+
 # Kolik znaků z minulotýdenního komentáře model uvidí jako kontext.
 # Delší = víc souvislosti mezi týdny, ale dražší běh. (40 až 1000)
 delka_predchoziho_komentare = 180

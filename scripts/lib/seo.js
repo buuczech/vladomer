@@ -98,5 +98,10 @@ export function jsonLd({ evaluationsPath, items, totalItems, tookOffice }) {
     },
   ];
 
-  return JSON.stringify({ "@context": "https://schema.org", "@graph": graf });
+  /* Výstup se vkládá do <script> v index.html nahrazením řetězce, takže
+     sekvence "</script>" uvnitř dat by z bloku vystoupila. Dnes sem jdou jen
+     číselné souhrny a pevné texty, ale escapovat "<" je jednořádková pojistka
+     a JSON s < je pořád platný JSON. */
+  return JSON.stringify({ "@context": "https://schema.org", "@graph": graf })
+    .replace(/</g, "\u003c");
 }

@@ -38,10 +38,22 @@ for soubor in $(git diff --cached --name-only --diff-filter=ACM); do
   # sypalo varování o nulových bajtech (hudba pod reely, obrázky příspěvků).
   git diff --cached --numstat -- "$soubor" | grep -q '^-' && continue
   obsah=$(git show ":$soubor" 2>/dev/null) || continue
+
+  # Vzor na facebookový token (EAA + dlouhý base64) sedí i na zakódovaná
+  # písma uvnitř SVG — public/bmc-cs.svg i bmc-en.svg ho spouštějí, aniž by
+  # v nich cokoli tajného bylo. U SVG se proto vynechává; ostatní vzory
+  # platí i tam, protože ty falešně nesedí na nic.
+  case "$soubor" in
+    *.svg) vzor_token="" ;;
+    *)     vzor_token="-e EAA[A-Za-z0-9]{40,}" ;;
+  esac
+
   radky=$(printf '%s' "$obsah" | grep -nE \
     -e 'sk_[0-9a-f]{32,}' \
+    -e 'sk-ant-[A-Za-z0-9_-]{20,}' \
     -e '(IG_ACCESS_TOKEN|ELEVENLABS_API_KEY|ANTHROPIC_API_KEY)[[:space:]]*=[[:space:]]*[A-Za-z0-9_-]{20,}' \
-    -e 'EAA[A-Za-z0-9]{40,}' | cut -d: -f1 | tr '\n' ' ')
+    $vzor_token | cut -d: -f1 | tr '
+' ' ')
   if [ -n "$radky" ]; then
     echo "ZASTAVENO: $soubor — vypadá jako klíč nebo token na řádku: $radky"
     nalezeno=1

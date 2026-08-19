@@ -11,7 +11,7 @@
  * Vzorky níž proto nejsou vymyšlené. Jsou to doslovné doklady z běhu
  * ze 14. 8. 2026, včetně toho, kvůli kterému kontrola vznikla.
  */
-import { duvodDegradace } from "../lib/dukaz.js";
+import { duvodDegradace, CIL_DEGRADACE } from "../lib/dukaz.js";
 import { DATES } from "../../src/data.js";
 
 const PRAVIDLA = { minDelkaDokladu: 20, nastup: DATES.tookOffice };
@@ -78,6 +78,20 @@ const PRIPADY = [
     datum: "2025-01-01",
     ceka: "predates-term",
   },
+  {
+    proc: "14.4 — návrh teprve míří do Sněmovny (skutečný doklad z 14. 8. 2026)",
+    dukaz: "Vláda schválila návrh zákona na zasedání 15. června 2026; norma již "
+      + "prošla vládou a směřuje k Poslanecké sněmovně",
+    datum: "2026-06-15",
+    ceka: "not-through-process",
+  },
+  {
+    proc: "návrh v prvním čtení",
+    dukaz: "Poslanecká sněmovna projednává vládní návrh novely v prvním čtení, "
+      + "hlasování 12. 5. 2026",
+    datum: "2026-05-12",
+    ceka: "not-through-process",
+  },
 ];
 
 let spadlo = 0;
@@ -89,15 +103,52 @@ for (const p of PRIPADY) {
   if (!ok) console.log(`      čekáno ${p.ceka ?? "beze změny"}, vyšlo ${mam ?? "beze změny"}`);
 }
 
-// Laťka platí jen na „splněno“ — nižší stavy se nesmí sráżet ještě níž.
-const jineStavy = ["partial", "in_progress", "declared", "not_started", "broken"]
-  .filter((s) => duvodDegradace(s, "", "", PRAVIDLA) !== null);
-if (jineStavy.length) {
+/* Laťka smí sáhnout jen na „splněno“ a — když je zapnutá — na „porušeno“.
+   Ostatní stavy se nesmí srážet nikdy: „probíhá“ bez dokladu je legitimní
+   popis rozdělané práce, ne tvrzení, které by se mělo dokládat. */
+const NEDOTKNUTELNE = ["partial", "in_progress", "declared", "not_started"];
+const zasazene = NEDOTKNUTELNE
+  .filter((s) => duvodDegradace(s, "", "", { ...PRAVIDLA, latkaPoruseno: true }) !== null);
+if (zasazene.length) {
   spadlo++;
-  console.log(`CHYBA laťka zasáhla i do stavů: ${jineStavy.join(", ")}`);
+  console.log(`CHYBA laťka zasáhla i do stavů: ${zasazene.join(", ")}`);
 } else {
-  console.log("ok   laťka se drží jen stavu „splněno“");
+  console.log("ok   laťka se nedotkne stavů mezi „splněno“ a „porušeno“");
 }
 
-console.log(spadlo ? `\n${spadlo} selhání.` : `\nVšech ${PRIPADY.length + 1} kontrol prošlo.`);
+/* „Porušeno“ je obvinění a bez dokladu nemá o co se opřít. Laťka je ale
+   vypnutá, dokud si o doklad neřekne i prompt — zapnutá dřív by srazila
+   devět hodnocení, jejichž doklad je prázdný podle staré instrukce. */
+const vypnuta = duvodDegradace("broken", "", "", { ...PRAVIDLA, latkaPoruseno: false });
+if (vypnuta !== null) {
+  spadlo++;
+  console.log(`CHYBA vypnutá laťka u „porušeno“ přesto srazila: ${vypnuta}`);
+} else {
+  console.log("ok   vypnutá laťka „porušeno“ nechává bez dokladu projít");
+}
+
+const zapnuta = duvodDegradace("broken", "", "", { ...PRAVIDLA, latkaPoruseno: true });
+if (zapnuta !== "broken-no-evidence") {
+  spadlo++;
+  console.log(`CHYBA zapnutá laťka u „porušeno“ bez dokladu vrátila ${zapnuta ?? "null"}`);
+} else {
+  console.log("ok   zapnutá laťka „porušeno“ bez dokladu sráží");
+}
+
+const sDokladem = duvodDegradace("broken",
+  "ministr Juchelka 14. 7. 2026 oznámil, že zastropování nebude v první vlně reformy",
+  "2026-07-14", { ...PRAVIDLA, latkaPoruseno: true });
+if (sDokladem !== null) {
+  spadlo++;
+  console.log(`CHYBA doložené „porušeno“ přesto spadlo: ${sDokladem}`);
+} else {
+  console.log("ok   doložené „porušeno“ obstojí");
+}
+
+/* Kam se sráží, se nesmí rozejít s klíči důvodů. */
+const bezCile = Object.keys(CIL_DEGRADACE).filter((k) => !CIL_DEGRADACE[k]);
+if (bezCile.length) { spadlo++; console.log(`CHYBA důvod bez cílového stavu: ${bezCile.join(", ")}`); }
+else console.log("ok   každý důvod degradace má cílový stav");
+
+console.log(spadlo ? `\n${spadlo} selhání.` : `\nVšech ${PRIPADY.length + 5} kontrol prošlo.`);
 process.exitCode = spadlo ? 1 : 0;
