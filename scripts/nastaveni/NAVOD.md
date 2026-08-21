@@ -65,3 +65,32 @@ Datové soubory zůstanou nedotčené.
   `idnes.cz`, `lidovky.cz`), **selže celý dotaz**, ne jen ten jeden web.
 - Vyšší hodnoty u `vyhledavani_*` znamenají důkladnější, ale dražší běh.
   Hodnocení běží 18× za týden, sběr zpráv jen jednou.
+
+## Stabilizace hodnocení (od srpna 2026)
+
+Týdenní běh už nehodnotí všech 143 bodů znovu. Nejdřív proběhne **sken
+událostí** (`prompt-delta.md`): u každé oblasti se model ptá jen na to, co se
+od minulého běhu stalo. Přehodnocují se pak pouze body s nalezenou datovanou
+událostí; ostatní drží stav z minula a dostanou jen razítko „prověřeno".
+
+Změna stavu **z nebo do „splněno" či „porušeno"** musí navíc projít ověřením
+(`prompt-overeni-prechodu.md`): silnější model dostane úzkou otázku, jestli
+doklad ten přechod opravdu nese, s výchozí odpovědí NE. Zamítnutý přechod
+znamená, že bod podrží minulé hodnocení celé.
+
+Jednou za `plny_audit_dni` dnů proběhne **plný audit** všech bodů — pojistka,
+aby zmeškaná událost nezůstala zmeškaná navždy.
+
+K tomu patří čtyři nová nastavení v `nastaveni.txt`: `plny_audit_dni`,
+`overovat_prechody`, `overovaci_model` a `vyhledavani_delta`. Každé má
+komentář přímo u sebe.
+
+Na co si dát pozor:
+
+- `prompt-delta.md` je jediné místo, které rozhoduje, co se vůbec bude
+  hodnotit. Když z něj vyškrtneš důraz na důkladné hledání, běh zlevní, ale
+  web začne zaspávat události — a pozná se to až při plném auditu.
+- V `prompt-overeni-prechodu.md` je výchozí odpověď NE schválně. Když ji
+  otočíš, ověření přestane plnit svou roli a zůstane z něj drahé razítko.
+- Oba nové prompty se zobrazují na webu v sekci „Použité prompty" — po změně
+  se na ně tam podívej, jestli dávají smysl i pro čtenáře.

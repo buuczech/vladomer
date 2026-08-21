@@ -38,7 +38,7 @@ minimalni_delka_dokladu = 12
 # doklad je prázdný podle staré instrukce, ne vinou modelu.
 #   0 = vypnuto (výchozí)
 #   1 = zapnuto
-latka_poruseno = 0
+latka_poruseno = 1
 
 # Kolik znaků z minulotýdenního komentáře model uvidí jako kontext.
 # Delší = víc souvislosti mezi týdny, ale dražší běh. (40 až 1000)
@@ -109,3 +109,20 @@ korektura_model = claude-sonnet-4-6
 # před pokaženým promptem, po kterém by model začal texty přepisovat
 # místo opravovat. V praxi se opravuje kolem 50 %. (0 až 100)
 korektura_nejvic_zmen_procent = 80
+
+# --- stabilizace hodnoceni (od 08/2026) -------------------------------------
+# Jednou za tolik dni probehne plny audit vsech 143 bodu. Mezi audity se
+# prehodnocuji jen body, u kterych tydeni sken najde datovanou udalost.
+plny_audit_dni = 28
+
+# Kazdy prechod z/do stavu "splneno" nebo "poruseno" overi druhy, silnejsi
+# model s vychozi odpovedi NE. 0 = overovani vypnuto (prechody pak brzdi jen
+# pravidla v kodu).
+overovat_prechody = 1
+
+# Model na overovani prechodu. Ma byt silnejsi nez hodnotici model - slabsi
+# model neuhlida usudek silnejsiho.
+overovaci_model = claude-sonnet-4-6
+
+# Kolik vyhledavani smi tydeni sken udalosti pouzit na jednu kapitolu.
+vyhledavani_delta = 4

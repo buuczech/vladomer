@@ -182,6 +182,7 @@ export async function opravDavku(davka, { model, key, maxTokens, stropProcent = 
     body: JSON.stringify({
       model,
       max_tokens: maxTokens,
+      temperature: 0,   // korektura má být opakovatelná — stejný vstup, stejná oprava
       messages: [{ role: "user", content: prompt }],
       // Žádné tools: korektor nesmí nic dohledávat, jen opravovat jazyk.
     }),
