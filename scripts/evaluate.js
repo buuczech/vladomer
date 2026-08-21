@@ -30,6 +30,7 @@ import {
 } from "./lib/prompty.js";
 import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
 import { posudPrechod, bodyKPrehodnoceni } from "./lib/prechody.js";
+import { parsujDeltaOdpoved } from "./lib/delta.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
    upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
@@ -248,28 +249,15 @@ async function deltaScan(ch, prevEvals, odData, items) {
   if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
   const data = await res.json();
   const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
-  const clean = text.replace(/```json|```/g, "").trim();
-  const a = clean.indexOf("["), b = clean.lastIndexOf("]");
-  if (a === -1 || b === -1) throw new Error("delta scan: odpověď bez JSON pole");
-  const parsed = JSON.parse(clean.slice(a, b + 1));
-  if (!Array.isArray(parsed)) throw new Error("delta scan: odpověď není pole");
-
-  const mistni = new Set(items.map((i) => i.id));
   let searchCount = 0;
   for (const blok of data.content || []) {
     if (blok.type === "web_search_tool_result" && Array.isArray(blok.content)) searchCount += blok.content.length;
   }
-  const udalosti = {};
-  for (const u of parsed) {
-    if (!u || !mistni.has(u.id)) continue;                       // cizí nebo vymyšlené id
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(u.datum || "")) continue;   // událost bez data není událost
-    udalosti[u.id] = {
-      udalost: String(u.udalost || "").slice(0, 300),
-      datum: u.datum,
-      zdroje: Array.isArray(u.zdroje) ? u.zdroje.slice(0, MAX_SOURCES) : [],
-    };
-  }
-  return { udalosti, searchCount };
+  /* Nevyhazuje se: nesrozumitelná odpověď kapitolu neshodí, ale ani se nesmí
+     tvářit jako klidný týden — volající ji vypíše a spočítá. */
+  const { udalosti, chyba, zahozeno } =
+    parsujDeltaOdpoved(text, new Set(items.map((i) => i.id)), MAX_SOURCES);
+  return { udalosti, searchCount, chyba, zahozeno };
 }
 
 /* Ověření navrženého přechodu druhým, silnějším modelem. Bez vyhledávání —
@@ -491,6 +479,7 @@ async function main() {
      nepřehodnocuje vůbec nic. Musí to být vidět v logu. */
   let udalostiCelkem = 0;
   let skenovanychKapitol = 0;
+  const skenBezOdpovedi = [];
   const BODY_DLE_ID = Object.fromEntries(
     CHAPTERS.flatMap((c) => c.groups.flatMap((g) => g.items)).map((i) => [i.id, i]));
   for (const ch of CHAPTERS.slice(0, CHAPTER_LIMIT)) {
@@ -512,8 +501,13 @@ async function main() {
         bodyKHodnoceni = bodyKPrehodnoceni(vsechnyBody, udalosti, prevEvals);
         udalostiCelkem += Object.keys(udalosti).length;
         skenovanychKapitol++;
+        if (sken.chyba) skenBezOdpovedi.push(`${ch.id}:${sken.chyba}`);
+        const z = sken.zahozeno || {};
         console.log(`${bodyKHodnoceni.length} k přehodnocení `
-          + `(${Object.keys(udalosti).length} událostí, ${sken.searchCount} search hits)`);
+          + `(${Object.keys(udalosti).length} událostí, ${sken.searchCount} search hits`
+          + (sken.chyba ? `, ODPOVĚĎ NEPŘEČTENA: ${sken.chyba}` : "")
+          + (z.ciziId ? `, ${z.ciziId} cizích id` : "")
+          + (z.bezData ? `, ${z.bezData} bez data` : "") + ")");
       } catch (e) { chyba = e; }
       if (!chyba) await new Promise((r) => setTimeout(r, 5000));
     }
@@ -602,6 +596,11 @@ async function main() {
     await new Promise((r) => setTimeout(r, 20000));
   }
 
+  if (skenBezOdpovedi.length) {
+    console.log(`\nPOZOR: sken ${skenBezOdpovedi.length}× nevrátil čitelný seznam `
+      + `(${skenBezOdpovedi.join(", ")}). Tyhle kapitoly se tvářily jako bez událostí,`
+      + " ale ve skutečnosti se z nich nedalo nic přečíst.");
+  }
   if (REZIM_BEHU === "delta" && skenovanychKapitol && !udalostiCelkem) {
     console.log(`
 POZOR: sken neohlásil ANI JEDNU událost ve ${skenovanychKapitol} kapitolách.`
