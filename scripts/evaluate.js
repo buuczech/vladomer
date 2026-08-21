@@ -463,7 +463,13 @@ async function main() {
   const REZIM_BEHU = ["plny", "delta"].includes(process.env.REZIM_BEHU)
     ? process.env.REZIM_BEHU
     : (stariAudituDni >= NAST.plny_audit_dni ? "plny" : "delta");
-  const OD_DATA = String(drivejsi.lastUpdated || DATES.tookOffice).slice(0, 10);
+  /* Okno delta skenu. Běžně od posledního běhu; env OD_DATA ho posune ručně.
+     Bez toho nejde delta měřit: po opravném běhu je lastUpdated dnešek, sken
+     by hledal události „od dneška do dneška", nenašel nic a pár dvou takových
+     běhů by vyšel na 100 % shody, aniž by cokoli přehodnotil. */
+  const OD_DATA = /^\d{4}-\d{2}-\d{2}$/.test(process.env.OD_DATA || "")
+    ? process.env.OD_DATA
+    : String(drivejsi.lastUpdated || DATES.tookOffice).slice(0, 10);
   console.log(`Režim běhu: ${REZIM_BEHU}`
     + (REZIM_BEHU === "delta"
       ? ` — události od ${OD_DATA}; poslední plný audit ${posledniPlny ? posledniPlny.slice(0, 10) : "nikdy"}`

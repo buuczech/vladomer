@@ -28,6 +28,10 @@ on:
         default: "plny"
         type: choice
         options: [plny, delta, delta-vs-plny]
+      od_data:
+        description: "delta: od kdy hledat události (RRRR-MM-DD). Prázdné = od posledního běhu, což po opravném běhu znamená dnešek a sken nenajde nic."
+        required: false
+        default: ""
   push:
     branches: [dev]
     # Jen když se změní to, co běh ověřuje. Bez filtru stál každý push na dev
@@ -123,6 +127,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           CHAPTER_LIMIT: ${{ github.event.inputs.chapter_limit || '18' }}
           REZIM_BEHU: ${{ github.event.inputs.rezim_behu == 'delta-vs-plny' && 'delta' || github.event.inputs.rezim_behu || 'plny' }}
+          OD_DATA: ${{ github.event.inputs.od_data || '' }}
           BEZ_KOREKTURY: "1"
           BEZ_ZPRAV: "1"
         run: |
@@ -137,6 +142,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           CHAPTER_LIMIT: ${{ github.event.inputs.chapter_limit || '18' }}
           REZIM_BEHU: ${{ github.event.inputs.rezim_behu == 'delta-vs-plny' && 'plny' || github.event.inputs.rezim_behu || 'plny' }}
+          OD_DATA: ${{ github.event.inputs.od_data || '' }}
           BEZ_KOREKTURY: "1"
           BEZ_ZPRAV: "1"
         run: |
