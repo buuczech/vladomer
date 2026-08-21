@@ -31,6 +31,7 @@ import {
 import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
 import { posudPrechod, bodyKPrehodnoceni } from "./lib/prechody.js";
 import { parsujDeltaOdpoved } from "./lib/delta.js";
+import { parsujHodnoceni } from "./lib/odpoved.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
    upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
@@ -171,19 +172,7 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
   const searchCount = Object.keys(realMap).length;
 
   const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
-  const clean = text.replace(/```json|```/g, "").trim();
-  // With structured output the whole text is valid JSON ({items: [...]}).
-  // Bracket extraction stays as a fallback in case the response is somehow prose-wrapped.
-  let parsed;
-  try {
-    const root = JSON.parse(clean);
-    parsed = Array.isArray(root) ? root : root.items;
-  } catch {
-    const a = clean.indexOf("["), b = clean.lastIndexOf("]");
-    if (a === -1 || b === -1) throw new Error("no JSON array in response");
-    parsed = JSON.parse(clean.slice(a, b + 1));
-  }
-  if (!Array.isArray(parsed)) throw new Error("no JSON array in response");
+  const parsed = parsujHodnoceni(text);
 
   const out = {};
   let kept = 0;
