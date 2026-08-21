@@ -714,7 +714,14 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
   let recorded = 0;
   for (const id in newEvals) {
     const e = newEvals[id];
-    if (!e.updatedAt || e.updatedAt.slice(0, 10) !== today) continue; // not touched this run
+    /* Zapisuje se, co se tímhle během opravdu změnilo: přehodnocené body
+       (dnešní updatedAt) a body, kterým mechanická očista sáhla na text.
+       To druhé je kvůli delta běhům — přenesený bod si updatedAt nemění, ale
+       když se změní pravidla očisty, jeho text se na webu změní. Bez tohohle
+       by taková změna proběhla bez auditní stopy, což je přesně to, co audit
+       slibuje, že se stát nemůže. */
+    const prehodnocen = e.updatedAt && e.updatedAt.slice(0, 10) === today;
+    if (!prehodnocen && !puvodni[id]) continue;
     entries.push({
       id,
       date: today,
