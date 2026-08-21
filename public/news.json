@@ -1,29 +1,53 @@
 {
-  "generatedAt": "2026-08-14T10:26:09.489Z",
+  "generatedAt": "2026-08-21T10:03:50.985Z",
   "items": [
     {
       "title": {
-        "cs": "Kulturní komunita proti nové politice ministerstva",
-        "en": "Cultural community opposes new ministry policy"
+        "cs": "Sněmovna bude hlasovat o Pavlově vetu na rozpočtovou novelu",
+        "en": "Parliament to vote on President's veto on budget law amendment"
       },
       "summary": {
-        "cs": "Profesní organizace a kulturní instituce vyzvaly vládu ke stažení Státní kulturní politiky 2026–2030 kvůli netransparentní přípravě.",
-        "en": "Professional organizations called on the government to withdraw the new State Cultural Policy due to non-transparent preparation."
+        "cs": "Poslanci se sejdou 25. srpna, aby rozhodli o vetu prezidenta Petra Pavla na novelu rozpočtových zákonů, kterou chce vláda přehlasovat.",
+        "en": "MPs will meet on August 25 to decide on President Pavel's veto of budget law amendment that the government wants to override."
       },
-      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/ke-stazeni-vladni-kulturni-politiky-vyzvaly-profesni-organizace-spolky-i-odbory-376431",
-      "date": "2026-08-09"
+      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/snemovna-by-mela-o-vetovane-novele-rozpoctovych-zakonu-hlasovat-25-srpna-375870",
+      "date": "2026-08-21"
     },
     {
       "title": {
-        "cs": "Babiš plánuje masivní redukci na úřadu vlády",
-        "en": "Babiš plans massive cuts at Office of Government"
+        "cs": "Senát umožnil úpravu sněmovních pravidel k omezení obstrukcí",
+        "en": "Senate allows changes to parliamentary rules to limit obstruction"
       },
       "summary": {
-        "cs": "Premiér avizuje snížení rozpočtu úřadu vlády o skoro 730 milionů korun a ztrátu téměř 250 zaměstnanců do konce roku.",
-        "en": "Premier announces budget cuts of almost 730 million crowns and loss of nearly 250 employees by year-end."
+        "cs": "Senát schválil změny jednacího řádu Sněmovny zaměřené na snížení možnosti obstrukcí, nová pravidla vejdou v platnost za 15 dní.",
+        "en": "Senate approved changes to parliamentary rules aimed at reducing obstruction opportunities, new rules effective in 15 days."
       },
-      "url": "https://www.echo24.cz/a/HARth/zpravy-ekonomika-skrty-statni-zamestnanci-urad-vlady-250-uspora-730-milionu-babis-uspory",
-      "date": "2026-08-12"
+      "url": "https://www.ceskenoviny.cz/zpravy/senat-umoznil-prijeti-upravy-snemovnich-pravidel-k-omezeni-moznych-obstrukci/2863750",
+      "date": "2026-08-19"
+    },
+    {
+      "title": {
+        "cs": "Senát zamítl stavební novelu a zákon o státních zaměstnancích",
+        "en": "Senate rejects building law amendment and state employee law"
+      },
+      "summary": {
+        "cs": "Horní komora vrátila Sněmovně stavební novelu a zákon o státních zaměstnancích kvůli obavám z politizace a korupce.",
+        "en": "Upper house returned building law amendment and state employee law to lower house citing corruption and politicization concerns."
+      },
+      "url": "https://denikn.cz/minuta/2160446",
+      "date": "2026-08-20"
+    },
+    {
+      "title": {
+        "cs": "Ministr práce vyjednává s ministerstvem financí o platech státních zaměstnanců",
+        "en": "Labor minister negotiates with finance ministry on state employee wages"
+      },
+      "summary": {
+        "cs": "Ministr Juchelka jedná se Schillerovou o zvýšení platů státních zaměstnanců, rozhodnutí má padnout v září.",
+        "en": "Labor minister Juchelka negotiates with finance ministry on raising state employee wages, decision expected in September."
+      },
+      "url": "https://www.e15.cz/domaci/politika/odbory-zadaji-rust-platu-o-osm-procent-juchelka-slibuje-zvyseni-zadna-cisla-ale-neprozradil-1435040",
+      "date": "2026-08-20"
     }
   ]
 }
