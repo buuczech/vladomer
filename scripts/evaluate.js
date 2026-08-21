@@ -29,7 +29,7 @@ import {
   promptOvereniPrechodu, promptDeltaScan,
 } from "./lib/prompty.js";
 import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
-import { posudPrechod } from "./lib/prechody.js";
+import { posudPrechod, bodyKPrehodnoceni } from "./lib/prechody.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
    upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
@@ -497,7 +497,7 @@ async function main() {
       try {
         const sken = await withBackoff(() => deltaScan(ch, prevEvals, OD_DATA, vsechnyBody));
         udalosti = sken.udalosti;
-        bodyKHodnoceni = vsechnyBody.filter((it) => udalosti[it.id]);
+        bodyKHodnoceni = bodyKPrehodnoceni(vsechnyBody, udalosti, prevEvals);
         console.log(`${bodyKHodnoceni.length} událostí (${sken.searchCount} search hits)`);
       } catch (e) { chyba = e; }
       if (!chyba) await new Promise((r) => setTimeout(r, 5000));

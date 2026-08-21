@@ -7,7 +7,7 @@
  * kódové zábrany. Brána musí zastavit to první a propustit to druhé — kdyby
  * dělala jen jedno z toho, je k ničemu.
  */
-import { posudPrechod, ZAPADKA } from "../lib/prechody.js";
+import { posudPrechod, ZAPADKA, bodyKPrehodnoceni } from "../lib/prechody.js";
 
 const PRIPADY = [
   {
@@ -133,6 +133,21 @@ for (const p of PRIPADY) {
   if (!ok) console.log(`      čekáno ${p.ceka}, vyšlo ${r.akce} (${r.duvod})`);
 }
 
+/* Výběr bodů k přehodnocení v delta běhu. Nový bod bez události tu musí být:
+   kdyby vypadl, zůstal by na webu úplně bez hodnocení a konzistence spadne. */
+{
+  const items = [{ id: "1.1" }, { id: "1.2" }, { id: "1.3" }];
+  const vybrane = bodyKPrehodnoceni(items, { "1.2": { datum: "2026-09-01" } }, { "1.1": {}, "1.2": {} })
+    .map((i) => i.id);
+  const ceka = ["1.2", "1.3"];   // 1.2 má událost, 1.3 je nový
+  if (JSON.stringify(vybrane) !== JSON.stringify(ceka)) {
+    spadlo++;
+    console.log(`CHYBA výběr bodů k přehodnocení: čekáno ${ceka}, vyšlo ${vybrane}`);
+  } else {
+    console.log("ok   delta bere body s událostí i body bez předchozího hodnocení");
+  }
+}
+
 if (!ZAPADKA.has("fulfilled") || !ZAPADKA.has("broken") || ZAPADKA.size !== 2) {
   spadlo++;
   console.log("CHYBA západka nekryje přesně { fulfilled, broken }");
@@ -140,5 +155,5 @@ if (!ZAPADKA.has("fulfilled") || !ZAPADKA.has("broken") || ZAPADKA.size !== 2) {
   console.log("ok   západka kryje přesně „splněno“ a „porušeno“");
 }
 
-console.log(spadlo ? `\n${spadlo} selhání.` : `\nVšech ${PRIPADY.length + 1} kontrol prošlo.`);
+console.log(spadlo ? `\n${spadlo} selhání.` : `\nVšech ${PRIPADY.length + 2} kontrol prošlo.`);
 process.exitCode = spadlo ? 1 : 0;

@@ -63,3 +63,15 @@ export function posudPrechod({ minuly, navrh, udalost = null, plnyAudit = false 
   if (maUdalost) return { akce: "prijmout", duvod: "dolozena-udalost" };
   return { akce: "drzet", duvod: "prechod-bez-udalosti" };
 }
+
+/**
+ * Které body delta běh pošle k přehodnocení.
+ *
+ * Bod s nalezenou událostí — o tom je celý delta režim. A bod BEZ předchozího
+ * hodnocení, i když událost nemá: nemá co držet a bez hodnocení by na webu
+ * chyběl úplně (kontrola konzistence [A] to hlásí jako chybu). Týká se nově
+ * přidaných bodů v src/data.js.
+ */
+export function bodyKPrehodnoceni(items, udalosti, prevEvals) {
+  return items.filter((it) => (udalosti && udalosti[it.id]) || !prevEvals[it.id]);
+}
