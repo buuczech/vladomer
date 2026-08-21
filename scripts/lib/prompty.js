@@ -58,8 +58,12 @@ export function radkyBodu(items, prevEvals, snapshots) {
 }
 
 /** Prompt pro hodnocení jedné oblasti. */
-export function promptHodnoceni(ch, prevEvals, snapshots) {
-  const items = ch.groups.flatMap((g) => g.items);
+/* Volitelné „body" dovolují poslat jen část kapitoly. Používá to evaluate.js,
+   když je kapitola tak velká, že se odpověď nevejde do max_tokens; text promptu
+   se tím nemění, jen seznam bodů v něm. Bez toho parametru se chová jako dřív,
+   takže výpis promptů na webu zůstává stejný. */
+export function promptHodnoceni(ch, prevEvals, snapshots, body) {
+  const items = body || ch.groups.flatMap((g) => g.items);
   return render("prompt-hodnoceni.md", {
     DATUM_NASTUPU_VLADY: TERM_START_CS,
     NAZEV_OBLASTI: ch.title.cs,

@@ -63,6 +63,10 @@ Three separate things share one repository:
 
 **`render()` in `scripts/lib/nastaveni.js` is strict on purpose**: an unknown placeholder, an unused value, or any leftover `{{` all abort the run — including a `{{` written inside an HTML comment. That is what stops a broken template reaching the public site or a social profile.
 
+**A chapter that is too big silently truncates its own answer.** The reply grows with both the item count and the length of the comments; past `max_tokens` the JSON is cut mid-object and surfaces as `Expected ',' or '}'`, which looks like a model failure but is a budget failure — retrying cannot help, because the ceiling is the same every time. Chapter 2 (15 items) passed for four runs and then started failing on 2026-08-21. `evaluate.js` therefore splits any chapter over `MAX_BODU_DAVKA` items into even batches; a chapter counts as failed if **any** of its batches fails, so a chapter is never half fresh and half a week old. Splitting changes the item list in the prompt and nothing else — prove it with `dump-prompts` before and after.
+
+**A failed chapter keeps its previous ratings** (the merge never overwrites), so the site would otherwise claim a freshness it does not have for those items. Both `src/App.jsx` and `scripts/lib/prehled.js` compute the stale chapters the same way — no item in the chapter carries the run's date — and say so, in the header and in the listing. Change one, change the other.
+
 **Error message strings are load-bearing.** `withBackoff` decides whether to retry by matching `/API (429|5\d\d)/`, `/JSON/` or the `[opakovat]` marker in the message text.
 
 **Dead ends, already paid for:** structured outputs (`output_config.format`) and assistant prefill each silently suppress the `web_search` tool, leaving the model with no sources. JSON stays prompt-enforced. Raising `vyhledavani_zpravy` makes the headline step worse, not better — search rounds consume the same output budget the JSON needs.

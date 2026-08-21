@@ -66,6 +66,18 @@ const T = {
     en: "The data and assessments are free to reuse with attribution:",
   },
   lastUpdated: { cs: "Naposledy aktualizováno", en: "Last updated" },
+  /* Když kapitola v pátečním běhu selže, její body si podrží hodnocení
+     z minula — data se slučují, nikdy nepřepisují. Datum v hlavičce by ale
+     bez tohohle tvrdilo, že je celý web čerstvý, což pro tu kapitolu neplatí.
+     Radši přiznaná díra než tiše zastaralý údaj. */
+  staleTitle: { cs: "Poslední běh nepokryl všechno", en: "The last run did not cover everything" },
+  staleBody: {
+    cs: (n, kdy) => `${n === 1 ? "Jednu oblast" : `${n} oblasti`} se tento týden nepodařilo přehodnotit; `
+      + `její body jsou ze ${kdy} a v součtech jsou započítané v tomto starším stavu.`,
+    en: (n, kdy) => `${n === 1 ? "One area" : `${n} areas`} could not be re-assessed this week; `
+      + `those items are from ${kdy} and are counted in the totals in that older state.`,
+  },
+  staleChapter: { cs: "starší hodnocení", en: "older assessment" },
   nextUpdate: { cs: "Další hodnocení", en: "Next evaluation" },
   never: { cs: "zatím neproběhlo", en: "not yet run" },
   expandAll: { cs: "Rozbalit vše", en: "Expand all" },
@@ -613,6 +625,9 @@ const CSS = `
 .vm-dual > div.sm .n{font-size:15px;font-weight:740}
 .vm-dual .l{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin-top:2px}
 .vm-pill-unver{color:var(--muted);border:1px dashed var(--muted)}
+.vm-pill-stale{color:var(--prog);border:1px dashed var(--prog);white-space:nowrap}
+.vm-stale{margin-top:10px;padding:10px 14px;border-radius:10px;font-size:12.8px;line-height:1.5;
+  color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--prog)}
 /* Snížení kontrolou: žlutá jako u „částečně“, protože přesně tam bod spadl. */
 .vm-pill-demoted{color:var(--partial);border:1px dashed var(--partial)}
 .vm-demoted{font-size:12.3px;line-height:1.45;padding:6px 9px;margin-bottom:8px;
@@ -1295,6 +1310,23 @@ export default function App() {
 
   const filtering = query !== "" || filter !== "all";
   function setAllOpen(open) { const o = {}; if (open) CHAPTERS.forEach((c) => (o[c.id] = true)); setOpenCh(o); }
+  /* Kapitola je zastaralá, když ani jeden její bod nenese datum posledního
+     běhu. Stačí porovnat den — běh trvá desítky minut, takže časy se liší,
+     ale datum sedí. */
+  const zastarale = useMemo(() => {
+    if (!lastUpdated) return [];
+    const den = lastUpdated.slice(0, 10);
+    return CHAPTERS
+      .map((ch) => {
+        const body = ch.groups.flatMap((g) => g.items).map((i) => evals[i.id]).filter(Boolean);
+        if (!body.length || body.some((e) => (e.updatedAt || "").slice(0, 10) === den)) return null;
+        const kdy = body.map((e) => e.updatedAt).filter(Boolean).sort().pop();
+        return { id: ch.id, title: ch.title, kdy };
+      })
+      .filter(Boolean);
+  }, [evals, lastUpdated]);
+  const zastaraleIds = new Set(zastarale.map((z) => z.id));
+
   const next = nextFriday(lastUpdated ? new Date(lastUpdated) : new Date(now));
   const filterOpts = ["all", "fulfilled", "partial", "in_progress", "declared", "not_started", "broken", "pending"];
 
@@ -1392,6 +1424,14 @@ export default function App() {
           </div>
         </div>
 
+        {zastarale.length > 0 && (
+          <div className="vm-stale">
+            <b>{t("staleTitle")}</b>{" "}
+            {T.staleBody[lang](zastarale.length, fmtDate(zastarale[0].kdy, lang))}{" "}
+            {zastarale.map((z) => `${z.id}. ${z.title[lang]}`).join(" · ")}
+          </div>
+        )}
+
         {news.length > 0 && (
           <div className="vm-news">
             <div className="vm-changes-head" onClick={() => setNewsOpen((o) => !o)}>
@@ -1486,6 +1526,9 @@ export default function App() {
                 <div className="vm-ch-head" onClick={() => setOpenCh((o) => ({ ...o, [ch.id]: !o[ch.id] }))}>
                   <span className="vm-ch-num vm-mono">{ch.id}</span>
                   <h2 className="vm-ch-title">{ch.title[lang]}</h2>
+                  {zastaraleIds.has(ch.id) && (
+                    <span className="vm-pill vm-pill-stale">{t("staleChapter")}</span>
+                  )}
                   <span className="vm-ch-prog">
                     <span className="vm-mini" title={st.evaluated
                       ? `${t("statDone")} ${pct1(st.done)} % · ${t("statPartial")} ${pct1(st.partial)} % · ${t("statProg")} ${pct1(st.prog)} %` : ""}>
