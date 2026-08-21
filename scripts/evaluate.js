@@ -46,6 +46,11 @@ const CHAPTER_LIMIT = process.env.CHAPTER_LIMIT ? Number(process.env.CHAPTER_LIM
 const KEY = process.env.ANTHROPIC_API_KEY;
 const MODEL = process.env.EVAL_MODEL || NAST.model; // env still wins, for one-off experiments
 const KOR_MODEL = process.env.KOREKTURA_MODEL || NAST.korektura_model;
+/* Měřicí režim „stabilita" (dev-eval.yml) běží hodnocení dvakrát a porovnává
+   stavy. Korektura ani zprávy stav neovlivňují, jen by se za ně dvakrát
+   platilo — tyhle přepínače je vypnou. V ostrém běhu se NIKDY nenastavují. */
+const KOREKTURA_MODELEM = NAST.korektura === 1 && !process.env.BEZ_KOREKTURY;
+const SE_ZPRAVAMI = !process.env.BEZ_ZPRAV;
 /* Operational, deliberately NOT in nastaveni.txt: too low silently truncates
    the JSON reply, which looks like a model failure and burns retries.
    Separate budgets because every web_search round is part of the output —
@@ -445,7 +450,7 @@ async function main() {
         davka.push({ klic: `${it.id}|${pole}`, id: it.id, pole, text: cisty });
       }
     }
-    if (NAST.korektura !== 1 || davka.length === 0) continue;
+    if (!KOREKTURA_MODELEM || davka.length === 0) continue;
     kor.davek++;
     try {
       const r = await withBackoff(() => opravDavku(davka, {
@@ -471,7 +476,7 @@ async function main() {
   }
   console.log(`Korektura: ${kor.ocisteno} úryvků mechanicky očištěno, ${kor.zmeneno} opraveno modelem, `
     + `${kor.odmitnuto} oprav odmítnuto, ${kor.davek} dávek${kor.selhalo ? `, ${kor.selhalo} selhalo` : ""}`
-    + (NAST.korektura === 1 ? ` (${KOR_MODEL})` : " — model vypnutý, jen mechanická očista"));
+    + (KOREKTURA_MODELEM ? ` (${KOR_MODEL})` : " — model vypnutý, jen mechanická očista"));
 
   writeFileSync(OUT_EVAL, JSON.stringify({ evals: newEvals, lastUpdated: now }, null, 2));
 
@@ -534,6 +539,7 @@ async function main() {
   console.log(`\nWrote ${Object.keys(newEvals).length} evaluations, ${capped.length} history snapshots, ${recorded} audit records`);
 
   // Headline news last — a failure here must not lose the evaluation results.
+  if (!SE_ZPRAVAMI) { console.log("Zprávy přeskočeny (BEZ_ZPRAV) — news.json zůstává."); return; }
   try {
     process.stdout.write("Fetching headlines… ");
     const n = await withBackoff(fetchHeadlines, 3);
@@ -553,7 +559,7 @@ async function main() {
           }
         }
       });
-      if (NAST.korektura === 1 && davkaZ.length) {
+      if (KOREKTURA_MODELEM && davkaZ.length) {
         try {
           const rk = await withBackoff(() => opravDavku(davkaZ, {
             model: KOR_MODEL, key: KEY, maxTokens: MAX_TOKENS_KOREKTURA,
