@@ -1,41 +1,65 @@
 {
-  "generatedAt": "2026-08-21T11:08:28.194Z",
+  "generatedAt": "2026-08-21T22:35:56.936Z",
   "items": [
     {
       "title": {
-        "cs": "Babiš převzal vedení Národní koalice proti suchu",
-        "en": "Babiš takes leadership of National Coalition Against Drought"
-      },
-      "summary": {
-        "cs": "Premiér Andrej Babiš se chopil vedení obnovené Národní koalice proti suchu na tiskové konferenci.",
-        "en": "PM Andrej Babiš assumed leadership of the renewed National Coalition Against Drought at a press conference."
-      },
-      "url": "https://denikn.cz/minuta/dulezite",
-      "date": "2026-08-19"
-    },
-    {
-      "title": {
         "cs": "Senát schválil změny sněmovního jednacího řádu",
-        "en": "Senate approves changes to parliamentary rules"
+        "en": "Senate approved changes to Chamber's rules of procedure"
       },
       "summary": {
-        "cs": "Horní komora umožnila přijetí úprav pravidel sněmovního jednání za účelem omezení obstrukcí, které nyní čeká podpis prezidenta.",
-        "en": "Upper house approved changes to parliamentary rules aimed at limiting obstruction tactics, awaiting presidential signature."
+        "cs": "Senát umožnil přijetí úpravy sněmovního jednacího řádu zaměřené na omezení obstrukcí a vyšší efektivitu, změny mají nastat 15 dní po vyhlášení zákona.",
+        "en": "Senate approved changes to Chamber's rules limiting obstruction tactics and increasing efficiency, with changes to take effect 15 days after law announcement."
       },
       "url": "https://www.irozhlas.cz/zpravy-domov/omezeni-dlouhych-obstrukci-ve-snemovne-senatori-poslali-novy-jednaci-rad-k_2608191939_kvr",
       "date": "2026-08-19"
     },
     {
       "title": {
-        "cs": "Ministr práce plánuje zvýšit platy státních zaměstnanců",
-        "en": "Labor minister plans salary increases for public sector workers"
+        "cs": "Vláda zpřísňuje regulaci kratomu na věk 21 let",
+        "en": "Government tightens kratom regulation with age limit of 21"
       },
       "summary": {
-        "cs": "Ministr Aleš Juchelka slíbil příslušné zvýšení platů a uvedl, že rozhodnutí padne v září po jednání o státní kase.",
-        "en": "Labor Minister Aleš Juchelka promised salary hikes and said the decision would be made in September after budget talks."
+        "cs": "Premiér Babiš oznámil, že kratom bude možné koupit až od 21 let, zabránit má prodej přes internet, zavede se spotřební daň a DPH se zvýší.",
+        "en": "PM Babiš announced kratom purchase age raised to 21, internet sales banned, consumption tax introduced, and VAT increased."
       },
-      "url": "https://www.e15.cz/domaci/politika/odbory-zadaji-rust-platu-o-osm-procent-juchelka-slibuje-zvyseni-zadna-cisla-ale-neprozradil-1435040",
-      "date": "2026-08-20"
+      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/brifink-k-predstaveni-novely-o-regulaci-psychomodulacnich-latek-374665",
+      "date": "2026-08-19"
+    },
+    {
+      "title": {
+        "cs": "Vláda se vrací ke kontrolám a regulaci prodeje kratomu",
+        "en": "Government returns to kratom sales control and regulation"
+      },
+      "summary": {
+        "cs": "Premiér Babiš v rámci zasedání Rady vlády pro koordinaci politiky v oblasti závislostí označil kratom za nepřijatelný a oznámil 16 legislativních materiálů ke zpřísnění regulace psychoaktivních látek.",
+        "en": "PM Babiš at government drug policy council meeting called kratom unacceptable and announced 16 legislative measures to tighten psychoactive substance regulation."
+      },
+      "url": "https://m.echo24.cz/a/HwQqf/babis-metnar-drogy-zavislosti-kratom-cbd-synteticke-kanabinoidy-thc-marihuana-konopi-rada-vlady",
+      "date": "2026-08-19"
+    },
+    {
+      "title": {
+        "cs": "Sněmovna přehlasuje prezidentské veto rozpočtových pravidel na konci srpna",
+        "en": "Chamber to override presidential budget veto in late August"
+      },
+      "summary": {
+        "cs": "Sněmovna se sejde na konci srpna, aby přehlasovala prezidentovo veto novely rozpočtových zákonů, což je nezbytné pro rozpočtový proces.",
+        "en": "Chamber to meet in late August to override presidential budget law veto needed for the budgeting process."
+      },
+      "url": "https://www.respekt.cz/informacni-servis/snemovna-bude-o-novele-o-rozpoctu-kterou-vetoval-pavel-hlasovat-na-konci-srpna-2026-07-23-09-48",
+      "date": "2026-08-21"
+    },
+    {
+      "title": {
+        "cs": "Zmrazení platů politiků bude projednáno v září",
+        "en": "Freezing political salaries to be debated in September"
+      },
+      "summary": {
+        "cs": "Sněmovna bude projednávat Okamurův návrh na zmrazení platů politiků, který je zařazen do září ještě před návrhem na zrušení poplatků za veřejnoprávní média.",
+        "en": "Chamber will debate Okamura's proposal to freeze political salaries in September before discussions on abolishing public media fees."
+      },
+      "url": "https://www.ceskenoviny.cz/zpravy/snemovna-zacne-zmrazeni-platu-politiku-podle-okamury-projednavat-v-zari/2780863",
+      "date": "2026-08-17"
     }
   ]
 }
