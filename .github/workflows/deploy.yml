@@ -29,7 +29,24 @@ jobs:
         with:
           node-version: 20
 
-      - run: npm install
+      - run: npm ci
+
+      # Testy PRAVIDEL, ne dat. Nic nestojí, nic neodesílají, běží pár vteřin.
+      # Musí být první: když je rozbité pravidlo, ať to spadne dřív, než se
+      # za hodnocení zaplatí.
+      - name: Offline checks
+        run: |
+          node scripts/dev/test-zabrany.js
+          node scripts/dev/test-korektura.js
+
+      # Konzistence UŽ ZVEŘEJNĚNÝCH dat. Schválně NEblokuje: data jsou v tu
+      # chvíli dávno venku, takže zastavené nasazení nic nespraví — jen by
+      # zabránilo i té změně, která je opravou. A hlavně tenhle krok nesmí
+      # předcházet hodnocení: páteční běh je jediné, co takový nález umí
+      # spravit, a kontrola před ním by ho zablokovala napořád.
+      - name: Check published data
+        continue-on-error: true
+        run: node scripts/dev/test-konzistence.js
 
       # Run the AI evaluation only on the Friday schedule or a manual run,
       # not on ordinary code pushes. Needs the ANTHROPIC_API_KEY repo secret.
@@ -38,6 +55,22 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: npm run evaluate
+
+      # Konzistence čerstvých dat JEŠTĚ PŘED commitem. Když neprojde, job
+      # spadne, nic se nezveřejní a na webu zůstane minulý týden. Zaplacený
+      # běh se ale neztratí — jeho výstup se uloží jako artefakt a dá se
+      # prohlédnout a rozhodnout ručně.
+      - name: Check fresh data
+        id: kontrola
+        if: ${{ github.event_name != 'push' }}
+        run: node scripts/dev/test-konzistence.js
+
+      - name: Keep unpublished data for inspection
+        if: ${{ failure() && steps.kontrola.outcome == 'failure' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: nezverejnena-data
+          path: public/*.json
 
       # Náhledový obrázek pro sdílení nese aktuální čísla, takže se překresluje
       # spolu s daty. Kreslí ho headless Chrome (na runneru předinstalovaný).

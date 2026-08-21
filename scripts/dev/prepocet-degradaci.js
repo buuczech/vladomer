@@ -23,13 +23,15 @@ import { fileURLToPath } from "node:url";
 import { join } from "node:path";
 import { DATES } from "../../src/data.js";
 import { readSettings } from "../lib/nastaveni.js";
-import { duvodDegradace } from "../lib/dukaz.js";
+import { duvodDegradace, CIL_DEGRADACE } from "../lib/dukaz.js";
+import { STATUSES } from "../lib/prompty.js";
 
 const KOREN = fileURLToPath(new URL("../../", import.meta.url));
 const P = (f) => join(KOREN, "public", f);
 const ZAPSAT = process.argv.includes("--zapsat");
 const NAST = readSettings();
-const PRAVIDLA = { minDelkaDokladu: NAST.minimalni_delka_dokladu, nastup: DATES.tookOffice };
+const PRAVIDLA = { minDelkaDokladu: NAST.minimalni_delka_dokladu, nastup: DATES.tookOffice,
+  latkaPoruseno: NAST.latka_poruseno === 1 };
 
 const cti = (f) => JSON.parse(readFileSync(P(f), "utf8"));
 const zapis = (f, o) => writeFileSync(P(f), `${JSON.stringify(o, null, 2)}\n`, "utf8");
@@ -44,10 +46,14 @@ const snimky = history.snapshots;
 if (!Array.isArray(snimky) || !snimky.length) throw new Error("history.json nemá pole snapshots");
 if (!Array.isArray(audit.entries)) throw new Error("audit.json nemá pole entries");
 
+/* Týž jmenovatel jako přísná metrika na webu: neznámý stav se nepočítá vůbec
+   a neměřitelné body jsou mimo jmenovatel. Dřív se tu filtrovalo jen podle
+   unverifiable, takže tenhle výpis uměl ukázat jiné číslo než web — a číslo,
+   které vypadá jako publikované, se podle publikovaného pravidla počítat má. */
 const souhrn = (evals) => {
-  const v = Object.values(evals);
+  const v = Object.values(evals).filter((e) => STATUSES.includes(e.status));
   const hodnoceno = v.filter((e) => !e.unverifiable).length;
-  const splneno = v.filter((e) => e.status === "fulfilled").length;
+  const splneno = v.filter((e) => e.status === "fulfilled" && !e.unverifiable).length;
   return `${splneno} z ${hodnoceno} = ${(splneno / hodnoceno * 100).toFixed(1)} %`;
 };
 
@@ -56,14 +62,21 @@ console.log(`Před:  ${souhrn(evaluations.evals)}\n`);
 
 const zmeny = [];
 for (const [id, e] of Object.entries(evaluations.evals)) {
-  if (!e.evidenceMissing) continue;
-  // Rekonstrukce: degradovat se dá jen „splněno“, takže tím model začínal.
-  const nyni = duvodDegradace("fulfilled", e.evidence || "", e.evidenceDate || "", PRAVIDLA);
-  const stejne = nyni === e.evidenceMissing;
-  console.log(`${stejne ? "beze změny" : "OPRAVA    "} ${id.padEnd(6)} ${e.evidenceMissing}`
-    + (stejne ? "" : ` → ${nyni ?? "doklad obstojí, vrací se na splněno"}`));
+  /* Dva vstupy, ne jeden. Body s „evidenceMissing“ už jednou spadly a ptáme
+     se, jestli by spadly i podle opraveného pravidla. Body, které jsou pořád
+     „splněno“, se musí projít taky — nově přidaný strážce dopadá právě na ně
+     a jinak by se na už zveřejněná data nikdy nedostal. Totéž pro „porušeno“,
+     až se laťka u něj zapne. */
+  const puvodniStav = e.evidenceMissing ? "fulfilled" : e.status;
+  if (!e.evidenceMissing && puvodniStav !== "fulfilled" && puvodniStav !== "broken") continue;
+
+  const nyni = duvodDegradace(puvodniStav, e.evidence || "", e.evidenceDate || "", PRAVIDLA);
+  const stejne = nyni === (e.evidenceMissing || null);
   if (stejne) continue;
-  zmeny.push({ id, zPuvodni: e.status, naNove: nyni ? "partial" : "fulfilled", puvodniDuvod: e.evidenceMissing, novyDuvod: nyni });
+  const naNove = nyni ? CIL_DEGRADACE[nyni] : puvodniStav;
+  console.log(`OPRAVA     ${id.padEnd(6)} ${e.evidenceMissing || e.status}`
+    + ` → ${nyni ? `${nyni} (${naNove})` : `doklad obstojí, vrací se na ${puvodniStav}`}`);
+  zmeny.push({ id, zPuvodni: e.status, naNove, puvodniDuvod: e.evidenceMissing, novyDuvod: nyni });
 }
 
 if (!zmeny.length) {

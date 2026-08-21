@@ -1,29 +1,41 @@
 {
-  "generatedAt": "2026-08-14T10:26:09.489Z",
+  "generatedAt": "2026-08-21T11:08:28.194Z",
   "items": [
     {
       "title": {
-        "cs": "Kulturní komunita proti nové politice ministerstva",
-        "en": "Cultural community opposes new ministry policy"
+        "cs": "Babiš převzal vedení Národní koalice proti suchu",
+        "en": "Babiš takes leadership of National Coalition Against Drought"
       },
       "summary": {
-        "cs": "Profesní organizace a kulturní instituce vyzvaly vládu ke stažení Státní kulturní politiky 2026–2030 kvůli netransparentní přípravě.",
-        "en": "Professional organizations called on the government to withdraw the new State Cultural Policy due to non-transparent preparation."
+        "cs": "Premiér Andrej Babiš se chopil vedení obnovené Národní koalice proti suchu na tiskové konferenci.",
+        "en": "PM Andrej Babiš assumed leadership of the renewed National Coalition Against Drought at a press conference."
       },
-      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/ke-stazeni-vladni-kulturni-politiky-vyzvaly-profesni-organizace-spolky-i-odbory-376431",
-      "date": "2026-08-09"
+      "url": "https://denikn.cz/minuta/dulezite",
+      "date": "2026-08-19"
     },
     {
       "title": {
-        "cs": "Babiš plánuje masivní redukci na úřadu vlády",
-        "en": "Babiš plans massive cuts at Office of Government"
+        "cs": "Senát schválil změny sněmovního jednacího řádu",
+        "en": "Senate approves changes to parliamentary rules"
       },
       "summary": {
-        "cs": "Premiér avizuje snížení rozpočtu úřadu vlády o skoro 730 milionů korun a ztrátu téměř 250 zaměstnanců do konce roku.",
-        "en": "Premier announces budget cuts of almost 730 million crowns and loss of nearly 250 employees by year-end."
+        "cs": "Horní komora umožnila přijetí úprav pravidel sněmovního jednání za účelem omezení obstrukcí, které nyní čeká podpis prezidenta.",
+        "en": "Upper house approved changes to parliamentary rules aimed at limiting obstruction tactics, awaiting presidential signature."
       },
-      "url": "https://www.echo24.cz/a/HARth/zpravy-ekonomika-skrty-statni-zamestnanci-urad-vlady-250-uspora-730-milionu-babis-uspory",
-      "date": "2026-08-12"
+      "url": "https://www.irozhlas.cz/zpravy-domov/omezeni-dlouhych-obstrukci-ve-snemovne-senatori-poslali-novy-jednaci-rad-k_2608191939_kvr",
+      "date": "2026-08-19"
+    },
+    {
+      "title": {
+        "cs": "Ministr práce plánuje zvýšit platy státních zaměstnanců",
+        "en": "Labor minister plans salary increases for public sector workers"
+      },
+      "summary": {
+        "cs": "Ministr Aleš Juchelka slíbil příslušné zvýšení platů a uvedl, že rozhodnutí padne v září po jednání o státní kase.",
+        "en": "Labor Minister Aleš Juchelka promised salary hikes and said the decision would be made in September after budget talks."
+      },
+      "url": "https://www.e15.cz/domaci/politika/odbory-zadaji-rust-platu-o-osm-procent-juchelka-slibuje-zvyseni-zadna-cisla-ale-neprozradil-1435040",
+      "date": "2026-08-20"
     }
   ]
 }

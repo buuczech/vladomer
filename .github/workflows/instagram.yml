@@ -95,11 +95,18 @@ jobs:
       # schválil jsi je před commitem a znovu se nekreslí. Runner má jiné fonty
       # než Windows, takže překreslení by mohlo zalomit text jinak, než jsi
       # viděl; u schvalovaného obsahu musí vyjít přesně to, co bylo odsouhlaseno.
+      # Vstup jde přes env:, ne přímo do těla run:. Interpolovaná hodnota se
+      # vkládá do skriptu ještě před spuštěním shellu, takže uvozovka a
+      # středník v „zadani" z ní vystoupí a spustí, co si kdo napíše — a to
+      # v jobu, který má token k Instagramu a právo zápisu do repozitáře.
       - name: Zveřejnit nepravidelný příspěvek
         if: env.REZIM == 'adhoc'
+        env:
+          ZADANI: ${{ inputs.zadani }}
+          BEZ_PUBLIKACE: ${{ inputs.bez_publikace && '--bez-publikace' || '' }}
         run: |
-          test -n "${{ inputs.zadani }}" || { echo "Režim adhoc potřebuje vstup „zadani\"."; exit 1; }
-          node scripts/instagram/adhoc.js --rezim publish --zadani "${{ inputs.zadani }}" ${{ inputs.bez_publikace && '--bez-publikace' || '' }}
+          test -n "$ZADANI" || { echo "Režim adhoc potřebuje vstup „zadani\"."; exit 1; }
+          node scripts/instagram/adhoc.js --rezim publish --zadani "$ZADANI" $BEZ_PUBLIKACE
 
       # Totéž pro reel: video už leží v ig-archive/reels/ přesně tak, jak jsi
       # ho schválil, a znovu se nekóduje. Delší limit proto, že Instagram video
@@ -107,6 +114,9 @@ jobs:
       - name: Zveřejnit reel
         if: env.REZIM == 'reel'
         timeout-minutes: 20
+        env:
+          ZADANI: ${{ inputs.zadani }}
+          BEZ_PUBLIKACE: ${{ inputs.bez_publikace && '--bez-publikace' || '' }}
         run: |
-          test -n "${{ inputs.zadani }}" || { echo "Režim reel potřebuje vstup „zadani\"."; exit 1; }
-          node scripts/instagram/reel.js --rezim publish --zadani "${{ inputs.zadani }}" ${{ inputs.bez_publikace && '--bez-publikace' || '' }}
+          test -n "$ZADANI" || { echo "Režim reel potřebuje vstup „zadani\"."; exit 1; }
+          node scripts/instagram/reel.js --rezim publish --zadani "$ZADANI" $BEZ_PUBLIKACE

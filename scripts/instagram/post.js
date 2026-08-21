@@ -37,8 +37,11 @@ const EVAL = join(KOREN, "public", "evaluations.json");
 const ARCHIV = join(KOREN, "ig-archive");
 
 /* Táž přísná metrika jako src/App.jsx, og-image.js, seo.js a prehled.js.
-   Je to páté místo — když se změní pravidlo, musí se změnit všude. */
-const HODNOCENE = new Set(["fulfilled", "partial", "in_progress", "declared", "not_started", "broken"]);
+   Je to páté místo — když se změní pravidlo, musí se změnit všude; shodu
+   hlídá scripts/dev/test-konzistence.js, skupina F. "stalled" je stará
+   hodnota škály z doby před 7/2026 a do jmenovatele patří stejně jako
+   v App.jsx (score: 1). */
+const HODNOCENE = new Set(["fulfilled", "partial", "in_progress", "declared", "not_started", "broken", "stalled"]);
 const RANK = { fulfilled: 5, partial: 4, in_progress: 3, declared: 2, not_started: 1, broken: 0, stalled: 0 };
 const NAZEV = {
   fulfilled: "splněno", partial: "částečně splněno", in_progress: "probíhá",
@@ -179,7 +182,8 @@ function oblouk(kumulativne, tloustka, obvod) {
 
 function slideSouhrn(d) {
   const r = 80, c = 2 * Math.PI * r, t = 17;
-  const seg = (v) => (v / 100) * c;
+  // Ořez jako v Ring v src/App.jsx — obě geometrie se musí chovat stejně.
+  const seg = (v) => (Math.max(0, Math.min(100, v)) / 100) * c;
   const done = oblouk(seg(d.done), t, c);
   const partial = oblouk(seg(d.done + d.partial), t, c);
   const prog = oblouk(seg(d.done + d.partial + d.prog), t, c);

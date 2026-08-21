@@ -18,16 +18,21 @@ npm run prispevek -- --zadani ig-posts/….json     # ad-hoc carousel
 npm run reel -- --zadani ig-posts/….json          # ad-hoc reel (needs ffmpeg)
 ```
 
-There is no test runner and no linter. Two free offline checks stand in for them and should be run after touching what they cover:
+There is no test runner and no linter. Three free offline checks stand in for them and should be run after touching what they cover:
 
 ```bash
 node scripts/dev/test-korektura.js      # proofreading guard: forged corrections must be rejected
 node scripts/dev/test-zabrany.js        # evidence bar for "fulfilled", against real past evidence
+node scripts/dev/test-konzistence.js    # published data against itself and against the five metric sites
 ANTHROPIC_API_KEY=x CHAPTER_LIMIT=18 \
   node --import ./scripts/dev/dump-prompts.js scripts/evaluate.js   # prints every prompt, sends nothing
 ```
 
+All three run in CI on every push (`deploy.yml`, `dev-eval.yml`), and `test-konzistence.js` runs again on the weekly run's fresh data *before* it is committed: a failure there uploads the produced JSON as an artifact and stops the job, so the site keeps last week's data rather than publishing something that contradicts itself. It separates **CHYBA** (exit 1 — the site is inconsistent now) from **VAROVÁNÍ** (exit 0 — one data value away from being inconsistent); a warning is a finding, not noise. It imports its rules from `lib/dukaz.js`, `lib/korektura.js` and `src/data.js` rather than restating them, for the same reason `prepocet-degradaci.js` does.
+
 `dump-prompts` is the tool for any change that could alter what the model receives: capture its output before and after and diff. An empty diff is the proof. It restores `public/*.json` on exit, so it cannot clobber live data.
+
+The `/kontrola` skill (`.claude/skills/kontrola/`) drives a wider audit — data consistency, fact-check, UI, code, security — on top of those three. Its reports go to `kontroly/`, which is gitignored on purpose: a security finding in a public repo is a disclosure.
 
 ## What costs money
 
@@ -57,6 +62,12 @@ Three separate things share one repository:
 **`scripts/nastaveni/` is owner-editable plain text** — prompts, tunable numbers, source whitelists — deliberately outside `public/` so it is not published, and pinned to LF by `.gitattributes` because it is read at runtime. `scripts/nastaveni/NAVOD.md` documents it for a non-programmer; keep that promise.
 
 **`render()` in `scripts/lib/nastaveni.js` is strict on purpose**: an unknown placeholder, an unused value, or any leftover `{{` all abort the run — including a `{{` written inside an HTML comment. That is what stops a broken template reaching the public site or a social profile.
+
+**A chapter that is too big silently truncates its own answer.** The reply grows with both the item count and the length of the comments; past `max_tokens` the JSON is cut mid-object and surfaces as `Expected ',' or '}'`, which looks like a model failure but is a budget failure — retrying cannot help, because the ceiling is the same every time. Chapter 2 (15 items) passed for four runs and then started failing on 2026-08-21. `evaluate.js` therefore splits any chapter over `MAX_BODU_DAVKA` items into even batches; a chapter counts as failed if **any** of its batches fails, so a chapter is never half fresh and half a week old. Splitting changes the item list in the prompt and nothing else — prove it with `dump-prompts` before and after.
+
+**A failed chapter keeps its previous ratings** (the merge never overwrites), so the site would otherwise claim a freshness it does not have for those items. Both `src/App.jsx` and `scripts/lib/prehled.js` compute the stale chapters the same way — no item in the chapter carries the run's date — and say so, in the header and in the listing. Change one, change the other.
+
+**Never ask the model for something the program already knows.** `change_cs` used to be free prose that included the status transition and the date of the previous assessment — both facts the code holds exactly. The model got them wrong constantly: a third of items every week claimed "první hodnocení" although they had been assessed before, and item 14.1 published "nyní splněno" under a "částečně splněno" badge, dated six days into the future. The prompt now asks only what happened *in the world*; `src/App.jsx` renders the transition itself from `previousStatus` → `status`. An empty `change` is therefore legal and `test-konzistence.js` allows it (an empty `comment` is still an error) — when a sentence turns out to be untrue it is deleted, never rewritten, because inventing what happened would publish an unverified claim.
 
 **Error message strings are load-bearing.** `withBackoff` decides whether to retry by matching `/API (429|5\d\d)/`, `/JSON/` or the `[opakovat]` marker in the message text.
 

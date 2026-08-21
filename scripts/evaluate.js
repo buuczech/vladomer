@@ -27,7 +27,7 @@ import {
 import {
   STATUSES, STATUS_CS, promptHodnoceni, promptZpravy, promptHodnoceniKontrola,
 } from "./lib/prompty.js";
-import { duvodDegradace } from "./lib/dukaz.js";
+import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
    upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
@@ -54,6 +54,14 @@ const KOR_MODEL = process.env.KOREKTURA_MODEL || NAST.korektura_model;
    Raising vyhledavani_zpravy without raising this is what broke the
    2026-07-29 run ("no JSON array in response"). */
 const MAX_TOKENS = 6000;
+/* Nejvíc bodů na jeden dotaz. Odpověď roste s počtem bodů i s délkou
+   komentářů a při překročení max_tokens se JSON usekne uprostřed — chyba pak
+   vypadá jako „Expected ',' or '}'", ne jako došlé tokeny, a opakování
+   nepomůže, protože strop platí pokaždé stejně. Kapitola 2 (15 bodů) takhle
+   4× po sobě prošla a 21. 8. 2026 začala padat, jak komentáře narostly.
+   Kapitoly s deseti body dosud drží; kdyby začala padat i některá z nich,
+   stačí tohle číslo snížit. */
+const MAX_BODU_DAVKA = 10;
 const MAX_TOKENS_ZPRAVY = 12000;
 /* Korektura nevyhledává, ale vrací celý opravený úryvek, ne jen opravené
    slovo. Největší dávka (kapitola 2, 15 bodů, oba jazyky) má ~10 500 znaků;
@@ -78,6 +86,7 @@ const MAX_SOURCES = NAST.maximalne_zdroju;
 // A "fulfilled" claim without a concrete citation gets downgraded, so the
 // strongest status can never rest on an unsupported assertion.
 const EVIDENCE_MIN = NAST.minimalni_delka_dokladu;
+const LATKA_PORUSENO = NAST.latka_poruseno === 1;
 
 // All real item IDs — guards against the model inventing an ID (e.g. "11.11"),
 // which the merge-based storage would otherwise carry forward forever.
@@ -97,13 +106,22 @@ if (!KEY) {
 function readJSON(url, fallback) {
   try { return JSON.parse(readFileSync(url, "utf8")); } catch { return fallback; }
 }
+/* Rozdělí body kapitoly na zhruba stejně velké dávky. Kapitola, která se pod
+   strop vejde, zůstává jedním dotazem — nedělí se nic, co fungovat nepřestalo. */
+function davky(items) {
+  const pocet = Math.ceil(items.length / MAX_BODU_DAVKA);
+  if (pocet <= 1) return [items];
+  const naDavku = Math.ceil(items.length / pocet);
+  return Array.from({ length: pocet }, (_, i) => items.slice(i * naDavku, (i + 1) * naDavku));
+}
+
 function normUrl(u) { return (u || "").trim().replace(/\/+$/, "").toLowerCase(); }
 function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, "").replace(/^m\./, ""); } catch { return u; } }
 
 
-async function evaluateChapter(ch, prevEvals, snapshots) {
-  const items = ch.groups.flatMap((g) => g.items);
-  const prompt = promptHodnoceni(ch, prevEvals, snapshots);
+async function evaluateChapter(ch, prevEvals, snapshots, body) {
+  const items = body || ch.groups.flatMap((g) => g.items);
+  const prompt = promptHodnoceni(ch, prevEvals, snapshots, items);
   assertFields(prompt, ["comment_cs", "comment_en", "change_cs", "change_en",
     "evidence", "evidence_date", "unverifiable", "sources"], "prompt-hodnoceni.md");
 
@@ -151,7 +169,8 @@ async function evaluateChapter(ch, prevEvals, snapshots) {
 
   const out = {};
   let kept = 0;
-  const demoted = { "no-evidence": 0, "no-date": 0, "predates-term": 0, "date-mismatch": 0 };
+  const demoted = { "no-evidence": 0, "no-date": 0, "predates-term": 0, "date-mismatch": 0,
+    "not-through-process": 0, "broken-no-evidence": 0 };
   for (const r of parsed) {
     if (!r || !r.id || !VALID_IDS.has(r.id)) continue;
     const sources = [];
@@ -175,8 +194,8 @@ async function evaluateChapter(ch, prevEvals, snapshots) {
     // Samo pravidlo je v lib/dukaz.js, aby se podle něj dala přepočítat i data,
     // která už jsou venku — dvě kopie by se časem rozešly.
     const downgradeReason = duvodDegradace(status, evidence, evDate,
-      { minDelkaDokladu: EVIDENCE_MIN, nastup: DATES.tookOffice });
-    if (downgradeReason) { status = "partial"; demoted[downgradeReason]++; }
+      { minDelkaDokladu: EVIDENCE_MIN, nastup: DATES.tookOffice, latkaPoruseno: LATKA_PORUSENO });
+    if (downgradeReason) { status = CIL_DEGRADACE[downgradeReason]; demoted[downgradeReason]++; }
 
     out[r.id] = {
       status,
@@ -342,16 +361,35 @@ async function main() {
   for (const id in prevEvals) if (VALID_IDS.has(id)) newEvals[id] = prevEvals[id];
   let failedChapters = 0;
   for (const ch of CHAPTERS.slice(0, CHAPTER_LIMIT)) {
-    try {
-      process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}… `);
-      const r = await withBackoff(() => evaluateChapter(ch, prevEvals, snapshots));
-      Object.assign(newEvals, r.evals);
-      const dm = Object.entries(r.demoted).filter(([, v]) => v > 0).map(([k, v]) => `${v} ${k}`).join(", ");
-      console.log(`ok (${Object.keys(r.evals).length}) — ${r.searchCount} search hits, ${r.kept} sources kept`
-        + (dm ? `, downgraded: ${dm}` : ""));
-    } catch (e) {
+    /* Velká kapitola jde na několik dotazů. Selhání KTERÉKOLI dávky znamená
+       selhanou kapitolu — část bodů by jinak byla čerstvá a část týden stará,
+       aniž by to bylo z čeho poznat. */
+    const skupiny = davky(ch.groups.flatMap((g) => g.items));
+    const znacka = skupiny.length > 1 ? ` (${skupiny.length} dávky)` : "";
+    process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}${znacka}… `);
+    let hotovo = 0, hledani = 0, zdroju = 0, chyba = null;
+    const snizeno = {};
+    for (const [i, skupina] of skupiny.entries()) {
+      if (i) await new Promise((r) => setTimeout(r, 20000));
+      try {
+        const r = await withBackoff(() => evaluateChapter(ch, prevEvals, snapshots, skupina));
+        Object.assign(newEvals, r.evals);
+        hotovo += Object.keys(r.evals).length;
+        hledani += r.searchCount;
+        zdroju += r.kept;
+        for (const [k, v] of Object.entries(r.demoted)) if (v) snizeno[k] = (snizeno[k] || 0) + v;
+      } catch (e) {
+        chyba = e;
+        break;   // zbylé dávky nemá smysl platit, kapitola stejně propadne
+      }
+    }
+    if (chyba) {
       failedChapters++;
-      console.log(`failed: ${e.message}`);
+      console.log(`failed: ${chyba.message}`);
+    } else {
+      const dm = Object.entries(snizeno).map(([k, v]) => `${v} ${k}`).join(", ");
+      console.log(`ok (${hotovo}) — ${hledani} search hits, ${zdroju} sources kept`
+        + (dm ? `, downgraded: ${dm}` : ""));
     }
     await new Promise((r) => setTimeout(r, 20000));
   }

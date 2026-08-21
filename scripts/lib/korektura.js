@@ -34,6 +34,10 @@ export function zapisPole(e, pole, hodnota) {
 const CITE = /<\/?cite\b[^>]*>/gi;
 /* Klíče s podtržítkem nejsou nikdy běžné slovo — nahrazují se všude. */
 const KLIC_PODTRZITKO = /\b(in_progress|not_started)\b/g;
+/* V české větě je anglický klíč stavu vždycky chyba — „status partial" se na
+   webu objevilo 11× v běhu 21. 8. 2026. V angličtině to naopak jsou běžná
+   slova („partial funding"), takže se tam nesahá. */
+const KLIC_CESKY = /\b(fulfilled|partial|declared|broken)\b/g;
 /* Ostatní klíče jen v uvozovkách nebo závorce: „partial" a „broken" jsou
    v angličtině běžná slova a mimo uvozovky se jich nesmíme dotknout. */
 const KLIC_V_UVOZOVKACH =
@@ -63,6 +67,7 @@ export function ocisti(text, jazyk) {
   // Holý klíč bez obalu naopak uvozovky potřebuje, jinak by věta ztratila
   // vyznačení, že jde o název stavu.
   s = s.replace(KLIC_PODTRZITKO, (klic) => vUvozovkach(STAV_POPIS[klic][jazyk], jazyk));
+  if (jazyk === "cs") s = s.replace(KLIC_CESKY, (klic) => vUvozovkach(STAV_POPIS[klic].cs, "cs"));
   // Po odstranění značky zbývají zdvojené mezery a mezera před interpunkcí.
   s = s.replace(/[ \t]{2,}/g, " ").replace(/ ([,.;:!?])/g, "$1").trim();
   return s;

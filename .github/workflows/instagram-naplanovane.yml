@@ -46,11 +46,13 @@ jobs:
 
       - name: Označit jako rozpracované
         if: steps.najdi.outputs.zadani != ''
+        env:
+          ZADANI: ${{ steps.najdi.outputs.zadani }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add ig-posts
-          git commit -m "chore: publikuje se ${{ steps.najdi.outputs.zadani }} [skip ci]"
+          git commit -m "chore: publikuje se $ZADANI [skip ci]"
           git push
 
       # Carousel i reel čekají v repozitáři hotové — schválil jsi je před
@@ -58,7 +60,9 @@ jobs:
       # plánovač podle pole „typ" v zadání.
       - name: Zveřejnit carousel
         if: steps.najdi.outputs.druh == 'carousel'
-        run: node scripts/instagram/adhoc.js --rezim publish --zadani "${{ steps.najdi.outputs.zadani }}"
+        env:
+          ZADANI: ${{ steps.najdi.outputs.zadani }}
+        run: node scripts/instagram/adhoc.js --rezim publish --zadani "$ZADANI"
 
       # Instagram video stahuje a překódovává i několik minut, proto delší
       # limit než výchozích šest hodin nepotřebuje, ale krok se nesmí zabít
@@ -66,14 +70,18 @@ jobs:
       - name: Zveřejnit reel
         if: steps.najdi.outputs.druh == 'reel'
         timeout-minutes: 20
-        run: node scripts/instagram/reel.js --rezim publish --zadani "${{ steps.najdi.outputs.zadani }}"
+        env:
+          ZADANI: ${{ steps.najdi.outputs.zadani }}
+        run: node scripts/instagram/reel.js --rezim publish --zadani "$ZADANI"
 
       # Doplní do zadání ID příspěvku. Když tenhle krok selže, nic zlého se
       # nestalo — příspěvek už je venku a značka z předchozího commitu drží.
       - name: Zapsat výsledek
         if: steps.najdi.outputs.zadani != ''
         continue-on-error: true
+        env:
+          ZADANI: ${{ steps.najdi.outputs.zadani }}
         run: |
           git add ig-posts
-          git diff --cached --quiet || git commit -m "chore: zveřejněno ${{ steps.najdi.outputs.zadani }} [skip ci]"
+          git diff --cached --quiet || git commit -m "chore: zveřejněno $ZADANI [skip ci]"
           git push || echo "nepodařilo se zapsat ID, příspěvek je ale venku"

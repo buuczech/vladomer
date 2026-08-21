@@ -63,6 +63,7 @@ const SCHEMA = {
   model: { type: "text" },
   maximalne_zdroju: { type: "int", min: 1, max: 5 },
   minimalni_delka_dokladu: { type: "int", min: 0, max: 200 },
+  latka_poruseno: { type: "int", min: 0, max: 1 },
   delka_predchoziho_komentare: { type: "int", min: 40, max: 1000 },
   historie_tydnu: { type: "int", min: 4, max: 520 },
   historie_v_promptu: { type: "int", min: 0, max: 20 },
