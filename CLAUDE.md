@@ -18,17 +18,19 @@ npm run prispevek -- --zadani ig-posts/….json     # ad-hoc carousel
 npm run reel -- --zadani ig-posts/….json          # ad-hoc reel (needs ffmpeg)
 ```
 
-There is no test runner and no linter. Three free offline checks stand in for them and should be run after touching what they cover:
+There is no test runner and no linter. Five free offline checks stand in for them and should be run after touching what they cover:
 
 ```bash
 node scripts/dev/test-korektura.js      # proofreading guard: forged corrections must be rejected
 node scripts/dev/test-zabrany.js        # evidence bar for "fulfilled", against real past evidence
+node scripts/dev/test-prechody.js       # transition gate, on fixtures from real oscillations
+node scripts/dev/test-delta.js          # reading the delta scan's answer; a broken read must not look calm
 node scripts/dev/test-konzistence.js    # published data against itself and against the five metric sites
 ANTHROPIC_API_KEY=x CHAPTER_LIMIT=18 \
   node --import ./scripts/dev/dump-prompts.js scripts/evaluate.js   # prints every prompt, sends nothing
 ```
 
-All three run in CI on every push (`deploy.yml`, `dev-eval.yml`), and `test-konzistence.js` runs again on the weekly run's fresh data *before* it is committed: a failure there uploads the produced JSON as an artifact and stops the job, so the site keeps last week's data rather than publishing something that contradicts itself. It separates **CHYBA** (exit 1 — the site is inconsistent now) from **VAROVÁNÍ** (exit 0 — one data value away from being inconsistent); a warning is a finding, not noise. It imports its rules from `lib/dukaz.js`, `lib/korektura.js` and `src/data.js` rather than restating them, for the same reason `prepocet-degradaci.js` does.
+They run in CI on every push (`deploy.yml`, `dev-eval.yml`), and `test-konzistence.js` runs again on the weekly run's fresh data *before* it is committed: a failure there uploads the produced JSON as an artifact and stops the job, so the site keeps last week's data rather than publishing something that contradicts itself. It separates **CHYBA** (exit 1 — the site is inconsistent now) from **VAROVÁNÍ** (exit 0 — one data value away from being inconsistent); a warning is a finding, not noise. It imports its rules from `lib/dukaz.js`, `lib/korektura.js` and `src/data.js` rather than restating them, for the same reason `prepocet-degradaci.js` does.
 
 `dump-prompts` is the tool for any change that could alter what the model receives: capture its output before and after and diff. An empty diff is the proof. It restores `public/*.json` on exit, so it cannot clobber live data.
 
@@ -64,6 +66,10 @@ Three separate things share one repository:
 **`render()` in `scripts/lib/nastaveni.js` is strict on purpose**: an unknown placeholder, an unused value, or any leftover `{{` all abort the run — including a `{{` written inside an HTML comment. That is what stops a broken template reaching the public site or a social profile.
 
 **The weekly run is event-driven, not a fresh re-grade (since 2026-08).** Asking "what is the status?" 143 times a week re-rolled every judgment call — item 14.1 changed status five times in five runs with no event in the world; the headline swung a full point on noise. The pipeline is now: delta scan per chapter (`prompt-delta.md`, "what HAPPENED since <last run>?") → re-evaluate only items with a dated event → a deterministic transition gate (`lib/prechody.js`) → for transitions from or into `fulfilled`/`broken`, verification by a stronger model (`prompt-overeni-prechodu.md`, default answer NO) → a full audit of all items every `plny_audit_dni` days (stamped as `posledniPlnyAudit` in evaluations.json, only when complete). Items the run checked but did not re-write carry an `overeno` timestamp; both `src/App.jsx` and `scripts/lib/prehled.js` treat `overeno || updatedAt` as freshness. A held or rejected transition keeps the ENTIRE previous record — the new comment would argue for the state that was not accepted. Evaluation and proofreading run at `temperature: 0`; the gate has fixtures in `test-prechody.js`.
+
+**The measurement that justifies all of it.** `dev-eval.yml` has a `stabilita` mode: two runs from identical inputs, restore in between, diff the statuses, commit nothing. On the pre-change code two full runs of the *same afternoon* agreed on only 133 of 143 items (93.0 %) and their headlines differed by 0.71 p. b. — one run had item 2.10 `fulfilled` and the other `partial`, and 10.2 came out `broken` in one and `in_progress` in the other, so the site's strongest accusation was a coin flip. With temperature 0, the gate and Sonnet verification the same pair scores 141/143 (98.6 %) with Δ headline 0.00; the two survivors move only between `not_started`/`declared`/`in_progress` and cannot touch the headline. Re-measure this way after any change to prompts, gate or model — a plausible-sounding improvement to the prompt can easily cost reproducibility, and nothing else will show it.
+
+**A delta scan that cannot be read looks exactly like a quiet week.** Both produce no events, so nothing is re-evaluated, everything carries forward and a stability measurement scores it as flawless. `lib/delta.js` therefore never throws and never returns bare emptiness: every dropped event is counted by reason and the run log names chapters whose answer could not be read. The subtle case is one event returned as a bare object — slicing on the first bracket then extracts its `zdroje` array, finds no events among a list of strings, and reports calm. Note also that the scan's window is the previous run's `lastUpdated`, which after a same-day correction run is *today*; `OD_DATA` (env, or the `od_data` workflow input) overrides it, and without that a delta pair cannot be measured at all.
 
 **A chapter that is too big silently truncates its own answer.** The reply grows with both the item count and the length of the comments; past `max_tokens` the JSON is cut mid-object and surfaces as `Expected ',' or '}'`, which looks like a model failure but is a budget failure — retrying cannot help, because the ceiling is the same every time. Chapter 2 (15 items) passed for four runs and then started failing on 2026-08-21. `evaluate.js` therefore splits any chapter over `MAX_BODU_DAVKA` items into even batches; a chapter counts as failed if **any** of its batches fails, so a chapter is never half fresh and half a week old. Splitting changes the item list in the prompt and nothing else — prove it with `dump-prompts` before and after.
 
