@@ -479,6 +479,12 @@ async function main() {
      brána podržela a kolik jich ověřovatel zamítl, je hlavní provozní
      ukazatel stability. */
   const brana = { prijato: 0, prechodu: 0, drzeno: [], potvrzeno: [], zamitnuto: [], chybaOvereni: [] };
+  /* Kolik událostí delta sken celkem našel. Nula napříč všemi kapitolami je
+     podezřelá: buď byl opravdu mrtvý týden, nebo se sken rozbil a mlčí — a to
+     druhé vypadá v měření stability jako dokonalá stabilita, protože se pak
+     nepřehodnocuje vůbec nic. Musí to být vidět v logu. */
+  let udalostiCelkem = 0;
+  let skenovanychKapitol = 0;
   const BODY_DLE_ID = Object.fromEntries(
     CHAPTERS.flatMap((c) => c.groups.flatMap((g) => g.items)).map((i) => [i.id, i]));
   for (const ch of CHAPTERS.slice(0, CHAPTER_LIMIT)) {
@@ -498,7 +504,10 @@ async function main() {
         const sken = await withBackoff(() => deltaScan(ch, prevEvals, OD_DATA, vsechnyBody));
         udalosti = sken.udalosti;
         bodyKHodnoceni = bodyKPrehodnoceni(vsechnyBody, udalosti, prevEvals);
-        console.log(`${bodyKHodnoceni.length} událostí (${sken.searchCount} search hits)`);
+        udalostiCelkem += Object.keys(udalosti).length;
+        skenovanychKapitol++;
+        console.log(`${bodyKHodnoceni.length} k přehodnocení `
+          + `(${Object.keys(udalosti).length} událostí, ${sken.searchCount} search hits)`);
       } catch (e) { chyba = e; }
       if (!chyba) await new Promise((r) => setTimeout(r, 5000));
     }
@@ -587,6 +596,12 @@ async function main() {
     await new Promise((r) => setTimeout(r, 20000));
   }
 
+  if (REZIM_BEHU === "delta" && skenovanychKapitol && !udalostiCelkem) {
+    console.log(`
+POZOR: sken neohlásil ANI JEDNU událost ve ${skenovanychKapitol} kapitolách.`
+      + " Buď byl mrtvý týden, nebo se sken rozbil — v tom druhém případě se"
+      + " nepřehodnotilo nic a data jsou beze změny jen zdánlivě.");
+  }
   console.log(`
 Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přechodů přijato`
     + ` (${brana.potvrzeno.length} ověřeno), ${brana.drzeno.length} drženo, ${brana.zamitnuto.length} zamítnuto`
