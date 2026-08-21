@@ -190,7 +190,16 @@ const evals = EV.evals || {};
     for (const pole of ["comment", "change"]) {
       for (const jazyk of ["cs", "en"]) {
         const t = e[pole] && e[pole][jazyk];
-        if (!t || !String(t).trim()) { prazdne.push(`${it.id} (${pole}.${jazyk})`); continue; }
+        if (!t || !String(t).trim()) {
+          /* Prázdný popis změny je přípustný, prázdný komentář ne. Věta
+             „co se změnilo" se maže, když se ukáže, že nebyla pravdivá —
+             a dopsat za model, co se ve světě stalo, nelze: bylo by to
+             tvrzení, které nikdo neověřil. Web takový bod prostě nechá bez
+             popisu změny. Komentář je naproti tomu jádro hodnocení a bez
+             něj by bod na webu nic neříkal. */
+          if (pole !== "change") prazdne.push(`${it.id} (${pole}.${jazyk})`);
+          continue;
+        }
         if (ocisti(t, jazyk) !== t) neocistene.push(`${it.id} (${pole}.${jazyk})`);
       }
     }

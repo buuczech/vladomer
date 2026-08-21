@@ -626,6 +626,7 @@ const CSS = `
 .vm-dual .l{font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:700;margin-top:2px}
 .vm-pill-unver{color:var(--muted);border:1px dashed var(--muted)}
 .vm-pill-stale{color:var(--prog);border:1px dashed var(--prog);white-space:nowrap}
+.vm-prechod{display:block;font-weight:700;margin-bottom:3px}
 .vm-stale{margin-top:10px;padding:10px 14px;border-radius:10px;font-size:12.8px;line-height:1.5;
   color:var(--text);background:var(--surface-2);border:1px solid var(--border);border-left:3px solid var(--prog)}
 /* Snížení kontrolou: žlutá jako u „částečně“, protože přesně tam bod spadl. */
@@ -1602,10 +1603,20 @@ export default function App() {
                                           </span>
                                         </>
                                       )}
-                                      {e.change && (e.change[lang] || e.change.cs) && (
+                                      {(changed || (e.change && (e.change[lang] || e.change.cs))) && (
                                         <>
                                           <span className="clab">{t("changeLabel")}</span>
-                                          {e.change[lang] || e.change.cs}
+                                          {/* Přechod vypisuje program, ne model. Ten ho dřív popisoval
+                                              vlastními slovy a spletl se: u 14.1 tvrdil „nyní splněno“
+                                              pod odznakem „částečně splněno“ a datoval to o šest dní
+                                              dopředu. Stav i datum jsou přitom data, která tu máme
+                                              přesně — není důvod se na ně ptát jazykového modelu. */}
+                                          {changed && (
+                                            <span className="vm-prechod">
+                                              {STATUS[e.previousStatus]?.[lang] || e.previousStatus} → <b>{sObj[lang]}</b>
+                                            </span>
+                                          )}
+                                          {e.change && (e.change[lang] || e.change.cs)}
                                         </>
                                       )}
                                       {hasSrc && (

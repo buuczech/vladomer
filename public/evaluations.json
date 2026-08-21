@@ -119,8 +119,8 @@
         "en": "Government declares maintaining deficit below 3% of GDP (specifically 2.9% for 2027). European Commission approved the plan in July 2026, but without legally binding mechanism. Performance: deficit of general government in 2025 was 2.1% of GDP (Eurostat), though state budget deficit reached 310 bn CZK (2.4% of GDP). Lacks specific legislative measures to ensure this commitment."
       },
       "change": {
-        "cs": "Prvé hodnocení: status declared; vláda deklaruje cíl v plánu a tento plán schválila EC, avšak bez právně závazného mechanismu.",
-        "en": "First assessment: status declared; government declares target in plan and EC approved it, but without legally binding mechanism."
+        "cs": "Vláda deklaruje cíl v plánu a tento plán schválila EC, avšak bez právně závazného mechanismu.",
+        "en": "Government declares target in plan and EC approved it, but without legally binding mechanism."
       },
       "sources": [
         {
@@ -145,8 +145,8 @@
         "en": "Government promises gradual deficit reduction toward balanced budget, but reality is opposite. 2025 deficit reached 290.7 bn CZK (exceeded plan by 49.7 bn). 2026 budget foresees 310 bn CZK; for 2027 Babiš signals 'significantly below 400 bn', meaning increase. Government not even declaring path to balance, instead loosening fiscal rules (defense, infrastructure escape clauses). Breaks promise."
       },
       "change": {
-        "cs": "První hodnocení: status broken; deficit se zvyšuje místo aby se snižoval, vláda od slibu ustoupila.",
-        "en": "First assessment: status broken; deficit is increasing instead of decreasing, government abandoned its promise."
+        "cs": "Deficit se zvyšuje místo aby se snižoval, vláda od slibu ustoupila.",
+        "en": "Deficit is increasing instead of decreasing, government abandoned its promise."
       },
       "sources": [
         {
@@ -167,8 +167,8 @@
         "en": "Legislative process proceeding actively. Government approved proposal 4 May 2026, Chamber of Deputies passed it 15 July 2026. Proposal now awaits Senate consideration. Goal of 1 January 2027 launch is realistic. However: criticism from opposition (TOP 09) and experts on effectiveness; uncertainty whether new EET will deliver declared revenue (14.4 bn CZK annually per government). Process on track but not completed."
       },
       "change": {
-        "cs": "První hodnocení: status „probíhá\"; legislativní proces v Senátu.",
-        "en": "First assessment: status \"in progress\"; legislative process in Senate."
+        "cs": "Legislativní proces v Senátu.",
+        "en": "Status \"in progress\"; legislative process in Senate."
       },
       "sources": [
         {
@@ -192,8 +192,8 @@
         "en": "Government declares introduction of 'Digital Tax Cobra' using AI in its program statement and via Finance Minister Schillerová. Project mentioned as part of gray economy fight, but without specific legislative steps. Operational team 'Tax Cobra' (NCOZ, GŘC, GFŘ) exists since earlier – it handles individual cases, but new digital and AI system has only been declared, not implemented. No evidence of legislative proposal or executive action."
       },
       "change": {
-        "cs": "První hodnocení: status declared; bez konkrétních legislativních či exekutivních kroků.",
-        "en": "First assessment: status declared; without specific legislative or executive actions."
+        "cs": "Bez konkrétních legislativních či exekutivních kroků.",
+        "en": "Without specific legislative or executive actions."
       },
       "sources": [
         {
@@ -218,8 +218,8 @@
         "en": "Customs expansion: promised in program but without specific legislative proposal. Ministry of Interior (May 2025) claimed existing system is functional and expansion would complicate it. Entry salary 50k CZK: stated in government declaration 5 January 2026, but I lack verified evidence that this specific sum was approved and implemented (Customs Service mentions 'newly indexed tariffs from 1 April 2026', without specifying entry rate). Some of promise (indexing, declaration) yes, full salary and competence fulfillment: no."
       },
       "change": {
-        "cs": "První hodnocení: status partial; deklarace v programu, částečná valorizace od 1. 4. 2026, ale bez potvrzení konkrétní sazby 50 tis. a bez rozšíření kompetencí.",
-        "en": "First assessment: status partial; declaration in program, partial indexing from 1 April 2026, but without confirmation of specific 50k rate and without competence expansion."
+        "cs": "Deklarace v programu, částečná valorizace od 1. 4. 2026, ale bez potvrzení konkrétní sazby 50 tis. a bez rozšíření kompetencí.",
+        "en": "Declaration in program, partial indexing from 1 April 2026, but without confirmation of specific 50k rate and without competence expansion."
       },
       "sources": [
         {
@@ -244,8 +244,8 @@
         "en": "Government promises 'not to increase any taxes' but factually alters tax system: VAT on non-alcoholic beverages cut from 21% to 12%, tips in gastronomy exempted, VAT on food services changed. Formally these are reductions/reliefs, but practically they involve extensive tax structure changes, which violates spirit of promise. Critique: changes are not 'not increasing taxes' in true sense; this is restructuring. Promise clearly stated 'not to increase', yet substantive tax legislation changes occurred."
       },
       "change": {
-        "cs": "První hodnocení: status broken; faktické změny daňové legislativy, ačkoli formálně se jedná o úlevy.",
-        "en": "First assessment: status broken; substantive tax legislation changes, though formally presented as reliefs."
+        "cs": "Faktické změny daňové legislativy, ačkoli formálně se jedná o úlevy.",
+        "en": "Substantive tax legislation changes, though formally presented as reliefs."
       },
       "sources": [
         {
@@ -270,8 +270,8 @@
         "en": "Promised step: reduce CIT from 21% to 19%. Observation: more than eight months after government took office (15 Dec 2025), no legislative proposal for such reduction is in Parliament or on government agenda. Instead, government works on EET 2.0, VAT reform for gastronomy, tax reliefs for self-employed. Without explicit denial, but factual absence of step suggests government abandoned promise. Breach or at least delay without explanation."
       },
       "change": {
-        "cs": "První hodnocení: status broken; žádný legislativní návrh ke snížení DPO na 19 % po osmi měsících.",
-        "en": "First assessment: status broken; no legislative proposal to reduce CIT to 19% after eight months."
+        "cs": "Žádný legislativní návrh ke snížení DPO na 19 % po osmi měsících.",
+        "en": "No legislative proposal to reduce CIT to 19% after eight months."
       },
       "sources": [
         {
@@ -296,8 +296,8 @@
         "en": "Restoration of kindergarten fees deduction and spouse/student tax relief are part of comprehensive EET 2.0 package (approved by government 4 May 2026, Chamber of Deputies 15 July 2026). Legislative process in Senate. This step is tied to EET 2.0 implementation from 1 January 2027. Partial realization: declaration and legislative process ongoing, but final approval still needed (Senate)."
       },
       "change": {
-        "cs": "První hodnocení: status „probíhá\"; legislativní proces vázán na EET 2.0, v Senátu.",
-        "en": "First assessment: status \"in progress\"; legislative process tied to EET 2.0, in Senate."
+        "cs": "Legislativní proces vázán na EET 2.0, v Senátu.",
+        "en": "Status \"in progress\"; legislative process tied to EET 2.0, in Senate."
       },
       "sources": [
         {
@@ -322,8 +322,8 @@
         "en": "The government included zero VAT on prescription medicines in the EET 2.0 package approved on 4 May 2026. The measure passed the third reading in the Chamber but the legislative process is incomplete – Senate approval and presidential signature are pending. The pledge is in advanced preparation but not yet fulfilled."
       },
       "change": {
-        "cs": "První hodnocení: vláda iniciovala legislativu, ale proces není završen.",
-        "en": "First assessment: the government initiated legislation but the process remains incomplete."
+        "cs": "Vláda iniciovala legislativu, ale proces není završen.",
+        "en": "The government initiated legislation but the process remains incomplete."
       },
       "sources": [
         {
@@ -348,8 +348,8 @@
         "en": "The government stopped increasing the OSVČ assessment base and returned it to 35% of average wage. The Chamber approved the law on 26 May 2026, overriding Senate veto and sending it for presidential signature. The measure takes effect from 1 July 2026. This is partial fulfillment as the law was approved but not yet fully effective."
       },
       "change": {
-        "cs": "První hodnocení: legislativa schválena, účinná od poloviny roku 2026.",
-        "en": "First assessment: legislation approved, effective from mid-2026."
+        "cs": "Legislativa schválena, účinná od poloviny roku 2026.",
+        "en": "Legislation approved, effective from mid-2026."
       },
       "sources": [
         {
@@ -374,8 +374,8 @@
         "en": "The government has initiated practical preparation of a unified collection point through JMHZ and nDIS. Although full unified collection is not planned by the end of the legislative term, real technical preparations and pilot projects are underway. The finance minister anticipates the first phase in 2027–2028. This is genuine progress but not yet fulfillment of the commitment."
       },
       "change": {
-        "cs": "První hodnocení: vláda zahájila legislativní a technické kroky, proces probíhá.",
-        "en": "First assessment: the government initiated legislative and technical steps, process is ongoing."
+        "cs": "Vláda zahájila legislativní a technické kroky, proces probíhá.",
+        "en": "The government initiated legislative and technical steps, process is ongoing."
       },
       "sources": [],
       "previousStatus": "not_started",
@@ -391,8 +391,8 @@
         "en": "The government established a public register of grants for non-profit organizations and made it available in the MONITOR application. However, this covers only state and territorial budgets; the government is still preparing a regulation amendment for state fund data collection to be published in 2027. The pledge is partially fulfilled – the register exists but coverage is incomplete."
       },
       "change": {
-        "cs": "První hodnocení: registr spuštěn, ale bez úplného pokrytí všech zdrojů financování.",
-        "en": "First assessment: register launched but without complete coverage of all funding sources."
+        "cs": "Registr spuštěn, ale bez úplného pokrytí všech zdrojů financování.",
+        "en": "Register launched but without complete coverage of all funding sources."
       },
       "sources": [
         {
@@ -417,8 +417,8 @@
         "en": "The government included shortening of VAT refund period to 3 months in EET 2.0. The bill passed the third reading in the Chamber but Senate approval and presidential signature are pending. The measure is in an advanced legislative stage but not yet formally fulfilled."
       },
       "change": {
-        "cs": "První hodnocení: legislativa v procesu, blízko k závěru.",
-        "en": "First assessment: legislation in process, close to conclusion."
+        "cs": "Legislativa v procesu, blízko k závěru.",
+        "en": "Legislation in process, close to conclusion."
       },
       "sources": [
         {
@@ -443,8 +443,8 @@
         "en": "The government pledges to anchor the crown and cash in the Constitution and reject the euro. However, this is only a declaration in the program statement; no constitutional bill has been prepared or submitted. Constitutional changes require a supermajority and lengthy legislative process. Without a submitted bill, this remains merely a declaration."
       },
       "change": {
-        "cs": "První hodnocení: jen verbální slib bez legislativního kroku.",
-        "en": "First assessment: only a verbal pledge without legislative action."
+        "cs": "Jen verbální slib bez legislativního kroku.",
+        "en": "Only a verbal pledge without legislative action."
       },
       "sources": [
         {
@@ -464,8 +464,8 @@
         "en": "No information found in available sources, government program statement or ministerial statements regarding offering Republic Bonds to small savers. There are no indications of work on this measure. The government does not mention it in the program statement."
       },
       "change": {
-        "cs": "První hodnocení: neexistuje doklad o jakémkoliv kroku.",
-        "en": "First assessment: no evidence of any steps taken."
+        "cs": "Neexistuje doklad o jakémkoliv kroku.",
+        "en": "No evidence of any steps taken."
       },
       "sources": [
         {
@@ -981,8 +981,8 @@
         "en": "The government pledges to tighten penalties for violence against seniors, women, and children (government program, Jan 5, 2026). A draft criminal law amendment passed first reading in June 2026 with stiffer sentences for abuse in shared households. However, the legislative process is not yet complete—the draft is still in committee review. Without final passage by both chambers, fulfillment cannot be confirmed."
       },
       "change": {
-        "cs": "První hodnocení: Legislativní proces v přípravě bez dosažitelných výsledků.",
-        "en": "First assessment: Legislative process in preparation without achievable results."
+        "cs": "Legislativní proces v přípravě bez dosažitelných výsledků.",
+        "en": "Legislative process in preparation without achievable results."
       },
       "sources": [
         {
@@ -1032,8 +1032,8 @@
         "en": "On March 2, 2026, the government supported a coalition-sponsored parliamentary bill to reintroduce criminal penalties for child support non-payment. The draft passed the Chamber of Deputies' first reading (April 2026) and is now under committee review. The legislative process continues but is not finalized. The government also implemented higher interest rates on overdue child support (2.5 per mille daily), an effective executive measure."
       },
       "change": {
-        "cs": "První hodnocení: Legislativní proces v přípravě; součástí slibu bylo jednak znovuzavedení trestnosti, jednak zvýšení vymahatelnosti.",
-        "en": "First assessment: Legislative process in preparation; the pledge included both reintroduction of criminal penalties and enhanced enforcement."
+        "cs": "Legislativní proces v přípravě; součástí slibu bylo jednak znovuzavedení trestnosti, jednak zvýšení vymahatelnosti.",
+        "en": "Legislative process in preparation; the pledge included both reintroduction of criminal penalties and enhanced enforcement."
       },
       "sources": [
         {
@@ -1061,8 +1061,8 @@
         "en": "The government program (Jan 5, 2026) promises 'clear and fair rules of self-defense' and the right to 'defend one's home, life, and property without fear of prosecution.' However, the government has not initiated any specific legislative proposal. While SPD and Motoristé have proposed such changes, the government has not committed. Without a government draft, this remains declarative only. The Justice Ministry critiques unlimited self-defense expansion."
       },
       "change": {
-        "cs": "První hodnocení: Deklarace bez legislativního kroku.",
-        "en": "First assessment: Declaration without legislative action."
+        "cs": "Deklarace bez legislativního kroku.",
+        "en": "Declaration without legislative action."
       },
       "sources": [
         {
@@ -1082,8 +1082,8 @@
         "en": "The government program pledges modernization of the criminal code of procedure and civil procedure code. The Ministry of Justice submitted a draft law with 58 amendments for comment review in May 2026. The goal is to streamline proceedings, improve decision quality, and better support victims. The legislative process is underway but has not yet passed the Chamber of Deputies. The draft also includes mandatory continuing education for judges and prosecutors."
       },
       "change": {
-        "cs": "První hodnocení: Legislativní proces v přípravě, připomínkové řízení proběhlo.",
-        "en": "First assessment: Legislative process in preparation, public comment period completed."
+        "cs": "Legislativní proces v přípravě, připomínkové řízení proběhlo.",
+        "en": "Legislative process in preparation, public comment period completed."
       },
       "sources": [
         {
@@ -1104,8 +1104,8 @@
         "en": "The government program (Jan 5, 2026) promises a starting salary of 50,000 CZK for the prison service. Reality: Minister Tejc's report (July 9, 2026) stated the government found no 'financial resources' to increase the salary to the declared level. The pledge was explicitly abandoned. Although the government attempted to address staffing issues, the specific commitment was not met."
       },
       "change": {
-        "cs": "První hodnocení: Slib explicitně upuštěn kvůli chybějícím financím.",
-        "en": "First assessment: Promise explicitly abandoned due to lack of funds."
+        "cs": "Slib explicitně upuštěn kvůli chybějícím financím.",
+        "en": "Promise explicitly abandoned due to lack of funds."
       },
       "sources": [
         {
@@ -1130,8 +1130,8 @@
         "en": "A criminal code amendment effective Jan 1, 2026 (No. 268/2025 Coll., issued by the previous government) prioritizes alternative sentences including electronic monitoring. The new government adopted this system and promotes its implementation. In June 2026, a draft was submitted to tighten non-payment of child support, partially reversing liberalization. The government adopted and implements electronic monitoring but also partially restricts alternatives through tightened penalties. No clear independent Babiš government measures in this area yet."
       },
       "change": {
-        "cs": "První hodnocení: Částečné převzetí; praktická kontinuace předchozích opatření.",
-        "en": "First assessment: Partial adoption; practical continuation of previous measures."
+        "cs": "Částečné převzetí; praktická kontinuace předchozích opatření.",
+        "en": "Partial adoption; practical continuation of previous measures."
       },
       "sources": [
         {
@@ -1156,8 +1156,8 @@
         "en": "The government program (Jan 5, 2026) pledges to repeal the criminal offense of 'unauthorized activity on behalf of foreign powers' (§ 318a of the Criminal Code), which the government disliked for 'vague formulations.' Reality: The government abandoned this pledge. Justice Minister Tejc does not commit to its repeal. Although the government declared rejection of § 318a as an obstacle to freedom, no legislative initiative to repeal it has been undertaken. This is an explicit breach of the pledge."
       },
       "change": {
-        "cs": "První hodnocení: Slib expresně opuštěn bez legislativního kroku.",
-        "en": "First assessment: Pledge explicitly abandoned without legislative action."
+        "cs": "Slib expresně opuštěn bez legislativního kroku.",
+        "en": "Pledge explicitly abandoned without legislative action."
       },
       "sources": [
         {
@@ -1177,8 +1177,8 @@
         "en": "The government program includes a referendum law. The Interior Minister (Motoristé) and SPD indicated they participated in an agreement on a referendum law without restrictions on EU/NATO votes. A specific government draft has not yet been publicly submitted, but coalition partners (SPD, Motoristé) push for this legislation. As of July 2026 government sessions, no draft had been submitted. The process is underway but without visible legislative progress."
       },
       "change": {
-        "cs": "První hodnocení: Deklarace; koaliční tlak bez konkrétního vládního návrhu.",
-        "en": "First assessment: Declaration; coalition pressure without concrete government draft."
+        "cs": "Deklarace; koaliční tlak bez konkrétního vládního návrhu.",
+        "en": "Declaration; coalition pressure without concrete government draft."
       },
       "sources": [
         {
@@ -1444,8 +1444,8 @@
         "en": "Construction of the D11 section Trutnov–border (3 km) continues; it was launched in October 2024 and was expected to open in the second half of 2026. The Babiš government increased funding via SFDI. This is an ongoing project of the previous government that this administration continues to finance and support, but it is not yet its own work."
       },
       "change": {
-        "cs": "První hodnocení: status „probíhá“ (stavba pokračuje z času minulé vlády, tato vláda ji financuje a podporuje, ale není zatím jejím iniciačním krokem).",
-        "en": "First assessment: status \"in progress\" (construction continues from previous government, this administration finances and supports it, but it is not yet its initiating step)."
+        "cs": "Status „probíhá“ (stavba pokračuje z času minulé vlády, tato vláda ji financuje a podporuje, ale není zatím jejím iniciačním krokem).",
+        "en": "Status \"in progress\" (construction continues from previous government, this administration finances and supports it, but it is not yet its initiating step)."
       },
       "sources": [
         {
@@ -1470,8 +1470,8 @@
         "en": "The D3 Nažidla–Dolní Dvořiště section opened in August 2026, but construction was carried out by the Fiala government from 2024. This administration inherited the completed project and cannot claim it as its own success. Other sections remain incomplete."
       },
       "change": {
-        "cs": "První hodnocení: status partial (částečné splnění – jen část slibu dokončena, zbývá jižní část, stavba byla dílem předchozí vlády).",
-        "en": "First assessment: status partial (partial fulfillment – only part of promise completed, southern section remains, construction was work of previous government)."
+        "cs": "Částečné splnění – jen část slibu dokončena, zbývá jižní část, stavba byla dílem předchozí vlády.",
+        "en": "Partial fulfillment – only part of promise completed, southern section remains, construction was work of previous government."
       },
       "sources": [
         {
@@ -1495,8 +1495,8 @@
         "en": "Construction of the D0 511 Běchovice–D1 section continues (started December 2024). Planned completion was originally end of 2027, but delayed to second half of 2028 due to geological issues. Babiš administration continues financing and preparing further Prague Ring expansion."
       },
       "change": {
-        "cs": "První hodnocení: status „probíhá“ (stavba pokračuje, řídí se podle plánu s realistickými zpožděními).",
-        "en": "First assessment: status \"in progress\" (construction continues, proceeding according to plan with realistic delays)."
+        "cs": "Status „probíhá“ (stavba pokračuje, řídí se podle plánu s realistickými zpožděními).",
+        "en": "Status \"in progress\" (construction continues, proceeding according to plan with realistic delays)."
       },
       "sources": [
         {
@@ -1520,8 +1520,8 @@
         "en": "The government's programme statement of 5.1.2026 promises gradual speed increase to 200 km/h on corridors. Ministry announced that safety systems already enable higher speeds; routes like Brno–Přerov will be prepared for 200 km/h. However, this is still only a declaration and pilot project, not a comprehensive rollout. No legislative steps initiated yet."
       },
       "change": {
-        "cs": "První hodnocení: status declared (pouze vyjádření úmyslu a pilotní projekty, bez legislativní podpory).",
-        "en": "First assessment: status declared (only declaration of intent and pilot projects, without legislative support)."
+        "cs": "Pouze vyjádření úmyslu a pilotní projekty, bez legislativní podpory.",
+        "en": "Only declaration of intent and pilot projects, without legislative support."
       },
       "sources": [
         {
@@ -1546,8 +1546,8 @@
         "en": "The Railway Administration in May 2026 began construction of a double-track electrified line between Prague Ruzyně and Kladno, planned to complete in 2029. This government took office on 15.12.2025, so the May 2026 start is its initiative. Construction proceeds on schedule."
       },
       "change": {
-        "cs": "První hodnocení: status „probíhá“ (vláda Babiše zahájila stavbu v květnu 2026, což je její iniciativa; stavba pokračuje podle plánu).",
-        "en": "First assessment: status \"in progress\" (Babiš government initiated construction in May 2026; project proceeds on schedule)."
+        "cs": "Status „probíhá“ (vláda Babiše zahájila stavbu v květnu 2026, což je její iniciativa; stavba pokračuje podle plánu).",
+        "en": "Status \"in progress\" (Babiš government initiated construction in May 2026; project proceeds on schedule)."
       },
       "sources": [
         {
@@ -1571,8 +1571,8 @@
         "en": "ETCS is meant to cover transit corridors plus another 700 km. The ministry released an updated ETCS development concept in May 2026. However, this is still only planning and declaration; NKÚ reports deployment is delayed and not complete on key corridors. No legislative steps initiated."
       },
       "change": {
-        "cs": "První hodnocení: status declared (vláda deklaruje plán, ale bez legislativní realizace).",
-        "en": "First assessment: status declared (government declares plan without legislative implementation)."
+        "cs": "Vláda deklaruje plán, ale bez legislativní realizace.",
+        "en": "Government declares plan without legislative implementation."
       },
       "sources": [
         {
@@ -1593,12 +1593,12 @@
       "evidenceDate": "2026-02-20",
       "unverifiable": false,
       "comment": {
-        "cs": "Sleva na jízdném 75 procent pro seniory a studenty, kterou má současná vláda v programovém prohlášení, by měla začít platit od 1. ledna 2027. Vláda se vyjádřila a připravuje legislativu, ale prozatím se sleva ještě neaplikuje (zůstává 50 %). Jde tedy o partial – deklarace s konkrétním termínem a přípravou, ale bez současné realizace.",
+        "cs": "Sleva na jízdném 75 procent pro seniory a studenty, kterou má současná vláda v programovém prohlášení, by měla začít platit od 1. ledna 2027. Vláda se vyjádřila a připravuje legislativu, ale prozatím se sleva ještě neaplikuje (zůstává 50 %). Jde tedy o „částečně splněno“ – deklarace s konkrétním termínem a přípravou, ale bez současné realizace.",
         "en": "The 75% fare discount for seniors and students in the government's programme statement is to start January 1, 2027. The government has declared intent and is preparing legislation, but it is not yet implemented (remains 50%). This is partial – declaration with specific timeline and preparation underway, but not yet in effect."
       },
       "change": {
-        "cs": "První hodnocení: status partial (vláda schválila opatření, připravuje legislativu s konkrétním termínem 1.1.2027, ale není zatím zavedeno).",
-        "en": "First assessment: status partial (government approved measure, preparing legislation with specific 1.1.2027 timeline, but not yet implemented)."
+        "cs": "Vláda schválila opatření, připravuje legislativu s konkrétním termínem 1.1.2027, ale není zatím zavedeno.",
+        "en": "Government approved measure, preparing legislation with specific 1.1.2027 timeline, but not yet implemented."
       },
       "sources": [
         {
@@ -1622,8 +1622,8 @@
         "en": "The government's 5.1.2026 programme statement contains a political declaration: 'The incoming government rejects the ban on combustion engines from 2035.' This is a statement of position regarding EU regulation (Green Deal), not a legislative step in the Czech Republic. Czechia is bound by EU law; any unilateral ban is impossible. This is only a political declaration."
       },
       "change": {
-        "cs": "První hodnocení: status declared (čistě politická deklarace bez možnosti legislativní realizace v rámci EU).",
-        "en": "First assessment: status declared (purely political declaration without legislative implementation possibility within EU)."
+        "cs": "Čistě politická deklarace bez možnosti legislativní realizace v rámci EU.",
+        "en": "Purely political declaration without legislative implementation possibility within EU."
       },
       "sources": [
         {
@@ -1644,8 +1644,8 @@
         "en": "The Babiš government approved increased transport funding of 26 billion Kč; this enables work on projects including the rail link between Prague, Kladno and Prague Airport. The government finances the project, but actual airport modernization itself has not yet started (the Prague–Ruzyně–Airport line yes, but the terminal itself awaits). This is \"in progress\" focused on infrastructure, not terminal itself."
       },
       "change": {
-        "cs": "První hodnocení: status „probíhá“ (vláda financuje a podporuje projekt železnice na letiště, ale samotná modernizace letiště ještě není zahájená).",
-        "en": "First assessment: status \"in progress\" (government finances and supports airport rail project, but terminal modernization itself not yet started)."
+        "cs": "Status „probíhá“ (vláda financuje a podporuje projekt železnice na letiště, ale samotná modernizace letiště ještě není zahájená).",
+        "en": "Status \"in progress\" (government finances and supports airport rail project, but terminal modernization itself not yet started)."
       },
       "sources": [
         {
@@ -2700,8 +2700,8 @@
         "en": "Government approved 9% salary increase for culture workers from April 2026 (state institutions receive 1% bonus). This represents substantive fulfilment, but experts and Minister Klempíř note the increase is insufficient – some tariffs remain below minimum wage even after the raise. Cultural sector commentary warns that without institutional budget increases, the measure remains only partial."
       },
       "change": {
-        "cs": "Od předchozího hodnocení (27.8.): vláda schválila nařízení o zvýšení platů, které se stalo fakticky splněným závazkem (bylo částečně splněno, nyní splněno).",
-        "en": "From previous assessment (27.8.): government approved regulation on salary increases that became substantively fulfilled (was partial, now fulfilled)."
+        "cs": "",
+        "en": ""
       },
       "sources": [
         {
@@ -3011,8 +3011,8 @@
         "en": "The government initiated NSA reorganization: abolished an opaque call for proposals and reallocated resources to three standardized calls, which should help build or renovate over 200 sports facilities in 2026. However: this is a repositioning measure, not a new program fulfilling the pledge. Real impact and implementation numbers are yet to be verified."
       },
       "change": {
-        "cs": "První hodnocení.",
-        "en": "First assessment."
+        "cs": "",
+        "en": ""
       },
       "sources": [
         {
@@ -3037,8 +3037,8 @@
         "en": "NSA and Minister Šťastný continue dotation programs and approved the Action Plan 2026. A general development plan for sports infrastructure is being prepared with regions. However: this is not a concrete legislative measure increasing investment volumes; rather, it is a continuation of existing programs. Impact cannot be measured without knowledge of specific budget increases."
       },
       "change": {
-        "cs": "První hodnocení.",
-        "en": "First assessment."
+        "cs": "",
+        "en": ""
       },
       "sources": [
         {
@@ -3062,8 +3062,8 @@
         "en": "The \"Coaches to Schools\" program has effectively operated since 2020 in various cities and is expanding massively. However, the Babiš government only declares support without new legislation or specific nationwide mandate. This is a declaration of support for an existing program, not its implementation."
       },
       "change": {
-        "cs": "První hodnocení.",
-        "en": "First assessment."
+        "cs": "",
+        "en": ""
       },
       "sources": [
         {
@@ -3088,8 +3088,8 @@
         "en": "The government sports council was established in March 2026 and initiated preparation of a new National Sports Strategy 2026–2030 and State Sports Policy Plan. A real process with working groups is underway, but the final document has not yet been approved. This is an ongoing preparation without final government resolution or legislative output."
       },
       "change": {
-        "cs": "První hodnocení.",
-        "en": "First assessment."
+        "cs": "",
+        "en": ""
       },
       "sources": [
         {
@@ -3110,8 +3110,8 @@
         "en": "Minister Šťastný is initiating a new sports law addressing the status of professional athletes, athlete status, operation of federations, and the National Sports Register. The draft is being prepared and is to be submitted this year, but has not yet undergone the legislative process. This is an ongoing preparation without government approval or parliamentary review."
       },
       "change": {
-        "cs": "První hodnocení.",
-        "en": "First assessment."
+        "cs": "",
+        "en": ""
       },
       "sources": [
         {
@@ -3136,8 +3136,8 @@
         "en": "The government implemented personnel changes: dismissed the NSA chair (December 2025 – before this government took office) and appointed new leadership (January 2026). Partial reforms: new internal auditor, initiative to review subsidy rules. However: the supervisory board has not yet been abolished by the government (Parliament abolished it in July 2026 as part of a sports law amendment), which was part of the promise. The reform is thus incomplete."
       },
       "change": {
-        "cs": "První hodnocení.",
-        "en": "First assessment."
+        "cs": "",
+        "en": ""
       },
       "sources": [
         {
@@ -3162,8 +3162,8 @@
         "en": "Yes, but with caveats: The government increased spending nominally (2026 budget approved: 55.7 billion CZK, increase of 4.2 billion CZK). However, the target was 3% of GDP, while actual share remains 0.63% of GDP. This is partial fulfillment of nominal increase without reaching the ambitious strategic goal."
       },
       "change": {
-        "cs": "První hodnocení: Rozpočet 2026 přijat s nominálním nárůstem o 4,2 mld. Kč, ale bez dosažení cílovaného podílu na HDP.",
-        "en": "First assessment: 2026 budget adopted with nominal increase of 4.2 billion CZK, but without achieving the targeted share of GDP."
+        "cs": "Rozpočet 2026 přijat s nominálním nárůstem o 4,2 mld. Kč, ale bez dosažení cílovaného podílu na HDP.",
+        "en": "2026 budget adopted with nominal increase of 4.2 billion CZK, but without achieving the targeted share of GDP."
       },
       "sources": [
         {
@@ -3188,8 +3188,8 @@
         "en": "Yes, but pointing to gradual implementation: Methodology 2025+ replacing M2017+ was formally approved earlier (30 May 2025), before this government took office. This government continues the revision through preparation of changes to the research law, which by 13 July 2026 was in an advanced stage (approved by relevant bodies). This is more a continuation of implementing the legislative framework than a new initiative."
       },
       "change": {
-        "cs": "První hodnocení: Příprava zákona o vědě v pokročilém stádiu, ale Metodika 2025+ schválena již předchozí vládou.",
-        "en": "First assessment: Preparation of research law in advanced stage, but Methodology 2025+ was approved by previous government."
+        "cs": "Příprava zákona o vědě v pokročilém stádiu, ale Metodika 2025+ schválena již předchozí vládou.",
+        "en": "Preparation of research law in advanced stage, but Methodology 2025+ was approved by previous government."
       },
       "sources": [
         {
@@ -3215,8 +3215,8 @@
         "en": "Yes, fulfilled: Tax deductions for R&D were indeed made more attractive from 1 January 2026 – increase from 100% to 150% up to CZK 50 million, extension of utilization period from 3 to 5 years and more flexible rules. The measure came into effect. Caveat: Practice shows firms use it little due to uncertainty over tax audits, but legislative fulfillment of the commitment is factual."
       },
       "change": {
-        "cs": "První hodnocení: Daňové odpočty na VaV zvýšeny ze 100 % na 150 % s nižší administrativou, legislativně splněno.",
-        "en": "First assessment: R&D tax deductions increased from 100% to 150% with lower administrative burden, legislatively fulfilled."
+        "cs": "Daňové odpočty na VaV zvýšeny ze 100 % na 150 % s nižší administrativou, legislativně splněno.",
+        "en": "R&D tax deductions increased from 100% to 150% with lower administrative burden, legislatively fulfilled."
       },
       "sources": [
         {
@@ -3241,8 +3241,8 @@
         "en": "Yes, fulfilled: The government effectively abolished the separate position of science minister – after October 2025 elections, no science minister was appointed full-time. The Research and Development Council was genuinely strengthened by involving leading experts (Minister Plaga, chairs of Academy of Sciences and research organizations). The Council remains an advisory body to the government."
       },
       "change": {
-        "cs": "První hodnocení: Ministr pro vědu zrušen, Rada pro výzkum posílena odbornými členy vedoucích institucí.",
-        "en": "First assessment: Science minister position abolished, Research Council strengthened with expert members from leading institutions."
+        "cs": "Ministr pro vědu zrušen, Rada pro výzkum posílena odbornými členy vedoucích institucí.",
+        "en": "Science minister position abolished, Research Council strengthened with expert members from leading institutions."
       },
       "sources": [
         {
@@ -3267,8 +3267,8 @@
         "en": "Declared only: The government in its program statement and economic strategy promises to ease the entry of foreign scientists and doctoral students (removal of administrative barriers, accelerated qualification recognition). The Research Council initiated a relevant working group. However, no specific legislative or executive measures with actual legal effect are yet documented – this remains an expression of intent."
       },
       "change": {
-        "cs": "První hodnocení: Záměr deklarován v programovém prohlášení a strategiích, bez konkrétních právně účinných kroků.",
-        "en": "First assessment: Intent declared in program statement and strategies, without specific legally binding measures."
+        "cs": "Záměr deklarován v programovém prohlášení a strategiích, bez konkrétních právně účinných kroků.",
+        "en": "Intent declared in program statement and strategies, without specific legally binding measures."
       },
       "sources": [
         {
@@ -3292,8 +3292,8 @@
         "en": "In May 2026, the government approved a system for managing strategic projects with clear accountability and prioritization. Commissioner Klučka declared a governance principle with measurable impact, but this remains organizational commitment without concrete legislative or tangible executive results demonstrating practical implementation of the \"do it once and right\" principle."
       },
       "change": {
-        "cs": "První hodnocení.",
-        "en": "First assessment."
+        "cs": "",
+        "en": ""
       },
       "sources": [
         {
@@ -3317,8 +3317,8 @@
         "en": "Digitalization of services continues under the Digital Services Law through February 2027. As of April, 1,953 of 5,755 services were digitalized, with 1,378 more in progress and 2,424 deemed unnecessary to digitalize. The government aims to accelerate, but final completion by the February 2027 deadline has not yet been achieved—the project is on schedule but without definitive fulfillment."
       },
       "change": {
-        "cs": "První hodnocení.",
-        "en": "First assessment."
+        "cs": "",
+        "en": ""
       },
       "sources": [
         {
@@ -3342,8 +3342,8 @@
         "en": "Single Digital Gateway (SDG) is an EU mandate based on Regulation 2018/1724. The government approved implementation materials in May 2026; implementation continues—91% of information requirements and 63% of procedural requirements met (as of December 2023; no newer explicit data found). The project is running but without complete final deployment of web and mobile interfaces with unified login."
       },
       "change": {
-        "cs": "První hodnocení.",
-        "en": "First assessment."
+        "cs": "",
+        "en": ""
       },
       "sources": [
         {
@@ -3367,8 +3367,8 @@
         "en": "Connected data ecosystem with open interfaces is part of Digital Czechia 2.0 and National IT Concept. The government approved a management system with this objective in May 2026. Multiple projects are running (Registry, CAAIS, NKD), but a comprehensive functional ecosystem with standardized open interfaces has not yet been deployed."
       },
       "change": {
-        "cs": "První hodnocení.",
-        "en": "First assessment."
+        "cs": "",
+        "en": ""
       },
       "sources": [
         {
@@ -3392,8 +3392,8 @@
         "en": "The government is implementing the AI Act (EU 2024/1689). In May 2026, it announced the Action Plan for the National AI Strategy 2030 and in June transferred responsibility from Minister Jurečka to the Ministry of Industry and Trade with a new AI commissioner. These are declarative measures—adopted plans and reorganization without concrete legal norms or approved frameworks for AI safety and ethics in practice."
       },
       "change": {
-        "cs": "První hodnocení.",
-        "en": "First assessment."
+        "cs": "",
+        "en": ""
       },
       "sources": [
         {
@@ -3417,8 +3417,8 @@
         "en": "The government declared the goal of auditing state IT and combating vendor lock-in as part of the strategic project management system in May 2026. However, there is no evidence of an actual audit launch, its findings, or specific anti-vendor lock-in measures. This remains an expression of intent without executive action."
       },
       "change": {
-        "cs": "První hodnocení.",
-        "en": "First assessment."
+        "cs": "",
+        "en": ""
       },
       "sources": [
         {

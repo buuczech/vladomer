@@ -24,10 +24,12 @@ Do "unverifiable" dej true, pokud je závazek formulován tak obecně, že jeho 
 
 Měny: v českých textech piš „Kč", v anglických „CZK". Je-li částka ve zdroji důvěryhodně uvedena v eurech, ponech EUR v obou jazycích — nepřepočítávej.
 
+Do "change_cs" napiš JEDNU větu o tom, CO SE VE SVĚTĚ STALO od minulého hodnocení — nové nařízení, hlasování, ustoupení od slibu, nový termín. NEPIŠ, jak se změnil stav hodnocení, ani datum minulého hodnocení: obojí doplní program, který to ví přesně, a tvůj odhad by se s ním rozešel. Nepiš tedy „bylo částečně splněno, nyní splněno" ani „od předchozího hodnocení (27. 8.)". Když se nestalo nic nového, napiš přesně „beze změny".
+
 Do "sources" uveď 1–{{MAX_ZDROJU}} PŘESNÉ URL z výsledků vyhledávání, které hodnocení nejvíce podporují. Jen URL, která se ve vyhledávání skutečně objevila – NEVYMÝŠLEJ je.
 
 Body (vrať hodnocení pro každé ID):
 {{SEZNAM_BODU}}
 
 Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný úvodní text, žádné markdown bloky:
-[{"id":"...","status":"{{SEZNAM_STAVU}}","evidence":"u fulfilled a broken povinný konkrétní doklad, jinak prázdné","evidence_date":"YYYY-MM-DD u fulfilled a broken, jinak prázdné","unverifiable":false,"comment_cs":"2–3 věty, vyvážené ano-ale/ne-ale","comment_en":"anglický překlad comment_cs","change_cs":"1 věta: co se změnilo; bez předchozího hodnocení přesně „první hodnocení“","change_en":"anglický překlad change_cs","sources":["https://..."]}]
+[{"id":"...","status":"{{SEZNAM_STAVU}}","evidence":"u fulfilled a broken povinný konkrétní doklad, jinak prázdné","evidence_date":"YYYY-MM-DD u fulfilled a broken, jinak prázdné","unverifiable":false,"comment_cs":"2–3 věty, vyvážené ano-ale/ne-ale","comment_en":"anglický překlad comment_cs","change_cs":"1 věta: co se ve světě stalo od minule; nic nového = přesně „beze změny“; nikdy stav ani datum hodnocení","change_en":"anglický překlad change_cs","sources":["https://..."]}]

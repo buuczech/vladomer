@@ -67,6 +67,8 @@ Three separate things share one repository:
 
 **A failed chapter keeps its previous ratings** (the merge never overwrites), so the site would otherwise claim a freshness it does not have for those items. Both `src/App.jsx` and `scripts/lib/prehled.js` compute the stale chapters the same way — no item in the chapter carries the run's date — and say so, in the header and in the listing. Change one, change the other.
 
+**Never ask the model for something the program already knows.** `change_cs` used to be free prose that included the status transition and the date of the previous assessment — both facts the code holds exactly. The model got them wrong constantly: a third of items every week claimed "první hodnocení" although they had been assessed before, and item 14.1 published "nyní splněno" under a "částečně splněno" badge, dated six days into the future. The prompt now asks only what happened *in the world*; `src/App.jsx` renders the transition itself from `previousStatus` → `status`. An empty `change` is therefore legal and `test-konzistence.js` allows it (an empty `comment` is still an error) — when a sentence turns out to be untrue it is deleted, never rewritten, because inventing what happened would publish an unverified claim.
+
 **Error message strings are load-bearing.** `withBackoff` decides whether to retry by matching `/API (429|5\d\d)/`, `/JSON/` or the `[opakovat]` marker in the message text.
 
 **Dead ends, already paid for:** structured outputs (`output_config.format`) and assistant prefill each silently suppress the `web_search` tool, leaving the model with no sources. JSON stays prompt-enforced. Raising `vyhledavani_zpravy` makes the headline step worse, not better — search rounds consume the same output budget the JSON needs.
