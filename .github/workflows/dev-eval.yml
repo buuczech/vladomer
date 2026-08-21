@@ -22,6 +22,12 @@ on:
         default: "eval"
         type: choice
         options: [eval, stabilita]
+      rezim_behu:
+        description: "stabilita: režim obou běhů (plny/delta), nebo delta-vs-plny = běh 1 delta, běh 2 plný — měří, co delta sken zmešká"
+        required: false
+        default: "plny"
+        type: choice
+        options: [plny, delta, delta-vs-plny]
   push:
     branches: [dev]
     # Jen když se změní to, co běh ověřuje. Bez filtru stál každý push na dev
@@ -116,6 +122,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           CHAPTER_LIMIT: ${{ github.event.inputs.chapter_limit || '18' }}
+          REZIM_BEHU: ${{ github.event.inputs.rezim_behu == 'delta-vs-plny' && 'delta' || github.event.inputs.rezim_behu || 'plny' }}
           BEZ_KOREKTURY: "1"
           BEZ_ZPRAV: "1"
         run: |
@@ -129,6 +136,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           CHAPTER_LIMIT: ${{ github.event.inputs.chapter_limit || '18' }}
+          REZIM_BEHU: ${{ github.event.inputs.rezim_behu == 'delta-vs-plny' && 'plny' || github.event.inputs.rezim_behu || 'plny' }}
           BEZ_KOREKTURY: "1"
           BEZ_ZPRAV: "1"
         run: |
