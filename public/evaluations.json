@@ -5,170 +5,219 @@
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda odmítla ETS2 usnesením (16. 12. 2025) a aktivně jedná na úrovni EU. V únoru 2026 iniciovala koalici zemí, v červnu dosáhla odložení na 2028; bojuje ale pouze za zmírnění, ne za zrušení. Bez legislativní implementace v ČR stav zůstává deklarativní, ačkoliv iniciativy jsou skutečné.",
-        "en": "Government rejected ETS2 by resolution (16 Dec 2025) and actively negotiates at EU level. In February 2026 it initiated a coalition, achieving postponement to 2028 by June; however it fights only for mitigation, not abolition. Without legislative implementation in Czechia, the status remains declared, though initiatives are real."
+        "cs": "Vláda odmítla ETS2 usnesením (16. 12. 2025) a aktivně jedná na úrovni EU. V červnu 2026 dosáhla kompromisu na cenovém stropu 45 EUR/tunu CO2 s automatickým uvolňováním povolenek, ale bojuje pouze za zmírnění, ne zrušení. Bez legislativní implementace do českého práva zůstává pouze deklarativní pozice.",
+        "en": "The government rejected ETS2 by resolution (16 Dec 2025) and actively negotiates at EU level. In June 2026 it achieved a compromise on a price cap of EUR 45/tonne CO2 with automatic allowance release, but fights only for mitigation, not abolition. Without legislative implementation into Czech law, it remains a declarative position."
       },
       "change": {
-        "cs": "Bez změny – stav zůstává deklarovaný; vláda proaktivně jedná v EU, ale bez domácí legislativní akce.",
-        "en": "No change – status remains declared; government actively negotiates in EU but without domestic legislative action."
+        "cs": "V červnu 2026 byla dosažena dohoda na zmírnění ETS2 s cenovým stropem 45 EUR/tunu CO2 a automatickým uvolňováním povolenek z rezervy.",
+        "en": "In June 2026, an agreement was reached to mitigate ETS2 with a price cap of EUR 45/tonne CO2 and automatic allowance release from the reserve."
       },
       "sources": [
         {
-          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/babisova-vlada-ma-na-programu-prvni-radne-zasedani-368331",
-          "title": "Vláda odmítla emisní povolenky ETS 2 i migrační pakt - ČT24"
+          "url": "https://www.e15.cz/byznys/prumysl-a-energetika/europarlament-zmirnil-kurz-povolenek-nerudova-dostala-do-hry-vyjimku-pro-bydleni-1432465",
+          "title": "Europarlament zmírnil kurz povolenek. Nerudová dostala do hry výjimku pro bydlení"
         },
         {
-          "url": "https://cnn.iprima.cz/odlozeni-emisnich-povolenek-stvrzeno-rozhodl-europarlament-havlicek-chce-system-menit-503853",
-          "title": "Odložení emisních povolenek stvrzeno, rozhodl europarlament. Havlíček chce systém měnit - CNN Prima NEWS"
+          "url": "https://www.echo24.cz/a/HpGwg/zpravy-zahranici-nerudova-ets-2-povolenky-babis-odmitnuti-niceho-nedosahne-ep-ek",
+          "title": "Babiš snahou o zrušení povolenek ničeho nedosáhne, míní Nerudová za europarlament - Echo24.cz"
+        },
+        {
+          "url": "https://hlidacipes.org/babisova-vlada-odmitla-zavest-nove-emisni-povolenky-co-za-to-cesku-hrozi/",
+          "title": "Babišova vláda odmítla zavést nové emisní povolenky. Co za to Česku hrozí? — HlídacíPes.org"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-08-21T10:46:31.512Z"
+      "updatedAt": "2026-08-22T04:38:49.046Z",
+      "overeno": "2026-08-22T04:38:16.718Z"
     },
     "1.2": {
       "status": "partial",
-      "evidence": "Nařízení vlády č. 361/2025 Sb. (snížení ceny elektřiny o platbu za obnovitelné zdroje), vyhlášeno 16. 12. 2025; eŽádanky pilotně od 2. 1. 2026; povinné od 7. 2026 (zákon č. 325/2021 Sb. v platnosti od 1. 1. 2026)",
-      "evidenceDate": "2025-12-16",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Elektronizace zdravotnictví (eŽádanky) se spouští pilotně od ledna 2026 a bude povinná od července 2026. Snížení cen energií bylo realizováno nařízením vlády. Čekací doby se začínají měřit až s eŽádankami (měření není plně funkční). Sliby o levnějším a dostupnějším zdravotnictví jsou jen částečně naplněny – mají legislativní oporu, ale účinnost je postupná.",
-        "en": "eŽádanky launched as pilot from January 2026, mandatory from July 2026. Energy price reduction implemented by government regulation. Waiting times only start being measured with eŽádanky (measurement not yet fully functional). Promises of cheaper and more accessible healthcare only partially met – they have legislative backing but effectiveness is gradual."
+        "cs": "Elektronizace zdravotnictví (eŽádanky) se spouští pilotně od ledna 2026 a měla být povinná od července 2026, ale podle červnových zpráv je termín nejistý. Snížení cen energií bylo realizováno nařízením vlády (převzetí financování POZE). Čekací doby se začínají měřit, ale jejich zkrácení není dosud doloženo. Zvýšení plateb za státní pojištěnce o 21 miliard Kč pro rok 2026 částečně řeší financování.",
+        "en": "Healthcare digitalization (e-requests) is being piloted from January 2026 and was to be mandatory from July 2026, but according to June reports the deadline is uncertain. Energy price reduction was implemented by government regulation (POZE financing takeover). Waiting times are beginning to be measured, but their reduction is not yet documented. Increase in state insurance payments by CZK 21 billion for 2026 partially addresses financing."
       },
       "change": {
-        "cs": "Bez značné změny – v červenci 2026 vláda ještě hlásila jen 35% plnění programu; zdravotnictví zůstává v přechodné fázi.",
-        "en": "No significant change – July 2026 government still reported only 35% program completion; healthcare remains in transition phase."
+        "cs": "V červnu 2026 ministr Vojtěch přiznal zpoždění elektronizace zdravotnictví a tlak premiéra na zavedení eŽádanek.",
+        "en": "In June 2026, Minister Vojtěch admitted delays in healthcare digitalization and pressure from the PM to implement e-requests."
       },
       "sources": [
         {
-          "url": "https://mzd.gov.cz/tiskove-centrum-mz/spusteni-nove-digitalni-sluzby-portal-lekare-a-pacienta/",
-          "title": "Ministerstvo zdravotnictví spouští nové digitální služby: Portál lékaře a pacienta přinese první verzi elektronických žádanek i klíčové informace o pacientech – Ministerstvo zdravotnictví"
+          "url": "https://zpravy.aktualne.cz/domaci/zdravotnictvi-22850dba-908b-4192-badc-0e7f1c003a00/babis-uderil-na-vojtecha-kvuli-zasadni-novince-zada-po-ministrovi-okamzitou-akci/r~aaa2990260c3c209ce177b4b11db3b9a/?lp=1",
+          "title": "Babiš udeřil na Vojtěcha. Kvůli zásadní novince žádá po ministrovi okamžitou akci – Aktuálně.cz"
         },
         {
-          "url": "https://www.irozhlas.cz/zpravy-domov/e-zadanky-na-vysetreni-u-lekare-budou-povinne-od-cervence-2026-usetri-az-35_2508311428_jho",
-          "title": "E-žádanky na vyšetření u lékaře budou povinné od července 2026. Ušetří až 35 miliard ročně, tvrdí Válek"
+          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
+          "title": "Programové prohlášení vlády | Vláda České republiky"
+        },
+        {
+          "url": "https://www.ceskenoviny.cz/zpravy/vyhodnoceni-plneni-programu-vlady-cita-978-polozek-splneno-je-195-uvedl-babis/2838806",
+          "title": "Vyhodnocení plnění programu vlády čítá 978 položek, splněno je 195, uvedl Babiš | ČeskéNoviny.cz"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-08-21T10:46:31.512Z"
+      "updatedAt": "2026-08-22T04:38:49.046Z",
+      "overeno": "2026-08-22T04:38:16.718Z"
     },
     "1.3": {
       "status": "partial",
-      "evidence": "Program SFPI pokračuje; v červnu 2026 přidělena dalších 5,9 miliard Kč (z evropských fondů), ale s nižší dotační intenzitou (75–85 % místo 90 %), což je ústup z původních parametrů vlády Fialy",
-      "evidenceDate": "2026-06-18",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Babišova vláda pokračuje v programu iniciovaném Fialovou vládou. V červnu 2026 přidělila dalších cca 6 miliard Kč, avšak s nižší dotační intenzitou (75–85 % místo původních 90 %). Tato změna znamená částečné vykročení ze závazku poskytovat adekvátní podporu. Projekty běží, ale méně ambiciózně.",
-        "en": "Babiš government continues program initiated by Fiala government. In June 2026 allocated ~6 billion CZK more, but at lower subsidy intensity (75–85% instead of original 90%). This change represents partial departure from commitment to adequate support. Projects run but less ambitiously."
+        "cs": "Vláda pokračuje v programu iniciovaném Fialovou vládou. V březnu 2026 ministerstvo pro místní rozvoj pracovalo na nové podobě financování, ale konkrétní opatření nebyla připravena. Vláda chce změnit podmínky (snížit dotační intenzitu), ale nový systém není dosud schválen. Bez legislativního kroku zůstává v přípravě.",
+        "en": "The government continues the program initiated by the Fiala government. In March 2026, the ministry for regional development was working on a new financing model, but specific measures were not prepared. The government wants to change conditions (reduce subsidy intensity), but the new system has not yet been approved. Without legislative action, it remains in preparation."
       },
       "change": {
-        "cs": "Bez změny – podpora pokračuje, ale s nižší intenzitou; to je formální pokračování s výhradami.",
-        "en": "No change – support continues but at lower intensity; this is formal continuation with caveats."
+        "cs": "V březnu 2026 ministerstvo pro místní rozvoj stále pracovalo na nové podobě financování dostupného bydlení bez konkrétních výsledků.",
+        "en": "In March 2026, the ministry for regional development was still working on a new form of affordable housing financing without concrete results."
       },
-      "sources": [],
+      "sources": [
+        {
+          "url": "https://www.irozhlas.cz/zpravy-domov/podpora-vystavby-dostupneho-bydleni-ministerstvo-pro-mistni-rozvoj-stale-planuje_2603110828_epo",
+          "title": "Podpora výstavby dostupného bydlení? Ministerstvo pro místní rozvoj stále plánuje podobu financování"
+        },
+        {
+          "url": "https://www.novinky.cz/clanek/ekonomika-babisova-vlada-prekope-podporu-dostupneho-bydleni-40556033?noredirect=1",
+          "title": "Babišova vláda překope podporu dostupného bydlení - Novinky"
+        },
+        {
+          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
+          "title": "Programové prohlášení vlády | Vláda České republiky"
+        }
+      ],
       "previousStatus": "partial",
-      "updatedAt": "2026-08-21T10:46:31.512Z"
+      "updatedAt": "2026-08-22T04:38:49.046Z",
+      "overeno": "2026-08-22T04:38:16.718Z"
     },
     "1.4": {
       "status": "not_started",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Ministr Juchelka přiznal v červenci 2026, že ministerstvo splnilo jen 11 z 83 úkolů (13 %). Zastropování věku na 65 let se přesouvá do další novely mimo legislativní výhled. Bez doložitelného pokusu o legislativní řešení se bod považuje za nezahájený.",
-        "en": "Minister Juchelka admitted in July 2026 that his ministry completed only 11 of 83 tasks (13%). Age cap at 65 is postponed to another amendment outside the legislative outlook. Without documented legislative attempt, the item is considered not started."
+        "cs": "Ministr Juchelka přiznal v červenci 2026, že ministerstvo splnilo jen 11 z 83 úkolů (13 %). Zastropování věku na 65 let se přesouvá do další novely mimo legislativní výhled. Vláda se zaměří nejdříve na penze náročných profesí. Bez doložitelného legislativního kroku zůstává nezahájeno.",
+        "en": "Minister Juchelka admitted in July 2026 that the ministry completed only 11 of 83 tasks (13%). Capping the retirement age at 65 is being moved to a further amendment outside the legislative outlook. The government will focus first on pensions for demanding professions. Without documented legislative action, it remains not started."
       },
       "change": {
-        "cs": "Bez změny – důchodová reforma se stále odkládá; není doložitelný pokrok.",
-        "en": "No change – pension reform keeps being postponed; no documented progress."
+        "cs": "V červnu 2026 premiér Babiš oznámil, že vláda se nejdříve zaměří na penze náročných profesí, strop věku se posunuje na rok 2028.",
+        "en": "In June 2026, PM Babiš announced that the government will first focus on pensions for demanding professions, the age cap is being postponed to 2028."
       },
       "sources": [
         {
-          "url": "https://www.forum24.cz/babisuv-kabinet-po-pul-roce-ministri-popsali-dosavadni-plneni-programoveho-prohlaseni",
-          "title": "Babišův kabinet po půl roce. Ministři popsali dosa... | FORUM 24"
+          "url": "https://www.ceskenoviny.cz/zpravy/babis-vlada-se-zameri-na-penze-narocnych-profesi-az-pak-na-strop-veku/2841442",
+          "title": "Babiš: Vláda se zaměří na penze náročných profesí, až pak na strop věku | ČeskéNoviny.cz"
+        },
+        {
+          "url": "https://www.echo24.cz/a/HWmv6/zpravy-ekonomika-upravy-duchody-penze-babisova-vlada-juchelka-analytici-dluh-200-miliard",
+          "title": "Vládní změny v důchodech: Kde na to kabinet Andreje Babiše vezme? - Echo24.cz"
+        },
+        {
+          "url": "https://ct24.ceskatelevize.cz/clanek/ekonomika/vlada-ponecha-v-platnosti-zpomaleni-rustu-novych-penzi-370098",
+          "title": "Vláda ponechá v platnosti zpomalení růstu nových penzí - ČT24"
         }
       ],
       "previousStatus": "not_started",
-      "updatedAt": "2026-08-21T10:46:31.512Z"
+      "updatedAt": "2026-08-22T04:38:49.046Z",
+      "overeno": "2026-08-22T04:38:16.718Z"
     },
     "1.5": {
       "status": "declared",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda odmítla migrační pakt EU usnesením (16. 12. 2025) a hlásá politiku nulové tolerance. Avšak migrační pakt vstoupil v platnost 12. června 2026 a ČR je právně vázána bez výhrad. Vláda nemohla jeho aplikaci zabránit. Deklarace není podpořena faktickým výsledkem.",
-        "en": "Government rejected EU migration pact by resolution (16 Dec 2025) and proclaims zero-tolerance policy. However the migration pact entered force 12 June 2026 and Czechia is legally bound without reservations. Government could not prevent its application. Declaration is not backed by factual result."
+        "cs": "Vláda odmítla migrační pakt EU usnesením (16. 12. 2025) a hlásá politiku nulové tolerance. Avšak migrační pakt vstoupil v platnost 12. června 2026 a ČR je právně vázána bez výhrad. Vláda pouze deklaruje postoj, bez reálného legislativního dopadu na nelegální migraci.",
+        "en": "The government rejected the EU migration pact by resolution (16 Dec 2025) and declares a zero-tolerance policy. However, the migration pact entered into force on 12 June 2026 and the CR is legally bound without reservations. The government merely declares a position without real legislative impact on illegal migration."
       },
       "change": {
-        "cs": "Bez změny – stav zůstává deklarovaný; pakt EU je právně závazný bez ohledu na postoj vlády.",
-        "en": "No change – status remains declared; EU pact is legally binding regardless of government position."
+        "cs": "– Vypadá správně.",
+        "en": "No change."
       },
       "sources": [
         {
           "url": "https://ct24.ceskatelevize.cz/clanek/domaci/babisova-vlada-ma-na-programu-prvni-radne-zasedani-368331",
           "title": "Vláda odmítla emisní povolenky ETS 2 i migrační pakt - ČT24"
+        },
+        {
+          "url": "https://hlidacipes.org/babisova-vlada-odmitla-zavest-nove-emisni-povolenky-co-za-to-cesku-hrozi/",
+          "title": "Babišova vláda odmítla zavést nové emisní povolenky. Co za to Česku hrozí? — HlídacíPes.org"
+        },
+        {
+          "url": "https://www.ceskenoviny.cz/zpravy/vlada-odmitla-povolenky-ets-2-i-migracni-pakt-zlevnit-ma-elektrina/2761143",
+          "title": "Babišova vláda schválila změny ve financování energií i nový stavební zákon | ČeskéNoviny.cz"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-08-21T10:46:31.512Z"
+      "updatedAt": "2026-08-22T04:38:49.046Z",
+      "overeno": "2026-08-22T04:38:16.718Z"
     },
     "2.1": {
       "status": "declared",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda deklaruje udržení deficitu pod 3 % HDP (konkrétně 2,9 % na rok 2027). Evropská komise v červenci 2026 plán schválila, avšak bez právně závazného mechanismu. Výkon: deficit veřejných financí v roce 2025 činil 2,1 % HDP (Eurostat), ale státní rozpočet schodoval na 310 mld. Kč (2,4 % HDP). Chybí konkrétní legislativní opatření k zajištění tohoto závazku.",
-        "en": "Government declares maintaining deficit below 3% of GDP (specifically 2.9% for 2027). European Commission approved the plan in July 2026, but without legally binding mechanism. Performance: deficit of general government in 2025 was 2.1% of GDP (Eurostat), though state budget deficit reached 310 bn CZK (2.4% of GDP). Lacks specific legislative measures to ensure this commitment."
+        "cs": "Vláda deklaruje udržení deficitu pod 3 % HDP (konkrétně 2,9 % na rok 2027). Evropská komise v červenci 2026 plán schválila, avšak bez právně závazného mechanismu. Výkon: deficit v Q1 2026 dosáhl 3,5 % HDP, což překročilo cíl. Bez legislativního zakotvení či právně závazné smlouvy jde pouze o deklaraci.",
+        "en": "The government declares maintaining the deficit below 3% of GDP (specifically 2.9% for 2027). The European Commission approved the plan in July 2026, but without a legally binding mechanism. Performance: the deficit in Q1 2026 reached 3.5% of GDP, exceeding the target. Without legislative anchoring or a legally binding agreement, this remains merely a declaration."
       },
       "change": {
-        "cs": "Vláda deklaruje cíl v plánu a tento plán schválila EC, avšak bez právně závazného mechanismu.",
-        "en": "Government declares target in plan and EC approved it, but without legally binding mechanism."
+        "cs": "Senát v srpnu 2026 vrátil návrh zákona o EET 2.0 s pozměňovacími návrhy; vláda si ponechává možnost jej přehlasovat v září.",
+        "en": "The Senate in August 2026 returned the EET 2.0 bill with amendments; the government retains the option to override it in September."
       },
       "sources": [
         {
-          "url": "https://www.echo24.cz/a/Hn39g/zpravy-ekonomika-puvodni-clanek-evropska-komise-hodnoceni-statni-rozpocet-vlada-babis-schillerova",
-          "title": "Evropská komise schválila rozpočtový plán Babišovy vlády. „Splňuje požadavky“ - Echo24.cz"
+          "url": "https://www.irozhlas.cz/zpravy-domov/deficit-rozpoctu-na-rok-2027-bude-vetsi-nez-letos-neprevysi-ale-3-procenta-hdp_2606071520_kch",
+          "title": "Deficit rozpočtu na rok 2027 bude větší než letos, nepřevýší ale tři procenta HDP, řekla Schillerová"
         },
         {
-          "url": "https://ct24.ceskatelevize.cz/clanek/ekonomika/deficit-verejnych-financi-vloni-mirne-stoupl-na-21-procenta-hdp-371948",
-          "title": "Deficit veřejných financí vloni mírně stoupl na 2,1 procenta HDP"
+          "url": "https://ct24.ceskatelevize.cz/clanek/ekonomika/schodek-rozpoctu-bude-pristi-rok-vyznamne-pod-400-miliard-korun-rekl-babis-376018",
+          "title": "▶ Schodek rozpočtu bude příští rok významně pod 400 miliard korun, řekl Babiš — ČT24 — Česká televize"
+        },
+        {
+          "url": "https://csu.gov.cz/vladni-financni-statistika",
+          "title": "Vládní finanční statistika | Statistika"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-08-21T10:47:46.439Z"
+      "updatedAt": "2026-08-22T04:39:49.372Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
     },
     "2.2": {
       "status": "broken",
-      "evidence": "Deficit státního rozpočtu 2025: 290,7 mld. Kč (Schillerová); plán 2026: 310 mld. Kč; projekt 2027: cca 350–380 mld. Kč. Vláda slibuje postupné snižování, realita: zvyšování. Babiš 5. 8. 2026 deklaroval deficit 2027 'výrazně pod 400 mld.' – tedy vyšší než letos.",
-      "evidenceDate": "2026-08-05",
+      "evidence": "Deficit 2025 dosáhl 290,7 mld. Kč (překročil plán o 49,7 mld. Kč); rozpočet 2026 počítá s 310 mld. Kč; pro 2027 vláda plánuje deficit výrazně pod 400 mld. Kč, což znamená zvýšení deficitu, nikoli snížení.",
+      "evidenceDate": "2026-08-22",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda slibuje postupně snižovat deficit k vyrovnanému rozpočtu, avšak realita je opačná. Deficit 2025 dosáhl 290,7 mld. Kč (překročil plán o 49,7 mld.). Rozpočet 2026 počítá s 310 mld. Kč, na rok 2027 Babiš avizuje 'výrazně pod 400 mld.', což znamená stoupání. Vláda ani nedeklaruje cestu k vyrovnání, naopak rozvolňuje rozpočtová pravidla (úniková doložka pro obranu, infrastrukturu). Porušuje slib.",
-        "en": "Government promises gradual deficit reduction toward balanced budget, but reality is opposite. 2025 deficit reached 290.7 bn CZK (exceeded plan by 49.7 bn). 2026 budget foresees 310 bn CZK; for 2027 Babiš signals 'significantly below 400 bn', meaning increase. Government not even declaring path to balance, instead loosening fiscal rules (defense, infrastructure escape clauses). Breaks promise."
+        "cs": "Vláda slibuje postupně snižovat deficit k vyrovnanému rozpočtu, avšak realita je opačná. Deficit 2025 dosáhl 290,7 mld. Kč (překročil plán o 49,7 mld. Kč). Rozpočet 2026 počítá s 310 mld. Kč, pro 2027 vláda plánuje deficit výrazně pod 400 mld. Kč. Jde o zvyšování, nikoli snižování deficitu. Vláda od slibu prokazatelně ustoupila.",
+        "en": "The government promises to gradually reduce the deficit toward a balanced budget, but reality is the opposite. The 2025 deficit reached 290.7 billion CZK (exceeding the plan by 49.7 billion CZK). The 2026 budget plans for 310 billion CZK; for 2027, the government plans a deficit significantly below 400 billion CZK. This represents an increase, not a reduction, in the deficit. The government has demonstrably abandoned its promise."
       },
       "change": {
-        "cs": "Deficit se zvyšuje místo aby se snižoval, vláda od slibu ustoupila.",
-        "en": "Deficit is increasing instead of decreasing, government abandoned its promise."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://www.reflex.cz/clanek/komentare/137336/ucet-za-kupovani-volicu-trhy-panikari-a-cena-ceskeho-dluhu-leti-vzhuru.html",
-          "title": "Účet za kupování voličů: Trhy panikaří a cena českého dluhu letí vzhůru | Reflex.cz"
+          "url": "https://ct24.ceskatelevize.cz/clanek/ekonomika/schodek-rozpoctu-bude-pristi-rok-vyznamne-pod-400-miliard-korun-rekl-babis-376018",
+          "title": "▶ Schodek rozpočtu bude příští rok významně pod 400 miliard korun, řekl Babiš — ČT24 — Česká televize"
+        },
+        {
+          "url": "https://m.echo24.cz/a/HcpFe/zpravy-ekonomika-statni-kasa-je-prazdna-deficit-se-bude-snizovat-2028-sliby-se-posouvaji",
+          "title": "Státní kasa je prázdná a plnit se začne až v roce 2028. Tomu odpovídá odklad klíčových slibů - Echo24.cz"
         }
       ],
       "previousStatus": "broken",
-      "updatedAt": "2026-08-21T10:47:46.439Z"
+      "updatedAt": "2026-08-22T04:39:49.372Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
     },
     "2.3": {
       "status": "in_progress",
-      "evidence": "Vláda 4. května 2026 schválila návrh zákona EET 2.0; Poslanecká sněmovna jej schválila 15. července 2026 v třetím čtení; nyní v Senátu. Cíl: spuštění od 1. 1. 2027.",
-      "evidenceDate": "2026-07-15",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Legislativní proces probíhá aktivně. Vláda schválila návrh 4. 5. 2026, Poslanecká sněmovna jej prošla 15. 7. 2026. Návrh nyní čeká na projednání v Senátu. Cíl zavedení od 1. 1. 2027 je realistický. Však: kritika ze strany opozice (TOP 09) a odborníků na účinnost; nejistota, zda nový EET přinese deklarované příjmy (14,4 mld. Kč ročně podle vlády). Proces je na dobré cestě, ale není dokončen.",
-        "en": "Legislative process proceeding actively. Government approved proposal 4 May 2026, Chamber of Deputies passed it 15 July 2026. Proposal now awaits Senate consideration. Goal of 1 January 2027 launch is realistic. However: criticism from opposition (TOP 09) and experts on effectiveness; uncertainty whether new EET will deliver declared revenue (14.4 bn CZK annually per government). Process on track but not completed."
+        "cs": "Legislativní proces probíhá aktivně. Vláda schválila návrh 4. května 2026, Poslanecká sněmovna jej prošla 15. července 2026. Senát v srpnu 2026 vrátil návrh s pozměňovacími návrhy; vláda si ponechává možnost jej přehlasovat v září. Cíl zavedení od 1. 1. 2027 zůstává reálný, ale není dosud finalizován.",
+        "en": "The legislative process is actively underway. The government approved the proposal on May 4, 2026; the Chamber of Deputies passed it on July 15, 2026. The Senate returned the proposal with amendments in August 2026; the government retains the option to override it in September. The goal of implementation from January 1, 2027 remains realistic but is not yet finalized."
       },
       "change": {
-        "cs": "Legislativní proces v Senátu.",
-        "en": "Status \"in progress\"; legislative process in Senate."
+        "cs": "Senát v srpnu 2026 vrátil návrh zákona o EET 2.0 s pozměňovacími návrhy; vláda si ponechává možnost jej přehlasovat v září.",
+        "en": "The Senate in August 2026 returned the EET 2.0 bill with amendments; the government retains the option to override it in September."
       },
       "sources": [
         {
@@ -176,128 +225,79 @@
           "title": "Sněmovna schválila EET 2.0, moderní evidence tržeb míří do Senátu | Ministerstvo financí ČR"
         },
         {
-          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/vlada-projedna-opetovne-zavedeni-elektronicke-evidence-trzeb-a-danove-zmeny-373058",
-          "title": "Vláda schválila opětovné zavedení elektronické evidence tržeb"
+          "url": "https://www.irozhlas.cz/zpravy-domov/senat-chce-v-zakone-o-eet-zrusit-limit-na-zdravotni-benefity-navrhuje-take_2608191418_ntu",
+          "title": "Senát chce v zákoně o EET zrušit limit na zdravotní benefity. Navrhuje také vyjmout bezhotovostní platby"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-08-21T10:47:46.439Z"
+      "updatedAt": "2026-08-22T04:39:49.372Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
     },
     "2.4": {
       "status": "declared",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda deklaruje zavedení 'Digitální daňové kobry' s využitím AI v programovém prohlášení a prostřednictvím ministryně Schillerové. Projekt je zmiňován jako součást boje se šedou ekonomikou, ale bez konkrétních legislativních kroků. Existuje operativní tým 'Daňová kobra' (NCOZ, GŘC, GFŘ) již od dřívějška – ten řeší individuální případy, avšak nový digitální a AI systém byl dosud jen deklarován, ne zaveden. Bez dokladu legislativního návrhu nebo exekutivního opatření.",
-        "en": "Government declares introduction of 'Digital Tax Cobra' using AI in its program statement and via Finance Minister Schillerová. Project mentioned as part of gray economy fight, but without specific legislative steps. Operational team 'Tax Cobra' (NCOZ, GŘC, GFŘ) exists since earlier – it handles individual cases, but new digital and AI system has only been declared, not implemented. No evidence of legislative proposal or executive action."
+        "cs": "Vláda deklaruje zavedení „Digitální daňové kobry\" s využitím AI v programovém prohlášení a prostřednictvím ministryně Schillerové. Projekt je zmiňován ve Fiskálně-strukturálním plánu jako analytický systém. Avšak bez konkrétního legislativního návrhu či exekutivního kroku nebyl zahájen reálný proces implementace. Existující „Daňová kobra\" je operativní tým, nikoli digitální systém s AI.",
+        "en": "The government declares the introduction of 'Digital Tax Cobra' using AI in its program statement and through Finance Minister Schillerová. The project is mentioned in the Fiscal-Structural Plan as an analytical system. However, without a specific legislative proposal or executive action, no real implementation process has begun. The existing 'Tax Cobra' is an operational team, not a digital AI system."
       },
       "change": {
-        "cs": "Bez konkrétních legislativních či exekutivních kroků.",
-        "en": "Without specific legislative or executive actions."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://m.echo24.cz/a/HWdH6/zpravy-ekonomika-schillerova-chysta-danovou-kobru-prace-na-cerno-danove-uniky-ai",
-          "title": "Schillerová avizuje daňovou kobru proti práci na černo, pro správu daní se má používat AI - Echo24.cz"
+          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
+          "title": "Programové prohlášení vlády | Vláda České republiky"
         },
         {
-          "url": "https://digitalnicesko.gov.cz/projekty-pred-dokoncenim",
-          "title": "Digitální Česko 2.0"
+          "url": "https://mf.gov.cz/assets/attachments/2026-06-08_Fiskalne-strukturalni-plan-CR.pdf",
+          "title": "Ministerstvo financí České republiky Fiskálně-strukturální plán"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-08-21T10:47:46.440Z"
+      "updatedAt": "2026-08-22T04:39:49.372Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
     },
     "2.5": {
       "status": "partial",
-      "evidence": "Nástupní plat celníků: programové prohlášení vlády (5. 1. 2026) slibuje 50 tis. Kč. Dle platových tabulek od 1. 4. 2026 (nařízení vlády č. 407/2025 Sb. a dalších) došlo k valorizaci 5 %, ale konkrétní nástupní plat 50 tis. Kč se ve veřejných záznamech Celní správy (k 1. 4. 2026) nepotvrzuje. Kompetence: rozšíření bylo zmíněno jako cíl, avšak ve věci se Ministerstvo vnitra vyjádřilo v červnu 2025 jako proti rozšíření.",
-      "evidenceDate": "2026-01-05",
+      "evidence": "Nástupní plat 50 tis. Kč: nařízení vlády č. 407/2025 Sb. zvýšilo platy bezpečnostních sborů od 1. 1. 2026 o 5 %; v červenci 2025 (předchozí vláda) schválila stabilizační příplatek 3 tis. Kč. Rozšíření kompetencí: bez konkrétního legislativního návrhu.",
+      "evidenceDate": "2026-01-01",
       "unverifiable": false,
       "comment": {
-        "cs": "Rozšíření kompetencí Celní správy: slibováno v programu, avšak bez konkrétního legislativního návrhu. Ministerstvo vnitra (květen 2025) tvrdilo, že stávající systém je funkční a rozšíření by jej zkomplikovalo. Nástupní plat 50 tis. Kč: uveden v programovém prohlášení 5. 1. 2026, ale nedisponuji ověřeným dokladem, že právě tato suma byla schválena a zavedena (Celní správa uvádí 'nově valorizované tarify od 1. 4. 2026', avšak bez specifikace nástupní sazby). Část slibu (valorizace, deklarace) ano, plné splnění kompetencí a konkrétní nástupní plat: ne.",
-        "en": "Customs expansion: promised in program but without specific legislative proposal. Ministry of Interior (May 2025) claimed existing system is functional and expansion would complicate it. Entry salary 50k CZK: stated in government declaration 5 January 2026, but I lack verified evidence that this specific sum was approved and implemented (Customs Service mentions 'newly indexed tariffs from 1 April 2026', without specifying entry rate). Some of promise (indexing, declaration) yes, full salary and competence fulfillment: no."
+        "cs": "Nástupní plat 50 tis. Kč: částečně splněno. Nařízení vlády č. 407/2025 Sb. zvýšilo platy bezpečnostních sborů od 1. 1. 2026 o 5 %, což však není dosažení cíle 50 tis. Kč. Stabilizační příplatek 3 tis. Kč schválila v červenci 2025 předchozí vláda. Rozšíření kompetencí Celní správy: slibováno v programu, avšak bez konkrétního legislativního návrhu. Ministerstvo vnitra (květen 2025) tvrdilo, že stávající systém je funkční.",
+        "en": "Entry salary of 50,000 CZK: partially fulfilled. Government Regulation No. 407/2025 Coll. increased the salaries of security forces from January 1, 2026 by 5%, which does not achieve the 50,000 CZK target. A stabilization allowance of 3,000 CZK was approved by the previous government in July 2025. Expansion of Customs Administration competencies: promised in the program but without a specific legislative proposal. The Ministry of Interior (May 2025) claimed the existing system is functional."
       },
       "change": {
-        "cs": "Deklarace v programu, částečná valorizace od 1. 4. 2026, ale bez potvrzení konkrétní sazby 50 tis. a bez rozšíření kompetencí.",
-        "en": "Declaration in program, partial indexing from 1 April 2026, but without confirmation of specific 50k rate and without competence expansion."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
-        {
-          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
-          "title": "Programové prohlášení vlády | Vláda České republiky"
-        },
         {
           "url": "https://www.e15.cz/platove-tabulky-statnich-zamestnancu-2026",
           "title": "e15.cz - Platové tabulky 2026: Přehled tarifů pro státní zaměstnance, učitele, lékaře a další profese"
+        },
+        {
+          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
+          "title": "Programové prohlášení vlády | Vláda České republiky"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-08-21T10:47:46.440Z"
+      "updatedAt": "2026-08-22T04:39:49.372Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
     },
     "2.6": {
       "status": "broken",
-      "evidence": "Programové prohlášení (5. 1. 2026): 'Zavazujeme se nezvyšovat žádné daně.' Faktické změny: Snížení DPH na nealkoholické nápoje z 21 % na 12 % u restauračních služeb (de facto zvýhodňuje jednu skupinu, změna daňové sazby). Osvobození spropitného (změna daňové povinnosti). Úpravy DPH na stravovací služby. Ačkoli nominálně se jedná o slevy/osvobození, jde fakticky o měnění daňového systému, což porušuje slib 'nezvyšovat daně' (implicitně: neměnit daňový systém bez omluvitelných důvodů).",
-      "evidenceDate": "2026-02-18",
-      "unverifiable": false,
-      "comment": {
-        "cs": "Vláda slibuje 'nezvyšovat žádné daně', avšak fakticky mění daňový systém: DPH na nealkoholické nápoje se snižuje z 21 % na 12 %, osvobozuje se spropitné v gastronomii, mění se DPH na stravovací služby. Formálně se jedná o slevy/úlevy, avšak v praxi jde o rozsáhlé změny daňové struktury, což porušuje duch slibu. Kritika: změny nejsou 'nezvyšováním daní' v pravém slova smyslu, jde o přestrukturalizaci. Slib byl jasně formulován jako 'nezvyšovat', avšak faktické změny daňové legislativy zde proběhly.",
-        "en": "Government promises 'not to increase any taxes' but factually alters tax system: VAT on non-alcoholic beverages cut from 21% to 12%, tips in gastronomy exempted, VAT on food services changed. Formally these are reductions/reliefs, but practically they involve extensive tax structure changes, which violates spirit of promise. Critique: changes are not 'not increasing taxes' in true sense; this is restructuring. Promise clearly stated 'not to increase', yet substantive tax legislation changes occurred."
-      },
-      "change": {
-        "cs": "Faktické změny daňové legislativy, ačkoli formálně se jedná o úlevy.",
-        "en": "Substantive tax legislation changes, though formally presented as reliefs."
-      },
-      "sources": [
-        {
-          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
-          "title": "Programové prohlášení vlády | Vláda České republiky"
-        },
-        {
-          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/vlada-projedna-opetovne-zavedeni-elektronicke-evidence-trzeb-a-danove-zmeny-373058",
-          "title": "Vláda schválila opětovné zavedení elektronické evidence tržeb"
-        }
-      ],
-      "previousStatus": "broken",
-      "updatedAt": "2026-08-21T10:47:46.440Z"
-    },
-    "2.7": {
-      "status": "broken",
-      "evidence": "Programové prohlášení (5. 1. 2026): 'Snížíme daň z příjmů právnických osob na 19 %.' Bez dokladu legislativního návrhu či schválení takového snížení k datu 21. 8. 2026 (dnešní datum v zadání). Vláda místo toho zaměřuje se na EET 2.0, daňové úlevy spojené s EET (slevu na dani pro OSVČ) a DPH reformy, nikoli na snížení korporátní daně.",
-      "evidenceDate": "2026-01-05",
-      "unverifiable": false,
-      "comment": {
-        "cs": "Slibovaný krok: snížit DPO z 21 % na 19 %. Pozorování: více než osm měsíců po nástupu vlády (15. 12. 2025) není žádný legislativní návrh takovéhoto snížení ve Sněmovně či na programu vlády. Místo toho vláda pracuje na EET 2.0, DPH reformě na gastronomii a daňových úlevách pro OSVČ. Bez explicitního odmítnutí, ale faktická nepřítomnost kroku naznačuje, že vláda od slibu ustoupila. Porušení nebo minimálně zpoždění bez vysvětlení.",
-        "en": "Promised step: reduce CIT from 21% to 19%. Observation: more than eight months after government took office (15 Dec 2025), no legislative proposal for such reduction is in Parliament or on government agenda. Instead, government works on EET 2.0, VAT reform for gastronomy, tax reliefs for self-employed. Without explicit denial, but factual absence of step suggests government abandoned promise. Breach or at least delay without explanation."
-      },
-      "change": {
-        "cs": "Žádný legislativní návrh ke snížení DPO na 19 % po osmi měsících.",
-        "en": "No legislative proposal to reduce CIT to 19% after eight months."
-      },
-      "sources": [
-        {
-          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
-          "title": "Programové prohlášení vlády | Vláda České republiky"
-        },
-        {
-          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/vlada-projedna-opetovne-zavedeni-elektronicke-evidence-trzeb-a-danove-zmeny-373058",
-          "title": "Vláda schválila opětovné zavedení elektronické evidence tržeb"
-        }
-      ],
-      "previousStatus": "broken",
-      "updatedAt": "2026-08-21T10:47:46.440Z"
-    },
-    "2.8": {
-      "status": "in_progress",
-      "evidence": "Vláda 4. května 2026 schválila návrh zákona EET 2.0 včetně daňových úlev. Programové prohlášení a legislativní návrhy zahrnují vrácení školkovného a slevy na druhého z manželů/studenta. Poslanecká sněmovna schválila 15. července 2026 v třetím čtení; nyní v Senátu.",
+      "evidence": "DPH na nealkoholické nápoje se snižuje z 21 % na 12 %; osvobozuje se spropitné v gastronomii; mění se DPH na další položky. Vláda tedy fakticky mění daňový systém, což je v rozporu se slibem 'nezvyšovat žádné daně'.",
       "evidenceDate": "2026-07-15",
       "unverifiable": false,
       "comment": {
-        "cs": "Vrácení školkovného a slevy na druhého z manželů jsou součástí komplexního EET 2.0 balíčku (schváleného vládou 4. 5. 2026, Poslaneckou sněmovnou 15. 7. 2026). Legislativní proces je v Senátu. Tento krok je vázán na zavedení EET 2.0, což má proběhnout od 1. 1. 2027. Částečná realizace: deklarace a legislativní proces běží, ale finální schválení ještě chybí (Senát).",
-        "en": "Restoration of kindergarten fees deduction and spouse/student tax relief are part of comprehensive EET 2.0 package (approved by government 4 May 2026, Chamber of Deputies 15 July 2026). Legislative process in Senate. This step is tied to EET 2.0 implementation from 1 January 2027. Partial realization: declaration and legislative process ongoing, but final approval still needed (Senate)."
+        "cs": "Vláda slibuje 'nezvyšovat žádné daně', avšak fakticky mění daňový systém: DPH na nealkoholické nápoje se snižuje z 21 % na 12 %, osvobozuje se spropitné v gastronomii, mění se DPH na další položky. Ačkoli jde o snížení některých sazeb, vláda fakticky manipuluje daňovým systémem, což je v rozporu se slibem. Slib 'nezvyšovat daně' byl porušen změnami struktury daňového systému.",
+        "en": "The government promises 'not to raise any taxes,' yet it is actually changing the tax system: VAT on non-alcoholic beverages is reduced from 21% to 12%, tips in gastronomy are exempted, and VAT on other items is modified. Although some rates are reduced, the government is effectively manipulating the tax system, contradicting its promise. The pledge 'not to raise taxes' has been broken by changes to the tax system structure."
       },
       "change": {
-        "cs": "Legislativní proces vázán na EET 2.0, v Senátu.",
-        "en": "Status \"in progress\"; legislative process tied to EET 2.0, in Senate."
+        "cs": "Senát v srpnu 2026 vrátil návrh zákona o EET 2.0 s pozměňovacími návrhy týkajícími se daňových benefitů.",
+        "en": "The Senate in August 2026 returned the EET 2.0 bill with amendments concerning tax benefits."
       },
       "sources": [
         {
@@ -305,38 +305,93 @@
           "title": "Sněmovna schválila EET 2.0, moderní evidence tržeb míří do Senátu | Ministerstvo financí ČR"
         },
         {
-          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/vlada-projedna-opetovne-zavedeni-elektronicke-evidence-trzeb-a-danove-zmeny-373058",
-          "title": "Vláda schválila opětovné zavedení elektronické evidence tržeb"
+          "url": "https://www.denik.cz/ekonomika/eet-zdravotni-benefity-zamestnancu/",
+          "title": "Senát chce v zákoně o EET zrušit limit pro zdravotní benefity zaměstnanců – Deník.cz"
         }
       ],
-      "previousStatus": "in_progress",
-      "updatedAt": "2026-08-21T10:47:46.440Z"
+      "previousStatus": "broken",
+      "updatedAt": "2026-08-22T04:39:49.372Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
     },
-    "2.9": {
-      "status": "partial",
-      "evidence": "Zákon č. 270/2025 Sb. (EET 2.0), schválený vládou 4. května 2026, který zahrnuje 0% DPH na léky na předpis, ale prošel pouze do třetího čtení v Poslanecké sněmovně 15. května 2026 bez definitivního přijetí. Legislativní proces dosud není ukončen.",
-      "evidenceDate": "2026-05-04",
+    "2.7": {
+      "status": "broken",
+      "evidence": "Více než osm měsíců po nástupu vlády (15. 12. 2025) není žádný legislativní návrh na snížení DPO z 21 % na 19 % ve Sněmovně či na programu vlády. Ministryně Schillerová v červnu 2026 uvedla, že snížení korporátní daně 'určitě to nebude v prvních dvou letech'.",
+      "evidenceDate": "2026-06-23",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda zahrnula nulovou DPH na léky na předpis do EET 2.0 balíčku schváleného 4. května 2026. Opatření prošlo v Sněmovně třetím čtením, ale legislativní proces není dosud dokončen – chybí schválení v Senátu a podpis prezidenta. Slib je tedy v pokročilém stupni přípravy, ale není splněn.",
-        "en": "The government included zero VAT on prescription medicines in the EET 2.0 package approved on 4 May 2026. The measure passed the third reading in the Chamber but the legislative process is incomplete – Senate approval and presidential signature are pending. The pledge is in advanced preparation but not yet fulfilled."
+        "cs": "Slibovaný krok: snížit DPO z 21 % na 19 %. Pozorování: více než osm měsíců po nástupu vlády (15. 12. 2025) není žádný legislativní návrh takovéhoto snížení ve Sněmovně či na programu. Ministryně Schillerová v červnu 2026 explicitně uvedla, že snížení korporátní daně 'určitě to nebude v prvních dvou letech'. Vláda od slibu prokazatelně ustoupila.",
+        "en": "Promised step: reduce corporate income tax from 21% to 19%. Observation: more than eight months after the government took office (December 15, 2025), there is no legislative proposal for such a reduction in the Chamber or on the government's agenda. Finance Minister Schillerová explicitly stated in June 2026 that the corporate tax reduction 'will certainly not happen in the first two years.' The government has demonstrably abandoned its promise."
       },
       "change": {
-        "cs": "Vláda iniciovala legislativu, ale proces není završen.",
-        "en": "The government initiated legislation but the process remains incomplete."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://www.denik.cz/zdravotnictvi/zdravi-nulove-dph-na-leky-na-predpis-vlada-andrej-babis.html",
-          "title": "Nová vláda slibuje nulovou daň na léky na předpis. Není ale jasné, zda zlevní - Deník.cz"
+          "url": "https://m.echo24.cz/a/HcpFe/zpravy-ekonomika-statni-kasa-je-prazdna-deficit-se-bude-snizovat-2028-sliby-se-posouvaji",
+          "title": "Státní kasa je prázdná a plnit se začne až v roce 2028. Tomu odpovídá odklad klíčových slibů - Echo24.cz"
         },
         {
           "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
           "title": "Programové prohlášení vlády | Vláda České republiky"
         }
       ],
+      "previousStatus": "broken",
+      "updatedAt": "2026-08-22T04:39:49.372Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
+    },
+    "2.8": {
+      "status": "in_progress",
+      "evidence": "",
+      "unverifiable": false,
+      "comment": {
+        "cs": "Vrácení školkovného a slevy na druhého z manželů jsou součástí komplexního EET 2.0 balíčku (schváleného vládou 4. května 2026, Poslaneckou sněmovnou 15. července 2026). Legislativní proces je v Senátu (vrácen s pozměňovacími návrhy v srpnu 2026). Cíl zavedení od 1. 1. 2027 zůstává reálný, ale není dosud finalizován.",
+        "en": "The return of kindergarten allowance and spouse tax relief are part of the comprehensive EET 2.0 package (approved by the government on May 4, 2026, by the Chamber of Deputies on July 15, 2026). The legislative process is in the Senate (returned with amendments in August 2026). The goal of implementation from January 1, 2027 remains realistic but is not yet finalized."
+      },
+      "change": {
+        "cs": "Senát v srpnu 2026 vrátil návrh zákona o EET 2.0 s pozměňovacími návrhy; vláda si ponechává možnost jej přehlasovat v září.",
+        "en": "The Senate in August 2026 returned the EET 2.0 bill with amendments; the government retains the option to override it in September."
+      },
+      "sources": [
+        {
+          "url": "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/snemovna-schvalila-eet-2-0-moderni-evidence-trzeb-64564",
+          "title": "Sněmovna schválila EET 2.0, moderní evidence tržeb míří do Senátu | Ministerstvo financí ČR"
+        },
+        {
+          "url": "https://www.denik.cz/ekonomika/eet-zdravotni-benefity-zamestnancu/",
+          "title": "Senát chce v zákoně o EET zrušit limit pro zdravotní benefity zaměstnanců – Deník.cz"
+        }
+      ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-08-21T10:48:43.784Z"
+      "updatedAt": "2026-08-22T04:39:49.372Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
+    },
+    "2.9": {
+      "status": "partial",
+      "evidence": "Vláda zahrnula nulovou DPH na léky na předpis do programového prohlášení (5. 1. 2026), legislativní proces však není dosud dokončen; zákon prošel třetím čtením v Sněmovně, ale chybí schválení Senátem a podpis prezidenta",
+      "evidenceDate": "2026-01-05",
+      "unverifiable": false,
+      "comment": {
+        "cs": "Vláda slibuje nulovou DPH na léky na předpis a zahrnula opatření do programového prohlášení. Legislativní proces však zůstává neukončený – návrh prošel třetím čtením v Poslanecké sněmovně, ale chybí schválení Senátem a podpis prezidenta. Bez finálního vyhlášení ve Sbírce zákonů nelze hovořit o splnění.",
+        "en": "The government promises zero VAT on prescription drugs and included the measure in its program statement. However, the legislative process remains incomplete – the bill passed third reading in the Chamber of Deputies but lacks Senate approval and presidential signature. Without final publication in the Collection of Laws, fulfillment cannot be confirmed."
+      },
+      "change": {
+        "cs": "Beze změny.",
+        "en": "No change."
+      },
+      "sources": [
+        {
+          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
+          "title": "Programové prohlášení vlády | Vláda České republiky"
+        },
+        {
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/budouci-vlada-zamysli-nulovou-dan-z-leku-na-predpis-366844",
+          "title": "Budoucí vláda zamýšlí nulovou daň z léků na předpis - ČT24"
+        }
+      ],
+      "previousStatus": "partial",
+      "updatedAt": "2026-08-22T04:40:42.710Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
     },
     "2.10": {
       "status": "partial",
@@ -362,37 +417,48 @@
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-08-21T10:48:43.784Z"
+      "updatedAt": "2026-08-21T10:48:43.784Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
     },
     "2.11": {
       "status": "in_progress",
-      "evidence": "Ministerstvo financí připravuje nový daňový informační systém (nDIS), který je předpokladem pro jednotné inkasní místo. Pilotní projekt Jednotného měsíčního hlášení zaměstnavatelů (JMHZ) má být spuštěn ve druhé polovině 2026. Jednotné inkasní místo je očekáváno v rozmezí 2027–2028.",
-      "evidenceDate": "2026-06-24",
+      "evidence": "Vláda zahájila praktickou přípravu jednotného inkasního místa prostřednictvím JMHZ a nDIS; pilotní provoz JMHZ byl spuštěn 1. července 2025, plné zavedení plánováno na 1. ledna 2026",
+      "evidenceDate": "2025-07-01",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda zahájila praktickou přípravu jednotného inkasního místa prostřednictvím JMHZ a nDIS. Ačkoliv plné funkční jednotné inkasní místo není v plánu do konce legislativního období, běží reálné technické přípravy a pilotní projekty. Ministr financí avizuje první fázi v 2027–2028. Jde o faktický pokrok, ale ne o splnění závazku.",
-        "en": "The government has initiated practical preparation of a unified collection point through JMHZ and nDIS. Although full unified collection is not planned by the end of the legislative term, real technical preparations and pilot projects are underway. The finance minister anticipates the first phase in 2027–2028. This is genuine progress but not yet fulfillment of the commitment."
+        "cs": "Vláda aktivně připravuje jednotné inkasní místo prostřednictvím projektu Jednotného měsíčního hlášení zaměstnavatelů (JMHZ). Pilotní provoz byl spuštěn 1. července 2025, plné zavedení je plánováno na 1. ledna 2026. Projekt je součástí širšího systému nDIS. Ačkoliv se jedná o dlouhodobý projekt, vláda jej aktivně realizuje.",
+        "en": "The government is actively preparing a unified collection point through the Unified Monthly Employer Report (JMHZ) project. Pilot operation was launched on July 1, 2025, with full implementation planned for January 1, 2026. The project is part of the broader nDIS system. Although it is a long-term project, the government is actively implementing it."
       },
       "change": {
-        "cs": "Vláda zahájila legislativní a technické kroky, proces probíhá.",
-        "en": "The government initiated legislative and technical steps, process is ongoing."
+        "cs": "Pilotní provoz JMHZ byl spuštěn 1. července 2025; plné zavedení je plánováno na 1. ledna 2026.",
+        "en": "JMHZ pilot operation was launched on July 1, 2025; full implementation is planned for January 1, 2026."
       },
-      "sources": [],
-      "previousStatus": "not_started",
-      "updatedAt": "2026-08-21T10:48:43.784Z"
+      "sources": [
+        {
+          "url": "https://mpsv.gov.cz/desitky-formularu-nahradi-jednotne-mesicni-hlaseni-zamestnavatele-schvalila-vlada-jednodussi-administrativa-pomuze-i-zamestnancum",
+          "title": "Desítky formulářů nahradí Jednotné měsíční hlášení zaměstnavatele, schválila vláda. Jednodušší administrativa pomůže i zaměstnancům | MPSV"
+        },
+        {
+          "url": "https://up.gov.cz/jmhz",
+          "title": "Jednotné měsíční hlášení zaměstnavatele | ÚP"
+        }
+      ],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-08-22T04:40:42.717Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
     },
     "2.12": {
       "status": "partial",
-      "evidence": "Ministerstvo financí 22. května 2026 spustilo v aplikaci MONITOR ucelený Registr dotací pro neziskové organizace, který zahrnuje Státní registr dotací, Územní registr dotací a Registr dotací pro neziskové organizace z veřejných rozpočtů. Ministerstvo financí 22. května 2026 oznámilo spuštění registru.",
+      "evidence": "Ministerstvo financí zveřejnilo Registr dotací pro neziskové organizace v aplikaci MONITOR (květen 2026), který zahrnuje dotace ze státních a územních rozpočtů; připravuje se rozšíření o dotace ze státních fondů",
       "evidenceDate": "2026-05-22",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda zřídila veřejný registr dotací pro neziskové organizace a učinila jej dostupným v aplikaci MONITOR. Jedná se však pouze o registr dotací ze státních a územních rozpočtů; vláda ještě připravuje novelu vyhlášky pro sběr dat o dotacích státních fondů, která se má zveřejnit v roce 2027. Slib je tedy částečně splněn – je zřízen registr, ale bez úplného pokrytí všech zdrojů.",
-        "en": "The government established a public register of grants for non-profit organizations and made it available in the MONITOR application. However, this covers only state and territorial budgets; the government is still preparing a regulation amendment for state fund data collection to be published in 2027. The pledge is partially fulfilled – the register exists but coverage is incomplete."
+        "cs": "Vláda zřídila veřejný registr dotací pro neziskové organizace v aplikaci MONITOR. Registr zahrnuje dotace ze státních a územních rozpočtů (obce, kraje, svazky obcí). Ministerstvo financí připravuje novelu vyhlášky, která od začátku roku 2027 zajistí sběr dat o dotacích ze státních fondů. Registr je tedy částečně splněn – chybí dotace ze státních fondů.",
+        "en": "The government created a public register of grants for non-profit organizations in the MONITOR application. The register includes grants from state and territorial budgets (municipalities, regions, associations of municipalities). The Ministry of Finance is preparing a regulation amendment to ensure collection of data on grants from state funds from the beginning of 2027. The register is thus partially fulfilled – grants from state funds are missing."
       },
       "change": {
-        "cs": "Registr spuštěn, ale bez úplného pokrytí všech zdrojů financování.",
-        "en": "Register launched but without complete coverage of all funding sources."
+        "cs": "Ministerstvo financí v květnu 2026 zveřejnilo Registr dotací pro neziskové organizace v aplikaci MONITOR; připravuje se rozšíření o dotace ze státních fondů od roku 2027.",
+        "en": "The Ministry of Finance in May 2026 published the Register of Grants for Non-Profit Organizations in the MONITOR application; expansion to include grants from state funds from 2027 is being prepared."
       },
       "sources": [
         {
@@ -404,21 +470,22 @@
           "title": "Ministerstvo financí zveřejňuje přehled dotací samospráv neziskovým organizacím | Ministerstvo financí ČR"
         }
       ],
-      "previousStatus": "not_started",
-      "updatedAt": "2026-08-21T10:48:43.784Z"
+      "previousStatus": "partial",
+      "updatedAt": "2026-08-22T04:40:42.717Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
     },
     "2.13": {
       "status": "partial",
-      "evidence": "Vláda zahrnula zkrácení lhůty vrácení DPH z 6 měsíců na 3 měsíce do EET 2.0 balíčku schváleného 4. května 2026. Opatření je součástí vládního návrhu, který prošel Poslaneckou sněmovnou třetím čtením 15. května 2026, ale legislativní proces není dosud ukončen.",
-      "evidenceDate": "2026-05-04",
+      "evidence": "Vláda zahrnula zkrácení lhůty vrácení DPH na 3 měsíce do programového prohlášení (5. 1. 2026); návrh prošel třetím čtením v Poslanecké sněmovně, ale legislativní proces není dosud dokončen",
+      "evidenceDate": "2026-01-05",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda zahrnula zkrácení lhůty vrácení DPH na 3 měsíce do EET 2.0. Návrh prošel třetím čtením v Poslanecké sněmovně, ale chybí schválení Senátem a podpis prezidenta. Opatření je v pokročilém stadiu legislativního procesu, ale není dosud formálně splněno.",
-        "en": "The government included shortening of VAT refund period to 3 months in EET 2.0. The bill passed the third reading in the Chamber but Senate approval and presidential signature are pending. The measure is in an advanced legislative stage but not yet formally fulfilled."
+        "cs": "Vláda slibuje zkrátit lhůtu vrácení DPH z nezaplacených faktur ze šesti na tři měsíce a zahrnula opatření do programového prohlášení. Návrh prošel třetím čtením v Poslanecké sněmovně, ale chybí schválení Senátem a podpis prezidenta. Bez finálního vyhlášení ve Sbírce zákonů nelze hovořit o splnění.",
+        "en": "The government promises to shorten the VAT refund period for unpaid invoices from six to three months and included the measure in its program statement. The bill passed third reading in the Chamber of Deputies but lacks Senate approval and presidential signature. Without final publication in the Collection of Laws, fulfillment cannot be confirmed."
       },
       "change": {
-        "cs": "Legislativa v procesu, blízko k závěru.",
-        "en": "Legislation in process, close to conclusion."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
@@ -426,25 +493,26 @@
           "title": "Programové prohlášení vlády | Vláda České republiky"
         },
         {
-          "url": "https://www.denik.cz/zdravotnictvi/zdravi-nulove-dph-na-leky-na-predpis-vlada-andrej-babis.html",
-          "title": "Nová vláda slibuje nulovou daň na léky na předpis. Není ale jasné, zda zlevní - Deník.cz"
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/budouci-vlada-zamysli-nulovou-dan-z-leku-na-predpis-366844",
+          "title": "Budoucí vláda zamýšlí nulovou daň z léků na předpis - ČT24"
         }
       ],
-      "previousStatus": "in_progress",
-      "updatedAt": "2026-08-21T10:48:43.784Z"
+      "previousStatus": "partial",
+      "updatedAt": "2026-08-22T04:40:42.717Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
     },
     "2.14": {
       "status": "declared",
-      "evidence": "Vláda v programovém prohlášení schváleném 5. ledna 2026 deklaruje: 'Nepřijmeme euro. Zakotvíme korunu a hotovost v Ústavě.' Žádný návrh ústavního zákona dosud nebyl předložen.",
+      "evidence": "Vláda zahrnula do programového prohlášení (5. 1. 2026) slib ukotvení koruny a hotovosti v Ústavě a odmítnutí eura; žádný návrh ústavního zákona nebyl dosud připraven",
       "evidenceDate": "2026-01-05",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda slibuje ukotvení koruny a hotovosti v Ústavě a odmítnutí eura. Jde však pouze o deklaraci v programovém prohlášení; žádný návrh ústavního zákona nebyl dosud připraven či předložen. Změna Ústavy vyžaduje ústavní většinu a dlouhý legislativní proces. Bez předložení návrhu se jedná jen o deklaraci.",
-        "en": "The government pledges to anchor the crown and cash in the Constitution and reject the euro. However, this is only a declaration in the program statement; no constitutional bill has been prepared or submitted. Constitutional changes require a supermajority and lengthy legislative process. Without a submitted bill, this remains merely a declaration."
+        "cs": "Vláda deklaruje v programovém prohlášení, že ukotvení koruny a hotovosti v Ústavě a odmítnutí eura. Jde však pouze o deklaraci – žádný návrh ústavního zákona nebyl dosud připraven ani předložen. Bez legislativního kroku nelze hovořit o pokroku v naplňování slibu.",
+        "en": "The government declares in its program statement that it will anchor the crown and cash in the Constitution and reject the euro. However, this is merely a declaration – no constitutional law proposal has been prepared or submitted. Without legislative action, progress in fulfilling the promise cannot be confirmed."
       },
       "change": {
-        "cs": "Jen verbální slib bez legislativního kroku.",
-        "en": "Only a verbal pledge without legislative action."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
@@ -453,19 +521,20 @@
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-08-21T10:48:43.784Z"
+      "updatedAt": "2026-08-22T04:40:42.717Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
     },
     "2.15": {
       "status": "not_started",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "V dostupných zdrojích, programovém prohlášení vlády ani ve vyjádřeních ministrů se nepodařilo nalézt informace o nabídnutí Dluhopisů Republiky drobným střadatelům. Neexistují ani náznaky práce na tomto opatření. Vláda se o něm v programovém prohlášení nezmiňuje.",
-        "en": "No information found in available sources, government program statement or ministerial statements regarding offering Republic Bonds to small savers. There are no indications of work on this measure. The government does not mention it in the program statement."
+        "cs": "V dostupných zdrojích, programovém prohlášení vlády ani ve vyjádřeních ministrů se nepodařilo nalézt informace o nabídnutí Dluhopisů Republiky drobným střadatelům. Neexistují ani náznaky zahájení přípravy tohoto opatření.",
+        "en": "No information about offering Government Bonds to small savers could be found in available sources, the government's program statement, or ministerial statements. There are no signs of preparation for this measure."
       },
       "change": {
-        "cs": "Neexistuje doklad o jakémkoliv kroku.",
-        "en": "No evidence of any steps taken."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
@@ -474,20 +543,21 @@
         }
       ],
       "previousStatus": "not_started",
-      "updatedAt": "2026-08-21T10:48:43.784Z"
+      "updatedAt": "2026-08-22T04:40:42.717Z",
+      "overeno": "2026-08-22T04:39:09.059Z"
     },
     "3.1": {
       "status": "partial",
-      "evidence": "Tarifní platy policistů a hasičů stoupají o 5 % od 1. 1. 2026; ministr Metnar deklaruje postupné dosažení 50 tis. Kč, ale bez konkrétní legislativy. V důsledku inflace a rozpočtových limitů zatím nástupní plat dosahuje cca 33-34 tis. Kč.",
+      "evidence": "Nařízení vlády č. 407/2025 Sb. (5% valorizace od 1. 1. 2026); ministr Metnar deklaruje postupné dosažení 50 tis. Kč bez konkrétního harmonogramu",
       "evidenceDate": "2026-01-01",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda potvrdila pětiprocentní valorizaci tarifů na rok 2026, která je v účinnosti od ledna. Ministr však slibuje postupné dosažení 50 tisíc korun bez konkrétního harmonogramu či legislativy. Nástupní plat se zatím pohybuje kolem 33–34 tisíc Kč; cíl 50 tisíc je deklarován, ale není legislativně zajištěn.",
-        "en": "The government confirmed 5% tariff increases for 2026, effective January. However, the minister declares only a gradual progression toward 50,000 CZK without a specific timeline or legislation. Starting salaries currently range around 33–34,000 CZK; the 50,000 CZK target is declared but not legislatively secured."
+        "cs": "Vláda potvrdila pětiprocentní valorizaci tarifů na rok 2026 (nástupní plat cca 33–34 tis. Kč). Ministr Metnar slibuje postupné dosažení 50 tisíc korun bez konkrétního harmonogramu či legislativního kroku. Jde o částečné splnění: formálně zavedeno, ale cíl 50 tis. Kč zůstává vzdálený.",
+        "en": "The government confirmed a five percent tariff increase for 2026 (starting salary approx. 33–34 thousand CZK). Minister Metnar promises gradual achievement of 50 thousand CZK without a specific timeline or legislative step. This is partial fulfillment: formally implemented, but the 50 thousand CZK target remains distant."
       },
       "change": {
-        "cs": "Od předchozího hodnocení doplňkově ověřeny tarifní valorizace od ledna 2026, ale bez posunu k legislativnímu zajištění cíle 50 tis. Kč.",
-        "en": "Tariff increases from January 2026 verified, but no legislative progress toward the 50,000 CZK target confirmed since last assessment."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
@@ -495,195 +565,228 @@
           "title": "e15.cz - Platové tabulky 2026: Přehled tarifů pro státní zaměstnance, učitele, lékaře a další profese"
         },
         {
-          "url": "https://mv.gov.cz/clanek/policiste-a-hasici-dostanou-pridano-1500-kc-platy-pritom-porostou-dlouhodobe.aspx",
-          "title": "Policisté a hasiči dostanou přidáno 1500 Kč. Platy přitom porostou dlouhodobě - Ministerstvo vnitra České republiky"
+          "url": "https://m.echo24.cz/a/HMByC/zpravy-ekonomika-babis-slibuje-vyssi-platy-pro-policisty-a-hasice-navyseni-uz-od-ledna",
+          "title": "Babiš slibuje vyšší platy pro policisty a hasiče. Už příští rok má být navýšení „významné“ - Echo24.cz"
+        },
+        {
+          "url": "https://www.ceskenoviny.cz/zpravy/2760950",
+          "title": "Metnar: Na zvýšení platů policistů a hasičů v rozpočtu na příští rok peníze jsou | ČeskéNoviny.cz"
         }
       ],
-      "previousStatus": "declared",
-      "updatedAt": "2026-08-21T10:49:51.729Z"
+      "previousStatus": "partial",
+      "updatedAt": "2026-08-22T04:41:58.606Z",
+      "overeno": "2026-08-22T04:41:23.602Z"
     },
     "3.2": {
       "status": "partial",
-      "evidence": "Superdávka s příspěvkem na bydlení podle regionu byla zavedena od srpna 2026 (starý systém skončil v červenci); příspěvek je součástí sociální podpory, ale není zvláštní dedikovaná dávka na 6000 Kč měsíčně pro policisty/hasiče.",
+      "evidence": "Příspěvek na bydlení do 6000 Kč měsíčně je deklarován v programovém prohlášení; začleňován do superdávky od srpna 2026",
       "evidenceDate": "2026-08-01",
       "unverifiable": false,
       "comment": {
-        "cs": "Příspěvek na bydlení do 6000 Kč měsíčně je deklarován v programovém prohlášení, ale vláda jej začleňuje do nové superdávky (od srpna 2026), která zahrnuje více složek. Systém je rozlišen regionálně, avšak konkrétní implementace pro policisty a hasiče není jasná. Nejde o samostatný nástroj, nýbrž o součást reformy sociální podpory.",
-        "en": "Housing allowance up to 6,000 CZK monthly is declared in the program but integrated into the new super-benefit (August 2026) covering multiple components. Regional differentiation exists, but specific implementation for police and firefighters unclear. It is not a separate tool but part of the social support reform."
+        "cs": "Příspěvek na bydlení do 6000 Kč měsíčně je součástí programového prohlášení, ale vláda jej začleňuje do nové superdávky (od srpna 2026), která zahrnuje více složek. Systém je rozpracován, ale bez konkrétního legislativního návrhu či harmonogramu. Jde o deklaraci bez měřitelného dopadu.",
+        "en": "The housing allowance up to 6000 CZK per month is part of the government program, but the government is incorporating it into a new super-benefit (from August 2026) that includes multiple components. The system is being developed but without a specific legislative proposal or timeline. This is a declaration without measurable impact."
       },
       "change": {
-        "cs": "Od předchozího hodnocení: Superdávka byla fakticky zavedena; obsahuje podporu bydlení, ale formálně není samostatným příspěvkem na bydlení policistů.",
-        "en": "Since previous assessment: Super-benefit was implemented; includes housing support but is not formally a dedicated allowance for police."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://www.e15.cz/prispevky-a-davky/superdavka",
-          "title": "e15.cz - Superdávka: Kdo má nárok, jak podat žádost a co se mění v roce 2026"
+          "url": "https://m.echo24.cz/a/HMByC/zpravy-ekonomika-babis-slibuje-vyssi-platy-pro-policisty-a-hasice-navyseni-uz-od-ledna",
+          "title": "Babiš slibuje vyšší platy pro policisty a hasiče. Už příští rok má být navýšení „významné“ - Echo24.cz"
         },
         {
-          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
-          "title": "Programové prohlášení vlády | Vláda České republiky"
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/platy-ve-statni-sfere-porostou-podle-babise-i-v-rozpoctovem-provizoriu-368255",
+          "title": "Platy ve státní sféře porostou podle Babiše i v rozpočtovém provizoriu"
         }
       ],
-      "previousStatus": "not_started",
-      "updatedAt": "2026-08-21T10:49:51.729Z"
+      "previousStatus": "partial",
+      "updatedAt": "2026-08-22T04:41:58.606Z",
+      "overeno": "2026-08-22T04:41:23.602Z"
     },
     "3.3": {
       "status": "declared",
-      "evidence": "Ministr Metnar deklaruje vrácení policistů do ulic a personální stabilizaci jako prioritu; není však dokladu o konkrétním legislativním kroku nebo plánu zastavení rušení služeben.",
-      "evidenceDate": "2026-02-18",
+      "evidence": "Ministr Metnar deklaruje cíl vrátit více policistů do přímého výkonu služby; zastavení rušení služeben není doloženo žádným usnesením či konkrétním krokem",
+      "evidenceDate": "2025-12-15",
       "unverifiable": false,
       "comment": {
-        "cs": "Ministr Metnar deklaruje cíl vrátit více policistů do přímého výkonu služby a zvýšit jejich přítomnost v ulicích. Zastavení rušení služeben není doloženo žádným usnesením či konkrétním opatřením. Deklarace bez legislativy či exekutivního kroku znamená, že jde zatím jen o prohlášení.",
-        "en": "Minister Metnar declares the aim to return more police to direct service and increase street presence. Halting station closures has no documented decision or concrete measure. Declaration without legislation or executive action remains a statement only."
+        "cs": "Ministr Metnar deklaruje cíl vrátit více policistů do přímého výkonu služby a zvýšit jejich přítomnost v ulicích. Zastavení rušení služeben není doloženo žádným usnesením či konkrétním opatřením. Jde pouze o verbální deklaraci bez legislativního či exekutivního kroku.",
+        "en": "Minister Metnar declares the goal of returning more police officers to direct service and increasing their street presence. Stopping the closure of police stations is not documented by any resolution or concrete measure. This is merely a verbal declaration without legislative or executive action."
       },
       "change": {
-        "cs": "Bez nového dokladu od předchozího hodnocení; status zůstává v rovině deklarace.",
-        "en": "No new evidence since last assessment; status remains at declaration level."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://mv.gov.cz/clanek/bezpecnost-stabilita-policie-i-hasicu-digitalizace-nebo-pobytova-agenda-ministr-metnar-predstavil-priority-resortu.aspx",
-          "title": "Bezpečnost, stabilita policie i hasičů, digitalizace nebo pobytová agenda. Ministr Metnar představil priority resortu - Ministerstvo vnitra České republiky"
+          "url": "https://www.ceskenoviny.cz/zpravy/2760950",
+          "title": "Metnar: Na zvýšení platů policistů a hasičů v rozpočtu na příští rok peníze jsou | ČeskéNoviny.cz"
+        },
+        {
+          "url": "https://mv.gov.cz/clanek/vedeni-ministerstva.aspx",
+          "title": "Vedení ministerstva - Ministerstvo vnitra České republiky"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-08-21T10:49:51.729Z"
+      "updatedAt": "2026-08-22T04:41:58.606Z",
+      "overeno": "2026-08-22T04:41:23.602Z"
     },
     "3.4": {
       "status": "in_progress",
-      "evidence": "Národní strategie kybernetické bezpečnosti 2026–2030 byla schválena vládou 3. září 2025 (před nástupem Babiše), ale od té doby pokračuje implementace projektů posílení NÚKIB a kritické infrastruktury. NÚKIB v roce 2026 rozšiřuje dohled na ca. 6000 organizací (od listopadu 2025).",
+      "evidence": "Vláda schválila novou Národní strategii kybernetické bezpečnosti 2026–2030 (3. září 2025); NÚKIB pokračuje v implementaci a přípravě zákona o prověřování dodavatelů strategické infrastruktury",
       "evidenceDate": "2025-09-03",
       "unverifiable": false,
       "comment": {
-        "cs": "Strategie byla schválena předchozí vládou, ale Babišova vláda pokračuje v její implementaci. NÚKIB rozšiřuje svou působnost a posílení kapacit probíhá. Konkrétní legislativní návrh na posílení NÚKIB není doložen, jde spíše o administrativní vývoj. Bez nového zákonného rámce od vlády Babiše se jedná jen o pokračování předchozího úsilí.",
-        "en": "The strategy was approved by the previous government, but Babiš's cabinet continues its implementation. NÚKIB is expanding its scope and capacity-building is ongoing. No specific legislative proposal for NÚKIB strengthening is documented; rather, it is administrative progress. Without new legal framework from Babiš's government, it is continuation of previous efforts."
+        "cs": "Strategie kybernetické bezpečnosti byla schválena předchozí vládou (3. září 2025), ale Babišova vláda pokračuje v její implementaci. NÚKIB rozšiřuje svou působnost, připravuje zákon na prověřování rizikových dodavatelů a posílení kapacit probíhá. Legislativní návrh je v přípravě, ale není dosud v Poslanecké sněmovně.",
+        "en": "The cybersecurity strategy was approved by the previous government (September 3, 2025), but the Babiš government continues its implementation. NÚKIB is expanding its scope, preparing a law on vetting risky suppliers, and capacity strengthening is ongoing. The legislative proposal is in preparation but not yet in the Chamber of Deputies."
       },
       "change": {
-        "cs": "Potvrzeno pokračování implementace strategie schválené předchozí vládou; bez vlastního legislativního kroku Babiše.",
-        "en": "Confirmed continuation of strategy approved by previous government; no separate legislative initiative from Babiš."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
           "url": "https://nukib.gov.cz/cs/infoservis/aktuality/2300-vlada-ceske-republiky-schvalila-novou-narodni-strategii-kyberneticke-bezpecnosti-ceske-republiky/",
           "title": "Národní úřad pro kybernetickou a informační bezpečnost - Vláda České republiky schválila novou Národní strategii kybernetické bezpečnosti České republiky"
+        },
+        {
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/nukib-lici-zakonem-na-rizikove-dodavatele-technologii-pro-strategickou-infrastrukturu-statu-13466",
+          "title": "NÚKIB líčí zákonem na rizikové dodavatele technologií pro strategickou infrastrukturu státu"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-08-21T10:49:51.729Z"
+      "updatedAt": "2026-08-22T04:41:58.606Z",
+      "overeno": "2026-08-22T04:41:23.602Z"
     },
     "3.5": {
       "status": "declared",
-      "evidence": "Vláda Babiše přijala usnesení odmítající Pakt o migraci a azylu EU na prvním zasedání 16. prosince 2025. Jde však o čistě deklaratorní gesto; pakt je právně závazný a nabývá účinnosti bez možnosti jednostranného odsoupení.",
+      "evidence": "Vláda přijala usnesení odmítající migrační pakt EU (16. prosince 2025); jde však pouze o deklaratorní krok bez právních účinků",
       "evidenceDate": "2025-12-16",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda formálně přijala usnesení odmítající migrační pakt EU, což je však pouze deklaratorní krok bez právních účinků. Pakt je právně závazný pro všechny členy EU a bez rámce jednotné politiky či vlastního zákona Česka se jedná jen o prohlášení názoru.",
-        "en": "The government formally adopted a resolution rejecting the EU migration pact, but this is purely declarative with no legal effect. The pact is legally binding for all EU members; without a unified policy framework or Czech-specific legislation, it remains merely a statement of opinion."
+        "cs": "Vláda formálně přijala usnesení odmítající migrační pakt EU (16. prosince 2025), což je pouze deklaratorní krok bez právních účinků. Pakt je právně závazný pro všechny členy EU a bez rámce jednotného postupu EU jej Česko nemůže jednostranně odmítnout. Česko má výjimku z principu solidarity pouze na rok 2026.",
+        "en": "The government formally adopted a resolution rejecting the EU migration pact (December 16, 2025), which is merely a declaratory step without legal effect. The pact is legally binding for all EU members and without a unified EU framework, the Czech Republic cannot unilaterally reject it. The Czech Republic has an exemption from the solidarity principle only for 2026."
       },
       "change": {
-        "cs": "Bez nového vývoje od předchozího hodnocení; odmítnutí zůstává deklaratorní.",
-        "en": "No new developments since last assessment; rejection remains declaratory."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
-          "title": "Programové prohlášení vlády | Vláda České republiky"
+          "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-odmitla-migracni-pakt-eu-i-novy-system-obchodovani-s-emisnimi-povolenkami--domacnostem-i-firmam-zlevni-elektrinu-224297/",
+          "title": "Vláda Andreje Babiše odmítla migrační pakt EU i nový systém obchodování s emisními povolenkami, domácnostem i firmám zlevní elektřinu | Vláda České republiky"
+        },
+        {
+          "url": "https://www.novinky.cz/clanek/domaci-babisova-vlada-odmitla-migracni-pakt-40553715?noredirect=1",
+          "title": "Babišova vláda odmítla migrační pakt - Novinky"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-08-21T10:49:51.729Z"
+      "updatedAt": "2026-08-22T04:41:58.606Z",
+      "overeno": "2026-08-22T04:41:23.602Z"
     },
     "3.6": {
       "status": "in_progress",
-      "evidence": "Ministr Metnar deklaruje přípravu nového zákona o migraci a azylu s přechodným legislativním procesem. Projektuje se nový zákon o pobytu cizinců s účinností od 1. ledna 2029. Žádný návrh zatím není ve sněmovně.",
-      "evidenceDate": "2026-02-18",
+      "evidence": "Ministr Metnar deklaruje přípravu nového zákona o migraci a azylu; změny azylového zákona vstupují v účinnost 12. června 2026 v souladu s migračním paktem",
+      "evidenceDate": "2026-06-12",
       "unverifiable": false,
       "comment": {
-        "cs": "Ministr Metnar deklaruje, že ministerstvo připravuje nový zákon o migraci a azylu v souladu s politikou nulové tolerance. Zároveň byla ohlášena příprava zákona o pobytu cizinců s účinností až od 1. 1. 2029. Běží přípravná fáze, ale konkrétní legislativní návrh není zatím veřejný.",
-        "en": "Minister Metnar declares preparation of new migration and asylum law aligned with zero-tolerance policy. Simultaneously, a law on foreign residence was announced with effect from January 1, 2029. Preparation is ongoing, but a concrete legislative proposal is not yet public."
+        "cs": "Ministr Metnar deklaruje, že ministerstvo připravuje nový zákon o migraci a azylu v souladu s politikou nulové tolerance. Zároveň byly přijaty změny azylového zákona, které vstupují v účinnost 12. června 2026 (v souladu s migračním paktem, který vláda formálně odmítá). Legislativní proces běží, ale nový zákon není dosud v Poslanecké sněmovně.",
+        "en": "Minister Metnar declares that the ministry is preparing a new migration and asylum law in line with a zero-tolerance policy. At the same time, changes to the asylum law have been adopted, which come into force on June 12, 2026 (in line with the migration pact, which the government formally rejects). The legislative process is ongoing, but the new law is not yet in the Chamber of Deputies."
       },
       "change": {
-        "cs": "Potvrzena přípravná fáze zákona; stav se změnil z čisté deklarace k „probíhá“ díky konkrétnímu časovému rámci.",
-        "en": "Preparation phase confirmed; status changed from pure declaration to \"in progress\" due to specific timeline."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://mv.gov.cz/clanek/bezpecnost-stabilita-policie-i-hasicu-digitalizace-nebo-pobytova-agenda-ministr-metnar-predstavil-priority-resortu.aspx",
-          "title": "Bezpečnost, stabilita policie i hasičů, digitalizace nebo pobytová agenda. Ministr Metnar představil priority resortu - Ministerstvo vnitra České republiky"
+          "url": "https://www.ceskenoviny.cz/zpravy/2760950",
+          "title": "Metnar: Na zvýšení platů policistů a hasičů v rozpočtu na příští rok peníze jsou | ČeskéNoviny.cz"
+        },
+        {
+          "url": "https://m.echo24.cz/a/HVsUj/migracni-pakt-eu-komise-zprava-hodnoceni-prichozi-vyhostovani-pravidla-metnar-vnitro",
+          "title": "EU řadí Česko mezi premianty zavádění migračního paktu. Vnitro vysvětlilo proč - Echo24.cz"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-08-21T10:49:51.729Z"
+      "updatedAt": "2026-08-22T04:41:58.606Z",
+      "overeno": "2026-08-22T04:41:23.602Z"
     },
     "3.7": {
       "status": "declared",
-      "evidence": "Síť jednotných náborových a výcvikových center je zmíněna v programovém prohlášení vlády z 5. 1. 2026, ale žádné usnesení vlády, konkrétní plán, legislativní návrh či financování zatím nejsou doloženy.",
-      "evidenceDate": "2026-01-05",
+      "evidence": "Záměr vybudovat jednotnou síť náborových a výcvikových center je součástí programového prohlášení; bez konkrétního plánu realizace, rozpočtu nebo legislativního kroku",
+      "evidenceDate": "2025-12-15",
       "unverifiable": false,
       "comment": {
-        "cs": "Záměr vybudovat jednotnou síť náborových a výcvikových center je součástí programového prohlášení, ale bez konkrétního plánu realizace, rozpočtu nebo legislativního kroku. Bez doložitelného akčního kroku zůstává v rovině deklarace.",
-        "en": "The intention to establish a unified network of recruitment and training centers is part of the program declaration, but lacks concrete implementation plan, budget, or legislative step. Without documented action, it remains a declaration."
+        "cs": "Záměr vybudovat jednotnou síť náborových a výcvikových center je součástí programového prohlášení, ale bez konkrétního plánu realizace, rozpočtu nebo legislativního kroku. Bez doložitelného opatření jde pouze o deklaraci.",
+        "en": "The plan to build a unified network of recruitment and training centers is part of the government program, but without a specific implementation plan, budget, or legislative step. Without documented measures, this is merely a declaration."
       },
       "change": {
-        "cs": "Bez nového dokladu od předchozího hodnocení; status zůstává v rovině deklarace.",
-        "en": "No new evidence since previous assessment; status remains declaratory."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
-          "title": "Programové prohlášení vlády | Vláda České republiky"
+          "url": "https://www.ceskenoviny.cz/zpravy/2760950",
+          "title": "Metnar: Na zvýšení platů policistů a hasičů v rozpočtu na příští rok peníze jsou | ČeskéNoviny.cz"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-08-21T10:49:51.729Z"
+      "updatedAt": "2026-08-22T04:41:58.606Z",
+      "overeno": "2026-08-22T04:41:23.602Z"
     },
     "3.8": {
       "status": "in_progress",
-      "evidence": "Ministr Metnar v červenci 2026 posílil rozpočet policie o 544 milionů Kč na investice a platy; vláda následně navýšila rozpočet na služební příjmy policie o dalších 141 milionů Kč. Jedná se o administrativní opatření na rok 2026.",
-      "evidenceDate": "2026-07-01",
+      "evidence": "Vláda a ministerstvo vnitra přidělily rozpočtové prostředky na modernizaci techniky a platy policistů a hasičů; nařízení vlády č. 407/2025 Sb. schválilo 5% valorizaci tarifů",
+      "evidenceDate": "2026-01-01",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda a ministerstvo vnitra přidělily rozpočtové prostředky na modernizaci techniky a platy policistů a hasičů. Jde však o financování běžného roku bez dlouhodobého legislativního záměru. Bez konkrétního zákona o investicích do techniky nebo strukturovaného programu modernizace se jedná o běžnou rozpočtovou činnost.",
-        "en": "The government and Interior Ministry allocated budget for modernizing police and firefighter equipment and salaries. However, this is current-year funding without long-term legislative plan. Without a specific investment law or structured modernization program, it is routine budget activity."
+        "cs": "Vláda a ministerstvo vnitra přidělily rozpočtové prostředky na modernizaci techniky a platy policistů a hasičů. Nařízení vlády č. 407/2025 Sb. schválilo 5% valorizaci tarifů od 1. ledna 2026. Jde o financování běžného roku bez dlouhodobého legislativního rámce, ale opatření jsou fakticky zavedena.",
+        "en": "The government and the Ministry of Interior allocated budget resources for modernization of equipment and salaries of police and firefighters. Government Regulation No. 407/2025 Coll. approved a 5% tariff increase from January 1, 2026. This is current-year financing without a long-term legislative framework, but measures are factually implemented."
       },
       "change": {
-        "cs": "Rozpočtové prostředky na rok 2026 jsou přiděleny; bez širšího legislativního rámce zůstává status na úrovni „probíhá“.",
-        "en": "Budget allocated for 2026; without broader legislative framework remains at \"in progress\" level."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://www.echo24.cz/a/H3ysv/zpravy-ekonomika-vyssi-platy-uredniku-policistu-hasicu-i-ucitelu-pozadavky-ministru-tlak-schillerova",
-          "title": "Vyšší platy po úředníky, policisty, hasiče i učitele. Ministři tlačí na Schillerovou - Echo24.cz"
+          "url": "https://www.e15.cz/platove-tabulky-statnich-zamestnancu-2026",
+          "title": "e15.cz - Platové tabulky 2026: Přehled tarifů pro státní zaměstnance, učitele, lékaře a další profese"
+        },
+        {
+          "url": "https://www.ceskenoviny.cz/zpravy/2760950",
+          "title": "Metnar: Na zvýšení platů policistů a hasičů v rozpočtu na příští rok peníze jsou | ČeskéNoviny.cz"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-08-21T10:49:51.729Z"
+      "updatedAt": "2026-08-22T04:41:58.606Z",
+      "overeno": "2026-08-22T04:41:23.602Z"
     },
     "4.1": {
       "status": "declared",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda deklaruje audit hospodaření ministerstva obrany, který podle Babiše běží či má běžet. Avšak bez doložitelného zahájení nového formálního auditu touto vládou se jedná pouze o deklaraci. Předchozí zkušenosti ukazují, že audity se spíše děly ad hoc na jednotlivých zařízeních (vojenská nemocnice), nikoli jako systematický program vlády.",
-        "en": "The government declares an audit of defense ministry operations. However, without documented initiation of a new formal audit by this government, it remains only a declaration. Previous experience shows audits were conducted on individual facilities rather than as a systematic government program."
+        "cs": "Vláda deklaruje audit hospodaření ministerstva obrany. Premiér Babiš v březnu 2026 oznámil, že audit probíhá a chce změnit zákon, aby zakázky vyšetřovala NCOZ místo Vojenské policie. Bez doložitelného zahájení nového formálního auditu touto vládou se jedná pouze o deklaraci; audit byl již v procesu z předchozího období.",
+        "en": "The government declares an audit of defense ministry spending. PM Babiš announced in March 2026 that an audit is underway and wants to change the law so that contracts are investigated by NCOZ instead of Military Police. Without documented initiation of a new formal audit by this government, this is merely a declaration; the audit was already in process from the previous period."
       },
       "change": {
-        "cs": "Stav zůstává na úrovni deklarace bez nového kroku vlády Babiše od prosince 2025.",
-        "en": "Status remains at declaration level without new government action since December 2025."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://www.echo24.cz/a/HxrzR/zpravy-domaci-vlada-babis-havlicek-audit-ministerstvo-obrany-cernochova-zakazky-vlada",
-          "title": "Budoucí kabinet chystá audit zakázek na obraně. Za vším si stojíme, zní od Černochové - Echo24.cz"
+          "url": "https://www.ceskenoviny.cz/zpravy/babis-chce-zmenit-zakon-aby-zakazky-na-ministerstvu-obrany-vysetrovala-ncoz/2793571",
+          "title": "Babiš chce změnit zákon, aby zakázky na ministerstvu obrany vyšetřovala NCOZ | ČeskéNoviny.cz"
         },
         {
-          "url": "https://www.irozhlas.cz/zpravy-domov/bude-audit-municni-iniciativy-hlasil-havlicek-davno-ji-ale-kontroluji-tajne_2604210600_hrk",
-          "title": "Bude audit muniční iniciativy, hlásil Havlíček. Dávno ji ale kontrolují tajné služby, ministerstva i spojenci"
+          "url": "https://cnn.iprima.cz/komentar-andreje-babise-vydaje-na-obranu-museji-byt-zasazene-506699",
+          "title": "KOMENTÁŘ Andreje Babiše o výdajích na obranu: Místo hysterie musíme vycházet z reality - CNN Prima NEWS"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-08-21T10:51:19.781Z"
+      "updatedAt": "2026-08-22T04:42:57.503Z",
+      "overeno": "2026-08-22T04:42:18.623Z"
     },
     "4.2": {
       "status": "in_progress",
@@ -708,45 +811,47 @@
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-08-21T10:51:19.781Z"
+      "updatedAt": "2026-08-21T10:51:19.781Z",
+      "overeno": "2026-08-22T04:42:18.623Z"
     },
     "4.3": {
       "status": "declared",
       "evidence": "",
       "unverifiable": true,
       "comment": {
-        "cs": "Premiér Babiš i SPD opakovaně kritizují myšlenku společné evropské armády. Bez měřitelného kritéria (co by odsouhlasení či odmítnutí představovalo na konkrétní úrovni EU) nelze objektivně určit, zda byl slib splněn. Jde o politickou pozici bez konkrétního legislativního či exekutivního výsledku.",
-        "en": "PM Babiš and SPD repeatedly criticize the idea of a common European army. Without measurable criteria (what approval or rejection at specific EU level would constitute), the commitment's fulfillment cannot be objectively determined. It is a political position without specific legislative or executive outcome."
+        "cs": "Vláda Babiše odmítá budování společné evropské armády a trvá na tom, že ambice EU musí být v souladu s NATO, nikoli konkurenční. Bez měřitelného kritéria (konkrétní hlasování v EU, legislativní krok či formální odmítnutí) nelze objektivně posoudit splnění. Jde o deklaraci postoje bez právně závazného aktu.",
+        "en": "The Babiš government rejects building a common European army and insists that EU ambitions must be in line with NATO, not competitive. Without measurable criteria (specific EU vote, legislative step, or formal rejection), it is impossible to objectively assess fulfillment. This is a declaration of position without a legally binding act."
       },
       "change": {
-        "cs": "Bez změny; zůstává na úrovni politické deklarace.",
-        "en": "No change; remains at level of political declaration."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://www.ceskenoviny.cz/zpravy/babis-vlada-v-nove-koncepci-armady-planuje-mj-posilit-nabor-novych-vojaku/2827266",
-          "title": "Babiš: Vláda v nové koncepci armády plánuje mj. posílit nábor nových vojáků | ČeskéNoviny.cz"
+          "url": "https://www.irozhlas.cz/zpravy-domov/spolecna-evropska-armada-eu-cesko-nato_2201241227_ern",
+          "title": "Vondra: Budujme obranyschopnost. Ale verbální snění o evropské armádě podkopává vztah s NATO | iROZHLAS - spolehlivé zprávy"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-08-21T10:51:19.781Z"
+      "updatedAt": "2026-08-22T04:42:57.507Z",
+      "overeno": "2026-08-22T04:42:18.623Z"
     },
     "4.4": {
       "status": "in_progress",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda Babiše pokračuje v dodávkách SPYDER: prvky byly v červnu-červenci 2026 v testování, operační testy proběhly v srpnu 2026. Vojskové zkoušky se očekávají na podzim 2026, ostré nasazení na jaře 2027. Projekt pokračuje podle plánu, ale ještě nedošlo k uvedení do provozu.",
-        "en": "Babiš government continues SPYDER deliveries: elements were undergoing testing in June-July 2026, operational tests occurred in August 2026. Field trials expected in fall 2026, operational deployment in spring 2027. Project progresses on schedule but deployment not yet complete."
+        "cs": "Vláda pokračuje v dodávkách systému SPYDER. První baterie úspěšně prošla operačním testem na konci srpna 2026, což zahájilo vojskové zkoušky. Systém je v pokročilém stádiu integrace; první baterie má být dodána v dubnu 2027. Česko si objednalo čtyři baterie za 13,7 miliard Kč. Projekt pokračuje podle plánu, ale není ještě zcela zaveden.",
+        "en": "The government continues with SPYDER system deliveries. The first battery successfully passed operational testing in late August 2026, initiating military trials. The system is in an advanced stage of integration; the first battery is to be delivered in April 2027. The Czech Republic ordered four batteries for 13.7 billion CZK. The project is proceeding on schedule but is not yet fully deployed."
       },
       "change": {
-        "cs": "Pokrok v pokročilé fázi testování, žádná zásadní změna postavení.",
-        "en": "Progress in advanced testing phase, no fundamental change in status."
+        "cs": "První baterie SPYDER úspěšně prošla operačním testem v srpnu 2026 a zahájily se vojskové zkoušky.",
+        "en": "The first SPYDER battery successfully passed operational testing in August 2026 and military trials began."
       },
       "sources": [
         {
-          "url": "https://acr.mo.gov.cz/informacni-servis/zpravodajstvi/ochrance-ceskeho-nebe--cr-pokracuje-v-jednani-s-izraelem-o-dodani-systemu-spyder-241174/",
-          "title": "Ochránce českého nebe. ČR pokračuje v jednání s Izraelem o dodání systému SPYDER | Armáda ČR"
+          "url": "https://acr.mo.gov.cz/informacni-servis/zpravodajstvi/prvni-baterie-protiletadloveho-systemu-spyder-uspesne-prosla-operacnim-testem-259955/",
+          "title": "První baterie protiletadlového systému SPYDER úspěšně prošla operačním testem | Armáda ČR"
         },
         {
           "url": "https://www.e15.cz/byznys/e15-a-byznys/system-spyder-ochrani-nebe-nad-ceskem-ostre-nasazeni-se-ceka-na-jare-2026-rika-sef-firmy-ktera-protivzdusnou-obranu-pripravuje-1427779",
@@ -754,118 +859,123 @@
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-08-21T10:51:19.781Z"
+      "updatedAt": "2026-08-22T04:42:57.507Z",
+      "overeno": "2026-08-22T04:42:18.623Z"
     },
     "4.5": {
       "status": "declared",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda deklaruje maximální využití domácího průmyslu v programovém prohlášení (leden 2026), konkrétně jsou české firmy zapojeny do výroby SPYDER (asi 30 %). Bez legislativních či exekutivních opatření, která by garantovala prioritu domácího průmyslu, zůstává to deklarací. Praktické zapojení je závislé na jednotlivých projektech, ne na institucionalizovaném systému.",
-        "en": "Government declares maximum utilization of domestic defense industry in program statement (January 2026); Czech firms are involved in SPYDER production (~30%). Without legislative or executive measures guaranteeing domestic industry priority, it remains a declaration. Practical involvement depends on individual projects rather than an institutionalized system."
+        "cs": "Vláda deklaruje maximální využití domácího průmyslu v programovém prohlášení. Konkrétně jsou české firmy zapojeny do výroby SPYDER (přes 30 % podíl). Bez legislativních či exekutivních opatření, která by garantovala preferenci českého průmyslu v budoucích zakázkách, se jedná pouze o deklaraci a faktické zapojení v jednotlivých projektech.",
+        "en": "The government declares maximum use of domestic industry in its program statement. Specifically, Czech companies are involved in SPYDER production (over 30% share). Without legislative or executive measures guaranteeing preference for Czech industry in future contracts, this is merely a declaration and factual involvement in individual projects."
       },
       "change": {
-        "cs": "Bez změny; zůstává na úrovni deklarace s příležitostným zapojením průmyslu.",
-        "en": "No change; remains at declaration level with occasional industry involvement."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://www.ceskenoviny.cz/zpravy/babis-vlada-v-nove-koncepci-armady-planuje-mj-posilit-nabor-novych-vojaku/2827266",
-          "title": "Babiš: Vláda v nové koncepci armády plánuje mj. posílit nábor nových vojáků | ČeskéNoviny.cz"
+          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
+          "title": "Programové prohlášení vlády | Vláda České republiky"
         },
         {
-          "url": "https://www.irozhlas.cz/zpravy-domov/armada-vojak-tank-nakupy-protivzdusna-obrana_2601101340_gut",
-          "title": "Další tanky, posílení protivzdušné obrany i nový první muž armády. Co letos čeká české vojsko? | iROZHLAS - spolehlivé zprávy"
+          "url": "https://www.e15.cz/byznys/e15-a-byznys/system-spyder-ochrani-nebe-nad-ceskem-ostre-nasazeni-se-ceka-na-jare-2026-rika-sef-firmy-ktera-protivzdusnou-obranu-pripravuje-1427779",
+          "title": "e15.cz - Systém Spyder ochrání nebe nad Českem. Ostré nasazení se čeká na jaře 2026"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-08-21T10:51:19.781Z"
+      "updatedAt": "2026-08-22T04:42:57.507Z",
+      "overeno": "2026-08-22T04:42:18.623Z"
     },
     "4.6": {
       "status": "partial",
-      "evidence": "Nástupní platy vojáků se na jaře 2026 pohybují kolem 50 000 Kč; zvýšení byla realizována již během vlády Fialy (2021–2025)",
-      "evidenceDate": "2026-08-14",
+      "evidence": "Nástupní plat vojáka činí fakticky cca 50 000 Kč; zvýšení bylo realizováno vládou Fialy",
+      "evidenceDate": "2026-08-22",
       "unverifiable": false,
       "comment": {
-        "cs": "Nástupní plat vojáka se fakticky pohybuje na úrovni cca 50 000 Kč. Zvýšení bylo však již realizováno v průběhu vlády Fialy; vláda Babiše tomuto stavu pouze přihlíží, ale neiniciuje nové zvýšení. Splnění slibu je tedy jen částečné, protože slib implikoval aktivitu vlády Babiše, ne jen pokračování předchozího trendu.",
-        "en": "Soldiers' entry-level salary is factually around 50,000 Kč. However, this increase was already implemented during the Fiala government; Babiš government merely benefits from this status but does not initiate new increases. Promise fulfillment is thus only partial, as the promise implied action by Babiš government, not mere continuation of previous trends."
+        "cs": "Nástupní plat vojáka se fakticky pohybuje na úrovni cca 50 000 Kč, jak je uvedeno v programovém prohlášení vlády. Zvýšení bylo však již realizováno v průběhu vlády Fialy; vláda Babiše tomuto stavu pouze přihlíží a neinicuje nové zvýšení. Jde o částečné splnění – cíl je dosažen, ale iniciativa není od této vlády.",
+        "en": "The entry-level soldier's salary is factually around 50,000 CZK as stated in the government's program statement. However, the increase was already implemented during the Fiala government; the Babiš government merely maintains this state and does not initiate further increases. This is partial fulfillment – the goal is achieved but the initiative is not from this government."
       },
       "change": {
-        "cs": "Bez změny; plat zůstává na dosažené úrovni bez nového kroku vlády Babiše.",
-        "en": "No change; salary remains at achieved level without new government action."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://www.ceskenoviny.cz/zpravy/armada-letos-nabira-2997-vojaku-133-planu-babis-garantuje-2-hdp/2861969",
-          "title": "Armáda letos nabírá 2997 vojáků, 133 % plánu, Babiš garantuje 2 % HDP | ČeskéNoviny.cz"
+          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
+          "title": "Programové prohlášení vlády | Vláda České republiky"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-08-21T10:51:19.781Z"
+      "updatedAt": "2026-08-22T04:42:57.507Z",
+      "overeno": "2026-08-22T04:42:18.623Z"
     },
     "4.7": {
       "status": "in_progress",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Nábor vojáků v roce 2026 dosáhuje výrazného úspěchu: k 14. srpnu 2026 měla armáda 2997 nastoupilých vojáků (nebo s rozhodnutím) oproti plánu 2250, tj. 133 % plánu. Babiš zvýšil cíl na 3000 vojáků ročně. Jde o pokračující proces, který bude završen v posledních měsících roku.",
-        "en": "Military recruitment in 2026 achieves significant success: as of August 14, 2026, the army had 2,997 soldiers enlisted (or with decision) versus plan of 2,250, i.e. 133% of plan. Babiš raised the target to 3,000 soldiers annually. This is an ongoing process to be completed in final months of the year."
+        "cs": "Nábor vojáků v roce 2026 dosahuje výrazného úspěchu: k 20. srpna 2026 měla armáda 2 997 nastoupilých vojáků (nebo s rozhodnutím) oproti plánu 2 250, tj. 133 % plánu. Babiš zvýšil cíl na 3 000 vojáků. Proces pokračuje, ale cíl na zvýšení počtu vojáků z povolání a aktivních záloh není ještě zcela naplněn – dlouhodobý cíl je 30 000 vojáků z povolání do roku 2030.",
+        "en": "Military recruitment in 2026 is achieving significant success: by August 20, 2026, the army had 2,997 soldiers who had joined (or decided to join) against a plan of 2,250, i.e., 133% of the plan. Babiš increased the target to 3,000 soldiers. The process continues, but the goal of increasing the number of professional soldiers and active reserves is not yet fully met – the long-term goal is 30,000 professional soldiers by 2030."
       },
       "change": {
-        "cs": "Pokrok: nábor překročil původní plán, vláda zvedla ambice na 3000 vojáků ročně.",
-        "en": "Progress: recruitment exceeded original plan, government raised ambitions to 3,000 soldiers annually."
+        "cs": "Nábor pokračuje s vysokou úspěšností; k srpnu 2026 bylo dosaženo 133 % plánu.",
+        "en": "Recruitment continues with high success; by August 2026, 133% of the plan was achieved."
       },
       "sources": [
         {
-          "url": "https://www.ceskenoviny.cz/zpravy/armada-letos-nabira-2997-vojaku-133-planu-babis-garantuje-2-hdp/2861969",
-          "title": "Armáda letos nabírá 2997 vojáků, 133 % plánu, Babiš garantuje 2 % HDP | ČeskéNoviny.cz"
+          "url": "https://www.forum24.cz/myslite-ze-to-andrejovi-tentokrat-vydrzi-dele-nez-do-vecera-kupka-se-pta-na-babisuv-nahly-obrat",
+          "title": "Myslíte, že to Andrejovi tentokrát vydrží déle než... | FORUM 24"
         },
         {
-          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/armada-letos-nabrala-vic-lidi-nez-planovala-rekl-zuna-babis-mluvi-o-garanci-dvou-procent-376596",
-          "title": "Armáda letos nabrala víc lidí, než plánovala, řekl Zůna. Babiš mluví o garanci dvou procent"
+          "url": "https://www.ceskenoviny.cz/zpravy/zuna-mo-by-melo-mit-pristi-rok-na-vydaje-191-mld-kc-splni-2-hdp/2863810",
+          "title": "Zůna: MO by mělo mít příští rok na výdaje 191 mld. Kč, splní 2% HDP | ČeskéNoviny.cz"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-08-21T10:51:19.781Z"
+      "updatedAt": "2026-08-22T04:42:57.507Z",
+      "overeno": "2026-08-22T04:42:18.623Z"
     },
     "5.1": {
       "status": "partial",
-      "evidence": "Babiš se zúčastnil summitu V4 v Gödöllő 23.6.2026, kde premiéři (včetně nového maďarského premiéra Magyara) prohlásili obnovení V4; iniciativa však pochází od Magyara, ne od České republiky",
-      "evidenceDate": "2026-06-23",
+      "evidence": "Ministr obrany Jaromír Zůna se zúčastnil jednání ministrů obrany zemí V4 v Budapešti (červen 2026); Česko převezme předsednictví V4 od 1. července 2027; vláda participuje na V4 iniciativách, ale iniciativa pochází z Maďarska",
+      "evidenceDate": "2026-06-21",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda participuje na obnoveném formátu V4 iniciovaném Maďarskem, příspěvek Česka je však reaktivní nikoliv vedoucí. Babiš formálně vyjádřil podporu obnovení, konkrétní českou iniciativu k posílení V4 dokumenty neprokazují. Jde spíše o participaci na existující iniciativě než o samostatný krok.",
-        "en": "The government participates in the renewed V4 format initiated by Hungary, but the Czech contribution is reactive rather than leading. Babiš formally expressed support for renewal, but documents do not demonstrate specific Czech initiative to strengthen V4. It is rather participation in an existing initiative than an independent step."
+        "cs": "Vláda participuje na obnoveném formátu V4 iniciovaném Maďarskem, zejména v oblasti obrany a bezpečnosti. Česko se aktivně zapojuje do V4 projektů (např. V4 EUBG 2028), ale příspěvek zůstává reaktivní nikoliv vedoucí. Babiš formálně vyjádřil podporu obnovení V4, konkrétní českou iniciativu v rámci skupiny však vláda neprokazuje.",
+        "en": "The government participates in the renewed V4 format initiated by Hungary, particularly in defense and security. Czechia actively engages in V4 projects (e.g., V4 EUBG 2028), but its contribution remains reactive rather than leading. Babiš formally expressed support for V4 renewal, but the government does not demonstrate a specific Czech initiative within the group."
       },
       "change": {
-        "cs": "Stav zůstává částečně splněno: vláda se aktivně podílí na obnoveném fungování V4, ale iniciativu k tomu nezavedla.",
-        "en": "Status remains partial: the government actively participates in renewed V4 functioning, but did not initiate the renewal."
+        "cs": "Ministr obrany Zůna se zúčastnil jednání ministrů V4 v Budapešti a potvrdil maximální podporu České republiky formátu V4.",
+        "en": "Defense Minister Zůna participated in V4 defense ministers' meeting in Budapest and confirmed maximum Czech support for the V4 format."
       },
       "sources": [
         {
-          "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/navsteva-madarska-227687/",
-          "title": "Premiér Andrej Babiš jednal v Maďarsku s lídry obnovené skupiny V4 | Vláda České republiky"
+          "url": "https://mocr.mo.gov.cz/informacni-servis/zpravodajstvi/ministri-obrany-zemi-v4-jednali-v-budapesti-o-bezpecnostnich-vyzvach-a-regionalni-spolupraci-264865/",
+          "title": "Ministři obrany zemí V4 jednali v Budapešti o bezpečnostních výzvách a regionální spolupráci | Ministerstvo obrany"
         },
         {
-          "url": "https://m.echo24.cz/a/HXvZ3/zpravy-svet-v4-je-zpet-oznamil-magyar-premieri-se-shodli-na-posileni-spoluprace",
-          "title": "„V4 je zpět,“ oznámil Magyar. Premiéři se shodli na posílení spolupráce - Echo24.cz"
+          "url": "https://vlada.gov.cz/cz/statni_sluzba/mezinarodni_spoluprace/epso/visegradska-ctyrka-v4-223900/",
+          "title": "Visegrádská čtyřka (V4) | Vláda České republiky"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-08-21T10:52:15.423Z"
+      "updatedAt": "2026-08-22T04:44:07.143Z",
+      "overeno": "2026-08-22T04:43:31.516Z"
     },
     "5.2": {
       "status": "partial",
-      "evidence": "Macinka navštívil USA 25.-28.5.2026 a Izrael 13.-14.7.2026 s ekonomickými a bezpečnostními jednáními; iniciativě se také věnují pracovní návštěvy a podnikatelská fóra. Přesun ambasády do Jeruzaléma je však pouze deklarován, nebyl realizován.",
-      "evidenceDate": "2026-05-28",
+      "evidence": "Ministr Macinka navštívil USA (únor, květen 2026), Izrael (duben, červenec 2026); jednání s izraelským ministrem zahraničí Gideonem Saarem; česko-izraelské podnikatelské fórum (květen, červenec 2026); přesun ambasády do Jeruzaléma není dosud realizován",
+      "evidenceDate": "2026-07-14",
       "unverifiable": false,
       "comment": {
-        "cs": "Ministr Macinka vede intenzivní pracovní návštěvy v USA i Izraeli zaměřené na ekonomickou a obrannou spolupráci. Formálně se vláda vyjadřuje k posílení vztahů. Přesun ambasády zůstává v diskusní fázi bez konkrétního implementačního kroku. Jde tedy o částečné splnění deklarativní roviny bez finálního kroku.",
-        "en": "Minister Macinka conducts intensive working visits to the USA and Israel focused on economic and defense cooperation. The government formally expresses commitment to strengthening relations. The embassy relocation remains in discussion phase without concrete implementation. This is partial fulfillment of the declarative level without final steps."
+        "cs": "Ministr Macinka vede intenzivní pracovní návštěvy v USA i Izraeli zaměřené na ekonomickou a obrannou spolupráci. Vláda formálně posiluje vztahy, zejména prostřednictvím podnikatelských fór a bilaterálních jednání. Přesun ambasády z Tel Avivu do Jeruzaléma zůstává v diskusi bez finálního rozhodnutí. Česko blokuje další sankce EU vůči Izraeli.",
+        "en": "Minister Macinka conducts intensive working visits to the USA and Israel focused on economic and defense cooperation. The government formally strengthens relations, particularly through business forums and bilateral meetings. The embassy relocation from Tel Aviv to Jerusalem remains under discussion without final decision. Czechia blocks further EU sanctions against Israel."
       },
       "change": {
-        "cs": "Stav zůstává částečně splněno: intenzivní diplomatická činnost bez realizace hlavního opatření (přesun ambasády).",
-        "en": "Status remains partial: intensive diplomatic activity without implementation of the main measure (embassy relocation)."
+        "cs": "Ministr Macinka navštívil Izrael (13.–14. července 2026) a setkal se s šéfem Mosadu; diskuse o přesunu ambasády pokračuje bez finálního rozhodnutí.",
+        "en": "Minister Macinka visited Israel (July 13–14, 2026) and met with Mossad chief; discussion on embassy relocation continues without final decision."
       },
       "sources": [
         {
@@ -874,103 +984,112 @@
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-08-21T10:52:15.423Z"
+      "updatedAt": "2026-08-22T04:44:07.143Z",
+      "overeno": "2026-08-22T04:43:31.516Z"
     },
     "5.3": {
       "status": "declared",
-      "evidence": "Babiš se setkal se Zelenským 3.5.2026 v Jerevanu a diskutoval o možných zprostředkovatelích (Turecko, střední Asie). Ministr Macinka se stal prvním zahraničním politikem, kterého přijal nový šéf Mosadu. Vláda se vyjádřila k podpoře diplomatického řešení, ale neinicovala vlastní zprostředkovatelskou misi.",
-      "evidenceDate": "2026-05-03",
+      "evidence": "Ministr Macinka vydal prohlášení k americkému 28bodovému mírovému plánu (březen 2026); vláda deklaruje podporu diplomatickému řešení; Česko se zapojuje do Karpatské iniciativy Ukrajiny; vlastní českou iniciativu v mírových jednáních vláda neprokazuje",
+      "evidenceDate": "2026-03-15",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda jen deklaruje podporu diplomatickému řešení a potvrzuje roli dalších aktérů (Merz, Trump, Turecko). Vlastní iniciativu Czech Republic v mírových jednáních neprokazuje; role je spíše v diskusi o tom, kdo by měl být zprostředkovatelem (ne sám se ho ujmout). Jde o deklarativní postoj bez vlastního aktivního kroku.",
-        "en": "The government only declares support for diplomatic settlement and acknowledges the role of other actors (Merz, Trump, Turkey). It does not demonstrate Czech Republic's own initiative in peace negotiations; the role is rather in discussing who should mediate (not to undertake it itself). This is a declarative stance without own active steps."
+        "cs": "Vláda jen deklaruje podporu diplomatickému řešení a potvrzuje roli dalších aktérů (USA, Francie, Německo, Velká Británie). Ministr Macinka vydal prohlášení k americkému mírovému plánu, ale vlastní iniciativu České republiky v mírových jednáních Česko neprokazuje. Česko se zapojuje do Karpatské iniciativy Ukrajiny, ale jako účastník, nikoliv iniciátor.",
+        "en": "The government merely declares support for diplomatic resolution and confirms the role of other actors (USA, France, Germany, UK). Minister Macinka issued a statement on the American peace plan, but Czechia does not demonstrate its own initiative in peace negotiations. Czechia participates in Ukraine's Carpathian Initiative but as a participant, not initiator."
       },
       "change": {
-        "cs": "Stav zůstává jen deklarováno: vláda vyjadřuje podporu, ale iniciativu nepřevzala.",
-        "en": "Status remains declared only: the government expresses support but has not taken own initiative."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://www.e15.cz/valka-na-ukrajine/mir-na-ukrajine-babis-po-schuzce-v-jerevanu-mluvi-o-roli-turecka-a-stredni-asie-1432542",
-          "title": "e15.cz - Mír na Ukrajině? Babiš po schůzce v Jerevanu mluví o roli Turecka a Střední Asie"
+          "url": "https://mzv.gov.cz/jnp/cz/udalosti_a_media/prohlaseni_a_stanoviska/prohlaseni_ministra_zahranicnich_veci_k.html",
+          "title": "Prohlášení ministra zahraničních věcí k americkému 28bodovému mírovému plánu | Ministerstvo zahraničních věcí České republiky"
         },
         {
-          "url": "https://www.blesk.cz/clanek/zpravy-politika/838613/babis-se-setkal-se-zelenskym-resili-mir-trumpa-a-energie-o-pomoci-mlceli.html",
-          "title": "Babiš se setkal se Zelenským, řešili mír, Trumpa a energie. O pomoci mlčeli | Blesk.cz"
+          "url": "https://www.newstream.cz/politika/ukrajina-chysta-karpatskou-iniciativu-zapojit-se-ma-cesko-i-slovensko",
+          "title": "Ukrajina chystá Karpatskou iniciativu. Zapojit se má Česko i Slovensko | Newstream"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-08-21T10:52:15.423Z"
+      "updatedAt": "2026-08-22T04:44:07.143Z",
+      "overeno": "2026-08-22T04:43:31.516Z"
     },
     "5.4": {
       "status": "broken",
-      "evidence": "Vláda se nepřipojila ke garancím spojeným s unijní půjčkou 90 miliard EUR pro Ukrajinu (20.12.2025); Babiš prohlásil, že Česko nebude za finanční pomoc ručit a EU si musí najít jiné způsoby (13.12.2025). Vláda také zrušila část usnesení o omezení letů prezidentovi a snížila jeho pravomoci v zahraniční politice.",
-      "evidenceDate": "2025-12-20",
+      "evidence": "Vláda se v květnu 2026 připojila k usnesení Poslanecké sněmovny vyzývajícímu prezidenta k dodržování Ústavy; ministr Macinka prosazuje omezení prezidentských pravomocí v zahraniční politice; vláda zrušila usnesení o ochraně letů prezidenta a předsedů parlamentních komor (březen 2026); Česko ustoupilo od garancí pro Ukrajinu v EU hlasování",
+      "evidenceDate": "2026-03-15",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda porušila slib na obranu jednomyslnosti a sdílené pozice. Namísto vedení jednotného postupu EU Česko ustoupilo (spolu s Maďarskem a Slovenskem) od garancí pro Ukrajinu. Zároveň vláda redukuje roli prezidenta v koordinaci zahraniční politiky, oslabuje meziinstitucionální podporu západní orientace. Jde o prokazatelný ústup od slibů.",
-        "en": "The government breached the commitment to defend unanimity and shared positions. Instead of leading unified EU action, Czechia retreated (together with Hungary and Slovakia) from guarantees for Ukraine. Simultaneously, the government reduces the president's role in foreign policy coordination, weakening inter-institutional support for Western orientation. This is demonstrable retreat from commitments."
+        "cs": "Vláda porušila slib na obranu jednomyslnosti a sdílené pozice. Namísto vedení jednotného postupu EU Česko ustoupilo (spolu s Maďarskem a Slovenskem) od garancí pro Ukrajinu. Ministr Macinka aktivně omezuje prezidentské pravomoci v zahraniční politice, což je v rozporu se slibem hájit jednomyslnost a suverenitu. Vláda také zrušila ochranu letů prezidenta.",
+        "en": "The government violated its pledge to defend unanimity and shared positions. Instead of leading a unified EU approach, Czechia retreated (along with Hungary and Slovakia) from guarantees for Ukraine. Minister Macinka actively limits presidential powers in foreign policy, contradicting the pledge to defend unanimity and sovereignty. The government also removed protection for presidential flights."
       },
       "change": {
-        "cs": "Stav se změní na porušeno: vláda aktivně ústoupila od slibů na jednotný postoj.",
-        "en": "Status changes to broken: the government actively retreated from commitments to unified stance."
+        "cs": "Vláda pokračuje v omezování prezidentských pravomocí v zahraniční politice a blokuje některé unijní iniciativy.",
+        "en": "The government continues to limit presidential powers in foreign policy and blocks some EU initiatives."
       },
       "sources": [
         {
-          "url": "https://www.denik.cz/z_domova/andrej-babis-zahranicni-politika-eu-ukrajina.html",
-          "title": "Babišův postoj v EU značí změnu v zahraniční politice. Fiala: ČR ztratí respekt - Deník.cz"
+          "url": "https://www.irozhlas.cz/zpravy-domov/prezident-neni-buh-na-macinkovu-stranu-ve-valce-s-pavlem-se-pridavaji-dalsi_2604130500_jgr",
+          "title": "Macinkova slibovaná extrémní kohabitace se promítá do praxe | iROZHLAS - spolehlivé zprávy"
         },
         {
-          "url": "https://ct24.ceskatelevize.cz/clanek/svet/babis-evropska-komise-musi-najit-jine-zpusoby-financovani-ukrajiny-368251",
-          "title": "Babiš: Evropská komise musí najít jiné způsoby financování Ukrajiny"
+          "url": "https://vlada.gov.cz/cz/media-centrum/tiskove-konference/tiskova-konference-po-jednani-vlady--19--ledna-2026-224945/",
+          "title": "Tisková konference po jednání vlády, 19. ledna 2026 | Vláda České republiky"
         }
       ],
       "previousStatus": "broken",
-      "updatedAt": "2026-08-21T10:52:15.423Z"
+      "updatedAt": "2026-08-22T04:44:07.143Z",
+      "overeno": "2026-08-22T04:43:31.516Z"
     },
     "5.5": {
       "status": "fulfilled",
-      "evidence": "Post ministra pro evropské záležitosti byl zrušen při konstituování vlády. Agenda se v současnosti řeší v rámci ministerstva zahraničních věcí pod vedením Petra Macinky a v rámci Úřadu vlády.",
+      "evidence": "Post ministra pro evropské záležitosti byl zrušen během formování kabinetu v prosinci 2025; agendu převzal ministr zahraničí Petr Macinka",
       "evidenceDate": "2025-12-15",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda skutečně zrušila samostatný post ministra pro evropské záležitosti. Opatření bylo uskutečněno během formování kabinetu a je plně účinné. Agendu převzal ministr zahraničí, což splňuje závazek.",
-        "en": "The government actually abolished the separate post of minister for European affairs. The measure was implemented during cabinet formation and is fully effective. The agenda was taken over by the foreign minister, fulfilling the commitment."
+        "cs": "Vláda skutečně zrušila samostatný post ministra pro evropské záležitosti. Opatření bylo uskutečněno během formování kabinetu a je plně účinné. Agendu převzal ministr zahraničí, což odpovídá slibu.",
+        "en": "The government actually abolished the separate position of minister for European affairs. The measure was implemented during cabinet formation and is fully effective. The agenda was taken over by the foreign minister, which corresponds to the pledge."
       },
       "change": {
-        "cs": "Stav zůstává splněno: post byl formálně zrušen.",
-        "en": "Status remains fulfilled: the post was formally abolished."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://vlada.gov.cz/cz/statni_sluzba/mezinarodni_spoluprace/epso/visegradska-ctyrka-v4-223900/",
-          "title": "Visegrádská čtyřka (V4) | Vláda České republiky"
+          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
+          "title": "Programové prohlášení vlády | Vláda České republiky"
         }
       ],
       "previousStatus": "fulfilled",
-      "updatedAt": "2026-08-21T10:52:15.428Z"
+      "updatedAt": "2026-08-22T04:44:07.143Z",
+      "overeno": "2026-08-22T04:43:31.516Z"
     },
     "5.6": {
       "status": "partial",
-      "evidence": "Ministr Macinka vedl poradu o ekonomické diplomacii 23.6.2026; uskutečnily se pracovní návštěvy (USA 25.-28.5.2026, Izrael 13.-14.7.2026); iniciovali se česko-izraelské podnikatelské fórum (50+ izraelských firem) a hospodářská jednání. Vláda také iniciovala rozmluvy o energetické diverzifikaci (Kazachstán, Ázerbájdžán).",
+      "evidence": "Vláda zahájila poradu o ekonomické diplomacii (23. června 2026); ministr Macinka vede návštěvy v USA a Izraeli zaměřené na ekonomickou spolupráci; česko-izraelské podnikatelské fórum (květen, červenec 2026); premiér Babiš jednal v Ázerbájdžánu o importu plynu a v Alžíru o nákupu plynu; diverzifikace exportu je deklarativní iniciativa",
       "evidenceDate": "2026-06-23",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda formálně iniciovala podporu ekonomické diplomacie a diverzifikace: porady, návštěvy ministra, podnikatelská fóra, jednání o energetice. Jedná se o deklarativní a iniciační kroky, ale bez měřitelných výsledků v podobě nových obchodních dohod nebo investičních toků. Agendu lze považovat za ranou implementační fázi.",
-        "en": "The government formally initiated support for economic diplomacy and diversification: meetings, ministerial visits, business forums, energy talks. These are declarative and initiatory steps but without measurable results in new trade agreements or investment flows. The agenda can be considered in early implementation phase."
+        "cs": "Vláda formálně iniciovala podporu ekonomické diplomacie a diverzifikace: porady, návštěvy ministra, podnikatelská fóra, jednání o energetice. Jedná se o deklarativní a iniciační kroky bez měřitelných výsledků. Ministr Macinka obnovil sekci ekonomické diplomacie na ministerstvu zahraničí. Konkrétní výsledky v diverzifikaci exportu nejsou dosud viditelné.",
+        "en": "The government formally initiated support for economic diplomacy and diversification: meetings, ministerial visits, business forums, energy negotiations. These are declarative and initiatory steps without measurable results. Minister Macinka restored the economic diplomacy section at the foreign ministry. Specific results in export diversification are not yet visible."
       },
       "change": {
-        "cs": "Stav zůstává částečně splněno: formální iniciace bez hmotných výsledků.",
-        "en": "Status remains partial: formal initiation without tangible results."
+        "cs": "Ministr Macinka bilancoval první půlrok ve funkci a ocenil obnovení sekce ekonomické diplomacie na ministerstvu.",
+        "en": "Minister Macinka reviewed his first six months in office and praised the restoration of the economic diplomacy section at the ministry."
       },
       "sources": [
         {
           "url": "https://mzv.gov.cz/jnp/cz/udalosti_a_media/tiskove_zpravy/premier_babis_a_ministr_macinka.html",
           "title": "Premiér Babiš a ministr Macinka odstartovali maraton jednání o ekonomické diplomacii | Ministerstvo zahraničních věcí České republiky"
+        },
+        {
+          "url": "https://www.ceskenoviny.cz/zpravy/delame-ekonomickou-pragmatickou-politiku-rekl-babis-diplomatum/2842212",
+          "title": "Děláme ekonomickou pragmatickou politiku, řekl Babiš diplomatům | ČeskéNoviny.cz"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-08-21T10:52:15.428Z"
+      "updatedAt": "2026-08-22T04:44:07.143Z",
+      "overeno": "2026-08-22T04:43:31.516Z"
     },
     "6.1": {
       "status": "in_progress",
@@ -3434,5 +3553,6 @@
       "updatedAt": "2026-08-21T11:08:08.177Z"
     }
   },
-  "lastUpdated": "2026-08-21T11:08:28.194Z"
+  "lastUpdated": "2026-08-22T04:44:27.161Z",
+  "posledniPlnyAudit": null
 }

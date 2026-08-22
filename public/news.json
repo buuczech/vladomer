@@ -1,41 +1,65 @@
 {
-  "generatedAt": "2026-08-21T11:08:28.194Z",
+  "generatedAt": "2026-08-22T04:44:27.161Z",
   "items": [
     {
       "title": {
-        "cs": "Babiš převzal vedení Národní koalice proti suchu",
-        "en": "Babiš takes leadership of National Coalition Against Drought"
+        "cs": "Senát zamítl stavební novelu, která měla zrychlit povolování staveb",
+        "en": "Senate rejected building law amendment designed to speed up permits"
       },
       "summary": {
-        "cs": "Premiér Andrej Babiš se chopil vedení obnovené Národní koalice proti suchu na tiskové konferenci.",
-        "en": "PM Andrej Babiš assumed leadership of the renewed National Coalition Against Drought at a press conference."
+        "cs": "Senát zamítl spornou novelu stavebního zákona vládní koalice, kterou kritici označili za paskvil nahrávající developerům.",
+        "en": "Senate rejected the controversial building law amendment from the government coalition, which critics called a sham favoring developers."
       },
-      "url": "https://denikn.cz/minuta/dulezite",
-      "date": "2026-08-19"
-    },
-    {
-      "title": {
-        "cs": "Senát schválil změny sněmovního jednacího řádu",
-        "en": "Senate approves changes to parliamentary rules"
-      },
-      "summary": {
-        "cs": "Horní komora umožnila přijetí úprav pravidel sněmovního jednání za účelem omezení obstrukcí, které nyní čeká podpis prezidenta.",
-        "en": "Upper house approved changes to parliamentary rules aimed at limiting obstruction tactics, awaiting presidential signature."
-      },
-      "url": "https://www.irozhlas.cz/zpravy-domov/omezeni-dlouhych-obstrukci-ve-snemovne-senatori-poslali-novy-jednaci-rad-k_2608191939_kvr",
-      "date": "2026-08-19"
-    },
-    {
-      "title": {
-        "cs": "Ministr práce plánuje zvýšit platy státních zaměstnanců",
-        "en": "Labor minister plans salary increases for public sector workers"
-      },
-      "summary": {
-        "cs": "Ministr Aleš Juchelka slíbil příslušné zvýšení platů a uvedl, že rozhodnutí padne v září po jednání o státní kase.",
-        "en": "Labor Minister Aleš Juchelka promised salary hikes and said the decision would be made in September after budget talks."
-      },
-      "url": "https://www.e15.cz/domaci/politika/odbory-zadaji-rust-platu-o-osm-procent-juchelka-slibuje-zvyseni-zadna-cisla-ale-neprozradil-1435040",
+      "url": "https://www.irozhlas.cz/zpravy-domov/senat-zamitl-spornou-novelu-stavebniho-zakona-podle-mnohych-jde-o-paskvil_2608201555_elev",
       "date": "2026-08-20"
+    },
+    {
+      "title": {
+        "cs": "Senát vrátil sněmovně čtyři klíčové zákony včetně stavební novely a EET",
+        "en": "Senate returned four key bills to Parliament including building law and EET"
+      },
+      "summary": {
+        "cs": "Horní komora vrátila poslancům čtyři zásadní předlohy z dílny koalice - stavební zákon, obnovení EET, zákon o státních zaměstnancích a změnu kompetencí prezidenta.",
+        "en": "Upper chamber returned four major coalition bills to MPs - building law, EET revival, civil service law, and presidential powers amendment."
+      },
+      "url": "https://m.echo24.cz/a/HGBVt/zpravy-domaci-senatni-masakr-horni-komora-vratila-ctyri-zasadni-vladni-predlohy-nastroj-opozice",
+      "date": "2026-08-21"
+    },
+    {
+      "title": {
+        "cs": "Vláda obnovila práci Národní koalice proti suchu kvůli dlouhotrvajícím vysokým teplotám",
+        "en": "Government revived National Coalition Against Drought due to prolonged high temperatures"
+      },
+      "summary": {
+        "cs": "Premiér Babiš oznámil obnovení činnosti Národní koalice proti suchu v reakci na dlouhotrvající velmi vysoké teploty a vysychání vodních zdrojů.",
+        "en": "PM Babiš announced revival of National Coalition Against Drought operations in response to prolonged extreme heat and water source depletion."
+      },
+      "url": "https://www.ceskenoviny.cz/zpravy/zive-tiskova-konference-po-jednani-vlady/2862220",
+      "date": "2026-08-17"
+    },
+    {
+      "title": {
+        "cs": "Senát odmítl odebrání pravomocí prezidentovi při řízení stálých misí",
+        "en": "Senate rejected removal of presidential powers over diplomatic missions"
+      },
+      "summary": {
+        "cs": "Senát zamítl návrh zrušit pravomoc prezidenta pověřovat a odvolávat vedoucí stálých misí u mezinárodních organizací, kterou prosazuje vládní koalice.",
+        "en": "Senate rejected the coalition's proposal to strip the president of power to appoint and dismiss heads of permanent missions to international organizations."
+      },
+      "url": "https://www.forum24.cz/senat-odmitl-odebrani-pravomoci-prezidentovi-upravu-oznacil-za-protiustavni",
+      "date": "2026-08-21"
+    },
+    {
+      "title": {
+        "cs": "Senátoři kritizují vrácené zákony jako špatně připravené a obsahující vady",
+        "en": "Senators criticize returned bills as poorly prepared with fundamental flaws"
+      },
+      "summary": {
+        "cs": "Předseda Senátu Vystrčil uvedl, že nedostatky vrácených návrhů byly tak zjevné, že by je zamítl i Marťan, a zákony by fungování země škodily.",
+        "en": "Senate president Vystrčil stated that flaws in returned bills were so obvious that even a Martian would reject them and the laws would harm the country's functioning."
+      },
+      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/zamitl-by-je-i-martan-komentuje-vystrcil-zakony-vracene-snemovne-376847",
+      "date": "2026-08-21"
     }
   ]
 }
