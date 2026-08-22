@@ -133,6 +133,16 @@ export function zkontrolujOpravu(puvodni, opraveny, { jazyk = "cs", minDelka = 0
 const SEZNAM_STAVU_CS = ["fulfilled", "partial", "in_progress", "declared", "not_started", "broken"]
   .map((k) => `- ${STAV_POPIS[k].cs}`).join("\n");
 
+/* Smluvená odpověď „nemám co opravit“. Musí být zároveň v promptu (hlídá
+   zkontrolujPrompt) i v rozkladu odpovědi, jinak se obojí rozejde. Malými
+   písmeny — porovnává se zlomený na malá. */
+const NIC_RADEK = "[nic]";
+
+/* Kolik oprav musí odpověď nabídnout, než má smysl posuzovat ji jako celek.
+   Pod tím je poměr zamítnutých šum: u dvou řádků nic neříká, že je odpověď
+   vadná, a zbytečně by se zahodila platná oprava. */
+const NEJMENE_POSOUZENYCH = 3;
+
 /* Obdoba assertFields() pro korekturu. Ta kontroluje názvy polí v ukázce
    JSON — jenže korektura schválně JSON nepoužívá: opravované texty jsou plné
    uvozovek („…" i rovných) a model je uvnitř JSON řetězce nedokáže spolehlivě
@@ -146,6 +156,10 @@ export function zkontrolujPrompt(prompt) {
   if (!prompt.includes("[1.1|comment_cs]")) {
     throw new Error("prompt-korektura.md: v ukázce odpovědi chybí řádek "
       + "začínající [1.1|comment_cs] — bez něj model neví, jaký tvar odpovědi se čeká.");
+  }
+  if (!prompt.includes(NIC_RADEK)) {
+    throw new Error(`prompt-korektura.md: chybí smluvený řádek ${NIC_RADEK} pro odpověď `
+      + "„nemám co opravit“ — bez něj model odpoví prózou a celá dávka se zahodí.");
   }
 }
 
@@ -194,12 +208,17 @@ export async function opravDavku(davka, { model, key, maxTokens, stropProcent = 
   const clean = text.replace(/```[a-z]*\n?|```/g, "").trim();
 
   /* Prázdná odpověď je legitimní: model nenašel co opravit. Musí projít i
-     přes podstrčený fetch v dump-prompts.js, který vrací "[]". */
+     přes podstrčený fetch v dump-prompts.js, který vrací "[]".
+     Jenže vrátit doopravdy nic model nesvede — 22. 8. 2026 na to doplatily
+     dvě dávky z pěti: místo prázdné odpovědi napsal větu („Všechny úryvky
+     jsou gramaticky i pravopisně správné…“), rozklad ji neuměl přečíst
+     a withBackoff to dvakrát zaplatil znovu. Proto smluvený řádek [nic]:
+     model má co napsat a program to pozná. */
   const parsed = [];
   const spatneRadky = [];
   for (const radek of clean.split("\n")) {
     const r = radek.trim();
-    if (!r || r === "[]") continue;
+    if (!r || r === "[]" || r.toLowerCase() === NIC_RADEK) continue;
     const m = r.match(/^\[([^\]]+)\]\s*(.+)$/);
     if (!m) { spatneRadky.push(r.slice(0, 60)); continue; }
     parsed.push({ id: m[1].trim(), text: m[2].trim() });
@@ -213,20 +232,49 @@ export async function opravDavku(davka, { model, key, maxTokens, stropProcent = 
       + `první řádek: ${JSON.stringify(spatneRadky[0])})`);
   }
 
+  /* Páruje se podle identifikátoru, NIKDY podle pořadí. Model má vracet jen
+     opravené úryvky, takže vynechaný řádek je normální stav; u pořadového
+     párování by se od prvního vynechání porovnával každý opravený úryvek
+     s cizím originálem a kontrola faktů by zamítla úplně všechno. */
   const podleKlice = new Map(davka.map((z) => [z.klic, z]));
   const opravy = [];
   const duvody = [];
+  const jizVracene = new Set();
+  /* Kolik řádků se opravdu tvářilo jako oprava a kolik z nich neprošlo
+     kontrolou faktů — podklad pro posouzení odpovědi jako celku níž. */
+  let posouzeno = 0;
+  let zamitnutoFakty = 0;
   for (const r of parsed) {
     const z = podleKlice.get(r.id);
     if (!z) { duvody.push(`${r.id}: neznámý identifikátor`); continue; } // vymyšlené id
+    // Týž identifikátor podruhé: druhý řádek by tiše přepsal první.
+    if (jizVracene.has(r.id)) { duvody.push(`${r.id}: identifikátor vrácen podruhé`); continue; }
+    jizVracene.add(r.id);
     const duvod = zkontrolujOpravu(z.text, r.text, {
       jazyk: jazykPole(z.pole),
       minDelka: z.pole === "evidence" ? minDelkaDokladu : 0,
     });
-    if (duvod) { if (duvod !== "beze změny") duvody.push(`${r.id}: ${duvod}`); continue; }
+    if (duvod === "beze změny") continue; // vrácený originál není pokus o opravu
+    posouzeno++;
+    if (duvod) { zamitnutoFakty++; duvody.push(`${r.id}: ${duvod}`); continue; }
     opravy.push({ id: z.id, pole: z.pole, text: ocisti(r.text.trim(), jazykPole(z.pole)) });
   }
   if (spatneRadky.length) duvody.push(`${spatneRadky.length} řádků v nečitelném tvaru`);
+
+  /* Odpověď, které kontrola faktů zamítne většinu řádků, není korektura —
+     je to jiný druh odpovědi, jen ve správném tvaru. Běh 22. 8. 2026 to
+     ukázal: model odpověděl na každý řádek verdiktem o úryvku místo
+     opraveného textu. Devatenáct verdiktů se zachytilo o čísla, jenže
+     dvacátý padl na krátké pole bez číslic („Beze změny." → „– Vypadá
+     správně.") a komentář korektora se zapsal do dat jako popis změny.
+     Po jednotlivých úryvcích se to uhlídat nedá — jediné místo, kde je to
+     vidět, je celá dávka. Kontrola se tím jen přitvrzuje: zahodí se i ten
+     jeden řádek, který by sám o sobě prošel. */
+  if (posouzeno >= NEJMENE_POSOUZENYCH && zamitnutoFakty > posouzeno / 2) {
+    const ukazka = duvody.slice(0, 3).join("; ") + (duvody.length > 3 ? "; …" : "");
+    throw new Error(`kontrola faktů zamítla ${zamitnutoFakty} z ${posouzeno} vrácených oprav `
+      + `— odpověď není korektura, dávka zahozena (${ukazka})`);
+  }
 
   /* Pojistka proti pokaženému promptu nebo modelu, který se rozhodne přepsat
      všechno. Raději nepublikovat žádnou opravu než nepozorovaně přepsat

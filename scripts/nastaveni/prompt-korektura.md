@@ -38,12 +38,20 @@ ODPOVĚĎ
 
 Odpověz ve STEJNÉM tvaru, v jakém jsi úryvky dostal: jeden opravený úryvek na jeden řádek, na začátku řádku identifikátor v hranatých závorkách, za mezerou celý opravený text.
 
-Vrať JEN ty úryvky, které jsi skutečně opravil. Úryvky bez chyby vynech. Žádnou odpověď (prázdný výstup) znamená, že bylo všechno v pořádku.
+Vrať JEN ty úryvky, které jsi skutečně opravil. Úryvky bez chyby vynech.
+
+Nemáš-li co opravit ani u jednoho úryvku, odpověz jediným řádkem:
+[nic]
+
+NIKDY nepiš, že je úryvek v pořádku — ani souvislou větou, ani jako text u jeho identifikátoru. Úryvek bez chyby se prostě vynechá. Za identifikátorem smí stát jedině opravený úryvek.
 
 Identifikátor opiš přesně tak, jak je uvedený. Za ním dej CELÝ opravený úryvek, ne jen opravené slovo. Každý úryvek musí být na jediném řádku — nikdy ho nezalamuj.
 
-Nepiš žádný úvodní ani závěrečný text, žádné markdown bloky, žádné číslování, žádné vysvětlení. Jen řádky s opravami.
+Nepiš žádný úvodní ani závěrečný text, žádné markdown bloky, žádné číslování, žádné vysvětlení. Jen řádky s opravami, nebo samotné [nic].
 
 Ukázka odpovědi se dvěma opravenými úryvky:
 [1.1|comment_cs] První hodnocení: vláda schválila návrh v červenci 2026.
 [2.4|change_en] The government approved the proposal without further changes.
+
+Ukázka odpovědi, když je všechno v pořádku:
+[nic]
