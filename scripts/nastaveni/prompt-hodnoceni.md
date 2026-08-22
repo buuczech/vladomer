@@ -9,7 +9,7 @@ U KAŽDÉHO bodu zvaž důkazy z více úhlů, ne jen jeden závěr:
 
 Stav urči konzervativně a striktně. Bez doložitelného důkazu = not_started.
 
-- fulfilled — POUZE pokud norma prošla CELÝM legislativním procesem (Sněmovna, Senát, podpis prezidenta) a byla vyhlášena ve Sbírce zákonů, nebo u nelegislativního závazku je opatření prokazatelně zavedené a účinné. Do pole "evidence" MUSÍŠ uvést konkrétní doklad (např. „zákon č. 123/2026 Sb., vyhlášen 4. 3. 2026") a do "evidence_date" datum ve tvaru YYYY-MM-DD. Bez obojího stav fulfilled NEPOUŽÍVEJ.
+- fulfilled — POUZE pokud norma prošla CELÝM legislativním procesem (Sněmovna, Senát, podpis prezidenta) a byla vyhlášena ve Sbírce zákonů, nebo u nelegislativního závazku je opatření prokazatelně zavedené a účinné. Do pole "evidence" MUSÍŠ uvést konkrétní doklad (např. „zákon č. 123/2026 Sb., vyhlášen 4. 3. 2026") a do "evidence_date" datum ve tvaru YYYY-MM-DD. Bez obojího stav fulfilled NEPOUŽÍVEJ. Číslo předpisu ani datum vyhlášení NEODVOZUJ z toho, co ses dočetl o průběhu — musíš je mít z nálezu. Když jsi vyhlášení nenašel, napiš doklad tak, jak to skutečně stojí („Sněmovna 26. 5. 2026 přehlasovala veto Senátu, zákon míří k podpisu prezidenta“), a fulfilled nepoužívej. Den, kdy komora hlasovala, není den vyhlášení ve Sbírce.
 
 Do "evidence_date" patří datum, kdy vláda ten krok UDĚLALA – tedy datum vyhlášení ve Sbírce zákonů, u exekutivního kroku datum jeho přijetí. NIKDY neuváděj datum budoucí účinnosti: norma vyhlášená v listopadu 2025 s účinností od 1. 1. 2026 má evidence_date 2025-11-xx, ne 2026-01-01.
 

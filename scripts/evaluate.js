@@ -100,7 +100,10 @@ const OVEROVAT_PRECHODY = NAST.overovat_prechody === 1;
 const OVEROVAT_PROSTREDNI = OVEROVAT_PRECHODY && NAST.overovat_prostredni === 1;
 const OVEROVACI_MODEL = process.env.OVEROVACI_MODEL || NAST.overovaci_model;
 // Odpověď ověření je jeden malý JSON objekt; víc místa by jen zvalo k eseji.
-const MAX_TOKENS_OVERENI = 400;
+/* Se zapnutým vyhledáváním musí do stropu vejít i dotazy a čtení výsledků,
+   ne jen ta jedna věta odůvodnění — se 400 by běh skončil uprostřed hledání. */
+const MAX_TOKENS_OVERENI = 2500;
+const VYHLEDAVANI_OVERENI = NAST.vyhledavani_overeni;
 
 // All real item IDs — guards against the model inventing an ID (e.g. "11.11"),
 // which the merge-based storage would otherwise carry forward forever.
@@ -273,15 +276,32 @@ async function overPrechod(bod, minuly, navrh, prostredni = false) {
     body: JSON.stringify({
       model: OVEROVACI_MODEL, max_tokens: MAX_TOKENS_OVERENI, temperature: 0,
       messages: [{ role: "user", content: prompt }],
+      /* Bez vyhledávání ověřovatel kontroluje jen logiku tvrzení, ne jeho
+         pravdivost — a vymyšlené číslo zákona je logicky bezvadný doklad. */
+      ...(VYHLEDAVANI_OVERENI > 0 ? {
+        tools: [{
+          type: "web_search_20250305", name: "web_search",
+          max_uses: VYHLEDAVANI_OVERENI, allowed_domains: WEBY_HODNOCENI,
+        }],
+      } : {}),
     }),
   });
   if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
   const data = await res.json();
-  const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).join("");
-  const a = text.indexOf("{"), b = text.lastIndexOf("}");
-  if (a === -1 || b === -1) throw new Error("ověření přechodu: odpověď bez JSON [opakovat]");
-  const j = JSON.parse(text.slice(a, b + 1));
-  return { potvrzeno: j.potvrzeno === true, duvod: String(j.duvod || "").slice(0, 300) };
+  /* Se zapnutým vyhledáváním přijde textových bloků víc a JSON je až v tom
+     posledním; hledá se odzadu, aby složená závorka v úvaze o hledání
+     nepřebila vlastní odpověď. */
+  const bloky = (data.content || []).filter((b) => b.type === "text").map((b) => b.text);
+  for (let i = bloky.length - 1; i >= 0; i--) {
+    const t = bloky[i];
+    const a = t.indexOf("{"), b = t.lastIndexOf("}");
+    if (a === -1 || b === -1) continue;
+    let j;
+    try { j = JSON.parse(t.slice(a, b + 1)); } catch { continue; }
+    if (typeof j.potvrzeno !== "boolean") continue;
+    return { potvrzeno: j.potvrzeno === true, duvod: String(j.duvod || "").slice(0, 300) };
+  }
+  throw new Error("ověření přechodu: odpověď bez JSON [opakovat]");
 }
 
 /* Headline news for the past week. Source diversity is enforced in code (one

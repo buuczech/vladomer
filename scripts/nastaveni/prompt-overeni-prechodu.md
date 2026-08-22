@@ -10,6 +10,14 @@ Datum dokladu: {{DATUM_DOKLADU}}
 Co se podle hodnotitele stalo: {{ZMENA}}
 Navržený komentář hodnocení: {{KOMENTAR}}
 
+NEJPRVE si doklad ověř vyhledáváním. Netýká se to jeho vyznění, ale jeho pravdivosti:
+
+- Uvádí-li doklad číslo předpisu („zákon č. 270/2026 Sb.“), najdi ten předpis. Když ho nenajdeš, nebo najdeš jiný obsah či jiné datum, je to důvod k zamítnutí — ne k domýšlení.
+- Uvádí-li doklad datum vyhlášení, podpisu nebo účinnosti, ověř právě to datum. Pozor na záměnu: den, kdy komora hlasovala, není den vyhlášení ve Sbírce.
+- Nenajdeš-li k tvrzení nic, odpověz NE. Nepotvrzené tvrzení a pravdivé tvrzení vypadají v předloženém textu stejně; rozliší je jedině nález.
+
+Tohle je jediná obrana proti vymyšlenému dokladu: hodnotitel a ty jste stejný druh modelu a text, který zní jako doklad, umí napsat oba. Ty máš navíc možnost se podívat.
+
 Pravidla rozhodování:
 - Výchozí odpověď je NE. Přechod potvrď JEN tehdy, když doklad popisuje konkrétní, datovanou událost, která nový stav skutečně zakládá — ne pouhé přehodnocení téhož stavu věcí jinými slovy.
 - „splněno“ vyžaduje dokončený krok: norma vyhlášená ve Sbírce zákonů, nebo prokazatelně zavedené opatření. Návrh zákona, schválení vládou ani průchod jednou komorou splnění nezakládá.

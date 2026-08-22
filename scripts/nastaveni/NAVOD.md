@@ -89,9 +89,15 @@ vrací pokaždé jiné výsledky.
 Jednou za `plny_audit_dni` dnů proběhne **plný audit** všech bodů — pojistka,
 aby zmeškaná událost nezůstala zmeškaná navždy.
 
+Ověřovatel si doklad **dohledává** (`vyhledavani_overeni`). Bez toho kontroluje
+jen to, jestli tvrzení dává smysl — a vymyšlené číslo zákona dává smysl
+dokonale. 21. 8. 2026 kvůli tomu prošlo „splněno" s dokladem „Zákon
+č. 270/2026 Sb., vyhlášen 26. 5. 2026", který vznikl z toho, že Sněmovna toho
+dne přehlasovala veto Senátu.
+
 K tomu patří nová nastavení v `nastaveni.txt`: `plny_audit_dni`,
-`overovat_prechody`, `overovat_prostredni`, `overovaci_model`
-a `vyhledavani_delta`. Každé má komentář přímo u sebe.
+`overovat_prechody`, `overovat_prostredni`, `overovaci_model`,
+`vyhledavani_overeni` a `vyhledavani_delta`. Každé má komentář přímo u sebe.
 
 Na co si dát pozor:
 

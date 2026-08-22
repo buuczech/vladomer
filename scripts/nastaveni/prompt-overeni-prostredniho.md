@@ -10,6 +10,8 @@ Datum dokladu: {{DATUM_DOKLADU}}
 Co se podle hodnotitele stalo: {{ZMENA}}
 Navržený komentář hodnocení: {{KOMENTAR}}
 
+NEJPRVE si doklad ověř vyhledáváním: stal se ten krok opravdu, a v uvedený den? Uvádí-li doklad číslo sněmovního tisku, jednací den nebo číslo předpisu, dohledej je. Když k tvrzení nenajdeš nic, odpověz NE — nepotvrzený a pravdivý doklad vypadají v textu stejně.
+
 Tenhle přechod se NETÝKÁ stavů „splněno“ ani „porušeno“ — na ty je přísnější kontrola jinde. Tady se pohybuje mezi „jen deklarováno“, „nezahájeno“, „probíhá“ a „částečně splněno“, a laťka je proto jiná:
 
 - Potvrď, když doklad popisuje konkrétní datovaný krok: předložení návrhu, projednání ve vládě, první čtení, schválení jednou komorou, zveřejnění paragrafového znění, vypsání dotačního titulu, zahájení stavby, oznámení odkladu, stažení návrhu. Dokončený legislativní proces se tu NEVYŽADUJE — o tom je až „splněno“.

@@ -112,7 +112,7 @@ const VYHLASENO = /(\bSb\.|Sbírc\p{L}*|Sbírk\p{L}*|vyhlášen\p{L}*\s+(?:ve|v)
 
 /* Prameny, u kterých se dá vyhlášení opravdu ověřit. gov.cz pokrývá i
    e-sbirka.gov.cz a ministerstva; psp.cz a senat.cz nesou průběh procesu. */
-export const UREDNI_ZDROJE = ["gov.cz", "psp.cz", "senat.cz", "e-sbirka.cz", "zakonyprolidi.cz"];
+export const UREDNI_ZDROJE = ["gov.cz", "psp.cz", "senat.cz", "e-sbirka.cz"];
 
 export function maUredniZdroj(zdroje) {
   for (const z of zdroje || []) {

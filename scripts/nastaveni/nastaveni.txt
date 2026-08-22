@@ -124,6 +124,13 @@ overovat_prechody = 1
 # model neuhlida usudek silnejsiho.
 overovaci_model = claude-sonnet-4-6
 
+# Kolik vyhledavani smi overovatel pouzit na JEDEN prechod. Bez vyhledavani
+# kontroluje jen logiku tvrzeni, ne jeho pravdivost - a 21. 8. 2026 kvuli tomu
+# potvrdil doklad "Zakon c. 270/2026 Sb., vyhlasen 26. 5. 2026", ktery vznikl
+# z toho, ze Snemovna toho dne prehlasovala veto Senatu. Cislo zakona si nemel
+# kde overit. 0 = overovani bez vyhledavani (levnejsi, ale fabulaci nechyti).
+vyhledavani_overeni = 3
+
 # Overovat i prechody mezi "jen deklarovano", "nezahajeno", "probiha"
 # a "castecne splneno". Plati se za ne kazdy tyden navic, ale bez toho staci
 # k posunu bodu to, ze sken neco nasel - a sken se sam se sebou shodne jen

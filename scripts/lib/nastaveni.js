@@ -83,6 +83,7 @@ const SCHEMA = {
   overovat_prechody: { type: "int", min: 0, max: 1 },
   overovat_prostredni: { type: "int", min: 0, max: 1 },
   overovaci_model: { type: "text" },
+  vyhledavani_overeni: { type: "int", min: 0, max: 10 },
   vyhledavani_delta: { type: "int", min: 1, max: 10 },
 };
 
