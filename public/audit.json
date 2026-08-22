@@ -13891,6 +13891,41 @@
         "https://www.ceskenoviny.cz/zpravy/delame-ekonomickou-pragmatickou-politiku-rekl-babis-diplomatum/2842212"
       ],
       "model": "claude-haiku-4-5-20251001"
+    },
+    {
+      "id": "1.5",
+      "date": "2026-08-22",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Vláda odmítla migrační pakt EU usnesením (16. 12. 2025) a hlásá politiku nulové tolerance. Avšak migrační pakt vstoupil v platnost 12. června 2026 a ČR je právně vázána bez výhrad. Vláda pouze deklaruje postoj, bez reálného legislativního dopadu na nelegální migraci.",
+      "comment_en": "The government rejected the EU migration pact by resolution (16 Dec 2025) and declares a zero-tolerance policy. However, the migration pact entered into force on 12 June 2026 and the CR is legally bound without reservations. The government merely declares a position without real legislative impact on illegal migration.",
+      "change_cs": "",
+      "change_en": "",
+      "sources": [
+        "https://ct24.ceskatelevize.cz/clanek/domaci/babisova-vlada-ma-na-programu-prvni-radne-zasedani-368331",
+        "https://hlidacipes.org/babisova-vlada-odmitla-zavest-nove-emisni-povolenky-co-za-to-cesku-hrozi/",
+        "https://www.ceskenoviny.cz/zpravy/vlada-odmitla-povolenky-ets-2-i-migracni-pakt-zlevnit-ma-elektrina/2761143"
+      ],
+      "model": "claude-haiku-4-5-20251001",
+      "original": {
+        "change_cs": "Beze změny."
+      },
+      "proofread_model": "claude-sonnet-4-6",
+      "oprava": {
+        "pole": [
+          "change_cs",
+          "change_en"
+        ],
+        "puvodni_zaznam": "2026-08-22",
+        "puvodni_text": {
+          "change_cs": "– Vypadá správně.",
+          "change_en": "No change."
+        },
+        "duvod": "Ani jedna věta nepopisovala, co se v období stalo. „– Vypadá správně.“ vrátil korektor jako verdikt o úryvku místo opraveného textu a kontrola faktů ho nezachytila, protože pole nemá číslice; „No change.“ napsal hodnotící model. Popis změny se proto maže, nepřepisuje. Stav bodu ani doklady se nemění.",
+        "bez_noveho_hodnoceni": true
+      }
     }
   ]
 }
