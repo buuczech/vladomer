@@ -78,12 +78,20 @@ Změna stavu **z nebo do „splněno" či „porušeno"** musí navíc projít o
 doklad ten přechod opravdu nese, s výchozí odpovědí NE. Zamítnutý přechod
 znamená, že bod podrží minulé hodnocení celé.
 
+Posun mezi ostatními stavy („jen deklarováno“, „nezahájeno“, „probíhá“,
+„částečně splněno“) se ověřuje taky, pokud je zapnuté
+`overovat_prostredni` — ale mírnější šablonou (`prompt-overeni-prostredniho.md`).
+Tam stačí datovaný krok, třeba předložení návrhu nebo první čtení; dokončený
+zákon se vyžaduje jen u „splněno“. Bez toho stačilo k posunu bodu to, že sken
+něco našel — a sken se sám se sebou shodne jen z 55 %, protože vyhledávání
+vrací pokaždé jiné výsledky.
+
 Jednou za `plny_audit_dni` dnů proběhne **plný audit** všech bodů — pojistka,
 aby zmeškaná událost nezůstala zmeškaná navždy.
 
-K tomu patří čtyři nová nastavení v `nastaveni.txt`: `plny_audit_dni`,
-`overovat_prechody`, `overovaci_model` a `vyhledavani_delta`. Každé má
-komentář přímo u sebe.
+K tomu patří nová nastavení v `nastaveni.txt`: `plny_audit_dni`,
+`overovat_prechody`, `overovat_prostredni`, `overovaci_model`
+a `vyhledavani_delta`. Každé má komentář přímo u sebe.
 
 Na co si dát pozor:
 
@@ -92,5 +100,8 @@ Na co si dát pozor:
   web začne zaspávat události — a pozná se to až při plném auditu.
 - V `prompt-overeni-prechodu.md` je výchozí odpověď NE schválně. Když ji
   otočíš, ověření přestane plnit svou roli a zůstane z něj drahé razítko.
-- Oba nové prompty se zobrazují na webu v sekci „Použité prompty" — po změně
+- `overovat_prostredni` se platí každý týden a zabere nejčastěji právě tam,
+  kde je posun sporný. Když ho vypneš, web bude reagovat rychleji, ale začne
+  se víc házet sem a tam.
+- Všechny prompty se zobrazují na webu v sekci „Použité prompty" — po změně
   se na ně tam podívej, jestli dávají smysl i pro čtenáře.

@@ -97,6 +97,7 @@ const MAX_SOURCES = NAST.maximalne_zdroju;
 const EVIDENCE_MIN = NAST.minimalni_delka_dokladu;
 const LATKA_PORUSENO = NAST.latka_poruseno === 1;
 const OVEROVAT_PRECHODY = NAST.overovat_prechody === 1;
+const OVEROVAT_PROSTREDNI = OVEROVAT_PRECHODY && NAST.overovat_prostredni === 1;
 const OVEROVACI_MODEL = process.env.OVEROVACI_MODEL || NAST.overovaci_model;
 // Odpověď ověření je jeden malý JSON objekt; víc místa by jen zvalo k eseji.
 const MAX_TOKENS_OVERENI = 400;
@@ -253,8 +254,9 @@ async function deltaScan(ch, prevEvals, odData, items) {
    otázka nezní „jaký je stav?", ale „nese TENHLE doklad TENHLE přechod?".
    Výchozí odpověď promptu je NE; selhání volání se řeší konzervativně
    u volajícího (přechod se nepřijme). */
-async function overPrechod(bod, minuly, navrh) {
+async function overPrechod(bod, minuly, navrh, prostredni = false) {
   const prompt = promptOvereniPrechodu({
+    prostredni,
     bod: bod.cs,
     minulyStav: minuly.status,
     minulyOd: (minuly.updatedAt || "").slice(0, 10),
@@ -522,6 +524,7 @@ async function main() {
             minuly, navrh,
             udalost: udalosti ? udalosti[id] || null : null,
             plnyAudit: REZIM_BEHU === "plny",
+            overovatProstredni: OVEROVAT_PROSTREDNI,
           });
           if (verdikt.akce === "drzet") {
             // Minulý záznam se drží CELÝ — nový komentář by argumentoval
@@ -532,8 +535,10 @@ async function main() {
             continue;
           }
           if (verdikt.akce === "overit" && OVEROVAT_PRECHODY) {
+            // Prostřední přechod má vlastní, mírnější laťku než západka.
+            const prostredni = verdikt.duvod === "prostredni-prechod";
             try {
-              const v = await withBackoff(() => overPrechod(BODY_DLE_ID[id], minuly, navrh), 2);
+              const v = await withBackoff(() => overPrechod(BODY_DLE_ID[id], minuly, navrh, prostredni), 2);
               if (!v.potvrzeno) {
                 brana.zamitnuto.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]}: ${v.duvod})`);
                 pridat[id] = { ...minuly, overeno: ted };

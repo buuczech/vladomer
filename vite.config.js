@@ -123,6 +123,22 @@ function pouzitePrompty() {
           ukazkaPopis: "skutečný přechod z běhu 21. 8. 2026",
         },
         {
+          id: "overeni-prostredniho",
+          soubor: `${SOUBOR}/prompt-overeni-prostredniho.md`,
+          model: nast.overovaci_model,
+          sablona: cti("prompt-overeni-prostredniho.md"),
+          ukazka: promptOvereniPrechodu({
+            prostredni: true,
+            bod: "Zavést jednotné inkasní místo pro odvody",
+            minulyStav: "declared", minulyOd: "2026-08-14", novyStav: "in_progress",
+            doklad: "Ministerstvo financí 18. srpna 2026 rozeslalo paragrafové znění do mezirezortního připomínkového řízení",
+            datumDokladu: "2026-08-18",
+            zmena: "Návrh šel do připomínkového řízení",
+            komentar: "Příprava zákona pokročila z programového prohlášení do legislativního procesu.",
+          }),
+          ukazkaPopis: "prostřední přechod — mírnější laťka než u „splněno“",
+        },
+        {
           id: "korektura",
           soubor: `${SOUBOR}/prompt-korektura.md`,
           model: nast.korektura_model,

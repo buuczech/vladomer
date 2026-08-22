@@ -36,7 +36,7 @@ export const ZAPADKA = new Set(["fulfilled", "broken"]);
  * @param plnyAudit  běh bez delta scanu — událost se dokládá jinak
  * @returns { akce: "prijmout" | "overit" | "drzet", duvod }
  */
-export function posudPrechod({ minuly, navrh, udalost = null, plnyAudit = false }) {
+export function posudPrechod({ minuly, navrh, udalost = null, plnyAudit = false, overovatProstredni = false }) {
   if (!minuly) return { akce: "prijmout", duvod: "novy-bod" };
 
   const meniStav = minuly.status !== navrh.status
@@ -60,8 +60,12 @@ export function posudPrechod({ minuly, navrh, udalost = null, plnyAudit = false 
   const maUdalost = plnyAudit
     ? (datovanyDoklad || popsanaUdalost)   // plný audit: doklad, nebo popsaná událost
     : Boolean(udalost);                    // delta běh: bod má nalezenou událost
-  if (maUdalost) return { akce: "prijmout", duvod: "dolozena-udalost" };
-  return { akce: "drzet", duvod: "prechod-bez-udalosti" };
+  if (!maUdalost) return { akce: "drzet", duvod: "prechod-bez-udalosti" };
+  /* Měření z 22. 8.: sken se sám se sebou shodne jen z 55 % v tom, kterých
+     bodů se dotkne — web search vrací pokaždé jiný výsek. Událost tedy sama
+     o sobě neznamená, že se opravdu něco stalo; druhý model to přečte. */
+  if (overovatProstredni) return { akce: "overit", duvod: "prostredni-prechod" };
+  return { akce: "prijmout", duvod: "dolozena-udalost" };
 }
 
 /**

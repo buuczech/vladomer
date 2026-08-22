@@ -124,5 +124,15 @@ overovat_prechody = 1
 # model neuhlida usudek silnejsiho.
 overovaci_model = claude-sonnet-4-6
 
+# Overovat i prechody mezi "jen deklarovano", "nezahajeno", "probiha"
+# a "castecne splneno". Plati se za ne kazdy tyden navic, ale bez toho staci
+# k posunu bodu to, ze sken neco nasel - a sken se sam se sebou shodne jen
+# z 55 % (mereno 22. 8. 2026), protoze vyhledavani vraci pokazde jine vysledky.
+# Latka je tu mirnejsi nez u "splneno": staci datovany krok, ne dokonceny
+# proces (viz prompt-overeni-prostredniho.md). 0 = vypnuto.
+overovat_prostredni = 1
+
 # Kolik vyhledavani smi tydeni sken udalosti pouzit na jednu kapitolu.
-vyhledavani_delta = 4
+# Zvyseno ze 4 na 8: pri ctyrech dotazech mineli dva totozne behy ruzne
+# udalosti a shodly se jen na 55 % bodu, kterych se vubec dotkly.
+vyhledavani_delta = 8

@@ -99,6 +99,52 @@ const PRIPADY = [
     },
     ceka: "drzet",
   },
+  /* Ověřování prostředních přechodů (od 22. 8. 2026). Sken se sám se sebou
+     shodne jen z 55 % v tom, kterých bodů se dotkne, takže „něco se našlo"
+     samo o sobě posun nezakládá — čte to druhý model. */
+  {
+    proc: "zapnuté ověřování: prostřední přechod s událostí jde k ověření",
+    vstup: {
+      minuly: { status: "declared" },
+      navrh: { status: "in_progress", change: { cs: "Návrh šel do připomínkového řízení." } },
+      udalost: { datum: "2026-08-18" },
+      plnyAudit: false,
+      overovatProstredni: true,
+    },
+    ceka: "overit",
+  },
+  {
+    proc: "zapnuté ověřování NEOBCHÁZÍ zábranu: bez události se pořád drží",
+    vstup: {
+      minuly: { status: "declared" },
+      navrh: { status: "in_progress", change: { cs: "Podle úvahy jde o posun." } },
+      udalost: null,
+      plnyAudit: false,
+      overovatProstredni: true,
+    },
+    ceka: "drzet",
+  },
+  {
+    proc: "zapnuté ověřování nemění kódovou zábranu (ta projde vždy)",
+    vstup: {
+      minuly: { status: "fulfilled" },
+      navrh: { status: "partial", evidenceMissing: "predates-term", change: { cs: "" } },
+      plnyAudit: true,
+      overovatProstredni: true,
+    },
+    ceka: "prijmout",
+  },
+  {
+    proc: "vypnuté ověřování: prostřední přechod s událostí projde rovnou",
+    vstup: {
+      minuly: { status: "declared" },
+      navrh: { status: "in_progress", change: { cs: "Návrh šel do připomínkového řízení." } },
+      udalost: { datum: "2026-08-18" },
+      plnyAudit: false,
+      overovatProstredni: false,
+    },
+    ceka: "prijmout",
+  },
   {
     proc: "nový bod projde bez brány",
     vstup: { minuly: null, navrh: { status: "declared", change: { cs: "první hodnocení" } } },
