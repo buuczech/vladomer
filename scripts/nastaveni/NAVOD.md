@@ -65,3 +65,49 @@ Datové soubory zůstanou nedotčené.
   `idnes.cz`, `lidovky.cz`), **selže celý dotaz**, ne jen ten jeden web.
 - Vyšší hodnoty u `vyhledavani_*` znamenají důkladnější, ale dražší běh.
   Hodnocení běží 18× za týden, sběr zpráv jen jednou.
+
+## Stabilizace hodnocení (od srpna 2026)
+
+Týdenní běh už nehodnotí všech 143 bodů znovu. Nejdřív proběhne **sken
+událostí** (`prompt-delta.md`): u každé oblasti se model ptá jen na to, co se
+od minulého běhu stalo. Přehodnocují se pak pouze body s nalezenou datovanou
+událostí; ostatní drží stav z minula a dostanou jen razítko „prověřeno".
+
+Změna stavu **z nebo do „splněno" či „porušeno"** musí navíc projít ověřením
+(`prompt-overeni-prechodu.md`): silnější model dostane úzkou otázku, jestli
+doklad ten přechod opravdu nese, s výchozí odpovědí NE. Zamítnutý přechod
+znamená, že bod podrží minulé hodnocení celé.
+
+Posun mezi ostatními stavy („jen deklarováno“, „nezahájeno“, „probíhá“,
+„částečně splněno“) se ověřuje taky, pokud je zapnuté
+`overovat_prostredni` — ale mírnější šablonou (`prompt-overeni-prostredniho.md`).
+Tam stačí datovaný krok, třeba předložení návrhu nebo první čtení; dokončený
+zákon se vyžaduje jen u „splněno“. Bez toho stačilo k posunu bodu to, že sken
+něco našel — a sken se sám se sebou shodne jen z 55 %, protože vyhledávání
+vrací pokaždé jiné výsledky.
+
+Jednou za `plny_audit_dni` dnů proběhne **plný audit** všech bodů — pojistka,
+aby zmeškaná událost nezůstala zmeškaná navždy.
+
+Ověřovatel si doklad **dohledává** (`vyhledavani_overeni`). Bez toho kontroluje
+jen to, jestli tvrzení dává smysl — a vymyšlené číslo zákona dává smysl
+dokonale. 21. 8. 2026 kvůli tomu prošlo „splněno" s dokladem „Zákon
+č. 270/2026 Sb., vyhlášen 26. 5. 2026", který vznikl z toho, že Sněmovna toho
+dne přehlasovala veto Senátu.
+
+K tomu patří nová nastavení v `nastaveni.txt`: `plny_audit_dni`,
+`overovat_prechody`, `overovat_prostredni`, `overovaci_model`,
+`vyhledavani_overeni` a `vyhledavani_delta`. Každé má komentář přímo u sebe.
+
+Na co si dát pozor:
+
+- `prompt-delta.md` je jediné místo, které rozhoduje, co se vůbec bude
+  hodnotit. Když z něj vyškrtneš důraz na důkladné hledání, běh zlevní, ale
+  web začne zaspávat události — a pozná se to až při plném auditu.
+- V `prompt-overeni-prechodu.md` je výchozí odpověď NE schválně. Když ji
+  otočíš, ověření přestane plnit svou roli a zůstane z něj drahé razítko.
+- `overovat_prostredni` se platí každý týden a zabere nejčastěji právě tam,
+  kde je posun sporný. Když ho vypneš, web bude reagovat rychleji, ale začne
+  se víc házet sem a tam.
+- Všechny prompty se zobrazují na webu v sekci „Použité prompty" — po změně
+  se na ně tam podívej, jestli dávají smysl i pro čtenáře.

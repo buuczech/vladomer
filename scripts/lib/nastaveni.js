@@ -77,6 +77,14 @@ const SCHEMA = {
   korektura: { type: "int", min: 0, max: 1 },
   korektura_model: { type: "text" },
   korektura_nejvic_zmen_procent: { type: "int", min: 0, max: 100 },
+  // Stabilizace hodnocení (od 08/2026): plný audit všech bodů jednou za
+  // tolik dní; mezitím se přehodnocují jen body s nalezenou událostí.
+  plny_audit_dni: { type: "int", min: 7, max: 90 },
+  overovat_prechody: { type: "int", min: 0, max: 1 },
+  overovat_prostredni: { type: "int", min: 0, max: 1 },
+  overovaci_model: { type: "text" },
+  vyhledavani_overeni: { type: "int", min: 0, max: 10 },
+  vyhledavani_delta: { type: "int", min: 1, max: 10 },
 };
 
 export function readSettings(name = "nastaveni.txt") {

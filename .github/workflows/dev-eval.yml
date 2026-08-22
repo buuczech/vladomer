@@ -16,6 +16,22 @@ on:
         description: "How many chapters to evaluate (18 = full dataset)"
         required: false
         default: "5"
+      rezim:
+        description: "eval = běžný testovací běh · stabilita = dva totožné běhy a diff stavů (nic necommituje)"
+        required: false
+        default: "eval"
+        type: choice
+        options: [eval, stabilita]
+      rezim_behu:
+        description: "stabilita: režim obou běhů (plny/delta), nebo delta-vs-plny = běh 1 delta, běh 2 plný — měří, co delta sken zmešká"
+        required: false
+        default: "plny"
+        type: choice
+        options: [plny, delta, delta-vs-plny]
+      od_data:
+        description: "delta: od kdy hledat události (RRRR-MM-DD). Prázdné = od posledního běhu, což po opravném běhu znamená dnešek a sken nenajde nic."
+        required: false
+        default: ""
   push:
     branches: [dev]
     # Jen když se změní to, co běh ověřuje. Bez filtru stál každý push na dev
@@ -35,7 +51,7 @@ jobs:
     # This file also exists on main (it arrives with every merge). The guard
     # makes sure a manual dispatch there can never overwrite production data
     # with a partial 5-chapter run.
-    if: github.ref == 'refs/heads/dev'
+    if: github.ref == 'refs/heads/dev' && (github.event.inputs.rezim || 'eval') == 'eval'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -82,3 +98,73 @@ jobs:
       # dřívějším pádu vůbec nezapsal.
       - name: Check fresh data
         run: node scripts/dev/test-konzistence.js
+
+  # Měření reprodukovatelnosti: dva běhy nad TÝMIŽ vstupy, diff stavů.
+  # Každý rozdíl je čistý šum modelu — mezi běhy neuběhl žádný svět.
+  # Nic se necommituje; výsledek odchází jako artifact. Korektura a zprávy
+  # jsou vypnuté (BEZ_KOREKTURY / BEZ_ZPRAV): stav neovlivňují, jen by se
+  # dvakrát platily. Jeden dispatch = DVA plné placené běhy hodnocení.
+  stabilita:
+    if: github.ref == 'refs/heads/dev' && github.event.inputs.rezim == 'stabilita'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci
+
+      - name: Offline checks
+        run: |
+          node scripts/dev/test-zabrany.js
+          node scripts/dev/test-korektura.js
+
+      - name: Snapshot vstupů
+        run: cp -r public /tmp/vstup
+
+      - name: Běh 1
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CHAPTER_LIMIT: ${{ github.event.inputs.chapter_limit || '18' }}
+          REZIM_BEHU: ${{ github.event.inputs.rezim_behu == 'delta-vs-plny' && 'delta' || github.event.inputs.rezim_behu || 'plny' }}
+          OD_DATA: ${{ github.event.inputs.od_data || '' }}
+          BEZ_KOREKTURY: "1"
+          BEZ_ZPRAV: "1"
+        run: |
+          npm run evaluate 2>&1 | tee /tmp/beh1.log
+          mkdir -p /tmp/beh1 && cp public/*.json /tmp/beh1/
+
+      - name: Obnovit vstupy
+        run: rm -rf public && cp -r /tmp/vstup public
+
+      - name: Běh 2
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          CHAPTER_LIMIT: ${{ github.event.inputs.chapter_limit || '18' }}
+          REZIM_BEHU: ${{ github.event.inputs.rezim_behu == 'delta-vs-plny' && 'plny' || github.event.inputs.rezim_behu || 'plny' }}
+          OD_DATA: ${{ github.event.inputs.od_data || '' }}
+          BEZ_KOREKTURY: "1"
+          BEZ_ZPRAV: "1"
+        run: |
+          npm run evaluate 2>&1 | tee /tmp/beh2.log
+          mkdir -p /tmp/beh2 && cp public/*.json /tmp/beh2/
+
+      # Pracovní kopie se vrací do původního stavu — tenhle job nikdy nesmí
+      # nic commitnout, ani omylem.
+      - name: Obnovit vstupy po měření
+        run: rm -rf public && cp -r /tmp/vstup public
+
+      - name: Porovnat
+        run: node scripts/dev/porovnej-behy.js /tmp/beh1/evaluations.json /tmp/beh2/evaluations.json | tee /tmp/report.txt
+
+      - name: Přiložit výsledek
+        uses: actions/upload-artifact@v4
+        with:
+          name: stabilita-${{ github.run_id }}
+          path: |
+            /tmp/beh1
+            /tmp/beh2
+            /tmp/beh1.log
+            /tmp/beh2.log
+            /tmp/report.txt
+          if-no-files-found: error

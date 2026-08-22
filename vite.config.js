@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { jsonLd } from "./scripts/lib/seo.js";
 import { renderPrehled, CESTY } from "./scripts/lib/prehled.js";
 import { readSettings, readList } from "./scripts/lib/nastaveni.js";
-import { promptHodnoceni, promptZpravy } from "./scripts/lib/prompty.js";
+import { promptHodnoceni, promptZpravy, promptDeltaScan, promptOvereniPrechodu } from "./scripts/lib/prompty.js";
 import { promptKorektury } from "./scripts/lib/korektura.js";
 import { ALL_ITEMS, TOTAL_ITEMS, DATES, CHAPTERS } from "./src/data.js";
 
@@ -97,6 +97,46 @@ function pouzitePrompty() {
           // Pevné datum: ukázka se nesmí měnit s každým buildem.
           ukazka: promptZpravy("2026-08-07"),
           ukazkaPopis: null,
+        },
+        {
+          id: "delta",
+          soubor: `${SOUBOR}/prompt-delta.md`,
+          model: nast.model,
+          sablona: cti("prompt-delta.md"),
+          // Pevné datum: ukázka se nesmí měnit s každým buildem.
+          ukazka: promptDeltaScan(kap, evals, "2026-08-21"),
+          ukazkaPopis: `${kap.id}. ${kap.title.cs}`,
+        },
+        {
+          id: "overeni",
+          soubor: `${SOUBOR}/prompt-overeni-prechodu.md`,
+          model: nast.overovaci_model,
+          sablona: cti("prompt-overeni-prechodu.md"),
+          ukazka: promptOvereniPrechodu({
+            bod: "Zrušit poplatky za veřejnoprávní média",
+            minulyStav: "fulfilled", minulyOd: "2026-08-07", novyStav: "in_progress",
+            doklad: "Vláda 15. června 2026 schválila návrh zákona; zákon čeká na projednání Poslanecké sněmovny",
+            datumDokladu: "2026-06-15",
+            zmena: "Zákon postoupil do Sněmovny",
+            komentar: "Návrh prošel vládou, legislativní proces běží.",
+          }),
+          ukazkaPopis: "skutečný přechod z běhu 21. 8. 2026",
+        },
+        {
+          id: "overeni-prostredniho",
+          soubor: `${SOUBOR}/prompt-overeni-prostredniho.md`,
+          model: nast.overovaci_model,
+          sablona: cti("prompt-overeni-prostredniho.md"),
+          ukazka: promptOvereniPrechodu({
+            prostredni: true,
+            bod: "Zavést jednotné inkasní místo pro odvody",
+            minulyStav: "declared", minulyOd: "2026-08-14", novyStav: "in_progress",
+            doklad: "Ministerstvo financí 18. srpna 2026 rozeslalo paragrafové znění do mezirezortního připomínkového řízení",
+            datumDokladu: "2026-08-18",
+            zmena: "Návrh šel do připomínkového řízení",
+            komentar: "Příprava zákona pokročila z programového prohlášení do legislativního procesu.",
+          }),
+          ukazkaPopis: "prostřední přechod — mírnější laťka než u „splněno“",
         },
         {
           id: "korektura",

@@ -105,6 +105,25 @@ export function jeNedokoncenyProces(dukaz) {
   return ROZDELANO.test(t) && !DOKONCENO.test(t);
 }
 
+/* Tvrzení, že norma vyšla ve Sbírce. Užší než DOKONCENO schválně: tohle je
+   jediné tvrzení, které samo o sobě zakládá „splněno", a proto jediné, u nějž
+   se vyžaduje úřední pramen. */
+const VYHLASENO = /(\bSb\.|Sbírc\p{L}*|Sbírk\p{L}*|vyhlášen\p{L}*\s+(?:ve|v)\s+Sbírc\p{L}*)/iu;
+
+/* Prameny, u kterých se dá vyhlášení opravdu ověřit. gov.cz pokrývá i
+   e-sbirka.gov.cz a ministerstva; psp.cz a senat.cz nesou průběh procesu. */
+export const UREDNI_ZDROJE = ["gov.cz", "psp.cz", "senat.cz", "e-sbirka.cz"];
+
+export function maUredniZdroj(zdroje) {
+  for (const z of zdroje || []) {
+    const url = typeof z === "string" ? z : (z && z.url) || "";
+    let host;
+    try { host = new URL(url).hostname.toLowerCase(); } catch { continue; }
+    if (UREDNI_ZDROJE.some((d) => host === d || host.endsWith("." + d))) return true;
+  }
+  return false;
+}
+
 /* Kam který důvod stav posune. Dřív to bylo natvrdo „partial" v evaluate.js,
    jenže laťka u „porušeno" musí srážet jinam: obvinění bez dokladu není
    částečné splnění, je to „nevíme, že se to stalo". */
@@ -115,6 +134,7 @@ export const CIL_DEGRADACE = {
   "date-mismatch": "partial",
   "not-through-process": "in_progress",
   "broken-no-evidence": "declared",
+  "sbirka-bez-uredniho-zdroje": "partial",
 };
 
 /**
@@ -128,7 +148,7 @@ export const CIL_DEGRADACE = {
  * naráz srazila — přesně ta příliš horlivá zábrana, kterou popisuje
  * CLAUDE.md. Zapíná se až ve chvíli, kdy si o doklad říká i prompt.
  */
-export function duvodDegradace(stav, dukaz, datum, { minDelkaDokladu, nastup, latkaPoruseno = false }) {
+export function duvodDegradace(stav, dukaz, datum, { minDelkaDokladu, nastup, latkaPoruseno = false, zdroje = null }) {
   const kratky = String(dukaz || "").length < minDelkaDokladu;
 
   /* Obvinění z porušení slibu je stejně silné tvrzení jako tvrzení o splnění
@@ -148,5 +168,15 @@ export function duvodDegradace(stav, dukaz, datum, { minDelkaDokladu, nastup, la
   if (jeJenDatumUcinnosti(dukaz, datum)) return "date-mismatch";
   // Návrh, který teprve míří do Sněmovny, není norma, která prošla.
   if (jeNedokoncenyProces(dukaz)) return "not-through-process";
+  /* Číslo zákona ve Sbírce se dá napsat, aniž by existovalo. Bod 2.10 dostal
+     21. 8. 2026 doklad „Zákon č. 270/2026 Sb., vyhlášen 26. 5. 2026" z toho, že
+     Sněmovna toho dne přehlasovala veto Senátu — a ověřovatel to potvrdil,
+     protože nemá vyhledávání a číslo si nemohl ověřit. Text tvrzení se tedy
+     nebere na slovo: musí u něj stát pramen, kde to jde dohledat.
+     Kontroluje se jen když volající zdroje předá (zpětná dohledatelnost
+     starších dat se tím nemění — viz prepocet-degradaci.js). */
+  if (zdroje && VYHLASENO.test(String(dukaz || "")) && !maUredniZdroj(zdroje)) {
+    return "sbirka-bez-uredniho-zdroje";
+  }
   return null;
 }

@@ -26,8 +26,12 @@ import {
    jinak by se ukázka na webu mohla rozejít s tím, co se opravdu odesílá. */
 import {
   STATUSES, STATUS_CS, promptHodnoceni, promptZpravy, promptHodnoceniKontrola,
+  promptOvereniPrechodu, promptDeltaScan,
 } from "./lib/prompty.js";
 import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
+import { posudPrechod, bodyKPrehodnoceni } from "./lib/prechody.js";
+import { parsujDeltaOdpoved } from "./lib/delta.js";
+import { parsujHodnoceni } from "./lib/odpoved.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
    upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
@@ -46,6 +50,11 @@ const CHAPTER_LIMIT = process.env.CHAPTER_LIMIT ? Number(process.env.CHAPTER_LIM
 const KEY = process.env.ANTHROPIC_API_KEY;
 const MODEL = process.env.EVAL_MODEL || NAST.model; // env still wins, for one-off experiments
 const KOR_MODEL = process.env.KOREKTURA_MODEL || NAST.korektura_model;
+/* Měřicí režim „stabilita" (dev-eval.yml) běží hodnocení dvakrát a porovnává
+   stavy. Korektura ani zprávy stav neovlivňují, jen by se za ně dvakrát
+   platilo — tyhle přepínače je vypnou. V ostrém běhu se NIKDY nenastavují. */
+const KOREKTURA_MODELEM = NAST.korektura === 1 && !process.env.BEZ_KOREKTURY;
+const SE_ZPRAVAMI = !process.env.BEZ_ZPRAV;
 /* Operational, deliberately NOT in nastaveni.txt: too low silently truncates
    the JSON reply, which looks like a model failure and burns retries.
    Separate budgets because every web_search round is part of the output —
@@ -87,6 +96,14 @@ const MAX_SOURCES = NAST.maximalne_zdroju;
 // strongest status can never rest on an unsupported assertion.
 const EVIDENCE_MIN = NAST.minimalni_delka_dokladu;
 const LATKA_PORUSENO = NAST.latka_poruseno === 1;
+const OVEROVAT_PRECHODY = NAST.overovat_prechody === 1;
+const OVEROVAT_PROSTREDNI = OVEROVAT_PRECHODY && NAST.overovat_prostredni === 1;
+const OVEROVACI_MODEL = process.env.OVEROVACI_MODEL || NAST.overovaci_model;
+// Odpověď ověření je jeden malý JSON objekt; víc místa by jen zvalo k eseji.
+/* Se zapnutým vyhledáváním musí do stropu vejít i dotazy a čtení výsledků,
+   ne jen ta jedna věta odůvodnění — se 400 by běh skončil uprostřed hledání. */
+const MAX_TOKENS_OVERENI = 2500;
+const VYHLEDAVANI_OVERENI = NAST.vyhledavani_overeni;
 
 // All real item IDs — guards against the model inventing an ID (e.g. "11.11"),
 // which the merge-based storage would otherwise carry forward forever.
@@ -131,6 +148,12 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
     body: JSON.stringify({
       model: MODEL,
       max_tokens: MAX_TOKENS,
+      /* temperature 0: hodnocení má být reprodukovatelné. S výchozí 1.0 se
+         úsudkové rozhodnutí („je 9 % ‚výrazné zvýšení'?") každý týden losovalo
+         znovu — bod 14.1 tak změnil stav pětkrát za pět běhů bez jediné
+         události. Nula šum nevypne (vyhledávání vrací pokaždé jiné výsledky),
+         ale přestane ho přiživovat. */
+      temperature: 0,
       messages: [{ role: "user", content: prompt }], // no prefill — lets web_search run
       tools: [{ type: "web_search_20250305", name: "web_search", max_uses: NAST.vyhledavani_hodnoceni, allowed_domains: WEBY_HODNOCENI }],
     }),
@@ -153,24 +176,12 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
   const searchCount = Object.keys(realMap).length;
 
   const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
-  const clean = text.replace(/```json|```/g, "").trim();
-  // With structured output the whole text is valid JSON ({items: [...]}).
-  // Bracket extraction stays as a fallback in case the response is somehow prose-wrapped.
-  let parsed;
-  try {
-    const root = JSON.parse(clean);
-    parsed = Array.isArray(root) ? root : root.items;
-  } catch {
-    const a = clean.indexOf("["), b = clean.lastIndexOf("]");
-    if (a === -1 || b === -1) throw new Error("no JSON array in response");
-    parsed = JSON.parse(clean.slice(a, b + 1));
-  }
-  if (!Array.isArray(parsed)) throw new Error("no JSON array in response");
+  const parsed = parsujHodnoceni(text);
 
   const out = {};
   let kept = 0;
   const demoted = { "no-evidence": 0, "no-date": 0, "predates-term": 0, "date-mismatch": 0,
-    "not-through-process": 0, "broken-no-evidence": 0 };
+    "not-through-process": 0, "broken-no-evidence": 0, "sbirka-bez-uredniho-zdroje": 0 };
   for (const r of parsed) {
     if (!r || !r.id || !VALID_IDS.has(r.id)) continue;
     const sources = [];
@@ -194,7 +205,8 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
     // Samo pravidlo je v lib/dukaz.js, aby se podle něj dala přepočítat i data,
     // která už jsou venku — dvě kopie by se časem rozešly.
     const downgradeReason = duvodDegradace(status, evidence, evDate,
-      { minDelkaDokladu: EVIDENCE_MIN, nastup: DATES.tookOffice, latkaPoruseno: LATKA_PORUSENO });
+      { minDelkaDokladu: EVIDENCE_MIN, nastup: DATES.tookOffice, latkaPoruseno: LATKA_PORUSENO,
+        zdroje: sources });
     if (downgradeReason) { status = CIL_DEGRADACE[downgradeReason]; demoted[downgradeReason]++; }
 
     out[r.id] = {
@@ -211,6 +223,85 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
     };
   }
   return { evals: out, searchCount, kept, demoted };
+}
+
+/* Týdenní sken událostí: neptá se na stav, ale na to, co se STALO. Vrací
+   mapu id → {udalost, datum, zdroje}. Body bez události se nepřehodnocují —
+   drží stav z minula. To je jádro stabilizace: bez události není co losovat. */
+async function deltaScan(ch, prevEvals, odData, items) {
+  const prompt = promptDeltaScan(ch, prevEvals, odData, items);
+  assertFields(prompt, ["udalost", "datum", "zdroje"], "prompt-delta.md");
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
+    body: JSON.stringify({
+      model: MODEL, max_tokens: 3000, temperature: 0,
+      messages: [{ role: "user", content: prompt }],
+      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: NAST.vyhledavani_delta, allowed_domains: WEBY_HODNOCENI }],
+    }),
+  });
+  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
+  const data = await res.json();
+  const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
+  let searchCount = 0;
+  for (const blok of data.content || []) {
+    if (blok.type === "web_search_tool_result" && Array.isArray(blok.content)) searchCount += blok.content.length;
+  }
+  /* Nevyhazuje se: nesrozumitelná odpověď kapitolu neshodí, ale ani se nesmí
+     tvářit jako klidný týden — volající ji vypíše a spočítá. */
+  const { udalosti, chyba, zahozeno } =
+    parsujDeltaOdpoved(text, new Set(items.map((i) => i.id)), MAX_SOURCES);
+  return { udalosti, searchCount, chyba, zahozeno };
+}
+
+/* Ověření navrženého přechodu druhým, silnějším modelem. Bez vyhledávání —
+   otázka nezní „jaký je stav?", ale „nese TENHLE doklad TENHLE přechod?".
+   Výchozí odpověď promptu je NE; selhání volání se řeší konzervativně
+   u volajícího (přechod se nepřijme). */
+async function overPrechod(bod, minuly, navrh, prostredni = false) {
+  const prompt = promptOvereniPrechodu({
+    prostredni,
+    bod: bod.cs,
+    minulyStav: minuly.status,
+    minulyOd: (minuly.updatedAt || "").slice(0, 10),
+    novyStav: navrh.status,
+    doklad: navrh.evidence,
+    datumDokladu: navrh.evidenceDate,
+    zmena: navrh.change && navrh.change.cs,
+    komentar: navrh.comment && navrh.comment.cs,
+  });
+  const res = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
+    body: JSON.stringify({
+      model: OVEROVACI_MODEL, max_tokens: MAX_TOKENS_OVERENI, temperature: 0,
+      messages: [{ role: "user", content: prompt }],
+      /* Bez vyhledávání ověřovatel kontroluje jen logiku tvrzení, ne jeho
+         pravdivost — a vymyšlené číslo zákona je logicky bezvadný doklad. */
+      ...(VYHLEDAVANI_OVERENI > 0 ? {
+        tools: [{
+          type: "web_search_20250305", name: "web_search",
+          max_uses: VYHLEDAVANI_OVERENI, allowed_domains: WEBY_HODNOCENI,
+        }],
+      } : {}),
+    }),
+  });
+  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
+  const data = await res.json();
+  /* Se zapnutým vyhledáváním přijde textových bloků víc a JSON je až v tom
+     posledním; hledá se odzadu, aby složená závorka v úvaze o hledání
+     nepřebila vlastní odpověď. */
+  const bloky = (data.content || []).filter((b) => b.type === "text").map((b) => b.text);
+  for (let i = bloky.length - 1; i >= 0; i--) {
+    const t = bloky[i];
+    const a = t.indexOf("{"), b = t.lastIndexOf("}");
+    if (a === -1 || b === -1) continue;
+    let j;
+    try { j = JSON.parse(t.slice(a, b + 1)); } catch { continue; }
+    if (typeof j.potvrzeno !== "boolean") continue;
+    return { potvrzeno: j.potvrzeno === true, duvod: String(j.duvod || "").slice(0, 300) };
+  }
+  throw new Error("ověření přechodu: odpověď bez JSON [opakovat]");
 }
 
 /* Headline news for the past week. Source diversity is enforced in code (one
@@ -345,6 +436,13 @@ function preflight() {
     // Korektura nevrací JSON, ale řádky „[id] text" — kontroluje se tvar
     // odpovědi. Táž funkce, jakou používá opravDavku(), aby se nemohly rozejít.
     zkontrolujPrompt(k);
+
+    const o = promptOvereniPrechodu({
+      bod: "kontrola", minulyStav: "fulfilled", minulyOd: "2026-01-01",
+      novyStav: "broken", doklad: "kontrola", datumDokladu: "2026-01-01",
+      zmena: "kontrola", komentar: "kontrola",
+    });
+    assertFields(o, ["potvrzeno", "duvod"], "prompt-overeni-prechodu.md");
   } catch (e) {
     console.error(`\nCHYBA V NASTAVENÍ — běh se nespustil, na webu zůstávají data z minulého týdne.\n\n  ${e.message}\n`);
     process.exit(1);
@@ -353,27 +451,132 @@ function preflight() {
 
 async function main() {
   preflight();
-  const prevEvals = readJSON(OUT_EVAL, { evals: {} }).evals || {};
+  const drivejsi = readJSON(OUT_EVAL, { evals: {} });
+  const prevEvals = drivejsi.evals || {};
+
+  /* Režim běhu. „delta" přehodnocuje jen body, u kterých týdenní sken najde
+     datovanou událost — ostatní drží stav z minula. Jednou za plny_audit_dni
+     se jede „plny": všech 143 bodů, aby zmeškaná událost nezůstala zmeškaná
+     navždy. Env REZIM_BEHU vyhrává, kvůli ručním dispatchům a měření. */
+  const posledniPlny = drivejsi.posledniPlnyAudit || null;
+  const stariAudituDni = posledniPlny ? (Date.now() - Date.parse(posledniPlny)) / 86400000 : Infinity;
+  const REZIM_BEHU = ["plny", "delta"].includes(process.env.REZIM_BEHU)
+    ? process.env.REZIM_BEHU
+    : (stariAudituDni >= NAST.plny_audit_dni ? "plny" : "delta");
+  /* Okno delta skenu. Běžně od posledního běhu; env OD_DATA ho posune ručně.
+     Bez toho nejde delta měřit: po opravném běhu je lastUpdated dnešek, sken
+     by hledal události „od dneška do dneška", nenašel nic a pár dvou takových
+     běhů by vyšel na 100 % shody, aniž by cokoli přehodnotil. */
+  const OD_DATA = /^\d{4}-\d{2}-\d{2}$/.test(process.env.OD_DATA || "")
+    ? process.env.OD_DATA
+    : String(drivejsi.lastUpdated || DATES.tookOffice).slice(0, 10);
+  console.log(`Režim běhu: ${REZIM_BEHU}`
+    + (REZIM_BEHU === "delta"
+      ? ` — události od ${OD_DATA}; poslední plný audit ${posledniPlny ? posledniPlny.slice(0, 10) : "nikdy"}`
+      : ""));
   const snapshots = readJSON(OUT_HIST, { snapshots: [] }).snapshots || [];
 
   // Carry forward only real items — drops any stray invented IDs already in the file
   const newEvals = {};
   for (const id in prevEvals) if (VALID_IDS.has(id)) newEvals[id] = prevEvals[id];
   let failedChapters = 0;
+  /* Brána přechodů (lib/prechody.js): stav se smí pohnout jen s důvodem,
+     který jde ukázat. Čítače se vypisují na konci běhu — kolik přechodů
+     brána podržela a kolik jich ověřovatel zamítl, je hlavní provozní
+     ukazatel stability. */
+  const brana = { prijato: 0, prechodu: 0, drzeno: [], potvrzeno: [], zamitnuto: [], chybaOvereni: [] };
+  /* Kolik událostí delta sken celkem našel. Nula napříč všemi kapitolami je
+     podezřelá: buď byl opravdu mrtvý týden, nebo se sken rozbil a mlčí — a to
+     druhé vypadá v měření stability jako dokonalá stabilita, protože se pak
+     nepřehodnocuje vůbec nic. Musí to být vidět v logu. */
+  let udalostiCelkem = 0;
+  let skenovanychKapitol = 0;
+  const skenBezOdpovedi = [];
+  const BODY_DLE_ID = Object.fromEntries(
+    CHAPTERS.flatMap((c) => c.groups.flatMap((g) => g.items)).map((i) => [i.id, i]));
   for (const ch of CHAPTERS.slice(0, CHAPTER_LIMIT)) {
+    const vsechnyBody = ch.groups.flatMap((g) => g.items);
+    let bodyKHodnoceni = vsechnyBody;
+    let udalosti = null;   // jen delta: id → {udalost, datum, zdroje}
+    let chyba = null;
+    /* Kapitola se do newEvals promítá AŽ PO úspěchu celé — sken i všechny
+       dávky. Jinak by byla část bodů čerstvá a část stará, aniž by to bylo
+       z čeho poznat. */
+    const pridat = {};
+    const ted = new Date().toISOString();
+
+    if (REZIM_BEHU === "delta") {
+      process.stdout.write(`Scanning ${ch.id} ${ch.title.cs}… `);
+      try {
+        const sken = await withBackoff(() => deltaScan(ch, prevEvals, OD_DATA, vsechnyBody));
+        udalosti = sken.udalosti;
+        bodyKHodnoceni = bodyKPrehodnoceni(vsechnyBody, udalosti, prevEvals);
+        udalostiCelkem += Object.keys(udalosti).length;
+        skenovanychKapitol++;
+        if (sken.chyba) skenBezOdpovedi.push(`${ch.id}:${sken.chyba}`);
+        const z = sken.zahozeno || {};
+        console.log(`${bodyKHodnoceni.length} k přehodnocení `
+          + `(${Object.keys(udalosti).length} událostí, ${sken.searchCount} search hits`
+          + (sken.chyba ? `, ODPOVĚĎ NEPŘEČTENA: ${sken.chyba}` : "")
+          + (z.ciziId ? `, ${z.ciziId} cizích id` : "")
+          + (z.bezData ? `, ${z.bezData} bez data` : "") + ")");
+      } catch (e) { chyba = e; }
+      if (!chyba) await new Promise((r) => setTimeout(r, 5000));
+    }
+
     /* Velká kapitola jde na několik dotazů. Selhání KTERÉKOLI dávky znamená
        selhanou kapitolu — část bodů by jinak byla čerstvá a část týden stará,
        aniž by to bylo z čeho poznat. */
-    const skupiny = davky(ch.groups.flatMap((g) => g.items));
-    const znacka = skupiny.length > 1 ? ` (${skupiny.length} dávky)` : "";
-    process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}${znacka}… `);
-    let hotovo = 0, hledani = 0, zdroju = 0, chyba = null;
+    const skupiny = bodyKHodnoceni.length ? davky(bodyKHodnoceni) : [];
+    if (!chyba && skupiny.length) {
+      const znacka = skupiny.length > 1 ? ` (${skupiny.length} dávky)` : "";
+      process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}${znacka}… `);
+    }
+    let hotovo = 0, hledani = 0, zdroju = 0;
     const snizeno = {};
     for (const [i, skupina] of skupiny.entries()) {
+      if (chyba) break;
       if (i) await new Promise((r) => setTimeout(r, 20000));
       try {
         const r = await withBackoff(() => evaluateChapter(ch, prevEvals, snapshots, skupina));
-        Object.assign(newEvals, r.evals);
+        for (const [id, navrh] of Object.entries(r.evals)) {
+          const minuly = prevEvals[id];
+          const verdikt = posudPrechod({
+            minuly, navrh,
+            udalost: udalosti ? udalosti[id] || null : null,
+            plnyAudit: REZIM_BEHU === "plny",
+            overovatProstredni: OVEROVAT_PROSTREDNI,
+          });
+          if (verdikt.akce === "drzet") {
+            // Minulý záznam se drží CELÝ — nový komentář by argumentoval
+            // pro stav, který neprošel. Razítko „prověřeno" ale dostane:
+            // běh se na bod díval, jen nepřijal jeho přechod.
+            brana.drzeno.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]}: ${verdikt.duvod})`);
+            pridat[id] = { ...minuly, overeno: ted };
+            continue;
+          }
+          if (verdikt.akce === "overit" && OVEROVAT_PRECHODY) {
+            // Prostřední přechod má vlastní, mírnější laťku než západka.
+            const prostredni = verdikt.duvod === "prostredni-prechod";
+            try {
+              const v = await withBackoff(() => overPrechod(BODY_DLE_ID[id], minuly, navrh, prostredni), 2);
+              if (!v.potvrzeno) {
+                brana.zamitnuto.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]}: ${v.duvod})`);
+                pridat[id] = { ...minuly, overeno: ted };
+                continue;
+              }
+              brana.potvrzeno.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]})`);
+            } catch (e) {
+              /* Konzervativně: nejde-li přechod ověřit, nepřijme se. Bod
+                 podrží minulý stav a příští běh to zkusí znovu. */
+              brana.chybaOvereni.push(`${id}: ${e.message}`.slice(0, 160));
+              pridat[id] = { ...minuly, overeno: ted };
+              continue;
+            }
+          }
+          if (minuly && minuly.status !== navrh.status) brana.prechodu++; else brana.prijato++;
+          pridat[id] = { ...navrh, overeno: ted };
+        }
         hotovo += Object.keys(r.evals).length;
         hledani += r.searchCount;
         zdroju += r.kept;
@@ -387,12 +590,45 @@ async function main() {
       failedChapters++;
       console.log(`failed: ${chyba.message}`);
     } else {
+      /* Body bez události drží stav i komentář z minula; popis změny se
+         nahradí pravdivým „beze změny" a bod dostane razítko prověření.
+         Až teď, po úspěchu celé kapitoly, se staging promítne do výsledku. */
+      for (const it of vsechnyBody) {
+        if (pridat[it.id] || !newEvals[it.id]) continue;
+        pridat[it.id] = {
+          ...newEvals[it.id],
+          change: { cs: "beze změny", en: "no change" },
+          overeno: ted,
+        };
+      }
+      Object.assign(newEvals, pridat);
       const dm = Object.entries(snizeno).map(([k, v]) => `${v} ${k}`).join(", ");
-      console.log(`ok (${hotovo}) — ${hledani} search hits, ${zdroju} sources kept`
-        + (dm ? `, downgraded: ${dm}` : ""));
+      if (skupiny.length) {
+        console.log(`ok (${hotovo}) — ${hledani} search hits, ${zdroju} sources kept`
+          + (dm ? `, downgraded: ${dm}` : ""));
+      }
     }
     await new Promise((r) => setTimeout(r, 20000));
   }
+
+  if (skenBezOdpovedi.length) {
+    console.log(`\nPOZOR: sken ${skenBezOdpovedi.length}× nevrátil čitelný seznam `
+      + `(${skenBezOdpovedi.join(", ")}). Tyhle kapitoly se tvářily jako bez událostí,`
+      + " ale ve skutečnosti se z nich nedalo nic přečíst.");
+  }
+  if (REZIM_BEHU === "delta" && skenovanychKapitol && !udalostiCelkem) {
+    console.log(`
+POZOR: sken neohlásil ANI JEDNU událost ve ${skenovanychKapitol} kapitolách.`
+      + " Buď byl mrtvý týden, nebo se sken rozbil — v tom druhém případě se"
+      + " nepřehodnotilo nic a data jsou beze změny jen zdánlivě.");
+  }
+  console.log(`
+Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přechodů přijato`
+    + ` (${brana.potvrzeno.length} ověřeno), ${brana.drzeno.length} drženo, ${brana.zamitnuto.length} zamítnuto`
+    + `${brana.chybaOvereni.length ? `, ${brana.chybaOvereni.length} chyb ověření` : ""}`);
+  for (const z of brana.drzeno) console.log(`  drženo:    ${z}`);
+  for (const z of brana.zamitnuto) console.log(`  zamítnuto: ${z}`);
+  for (const z of brana.chybaOvereni) console.log(`  chyba:     ${z}`);
 
   const now = new Date().toISOString();
   const today = now.slice(0, 10);
@@ -445,7 +681,7 @@ async function main() {
         davka.push({ klic: `${it.id}|${pole}`, id: it.id, pole, text: cisty });
       }
     }
-    if (NAST.korektura !== 1 || davka.length === 0) continue;
+    if (!KOREKTURA_MODELEM || davka.length === 0) continue;
     kor.davek++;
     try {
       const r = await withBackoff(() => opravDavku(davka, {
@@ -471,9 +707,16 @@ async function main() {
   }
   console.log(`Korektura: ${kor.ocisteno} úryvků mechanicky očištěno, ${kor.zmeneno} opraveno modelem, `
     + `${kor.odmitnuto} oprav odmítnuto, ${kor.davek} dávek${kor.selhalo ? `, ${kor.selhalo} selhalo` : ""}`
-    + (NAST.korektura === 1 ? ` (${KOR_MODEL})` : " — model vypnutý, jen mechanická očista"));
+    + (KOREKTURA_MODELEM ? ` (${KOR_MODEL})` : " — model vypnutý, jen mechanická očista"));
 
-  writeFileSync(OUT_EVAL, JSON.stringify({ evals: newEvals, lastUpdated: now }, null, 2));
+  /* Plný audit se počítá jen úplný: všech 18 kapitol prošlo a nic nespadlo.
+     Neúplný plný běh datum neposune, takže se plný audit brzy zopakuje. */
+  const plnyDokoncen = REZIM_BEHU === "plny" && !failedChapters && CHAPTER_LIMIT >= CHAPTERS.length;
+  writeFileSync(OUT_EVAL, JSON.stringify({
+    evals: newEvals,
+    lastUpdated: now,
+    posledniPlnyAudit: plnyDokoncen ? now : (drivejsi.posledniPlnyAudit || null),
+  }, null, 2));
 
   /* Týdenní snímek pro graf — jen když běh opravdu projel všechny kapitoly.
      Chyba kapitoly se výše polyká, aby jedna nedostupná kapitola neshodila
@@ -506,7 +749,14 @@ async function main() {
   let recorded = 0;
   for (const id in newEvals) {
     const e = newEvals[id];
-    if (!e.updatedAt || e.updatedAt.slice(0, 10) !== today) continue; // not touched this run
+    /* Zapisuje se, co se tímhle během opravdu změnilo: přehodnocené body
+       (dnešní updatedAt) a body, kterým mechanická očista sáhla na text.
+       To druhé je kvůli delta běhům — přenesený bod si updatedAt nemění, ale
+       když se změní pravidla očisty, jeho text se na webu změní. Bez tohohle
+       by taková změna proběhla bez auditní stopy, což je přesně to, co audit
+       slibuje, že se stát nemůže. */
+    const prehodnocen = e.updatedAt && e.updatedAt.slice(0, 10) === today;
+    if (!prehodnocen && !puvodni[id]) continue;
     entries.push({
       id,
       date: today,
@@ -534,6 +784,7 @@ async function main() {
   console.log(`\nWrote ${Object.keys(newEvals).length} evaluations, ${capped.length} history snapshots, ${recorded} audit records`);
 
   // Headline news last — a failure here must not lose the evaluation results.
+  if (!SE_ZPRAVAMI) { console.log("Zprávy přeskočeny (BEZ_ZPRAV) — news.json zůstává."); return; }
   try {
     process.stdout.write("Fetching headlines… ");
     const n = await withBackoff(fetchHeadlines, 3);
@@ -553,7 +804,7 @@ async function main() {
           }
         }
       });
-      if (NAST.korektura === 1 && davkaZ.length) {
+      if (KOREKTURA_MODELEM && davkaZ.length) {
         try {
           const rk = await withBackoff(() => opravDavku(davkaZ, {
             model: KOR_MODEL, key: KEY, maxTokens: MAX_TOKENS_KOREKTURA,

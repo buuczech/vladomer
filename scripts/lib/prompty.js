@@ -84,6 +84,44 @@ export function promptZpravy(dnesniDatum) {
 
 /* Varianty s nesmyslnými, ale platnými vstupy — jen pro preflight(), který
    ověřuje, že se šablony vůbec vyrenderují, ještě před prvním voláním API. */
+/* Týdenní sken událostí (delta běh). Neptá se „jaký je stav?", ale „co se
+   od minula STALO?" — přehodnocují se pak jen body s nalezenou událostí,
+   ostatní stav drží. To je jádro stabilizace: bez události není co losovat. */
+export function promptDeltaScan(ch, prevEvals, odData, body) {
+  const items = body || ch.groups.flatMap((g) => g.items);
+  const radky = items.map((it) => {
+    const p = prevEvals[it.id];
+    return `- [${it.id}] ${it.cs} (dosavadní stav: ${p ? STATUS_CS[p.status] || p.status : "bez hodnocení"})`;
+  }).join("\n");
+  return render("prompt-delta.md", {
+    DATUM_NASTUPU_VLADY: TERM_START_CS,
+    OD_DATA: odData,
+    NAZEV_OBLASTI: ch.title.cs,
+    MAX_ZDROJU: NAST.maximalne_zdroju,
+    SEZNAM_BODU: radky,
+  });
+}
+
+/* Ověření navrženého přechodu stavu (brána v lib/prechody.js vrátila
+   „overit"). Úzký dotaz bez vyhledávání: otázka nezní „jaký je stav?", ale
+   „nese TENHLE doklad TENHLE přechod?" — výchozí odpověď je NE. */
+export function promptOvereniPrechodu({ bod, minulyStav, minulyOd, novyStav, doklad, datumDokladu, zmena, komentar, prostredni = false }) {
+  /* Prostřední přechody mají vlastní šablonu. Pravidla té přísné mluví jen
+     o Sbírce zákonů a o obratu ze „splněno" — na „deklarováno → probíhá" by
+     model neměl podle čeho rozhodnout a spadl by na výchozí NE, takže by web
+     zamrzl na místě. */
+  return render(prostredni ? "prompt-overeni-prostredniho.md" : "prompt-overeni-prechodu.md", {
+    BOD: bod,
+    MINULY_STAV: STATUS_CS[minulyStav] || minulyStav,
+    MINULY_OD: minulyOd || "neznámo",
+    NOVY_STAV: STATUS_CS[novyStav] || novyStav,
+    DOKLAD: doklad || "(žádný)",
+    DATUM_DOKLADU: datumDokladu || "(bez data)",
+    ZMENA: zmena || "(neuvedeno)",
+    KOMENTAR: komentar || "(neuveden)",
+  });
+}
+
 export function promptHodnoceniKontrola() {
   return render("prompt-hodnoceni.md", {
     DATUM_NASTUPU_VLADY: TERM_START_CS,

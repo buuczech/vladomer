@@ -6,3 +6,10 @@
 # Dvě hvězdičky, ne jedna: „*" v gitattributes nepřekročí lomítko, takže
 # jednohvězdičkový vzor míjel podadresáře (chytlo se to na scripts/nastaveni/hudba/).
 scripts/nastaveni/** text eol=lf
+
+# …ale hudební podklady jsou binární. Pravidlo výš je bere jako text, takže
+# by jim Git při commitu vyhodil z každé sekvence CRLF ten CR — čtyři MP3
+# se tím zkrátí o desítky bajtů a přestanou být platným MP3. Zatím se to
+# nestalo (blob v HEAD je pořád původní), stačilo by ale jedno „git add“.
+# „binary“ = -text -diff: žádná normalizace a žádný textový diff.
+scripts/nastaveni/hudba/** binary
