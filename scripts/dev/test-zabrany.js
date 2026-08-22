@@ -94,7 +94,44 @@ const PRIPADY = [
   },
 ];
 
+/* Tvrzení o Sbírce bez úředního pramene. Skutečný případ z 21. 8. 2026: bod
+   2.10 dostal doklad „Zákon č. 270/2026 Sb., vyhlášen 26. 5. 2026" z toho, že
+   Sněmovna toho dne přehlasovala veto Senátu — číslo zákona nikdo neviděl
+   a ověřovatel ho neměl jak zkontrolovat, protože nemá vyhledávání. */
+const MEDIALNI = [{ url: "https://www.novinky.cz/clanek/1" }];
+const UREDNI = [{ url: "https://www.psp.cz/sqw/historie.sqw?o=10&t=42" }];
+const SBIRKA = [
+  {
+    proc: "číslo zákona ve Sbírce jen z médií se srazí",
+    dukaz: "Zákon č. 270/2026 Sb., vyhlášen 26. května 2026; účinnost od 1. července 2026",
+    datum: "2026-05-26", zdroje: MEDIALNI, ceka: "sbirka-bez-uredniho-zdroje",
+  },
+  {
+    proc: "totéž tvrzení s úředním pramenem projde",
+    dukaz: "Zákon č. 270/2026 Sb., vyhlášen 26. května 2026; účinnost od 1. července 2026",
+    datum: "2026-05-26", zdroje: UREDNI, ceka: null,
+  },
+  {
+    proc: "doklad bez zmínky o Sbírce se novým pravidlem neřeší",
+    dukaz: "Opatření bylo zavedeno a od 1. 7. 2026 se podle něj postupuje, potvrdilo ministerstvo",
+    datum: "2026-07-01", zdroje: MEDIALNI, ceka: null,
+  },
+  {
+    proc: "bez předaných zdrojů se nová kontrola vůbec nespouští (starší data)",
+    dukaz: "Zákon č. 270/2026 Sb., vyhlášen 26. května 2026",
+    datum: "2026-05-26", zdroje: null, ceka: null,
+  },
+];
+
 let spadlo = 0;
+for (const p of SBIRKA) {
+  const mam = duvodDegradace("fulfilled", p.dukaz, p.datum, { ...PRAVIDLA, zdroje: p.zdroje });
+  const ok = mam === p.ceka;
+  if (!ok) spadlo++;
+  console.log(`${ok ? "ok  " : "CHYBA"} ${p.proc}`);
+  if (!ok) console.log(`      čekáno ${p.ceka ?? "beze změny"}, vyšlo ${mam ?? "beze změny"}`);
+}
+
 for (const p of PRIPADY) {
   const mam = duvodDegradace("fulfilled", p.dukaz, p.datum, PRAVIDLA);
   const ok = mam === p.ceka;

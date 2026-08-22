@@ -12,6 +12,15 @@
 gov.cz
 demagog.cz
 
+# Primární prameny legislativního procesu. Bez nich model nemá kde ověřit,
+# jestli zákon opravdu vyšel — a 21. 8. 2026 si kvůli tomu u bodu 2.10 vymyslel
+# „Zákon č. 270/2026 Sb., vyhlášen 26. 5. 2026" z toho, že Sněmovna toho dne
+# přehlasovala veto Senátu. Bez těchhle zdrojů nemá stav „splněno" o co se opřít.
+psp.cz
+senat.cz
+e-sbirka.cz
+zakonyprolidi.cz
+
 # NFNŽ MediaRating — A
 aktualne.cz
 ceskenoviny.cz

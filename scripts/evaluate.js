@@ -178,7 +178,7 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
   const out = {};
   let kept = 0;
   const demoted = { "no-evidence": 0, "no-date": 0, "predates-term": 0, "date-mismatch": 0,
-    "not-through-process": 0, "broken-no-evidence": 0 };
+    "not-through-process": 0, "broken-no-evidence": 0, "sbirka-bez-uredniho-zdroje": 0 };
   for (const r of parsed) {
     if (!r || !r.id || !VALID_IDS.has(r.id)) continue;
     const sources = [];
@@ -202,7 +202,8 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
     // Samo pravidlo je v lib/dukaz.js, aby se podle něj dala přepočítat i data,
     // která už jsou venku — dvě kopie by se časem rozešly.
     const downgradeReason = duvodDegradace(status, evidence, evDate,
-      { minDelkaDokladu: EVIDENCE_MIN, nastup: DATES.tookOffice, latkaPoruseno: LATKA_PORUSENO });
+      { minDelkaDokladu: EVIDENCE_MIN, nastup: DATES.tookOffice, latkaPoruseno: LATKA_PORUSENO,
+        zdroje: sources });
     if (downgradeReason) { status = CIL_DEGRADACE[downgradeReason]; demoted[downgradeReason]++; }
 
     out[r.id] = {

@@ -119,6 +119,10 @@ const T = {
       cs: "pro tvrzení o porušení slibu nebyl uveden žádný konkrétní doklad.",
       en: "no concrete evidence was given for the claim that the promise was broken.",
     },
+    "sbirka-bez-uredniho-zdroje": {
+      cs: "doklad tvrdí, že norma vyšla ve Sbírce zákonů, ale neodkazuje na žádný úřední pramen, kde by to šlo ověřit.",
+      en: "the evidence claims the law was promulgated in the Collection of Laws but cites no official source where that could be checked.",
+    },
   },
   searchPlaceholder: { cs: "Hledat v bodech programu…", en: "Search the programme…" },
   filterAll: { cs: "Vše", en: "All" },
