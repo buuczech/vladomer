@@ -1,0 +1,102 @@
+{
+  "titulek": "Smazal jsem pravidelnou páteční aktualizaci. Tady je proč.",
+  "podtitulek": "Číslo, za kterým si nestojím",
+  "stitek": "Co se stalo",
+  "popisek": "V pátek 21. srpna tu vyšel pravidelný týdenní příspěvek s aktualizací plnění. Stálo v něm, že vláda má splněno 4,3 % programu. O týden dřív jsem uváděl 5,7 %.\n\nPodle toho by vláda za týden splnila míň než předtím. To se stát nemůže — hotový zákon se neodedělá. Chyba tedy nebyla ve vládě, ale u mě. Příspěvek jsem smazal.\n\nKdyž jsem hodnocení pustil dvakrát za sebou nad stejnými daty, shodly se ty dva běhy jen na 133 ze 143 závazků. Těch deset rozdílů nevzniklo z ničeho, co by se stalo ve světě. Vznikly tím, že se model každý týden znovu rozhodoval i o věcech, které už jednou rozhodl.\n\nOprava vypadá takhle: model už nemá povolenou náhodu, neptám se ho na stav, ale co se od minulého pátku stalo, a přehodnocují se jen body, kde se opravdu něco událo. Cestu do „splněno“ nebo „porušeno“ navíc musí schválit druhý, silnější model, který si fakta umí dohledat. Po opravě se dva běhy nad stejnými daty shodnou na 141 ze 143 a hlavní číslo se mezi nimi neliší vůbec.\n\nData z 21. srpna jsem přitom zpětně nepřepsal a nepřepíšu. Web slibuje, že se hodnocení nepřepisují, jen doplňují — a slib, který platí, jen když se to hodí, není slib. První ostrý běh podle nových pravidel je v pátek 28. srpna.\n\nCelé měření i obě verze kódu jsou veřejné na GitHubu.\n\n#vladomer #ai #transparentnost #politika #cesko",
+  "slidy": [
+    {
+      "nadpis": "Co se stalo",
+      "typ": "odrazky",
+      "body": [
+        "V pátek 21. 8. tu vyšel příspěvek s číslem 4,3 % splněno.",
+        "O týden dřív to bylo 5,7 %.",
+        "Podle toho by vláda za týden splnila míň než předtím.",
+        "To se stát nemůže. Hotový zákon se neodedělá.",
+        "Příspěvek jsem smazal."
+      ]
+    },
+    {
+      "nadpis": "Kde byla chyba",
+      "typ": "odrazky",
+      "body": [
+        "Nebyla ve vládě. Byla u mě.",
+        "Dva závazky ztratily „splněno“: platy v kultuře a poplatky za média.",
+        "Ve světě se přitom nic takového nestalo.",
+        "Model je jen posoudil jinak než o týden dřív.",
+        "Které z těch dvou čísel bylo správně, nevím. A to je ten problém."
+      ]
+    },
+    {
+      "nadpis": "Jak jsem si to ověřil",
+      "typ": "odrazky",
+      "body": [
+        "Pustil jsem hodnocení dvakrát za sebou. Stejná data, stejné zadání.",
+        "Ze 143 závazků se ty dva běhy shodly jen na 133.",
+        "Deset hodnocení vyšlo jinak čirou náhodou.",
+        "Jeden bod změnil stav pětkrát v pěti bězích, aniž by se cokoli stalo."
+      ]
+    },
+    {
+      "nadpis": "Ptal jsem se špatně",
+      "typ": "odrazky",
+      "body": [
+        "Každý týden jsem se ptal: jaký je stav u všech 143 bodů?",
+        "Model tak znovu rozhodoval i to, co už jednou rozhodl.",
+        "U jasných věcí vyšlo pokaždé totéž.",
+        "U hraničních se to házelo. A hraniční body jsou ty nejzajímavější."
+      ]
+    },
+    {
+      "nadpis": "Co jsem změnil",
+      "typ": "kroky",
+      "body": [
+        "Model už nemá povolenou náhodu. Stejný vstup, stejná odpověď.",
+        "Neptám se na stav, ale co se od minulého pátku stalo.",
+        "Přehodnotí se jen body, kde se něco událo. Jinak stav zůstává.",
+        "Změnu stavu musí povolit program podle pevných pravidel.",
+        "Jednou za čtyři týdny se přesto projde všech 143 bodů."
+      ]
+    },
+    {
+      "nadpis": "Nejsilnější tvrzení kontroluje druhý model",
+      "typ": "odrazky",
+      "body": [
+        "„Splněno“ a „porušeno“ jsou to nejsilnější, co web říká.",
+        "Cestu do nich i z nich musí schválit druhý, silnější model.",
+        "Jeho výchozí odpověď je NE. Změnu je potřeba obhájit.",
+        "Jednou prošlo číslo zákona, které si model odvodil.",
+        "Ověřovatel si teď umí dohledat, jestli takový zákon opravdu vyšel."
+      ]
+    },
+    {
+      "nadpis": "Jak to dopadlo",
+      "typ": "odrazky",
+      "body": [
+        "Tytéž dva běhy po opravě: shoda na 141 ze 143 závazků.",
+        "Hlavní číslo se mezi nimi neliší vůbec.",
+        "Zbylé dva body se hýbou jen tam, kde hlavní číslo neovlivní.",
+        "První ostrý běh podle nových pravidel je v pátek 28. 8."
+      ]
+    },
+    {
+      "nadpis": "Na webu to číslo pořád svítí",
+      "typ": "odrazky",
+      "body": [
+        "Data z 21. 8. jsem zpětně nepřepsal a nepřepíšu.",
+        "Web slibuje, že se hodnocení nepřepisují, jen doplňují.",
+        "Slib, který platí, jen když se to hodí, není slib.",
+        "Smazat svůj příspěvek můžu. Přepsat minulost webu ne."
+      ]
+    },
+    {
+      "nadpis": "Proč o tom píšu",
+      "typ": "odrazky",
+      "body": [
+        "Vládoměr má jediný kapitál: že se mu dá věřit.",
+        "Číslo, za kterým si nestojím, je horší než žádné číslo.",
+        "Schovat se to stejně nedá. Kód, data i historie jsou veřejné.",
+        "Tak ať je veřejná i chyba a to, co se s ní udělalo."
+      ]
+    }
+  ]
+}

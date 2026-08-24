@@ -1,0 +1,13 @@
+V pátek 21. srpna tu vyšel pravidelný týdenní příspěvek s aktualizací plnění. Stálo v něm, že vláda má splněno 4,3 % programu. O týden dřív jsem uváděl 5,7 %.
+
+Podle toho by vláda za týden splnila míň než předtím. To se stát nemůže — hotový zákon se neodedělá. Chyba tedy nebyla ve vládě, ale u mě. Příspěvek jsem smazal.
+
+Když jsem hodnocení pustil dvakrát za sebou nad stejnými daty, shodly se ty dva běhy jen na 133 ze 143 závazků. Těch deset rozdílů nevzniklo z ničeho, co by se stalo ve světě. Vznikly tím, že se model každý týden znovu rozhodoval i o věcech, které už jednou rozhodl.
+
+Oprava vypadá takhle: model už nemá povolenou náhodu, neptám se ho na stav, ale co se od minulého pátku stalo, a přehodnocují se jen body, kde se opravdu něco událo. Cestu do „splněno“ nebo „porušeno“ navíc musí schválit druhý, silnější model, který si fakta umí dohledat. Po opravě se dva běhy nad stejnými daty shodnou na 141 ze 143 a hlavní číslo se mezi nimi neliší vůbec.
+
+Data z 21. srpna jsem přitom zpětně nepřepsal a nepřepíšu. Web slibuje, že se hodnocení nepřepisují, jen doplňují — a slib, který platí, jen když se to hodí, není slib. První ostrý běh podle nových pravidel je v pátek 28. srpna.
+
+Celé měření i obě verze kódu jsou veřejné na GitHubu.
+
+#vladomer #ai #transparentnost #politika #cesko
