@@ -14,6 +14,29 @@
  * selhání — jediná obrana je přečíst, co přišlo, nebo aspoň říct co to bylo.
  */
 
+
+/* Všechny spárované výřezy od `otevirac` k jeho vlastnímu `zavirac`. Hlídá
+   řetězce a escapování, aby závorka uvnitř textu nerozhodila hloubku.
+   Kandidátů je strop: u dlouhé prózy plné závorek nemá smysl zkoušet stovky. */
+const STROP_KANDIDATU = 200;
+
+function* vyrezy(text, otevirac, zavirac) {
+  let nalezeno = 0;
+  for (let i = 0; i < text.length && nalezeno < STROP_KANDIDATU; i++) {
+    if (text[i] !== otevirac) continue;
+    let hloubka = 0, vRetezci = false, escape = false;
+    for (let j = i; j < text.length; j++) {
+      const c = text[j];
+      if (escape) { escape = false; continue; }
+      if (c === "\\") { escape = true; continue; }
+      if (c === '"') { vRetezci = !vRetezci; continue; }
+      if (vRetezci) continue;
+      if (c === otevirac) hloubka++;
+      else if (c === zavirac && --hloubka === 0) { nalezeno++; yield text.slice(i, j + 1); break; }
+    }
+  }
+}
+
 /** Vypadá záznam jako hodnocení bodu? Stačí id, zbytek dořeší volající. */
 function jeZaznam(x) {
   return Boolean(x) && typeof x === "object" && !Array.isArray(x) && typeof x.id === "string";
@@ -28,20 +51,22 @@ export function parsujHodnoceni(text) {
   const clean = String(text || "").replace(/```json|```/g, "").trim();
   if (!clean) throw new Error("prázdná odpověď modelu");
 
-  const kandidati = [];
-  try { kandidati.push(JSON.parse(clean)); } catch { /* zkusí se výřezy níž */ }
-
-  /* Výřez od první [ po poslední ] a totéž pro { }. Pokrývá prózu okolo
-     i odpověď, kde model utrousí větu před JSON. */
-  for (const [o, z] of [["[", "]"], ["{", "}"]]) {
-    const a = clean.indexOf(o), b = clean.lastIndexOf(z);
-    if (a === -1 || b === -1 || b < a) continue;
-    try { kandidati.push(JSON.parse(clean.slice(a, b + 1))); } catch { /* další kandidát */ }
-  }
-
-  for (const k of kandidati) {
-    const pole = naPoleZaznamu(k);
+  try {
+    const pole = naPoleZaznamu(JSON.parse(clean));
     if (pole) return pole;
+  } catch { /* próza okolo JSON; zkusí se výřezy níž */ }
+
+  /* Výřezy podle SPÁROVANÝCH závorek, ne podle první a poslední. Model uvozuje
+     odpověď prózou, v níž na body odkazuje zápisem [2.3] — „od první [ po
+     poslední ]" tedy začne uprostřed věty a nepřečte se nic. Generálka
+     22. 8. 2026 na tom shodila sedm kapitol z osmnácti. */
+  for (const [o, z] of [["[", "]"], ["{", "}"]]) {
+    for (const vyrez of vyrezy(clean, o, z)) {
+      let hodnota;
+      try { hodnota = JSON.parse(vyrez); } catch { continue; }
+      const pole = naPoleZaznamu(hodnota);
+      if (pole) return pole;
+    }
   }
 
   /* Nedá se přečíst. Ukázka odpovědi je jediné, z čeho se příště pozná proč —

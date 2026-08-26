@@ -30,6 +30,29 @@ const PRIPADY = [
     text: '{"9.4":{"status":"partial","comment_cs":"x"}}', ceka: ["9.4"] },
   { proc: "obálka pojmenovaná po svém", text: J({ hodnoceni: [Z("2.2")] }), ceka: ["2.2"] },
 
+  /* Skutečné odpovědi z generálky 22. 8. 2026. Model uvozuje odpověď prózou
+     a odkazuje v ní na body zápisem [2.3] — hledání „od první [ po poslední ]“
+     tedy začínalo uprostřed věty a shodilo sedm kapitol z osmnácti. */
+  { proc: "próza s odkazy [2.3] před polem, JEDEN bod",
+    text: `Vyhledám informace.
+**[2.3] EET:** Sněmovna schválila.
+${J([Z("2.3")])}`,
+    ceka: ["2.3"] },
+  { proc: "próza s odkazy [2.3] před polem, VÍC bodů (padalo na tom)",
+    text: `Zde je hodnocení:
+**[2.3] EET:** ano.
+**[2.5] Daně:** ne.
+${J([Z("2.3"), Z("2.5")])}`,
+    ceka: ["2.3", "2.5"] },
+  { proc: "próza s odkazy i ZA polem",
+    text: `Úvod [1.1] a [1.2]:
+${J([Z("1.1"), Z("1.2")])}
+Doufám, že [1.3] doplním příště.`,
+    ceka: ["1.1", "1.2"] },
+  { proc: "závorka uvnitř komentáře nerozhodí hloubku",
+    text: `Úvod [2.1]:
+${J([{ id: "2.1", status: "partial", comment_cs: "Zákon (č. 5] Sb.) plyne." }])}`,
+    ceka: ["2.1"] },
   { proc: "prázdná odpověď se hlásí", text: "", chyba: true },
   { proc: "próza bez JSON se hlásí", text: "Nepodařilo se mi nic zjistit.", chyba: true },
   { proc: "pole řetězců není hodnocení", text: J(["https://a", "https://b"]), chyba: true },

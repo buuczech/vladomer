@@ -52,9 +52,18 @@ const MODEL = process.env.EVAL_MODEL || NAST.model; // env still wins, for one-o
 const KOR_MODEL = process.env.KOREKTURA_MODEL || NAST.korektura_model;
 /* Měřicí režim „stabilita" (dev-eval.yml) běží hodnocení dvakrát a porovnává
    stavy. Korektura ani zprávy stav neovlivňují, jen by se za ně dvakrát
-   platilo — tyhle přepínače je vypnou. V ostrém běhu se NIKDY nenastavují. */
-const KOREKTURA_MODELEM = NAST.korektura === 1 && !process.env.BEZ_KOREKTURY;
-const SE_ZPRAVAMI = !process.env.BEZ_ZPRAV;
+   platilo — tyhle přepínače je vypnou. V ostrém běhu se NIKDY nenastavují.
+
+   Čte se HODNOTA, ne pouhá přítomnost: `BEZ_KOREKTURY=0` je neprázdný řetězec,
+   a tedy v JS pravdivý. Generálka 22. 8. 2026 kvůli tomu proběhla bez korektury,
+   přestože ji zapínala — a netestovala právě to, kvůli čemu se pouštěla. */
+function zapnuto(jmeno) {
+  const v = String(process.env[jmeno] || "").trim().toLowerCase();
+  return v === "1" || v === "true" || v === "ano" || v === "yes";
+}
+
+const KOREKTURA_MODELEM = NAST.korektura === 1 && !zapnuto("BEZ_KOREKTURY");
+const SE_ZPRAVAMI = !zapnuto("BEZ_ZPRAV");
 /* Operational, deliberately NOT in nastaveni.txt: too low silently truncates
    the JSON reply, which looks like a model failure and burns retries.
    Separate budgets because every web_search round is part of the output —
