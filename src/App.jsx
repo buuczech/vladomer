@@ -120,8 +120,8 @@ const T = {
       en: "no concrete evidence was given for the claim that the promise was broken.",
     },
     "sbirka-bez-uredniho-zdroje": {
-      cs: "doklad tvrdí, že norma vyšla ve Sbírce zákonů, ale neodkazuje na žádný úřední pramen, kde by to šlo ověřit.",
-      en: "the evidence claims the law was promulgated in the Collection of Laws but cites no official source where that could be checked.",
+      cs: "doklad se opírá o předpis ve Sbírce zákonů, ale neodkazuje na e-Sbírku ani na sněmovní či senátní záznam, kde by se ta značka dala dohledat.",
+      en: "the evidence rests on an instrument in the Collection of Laws but links neither the Collection itself nor a chamber record where the number could be looked up.",
     },
   },
   searchPlaceholder: { cs: "Hledat v bodech programu…", en: "Search the programme…" },

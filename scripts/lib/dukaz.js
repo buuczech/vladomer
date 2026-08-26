@@ -105,21 +105,99 @@ export function jeNedokoncenyProces(dukaz) {
   return ROZDELANO.test(t) && !DOKONCENO.test(t);
 }
 
-/* Tvrzení, že norma vyšla ve Sbírce. Užší než DOKONCENO schválně: tohle je
-   jediné tvrzení, které samo o sobě zakládá „splněno", a proto jediné, u nějž
-   se vyžaduje úřední pramen. */
-const VYHLASENO = /(\bSb\.|Sbírc\p{L}*|Sbírk\p{L}*|vyhlášen\p{L}*\s+(?:ve|v)\s+Sbírc\p{L}*)/iu;
+/* Značka předpisu: „č. 233/2026 Sb.“ i „233/2026 Sb.“. Slovo „Sb“ je povinné —
+   bez něj by se sem chytalo „Usnesení vlády č. 1022/2025“, které o Sbírce
+   netvrdí vůbec nic. Tečka za ním povinná není: model ji občas vynechá a na
+   jedné tečce nemá viset, jestli se doklad ověřuje. Za „Sb“ ale nesmí následovat
+   písmeno, jinak by „Sbírce“ prošlo jako zkratka. */
+const ZNACKA_PREDPISU = /\b(?:č\.\s*)?(\d{1,4})\s*\/\s*(\d{4})\s+Sb\.?(?!\p{L})/gu;
 
-/* Prameny, u kterých se dá vyhlášení opravdu ověřit. gov.cz pokrývá i
-   e-sbirka.gov.cz a ministerstva; psp.cz a senat.cz nesou průběh procesu. */
-export const UREDNI_ZDROJE = ["gov.cz", "psp.cz", "senat.cz", "e-sbirka.cz"];
+/* Značky, které doklad tvrdí jako ČERSTVĚ VYDANÉ — ročník předpisu není starší
+ * než rok dokladu. To je rozdíl mezi tvrzením a pojmenováním: „zákon
+ * č. 117/1995 Sb.“ u dokladu z roku 2026 je jméno normy, kterou novela mění,
+ * kdežto „zákon č. 233/2026 Sb.“ u dokladu z roku 2026 tvrdí, že takový
+ * předpis toho roku vznikl. Ověřit se musí to druhé.
+ *
+ * POZOR, tohle NENÍ ta zrušená kontrola ročníků, i když sahá po stejné dvojici
+ * čísel. Ta srážela, když se ročník značky LIŠIL od data dokladu, a trestala
+ * tím novely starších zákonů — nejběžnější způsob, jak se tu slib plní.
+ * Tahle je otočená: ozve se jen tehdy, když je značka stejně stará nebo mladší
+ * než doklad. Novela projde, protože její ročník je starší.
+ *
+ * S nástupem vlády se ročník neporovnává schválně. O zásluhu rozhoduje datum
+ * dokladu (predates-term), ne značka, a protože vláda nastoupila 15. 12. 2025,
+ * „2025“ nerozliší její práci od práce té předchozí. Tady se nerozhoduje
+ * o zásluze, jen o tom, jestli je potřeba pramen.
+ */
+export function cerstvaCislaPredpisu(dukaz, datum) {
+  const rokDokladu = Number(String(datum || "").slice(0, 4));
+  const out = new Set();
+  if (!rokDokladu) return out;
+  for (const m of String(dukaz || "").matchAll(ZNACKA_PREDPISU)) {
+    if (Number(m[2]) >= rokDokladu) out.add(`${m[1]}/${m[2]}`);
+  }
+  return out;
+}
 
-export function maUredniZdroj(zdroje) {
+/* Tvrzení o Sbírce vyslovené slovy, bez čísla. Bod 10.4 to 7. 8. 2026 napsal
+   jako „novela č.... ve Sbírce zákonů (k publikaci)“ — číslo neměl, ale
+   vyhlášení tvrdil, a doložit se musí i tohle. */
+const SBIRKA_SLOVY = /(?:ve|v)\s+Sbírc\p{L}*|vyhlášen\p{L}*\s+ve?\s+Sbírk\p{L}*/iu;
+
+/* Trpné příčestí od „vyhlásit“. Samo o sobě spouštěčem být NESMÍ: bod 7.1 má
+   doklad „Usnesení vlády č. 1022/2025 … vyhlášeno 16. 12. 2025“, což je zcela
+   legitimní nelegislativní splnění, a laťka by ho srazila. Váže se proto na
+   přítomnost značky předpisu — viz tvrdiSbirku(). */
+const VYHLASENO_SLOVESO = /vyhlášen\p{L}*/iu;
+
+/** Nese doklad ZNAČKU předpisu, jakkoli starou? */
+function maZnackuPredpisu(dukaz) {
+  for (const _ of String(dukaz || "").matchAll(ZNACKA_PREDPISU)) return true;
+  return false;
+}
+
+/* Opírá se doklad o předpis ve Sbírce zákonů? Tři cesty, protože model píše
+ * všechny tři a každá zvlášť je propustná:
+ *
+ *   a) ČERSTVÁ ZNAČKA — „č. 233/2026 Sb.“ u dokladu z roku 2026.
+ *   b) SLOVY — „ve Sbírce zákonů“ i bez čísla.
+ *   c) STARÁ ZNAČKA + VYHLÁŠENO — „novela zákona č. 117/1995 Sb. byla vyhlášena
+ *      20. 8. 2026“. Tvrdí se tu vyhlášení, ale nové číslo u toho nestojí, takže
+ *      (a) mlčí a (b) taky, protože slovo „Sbírka“ ve větě není. Bez téhle větve
+ *      by stačilo vyhlášení napsat opisem a zábrana by ho nechala projít.
+ *
+ * (c) je nejširší a nese cenu: „vyhlášeno výběrové řízení podle zákona
+ * č. 137/2006 Sb.“ sepne taky, ačkoli o Sbírku nejde. Sráží se ale jen na
+ * „částečně splněno“ s viditelnou vysvětlivkou a stačí doplnit pramen. Na
+ * celé auditní stopě (32 hodnocení „splněno“ z pěti běhů) nepřidala (c) ani
+ * jedno sražení navíc — cena je zatím teoretická, mezera nebyla.
+ */
+export function tvrdiSbirku(dukaz, datum) {
+  const t = String(dukaz || "");
+  if (cerstvaCislaPredpisu(dukaz, datum).size > 0) return true;
+  if (SBIRKA_SLOVY.test(t)) return true;
+  return maZnackuPredpisu(t) && VYHLASENO_SLOVESO.test(t);
+}
+
+/* Prameny, kde se značka ve Sbírce dá opravdu dohledat: e-Sbírka a komory,
+ * jejichž stránka sněmovního tisku číslo po vyhlášení nese.
+ *
+ * gov.cz tu schválně NENÍ, ačkoli je to úřední doména. Pokrývá totiž i každou
+ * tiskovou zprávu ministerstva, a tiskovou zprávou o hlasování Sněmovny se
+ * vyhlášení nedokládá. Přesně na tom 21. 8. 2026 propadl bod 10.4: doklad
+ * „Zákon č. 233/2026 Sb. … podepsaný prezidentem“ prošel, protože jeho jediný
+ * „úřední“ pramen byl mpsv.gov.cz — článek o tom, že novelu schválila Sněmovna.
+ */
+export const PRAMENY_SBIRKY = ["e-sbirka.cz", "e-sbirka.gov.cz", "psp.cz", "senat.cz"];
+
+/* Zdroj bere v obou tvarech: objekt {url} z ostrého běhu i holý řetězec, jak
+   ho nese audit.json. */
+export function maPramenSbirky(zdroje, domeny = PRAMENY_SBIRKY) {
   for (const z of zdroje || []) {
     const url = typeof z === "string" ? z : (z && z.url) || "";
     let host;
     try { host = new URL(url).hostname.toLowerCase(); } catch { continue; }
-    if (UREDNI_ZDROJE.some((d) => host === d || host.endsWith("." + d))) return true;
+    if (domeny.some((d) => host === d || host.endsWith("." + d))) return true;
   }
   return false;
 }
@@ -173,9 +251,16 @@ export function duvodDegradace(stav, dukaz, datum, { minDelkaDokladu, nastup, la
      Sněmovna toho dne přehlasovala veto Senátu — a ověřovatel to potvrdil,
      protože nemá vyhledávání a číslo si nemohl ověřit. Text tvrzení se tedy
      nebere na slovo: musí u něj stát pramen, kde to jde dohledat.
+
+     První verze téhle zábrany díru nezavřela a stálo to bod 10.4: ptala se na
+     jakékoli „Sb." a spokojila se s jakoukoli doménou gov.cz, takže ji uspokojil
+     ministerský článek o hlasování Sněmovny. Ptá se proto na dvě věci najednou
+     — jestli doklad o Sbírku vůbec OPÍRÁ (tvrdiSbirku, ne pouhá zmínka staršího
+     předpisu) a jestli u toho stojí pramen, kde ta značka JE (PRAMENY_SBIRKY).
+
      Kontroluje se jen když volající zdroje předá (zpětná dohledatelnost
      starších dat se tím nemění — viz prepocet-degradaci.js). */
-  if (zdroje && VYHLASENO.test(String(dukaz || "")) && !maUredniZdroj(zdroje)) {
+  if (zdroje && tvrdiSbirku(dukaz, datum) && !maPramenSbirky(zdroje, PRAMENY_SBIRKY)) {
     return "sbirka-bez-uredniho-zdroje";
   }
   return null;

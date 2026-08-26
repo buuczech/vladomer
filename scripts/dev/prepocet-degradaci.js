@@ -70,7 +70,12 @@ for (const [id, e] of Object.entries(evaluations.evals)) {
   const puvodniStav = e.evidenceMissing ? "fulfilled" : e.status;
   if (!e.evidenceMissing && puvodniStav !== "fulfilled" && puvodniStav !== "broken") continue;
 
-  const nyni = duvodDegradace(puvodniStav, e.evidence || "", e.evidenceDate || "", PRAVIDLA);
+  /* Zdroje se předávají schválně: bez nich se laťka na doklad opřený o Sbírku
+     zákonů (uvozená `zdroje &&`) na už zveřejněná data vůbec nedostane —
+     a přepočet by pak tvrdil něco jiného, než co v pátek vyjde z ostrého běhu,
+     který je předává taky. */
+  const nyni = duvodDegradace(puvodniStav, e.evidence || "", e.evidenceDate || "",
+    { ...PRAVIDLA, zdroje: e.sources || [] });
   const stejne = nyni === (e.evidenceMissing || null);
   if (stejne) continue;
   const naNove = nyni ? CIL_DEGRADACE[nyni] : puvodniStav;
@@ -85,6 +90,23 @@ if (!zmeny.length) {
 }
 
 const dnes = new Date().toISOString().slice(0, 10);
+
+/* Co se do auditu napíše jako důvod opravy. Dřív tu stálo natvrdo „srážela
+   novely starších předpisů“ — což platilo pro jednu jedinou opravu ze srpna
+   2026 a u každé další by to byla nepravda zapsaná do souboru, který se ze
+   zásady nepřepisuje. Text se proto odvozuje z toho, co se opravdu změnilo. */
+const duvodOpravy = (z) => {
+  if (z.puvodniDuvod && !z.novyDuvod) {
+    return `Automatická kontrola „${z.puvodniDuvod}“ zafungovala chybně. Pravidlo `
+      + "v lib/dukaz.js bylo opraveno a stav přepočítán.";
+  }
+  if (z.novyDuvod && !z.puvodniDuvod) {
+    return `Zpřísněná kontrola dokladu „${z.novyDuvod}“ dopadla na tento už zveřejněný `
+      + "záznam zpětně. Stav přepočítán podle pravidla v lib/dukaz.js.";
+  }
+  return `Důvod degradace se po opravě pravidla v lib/dukaz.js změnil z „${z.puvodniDuvod}“ `
+    + `na „${z.novyDuvod}“. Stav přepočítán.`;
+};
 
 for (const z of zmeny) {
   const e = evaluations.evals[z.id];
@@ -116,8 +138,7 @@ for (const z of zmeny) {
     oprava: {
       puvodni_stav: z.zPuvodni,
       puvodni_zaznam: puvodni?.date || null,
-      duvod: `Automatická kontrola „${z.puvodniDuvod}“ zafungovala chybně: srážela `
-        + "novely starších předpisů. Pravidlo bylo opraveno a stav přepočítán.",
+      duvod: duvodOpravy(z),
       bez_noveho_hodnoceni: true,
     },
   });
