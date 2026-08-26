@@ -1,0 +1,24 @@
+
+> vladomer@1.0.0 evaluate
+> node scripts/evaluate.js
+
+Režim běhu: plny
+Evaluating 1 Zásadní priority vlády… ok (5) — 37 search hits, 15 sources kept
+Evaluating 2 Finance a hospodaření státu (2 dávky)… ok (15) — 80 search hits, 36 sources kept
+Evaluating 3 Vnitřní bezpečnost a veřejná správa… ok (8) — 40 search hits, 15 sources kept
+Evaluating 4 Obrana a Armáda ČR… ok (7) — 40 search hits, 12 sources kept
+Evaluating 5 Zahraniční politika… ok (6) — 40 search hits, 11 sources kept
+
+Brána přechodů: 34 beze změny stavu, 1 přechodů přijato (1 ověřeno), 4 drženo, 2 zamítnuto
+  drženo:    2.9 (částečně splněno→probíhá: prechod-bez-udalosti)
+  drženo:    2.13 (částečně splněno→probíhá: prechod-bez-udalosti)
+  drženo:    3.2 (částečně splněno→jen deklarováno: prechod-bez-udalosti)
+  drženo:    4.3 (jen deklarováno→jen deklarováno: prechod-bez-udalosti)
+  zamítnuto: 1.2 (částečně splněno→probíhá: Tvrzení o přiznání zpoždění eŽádanek a posunu termínu na červenec 2027 v červenci 2026 nebylo vyhledáváním ověřeno — žádný datovaný doklad o tomto oznámení nebyl nalezen, a bez dokladu nelze posun stavu potvrdit.)
+  zamítnuto: 1.5 (jen deklarováno→porušeno/opuštěno: Vstup paktu v platnost 12. 6. 2026 je vnější právní skutečnost nezávislá na vůli vlády; vláda od svého slibu ani závazku neustoupila a nadále pakt odmítá, takže chybí doložený krok vlády proti slibu, který by přechod do stavu 'porušeno/opuštěno' zakládal.)
+  korektura 4 odmítla: 1 řádků v nečitelném tvaru
+Korektura: 0 úryvků mechanicky očištěno, 11 opraveno modelem, 1 oprav odmítnuto, 5 dávek (claude-sonnet-4-6)
+
+Wrote 143 evaluations, 6 history snapshots, 35 audit records
+Fetching headlines…   korektura zpráv: 0 opraveno, 0 odmítnuto
+ok (4 items) — 48 search hits, proposed 8, dropped 1 invented / 0 non-article / 2 stale / 1 same-outlet

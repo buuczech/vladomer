@@ -1,64 +1,52 @@
 {
-  "generatedAt": "2026-08-22T04:44:27.161Z",
+  "generatedAt": "2026-08-26T10:13:15.836Z",
   "items": [
     {
       "title": {
-        "cs": "Senát zamítl stavební novelu, která měla zrychlit povolování staveb",
-        "en": "Senate rejected building law amendment designed to speed up permits"
+        "cs": "Sněmovna přehlasuje prezidentské veto k rozpočtové novele",
+        "en": "Parliament to override presidential veto on budget amendment"
       },
       "summary": {
-        "cs": "Senát zamítl spornou novelu stavebního zákona vládní koalice, kterou kritici označili za paskvil nahrávající developerům.",
-        "en": "Senate rejected the controversial building law amendment from the government coalition, which critics called a sham favoring developers."
+        "cs": "Vládní koalice ANO, SPD a Motoristů se chystá přehlasovat veto prezidenta Petra Pavla k novele rozpočtových zákonů, která umožní vládě vyšší zadlužení a výdaje na obranu.",
+        "en": "The government coalition plans to override President Pavel's veto on a budget law amendment that would allow higher state spending and defense expenditure."
       },
-      "url": "https://www.irozhlas.cz/zpravy-domov/senat-zamitl-spornou-novelu-stavebniho-zakona-podle-mnohych-jde-o-paskvil_2608201555_elev",
-      "date": "2026-08-20"
+      "url": "https://www.ceskenoviny.cz/zpravy/snemovna-schvalila-program-schuze-k-rozpoctove-novele-po-zhruba-deseti-hodinach/2865583",
+      "date": "2026-08-25"
     },
     {
       "title": {
-        "cs": "Senát vrátil sněmovně čtyři klíčové zákony včetně stavební novely a EET",
-        "en": "Senate returned four key bills to Parliament including building law and EET"
+        "cs": "Ministr Havlíček ostře kritizuje senátní odmítnutí stavební novely",
+        "en": "Minister Havlíček harshly criticizes Senate rejection of building law amendment"
       },
       "summary": {
-        "cs": "Horní komora vrátila poslancům čtyři zásadní předlohy z dílny koalice - stavební zákon, obnovení EET, zákon o státních zaměstnancích a změnu kompetencí prezidenta.",
-        "en": "Upper chamber returned four major coalition bills to MPs - building law, EET revival, civil service law, and presidential powers amendment."
+        "cs": "Ministr průmyslu Karel Havlíček označil senátní odmítnutí stavební novely za nepochopitelné a tvrdí, že za návrhem stojí drtivá část hospodářské veřejnosti.",
+        "en": "Industry Minister Havlíček called the Senate's rejection of the building law amendment incomprehensible, claiming overwhelming business support for the proposal."
       },
-      "url": "https://m.echo24.cz/a/HGBVt/zpravy-domaci-senatni-masakr-horni-komora-vratila-ctyri-zasadni-vladni-predlohy-nastroj-opozice",
-      "date": "2026-08-21"
+      "url": "https://m.echo24.cz/a/HBUeL/stavebni-zakon-havlicek-prehlasovani-vlada-mpo-prumysl-pirati-antibyrokraticke-balicky-hospodarska-komora",
+      "date": "2026-08-24"
     },
     {
       "title": {
-        "cs": "Vláda obnovila práci Národní koalice proti suchu kvůli dlouhotrvajícím vysokým teplotám",
-        "en": "Government revived National Coalition Against Drought due to prolonged high temperatures"
+        "cs": "Opozice chystá podání k Ústavnímu soudu proti rozpočtové novele",
+        "en": "Opposition prepares Constitutional Court appeal against budget amendment"
       },
       "summary": {
-        "cs": "Premiér Babiš oznámil obnovení činnosti Národní koalice proti suchu v reakci na dlouhotrvající velmi vysoké teploty a vysychání vodních zdrojů.",
-        "en": "PM Babiš announced revival of National Coalition Against Drought operations in response to prolonged extreme heat and water source depletion."
+        "cs": "Opozice se rozhodla napadnout vládní novelu rozpočtových zákonů u Ústavního soudu, kterou považuje za likvidační a oslabující rozpočtovou disciplínu.",
+        "en": "The opposition decided to challenge the government's budget law amendment at the Constitutional Court, which it considers devastating to budget discipline."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/zive-tiskova-konference-po-jednani-vlady/2862220",
-      "date": "2026-08-17"
+      "url": "https://www.irozhlas.cz/zpravy-domov/zadluzovaci-zakon-opozice-chysta-kvuli-zmene-rozpoctovych-pravidel-podani-k_2608251154_jho",
+      "date": "2026-08-25"
     },
     {
       "title": {
-        "cs": "Senát odmítl odebrání pravomocí prezidentovi při řízení stálých misí",
-        "en": "Senate rejected removal of presidential powers over diplomatic missions"
+        "cs": "Ministr Juchelka avizuje jeden z nejvyšších růstů veřejných platů",
+        "en": "Minister Juchelka signals one of the highest public wage increases"
       },
       "summary": {
-        "cs": "Senát zamítl návrh zrušit pravomoc prezidenta pověřovat a odvolávat vedoucí stálých misí u mezinárodních organizací, kterou prosazuje vládní koalice.",
-        "en": "Senate rejected the coalition's proposal to strip the president of power to appoint and dismiss heads of permanent missions to international organizations."
+        "cs": "Ministr práce Aleš Juchelka uvedl, že přípravy na navýšení mezd ve veřejné sféře směřují k jednomu z nejvyšších lednových přidání za poslední léta.",
+        "en": "Labor Minister Juchelka said preparations for public sector wage increases point to one of the highest January increases in recent years."
       },
-      "url": "https://www.forum24.cz/senat-odmitl-odebrani-pravomoci-prezidentovi-upravu-oznacil-za-protiustavni",
-      "date": "2026-08-21"
-    },
-    {
-      "title": {
-        "cs": "Senátoři kritizují vrácené zákony jako špatně připravené a obsahující vady",
-        "en": "Senators criticize returned bills as poorly prepared with fundamental flaws"
-      },
-      "summary": {
-        "cs": "Předseda Senátu Vystrčil uvedl, že nedostatky vrácených návrhů byly tak zjevné, že by je zamítl i Marťan, a zákony by fungování země škodily.",
-        "en": "Senate president Vystrčil stated that flaws in returned bills were so obvious that even a Martian would reject them and the laws would harm the country's functioning."
-      },
-      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/zamitl-by-je-i-martan-komentuje-vystrcil-zakony-vracene-snemovne-376847",
+      "url": "https://www.e15.cz/domaci/politika/odbory-zadaji-rust-platu-o-osm-procent-juchelka-slibuje-zvyseni-zadna-cisla-ale-neprozradil-1435040",
       "date": "2026-08-21"
     }
   ]
