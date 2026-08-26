@@ -2,7 +2,7 @@
   "typ": "reel",
   "hudba": "svizny.mp3",
   "publikovat_v": "2026-08-25T18:00:00+02:00",
-  "popisek": "Dvanáct ze 143 závazků programového prohlášení je formulovaných jako odmítnutí. Nepřijmout euro. Odmítnout migrační pakt. Nezvyšovat daně. Neimplementovat ETS2.\n\nAni jeden z nich nemá k 7. 8. 2026 stav „splněno“ — a mít ho ani nemůže. „Splněno“ znamená doložený hotový krok s konkrétním datem. Odmítnutí žádný hotový krok nemá: trvá, dokud trvá, a odškrtnout se dá teprve na konci volebního období. Devět jich stojí na „deklarováno“, tři na „porušeno“.\n\nOpačný pól je vidět mezi osmi splněnými body. Dva z nich jsou zrušené funkce ministrů — pro evropské záležitosti a pro vědu. Obojí šlo bez zákona, pouhým rozhodnutím vlády. Rozhodnutí se odškrtnout dá, postoj ne.\n\nJe to vlastnost stupnice, ne obvinění vlády ani chyba modelu. Píšeme o tom právě proto, že těch dvanáct bodů táhne celkové procento dolů i ve chvíli, kdy vláda postoj drží. Proto se rozpad po kapitolách čte líp než jedno souhrnné číslo.\n\nZdroje u každého bodu na vladomer.cz\n\n#vladomer #politika #vlada #cesko #data #transparentnost",
+  "popisek": "Dvanáct ze 143 závazků programového prohlášení je formulovaných jako odmítnutí. Nepřijmout euro. Odmítnout migrační pakt. Nezvyšovat daně. Neimplementovat ETS2.\n\nAni jeden z nich nemá k 22. 8. 2026 stav „splněno“ — a mít ho ani nemůže. „Splněno“ znamená doložený hotový krok s konkrétním datem. Odmítnutí žádný hotový krok nemá: trvá, dokud trvá, a odškrtnout se dá teprve na konci volebního období. Devět jich stojí na „deklarováno“, tři na „porušeno“.\n\nOpačný pól je vidět mezi šesti splněnými body. Dva z nich jsou zrušené funkce ministrů — pro evropské záležitosti a pro vědu. Obojí šlo bez zákona, pouhým rozhodnutím vlády. Rozhodnutí se odškrtnout dá, postoj ne.\n\nJe to vlastnost stupnice, ne obvinění vlády ani chyba modelu. Píšeme o tom právě proto, že těch dvanáct bodů táhne celkové procento dolů i ve chvíli, kdy vláda postoj drží. Proto se rozpad po kapitolách čte líp než jedno souhrnné číslo.\n\nZdroje u každého bodu na vladomer.cz\n\n#vladomer #politika #vlada #cesko #data #transparentnost",
   "sceny": [
     {
       "typ": "text",
@@ -18,7 +18,7 @@
       "jednotka": "",
       "barva": "neutral",
       "popis": "Nepřijmout euro. Odmítnout migrační pakt. Nezvyšovat daně.",
-      "dovetek": "Stav k 7. 8. 2026",
+      "dovetek": "Stav k 22. 8. 2026",
       "komentar": "Dvanáct ze sto čtyřiceti tří závazků je formulovaných jako odmítnutí.",
       "trvani": 5
     },
@@ -29,7 +29,7 @@
       "jednotka": "",
       "barva": "neutral",
       "popis": "Devět stojí na „deklarováno“, tři na „porušeno“",
-      "dovetek": "Stav k 7. 8. 2026",
+      "dovetek": "Stav k 22. 8. 2026",
       "komentar": "Ani jeden z nich nemá stav splněno. A mít ho ani nemůže.",
       "trvani": 5
     },
@@ -50,11 +50,11 @@
       "nadpis": "Opačný pól",
       "styl": "odrazky",
       "body": [
-        "Osm závazků má stav „splněno“.",
+        "Šest závazků má stav „splněno“.",
         "Dva z nich jsou zrušené funkce ministrů.",
         "Nejrychleji jde to, co stát přestane dělat."
       ],
-      "komentar": "Naopak zrušit něco jde rychle. Dva z osmi splněných slibů jsou zrušené funkce ministrů.",
+      "komentar": "Naopak zrušit něco jde rychle. Dva ze šesti splněných slibů jsou zrušené funkce ministrů.",
       "trvani": 6
     }
   ]

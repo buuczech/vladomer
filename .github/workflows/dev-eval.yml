@@ -32,6 +32,18 @@ on:
         description: "delta: od kdy hledat události (RRRR-MM-DD). Prázdné = od posledního běhu, což po opravném běhu znamená dnešek a sken nenajde nic."
         required: false
         default: ""
+      data_z_main:
+        description: "generálka: vzít vstupní data z main místo z dev. Brána rozhoduje podle minulých stavů, takže jen s produkčními daty se běh chová jako ten páteční."
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+      plna_pipeline:
+        description: "generálka: pustit i korekturu a zprávy (jako ostrý běh). Jinak se vypínají, aby se neplatily dvakrát."
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
   push:
     branches: [dev]
     # Jen když se změní to, co běh ověřuje. Bez filtru stál každý push na dev
@@ -119,6 +131,14 @@ jobs:
           node scripts/dev/test-zabrany.js
           node scripts/dev/test-korektura.js
 
+      - name: Vstupní data z main (generálka)
+        if: github.event.inputs.data_z_main == 'true'
+        run: |
+          git fetch origin main --depth=1
+          git checkout origin/main -- public/
+          echo "Vstupem jsou data z main:"
+          node -e 'const j=require("./public/evaluations.json");console.log("  lastUpdated",j.lastUpdated,"| posledniPlnyAudit",j.posledniPlnyAudit||"chybí → plný audit")'
+
       - name: Snapshot vstupů
         run: cp -r public /tmp/vstup
 
@@ -128,11 +148,17 @@ jobs:
           CHAPTER_LIMIT: ${{ github.event.inputs.chapter_limit || '18' }}
           REZIM_BEHU: ${{ github.event.inputs.rezim_behu == 'delta-vs-plny' && 'delta' || github.event.inputs.rezim_behu || 'plny' }}
           OD_DATA: ${{ github.event.inputs.od_data || '' }}
-          BEZ_KOREKTURY: "1"
-          BEZ_ZPRAV: "1"
+          BEZ_KOREKTURY: ${{ github.event.inputs.plna_pipeline == 'true' && '0' || '1' }}
+          BEZ_ZPRAV: ${{ github.event.inputs.plna_pipeline == 'true' && '0' || '1' }}
         run: |
           npm run evaluate 2>&1 | tee /tmp/beh1.log
           mkdir -p /tmp/beh1 && cp public/*.json /tmp/beh1/
+
+      # Táž kontrola, kterou ostrý běh dělá PŘED commitem. Nezastavuje job:
+      # druhý běh i report jsou pořád k něčemu a nález je vidět v logu.
+      - name: Kontrola dat po běhu 1
+        continue-on-error: true
+        run: node scripts/dev/test-konzistence.js 2>&1 | tee /tmp/konzistence1.log
 
       - name: Obnovit vstupy
         run: rm -rf public && cp -r /tmp/vstup public
@@ -143,11 +169,17 @@ jobs:
           CHAPTER_LIMIT: ${{ github.event.inputs.chapter_limit || '18' }}
           REZIM_BEHU: ${{ github.event.inputs.rezim_behu == 'delta-vs-plny' && 'plny' || github.event.inputs.rezim_behu || 'plny' }}
           OD_DATA: ${{ github.event.inputs.od_data || '' }}
-          BEZ_KOREKTURY: "1"
-          BEZ_ZPRAV: "1"
+          BEZ_KOREKTURY: ${{ github.event.inputs.plna_pipeline == 'true' && '0' || '1' }}
+          BEZ_ZPRAV: ${{ github.event.inputs.plna_pipeline == 'true' && '0' || '1' }}
         run: |
           npm run evaluate 2>&1 | tee /tmp/beh2.log
           mkdir -p /tmp/beh2 && cp public/*.json /tmp/beh2/
+
+      # Táž kontrola, kterou ostrý běh dělá PŘED commitem. Nezastavuje job:
+      # druhý běh i report jsou pořád k něčemu a nález je vidět v logu.
+      - name: Kontrola dat po běhu 2
+        continue-on-error: true
+        run: node scripts/dev/test-konzistence.js 2>&1 | tee /tmp/konzistence2.log
 
       # Pracovní kopie se vrací do původního stavu — tenhle job nikdy nesmí
       # nic commitnout, ani omylem.
@@ -164,6 +196,8 @@ jobs:
           path: |
             /tmp/beh1
             /tmp/beh2
+            /tmp/konzistence1.log
+            /tmp/konzistence2.log
             /tmp/beh1.log
             /tmp/beh2.log
             /tmp/report.txt
