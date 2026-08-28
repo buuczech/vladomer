@@ -1,0 +1,13 @@
+Splněno kleslo na 3,5 %. Nikdo přitom žádný hotový zákon nezrušil.
+
+Co se stalo předtím: 14. srpna Vládoměr ukazoval 5,7 %, o týden později 4,3 %. Splněno ale klesnout nemůže — hotový zákon se neodedělá. Dva běhy nad stejnými daty se tehdy lišily v deseti bodech ze 143. Model každý týden znovu rozhodoval i to, co už jednou rozhodl. Ten páteční příspěvek jsem proto smazal.
+
+Od 28. srpna běží přepracované hodnocení: model už nemá povolenou náhodu, ptáme se ho, co se od minulého běhu stalo, a cestu do „splněno“ nebo „porušeno“ musí schválit druhý, silnější model. Dva běhy nad stejnými daty se po opravě shodnou na 141 ze 143 a hlavní číslo se mezi nimi neliší vůbec.
+
+Proč tedy kleslo znovu? Tentokrát ne náhodou. V pátek proběhla plná prověrka všech 143 závazků a jeden bod v ní neobstál: zvýšení rodičovského příspěvku na 400 000 Kč. Doklad tvrdil, že novela vyšla ve Sbírce zákonů, ale číslo zákona se mezi dvěma běhy změnilo a žádný z uvedených zdrojů vyhlášení nedoložil. Bod spadl na „částečně splněno“ — slib je zjevně blízko naplnění, ale doklad na „splněno“ nestačil.
+
+„Splněno“ tu totiž neznamená, že vláda něco chce, schválila nebo předložila. U zákona znamená průchod Sněmovnou, Senátem, podpis prezidenta a vyhlášení ve Sbírce. U nelegislativního slibu prokazatelné zavedení.
+
+Nejde nám o nízké ani vysoké číslo. Jde nám o číslo, které vyjde stejně, když se hodnocení pustí dvakrát. Vládoměr je pořád ve vývoji — celá metodika i doslovné zadání pro model jsou na vladomer.cz. Když najdete chybu, napište číslo bodu a odkaz na zdroj.
+
+#vladomer #politika #vlada #cesko #transparentnost #ai
