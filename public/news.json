@@ -1,41 +1,29 @@
 {
-  "generatedAt": "2026-08-21T11:08:28.194Z",
+  "generatedAt": "2026-08-28T18:17:06.814Z",
   "items": [
     {
       "title": {
-        "cs": "Babiš převzal vedení Národní koalice proti suchu",
-        "en": "Babiš takes leadership of National Coalition Against Drought"
+        "cs": "Sněmovna přehlasovala Pavlovo veto rozpočtové novely",
+        "en": "Parliament overrides president's veto on budget amendment"
       },
       "summary": {
-        "cs": "Premiér Andrej Babiš se chopil vedení obnovené Národní koalice proti suchu na tiskové konferenci.",
-        "en": "PM Andrej Babiš assumed leadership of the renewed National Coalition Against Drought at a press conference."
+        "cs": "Koalice prosadila kontroverzní novelu o veřejných rozpočtech, která umožní vládě zvyšovat výdaje na obranu a infrastrukturu bez omezení Sněmovny.",
+        "en": "Coalition passed controversial budget amendment allowing government to increase defense spending without parliamentary controls."
       },
-      "url": "https://denikn.cz/minuta/dulezite",
-      "date": "2026-08-19"
+      "url": "https://www.ceskenoviny.cz/zpravy/snemovna-se-vrati-k-novele-k-rozpoctum-koalice-zrejme-prehlasuje-pavlovo-veto/2865977",
+      "date": "2026-08-26"
     },
     {
       "title": {
-        "cs": "Senát schválil změny sněmovního jednacího řádu",
-        "en": "Senate approves changes to parliamentary rules"
+        "cs": "Poslanci schválili program schůze k rozpočtové novele po desetihodinové diskusi",
+        "en": "Parliament approves session agenda for budget discussion after marathon debate"
       },
       "summary": {
-        "cs": "Horní komora umožnila přijetí úprav pravidel sněmovního jednání za účelem omezení obstrukcí, které nyní čeká podpis prezidenta.",
-        "en": "Upper house approved changes to parliamentary rules aimed at limiting obstruction tactics, awaiting presidential signature."
+        "cs": "Po dlouhém projednávání opozičních námitek poslanci schválili program se spornou rozpočtovou novelou.",
+        "en": "After lengthy opposition arguments, parliament approves agenda including controversial budget amendment."
       },
-      "url": "https://www.irozhlas.cz/zpravy-domov/omezeni-dlouhych-obstrukci-ve-snemovne-senatori-poslali-novy-jednaci-rad-k_2608191939_kvr",
-      "date": "2026-08-19"
-    },
-    {
-      "title": {
-        "cs": "Ministr práce plánuje zvýšit platy státních zaměstnanců",
-        "en": "Labor minister plans salary increases for public sector workers"
-      },
-      "summary": {
-        "cs": "Ministr Aleš Juchelka slíbil příslušné zvýšení platů a uvedl, že rozhodnutí padne v září po jednání o státní kase.",
-        "en": "Labor Minister Aleš Juchelka promised salary hikes and said the decision would be made in September after budget talks."
-      },
-      "url": "https://www.e15.cz/domaci/politika/odbory-zadaji-rust-platu-o-osm-procent-juchelka-slibuje-zvyseni-zadna-cisla-ale-neprozradil-1435040",
-      "date": "2026-08-20"
+      "url": "https://www.irozhlas.cz/zpravy-domov/poslanci-po-zhruba-deseti-hodinach-schvalili-program-schuze-k-rozpoctove-novele_2608252142_elev",
+      "date": "2026-08-25"
     }
   ]
 }
