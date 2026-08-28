@@ -1,29 +1,17 @@
 {
-  "generatedAt": "2026-08-28T18:17:06.814Z",
+  "generatedAt": "2026-08-28T21:02:57.182Z",
   "items": [
     {
       "title": {
-        "cs": "Sněmovna přehlasovala Pavlovo veto rozpočtové novely",
-        "en": "Parliament overrides president's veto on budget amendment"
+        "cs": "Šéf Českých drah Krapinec odstoupil, nahradí ho Hamplová",
+        "en": "Czech Railways head Krapinec resigned, replaced by Hamplová"
       },
       "summary": {
-        "cs": "Koalice prosadila kontroverzní novelu o veřejných rozpočtech, která umožní vládě zvyšovat výdaje na obranu a infrastrukturu bez omezení Sněmovny.",
-        "en": "Coalition passed controversial budget amendment allowing government to increase defense spending without parliamentary controls."
+        "cs": "Generální ředitel Českých drah Michal Krapinec odstoupil z funkce ke konci srpna; jeho nástupkyní od září bude Lenka Hamplová.",
+        "en": "General Director of Czech Railways Michal Krapinec resigned at the end of August; succeeded by Lenka Hamplová from September."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/snemovna-se-vrati-k-novele-k-rozpoctum-koalice-zrejme-prehlasuje-pavlovo-veto/2865977",
+      "url": "https://www.ceskenoviny.cz/zpravy/krapinec-odstoupil-z-cela-cd-nahradi-ho-vrchni-reditelka-md-hamplova/2866200",
       "date": "2026-08-26"
-    },
-    {
-      "title": {
-        "cs": "Poslanci schválili program schůze k rozpočtové novele po desetihodinové diskusi",
-        "en": "Parliament approves session agenda for budget discussion after marathon debate"
-      },
-      "summary": {
-        "cs": "Po dlouhém projednávání opozičních námitek poslanci schválili program se spornou rozpočtovou novelou.",
-        "en": "After lengthy opposition arguments, parliament approves agenda including controversial budget amendment."
-      },
-      "url": "https://www.irozhlas.cz/zpravy-domov/poslanci-po-zhruba-deseti-hodinach-schvalili-program-schuze-k-rozpoctove-novele_2608252142_elev",
-      "date": "2026-08-25"
     }
   ]
 }
