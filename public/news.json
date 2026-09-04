@@ -1,17 +1,53 @@
 {
-  "generatedAt": "2026-08-28T21:02:57.182Z",
+  "generatedAt": "2026-09-04T13:29:32.103Z",
   "items": [
     {
       "title": {
-        "cs": "Šéf Českých drah Krapinec odstoupil, nahradí ho Hamplová",
-        "en": "Czech Railways head Krapinec resigned, replaced by Hamplová"
+        "cs": "Sněmovna přehlasovala Pavlovo veto k rozpočtové novele",
+        "en": "Parliament overrode president's veto on budget rule changes"
       },
       "summary": {
-        "cs": "Generální ředitel Českých drah Michal Krapinec odstoupil z funkce ke konci srpna; jeho nástupkyní od září bude Lenka Hamplová.",
-        "en": "General Director of Czech Railways Michal Krapinec resigned at the end of August; succeeded by Lenka Hamplová from September."
+        "cs": "Koalice prosadila kontroverzní novelu rozpočtových pravidel navzdory vetu prezidenta Pavla, opozice podá návrh k Ústavnímu soudu.",
+        "en": "Coalition pushed through disputed budget law changes despite presidential veto; opposition will appeal to Constitutional Court."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/krapinec-odstoupil-z-cela-cd-nahradi-ho-vrchni-reditelka-md-hamplova/2866200",
+      "url": "https://www.ceskenoviny.cz/zpravy/snemovna-prerusila-do-stredy-projednavani-pavlova-veta-sporne-novely-k-rozpoctum/2865583",
       "date": "2026-08-26"
+    },
+    {
+      "title": {
+        "cs": "Babiš a Pavel snižují napětí po měsících střetů",
+        "en": "Babiš and Pavel ease tensions after months of conflicts"
+      },
+      "summary": {
+        "cs": "Prezident a premiér se sešli a vysílají smířlivější signály, vztahy se posouvají do klidnější fáze.",
+        "en": "President and prime minister meet and send reconciliation signals; relationship moving toward calmer phase."
+      },
+      "url": "https://www.echo24.cz/a/HdcY9/premier-babis-prezident-pavel-hrad-vlada-vztahy-strakova-akademie-kpr-tani-spor-ankara-summit-rozpocet-2027-cesky-rozhlas-televize-poplatky",
+      "date": "2026-09-04"
+    },
+    {
+      "title": {
+        "cs": "Vláda schválila zákaz prodeje kratómu mladistvým a regulaci psychoaktivních látek",
+        "en": "Government approves kratom ban for minors and psychoactive substance regulation"
+      },
+      "summary": {
+        "cs": "Premiér Babiš na brífinku oznámil nová pravidla regulace psychoaktivních látek včetně zákazu prodeje kratómu osobám mladším 21 let.",
+        "en": "PM Babiš announces new psychoactive substance rules including a kratom sales ban for the under-21 group."
+      },
+      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/cesko-zacne-navysovat-vydaje-na-obranu-o-02-procenta-hdp-rocne-358702",
+      "date": "2026-08-28"
+    },
+    {
+      "title": {
+        "cs": "Ministr Macinka a Rakušan se střetli v debatě o kompetencích prezidenta",
+        "en": "Foreign Minister Macinka and Rakušan clash over presidential competencies"
+      },
+      "summary": {
+        "cs": "V politické debatě se ministr zahraničí s představitelem STAN ostře střetli o úlohu prezidenta a rozpočtovou odpovědnost.",
+        "en": "Foreign minister and STAN leader had heated debate over president's role and fiscal responsibility in political discussion."
+      },
+      "url": "https://zivotvcesku.cz/rakusan-v-zivem-vysilani-nalozil-macinkovi-kvuli-pavlovi-pak-prisla-jeste-ostrejsi-odpoved-ministra/",
+      "date": "2026-08-30"
     }
   ]
 }
