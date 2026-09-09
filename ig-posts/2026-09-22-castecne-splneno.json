@@ -1,0 +1,39 @@
+{
+  "titulek": "Nejrychleji roste skupina, o které se nemluví",
+  "podtitulek": "Co znamená „částečně splněno“",
+  "stitek": "Vysvětlení",
+  "publikovat_v": "2026-09-22T18:00:00+02:00",
+  "popisek": "Třetí díl seriálu o stupnici. Po „deklarováno“ a „porušeno“ přichází stav, který za poslední měsíc rostl ze všech nejrychleji: částečně splněno.\n\n3. srpna jich bylo 15. K 4. září 36. Počet se za měsíc víc než zdvojnásobil a je to druhá největší skupina hned po „probíhá“. Ubývá přitom nezahájených a deklarovaných — práce se přesouvá z papíru do procesu.\n\n„Částečně splněno“ znamená, že slib je naplněný, ale jen zčásti: norma prošla v osekané podobě, pokrývá jen část toho, co bylo slíbeno, přišla s velkým zpožděním nebo v jiné parametrizaci. Do „splněno“ se to nepočítá a v procentech se uvádí zvlášť.\n\nUkázkový případ jsou urgentní stomatologické pohotovosti. Síť vznikla a od 1. 1. 2026 funguje. Zákonné minimum ale pokrývá jen zhruba 30 míst. Slib zněl na síť, výsledek je její část — proto „částečně“, ne „splněno“ a ne „porušeno“.\n\nStav k 4. 9. 2026, přepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #politika #vlada #cesko #data #transparentnost",
+  "slidy": [
+    {
+      "nadpis": "Co to znamená",
+      "typ": "odrazky",
+      "body": [
+        "Slib je naplněný, ale jen zčásti.",
+        "Norma prošla osekaná, nebo pokrývá jen část slibu.",
+        "Nebo přišla s velkým zpožděním či v jiné podobě.",
+        "Do „splněno“ se to nepočítá. Uvádí se zvlášť."
+      ]
+    },
+    {
+      "nadpis": "Nejrychleji rostoucí skupina",
+      "typ": "odrazky",
+      "body": [
+        "3. srpna: 15 bodů. 4. září: 36.",
+        "Za měsíc se počet víc než zdvojnásobil.",
+        "Je to druhá největší skupina hned po „probíhá“.",
+        "Ubývá přitom nezahájených a deklarovaných."
+      ]
+    },
+    {
+      "nadpis": "Jak to vypadá na jednom bodu",
+      "typ": "odrazky",
+      "body": [
+        "Urgentní stomatologické pohotovosti fungují od 1. 1. 2026.",
+        "Zákonné minimum ale pokrývá jen zhruba 30 míst.",
+        "Slib zněl na síť, výsledek je její část.",
+        "Proto „částečně“ — ne „splněno“ a ne „porušeno“."
+      ]
+    }
+  ]
+}

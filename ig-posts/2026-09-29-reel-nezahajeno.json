@@ -1,0 +1,54 @@
+{
+  "typ": "reel",
+  "hudba": "vychozi.mp3",
+  "publikovat_v": "2026-09-29T18:00:00+02:00",
+  "popisek": "Za měsíc ubylo nezahájených slibů z 23 na 11. Je to největší pohyb, jaký Vládoměr zatím zaznamenal.\n\nPráce se posouvá směrem k výsledku: částečně splněných přibylo z 15 na 36, rozjetých ze 41 na 45, deklarovaných ubylo z 52 na 38. Míň papíru, víc procesu.\n\nHotových slibů je ale pět, zatímco na začátku srpna jich Vládoměr ukazoval osm. Není to krok zpět vlády — ty tři sliby nebyly hotové ani tehdy a přísnější hodnocení je zařadilo správně:\n\n• Rodičovský příspěvek na 400 000 Kč zákonem prošel a ve Sbírce vyšel, týká se ale jen dětí narozených od 1. 1. 2027, ne stávajících příjemců. Pokrývá tedy část slibu → částečně splněno.\n• Platy v kultuře vzrostly o 9 %, ale od dubna místo od ledna a v jiných parametrech, než znělo zadání → částečně splněno.\n• Zrušení koncesionářských poplatků vláda schválila jako návrh 15. 6. 2026, ten ale pořád leží ve Sněmovně → probíhá.\n\nMezi „rozjeto“ a „platí“ je celý parlament. Zajímavé bude, kolik ze 45 rozdělaných bodů dojde až do Sbírky zákonů.\n\nStav k 4. 9. 2026, přepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #politika #vlada #cesko #data #transparentnost",
+  "sceny": [
+    {
+      "typ": "cislo",
+      "nadpis": "NEZAHÁJENÝCH SLIBŮ",
+      "cislo": "11",
+      "jednotka": "",
+      "barva": "neutral",
+      "popis": "Na začátku srpna jich bylo 23",
+      "dovetek": "Stav k 4. 9. 2026",
+      "komentar": "Nezahájených slibů je jedenáct. Před měsícem jich bylo dvacet tři.",
+      "trvani": 5
+    },
+    {
+      "typ": "body",
+      "nadpis": "Kam se přesunuly",
+      "styl": "odrazky",
+      "body": [
+        "Částečně splněno: z 15 na 36.",
+        "Probíhá: ze 41 na 45.",
+        "Deklarováno: z 52 na 38."
+      ],
+      "komentar": "Ubylo nezahájených i deklarovaných. Přibylo částečně splněných a rozjetých.",
+      "trvani": 6
+    },
+    {
+      "typ": "cislo",
+      "nadpis": "HOTOVÝCH SLIBŮ",
+      "cislo": "5",
+      "jednotka": "",
+      "barva": "bad",
+      "popis": "Před měsícem osm. Ty tři nebyly hotové ani tehdy.",
+      "dovetek": "Stav k 4. 9. 2026",
+      "komentar": "Hotových je pět. Před měsícem osm, ale ty tři sliby nebyly hotové ani tehdy. Přísnější hodnocení je zařadilo správně.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "Co z toho plyne",
+      "styl": "odrazky",
+      "body": [
+        "Práce se přesouvá z papíru do procesu.",
+        "Do Sbírky zákonů ale zatím dorazilo pět slibů.",
+        "Mezi „rozjeto“ a „platí“ je celý parlament."
+      ],
+      "komentar": "Práce se přesouvá z papíru do procesu. Mezi rozjetým a platným slibem je ale pořád celý parlament.",
+      "trvani": 6
+    }
+  ]
+}
