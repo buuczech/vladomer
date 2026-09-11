@@ -29,8 +29,8 @@ import {
   promptOvereniPrechodu, promptDeltaScan,
 } from "./lib/prompty.js";
 import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
-import { posudPrechod, bodyKPrehodnoceni } from "./lib/prechody.js";
-import { parsujDeltaOdpoved } from "./lib/delta.js";
+import { posudPrechod } from "./lib/prechody.js";
+import { parsujDeltaOdpoved, planKapitoly, prenesNeprehodnocene } from "./lib/delta.js";
 import { parsujHodnoceni } from "./lib/odpoved.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
@@ -257,10 +257,11 @@ async function deltaScan(ch, prevEvals, odData, items) {
     if (blok.type === "web_search_tool_result" && Array.isArray(blok.content)) searchCount += blok.content.length;
   }
   /* Nevyhazuje se: nesrozumitelná odpověď kapitolu neshodí, ale ani se nesmí
-     tvářit jako klidný týden — volající ji vypíše a spočítá. */
-  const { udalosti, chyba, zahozeno } =
+     tvářit jako klidný týden — volající ji vypíše, spočítá a kapitolu
+     přehodnotí celou (lib/delta.js, planKapitoly). */
+  const { udalosti, chyba, zahozeno, ukazka } =
     parsujDeltaOdpoved(text, new Set(items.map((i) => i.id)), MAX_SOURCES);
-  return { udalosti, searchCount, chyba, zahozeno };
+  return { udalosti, searchCount, chyba, zahozeno, ukazka };
 }
 
 /* Ověření navrženého přechodu druhým, silnějším modelem. Bez vyhledávání —
@@ -505,8 +506,10 @@ async function main() {
     CHAPTERS.flatMap((c) => c.groups.flatMap((g) => g.items)).map((i) => [i.id, i]));
   for (const ch of CHAPTERS.slice(0, CHAPTER_LIMIT)) {
     const vsechnyBody = ch.groups.flatMap((g) => g.items);
-    let bodyKHodnoceni = vsechnyBody;
-    let udalosti = null;   // jen delta: id → {udalost, datum, zdroje}
+    /* Co se v kapitole přehodnotí (lib/delta.js). Plný audit bere všechno;
+       delta jen body s událostí — a když sken nejde přečíst, zase všechno.
+       V deltě se plán zná až po skenu; když sken spadne, kapitola propadne. */
+    let plan = REZIM_BEHU === "delta" ? null : planKapitoly({ rezim: REZIM_BEHU, sken: null, vsechnyBody, prevEvals });
     let chyba = null;
     /* Kapitola se do newEvals promítá AŽ PO úspěchu celé — sken i všechny
        dávky. Jinak by byla část bodů čerstvá a část stará, aniž by to bylo
@@ -518,17 +521,17 @@ async function main() {
       process.stdout.write(`Scanning ${ch.id} ${ch.title.cs}… `);
       try {
         const sken = await withBackoff(() => deltaScan(ch, prevEvals, OD_DATA, vsechnyBody));
-        udalosti = sken.udalosti;
-        bodyKHodnoceni = bodyKPrehodnoceni(vsechnyBody, udalosti, prevEvals);
-        udalostiCelkem += Object.keys(udalosti).length;
+        plan = planKapitoly({ rezim: REZIM_BEHU, sken, vsechnyBody, prevEvals });
+        udalostiCelkem += Object.keys(sken.udalosti).length;
         skenovanychKapitol++;
         if (sken.chyba) skenBezOdpovedi.push(`${ch.id}:${sken.chyba}`);
         const z = sken.zahozeno || {};
-        console.log(`${bodyKHodnoceni.length} k přehodnocení `
-          + `(${Object.keys(udalosti).length} událostí, ${sken.searchCount} search hits`
-          + (sken.chyba ? `, ODPOVĚĎ NEPŘEČTENA: ${sken.chyba}` : "")
+        console.log(`${plan.bodyKHodnoceni.length} k přehodnocení `
+          + `(${Object.keys(sken.udalosti).length} událostí, ${sken.searchCount} search hits`
+          + (sken.chyba ? `, ODPOVĚĎ NEPŘEČTENA: ${sken.chyba} → přehodnocuji celou kapitolu` : "")
           + (z.ciziId ? `, ${z.ciziId} cizích id` : "")
           + (z.bezData ? `, ${z.bezData} bez data` : "") + ")");
+        if (sken.chyba) console.log(`  začátek odpovědi skenu: ${sken.ukazka}`);
       } catch (e) { chyba = e; }
       if (!chyba) await new Promise((r) => setTimeout(r, 5000));
     }
@@ -536,7 +539,7 @@ async function main() {
     /* Velká kapitola jde na několik dotazů. Selhání KTERÉKOLI dávky znamená
        selhanou kapitolu — část bodů by jinak byla čerstvá a část týden stará,
        aniž by to bylo z čeho poznat. */
-    const skupiny = bodyKHodnoceni.length ? davky(bodyKHodnoceni) : [];
+    const skupiny = plan && plan.bodyKHodnoceni.length ? davky(plan.bodyKHodnoceni) : [];
     if (!chyba && skupiny.length) {
       const znacka = skupiny.length > 1 ? ` (${skupiny.length} dávky)` : "";
       process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}${znacka}… `);
@@ -552,8 +555,8 @@ async function main() {
           const minuly = prevEvals[id];
           const verdikt = posudPrechod({
             minuly, navrh,
-            udalost: udalosti ? udalosti[id] || null : null,
-            plnyAudit: REZIM_BEHU === "plny",
+            udalost: plan.udalosti ? plan.udalosti[id] || null : null,
+            plnyAudit: plan.plnyAudit,
             overovatProstredni: OVEROVAT_PROSTREDNI,
           });
           if (verdikt.akce === "drzet") {
@@ -599,22 +602,18 @@ async function main() {
       failedChapters++;
       console.log(`failed: ${chyba.message}`);
     } else {
-      /* Body bez události drží stav i komentář z minula; popis změny se
-         nahradí pravdivým „beze změny" a bod dostane razítko prověření.
+      /* Body, které se nepřehodnotily. Razítko „prověřeno beze změny" dostanou
+         jen ty, na které se díval PŘEČTENÝ sken; bod, který model v odpovědi
+         vynechal, zůstane přesně jak byl (lib/delta.js, prenesNeprehodnocene).
          Až teď, po úspěchu celé kapitoly, se staging promítne do výsledku. */
-      for (const it of vsechnyBody) {
-        if (pridat[it.id] || !newEvals[it.id]) continue;
-        pridat[it.id] = {
-          ...newEvals[it.id],
-          change: { cs: "beze změny", en: "no change" },
-          overeno: ted,
-        };
-      }
+      const { doplnit, vynechane } = prenesNeprehodnocene({ vsechnyBody, pridat, dosavadni: newEvals, plan, ted });
+      Object.assign(pridat, doplnit);
       Object.assign(newEvals, pridat);
       const dm = Object.entries(snizeno).map(([k, v]) => `${v} ${k}`).join(", ");
       if (skupiny.length) {
         console.log(`ok (${hotovo}) — ${hledani} search hits, ${zdroju} sources kept`
-          + (dm ? `, downgraded: ${dm}` : ""));
+          + (dm ? `, downgraded: ${dm}` : "")
+          + (vynechane.length ? `, model vynechal: ${vynechane.join(", ")}` : ""));
       }
     }
     await new Promise((r) => setTimeout(r, 20000));
@@ -622,12 +621,15 @@ async function main() {
 
   if (skenBezOdpovedi.length) {
     console.log(`\nPOZOR: sken ${skenBezOdpovedi.length}× nevrátil čitelný seznam `
-      + `(${skenBezOdpovedi.join(", ")}). Tyhle kapitoly se tvářily jako bez událostí,`
-      + " ale ve skutečnosti se z nich nedalo nic přečíst.");
+      + `(${skenBezOdpovedi.join(", ")}). Tyhle kapitoly se proto přehodnotily celé;`
+      + " ukázka odpovědi je u každé v logu výš.");
   }
-  if (REZIM_BEHU === "delta" && skenovanychKapitol && !udalostiCelkem) {
+  /* Jen PŘEČTENÉ skeny: kapitola s nečitelným skenem se přehodnotila celá,
+     takže u ní „nepřehodnotilo se nic" neplatí. */
+  const prectenychSkenu = skenovanychKapitol - skenBezOdpovedi.length;
+  if (REZIM_BEHU === "delta" && prectenychSkenu && !udalostiCelkem) {
     console.log(`
-POZOR: sken neohlásil ANI JEDNU událost ve ${skenovanychKapitol} kapitolách.`
+POZOR: sken neohlásil ANI JEDNU událost ve ${prectenychSkenu} přečtených kapitolách.`
       + " Buď byl mrtvý týden, nebo se sken rozbil — v tom druhém případě se"
       + " nepřehodnotilo nic a data jsou beze změny jen zdánlivě.");
   }

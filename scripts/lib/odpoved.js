@@ -17,10 +17,12 @@
 
 /* Všechny spárované výřezy od `otevirac` k jeho vlastnímu `zavirac`. Hlídá
    řetězce a escapování, aby závorka uvnitř textu nerozhodila hloubku.
-   Kandidátů je strop: u dlouhé prózy plné závorek nemá smysl zkoušet stovky. */
+   Kandidátů je strop: u dlouhé prózy plné závorek nemá smysl zkoušet stovky.
+   Sdílí ho i lib/delta.js: vlastní hledání závorek tam po opravě z 26. 8. 2026
+   zůstalo a tři týdny po sobě ztrácelo skeny kapitol. */
 const STROP_KANDIDATU = 200;
 
-function* vyrezy(text, otevirac, zavirac) {
+export function* vyrezy(text, otevirac, zavirac) {
   let nalezeno = 0;
   for (let i = 0; i < text.length && nalezeno < STROP_KANDIDATU; i++) {
     if (text[i] !== otevirac) continue;
