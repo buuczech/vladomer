@@ -1,0 +1,54 @@
+{
+  "typ": "reel",
+  "hudba": "svizny.mp3",
+  "publikovat_v": "2026-10-26T18:00:00+01:00",
+  "popisek": "Celý program vlády má k 4. 9. 2026 pět splněných slibů. Dva z nich jsou v energetice — víc než v kterékoli jiné kapitole.\n\nOd 1. ledna 2026 převzal stát financování podpory obnovitelných zdrojů v plné výši 41,7 miliardy Kč místo původních 24,6 miliardy. Regulovaná cena elektřiny pro domácnosti kvůli tomu klesla o 15,1 %, pro průmysl výrazněji. Pozor: jde o regulovanou část ceny. Celkový účet závisí i na tom, za kolik prodává silovou elektřinu váš dodavatel.\n\nDruhý splněný bod je Hospodářská strategie „Česko: Země pro budoucnost 2.0“, schválená 20. února 2026.\n\nCo běží: valná hromada ČEZ 1. června 2026 schválila rozdělení skupiny — výroba zůstane stoprocentně státní, distribuce a obchod přejdou do nové firmy s 51% podílem státu. U Dukovan 5 a 6 se stavební povolení čeká v roce 2027, stavba má začít v roce 2029 a první blok má být v provozu v roce 2036.\n\nCo se nepovedlo: ETS2 vláda odmítla usnesením, ale unijní nařízení členský stát neimplementovat nemůže. EU systém zavádí od 1. ledna 2028. Bod je proto veden jako porušený — ne za nečinnost, ale protože slib nešlo splnit.\n\nStav k 4. 9. 2026, přepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #energetika #elektrina #dukovany #politika #cesko",
+  "sceny": [
+    {
+      "typ": "cislo",
+      "nadpis": "REGULOVANÁ CENA ELEKTŘINY",
+      "cislo": "−15,1",
+      "jednotka": "%",
+      "barva": "ok",
+      "popis": "pro domácnosti. Celkový účet závisí i na dodavateli.",
+      "dovetek": "Od 1. 1. 2026 · stav k 4. 9. 2026",
+      "komentar": "Regulovaná cena elektřiny pro domácnosti klesla o patnáct celých jedna procenta. Poplatek za obnovitelné zdroje převzal stát.",
+      "trvani": 6
+    },
+    {
+      "typ": "cislo",
+      "nadpis": "SPLNĚNÉ SLIBY V ENERGETICE",
+      "cislo": "2",
+      "jednotka": "",
+      "barva": "neutral",
+      "popis": "z pěti v celém programu. Víc nemá žádná kapitola.",
+      "dovetek": "Stav k 4. 9. 2026",
+      "komentar": "Z pěti splněných slibů celého programu jsou dva v energetice. Víc nemá žádná jiná kapitola.",
+      "trvani": 5
+    },
+    {
+      "typ": "body",
+      "nadpis": "Co běží",
+      "styl": "odrazky",
+      "body": [
+        "ČEZ: výroba zůstane stoprocentně státní.",
+        "Dukovany 5 a 6: povolení 2027, stavba 2029.",
+        "První nový blok má jet v roce 2036."
+      ],
+      "komentar": "Rozdělení ČEZ je schválené. První nový blok v Dukovanech má jet v roce dva tisíce třicet šest.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "A co ne",
+      "styl": "odrazky",
+      "body": [
+        "ETS2 vláda odmítla, EU ho zavede od roku 2028.",
+        "Unijní nařízení stát odmítnout nemůže.",
+        "Proto porušeno — ten slib nešel splnit."
+      ],
+      "komentar": "Emisní povolenky é té es dva vláda odmítla, jenže unijní nařízení odmítnout nejde. Proto porušeno.",
+      "trvani": 6
+    }
+  ]
+}
