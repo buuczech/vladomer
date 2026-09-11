@@ -5,7 +5,7 @@ on:
     branches: [main]
   workflow_dispatch:        # lets you trigger a run (incl. evaluation) by hand
   schedule:
-    - cron: "15 7 * * 5"     # every Friday 09:00 UTC
+    - cron: "15 7 * * 5"     # every Friday 07:15 UTC
 
 permissions:
   contents: write           # to commit the refreshed evaluations.json
