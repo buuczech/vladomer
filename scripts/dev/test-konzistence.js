@@ -146,6 +146,14 @@ const evals = EV.evals || {};
   for (const it of ALL_ITEMS) {
     const e = evals[it.id];
     if (!e) continue;
+    /* TODO (po prvním plném auditu od 26. 8. 2026): doplnit sem
+       `zdroje: e.sources || []`, aby se přehrávala i laťka na doklad opřený
+       o Sbírku zákonů — ta je uvozená `zdroje &&`, takže bez nich se na
+       publikovaná data nedostane. Nedělá se to hned schválně: bod 10.4 nese
+       z běhu z 21. 8. doklad „Zákon č. 233/2026 Sb.“ bez pramene, kde by se
+       to číslo dalo dohledat, takže by kontrola [C] hlásila CHYBU a CI by
+       bylo červené až do pátku. Plný audit ten záznam přepíše a zábrana
+       v lib/dukaz.js na něj dopadne rovnou při zápisu. */
     const duvod = duvodDegradace(e.status, e.evidence, e.evidenceDate || "", PRAVIDLA);
     if (e.status === "fulfilled" && duvod) neobstalo.push(`${it.id} (${duvod})`);
     if (e.evidenceMissing) {
@@ -170,7 +178,7 @@ const evals = EV.evals || {};
   const prehled = cti("scripts/lib/prehled.js");
   const bezPopisku = DUVODY_DEGRADACE.filter((d) => !app.includes(`"${d}"`) || !prehled.includes(`"${d}"`));
   if (bezPopisku.length) chyba("C", `důvod degradace bez vysvětlivky v App.jsx nebo prehled.js: ${bezPopisku.join(", ")}`);
-  else ok("C", "všechny čtyři důvody degradace mají vysvětlivku na webu i v přehledu");
+  else ok("C", `všech ${DUVODY_DEGRADACE.length} důvodů degradace má vysvětlivku na webu i v přehledu`);
 }
 
 // ===========================================================================

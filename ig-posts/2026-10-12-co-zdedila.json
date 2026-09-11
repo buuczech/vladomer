@@ -1,0 +1,38 @@
+{
+  "titulek": "Kdy se pokrok nepočítá vládě, která je u moci",
+  "podtitulek": "Pravidlo z 15. prosince 2025",
+  "stitek": "Metodika",
+  "publikovat_v": "2026-11-02T18:00:00+01:00",
+  "popisek": "Vláda nastoupila 15. prosince 2025. Zásluhu jí Vládoměr přizná jen za kroky učiněné od toho data — a to i tehdy, když zákon nabyl účinnosti až za ní.\n\nZní to jako detail, ale bez něj by se dal odškrtnout skoro každý slib hned první týden. Legislativa má setrvačnost: normy schválené na podzim často začínají platit v lednu, takže nová vláda nastupuje do rozjetého vlaku, který nerozjela.\n\nJak to vypadá v praxi:\n\n• Protidrogová novela trestního zákoníku je účinná od 1. 1. 2026, ve Sbírce ale vyšla jako č. 268/2025 Sb. ještě před nástupem vlády.\n• Rychlostí 200 km/h se na jihočeských tratích jezdí, zavedla to ale minulá vláda; kroky téhle doložené nejsou.\n• U dostupného bydlení vláda pokračuje v programu spuštěném před ní — a hodnocení to takhle i uvádí.\n\nPokračovat v cizím projektu není nic špatného, u velkých staveb je to jediná rozumná možnost. Splnění vlastního slibu to ale není, a Vládoměr to proto vede odděleně.\n\nPravidlo stojí na dvou místech: v zadání pro model a zvlášť v kontrole, která po něm hodnocení prochází. Instrukce sama by nestačila — model ji opakovaně obcházel.\n\nZdroje u každého bodu na vladomer.cz\n\n#vladomer #politika #vlada #cesko #transparentnost #metodika",
+  "slidy": [
+    {
+      "nadpis": "Pravidlo",
+      "typ": "odrazky",
+      "body": [
+        "Vláda nastoupila 15. 12. 2025.",
+        "Zásluhu dostane jen za kroky od toho data.",
+        "Zákon vyhlášený dřív je dílem předchozí vlády.",
+        "Platí to i tehdy, když účinnosti nabyl až za téhle."
+      ]
+    },
+    {
+      "nadpis": "Jak to vypadá v praxi",
+      "typ": "odrazky",
+      "body": [
+        "Protidrogová novela platí od 1. 1. 2026, vyšla ale v roce 2025.",
+        "Rychlost 200 km/h na jihu Čech zavedla minulá vláda.",
+        "U dostupného bydlení vláda pokračuje v cizím programu."
+      ]
+    },
+    {
+      "nadpis": "Proč tak přísně",
+      "typ": "odrazky",
+      "body": [
+        "Bez toho by šlo odškrtnout skoro všechno hned první týden.",
+        "Pokračovat v cizím projektu není nic špatného.",
+        "Splnění vlastního slibu to ale není.",
+        "Pravidlo je v zadání pro model i v kontrole po něm."
+      ]
+    }
+  ]
+}

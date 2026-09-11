@@ -1,0 +1,54 @@
+{
+  "typ": "reel",
+  "hudba": "vychozi.mp3",
+  "publikovat_v": "2026-10-19T18:00:00+02:00",
+  "popisek": "Doprava je kapitola, kde si vláda dala nejkonkrétnější termíny — a proto se u ní kontroluje nejlíp. Devět slibů, hotový zatím žádný, ale čtyři stavby reálně běží.\n\nCo se staví: hraniční část D11 na Trutnov má být zprovozněná 27. listopadu 2026, zbývajících 21 km v roce 2028. Na D3 se 31. července 2026 otevřely 3,2 km k rakouské hranici a zbývá 12 km mezi Kaplicí-nádražím a Nažidly s termínem září 2027. Trať Praha–Kladno–letiště se staví od května 2026 s dokončením v roce 2029.\n\nCo se posunulo: úsek Pražského okruhu Běchovice–D1 měl být podle slibu hotový do konce roku 2027. Teď se čeká druhé pololetí 2028 — skluz zhruba o rok. U jednoho z navazujících úseků navíc soud zrušil územní rozhodnutí.\n\nCo zůstalo na papíře: zvýšení rychlosti na 200 km/h na koridorech je zatím deklarace, stejně jako vybavení hlavních koridorů systémem ETCS do roku 2029. U 75% slev na jízdné pro studenty a seniory, které mají platit od ledna 2027, legislativní proces nezačal.\n\nStav k 4. 9. 2026, přepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #doprava #dalnice #zeleznice #politika #cesko",
+  "sceny": [
+    {
+      "typ": "cislo",
+      "nadpis": "SKLUZ PRAŽSKÉHO OKRUHU",
+      "cislo": "+1",
+      "jednotka": "rok",
+      "barva": "bad",
+      "popis": "Slib zněl do konce 2027. Teď se čeká 2. pololetí 2028.",
+      "dovetek": "Stav k 4. 9. 2026",
+      "komentar": "Úsek Pražského okruhu měl být hotový do konce roku 2027. Teď se čeká druhé pololetí 2028.",
+      "trvani": 6
+    },
+    {
+      "typ": "cislo",
+      "nadpis": "STAVEB REÁLNĚ BĚŽÍ",
+      "cislo": "4",
+      "jednotka": "",
+      "barva": "neutral",
+      "popis": "z devíti slibů o dopravě. Hotový zatím žádný.",
+      "dovetek": "Stav k 4. 9. 2026",
+      "komentar": "Ze devíti slibů o dopravě běží čtyři stavby. Hotový není zatím žádný.",
+      "trvani": 5
+    },
+    {
+      "typ": "body",
+      "nadpis": "Co se staví",
+      "styl": "odrazky",
+      "body": [
+        "D11 k hranicím: 3,2 km má být otevřeno 27. 11. 2026.",
+        "D3 k Rakousku: zbývá 12 km, termín září 2027.",
+        "Praha–Kladno–letiště: staví se od května 2026."
+      ],
+      "komentar": "Na D jedenáctce se otevírá hraniční úsek v listopadu. Na D trojce zbývá dvanáct kilometrů.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "Co zůstalo na papíře",
+      "styl": "odrazky",
+      "body": [
+        "Rychlost 200 km/h na koridorech: zatím deklarace.",
+        "ETCS na hlavních koridorech do 2029: zatím deklarace.",
+        "75% slevy na jízdné: proces ani nezačal."
+      ],
+      "komentar": "Rychlejší koridory i slevy na jízdné zůstávají zatím jen v prohlášení.",
+      "trvani": 6
+    }
+  ]
+}

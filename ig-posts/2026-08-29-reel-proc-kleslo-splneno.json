@@ -1,0 +1,136 @@
+{
+  "typ": "reel",
+  "hudba": "svizny.mp3",
+  "popisek": "Splněno kleslo na 3,5 %. Nikdo přitom žádný hotový zákon nezrušil.\n\nCo se stalo předtím: 14. srpna Vládoměr ukazoval 5,7 %, o týden později 4,3 %. Splněno ale klesnout nemůže — hotový zákon se neodedělá. Dva běhy nad stejnými daty se tehdy lišily v deseti bodech ze 143. Model každý týden znovu rozhodoval i to, co už jednou rozhodl. Ten páteční příspěvek jsem proto smazal.\n\nOd 28. srpna běží přepracované hodnocení: model už nemá povolenou náhodu, ptáme se ho, co se od minulého běhu stalo, a cestu do „splněno“ nebo „porušeno“ musí schválit druhý, silnější model. Dva běhy nad stejnými daty se po opravě shodnou na 141 ze 143 a hlavní číslo se mezi nimi neliší vůbec.\n\nProč tedy kleslo znovu? Tentokrát ne náhodou. V pátek proběhla plná prověrka všech 143 závazků a jeden bod v ní neobstál: zvýšení rodičovského příspěvku na 400 000 Kč. Doklad tvrdil, že novela vyšla ve Sbírce zákonů, ale číslo zákona se mezi dvěma běhy změnilo a žádný z uvedených zdrojů vyhlášení nedoložil. Bod spadl na „částečně splněno“ — slib je zjevně blízko naplnění, ale doklad na „splněno“ nestačil.\n\n„Splněno“ tu totiž neznamená, že vláda něco chce, schválila nebo předložila. U zákona znamená průchod Sněmovnou, Senátem, podpis prezidenta a vyhlášení ve Sbírce. U nelegislativního slibu prokazatelné zavedení.\n\nNejde nám o nízké ani vysoké číslo. Jde nám o číslo, které vyjde stejně, když se hodnocení pustí dvakrát. Vládoměr je pořád ve vývoji — celá metodika i doslovné zadání pro model jsou na vladomer.cz. Když najdete chybu, napište číslo bodu a odkaz na zdroj.\n\n#vladomer #politika #vlada #cesko #transparentnost #ai",
+  "sceny": [
+    {
+      "typ": "cislo",
+      "nadpis": "SPLNĚNO",
+      "cislo": "3,5",
+      "jednotka": "%",
+      "barva": "bad",
+      "popis": "5 ze 141 hodnocených závazků",
+      "dovetek": "Stav k 28. 8. 2026",
+      "komentar": "Číslo plnění spadlo. Nikdo přitom žádný hotový zákon nezrušil.",
+      "trvani": 5
+    },
+    {
+      "typ": "text",
+      "titulek": "Nezměnila se vláda",
+      "podtitulek": "Změnilo se, jak počítáme",
+      "komentar": "Nezměnila se vláda. Změnilo se to, jak se hodnotí. A stojí za tím chyba, kterou jsem našel u sebe.",
+      "trvani": 5
+    },
+    {
+      "typ": "body",
+      "nadpis": "Co se stalo v srpnu",
+      "styl": "odrazky",
+      "body": [
+        "14. srpna 5,7 %. O týden později 4,3 %.",
+        "Splněno ale klesnout nemůže.",
+        "Dva běhy nad stejnými daty se lišily v deseti bodech.",
+        "Ten příspěvek jsem smazal."
+      ],
+      "komentar": "Čtrnáctého srpna pět celých sedm procenta. O týden později čtyři celé tři. Dva běhy nad stejnými daty se lišily v deseti bodech.",
+      "trvani": 7
+    },
+    {
+      "typ": "body",
+      "nadpis": "Co jsem změnil",
+      "styl": "kroky",
+      "body": [
+        "Model už nemá povolenou náhodu.",
+        "Ptám se, co se stalo, ne jaký je stav.",
+        "Cestu do splněno schvaluje druhý model.",
+        "Doklad, který si protiřečí, srazí program sám."
+      ],
+      "komentar": "Model už nemá povolenou náhodu. Stejný vstup dá stejnou odpověď. Nejsilnější změny schvaluje druhý model.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "Po opravě",
+      "styl": "odrazky",
+      "body": [
+        "Tytéž dva běhy: shoda na 141 ze 143.",
+        "Hlavní číslo se mezi nimi neliší vůbec.",
+        "Číslo se pohnout může, oběma směry.",
+        "Ale už ne náhodou."
+      ],
+      "komentar": "Po opravě se tytéž dva běhy shodnou na sto čtyřiceti jedna závazcích. Hlavní číslo se neliší vůbec.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "První běh podle nových pravidel",
+      "styl": "odrazky",
+      "body": [
+        "V pátek proběhla plná prověrka všech 143 závazků.",
+        "Splněno kleslo na 3,5 %.",
+        "Tentokrát ne náhodou.",
+        "Jeden bod neobstál v kontrole dokladu."
+      ],
+      "komentar": "V pátek proběhla plná prověrka všech závazků. Splněno kleslo na tři celé pět procenta. Tentokrát ale ne náhodou.",
+      "trvani": 7
+    },
+    {
+      "typ": "body",
+      "nadpis": "Který to byl",
+      "styl": "odrazky",
+      "body": [
+        "Rodičovský příspěvek na 400 000 Kč.",
+        "Doklad tvrdil vyhlášení ve Sbírce zákonů.",
+        "Číslo zákona se mezi dvěma běhy změnilo.",
+        "Žádný zdroj vyhlášení nedoložil."
+      ],
+      "komentar": "Zvýšení rodičovského příspěvku. Doklad tvrdil, že novela vyšla ve Sbírce, ale číslo zákona se mezi běhy změnilo.",
+      "trvani": 7
+    },
+    {
+      "typ": "body",
+      "nadpis": "Proto částečně, ne splněno",
+      "styl": "odrazky",
+      "body": [
+        "Slib je zjevně blízko naplnění.",
+        "Sněmovna i Senát ho schválily.",
+        "Na „splněno“ ale doklad nestačil.",
+        "Blízko není totéž co hotovo."
+      ],
+      "komentar": "Slib je blízko naplnění. Sněmovna i Senát ho schválily. Na splněno to ale nestačí. Blízko není totéž co hotovo.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "Co musí slib splnit",
+      "styl": "odrazky",
+      "body": [
+        "U zákona: Sněmovna, Senát i prezident.",
+        "A vyhlášení ve Sbírce zákonů.",
+        "U nelegislativního slibu: prokazatelně zavedeno.",
+        "Záměr, návrh ani projednávání nestačí."
+      ],
+      "komentar": "U zákona musí projít Sněmovnou, Senátem, prezidentem a vyjít ve Sbírce. U ostatních slibů musí být opatření prokazatelně zavedené.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "Takhle vypadá splněno",
+      "styl": "odrazky",
+      "body": [
+        "Potravinový ombudsman.",
+        "Zřízen 26. 2. 2026.",
+        "Funkce skutečně zavedená, ne slíbená.",
+        "Doloženo tiskovou zprávou ministerstva."
+      ],
+      "komentar": "Potravinový ombudsman byl zřízen dvacátého šestého února. Funkce existuje, ne že se o ní jedná. Tohle je splněno.",
+      "trvani": 6
+    },
+    {
+      "typ": "text",
+      "titulek": "Nejde nám o nízké číslo",
+      "podtitulek": "Jde nám o číslo, které vyjde stejně dvakrát",
+      "komentar": "Celá metodika i zadání pro model jsou na webu. Vládoměr je pořád ve vývoji. Když najdete chybu, napište.",
+      "trvani": 5
+    }
+  ]
+}

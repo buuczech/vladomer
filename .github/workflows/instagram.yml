@@ -12,7 +12,7 @@ on:
     # 17:00 UTC = 19:00 v letním čase, 18:00 v zimním. GitHub cron letní čas
     # neumí; hodinový posun v zimě je proti složitosti obcházení přijatelný.
     # Hodnocení běží v 9:00 UTC, takže je mezi tím osm hodin rezervy.
-    - cron: "0 17 * * 5"
+    - cron: "0 18 * * 5"
   workflow_dispatch:
     inputs:
       rezim:

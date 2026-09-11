@@ -100,7 +100,94 @@ const PRIPADY = [
    a ověřovatel ho neměl jak zkontrolovat, protože nemá vyhledávání. */
 const MEDIALNI = [{ url: "https://www.novinky.cz/clanek/1" }];
 const UREDNI = [{ url: "https://www.psp.cz/sqw/historie.sqw?o=10&t=42" }];
+/* Ministerstvo je úřední doména, ale tiskovou zprávou o hlasování Sněmovny se
+   vyhlášení nedokládá. Kvůli tomuhle rozdílu bod 10.4 zábranou prošel. */
+const MINISTERSTVO = [
+  { url: "https://mpsv.gov.cz/rodicovsky-prispevek-vzroste-na-400-000-korun" },
+];
+const CESKENOVINY_MPSV = [
+  { url: "https://www.ceskenoviny.cz/zpravy/pavel-podepsal-rust-rodicovske/2862922" },
+  { url: "https://mpsv.gov.cz/rodicovsky-prispevek-vzroste-na-400-000-korun" },
+];
+const CT24_DENIKREFERENDUM = [
+  { url: "https://ct24.ceskatelevize.cz/clanek/domaci/kulturni-instituce-372142" },
+  { url: "https://denikreferendum.cz/clanek/238472-platy-vkulture-jsouzalostne" },
+];
 const SBIRKA = [
+  /* --- doslovné doklady bodu 10.4, tři po sobě jdoucí běhy ------------------
+     Ukazují celý rozsah pravidla na jediné položce: v jednom týdnu novela
+     staršího zákona (projde), v druhém tvrzení o Sbírce bez čísla (spadne),
+     ve třetím čerstvé číslo bez pramene (spadne). Mezi druhým a třetím se
+     číslo objevilo z ničeho — a právě to zábrana chytá. */
+  {
+    proc: "10.4 z 21. 8. — čerstvé číslo, prameny jen o podpisu a hlasování",
+    dukaz: "Zákon č. 233/2026 Sb., kterým se mění zákon č. 117/1995 Sb., o státní "
+      + "sociální podpoře, podepsaný prezidentem Petrem Pavlem dne 17. srpna 2026. "
+      + "Rodičovský příspěvek vzroste od 1. ledna 2027 na 400 000 Kč (z 350 000 Kč).",
+    datum: "2026-08-17", zdroje: CESKENOVINY_MPSV, ceka: "sbirka-bez-uredniho-zdroje",
+  },
+  {
+    proc: "10.4 z 21. 8. — totéž se sněmovním tiskem projde",
+    dukaz: "Zákon č. 233/2026 Sb., kterým se mění zákon č. 117/1995 Sb., o státní "
+      + "sociální podpoře, podepsaný prezidentem Petrem Pavlem dne 17. srpna 2026. "
+      + "Rodičovský příspěvek vzroste od 1. ledna 2027 na 400 000 Kč (z 350 000 Kč).",
+    datum: "2026-08-17", zdroje: [...CESKENOVINY_MPSV, ...UREDNI], ceka: null,
+  },
+  {
+    proc: "10.4 ze 7. 8. — tvrzení o Sbírce slovy, bez čísla",
+    dukaz: "Senát schválil 29. 7. 2026, novela č.... ve Sbírce zákonů (k publikaci)",
+    datum: "2026-07-29", zdroje: MEDIALNI, ceka: "sbirka-bez-uredniho-zdroje",
+  },
+  {
+    proc: "10.4 ze 14. 8. — novela staršího zákona NESMÍ spadnout ani jen z médií",
+    dukaz: "zákon č. 117/1995 Sb., o státní sociální podpoře, schválený Sněmovnou "
+      + "8. 7. 2026, Senátem 29. 7. 2026, nábytí účinnosti 1. 10. 2026 pro nově "
+      + "narozené děti od 1. 1. 2027",
+    datum: "2026-07-29", zdroje: CESKENOVINY_MPSV, ceka: null,
+  },
+
+  /* --- opisy, kterými by vyhlášení jinak proklouzlo -------------------------
+     Obojí našel až útok na hotové pravidlo, ne korpus: v auditní stopě takový
+     doklad zatím není, ale napsat se dá a zábrana by mlčela. */
+  {
+    proc: "vyhlášení opsané bez slova „Sbírka“, jen se starou značkou",
+    dukaz: "novela zákona č. 117/1995 Sb. byla vyhlášena 20. 8. 2026, rodičovský "
+      + "příspěvek se zvyšuje na 400 000 Kč",
+    datum: "2026-08-20", zdroje: MEDIALNI, ceka: "sbirka-bez-uredniho-zdroje",
+  },
+  {
+    proc: "čerstvá značka bez tečky za „Sb“",
+    dukaz: "Zákon č. 233/2026 Sb, kterým se mění zákon č. 117/1995 Sb., podepsán "
+      + "prezidentem 17. 8. 2026",
+    datum: "2026-08-17", zdroje: MEDIALNI, ceka: "sbirka-bez-uredniho-zdroje",
+  },
+
+  // --- zúžení pramenů: ministerstvo už nestačí -------------------------------
+  {
+    proc: "2.10 — vymyšlené číslo s tiskovou zprávou ministerstva se srazí",
+    dukaz: "Zákon č. 270/2026 Sb., vyhlášen 26. května 2026; účinnost od 1. července 2026",
+    datum: "2026-05-26", zdroje: MINISTERSTVO, ceka: "sbirka-bez-uredniho-zdroje",
+  },
+
+  // --- co se pravidla nesmí ani dotknout -------------------------------------
+  {
+    proc: "14.1 ze 14. 8. — starší nařízení jako kontext, jen média",
+    dukaz: "Nařízení vlády č. 341/2017 Sb. (valorizace od 1. dubna 2026)",
+    datum: "2026-01-22", zdroje: CT24_DENIKREFERENDUM, ceka: null,
+  },
+  {
+    proc: "7.1 — nelegislativní splnění usnesením vlády, jediný mediální zdroj",
+    dukaz: "Usnesení vlády č. 1022/2025 ze dne 15. 12. 2025 schválilo převzetí "
+      + "veškerého financování POZE ve výši 41,734 mld. Kč ročně, vyhlášeno 16. 12. 2025",
+    datum: "2025-12-16", zdroje: MEDIALNI, ceka: null,
+  },
+  {
+    proc: "12.2 — nelegislativní splnění jmenováním, média a ministerstvo",
+    dukaz: "Potravinový ombudsman jmenován 26.2.2026 (Jindřích Fialka); funkce "
+      + "zavedena bez nové byrokracie, vláda deklarovala splnění této priority",
+    datum: "2026-02-26", zdroje: MINISTERSTVO, ceka: null,
+  },
+
   {
     proc: "číslo zákona ve Sbírce jen z médií se srazí",
     dukaz: "Zákon č. 270/2026 Sb., vyhlášen 26. května 2026; účinnost od 1. července 2026",
@@ -187,5 +274,8 @@ const bezCile = Object.keys(CIL_DEGRADACE).filter((k) => !CIL_DEGRADACE[k]);
 if (bezCile.length) { spadlo++; console.log(`CHYBA důvod bez cílového stavu: ${bezCile.join(", ")}`); }
 else console.log("ok   každý důvod degradace má cílový stav");
 
-console.log(spadlo ? `\n${spadlo} selhání.` : `\nVšech ${PRIPADY.length + 5} kontrol prošlo.`);
+// Pět na konci jsou kontroly nedotknutelných stavů a laťky u „porušeno“ níž;
+// případy ze SBIRKA se dřív do součtu nepočítaly vůbec.
+const CELKEM = PRIPADY.length + SBIRKA.length + 5;
+console.log(spadlo ? `\n${spadlo} selhání.` : `\nVšech ${CELKEM} kontrol prošlo.`);
 process.exitCode = spadlo ? 1 : 0;
