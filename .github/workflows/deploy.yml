@@ -98,6 +98,7 @@ jobs:
         run: node scripts/og-image.js || echo "og-image selhalo — ponechávám minulý obrázek"
 
       - name: Commit refreshed evaluations
+        id: zapis
         if: ${{ github.event_name != 'push' && steps.dnes.outputs.preskocit != 'true' }}
         run: |
           git config user.name  "github-actions[bot]"
@@ -107,7 +108,24 @@ jobs:
           # Staging only evaluations.json meant neither ever grew on main.
           git add public/evaluations.json public/history.json public/news.json public/audit.json public/og.png
           git commit -m "chore: weekly evaluation $(date -u +%F)" || echo "no changes"
-          git push || echo "nothing to push"
+          # Během běhu se do main běžně pushuje (obsah, příspěvky, opravy) a
+          # plánovač start posouvá o hodiny. Push pak selhal jako non-fast-forward,
+          # „|| echo" to spolklo, job ohlásil úspěch a zaplacené hodnocení se
+          # zahodilo s runnerem. Rebase je bezpečný: běh sahá jen na public/*.json
+          # a og.png, kam nikdo jiný nezapisuje. Když přesto selže, job musí
+          # spadnout — data pak zachrání krok níž.
+          git pull --rebase --autostash origin main
+          git push
+
+      # Když se zápis nepovede, zaplacené hodnocení nesmí zmizet s runnerem.
+      - name: Keep unpushed data
+        if: ${{ failure() && steps.zapis.outcome == 'failure' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: neodeslana-data
+          path: |
+            public/*.json
+            public/og.png
 
       - run: npm run build
 
