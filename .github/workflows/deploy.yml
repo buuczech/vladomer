@@ -48,10 +48,27 @@ jobs:
         continue-on-error: true
         run: node scripts/dev/test-konzistence.js
 
+      # Plánovač GitHubu umí běh opozdit o hodiny. 28. 8. 2026 dojel ve 20:40,
+      # když už hodnocení proběhlo ručně, a pustil druhé téhož dne — to přepsalo
+      # dnešní auditní záznamy prvního běhu, protože kontrola append-only chrání
+      # jen starší dny. Plánovaný běh se proto přeskočí, jsou-li data už z dneška.
+      # Ruční dispatch běží vždy: ten je úmysl.
+      - name: Už dnes hodnoceno?
+        id: dnes
+        if: ${{ github.event_name == 'schedule' }}
+        run: |
+          node -e '
+            const j = require("./public/evaluations.json");
+            const dnes = new Date().toISOString().slice(0, 10);
+            const hotovo = String(j.lastUpdated || "").slice(0, 10) === dnes;
+            console.log(hotovo ? `Data jsou už z ${dnes}, plánovaný běh se přeskočí.` : "Dnes se ještě nehodnotilo.");
+            require("fs").appendFileSync(process.env.GITHUB_OUTPUT, `preskocit=${hotovo}\n`);
+          '
+
       # Run the AI evaluation only on the Friday schedule or a manual run,
       # not on ordinary code pushes. Needs the ANTHROPIC_API_KEY repo secret.
       - name: Weekly AI evaluation
-        if: ${{ github.event_name != 'push' }}
+        if: ${{ github.event_name != 'push' && steps.dnes.outputs.preskocit != 'true' }}
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: npm run evaluate
@@ -62,7 +79,7 @@ jobs:
       # prohlédnout a rozhodnout ručně.
       - name: Check fresh data
         id: kontrola
-        if: ${{ github.event_name != 'push' }}
+        if: ${{ github.event_name != 'push' && steps.dnes.outputs.preskocit != 'true' }}
         run: node scripts/dev/test-konzistence.js
 
       - name: Keep unpublished data for inspection
@@ -77,11 +94,11 @@ jobs:
       # Selhání nesmí shodit nasazení — u odkazu zůstane minulý obrázek, což je
       # nesrovnatelně méně zlé než zahozený týdenní běh.
       - name: Refresh share image
-        if: ${{ github.event_name != 'push' }}
+        if: ${{ github.event_name != 'push' && steps.dnes.outputs.preskocit != 'true' }}
         run: node scripts/og-image.js || echo "og-image selhalo — ponechávám minulý obrázek"
 
       - name: Commit refreshed evaluations
-        if: ${{ github.event_name != 'push' }}
+        if: ${{ github.event_name != 'push' && steps.dnes.outputs.preskocit != 'true' }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
