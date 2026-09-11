@@ -62,14 +62,30 @@ export function parsujHodnoceni(text) {
      odpověď prózou, v níž na body odkazuje zápisem [2.3] — „od první [ po
      poslední ]" tedy začne uprostřed věty a nepřečte se nic. Generálka
      22. 8. 2026 na tom shodila sedm kapitol z osmnácti. */
-  for (const [o, z] of [["[", "]"], ["{", "}"]]) {
-    for (const vyrez of vyrezy(clean, o, z)) {
-      let hodnota;
-      try { hodnota = JSON.parse(vyrez); } catch { continue; }
-      const pole = naPoleZaznamu(hodnota);
-      if (pole) return pole;
+  for (const vyrez of vyrezy(clean, "[", "]")) {
+    let hodnota;
+    try { hodnota = JSON.parse(vyrez); } catch { continue; }
+    const pole = naPoleZaznamu(hodnota);
+    if (pole) return pole;
+  }
+
+  /* Úplné pole se nenašlo — typicky useknutá odpověď (stop_reason=max_tokens):
+     vnější „[" se nikdy nezavře. Posbírat VŠECHNY úplné záznamy, ne jen první.
+     Dřív se četl jen první objekt a v kapitole 6 dev běhu 11. 9. 2026 se tak
+     ze šesti bodů vrátil jediný, přestože i další záznam byl celý. Jediný bod
+     vrácený jako holý objekt je zvláštní případ téhož. */
+  const zaznamy = [];
+  const videna = new Set();
+  for (const vyrez of vyrezy(clean, "{", "}")) {
+    let hodnota;
+    try { hodnota = JSON.parse(vyrez); } catch { continue; }
+    for (const z of naPoleZaznamu(hodnota) || []) {
+      if (videna.has(z.id)) continue;
+      videna.add(z.id);
+      zaznamy.push(z);
     }
   }
+  if (zaznamy.length) return zaznamy;
 
   /* Nedá se přečíst. Ukázka odpovědi je jediné, z čeho se příště pozná proč —
      bez ní zbyde jen pozice znaku v textu, který už nikdo neuvidí. */

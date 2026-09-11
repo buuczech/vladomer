@@ -53,6 +53,19 @@ Doufám, že [1.3] doplním příště.`,
     text: `Úvod [2.1]:
 ${J([{ id: "2.1", status: "partial", comment_cs: "Zákon (č. 5] Sb.) plyne." }])}`,
     ceka: ["2.1"] },
+  /* Useknutá odpověď (stop_reason=max_tokens), kapitola 6 dev běhu
+     11. 9. 2026: ze šesti bodů se vrátil jediný. Čtení skončilo na prvním
+     úplném záznamu a další, taky úplný, zahodilo. */
+  { proc: "useknuté pole: přečtou se VŠECHNY úplné záznamy, ne jen první",
+    text: `[${J(Z("6.1"))},${J(Z("6.3"))},{"id":"6.5","status":"par`,
+    ceka: ["6.1", "6.3"] },
+  { proc: "próza + useknuté pole: totéž",
+    text: `Hodnocení bodů [6.1] až [6.5]:
+[${J(Z("6.1"))},${J(Z("6.3"))},{"id":"6.5","comment_cs":"Vláda 3`,
+    ceka: ["6.1", "6.3"] },
+  { proc: "useknutá obálka {items:[…]}: taky všechny úplné",
+    text: `{"items":[${J(Z("6.1"))},${J(Z("6.3"))},{"id":"6.5"`,
+    ceka: ["6.1", "6.3"] },
   { proc: "prázdná odpověď se hlásí", text: "", chyba: true },
   { proc: "próza bez JSON se hlásí", text: "Nepodařilo se mi nic zjistit.", chyba: true },
   { proc: "pole řetězců není hodnocení", text: J(["https://a", "https://b"]), chyba: true },

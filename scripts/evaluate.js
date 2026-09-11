@@ -31,7 +31,7 @@ import {
 import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
 import { posudPrechod } from "./lib/prechody.js";
 import { parsujDeltaOdpoved, planKapitoly, prenesNeprehodnocene } from "./lib/delta.js";
-import { parsujHodnoceni } from "./lib/odpoved.js";
+import { parsujHodnoceni, vyrezy } from "./lib/odpoved.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
    upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
@@ -231,7 +231,9 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
       updatedAt: new Date().toISOString(),
     };
   }
-  return { evals: out, searchCount, kept, demoted };
+  /* Useknutá odpověď (stop_reason=max_tokens) se přečte jen po poslední úplný
+     záznam; volající chybějící body doptá zvlášť. */
+  return { evals: out, searchCount, kept, demoted, useknuto: data.stop_reason === "max_tokens" };
 }
 
 /* Týdenní sken událostí: neptá se na stav, ale na to, co se STALO. Vrací
@@ -303,13 +305,14 @@ async function overPrechod(bod, minuly, navrh, prostredni = false) {
      nepřebila vlastní odpověď. */
   const bloky = (data.content || []).filter((b) => b.type === "text").map((b) => b.text);
   for (let i = bloky.length - 1; i >= 0; i--) {
-    const t = bloky[i];
-    const a = t.indexOf("{"), b = t.lastIndexOf("}");
-    if (a === -1 || b === -1) continue;
-    let j;
-    try { j = JSON.parse(t.slice(a, b + 1)); } catch { continue; }
-    if (typeof j.potvrzeno !== "boolean") continue;
-    return { potvrzeno: j.potvrzeno === true, duvod: String(j.duvod || "").slice(0, 300) };
+    /* Spárované závorky, ne „od první { po poslední }": složená závorka
+       v úvaze před verdiktem by jinak rozhodila celé čtení. */
+    for (const vyrez of vyrezy(bloky[i], "{", "}")) {
+      let j;
+      try { j = JSON.parse(vyrez); } catch { continue; }
+      if (typeof j.potvrzeno !== "boolean") continue;
+      return { potvrzeno: j.potvrzeno === true, duvod: String(j.duvod || "").slice(0, 300) };
+    }
   }
   throw new Error("ověření přechodu: odpověď bez JSON [opakovat]");
 }
@@ -344,8 +347,19 @@ async function fetchHeadlines() {
   }
   const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
   const clean = text.replace(/```json|```/g, "").trim();
-  const a = clean.indexOf("["), b = clean.lastIndexOf("]");
-  if (a === -1 || b === -1) {
+  /* Spárované závorky jako u hodnocení a delta skenu: model v úvodní větě
+     odkazuje na zdroje zápisem [1] a „od první [ po poslední ]" by začalo
+     uprostřed věty. Bere se první neprázdné pole objektů; prázdné pole jen
+     tehdy, když jiné není (to pak řeší opakování níž). */
+  let parsed = null;
+  for (const vyrez of vyrezy(clean, "[", "]")) {
+    let v;
+    try { v = JSON.parse(vyrez); } catch { continue; }
+    if (!Array.isArray(v)) continue;
+    if (!v.length) { if (!parsed) parsed = v; continue; }
+    if (v.some((x) => x && typeof x === "object" && !Array.isArray(x))) { parsed = v; break; }
+  }
+  if (!parsed) {
     /* Say WHY, or the next person guesses. stop_reason "max_tokens" means the
        reply was cut off — every web_search round is itself part of the output,
        so raising the search count eats the budget the JSON needs. "end_turn"
@@ -357,7 +371,6 @@ async function fetchHeadlines() {
       + `searches=${searches}, out_tokens=${data.usage?.output_tokens}, text=${clean.length}b: `
       + `${JSON.stringify(clean.slice(0, 600))})`);
   }
-  const parsed = JSON.parse(clean.slice(a, b + 1));
   /* Prázdné pole je platná odpověď, ale skoro nikdy pravdivá — v české
      politice se za týden vždycky něco stane. Tři běhy 30. 7. 2026 to ukázaly
      názorně: dva vrátily 0 návrhů, třetí o šest hodin později 9 návrhů ze
@@ -544,9 +557,15 @@ async function main() {
       const znacka = skupiny.length > 1 ? ` (${skupiny.length} dávky)` : "";
       process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}${znacka}… `);
     }
-    let hotovo = 0, hledani = 0, zdroju = 0;
+    let hotovo = 0, hledani = 0, zdroju = 0, useknuto = 0;
     const snizeno = {};
-    for (const [i, skupina] of skupiny.entries()) {
+    /* Fronta místo pevného seznamu dávek: body, které odpověď nenesla, se do
+       ní jednou vrátí jako samostatná menší dávka (viz níž). */
+    const fronta = [...skupiny];
+    const doptano = [];
+    const selhaloDoptani = [];
+    for (let i = 0; i < fronta.length; i++) {
+      const skupina = fronta[i];
       if (chyba) break;
       if (i) await new Promise((r) => setTimeout(r, 20000));
       try {
@@ -593,7 +612,25 @@ async function main() {
         hledani += r.searchCount;
         zdroju += r.kept;
         for (const [k, v] of Object.entries(r.demoted)) if (v) snizeno[k] = (snizeno[k] || 0) + v;
+        if (r.useknuto) useknuto++;
+        /* Body, které odpověď nenesla. V kapitole 6 dev běhu 11. 9. 2026 se ze
+           šesti vrátil jediný: useknutá odpověď se přečte jen po poslední úplný
+           záznam. Menší dotaz se do stropu vejde a dostane jinou odpověď, takže
+           se chybějící body JEDNOU doptají samostatně; co chybí i potom, zůstane,
+           jak bylo, a log to pojmenuje (lib/delta.js, prenesNeprehodnocene). */
+        const chybi = skupina.filter((b) => !r.evals[b.id] && !doptano.includes(b.id));
+        if (chybi.length) {
+          doptano.push(...chybi.map((b) => b.id));
+          fronta.push(chybi);
+        }
       } catch (e) {
+        /* Doptání chybějících bodů je jen pokus navíc. Když selže, body zůstanou,
+           jak byly, a log je pojmenuje — ale kapitola kvůli němu nepropadne,
+           jinak by se zahodilo i to, co první dávka přehodnotila v pořádku. */
+        if (i >= skupiny.length) {
+          selhaloDoptani.push(`${skupina.map((b) => b.id).join(", ")}: ${e.message}`.slice(0, 120));
+          continue;
+        }
         chyba = e;
         break;   // zbylé dávky nemá smysl platit, kapitola stejně propadne
       }
@@ -613,6 +650,9 @@ async function main() {
       if (skupiny.length) {
         console.log(`ok (${hotovo}) — ${hledani} search hits, ${zdroju} sources kept`
           + (dm ? `, downgraded: ${dm}` : "")
+          + (useknuto ? `, useknuto ${useknuto}× (max_tokens)` : "")
+          + (doptano.length ? `, doptáno zvlášť: ${doptano.join(", ")}` : "")
+          + (selhaloDoptani.length ? `, doptání selhalo (${selhaloDoptani.join("; ")})` : "")
           + (vynechane.length ? `, model vynechal: ${vynechane.join(", ")}` : ""));
       }
     }
