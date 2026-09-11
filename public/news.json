@@ -1,17 +1,29 @@
 {
-  "generatedAt": "2026-09-11T13:34:05.589Z",
+  "generatedAt": "2026-09-11T17:12:34.303Z",
   "items": [
     {
       "title": {
-        "cs": "Koalice prosadila přednostní projednání novely o zvyšování penzí",
-        "en": "Coalition pushed through priority discussion of pension increase amendment"
+        "cs": "Sněmovna schválila novelu o státních úřednících i omezení pravomocí prezidenta",
+        "en": "Parliament approves civil service reform and limits president's powers"
       },
       "summary": {
-        "cs": "Vláda prosadila zařazení novely do programu schůze, která zvedne důchody osmdesátiletým od příštího roku o 500 korun.",
-        "en": "Government pushed through the inclusion of an amendment in the session agenda that will increase pensions for eighty-year-olds by 500 crowns starting next year."
+        "cs": "Vládní koalice přehlasovala senátní veto a schválila nový zákon o státních úřednících, který má zjednodušit jejich výměnu, stejně jako zrušila pravomoc prezidenta jmenovat vedoucí stálých misí u mezinárodních organizací.",
+        "en": "Coalition overrode Senate veto to approve new civil service law aimed at facilitating replacement of officials and stripped president's power to appoint heads of permanent missions at international organizations."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/koalice-prosadila-prednostni-projednani-novely-o-zvysovani-penzi/2873058",
-      "date": "2026-09-11"
+      "url": "https://www.irozhlas.cz/zpravy-domov/zmena-pravidel-pro-uredniky-i-omezeni-pravomoci-prezidenta-snemovna-prehlasovala_2609082146_ape",
+      "date": "2026-09-08"
+    },
+    {
+      "title": {
+        "cs": "Sněmovna projednávala program schůze více než pět hodin, opozice se domáhala debaty o rozpočtu",
+        "en": "Parliament spent over five hours debating agenda, opposition demanded budget discussion"
+      },
+      "summary": {
+        "cs": "Poslanci se několik hodin dohadovali o programu zářijové schůze Sněmovny, přičemž opozice neúspěšně požadovala debatu o kritizovaném deficitu státního rozpočtu na příští rok.",
+        "en": "MPs spent hours debating the agenda of September parliament session, with opposition unsuccessfully demanding debate on the criticized budget deficit for next year."
+      },
+      "url": "https://www.ceskenoviny.cz/zpravy/projednavani-programu-schuze-zabralo-poslancum-vice-nez-pet-hodin/2870725",
+      "date": "2026-09-08"
     }
   ]
 }
