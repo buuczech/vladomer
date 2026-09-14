@@ -2,7 +2,7 @@
   "typ": "reel",
   "hudba": "vychozi.mp3",
   "publikovat_v": "2026-09-15T18:00:00+02:00",
-  "popisek": "Vláda si v programovém prohlášení určila pět zásadních priorit. Přesně devět měsíců po jejím nástupu není splněná ani jedna — a ani u jedné neběží legislativní proces.\n\nStav k 4. 9. 2026: částečně splněné jsou dvě (dostupné zdravotnictví a dostupné bydlení), u deklarace zůstaly dvě (levnější energie s odmítnutím ETS2 a nulová tolerance nelegální migrace) a nezahájená je jedna — spravedlivé důchody se stropem věku na 65 letech.\n\nMezi 3. srpnem a 4. zářím se u těch pěti nezměnil ani jeden stav. Ve zbytku programu se přitom hýbe dost: nezahájených ubylo z 23 na 11 a částečně splněných přibylo z 15 na 36.\n\nJedna férová výhrada: jsou to zastřešující formulace a konkrétní kroky se schovávají v dalších kapitolách, kde pohyb je. Vláda si ale právě těchto pět vybrala a postavila je na začátek programu.\n\nPřepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #politika #vlada #cesko #data #transparentnost",
+  "popisek": "Vláda si v programovém prohlášení určila pět zásadních priorit. Přesně devět měsíců po jejím nástupu není splněná ani jedna — a ani u jedné neběží legislativní proces.\n\nStav k 11. 9. 2026: částečně splněné jsou dvě (dostupné zdravotnictví a dostupné bydlení), u deklarace zůstaly dvě (levnější energie s odmítnutím ETS2 a nulová tolerance nelegální migrace) a nezahájená je jedna — spravedlivé důchody se stropem věku na 65 letech.\n\nMezi 3. srpnem a 11. zářím se u těch pěti nezměnil ani jeden stav. Ve zbytku programu se přitom hýbe dost: nezahájených ubylo z 23 na 11 a částečně splněných přibylo z 15 na 36.\n\nJedna férová výhrada: jsou to zastřešující formulace a konkrétní kroky se schovávají v dalších kapitolách, kde pohyb je. Vláda si ale právě těchto pět vybrala a postavila je na začátek programu.\n\nPřepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #politika #vlada #cesko #data #transparentnost",
   "sceny": [
     {
       "typ": "cislo",
@@ -11,7 +11,7 @@
       "jednotka": "",
       "barva": "bad",
       "popis": "z pěti, které si vláda sama určila jako zásadní",
-      "dovetek": "Stav k 4. 9. 2026",
+      "dovetek": "Stav k 11. 9. 2026",
       "komentar": "Vláda si v programu určila pět zásadních priorit. Splněná není ani jedna.",
       "trvani": 5
     },
@@ -30,12 +30,12 @@
     {
       "typ": "cislo",
       "nadpis": "V CELÉM PROGRAMU PROBÍHÁ",
-      "cislo": "45",
+      "cislo": "46",
       "jednotka": "",
       "barva": "neutral",
       "popis": "ze 143 bodů. Z pěti priorit ani jeden.",
-      "dovetek": "Stav k 4. 9. 2026",
-      "komentar": "Ve zbytku programu běží legislativní proces u čtyřiceti pěti bodů. U priorit u žádného.",
+      "dovetek": "Stav k 11. 9. 2026",
+      "komentar": "Ve zbytku programu běží legislativní proces u čtyřiceti šesti bodů. U priorit u žádného.",
       "trvani": 5
     },
     {
