@@ -1,17 +1,29 @@
 {
-  "generatedAt": "2026-09-11T13:34:05.589Z",
+  "generatedAt": "2026-09-18T12:34:09.194Z",
   "items": [
     {
       "title": {
-        "cs": "Koalice prosadila přednostní projednání novely o zvyšování penzí",
-        "en": "Coalition pushed through priority discussion of pension increase amendment"
+        "cs": "Poslanci budou jednat o zrušení poplatků za veřejnoprávní média",
+        "en": "Parliament to discuss abolishing public media fees"
       },
       "summary": {
-        "cs": "Vláda prosadila zařazení novely do programu schůze, která zvedne důchody osmdesátiletým od příštího roku o 500 korun.",
-        "en": "Government pushed through the inclusion of an amendment in the session agenda that will increase pensions for eighty-year-olds by 500 crowns starting next year."
+        "cs": "Poslanci by příští týden mohli na mimořádné schůzi jednat o návrhu na zrušení koncesionářských poplatků za ČT a ČRo.",
+        "en": "MPs could discuss abolishing licensing fees for public TV and radio at an extraordinary session next week."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/koalice-prosadila-prednostni-projednani-novely-o-zvysovani-penzi/2873058",
-      "date": "2026-09-11"
+      "url": "https://www.echo24.cz/a/HstTG/zpravy-domov-poslanci-pristi-tyden-projednaji-konec-koncesionarske-poplatky-za-ct-a-cro-ceska-televize-rozhlas",
+      "date": "2026-09-16"
+    },
+    {
+      "title": {
+        "cs": "Soud potvrdil trest pro Nagyovou v kauze Čapí hnízdo",
+        "en": "Court confirmed sentence for Nagyová in Čapí hnízdo case"
+      },
+      "summary": {
+        "cs": "Pražský vrchní soud potvrdil europoslankyni Janě Nagyové tříletý podmíněný trest za dotační podvod a poškození finančních zájmů EU.",
+        "en": "Prague High Court confirmed a three-year suspended sentence for MEP Jana Nagyová for subsidy fraud and harm to EU financial interests."
+      },
+      "url": "https://www.ceskenoviny.cz/zpravy/soudcovska-unie-vyzvala-premiera-aby-dolozil-tvrzeni-o-rozhodovani-bez-dukazu/2876205",
+      "date": "2026-09-18"
     }
   ]
 }
