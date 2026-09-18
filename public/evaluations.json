@@ -2100,35 +2100,30 @@
       "overeno": "2026-09-18T12:22:51.658Z"
     },
     "10.2": {
-      "status": "broken",
-      "evidence": "Ministr Juchelka 20. července 2026 oznámil, že vyšší valorizace (inflace + polovina růstu mezd místo třetiny) vypadla z novely důchodů; vláda se rozhodla ponechat zpomalení růstu nových penzí a kompenzovat pouze věkovými valorizacemi",
-      "evidenceDate": "2026-07-20",
+      "status": "in_progress",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda slibovala obnovit spravedlivý valorizační vzorec (inflace + polovina růstu mezd), ale v červenci 2026 od tohoto slibu ustoupila. Ministr Juchelka potvrdil, že vyšší valorizace vypadla z novely a bude řešena až později, přestože původně měla být součástí reformy. Opozice kritizuje rozpor mezi slibem a skutečností.",
-        "en": "The government promised to restore a fair indexation formula (inflation + half of wage growth), but in July 2026 abandoned this commitment. Minister Juchelka confirmed that higher indexation was dropped from the amendment and will be addressed later, despite originally being part of the reform. Opposition criticizes the discrepancy between promise and reality."
+        "cs": "Obnovení valorizačního vzorce (inflace + polovina růstu mezd místo třetiny) je v aktivním legislativním procesu. Ministr Juchelka potvrdil, že změna se nemůže uskutečnit v roce 2026, ale až od roku 2027. Návrh je připravován, ale legislativní proces není dokončen. Vláda deklaruje záměr, ale konkrétní termín schválení není znám.",
+        "en": "Restoration of the valuation formula (inflation + half of wage growth instead of one-third) is in active legislative process. Minister Juchelka confirmed the change cannot occur in 2026 but only from 2027. The proposal is being prepared but the legislative process is not complete. The government declares intent but the specific approval timeline is unknown."
       },
       "change": {
-        "cs": "Vláda 20. července 2026 schválila důchodovou novelu bez vyšší valorizace; ministr Juchelka oznámil, že tato změna se dostane do další novely.",
-        "en": "On July 20, 2026, the government approved a pension amendment without higher indexation; Minister Juchelka announced that this change will be included in a future amendment."
+        "cs": "Ministr Juchelka v červnu 2026 potvrdil, že vyšší valorizace se promítne až od roku 2027 kvůli technickým a datovým omezením.",
+        "en": "Minister Juchelka confirmed in June 2026 that higher valuation will only take effect from 2027 due to technical and data constraints."
       },
       "sources": [
         {
-          "url": "https://ct24.ceskatelevize.cz/clanek/ekonomika/vlada-ponecha-v-platnosti-zpomaleni-rustu-novych-penzi-370098",
-          "title": "Vláda ponechá v platnosti zpomalení růstu nových penzí - ČT24"
+          "url": "https://www.denik.cz/ekonomika/valorizace-duchodu-nova-vlada-penzijni-reforma-seniori-ano-ales-juchelka.html",
+          "title": "Vyšší valorizace důchodů bude až od roku 2027. Dříve to nejde, řekl Juchelka - Deník.cz"
         },
         {
-          "url": "https://www.denik.cz/ekonomika/cesko-ekonomika-duchodova-reforma-valorizace-odchod-do-duchodu-vek.html",
-          "title": "Babišova vláda zruší důchodovou reformu jen částečně. Změny chystá od roku 2027 - Deník.cz"
-        },
-        {
-          "url": "https://www.e15.cz/nazory-a-analyzy/babis-se-chytil-do-vlastni-duchodove-pasti-pridat-penzistum-tri-stovky-bude-politicky-prilis-malo-1435050",
-          "title": "e15.cz - Babiš se chytil do vlastní důchodové pasti. Přidat penzistům tři stovky bude politicky příliš málo"
+          "url": "https://ct24.ceskatelevize.cz/clanek/ekonomika/vlada-planuje-zvysovani-duchodu-i-zastropovani-duchodoveho-veku-371078",
+          "title": "Vláda plánuje zvyšování důchodů i zastropování důchodového věku"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-09-18T12:23:52.891Z",
-      "overeno": "2026-09-18T12:22:51.658Z"
+      "updatedAt": "2026-09-11T13:24:14.467Z",
+      "overeno": "2026-09-18T12:23:52.891Z"
     },
     "10.3": {
       "status": "partial",
@@ -3594,35 +3589,32 @@
       "overeno": "2026-09-18T12:31:38.117Z"
     },
     "17.3": {
-      "status": "fulfilled",
-      "evidence": "Zákon č. 586/1992 Sb., o daních z příjmů, ve znění zákona č. 80/2019 Sb. a pozdějších předpisů; od 1. 1. 2026 zvýšení z 100 % na 150 % do 50 mil. Kč, prodloužení lhůty z 3 na 5 let, flexibilnější pravidla",
+      "status": "partial",
+      "evidence": "Zákon č. 586/1992 Sb., o daních z příjmů, ve znění zákona č. 80/2019 Sb., s účinností od 1. 1. 2026: zvýšení z 100 % na 150 % do 50 mil. Kč, prodloužení lhůty uplatnění z 3 na 5 let, zjednodušení projektové dokumentace",
       "evidenceDate": "2026-01-01",
       "unverifiable": false,
+      "evidenceMissing": "date-mismatch",
       "comment": {
-        "cs": "Ano, splněno: Daňové odpočty na VaV byly od 1. 1. 2026 skutečně zatraktivněny – zvýšení z 100 % na 150 % do 50 mil. Kč, prodloužení lhůty uplatnění z 3 na 5 let a flexibilnější pravidla. Opatření je účinné, ačkoli počet firem je nižší než v minulosti a administrativní zátěž zůstává vysoká.",
-        "en": "Yes, fulfilled: Tax deductions for R&D were indeed made more attractive from 1 January 2026 – increase from 100% to 150% up to 50 million CZK, extension of the application period from 3 to 5 years, and more flexible rules. The measure is effective, although the number of firms is lower than in the past and administrative burden remains high."
+        "cs": "Ano, splněno: Daňové odpočty na VaV byly od 1. 1. 2026 skutečně zatraktivněny – zvýšení z 100 % na 150 % do 50 mil. Kč, prodloužení lhůty uplatnění z 3 na 5 let a flexibilnější pravidla. Opatření byla schválena v předchozí vládě, ale vstoupila v účinnost za vlády Babiše. Praktická účinnost však zůstává omezena: firmy se odpočtu bojí využívat kvůli nepředvídatelným daňovým kontrolám a formálním požadavkům.",
+        "en": "Yes, fulfilled: R&D tax deductions were indeed made more attractive from 1 January 2026 – increase from 100% to 150% up to 50 million CZK, extension of the application period from 3 to 5 years, and more flexible rules. The measure was approved by the previous government but took effect under the Babiš government. However, practical effectiveness remains limited: companies are reluctant to use the deduction due to unpredictable tax audits and formal requirements."
       },
       "change": {
-        "cs": "Vláda Babiše pokračuje v implementaci zatraktivnění daňových odpočtů na VaV, které vstoupily v účinnost 1. 1. 2026.",
-        "en": "The Babiš government continues implementation of enhanced R&D tax deductions, which came into effect on 1 January 2026."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
-        {
-          "url": "https://financnisprava.gov.cz/cs/financni-sprava/media-a-verejnost/tiskove-zpravy-gfr/tiskove-zpravy-2026/danove-novinky-pro-rok-2026",
-          "title": "Daňové novinky pro rok 2026: změny v daních z příjmů, DPH i v oblasti administrativních povinností | Tiskové zprávy 2026 | Tiskové zprávy | Pro média | Finanční správa | Finanční správa"
-        },
         {
           "url": "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/prehledne-ktere-zmeny-pripravilo-ministerstvo-fina-62343",
           "title": "PŘEHLEDNĚ: Které změny připravilo Ministerstvo financí pro rok 2026 | Ministerstvo financí ČR"
         },
         {
-          "url": "https://www.newstream.cz/newstream-tv/stat-laka-firmy-na-vyssi-danove-odpocty-za-vyzkum-a-vyvoj-prekazkou-je-ale-tvrda-byrokracie-a-kontroly",
-          "title": "Stát láká firmy na vyšší daňové odpočty za výzkum a vývoj. Překážkou je ale tvrdá byrokracie a kontroly | Newstream"
+          "url": "https://financnisprava.gov.cz/cs/financni-sprava/media-a-verejnost/tiskove-zpravy-gfr/tiskove-zpravy-2026/danove-novinky-pro-rok-2026",
+          "title": "Daňové novinky pro rok 2026: změny v daních z příjmů, DPH i v oblasti administrativních povinností | Tiskové zprávy 2026 | Tiskové zprávy | Pro média | Finanční správa | Finanční správa"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-09-18T12:32:27.749Z",
-      "overeno": "2026-09-18T12:31:38.117Z"
+      "updatedAt": "2026-09-11T13:33:07.298Z",
+      "overeno": "2026-09-18T12:32:27.749Z"
     },
     "17.4": {
       "status": "fulfilled",

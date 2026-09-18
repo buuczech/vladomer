@@ -19073,6 +19073,52 @@
         "https://ctu.gov.cz/tiskova-zprava-2.-srpna-2026-jako-klicove-datum-pro-pravidla-transparentnosti-podle-aktu-o-umele"
       ],
       "model": "claude-haiku-4-5-20251001"
+    },
+    {
+      "id": "17.3",
+      "date": "2026-09-18",
+      "status": "partial",
+      "evidence": "Zákon č. 586/1992 Sb., o daních z příjmů, ve znění zákona č. 80/2019 Sb., s účinností od 1. 1. 2026: zvýšení z 100 % na 150 % do 50 mil. Kč, prodloužení lhůty uplatnění z 3 na 5 let, zjednodušení projektové dokumentace",
+      "evidence_date": "2026-01-01",
+      "unverifiable": false,
+      "comment_cs": "Ano, splněno: Daňové odpočty na VaV byly od 1. 1. 2026 skutečně zatraktivněny – zvýšení z 100 % na 150 % do 50 mil. Kč, prodloužení lhůty uplatnění z 3 na 5 let a flexibilnější pravidla. Opatření byla schválena v předchozí vládě, ale vstoupila v účinnost za vlády Babiše. Praktická účinnost však zůstává omezena: firmy se odpočtu bojí využívat kvůli nepředvídatelným daňovým kontrolám a formálním požadavkům.",
+      "comment_en": "Yes, fulfilled: R&D tax deductions were indeed made more attractive from 1 January 2026 – increase from 100% to 150% up to 50 million CZK, extension of the application period from 3 to 5 years, and more flexible rules. The measure was approved by the previous government but took effect under the Babiš government. However, practical effectiveness remains limited: companies are reluctant to use the deduction due to unpredictable tax audits and formal requirements.",
+      "change_cs": "Beze změny.",
+      "change_en": "No change.",
+      "sources": [
+        "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/prehledne-ktere-zmeny-pripravilo-ministerstvo-fina-62343",
+        "https://financnisprava.gov.cz/cs/financni-sprava/media-a-verejnost/tiskove-zpravy-gfr/tiskove-zpravy-2026/danove-novinky-pro-rok-2026"
+      ],
+      "model": "claude-haiku-4-5-20251001",
+      "oprava": {
+        "puvodni_zaznam": "2026-09-18",
+        "puvodni_status": "fulfilled",
+        "duvod": "Přechod na „splněno“ neměl projít. Doklad popisuje zvýšení odpočtu, které zavedl zákon č. 360/2025 Sb., vyhlášený 29. 9. 2025 za předchozí vlády; 1. 1. 2026 je jen den jeho účinnosti. Dílo předchozí vlády je podle pravidel webu „částečně splněno“ (zábrana date-mismatch). Model tentokrát napsal „od 1. 1. 2026“ místo „s účinností od“, takže textová zábrana nezabrala. Bod drží záznam z 11. 9. 2026.",
+        "bez_noveho_hodnoceni": true
+      }
+    },
+    {
+      "id": "10.2",
+      "date": "2026-09-18",
+      "status": "in_progress",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Obnovení valorizačního vzorce (inflace + polovina růstu mezd místo třetiny) je v aktivním legislativním procesu. Ministr Juchelka potvrdil, že změna se nemůže uskutečnit v roce 2026, ale až od roku 2027. Návrh je připravován, ale legislativní proces není dokončen. Vláda deklaruje záměr, ale konkrétní termín schválení není znám.",
+      "comment_en": "Restoration of the valuation formula (inflation + half of wage growth instead of one-third) is in active legislative process. Minister Juchelka confirmed the change cannot occur in 2026 but only from 2027. The proposal is being prepared but the legislative process is not complete. The government declares intent but the specific approval timeline is unknown.",
+      "change_cs": "Ministr Juchelka v červnu 2026 potvrdil, že vyšší valorizace se promítne až od roku 2027 kvůli technickým a datovým omezením.",
+      "change_en": "Minister Juchelka confirmed in June 2026 that higher valuation will only take effect from 2027 due to technical and data constraints.",
+      "sources": [
+        "https://www.denik.cz/ekonomika/valorizace-duchodu-nova-vlada-penzijni-reforma-seniori-ano-ales-juchelka.html",
+        "https://ct24.ceskatelevize.cz/clanek/ekonomika/vlada-planuje-zvysovani-duchodu-i-zastropovani-duchodoveho-veku-371078"
+      ],
+      "model": "claude-haiku-4-5-20251001",
+      "oprava": {
+        "puvodni_zaznam": "2026-09-18",
+        "puvodni_status": "broken",
+        "duvod": "Přechod na „porušeno“ neměl projít. Doklad (20. 7. 2026) je starší než dosavadní stav z 11. 9. 2026, nejde tedy o novou událost; vláda navíc změnu valorizačního vzorce odložila do dalšího balíčku s účinností od ledna 2028, neopustila ji. Bod drží záznam z 11. 9. 2026.",
+        "bez_noveho_hodnoceni": true
+      }
     }
   ]
 }
