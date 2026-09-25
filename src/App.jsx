@@ -5,6 +5,7 @@ import {
   QUARTER_COUNT, quarterOf, quarterLabel,
 } from "./governments.js";
 import CookieBar, { CookieSettingsLink } from "./CookieBar.jsx";
+import { zmenaPoslednihoBehu } from "./zmeny.js";
 
 /* =========================================================================
    VLÁDOMĚR — production build.
@@ -1292,12 +1293,13 @@ export default function App() {
     const out = [];
     for (const id in evals) {
       const e = evals[id];
-      if (e && e.previousStatus && e.previousStatus !== e.status && map[id]) {
+      // Jen přechody zapsané posledním během — viz src/zmeny.js.
+      if (map[id] && zmenaPoslednihoBehu(e, lastUpdated)) {
         out.push({ ...map[id], from: e.previousStatus, to: e.status, change: e.change });
       }
     }
     return out.sort((a, b) => (STATUS[b.to].rank - STATUS[b.from].rank) - (STATUS[a.to].rank - STATUS[a.from].rank));
-  }, [evals]);
+  }, [evals, lastUpdated]);
 
   const chapterStats = useCallback((ch) => {
     let done = 0, partial = 0, prog = 0, n = 0, tot = 0;
@@ -1577,7 +1579,7 @@ export default function App() {
                           const sObj = STATUS[status];
                           const e = evals[it.id];
                           const cmtOpen = !!openCmt[it.id];
-                          const changed = e && e.previousStatus && e.previousStatus !== e.status;
+                          const changed = zmenaPoslednihoBehu(e, lastUpdated);
                           const tr = changed ? trend(e.previousStatus, e.status) : null;
                           const hasSrc = e && Array.isArray(e.sources) && e.sources.length > 0;
                           // Vysvětlení snížení musí jít otevřít i u bodu, kde by

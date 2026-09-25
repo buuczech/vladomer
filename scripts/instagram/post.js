@@ -26,6 +26,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { render } from "../lib/nastaveni.js";
 import { ALL_ITEMS, TOTAL_ITEMS } from "../../src/data.js";
+import { zmenaPoslednihoBehu } from "../../src/zmeny.js";
 /* Vykreslení i publikace jsou ve sdíleném modulu — používá je i adhoc.js.
    Zveřejnění je jediný nevratný krok v projektu a smí existovat jen jednou. */
 import {
@@ -88,11 +89,13 @@ function nactiData() {
 
   /* Změny se řadí podle velikosti posunu — stejné pořadí, jaké na webu ukazuje
      panel „Změny od minulého týdne". Zhoršení i zlepšení se berou stejně: co
-     se hnulo nejvíc, je nejzajímavější. */
+     se hnulo nejvíc, je nejzajímavější. Za změnu se počítá jen přechod, který
+     zapsal poslední běh (src/zmeny.js) — bod 12.6 se tu jinak hlásil jako
+     „změna tohoto týdne" tři příspěvky po sobě, ačkoli se změnil 28. 8. */
   const zmeny = [];
   for (const it of ALL_ITEMS) {
     const e = evals[it.id];
-    if (!e || !e.previousStatus || e.previousStatus === e.status) continue;
+    if (!zmenaPoslednihoBehu(e, j.lastUpdated)) continue;
     if (!HODNOCENE.has(e.status) || !HODNOCENE.has(e.previousStatus)) continue;
     const smer = (RANK[e.status] ?? 1) - (RANK[e.previousStatus] ?? 1);
     zmeny.push({ id: it.id, nazev: it.cs, z: e.previousStatus, na: e.status, smer });

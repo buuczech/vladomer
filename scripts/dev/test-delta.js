@@ -7,9 +7,11 @@
  * takže když parser mlčí, běh nic nezmění a v měření stability to vypadá jako
  * dokonalá reprodukovatelnost. Testuje se hlavně to, že se nedá umlčet potichu —
  * a že nečitelný sken vede k přehodnocení celé kapitoly, ne k razítku
- * „prověřeno beze změny" u bodů, na které se nikdo nepodíval.
+ * „prověřeno beze změny" u bodů, na které se nikdo nepodíval — a že přenesený
+ * záznam se nehlásí jako „změna tohoto týdne" (src/zmeny.js).
  */
 import { parsujDeltaOdpoved, planKapitoly, prenesNeprehodnocene } from "../lib/delta.js";
+import { zmenaPoslednihoBehu } from "../../src/zmeny.js";
 
 const ID = new Set(["1.1", "1.2", "1.3"]);
 const UD = (id, datum) => `{"id":"${id}","udalost":"Sněmovna schválila.","datum":"${datum}","zdroje":["https://psp.cz/a"]}`;
@@ -199,6 +201,27 @@ for (const p of PRIPADY) {
   });
   over(stejne(ids(novy.bodyKHodnoceni), ["4.4"]), "nový bod bez hodnocení se přehodnotí i v klidném týdnu",
     JSON.stringify(novy));
+}
+
+/* Co je „změna tohoto týdne" (src/zmeny.js). Přenesený záznam nese minulé
+   previousStatus beze změny, takže bod 12.6, změněný 28. 8. 2026, se jako
+   čerstvá změna hlásil na webu i v příspěvcích ještě 4., 11. a 18. 9. */
+{
+  const beh = "2026-09-18T12:34:09.194Z";
+  const z = (prev, st, upd) => ({ previousStatus: prev, status: st, updatedAt: upd });
+  over(zmenaPoslednihoBehu(z("partial", "declared", "2026-09-18T12:12:40.000Z"), beh),
+    "přechod zapsaný tímhle během je změna tohoto týdne");
+  over(!zmenaPoslednihoBehu(z("not_started", "partial", "2026-08-28T20:53:47.622Z"), beh),
+    "přenesený přechod z 28. 8. (bod 12.6) změna tohoto týdne NENÍ");
+  over(!zmenaPoslednihoBehu({ ...z("in_progress", "in_progress", "2026-09-11T12:00:00.000Z"), overeno: beh }, beh),
+    "bod bez přechodu se nehlásí, ani když ho běh prověřil");
+  over(!zmenaPoslednihoBehu({ ...z("in_progress", "partial", "2026-09-11T12:10:00.000Z"), overeno: beh }, beh),
+    "podržený nebo ručně vrácený záznam (updatedAt z minula) se nehlásí");
+  over(zmenaPoslednihoBehu(z("declared", "in_progress", "2026-08-28T18:10:00.000Z"), "2026-08-28T21:05:00.000Z"),
+    "druhý běh téhož dne: přechod prvního běhu je pořád tohoto týdne");
+  over(!zmenaPoslednihoBehu(z("declared", "in_progress", "2026-09-18T12:00:00.000Z"), null)
+      && !zmenaPoslednihoBehu(null, beh) && !zmenaPoslednihoBehu(z(null, "partial", beh), beh),
+    "chybějící lastUpdated, záznam nebo previousStatus = žádná změna");
 }
 
 console.log(spadlo ? `\n${spadlo} selhání z ${kontrol} kontrol.` : `\nVšech ${kontrol} kontrol prošlo.`);
