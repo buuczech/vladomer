@@ -1,29 +1,41 @@
 {
-  "generatedAt": "2026-09-18T12:34:09.194Z",
+  "generatedAt": "2026-09-25T13:05:36.116Z",
   "items": [
     {
       "title": {
-        "cs": "Poslanci budou jednat o zrušení poplatků za veřejnoprávní média",
-        "en": "Parliament to discuss abolishing public media fees"
+        "cs": "Vláda schválila státní rozpočet na 2027 se schodkem 386 miliard",
+        "en": "Government approved 2027 budget with 386 billion deficit"
       },
       "summary": {
-        "cs": "Poslanci by příští týden mohli na mimořádné schůzi jednat o návrhu na zrušení koncesionářských poplatků za ČT a ČRo.",
-        "en": "MPs could discuss abolishing licensing fees for public TV and radio at an extraordinary session next week."
+        "cs": "Vláda v pondělí 21. září schválila návrh státního rozpočtu pro rok 2027 se schodkem 386 miliard korun, což by měl být druhý nejvyšší deficit v historii Česka.",
+        "en": "Government on Monday Sept 21 approved draft 2027 budget with 386 billion crown deficit, second highest in Czech history."
       },
-      "url": "https://www.echo24.cz/a/HstTG/zpravy-domov-poslanci-pristi-tyden-projednaji-konec-koncesionarske-poplatky-za-ct-a-cro-ceska-televize-rozhlas",
-      "date": "2026-09-16"
+      "url": "https://byznys.hn.cz/c1-67933690-vlada-snizila-planovany-schodek-rozpoctu-o-tri-miliardy-i-tak-bude-deficit-druhy-nejvyssi-v-historii-ceska",
+      "date": "2026-09-21"
     },
     {
       "title": {
-        "cs": "Soud potvrdil trest pro Nagyovou v kauze Čapí hnízdo",
-        "en": "Court confirmed sentence for Nagyová in Čapí hnízdo case"
+        "cs": "Opozice zablokovala zrychlené schválení zmrazení platů vrcholných politiků",
+        "en": "Opposition blocked expedited approval of freezing top politicians' salaries"
       },
       "summary": {
-        "cs": "Pražský vrchní soud potvrdil europoslankyni Janě Nagyové tříletý podmíněný trest za dotační podvod a poškození finančních zájmů EU.",
-        "en": "Prague High Court confirmed a three-year suspended sentence for MEP Jana Nagyová for subsidy fraud and harm to EU financial interests."
+        "cs": "Koaliční návrh na zmrazení platů vrcholných politiků nebude v prvním čtení schvalován zrychleným řízením, opoziční kluby STAN, ODS, KDU-ČSL a TOP 09 veto tohoto postupu prosadily.",
+        "en": "Coalition proposal to freeze salaries of top politicians will not pass expedited first reading after opposition parties vetoed the procedure."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/soudcovska-unie-vyzvala-premiera-aby-dolozil-tvrzeni-o-rozhodovani-bez-dukazu/2876205",
-      "date": "2026-09-18"
+      "url": "https://www.ceskenoviny.cz/zpravy/cast-opozice-zablokovala-zrychlene-schvaleni-novely-o-zmrazeni-platu-politiku/2875689",
+      "date": "2026-09-24"
+    },
+    {
+      "title": {
+        "cs": "Česká republika v Ankaře prosazuje odložení emisních povolenek ETS 2",
+        "en": "Czech Republic pushes for postponement of ETS 2 emissions trading at Ankara summit"
+      },
+      "summary": {
+        "cs": "Premiér Babiš vyzve na Evropské radě k odložení systému emisních povolenek ETS 2, aby se zabránilo dalšímu zdražování pohonných hmot.",
+        "en": "Premier Babiš will call at European Council for postponement of ETS 2 emissions trading system to prevent further fuel price increases."
+      },
+      "url": "https://m.echo24.cz/a/HG7Ns/zpravy-domaci-babis-kvuli-drahym-palivum-vyzve-na-evropske-rade-k-odkladu-povolenek-ets-2",
+      "date": "2026-09-24"
     }
   ]
 }
