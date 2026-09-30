@@ -95,9 +95,19 @@ dokonale. 21. 8. 2026 kvůli tomu prošlo „splněno" s dokladem „Zákon
 č. 270/2026 Sb., vyhlášen 26. 5. 2026", který vznikl z toho, že Sněmovna toho
 dne přehlasovala veto Senátu.
 
+Týdenní běh navíc **drží přechod opřený o starý doklad** (`drzet_stary_doklad`):
+když model změnu stavu zdůvodní krokem, který se stal dřív, než bod do
+dosavadního stavu vůbec vstoupil, nejde o novou událost a stav se nehne.
+Plný audit takový přechod nezadrží, jen ho v logu vypíše „ke kontrole" — má
+totiž zachytit právě zmeškané starší události. Dřív to hlídal jen ověřovatel
+a nekonzistentně: 18. 9. 2026 pustil „splněno" u daňových odpočtů na výzkum,
+které zavedla předchozí vláda. Co by pravidlo udělalo s dosavadními přechody,
+ukáže `node scripts/dev/prehraj-stary-doklad.js`.
+
 K tomu patří nová nastavení v `nastaveni.txt`: `plny_audit_dni`,
 `overovat_prechody`, `overovat_prostredni`, `overovaci_model`,
-`vyhledavani_overeni` a `vyhledavani_delta`. Každé má komentář přímo u sebe.
+`vyhledavani_overeni`, `vyhledavani_delta` a `drzet_stary_doklad`. Každé má
+komentář přímo u sebe.
 
 Na co si dát pozor:
 

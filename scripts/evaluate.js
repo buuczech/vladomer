@@ -29,7 +29,7 @@ import {
   promptOvereniPrechodu, promptDeltaScan,
 } from "./lib/prompty.js";
 import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
-import { posudPrechod } from "./lib/prechody.js";
+import { posudPrechod, stavOd as spocitejStavOd } from "./lib/prechody.js";
 import { parsujDeltaOdpoved, planKapitoly, prenesNeprehodnocene } from "./lib/delta.js";
 import { parsujHodnoceni, vyrezy } from "./lib/odpoved.js";
 
@@ -107,6 +107,8 @@ const EVIDENCE_MIN = NAST.minimalni_delka_dokladu;
 const LATKA_PORUSENO = NAST.latka_poruseno === 1;
 const OVEROVAT_PRECHODY = NAST.overovat_prechody === 1;
 const OVEROVAT_PROSTREDNI = OVEROVAT_PRECHODY && NAST.overovat_prostredni === 1;
+// Delta běh drží přechod opřený o doklad starší než dosavadní stav (lib/prechody.js).
+const DRZET_STARY_DOKLAD = NAST.drzet_stary_doklad === 1;
 const OVEROVACI_MODEL = process.env.OVEROVACI_MODEL || NAST.overovaci_model;
 // Odpověď ověření je jeden malý JSON objekt; víc místa by jen zvalo k eseji.
 /* Se zapnutým vyhledáváním musí do stropu vejít i dotazy a čtení výsledků,
@@ -507,7 +509,7 @@ async function main() {
      který jde ukázat. Čítače se vypisují na konci běhu — kolik přechodů
      brána podržela a kolik jich ověřovatel zamítl, je hlavní provozní
      ukazatel stability. */
-  const brana = { prijato: 0, prechodu: 0, drzeno: [], potvrzeno: [], zamitnuto: [], chybaOvereni: [] };
+  const brana = { prijato: 0, prechodu: 0, drzeno: [], potvrzeno: [], zamitnuto: [], chybaOvereni: [], kontrola: [] };
   /* Kolik událostí delta sken celkem našel. Nula napříč všemi kapitolami je
      podezřelá: buď byl opravdu mrtvý týden, nebo se sken rozbil a mlčí — a to
      druhé vypadá v měření stability jako dokonalá stabilita, protože se pak
@@ -577,12 +579,16 @@ async function main() {
             udalost: plan.udalosti ? plan.udalosti[id] || null : null,
             plnyAudit: plan.plnyAudit,
             overovatProstredni: OVEROVAT_PROSTREDNI,
+            // Den vstupu do dosavadního stavu — ze snímků PŘED tímto během.
+            stavOd: minuly ? spocitejStavOd(id, minuly.status, snapshots) : null,
+            drzetStaryDoklad: DRZET_STARY_DOKLAD,
           });
           if (verdikt.akce === "drzet") {
             // Minulý záznam se drží CELÝ — nový komentář by argumentoval
             // pro stav, který neprošel. Razítko „prověřeno" ale dostane:
             // běh se na bod díval, jen nepřijal jeho přechod.
-            brana.drzeno.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]}: ${verdikt.duvod})`);
+            brana.drzeno.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]}: ${verdikt.duvod}`
+              + `${verdikt.detail ? `; ${verdikt.detail}` : ""})`);
             pridat[id] = { ...minuly, overeno: ted };
             continue;
           }
@@ -606,6 +612,12 @@ async function main() {
             }
           }
           if (minuly && minuly.status !== navrh.status) brana.prechodu++; else brana.prijato++;
+          /* Přijatý přechod opřený o starší doklad (plný audit, kde se nedrží).
+             Může to být zmeškaná událost, kterou audit právě zachytil, i nový
+             úsudek o známých faktech — rozhodne ruční kontrola, ne kód. */
+          if (verdikt.varovani) {
+            brana.kontrola.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]}: ${verdikt.detail})`);
+          }
           pridat[id] = { ...navrh, overeno: ted };
         }
         hotovo += Object.keys(r.evals).length;
@@ -676,10 +688,12 @@ POZOR: sken neohlásil ANI JEDNU událost ve ${prectenychSkenu} přečtených ka
   console.log(`
 Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přechodů přijato`
     + ` (${brana.potvrzeno.length} ověřeno), ${brana.drzeno.length} drženo, ${brana.zamitnuto.length} zamítnuto`
-    + `${brana.chybaOvereni.length ? `, ${brana.chybaOvereni.length} chyb ověření` : ""}`);
+    + `${brana.chybaOvereni.length ? `, ${brana.chybaOvereni.length} chyb ověření` : ""}`
+    + `${brana.kontrola.length ? `, ${brana.kontrola.length} ke kontrole` : ""}`);
   for (const z of brana.drzeno) console.log(`  drženo:    ${z}`);
   for (const z of brana.zamitnuto) console.log(`  zamítnuto: ${z}`);
   for (const z of brana.chybaOvereni) console.log(`  chyba:     ${z}`);
+  for (const z of brana.kontrola) console.log(`  ke kontrole (přijato se starším dokladem): ${z}`);
 
   const now = new Date().toISOString();
   const today = now.slice(0, 10);

@@ -139,6 +139,15 @@ vyhledavani_overeni = 3
 # proces (viz prompt-overeni-prostredniho.md). 0 = vypnuto.
 overovat_prostredni = 1
 
+# Tydeni (delta) beh drzi prechod, ktery model opira o doklad starsi, nez je
+# den, odkdy bod drzi dosavadni stav - to neni nova udalost, jen novy usudek
+# o znamych faktech. Prechody bez data dokladu se to netyka. Plny audit takovy
+# prechod nezadrzi, jen ho v logu oznaci "ke kontrole", protoze ma zmeskane
+# starsi udalosti zachytit. Overovatel to pravidlo mel a uplatnoval ho
+# nekonzistentne: 18. 9. 2026 pustil 17.3 a 10.2, 25. 9. pustil 2.11.
+# 0 = vypnuto (prechod pak jen oznaci ke kontrole i v delta behu).
+drzet_stary_doklad = 1
+
 # Kolik vyhledavani smi tydeni sken udalosti pouzit na jednu kapitolu.
 # Zvyseno ze 4 na 8: pri ctyrech dotazech mineli dva totozne behy ruzne
 # udalosti a shodly se jen na 55 % bodu, kterych se vubec dotkly.
