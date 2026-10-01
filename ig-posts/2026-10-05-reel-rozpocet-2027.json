@@ -1,0 +1,99 @@
+{
+  "typ": "reel",
+  "hudba": "vychozi.mp3",
+  "publikovat_v": "2026-10-05T18:00:00+02:00",
+  "popisek": "Návrh rozpočtu na rok 2027 dorazil do Sněmovny 30. 9. 2026, v zákonném termínu (sněmovní tisk 324). V září jsme slíbili zkontrolovat čtyři body. Tady je, co v návrhu stojí:\n\n#2.1 Deficit pod 3 % HDP → MF k návrhu čeká 3,5 % HDP. Nad 3 % ho pouští evropská úniková doložka na obranu. Na webu: deklarováno.\n#2.2 Snižovat deficit → schodek 386 mld. Kč, o 76 mld. víc než 310 mld. na rok 2026. Na webu: porušeno.\n#2.7 Daň firem na 19 % → s nižší sazbou návrh nepočítá. Na webu: porušeno.\n#9.1 Školství k průměru OECD → ministerstvo školství o 8,1 mld. Kč víc, srovnání s OECD návrh neuvádí. Na webu: deklarováno.\n\nProč tolik: rekordní investice 290,8 mld. Kč a obrana 194,6 mld. Kč (2,04 % HDP), rozpočet ministerstva obrany o 36 mld. Kč vyšší.\n\nCo ve schodku není: zákon č. 155/2026 Sb. (vládní novela rozpočtových pravidel, sněmovní tisk 90) převedl financování nových jaderných zdrojů na mimorozpočtový účet u ČNB. Půjčka na Dukovany tak nejde přes státní rozpočet a neobjeví se ve schodku. V návrhu je na nové jaderné zdroje jen 3,7 mld. Kč. Stejný zákon dovoluje v letech 2026–2036 překročit výdajový strop o obranu nad 2 % HDP a o strategické stavby a výdaje na Dukovany nepočítá do zadlužení pro dluhovou brzdu. Prezident zákon vetoval, Sněmovna veto 26. 8. přehlasovala. Předseda Národní rozpočtové rady Mojmír Hampl odhadl srovnatelný schodek na zhruba 420 mld. Kč (k srpnovému návrhu 389 mld.).\n\nS čím návrh dál počítá:\n#7.1 Poplatek za obnovitelné zdroje dál platí stát, 40,7 mld. Kč. Na webu: splněno.\n#10.3 Věková valorizace důchodů od 80 let. Na webu: částečně splněno.\n#2.8 Návrat slevy za školkovné (o slevě na manžela dokumentace mlčí). Na webu: probíhá.\n#2.3 EET 2.0 od roku 2027. Na webu: probíhá.\n#14.4 Zrušení poplatků za ČT a ČRo. Na webu: probíhá.\n#9.3 Průměrný plat učitelů +3 608 Kč. Na webu: deklarováno.\n\nNávrh posouvá bod nejvýš na „probíhá“. „Splněno“ přijde až po vyhlášení ve Sbírce zákonů. Stavy k 25. 9. 2026.\n\nZdroj: sněmovní tisk 324 na psp.cz (návrh zákona a dokumentace MF), zákon č. 155/2026 Sb. (tisk 90 na psp.cz), tisková zpráva MF z 21. 9. 2026.\n\n#vladomer #rozpocet #politika #vlada #cesko #transparentnost",
+  "sceny": [
+    {
+      "typ": "cislo",
+      "nadpis": "DEFICIT VEŘEJNÝCH FINANCÍ 2027",
+      "cislo": "3,5",
+      "jednotka": "% HDP",
+      "barva": "bad",
+      "popis": "Slib vlády: bezpečně pod 3 % HDP",
+      "dovetek": "Predikce MF k návrhu rozpočtu, 30. 9. 2026",
+      "komentar": "Ministerstvo financí čeká deficit tři a půl procenta HDP. Slib přitom zněl: bezpečně pod třemi.",
+      "trvani": 5
+    },
+    {
+      "typ": "cislo",
+      "nadpis": "SCHODEK STÁTNÍHO ROZPOČTU 2027",
+      "cislo": "386",
+      "jednotka": "mld. Kč",
+      "barva": "bad",
+      "popis": "Na rok 2026 schváleno 310 mld. Kč",
+      "dovetek": "Vládní návrh, sněmovní tisk 324",
+      "komentar": "Schodek je o sedmdesát šest miliard vyšší než letos. Deficit neklesá, roste.",
+      "trvani": 5
+    },
+    {
+      "typ": "body",
+      "nadpis": "Proč tolik",
+      "styl": "odrazky",
+      "body": [
+        "Investice: rekordních 290,8 mld. Kč.",
+        "Obrana: 194,6 mld. Kč, tedy 2,04 % HDP.",
+        "Deficit nad 3 % HDP pouští úniková doložka EU na obranu."
+      ],
+      "komentar": "Peníze jdou hlavně do investic a do obrany. Překročit tři procenta umožňuje evropská výjimka pro obranné výdaje.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "Co ve schodku není",
+      "styl": "odrazky",
+      "body": [
+        "Půjčka na Dukovany jde z účtu mimo státní rozpočet.",
+        "Do schodku 386 mld. Kč se tak nepromítne.",
+        "Výdajový strop lze nově překročit o obranu nad 2 % HDP a strategické stavby.",
+        "Zákon č. 155/2026 Sb., prošel přes veto prezidenta."
+      ],
+      "komentar": "Ve schodku ale není všechno. Půjčka na Dukovany jde od srpna z účtu mimo rozpočet. Sněmovna to prosadila i přes veto prezidenta.",
+      "trvani": 7
+    },
+    {
+      "typ": "body",
+      "nadpis": "Daň firem a školství",
+      "styl": "odrazky",
+      "body": [
+        "#2.7 Daň firem na 19 %: s nižší sazbou návrh nepočítá.",
+        "#9.1 Školství: o 8,1 mld. Kč víc než letos.",
+        "Srovnání s průměrem OECD návrh neuvádí."
+      ],
+      "komentar": "Daň firem na devatenáct procent v návrhu není. Školství dostane o osm miliard víc, srovnání s OECD chybí.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "S čím návrh počítá",
+      "styl": "odrazky",
+      "body": [
+        "#7.1 Poplatek za obnovitelné zdroje dál platí stát.",
+        "#10.3 Věková valorizace důchodů od 80 let.",
+        "#2.8 Návrat slevy na dani za školkovné.",
+        "#2.3 EET 2.0 od roku 2027."
+      ],
+      "komentar": "Několik slibů v návrhu naopak je. Poplatek za obnovitelné zdroje dál platí stát. Vrací se sleva za školkovné a startuje nová EET.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "A dál",
+      "styl": "odrazky",
+      "body": [
+        "#14.4 Počítá se zrušením poplatků za ČT a ČRo.",
+        "#9.3 Průměrný plat učitelů +3 608 Kč.",
+        "Důchody v průměru +304 Kč."
+      ],
+      "komentar": "Rozpočet počítá i se zrušením poplatků za veřejnoprávní média. Učitelům přidá v průměru přes tři a půl tisíce korun.",
+      "trvani": 6
+    },
+    {
+      "typ": "text",
+      "titulek": "Návrh přišel včas. Rozhodne Sněmovna.",
+      "podtitulek": "Předložen 30. 9. 2026 · platí až po vyhlášení ve Sbírce",
+      "komentar": "Návrh přišel v zákonném termínu. Platit bude až po schválení a vyhlášení ve Sbírce zákonů.",
+      "trvani": 5
+    }
+  ]
+}
