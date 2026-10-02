@@ -1,41 +1,17 @@
 {
-  "generatedAt": "2026-09-25T13:05:36.116Z",
+  "generatedAt": "2026-10-02T14:11:14.432Z",
   "items": [
     {
       "title": {
-        "cs": "Vláda schválila státní rozpočet na 2027 se schodkem 386 miliard",
-        "en": "Government approved 2027 budget with 386 billion deficit"
+        "cs": "Babišova vláda ustála druhé hlasování o nedůvěře",
+        "en": "Babiš's government survives second no-confidence vote"
       },
       "summary": {
-        "cs": "Vláda v pondělí 21. září schválila návrh státního rozpočtu pro rok 2027 se schodkem 386 miliard korun, což by měl být druhý nejvyšší deficit v historii Česka.",
-        "en": "Government on Monday Sept 21 approved draft 2027 budget with 386 billion crown deficit, second highest in Czech history."
+        "cs": "Opozice nezískala potřebné hlasy k sesazení kabinetu, který si ponechal důvěru dolní komory.",
+        "en": "Opposition failed to gather required votes to topple the cabinet, which retained parliamentary confidence."
       },
-      "url": "https://byznys.hn.cz/c1-67933690-vlada-snizila-planovany-schodek-rozpoctu-o-tri-miliardy-i-tak-bude-deficit-druhy-nejvyssi-v-historii-ceska",
-      "date": "2026-09-21"
-    },
-    {
-      "title": {
-        "cs": "Opozice zablokovala zrychlené schválení zmrazení platů vrcholných politiků",
-        "en": "Opposition blocked expedited approval of freezing top politicians' salaries"
-      },
-      "summary": {
-        "cs": "Koaliční návrh na zmrazení platů vrcholných politiků nebude v prvním čtení schvalován zrychleným řízením, opoziční kluby STAN, ODS, KDU-ČSL a TOP 09 veto tohoto postupu prosadily.",
-        "en": "Coalition proposal to freeze salaries of top politicians will not pass expedited first reading after opposition parties vetoed the procedure."
-      },
-      "url": "https://www.ceskenoviny.cz/zpravy/cast-opozice-zablokovala-zrychlene-schvaleni-novely-o-zmrazeni-platu-politiku/2875689",
-      "date": "2026-09-24"
-    },
-    {
-      "title": {
-        "cs": "Česká republika v Ankaře prosazuje odložení emisních povolenek ETS 2",
-        "en": "Czech Republic pushes for postponement of ETS 2 emissions trading at Ankara summit"
-      },
-      "summary": {
-        "cs": "Premiér Babiš vyzve na Evropské radě k odložení systému emisních povolenek ETS 2, aby se zabránilo dalšímu zdražování pohonných hmot.",
-        "en": "Premier Babiš will call at European Council for postponement of ETS 2 emissions trading system to prevent further fuel price increases."
-      },
-      "url": "https://m.echo24.cz/a/HG7Ns/zpravy-domaci-babis-kvuli-drahym-palivum-vyzve-na-evropske-rade-k-odkladu-povolenek-ets-2",
-      "date": "2026-09-24"
+      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/poslanci-by-mohli-hlasovat-o-navrhu-na-vysloveni-neduvery-vlade-378124",
+      "date": "2026-10-02"
     }
   ]
 }
