@@ -82,6 +82,7 @@ const SCHEMA = {
   plny_audit_dni: { type: "int", min: 7, max: 90 },
   overovat_prechody: { type: "int", min: 0, max: 1 },
   overovat_prostredni: { type: "int", min: 0, max: 1 },
+  drzet_stary_doklad: { type: "int", min: 0, max: 1 },
   overovaci_model: { type: "text" },
   vyhledavani_overeni: { type: "int", min: 0, max: 10 },
   vyhledavani_delta: { type: "int", min: 1, max: 10 },
