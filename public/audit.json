@@ -22353,6 +22353,74 @@
         "https://www.e15.cz/domaci/stat-se-neumi-dostat-ze-zajeti-it-zakazek-miliardy-posila-stale-stejnym-firmam-1394753"
       ],
       "model": "claude-haiku-4-5-20251001"
+    },
+    {
+      "id": "14.6",
+      "date": "2026-10-02",
+      "status": "partial",
+      "evidence": "Usnesení vlády č. 123/2026, přijaté v březnu 2026; pilotní projekt od dubna 2026, trvalý režim od září 2026",
+      "evidence_date": "2026-03-15",
+      "unverifiable": false,
+      "comment_cs": "Vláda zavedla volné vstupy do státních muzeí a galerií každou první neděli v měsíci od dubna 2026 (pilotní projekt), od září 2026 trvale. Opatření překročilo původní slib (mělo být jen pro vybrané skupiny), ale je omezeno na jednu neděli měsíčně, nikoli na všechny dny. Jde o částečné splnění – rozšíření okruhu oproti slibu, ale s časovým omezením.",
+      "comment_en": "The government introduced free admission to state museums and galleries on the first Sunday of each month from April 2026 (pilot project), permanently from September 2026. The measure exceeded the original promise (was to be only for selected groups), but is limited to one Sunday per month, not all days. This is partial fulfillment – expansion of the scope compared to the promise, but with time limitation.",
+      "change_cs": "Beze změny.",
+      "change_en": "No change.",
+      "sources": [
+        "https://ct24.ceskatelevize.cz/clanek/domaci/kulturni-instituce-a-odbory-pozaduji-stejnou-castku-z-rozpoctu-jaka-byla-loni-372142"
+      ],
+      "model": "claude-haiku-4-5-20251001",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-02",
+        "puvodni_status": "fulfilled",
+        "duvod": "Přechod na „splněno“ neměl projít. Vstup zdarma platí jen každou první neděli v měsíci pro všechny návštěvníky a ministerstvo ho zavedlo „minimálně do konce roku“ s předpokladem pokračování, ne trvale; slib zněl na vstup zdarma pro vybrané skupiny. Dosavadní zdůvodnění „částečně splněno“ (jen jedna neděle měsíčně) trvá a nová událost nenastala. Bod drží záznam z 2026-09-25.",
+        "bez_noveho_hodnoceni": true
+      }
+    },
+    {
+      "id": "8.4",
+      "date": "2026-10-02",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Programové prohlášení vlády z 5. 1. 2026 slibuje postupné zvýšení rychlosti na 200 km/h na koridorech. Vláda deklaruje záměr zvýšit rychlost na minimálně 70 km tratí. Pendolino již jezdí 200 km/h na jihočeských tratích, ale jde o realizaci předchozí vlády. Legislativní či exekutivní kroky vlády Babiše v tomto směru nejsou doloženy.",
+      "comment_en": "The government's program statement from January 5, 2026 promises gradual speed increase to 200 km/h on corridors. The government declares intent to increase speed on at least 70 km of tracks. Pendolino already travels at 200 km/h on South Bohemian routes, but this is implementation of the previous government. Legislative or executive steps by the Babiš government in this direction are not documented.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://www.echo24.cz/a/Hpaf2/zpravy-domov-pujdou-vysokorychlostni-trate-do-kose-babisova-vlada-plany-oseka",
+        "https://md.gov.cz/Media/Media-a-tiskove-zpravy/Rekordni-sprint-na-jih-Cech-Pendolino-zacalo-jezd"
+      ],
+      "model": "claude-haiku-4-5-20251001",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-02",
+        "puvodni_status": "in_progress",
+        "duvod": "Přechod na „probíhá“ neměl projít. Jediný doklad — Pendolino jezdí 200 km/h od 31. 8. 2025 — je starší než nástup vlády (15. 12. 2025) a minulé hodnocení ho samo označilo za realizaci předchozí vlády; krok této vlády ke 200 km/h na koridorech doložen není. Bod drží záznam z 2026-08-28.",
+        "bez_noveho_hodnoceni": true
+      }
+    },
+    {
+      "id": "2.12",
+      "date": "2026-10-02",
+      "status": "partial",
+      "evidence": "Ministerstvo financí zveřejnilo Registr dotací pro neziskové organizace v aplikaci MONITOR v květnu 2026",
+      "evidence_date": "2026-05-22",
+      "unverifiable": false,
+      "comment_cs": "Vláda zřídila veřejný registr dotací pro neziskové organizace a učinila jej dostupným v aplikaci MONITOR. Registr zahrnuje dotace ze státních a územních rozpočtů, ale zatím ne z fondů. Ministerstvo financí připravuje novelu vyhlášky pro sběr dat o dotacích ze státních fondů od roku 2027.",
+      "comment_en": "The government created a public register of grants for non-profit organizations and made it available in the MONITOR application. The register includes grants from state and territorial budgets, but not yet from funds. The Ministry of Finance is preparing a regulation amendment to collect data on grants from state funds from 2027.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/ministerstvo-financi-zprehlednuje-informace-o-dota-64833",
+        "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/ministerstvo-financi-zverejnuje-prehled-dotaci-sam-64068"
+      ],
+      "model": "claude-haiku-4-5-20251001",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-02",
+        "puvodni_status": "fulfilled",
+        "duvod": "Přechod na „splněno“ neměl projít. Doklad (registr v aplikaci MONITOR, květen 2026) je tentýž, s nímž bod stál na „částečně splněno“, popis změny zní „Beze změny“ a dosud uvedená mezera trvá: registr nepokrývá dotace ze státních fondů, jejichž sběr má přinést vyhláška od roku 2027. Bod drží záznam z 2026-08-28.",
+        "bez_noveho_hodnoceni": true
+      }
     }
   ]
 }

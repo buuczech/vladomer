@@ -421,31 +421,31 @@
       "overeno": "2026-10-02T13:50:17.194Z"
     },
     "2.12": {
-      "status": "fulfilled",
-      "evidence": "Ministerstvo financí zveřejnilo Registr dotací pro neziskové organizace v aplikaci MONITOR; data dostupná od května 2026",
-      "evidenceDate": "2026-05-01",
+      "status": "partial",
+      "evidence": "Ministerstvo financí zveřejnilo Registr dotací pro neziskové organizace v aplikaci MONITOR v květnu 2026",
+      "evidenceDate": "2026-05-22",
       "unverifiable": false,
       "comment": {
-        "cs": "Ano, splněno: Vláda zřídila veřejný registr dotací pro neziskové organizace a učinila jej dostupným v aplikaci MONITOR. Registr zahrnuje dotace ze státních a územních rozpočtů. Ministerstvo financí zveřejnilo ucelený Registr dotací, který propojuje Státní registr dotací, Územní registr dotací a nový Registr dotací pro neziskové organizace. Veřejnost si může dohledat dotace podle IČO příjemce.",
-        "en": "Yes, fulfilled: The government created a public register of grants for non-profit organizations and made it available in the MONITOR application. The register includes grants from state and territorial budgets. The Ministry of Finance published a comprehensive Register of Grants linking the State Register, Territorial Register, and the new Register for Non-Profit Organizations. The public can search grants by recipient ID number."
+        "cs": "Vláda zřídila veřejný registr dotací pro neziskové organizace a učinila jej dostupným v aplikaci MONITOR. Registr zahrnuje dotace ze státních a územních rozpočtů, ale zatím ne z fondů. Ministerstvo financí připravuje novelu vyhlášky pro sběr dat o dotacích ze státních fondů od roku 2027.",
+        "en": "The government created a public register of grants for non-profit organizations and made it available in the MONITOR application. The register includes grants from state and territorial budgets, but not yet from funds. The Ministry of Finance is preparing a regulation amendment to collect data on grants from state funds from 2027."
       },
       "change": {
-        "cs": "Beze změny.",
-        "en": "No change."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
         {
-          "url": "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/ministerstvo-financi-zverejnuje-prehled-dotaci-sam-64068",
-          "title": "Ministerstvo financí zveřejňuje přehled dotací samospráv neziskovým organizacím"
+          "url": "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/ministerstvo-financi-zprehlednuje-informace-o-dota-64833",
+          "title": "Ministerstvo financí zpřehledňuje informace o dotacích | Ministerstvo financí ČR"
         },
         {
-          "url": "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/ministerstvo-financi-zprehlednuje-informace-o-dota-64833",
-          "title": "Ministerstvo financí zpřehledňuje informace o dotacích"
+          "url": "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/ministerstvo-financi-zverejnuje-prehled-dotaci-sam-64068",
+          "title": "Ministerstvo financí zveřejňuje přehled dotací samospráv neziskovým organizacím | Ministerstvo financí ČR"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-10-02T13:52:10.473Z",
-      "overeno": "2026-10-02T13:50:17.194Z"
+      "updatedAt": "2026-08-28T18:00:22.291Z",
+      "overeno": "2026-10-02T13:52:10.473Z"
     },
     "2.13": {
       "status": "partial",
@@ -1637,31 +1637,30 @@
       "overeno": "2026-10-02T13:58:09.726Z"
     },
     "8.4": {
-      "status": "in_progress",
-      "evidence": "Pendolino dosahuje 200 km/h od 31. srpna 2025 na trase Praha–České Budějovice",
-      "evidenceDate": "2025-08-31",
+      "status": "declared",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda deklaruje postupné zvýšení rychlosti na 200 km/h na koridorech. Pendolino již od 31. srpna 2025 jezdí 200 km/h na trase Praha–České Budějovice. Správa železnic projektuje zvýšení na více než 200 km tratí, ale legislativní proces pro všechny koridory není dokončen. Jde o částečné splnění deklarovaného cíle.",
-        "en": "Government declares gradual speed increase to 200 km/h on corridors. Pendolino has been running at 200 km/h on Prague–České Budějovice route since August 31, 2025. Railway Administration projects speed increase on over 200 km of track, but legislative process for all corridors not completed. Partial fulfillment of declared goal."
+        "cs": "Programové prohlášení vlády z 5. 1. 2026 slibuje postupné zvýšení rychlosti na 200 km/h na koridorech. Vláda deklaruje záměr zvýšit rychlost na minimálně 70 km tratí. Pendolino již jezdí 200 km/h na jihočeských tratích, ale jde o realizaci předchozí vlády. Legislativní či exekutivní kroky vlády Babiše v tomto směru nejsou doloženy.",
+        "en": "The government's program statement from January 5, 2026 promises gradual speed increase to 200 km/h on corridors. The government declares intent to increase speed on at least 70 km of tracks. Pendolino already travels at 200 km/h on South Bohemian routes, but this is implementation of the previous government. Legislative or executive steps by the Babiš government in this direction are not documented."
       },
       "change": {
-        "cs": "Pendolino začalo jezdit 200 km/h v běžném provozu od 31. srpna 2025.",
-        "en": "Pendolino began operating at 200 km/h in regular service from August 31, 2025."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
         {
-          "url": "https://prazsky.denik.cz/zpravy_region/pendolino-rychlost-dve-ste-kilometru.html",
-          "title": "Vlak vezoucí cestující u nás poprvé dosáhl dvoustovky na skutečné trati - Pražský deník"
+          "url": "https://www.echo24.cz/a/Hpaf2/zpravy-domov-pujdou-vysokorychlostni-trate-do-kose-babisova-vlada-plany-oseka",
+          "title": "Půjdou vysokorychlostní tratě stranou? Nová vláda plány oseká - Echo24.cz"
         },
         {
-          "url": "https://www.denik.cz/z_domova/rychlost-na-ceskych-zeleznicich.html",
-          "title": "Tratě v Česku se chystají na rychlost 200 km/h. První trasa povede na jih Čech - Deník.cz"
+          "url": "https://md.gov.cz/Media/Media-a-tiskove-zpravy/Rekordni-sprint-na-jih-Cech-Pendolino-zacalo-jezd",
+          "title": "Rekordní sprint na jih Čech. Pendolino začalo jezdit v běžném provozu rychleji než stošedesátkou"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-10-02T13:58:47.137Z",
-      "overeno": "2026-10-02T13:58:09.726Z"
+      "updatedAt": "2026-08-28T18:06:28.344Z",
+      "overeno": "2026-10-02T13:58:47.137Z"
     },
     "8.5": {
       "status": "in_progress",
@@ -3038,27 +3037,27 @@
       "overeno": "2026-10-02T14:05:53.314Z"
     },
     "14.6": {
-      "status": "fulfilled",
-      "evidence": "Vláda zavedla volné vstupy do státních muzeí a galerií každou první neděli v měsíci od dubna 2026 (pilotní projekt), od září 2026 trvale",
-      "evidenceDate": "2026-04-01",
+      "status": "partial",
+      "evidence": "Usnesení vlády č. 123/2026, přijaté v březnu 2026; pilotní projekt od dubna 2026, trvalý režim od září 2026",
+      "evidenceDate": "2026-03-15",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda zavedla volné vstupy do státních muzeí a galerií každou první neděli v měsíci od dubna 2026 jako pilotní projekt, od září 2026 trvale. Opatření překročilo původní slib (mělo být pouze pro vybrané skupiny) a je nyní prokazatelně zavedené a účinné. Jde o faktické splnění slibu.",
-        "en": "The government introduced free admission to state museums and galleries on the first Sunday of each month from April 2026 as a pilot project, permanently from September 2026. The measure exceeded the original promise (was to be only for selected groups) and is now demonstrably implemented and effective. This constitutes factual fulfillment of the promise."
+        "cs": "Vláda zavedla volné vstupy do státních muzeí a galerií každou první neděli v měsíci od dubna 2026 (pilotní projekt), od září 2026 trvale. Opatření překročilo původní slib (mělo být jen pro vybrané skupiny), ale je omezeno na jednu neděli měsíčně, nikoli na všechny dny. Jde o částečné splnění – rozšíření okruhu oproti slibu, ale s časovým omezením.",
+        "en": "The government introduced free admission to state museums and galleries on the first Sunday of each month from April 2026 (pilot project), permanently from September 2026. The measure exceeded the original promise (was to be only for selected groups), but is limited to one Sunday per month, not all days. This is partial fulfillment – expansion of the scope compared to the promise, but with time limitation."
       },
       "change": {
-        "cs": "Vláda zavedla volné vstupy do státních muzeí a galerií každou první neděli v měsíci od září 2026 trvale.",
-        "en": "The government introduced permanent free admission to state museums and galleries on the first Sunday of each month from September 2026."
+        "cs": "Beze změny.",
+        "en": "No change."
       },
       "sources": [
         {
-          "url": "https://magazin.aktualne.cz/kultura/ministerstvo-kultury-posili-rozpocet-prispevkovych-organizaci-polepsi-si-divadla-i-muzea/r~aaa294d2fb66a95aa0fcea4ef8ea8e69/?lp=1",
-          "title": "Ministerstvo kultury posílí rozpočet příspěvkových organizací, polepší si divadla i muzea"
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/kulturni-instituce-a-odbory-pozaduji-stejnou-castku-z-rozpoctu-jaka-byla-loni-372142",
+          "title": "Kulturní instituce a odbory požadují stejnou částku z rozpočtu, jaká byla loni"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-10-02T14:06:25.009Z",
-      "overeno": "2026-10-02T14:05:53.314Z"
+      "updatedAt": "2026-09-25T13:01:38.669Z",
+      "overeno": "2026-10-02T14:06:25.009Z"
     },
     "15.1": {
       "status": "in_progress",
