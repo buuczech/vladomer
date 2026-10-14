@@ -187,32 +187,31 @@
       "overeno": "2026-10-09T14:21:35.891Z"
     },
     "2.3": {
-      "status": "partial",
-      "evidence": "Zákon č. 270/2026 Sb., vyhlášen ve Sbírce zákonů 22. září 2026; prezident Petr Pavel zákon podepsal 17. září 2026",
-      "evidenceDate": "2026-09-22",
+      "status": "fulfilled",
+      "evidence": "Zákon č. 180/2026 Sb., o evidenci tržeb a o změně některých dalších zákonů, ze dne 9. září 2026, vyhlášen ve Sbírce zákonů 7. října 2026; evidence tržeb se zavádí od 1. ledna 2027",
+      "evidenceDate": "2026-10-07",
       "unverifiable": false,
-      "evidenceMissing": "sbirka-bez-uredniho-zdroje",
       "comment": {
-        "cs": "Ano, splněno. Legislativní proces byl dokončen: Sněmovna schválila návrh 15. července 2026, Senát jej vrátil se změnami, Sněmovna 9. září 2026 přehlasovala Senát a setrvala na původním znění. Prezident zákon podepsal 17. září 2026. EET 2.0 bude zavedena od 1. ledna 2027 s pilotním režimem v lednu. Vláda tak splnila svůj slib o zavedení modernizované evidence tržeb.",
-        "en": "Yes, fulfilled. The legislative process was completed: the Chamber approved the proposal on July 15, 2026, the Senate returned it with amendments, the Chamber overrode the Senate on September 9, 2026, and the President signed the law on September 17, 2026. EET 2.0 will be introduced from January 1, 2027 with a pilot regime in January. The government thus fulfilled its promise to introduce a modernized system of revenue reporting."
+        "cs": "Splněno. Zákon č. 180/2026 Sb. o evidenci tržeb prošel celým legislativním procesem — Sněmovna 9. září 2026 přehlasovala Senát a prezident zákon podepsal 17. září — a vyšel ve Sbírce zákonů 7. října 2026. Evidence tržeb (EET 2.0) začíná 1. ledna 2027. Opraveno ručně 14. 10. 2026 podle e-Sbírky — model citoval neexistující číslo zákona a nesprávné datum vyhlášení.",
+        "en": "Fulfilled. Act No. 180/2026 Coll. on sales records completed the full legislative process — the Chamber overrode the Senate on 9 September 2026 and the President signed it on 17 September — and was published in the Collection of Laws on 7 October 2026. Sales recording (EET 2.0) starts on 1 January 2027. Corrected by hand on 14 October 2026 from the e-Collection — the model cited a non-existent act number and a wrong publication date."
       },
       "change": {
-        "cs": "Prezident podepsal zákon 17. září 2026, který nyní čeká na vyhlášení ve Sbírce zákonů.",
-        "en": "The President signed the law on September 17, 2026, which is now awaiting publication in the Collection of Laws."
+        "cs": "Ruční oprava: zákon č. 180/2026 Sb. vyšel ve Sbírce zákonů 7. října 2026, slib je tím splněn.",
+        "en": "Manual correction: Act No. 180/2026 Coll. was published on 7 October 2026, which fulfils the promise."
       },
       "sources": [
         {
-          "url": "https://eet.gov.cz/cs/pro-media/tiskove-zpravy/2026/prezident-podepsal-zakon-o-eet-2-0-evidence-trzeb-1315",
-          "title": "Prezident podepsal zákon o EET 2.0. Evidence tržeb startuje 1. ledna 2027"
+          "url": "https://e-sbirka.gov.cz/sb/2026/180",
+          "title": "Zákon č. 180/2026 Sb., o evidenci tržeb a o změně některých dalších zákonů"
         },
         {
-          "url": "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/snemovna-prehlasovala-senat-a-stvrdila-zavedeni-ee-65151",
-          "title": "Sněmovna přehlasovala Senát a stvrdila zavedení EET 2.0. Její fungování ministerstvo vyráží vysvětlovat podnikatelům na roadshow po Česku"
+          "url": "https://eet.gov.cz/cs/pro-media/tiskove-zpravy/2026/prezident-podepsal-zakon-o-eet-2-0-evidence-trzeb-1315",
+          "title": "Prezident podepsal zákon o EET 2.0. Evidence tržeb startuje 1. ledna 2027"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-10-09T14:22:36.606Z",
-      "overeno": "2026-10-09T14:21:35.891Z"
+      "updatedAt": "2026-10-14T15:50:26.592Z",
+      "overeno": "2026-10-14T15:50:26.592Z"
     },
     "2.4": {
       "status": "declared",
@@ -319,22 +318,21 @@
     },
     "2.8": {
       "status": "partial",
-      "evidence": "Zákon č. 270/2026 Sb., vyhlášen ve Sbírce zákonů 22. září 2026; vrácení školkovného a slevy na druhého z manželů jsou součástí stejného legislativního balíčku jako EET 2.0",
-      "evidenceDate": "2026-09-22",
+      "evidence": "Zákon č. 180/2026 Sb., vyhlášen ve Sbírce zákonů 7. října 2026, obnovuje od roku 2027 slevu za umístění dítěte v předškolním zařízení (školkovné) a slevu na studenta; sleva na druhého z manželů zůstává omezená na péči o dítě do tří let",
+      "evidenceDate": "2026-10-07",
       "unverifiable": false,
-      "evidenceMissing": "sbirka-bez-uredniho-zdroje",
       "comment": {
-        "cs": "Ano, splněno. Vrácení školkovného a slevy na druhého z manželů jsou součástí legislativního balíčku EET 2.0. Sněmovna schválila návrh 15. července 2026, Senát jej vrátil se změnami, Sněmovna 9. září 2026 přehlasovala Senát. Prezident zákon podepsal 17. září 2026. Zákon byl vyhlášen ve Sbírce zákonů 22. září 2026. Úlevy se obnovují díky lepšímu výběru daní prostřednictvím EET 2.0.",
-        "en": "Yes, fulfilled. The return of kindergarten fees and the spouse deduction are part of the EET 2.0 legislative package. The Chamber approved the proposal on July 15, 2026, the Senate returned it with amendments, the Chamber overrode the Senate on September 9, 2026. The President signed the law on September 17, 2026. The law was published in the Collection of Laws on September 22, 2026. The deductions are being restored due to improved tax collection through EET 2.0."
+        "cs": "Částečně splněno. Zákon č. 180/2026 Sb., vyhlášený 7. října 2026, vrací od roku 2027 školkovné — slevu na dani za umístění dítěte v předškolním zařízení až do výše minimální mzdy — a k tomu slevu na studenta. Slevu na druhého z manželů ale do původní podoby nevrací: zůstává omezená na domácnosti s dítětem do tří let, ačkoli programové prohlášení slibovalo její návrat. Polovina slibu je splněná, druhá ne. Opraveno ručně 14. 10. 2026 podle e-Sbírky — model citoval neexistující číslo zákona a tvrdil, že se vrací i sleva na manžela.",
+        "en": "Partially fulfilled. Act No. 180/2026 Coll., published on 7 October 2026, restores from 2027 the kindergarten tax credit — for placing a child in pre-school care, up to the minimum wage — and also the student credit. It does not restore the spouse credit to its original form: it stays limited to households with a child under three, although the programme statement promised its return. Half of the promise is fulfilled, half is not. Corrected by hand on 14 October 2026 from the e-Collection — the model cited a non-existent act number and claimed the spouse credit was restored too."
       },
       "change": {
-        "cs": "Beze změny; zákon byl vyhlášen ve Sbírce zákonů a je připraven k účinnosti.",
-        "en": "No change; the law was published in the Collection of Laws and is ready to take effect."
+        "cs": "Ruční oprava dokladu: zákon č. 180/2026 Sb. vrací školkovné a slevu na studenta, slevu na manžela nevrací.",
+        "en": "Manual correction of the evidence: Act No. 180/2026 Coll. restores the kindergarten and student credits, not the spouse credit."
       },
       "sources": [
         {
-          "url": "https://eet.gov.cz/cs/pro-media/tiskove-zpravy/2026/prezident-podepsal-zakon-o-eet-2-0-evidence-trzeb-1315",
-          "title": "Prezident podepsal zákon o EET 2.0. Evidence tržeb startuje 1. ledna 2027"
+          "url": "https://e-sbirka.gov.cz/sb/2026/180",
+          "title": "Zákon č. 180/2026 Sb., o evidenci tržeb a o změně některých dalších zákonů"
         },
         {
           "url": "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/snemovna-prehlasovala-senat-a-stvrdila-zavedeni-ee-65151",
@@ -342,8 +340,8 @@
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-10-09T14:22:36.607Z",
-      "overeno": "2026-10-09T14:21:35.891Z"
+      "updatedAt": "2026-10-14T15:50:26.592Z",
+      "overeno": "2026-10-14T15:50:26.592Z"
     },
     "2.9": {
       "status": "partial",
@@ -2120,32 +2118,27 @@
       "overeno": "2026-10-09T14:30:23.102Z"
     },
     "10.4": {
-      "status": "partial",
-      "evidence": "Zákon č. 360/2025 Sb., kterým se mění zákon č. 117/1995 Sb., o státní sociální podpoře, vyhlášen 18. srpna 2026; prezident Petr Pavel podepsal novelu 18. srpna 2026",
-      "evidenceDate": "2026-08-18",
+      "status": "fulfilled",
+      "evidence": "Zákon č. 152/2026 Sb., kterým se mění zákon č. 117/1995 Sb., o státní sociální podpoře, ze dne 29. července 2026, vyhlášen ve Sbírce zákonů 26. srpna 2026; zvyšuje rodičovský příspěvek na 400 000 Kč pro děti narozené od 1. ledna 2027",
+      "evidenceDate": "2026-08-26",
       "unverifiable": false,
-      "evidenceMissing": "sbirka-bez-uredniho-zdroje",
       "comment": {
-        "cs": "Rodičovský příspěvek vzroste od 1. ledna 2027 na 400 000 Kč. Zákon prošel celým legislativním procesem (Sněmovna 8. července, Senát 29. července, prezident podepsal 18. srpna 2026). Zvýšení se týká pouze dětí narozených od 1. ledna 2027, nikoliv stávajících příjemců.",
-        "en": "Parental allowance will increase to 400,000 CZK from 1 January 2027. The law passed the entire legislative process (Chamber of Deputies 8 July, Senate 29 July, president signed 18 August 2026). The increase applies only to children born from 1 January 2027, not to current recipients."
+        "cs": "Splněno. Zákon č. 152/2026 Sb. prošel celým legislativním procesem a vyšel ve Sbírce zákonů 26. srpna 2026. Rodičovský příspěvek vzroste na 400 000 Kč (u vícerčat na 800 000 Kč) pro děti narozené nebo převzaté do péče od 1. ledna 2027; stávajících příjemců se zvýšení netýká. Opraveno ručně 14. 10. 2026 podle e-Sbírky — model opakovaně citoval neexistující čísla zákona.",
+        "en": "Fulfilled. Act No. 152/2026 Coll. completed the full legislative process and was published in the Collection of Laws on 26 August 2026. Parental allowance rises to CZK 400,000 (CZK 800,000 for multiple births) for children born or taken into care from 1 January 2027; current recipients are not affected. Corrected by hand on 14 October 2026 from the e-Collection — the model repeatedly cited non-existent act numbers."
       },
       "change": {
-        "cs": "Beze změny.",
-        "en": "No change."
+        "cs": "Ruční oprava: zákon č. 152/2026 Sb. vyšel ve Sbírce zákonů 26. srpna 2026, slib je tím splněn.",
+        "en": "Manual correction: Act No. 152/2026 Coll. was published on 26 August 2026, which fulfils the promise."
       },
       "sources": [
         {
-          "url": "https://www.blesk.cz/clanek/zpravy-politika/846230/rodicovska-se-od-ledna-zvysi-pavel-podepsal-vladni-novelu.html",
-          "title": "Rodičovská se od ledna zvýší: Pavel podepsal vládní novelu"
-        },
-        {
-          "url": "https://mpsv.gov.cz/rodicovsky-prispevek-vzroste-na-400-000-korun-snemovna-schvalila-take-upravy-superdavky",
-          "title": "Rodičovský příspěvek vzroste na 400 000 korun. Sněmovna schválila také úpravy superdávky"
+          "url": "https://e-sbirka.gov.cz/sb/2026/152",
+          "title": "Zákon č. 152/2026 Sb., kterým se mění zákon č. 117/1995 Sb., o státní sociální podpoře"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-10-02T14:01:06.060Z",
-      "overeno": "2026-10-09T14:30:23.102Z"
+      "updatedAt": "2026-10-14T15:50:26.592Z",
+      "overeno": "2026-10-14T15:50:26.592Z"
     },
     "10.5": {
       "status": "partial",

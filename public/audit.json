@@ -23485,6 +23485,74 @@
         "https://vlada.gov.cz/cz/media-centrum/aktualne/radu-vlady-pro-vyzkum--vyvoj-a-inovace-tvori-respektovane-osobnosti--dnes-probrala-zamery-do-budoucna-a-zvolila-si-mistopredsedy-225078/"
       ],
       "model": "claude-haiku-4-5-20251001"
+    },
+    {
+      "id": "10.4",
+      "date": "2026-10-14",
+      "status": "fulfilled",
+      "evidence": "Zákon č. 152/2026 Sb., kterým se mění zákon č. 117/1995 Sb., o státní sociální podpoře, ze dne 29. července 2026, vyhlášen ve Sbírce zákonů 26. srpna 2026; zvyšuje rodičovský příspěvek na 400 000 Kč pro děti narozené od 1. ledna 2027",
+      "evidence_date": "2026-08-26",
+      "unverifiable": false,
+      "comment_cs": "Splněno. Zákon č. 152/2026 Sb. prošel celým legislativním procesem a vyšel ve Sbírce zákonů 26. srpna 2026. Rodičovský příspěvek vzroste na 400 000 Kč (u vícerčat na 800 000 Kč) pro děti narozené nebo převzaté do péče od 1. ledna 2027; stávajících příjemců se zvýšení netýká. Opraveno ručně 14. 10. 2026 podle e-Sbírky — model opakovaně citoval neexistující čísla zákona.",
+      "comment_en": "Fulfilled. Act No. 152/2026 Coll. completed the full legislative process and was published in the Collection of Laws on 26 August 2026. Parental allowance rises to CZK 400,000 (CZK 800,000 for multiple births) for children born or taken into care from 1 January 2027; current recipients are not affected. Corrected by hand on 14 October 2026 from the e-Collection — the model repeatedly cited non-existent act numbers.",
+      "change_cs": "Ruční oprava: zákon č. 152/2026 Sb. vyšel ve Sbírce zákonů 26. srpna 2026, slib je tím splněn.",
+      "change_en": "Manual correction: Act No. 152/2026 Coll. was published on 26 August 2026, which fulfils the promise.",
+      "sources": [
+        "https://e-sbirka.gov.cz/sb/2026/152"
+      ],
+      "model": "ruční oprava",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-02",
+        "puvodni_status": "partial",
+        "duvod": "Model od srpna citoval pět různých neexistujících čísel zákona (233/2026, 270/2026, 360/2025 aj.) a zábrana je správně odmítala. Skutečný zákon je č. 152/2026 Sb., vyhlášený 26. 8. 2026; podle pravidel webu (norma prošla celým procesem a vyšla ve Sbírce) je slib splněn.",
+        "rucni_doklad": true
+      }
+    },
+    {
+      "id": "2.3",
+      "date": "2026-10-14",
+      "status": "fulfilled",
+      "evidence": "Zákon č. 180/2026 Sb., o evidenci tržeb a o změně některých dalších zákonů, ze dne 9. září 2026, vyhlášen ve Sbírce zákonů 7. října 2026; evidence tržeb se zavádí od 1. ledna 2027",
+      "evidence_date": "2026-10-07",
+      "unverifiable": false,
+      "comment_cs": "Splněno. Zákon č. 180/2026 Sb. o evidenci tržeb prošel celým legislativním procesem — Sněmovna 9. září 2026 přehlasovala Senát a prezident zákon podepsal 17. září — a vyšel ve Sbírce zákonů 7. října 2026. Evidence tržeb (EET 2.0) začíná 1. ledna 2027. Opraveno ručně 14. 10. 2026 podle e-Sbírky — model citoval neexistující číslo zákona a nesprávné datum vyhlášení.",
+      "comment_en": "Fulfilled. Act No. 180/2026 Coll. on sales records completed the full legislative process — the Chamber overrode the Senate on 9 September 2026 and the President signed it on 17 September — and was published in the Collection of Laws on 7 October 2026. Sales recording (EET 2.0) starts on 1 January 2027. Corrected by hand on 14 October 2026 from the e-Collection — the model cited a non-existent act number and a wrong publication date.",
+      "change_cs": "Ruční oprava: zákon č. 180/2026 Sb. vyšel ve Sbírce zákonů 7. října 2026, slib je tím splněn.",
+      "change_en": "Manual correction: Act No. 180/2026 Coll. was published on 7 October 2026, which fulfils the promise.",
+      "sources": [
+        "https://e-sbirka.gov.cz/sb/2026/180",
+        "https://eet.gov.cz/cs/pro-media/tiskove-zpravy/2026/prezident-podepsal-zakon-o-eet-2-0-evidence-trzeb-1315"
+      ],
+      "model": "ruční oprava",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-09",
+        "puvodni_status": "partial",
+        "duvod": "Model citoval neexistující „zákon č. 270/2026 Sb., vyhlášen 22. 9. 2026“ a zábrana stav správně srazila. Skutečný zákon je č. 180/2026 Sb., vyhlášený 7. 10. 2026; podle pravidel webu je slib splněn.",
+        "rucni_doklad": true
+      }
+    },
+    {
+      "id": "2.8",
+      "date": "2026-10-14",
+      "status": "partial",
+      "evidence": "Zákon č. 180/2026 Sb., vyhlášen ve Sbírce zákonů 7. října 2026, obnovuje od roku 2027 slevu za umístění dítěte v předškolním zařízení (školkovné) a slevu na studenta; sleva na druhého z manželů zůstává omezená na péči o dítě do tří let",
+      "evidence_date": "2026-10-07",
+      "unverifiable": false,
+      "comment_cs": "Částečně splněno. Zákon č. 180/2026 Sb., vyhlášený 7. října 2026, vrací od roku 2027 školkovné — slevu na dani za umístění dítěte v předškolním zařízení až do výše minimální mzdy — a k tomu slevu na studenta. Slevu na druhého z manželů ale do původní podoby nevrací: zůstává omezená na domácnosti s dítětem do tří let, ačkoli programové prohlášení slibovalo její návrat. Polovina slibu je splněná, druhá ne. Opraveno ručně 14. 10. 2026 podle e-Sbírky — model citoval neexistující číslo zákona a tvrdil, že se vrací i sleva na manžela.",
+      "comment_en": "Partially fulfilled. Act No. 180/2026 Coll., published on 7 October 2026, restores from 2027 the kindergarten tax credit — for placing a child in pre-school care, up to the minimum wage — and also the student credit. It does not restore the spouse credit to its original form: it stays limited to households with a child under three, although the programme statement promised its return. Half of the promise is fulfilled, half is not. Corrected by hand on 14 October 2026 from the e-Collection — the model cited a non-existent act number and claimed the spouse credit was restored too.",
+      "change_cs": "Ruční oprava dokladu: zákon č. 180/2026 Sb. vrací školkovné a slevu na studenta, slevu na manžela nevrací.",
+      "change_en": "Manual correction of the evidence: Act No. 180/2026 Coll. restores the kindergarten and student credits, not the spouse credit.",
+      "sources": [
+        "https://e-sbirka.gov.cz/sb/2026/180",
+        "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/snemovna-prehlasovala-senat-a-stvrdila-zavedeni-ee-65151"
+      ],
+      "model": "ruční oprava",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-09",
+        "puvodni_status": "partial",
+        "duvod": "Stav „částečně splněno“ je správně, doklad a komentář ne: model citoval neexistující „zákon č. 270/2026 Sb.“ a tvrdil, že se vrací i sleva na manžela. Zákon č. 180/2026 Sb. vrací školkovné a slevu na studenta, sleva na manžela zůstává omezená.",
+        "rucni_doklad": true
+      }
     }
   ]
 }
