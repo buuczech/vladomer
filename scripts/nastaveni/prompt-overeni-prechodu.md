@@ -7,6 +7,8 @@ Navržený nový stav: {{NOVY_STAV}}
 
 Předložený doklad: {{DOKLAD}}
 Datum dokladu: {{DATUM_DOKLADU}}
+Citované předpisy podle e-Sbírky (ověřil program; jsou to úřední údaje a mají přednost před dokladem i před tím, co najdeš vyhledáváním):
+{{PREDPISY}}
 Co se podle hodnotitele stalo: {{ZMENA}}
 Navržený komentář hodnocení: {{KOMENTAR}}
 
@@ -21,6 +23,8 @@ Tohle je jediná obrana proti vymyšlenému dokladu: hodnotitel a ty jste stejn�
 Pravidla rozhodování:
 - Výchozí odpověď je NE. Přechod potvrď JEN tehdy, když doklad popisuje konkrétní, datovanou událost, která nový stav skutečně zakládá — ne pouhé přehodnocení téhož stavu věcí jinými slovy.
 - „splněno“ vyžaduje dokončený krok: norma vyhlášená ve Sbírce zákonů, nebo prokazatelně zavedené opatření. Návrh zákona, schválení vládou ani průchod jednou komorou splnění nezakládá.
+- Předpis, který je podle e-Sbírky vyhlášený, vyhlášený JE. Nezamítej s tím, že teprve míří k podpisu nebo čeká na vyhlášení, i kdyby to tvrdily starší články.
+- Neexistující předpis doklad neunese. Existující předpis ho unese, jen když se slibu opravdu týká: je-li u něj uvedené znění, rozhoduj podle textu, ne podle názvu. Obecný název („kterým se mění stavební zákon“) nestačí — novela, která jen posouvá lhůtu, nesplňuje slib zavést něco nového.
 - „porušeno“ vyžaduje doložený krok proti slibu nebo výslovné ustoupení od něj. Mlčení není porušení.
 - Odchod ze „splněno“ nebo z „porušeno“ vyžaduje událost OBRATU: zrušení, pozastavení, veto, výslovné odvolání. Nová interpretace starých faktů obratem není.
 - Nehodnotíš, jestli je stav „správně“ — hodnotíš jen, zda doklad NESE právě tento přechod.

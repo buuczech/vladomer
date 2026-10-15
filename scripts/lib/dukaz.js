@@ -10,6 +10,7 @@
  * musí dát přepočítat i data, která už jsou na webu. Dvě kopie pravidla by se
  * rozešly a nikdo by si toho nevšiml.
  */
+import { overZnacky } from "./sbirka.js";
 
 const MESICE = ["ledna", "února", "března", "dubna", "května", "června",
   "července", "srpna", "září", "října", "listopadu", "prosince"];
@@ -213,6 +214,7 @@ export const CIL_DEGRADACE = {
   "not-through-process": "in_progress",
   "broken-no-evidence": "declared",
   "sbirka-bez-uredniho-zdroje": "partial",
+  "neexistujici-predpis": "partial",
 };
 
 /**
@@ -226,7 +228,7 @@ export const CIL_DEGRADACE = {
  * naráz srazila — přesně ta příliš horlivá zábrana, kterou popisuje
  * CLAUDE.md. Zapíná se až ve chvíli, kdy si o doklad říká i prompt.
  */
-export function duvodDegradace(stav, dukaz, datum, { minDelkaDokladu, nastup, latkaPoruseno = false, zdroje = null }) {
+export function duvodDegradace(stav, dukaz, datum, { minDelkaDokladu, nastup, latkaPoruseno = false, zdroje = null, rejstrik = null }) {
   const kratky = String(dukaz || "").length < minDelkaDokladu;
 
   /* Obvinění z porušení slibu je stejně silné tvrzení jako tvrzení o splnění
@@ -260,6 +262,17 @@ export function duvodDegradace(stav, dukaz, datum, { minDelkaDokladu, nastup, la
 
      Kontroluje se jen když volající zdroje předá (zpětná dohledatelnost
      starších dat se tím nemění — viz prepocet-degradaci.js). */
+  /* Rejstřík Sbírky (lib/sbirka.js), když ho volající předá: číslo, které
+     v e-Sbírce není, doklad neunese — model ho vymyslel (270/2026 Sb. stálo
+     21. 8. – 9. 10. 2026 u tří bodů). Číslo, které tam je, je úřední potvrzení
+     samo o sobě, takže pak už není potřeba odkaz na pramen mezi zdroji.
+     Jestli se předpis slibu TÝKÁ, kód nepozná — to čte ověřovatel s oficiálním
+     názvem v ruce. Data už venku se kontrolují bez rejstříku jako dřív. */
+  if (rejstrik) {
+    const { overene, neexistujici } = overZnacky(dukaz, rejstrik);
+    if (neexistujici.length) return "neexistujici-predpis";
+    if (overene.length) return null;
+  }
   if (zdroje && tvrdiSbirku(dukaz, datum) && !maPramenSbirky(zdroje, PRAMENY_SBIRKY)) {
     return "sbirka-bez-uredniho-zdroje";
   }

@@ -1,0 +1,136 @@
+{
+  "_popis": "Výřez skutečných odpovědí e-Sbírky GET /sbr-cache/dokumenty-sbirky/{/sb/rok/cislo}/fragmenty?cisloStranky=0 z 15. 10. 2026, jen pole kodTypuFragmentu a xhtml. 91/2026 je celý (jen posouvá lhůtu), 90/2026 zkrácený na hlavičku a Čl. I (výčet novel), 180/2026 je týden po vyhlášení ještě nezpracovaný.",
+  "91/2026": {
+    "pocetStranek": 1,
+    "seznam": [
+      {
+        "kodTypuFragmentu": "Virtual_Document"
+      },
+      {
+        "kodTypuFragmentu": "Virtual_Prefix"
+      },
+      {
+        "kodTypuFragmentu": "Prefix_Number",
+        "xhtml": "91"
+      },
+      {
+        "kodTypuFragmentu": "Prefix_Type",
+        "xhtml": "ZÁKON"
+      },
+      {
+        "kodTypuFragmentu": "Prefix_Date",
+        "xhtml": "ze dne 27. května 2026,"
+      },
+      {
+        "kodTypuFragmentu": "Prefix_Title",
+        "xhtml": "kterým se mění zákon č. 283/2021 Sb., stavební zákon, ve znění pozdějších předpisů"
+      },
+      {
+        "kodTypuFragmentu": "Prefix",
+        "xhtml": "Parlament se usnesl na tomto zákoně České republiky:"
+      },
+      {
+        "kodTypuFragmentu": "Virtual_Novela"
+      },
+      {
+        "kodTypuFragmentu": "Clanek",
+        "xhtml": "<var>Čl. I</var>"
+      },
+      {
+        "kodTypuFragmentu": "Odstavec_Dc",
+        "xhtml": "V <a data-odkaz-id=\"209177129\" href=\"#\" class=\"ext_odkaz\" data-version=\"20250801\">§ 334b odst. 1</a> <a data-odkaz-id=\"209177135\" href=\"#\" class=\"ext_odkaz\" data-version=\"20250801\">zákona č. 283/2021 Sb., stavební zákon</a>, ve znění <a data-odkaz-id=\"209177141\" href=\"#\" class=\"ext_odkaz\">zákona č. 437/2024 Sb.</a> a <a data-odkaz-id=\"209177147\" href=\"#\" class=\"ext_odkaz\">zákona č. 223/2025 Sb.</a>, se číslo „2026“ nahrazuje číslem „2027“."
+      },
+      {
+        "kodTypuFragmentu": "Clanek",
+        "xhtml": "<var>Čl. II</var>"
+      },
+      {
+        "kodTypuFragmentu": "Nadpis_pod",
+        "xhtml": "Účinnost"
+      },
+      {
+        "kodTypuFragmentu": "Block_Ucinnostni_Ustanoveni"
+      },
+      {
+        "kodTypuFragmentu": "Odstavec_Dc",
+        "xhtml": "Tento zákon nabývá účinnosti dnem následujícím po dni jeho vyhlášení."
+      },
+      {
+        "kodTypuFragmentu": "Virtual_Postfix"
+      },
+      {
+        "kodTypuFragmentu": "Postfix",
+        "xhtml": "Okamura v. r."
+      },
+      {
+        "kodTypuFragmentu": "Postfix",
+        "xhtml": "Pavel v. r."
+      },
+      {
+        "kodTypuFragmentu": "Postfix",
+        "xhtml": "Babiš v. r."
+      }
+    ]
+  },
+  "90/2026": {
+    "pocetStranek": 1,
+    "seznam": [
+      {
+        "kodTypuFragmentu": "Virtual_Document"
+      },
+      {
+        "kodTypuFragmentu": "Virtual_Prefix"
+      },
+      {
+        "kodTypuFragmentu": "Prefix_Number",
+        "xhtml": "90"
+      },
+      {
+        "kodTypuFragmentu": "Prefix_Type",
+        "xhtml": "ZÁKON"
+      },
+      {
+        "kodTypuFragmentu": "Prefix_Date",
+        "xhtml": "ze dne 26. května 2026,"
+      },
+      {
+        "kodTypuFragmentu": "Prefix_Title",
+        "xhtml": "kterým se mění zákon č. 589/1992 Sb., o pojistném na sociální zabezpečení a příspěvku na státní politiku zaměstnanosti, ve znění pozdějších předpisů"
+      },
+      {
+        "kodTypuFragmentu": "Prefix",
+        "xhtml": "Parlament se usnesl na tomto zákoně České republiky:"
+      },
+      {
+        "kodTypuFragmentu": "Virtual_Novela"
+      },
+      {
+        "kodTypuFragmentu": "Clanek",
+        "xhtml": "<var>Čl. I</var>"
+      },
+      {
+        "kodTypuFragmentu": "Odstavec_Dc",
+        "xhtml": "V <a data-odkaz-id=\"209170837\" href=\"#\" class=\"ext_odkaz\" data-version=\"20240701\">§ 14 odst. 5</a> větě první <a data-odkaz-id=\"209170843\" href=\"#\" class=\"ext_odkaz\" data-version=\"20240701\">zákona č. 589/1992 Sb., o pojistném na sociální zabezpečení a příspěvku na státní politiku zaměstnanosti</a>, ve znění <a data-odkaz-id=\"209170849\" href=\"#\" class=\"ext_odkaz\">zákona č. 160/1993 Sb.</a>, <a data-odkaz-id=\"209170855\" href=\"#\" class=\"ext_odkaz\">zákona č. 307/1993 Sb.</a>, <a data-odkaz-id=\"209170861\" href=\"#\" class=\"ext_odkaz\">zákona č. 241/1994 Sb.</a>, <a data-odkaz-id=\"209170867\" href=\"#\" class=\"ext_odkaz\">zákona č. 160/1995 Sb.</a>, <a data-odkaz-id=\"209170873\" href=\"#\" class=\"ext_odkaz\">zákona č. 492/2000 Sb.</a>, <a data-odkaz-id=\"209170879\" href=\"#\" class=\"ext_odkaz\">zákona č. 425/2003 Sb.</a>, <a data-odkaz-id=\"209170885\" href=\"#\" class=\"ext_odkaz\">zákona č. 261/2007 Sb.</a>, <a data-odkaz-id=\"209170891\" href=\"#\" class=\"ext_odkaz\">zákona č. 305/2008 Sb.</a>, <a data-odkaz-id=\"209170897\" href=\"#\" class=\"ext_odkaz\">zákona č. 347/2010 Sb.</a>, <a data-odkaz-id=\"209170903\" href=\"#\" class=\"ext_odkaz\">zákona č. 364/2011 Sb.</a>, <a data-odkaz-id=\"209170909\" href=\"#\" class=\"ext_odkaz\">zákona č. 259/2017 Sb.</a>, <a data-odkaz-id=\"209170915\" href=\"#\" class=\"ext_odkaz\">zákona č. 540/2020 Sb.</a> a <a data-odkaz-id=\"209170921\" href=\"#\" class=\"ext_odkaz\">zákona č. 349/2023 Sb.</a>, se slova „30 % průměrné mzdy v roce 2024, 35 % průměrné mzdy v roce 2025 a 40 % průměrné mzdy od roku 2026“ nahrazují slovy „35 % průměrné mzdy“."
+      }
+    ]
+  },
+  "180/2026": {
+    "pocetStranek": 1,
+    "seznam": [
+      {
+        "kodTypuFragmentu": "Virtual_Document"
+      },
+      {
+        "kodTypuFragmentu": "Virtual_Prefix"
+      },
+      {
+        "kodTypuFragmentu": "Prefix",
+        "xhtml": "Znění aktu Sbírky zákonů a mezinárodních smluv, který jste otevřeli, právě digitalizujeme. Do e-Sbírky jej doplníme ve chvíli, kdy bude jeho digitalizace dokončena. Jeho právně závazné znění vyhlášené ve Sbírce zákonů a mezinárodních smluv naleznete v levém menu v položce „Stáhnout“ jako „Právně závazné znění právního aktu (PDF)“."
+      },
+      {
+        "kodTypuFragmentu": "Prefix",
+        "xhtml": "Zákon č. 222/2016 Sb. poskytuje Ministerstvu vnitra v § 12 odst. 9 na zpracování aktu pro účely vyhlášení a přípravy a nahrání strukturovaných dat aktu do e-Sbírky 30 kalendářních dní. V případech vymezených v § 12 odst. 8 zákona je nicméně Ministerstvo vnitra povinno při splnění podmínky existence naléhavého obecného zájmu (eventuálně při naplnění dalších podmínek předpokládaných v § 12 odst. 8) vyhlásit akt Sbírky zákonů a mezinárodních smluv dříve, obvykle k datu stanovenému tím, kdo žádá o jeho vyhlášení. V takových případech je třeba akt v právně závazné podobě ve formátu PDF vyhlásit dříve, než je akt zpracován do strukturovaného znění (a než jsou vytvořena všechna jeho časová znění a časová znění novelizovaných právních předpisů a jsou opatřena všemi souvisejícími metadaty). Do e-Sbírky budou tato strukturovaná data doplněna po jejich zpracování, přičemž obvyklá doba zpracování a doplnění dat v takové situaci činí 15 pracovních dní od vyhlášení aktu. V případě rozsáhlého aktu si může jeho digitalizace vyžádat celou lhůtu 30 kalendářních dnů, kterou má Ministerstvo vnitra k dispozici pro vyhlášení aktu (§ 12 odst. 9 zákona)."
+      }
+    ]
+  }
+}

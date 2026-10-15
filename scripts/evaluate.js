@@ -32,6 +32,7 @@ import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
 import { posudPrechod, stavOd as spocitejStavOd } from "./lib/prechody.js";
 import { parsujDeltaOdpoved, planKapitoly, prenesNeprehodnocene } from "./lib/delta.js";
 import { parsujHodnoceni, vyrezy } from "./lib/odpoved.js";
+import { nactiRejstrik, overZnacky, hlavniPredpis, opravDatumVyhlaseni, tabulkaRejstriku, popisProOverovatele, nactiZneni } from "./lib/sbirka.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
    upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
@@ -115,6 +116,13 @@ const OVEROVACI_MODEL = process.env.OVEROVACI_MODEL || NAST.overovaci_model;
    ne jen ta jedna věta odůvodnění — se 400 by běh skončil uprostřed hledání. */
 const MAX_TOKENS_OVERENI = 2500;
 const VYHLEDAVANI_OVERENI = NAST.vyhledavani_overeni;
+/* Rejstřík Sbírky z e-Sbírky (lib/sbirka.js). Načte se jednou na začátku běhu;
+   null = vypnutý nebo nedostupný a běh jede jako dřív, bez tabulky i ověření. */
+const REJSTRIK_ZAPNUTY = NAST.rejstrik_sbirky === 1;
+let REJSTRIK = null;
+let TABULKA_SBIRKY = null;
+// Znění předpisů pro ověřovatele, kód → výsledek nactiZneni; jednou za běh.
+const ZNENI = new Map();
 
 // All real item IDs — guards against the model inventing an ID (e.g. "11.11"),
 // which the merge-based storage would otherwise carry forward forever.
@@ -149,7 +157,7 @@ function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, "").repl
 
 async function evaluateChapter(ch, prevEvals, snapshots, body) {
   const items = body || ch.groups.flatMap((g) => g.items);
-  const prompt = promptHodnoceni(ch, prevEvals, snapshots, items);
+  const prompt = promptHodnoceni(ch, prevEvals, snapshots, items, TABULKA_SBIRKY);
   assertFields(prompt, ["comment_cs", "comment_en", "change_cs", "change_en",
     "evidence", "evidence_date", "unverifiable", "sources"], "prompt-hodnoceni.md");
 
@@ -192,7 +200,8 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
   const out = {};
   let kept = 0;
   const demoted = { "no-evidence": 0, "no-date": 0, "predates-term": 0, "date-mismatch": 0,
-    "not-through-process": 0, "broken-no-evidence": 0, "sbirka-bez-uredniho-zdroje": 0 };
+    "not-through-process": 0, "broken-no-evidence": 0, "sbirka-bez-uredniho-zdroje": 0, "neexistujici-predpis": 0 };
+  const sbirka = { overeno: 0, neexistujici: [], datum: [], text: [] };
   for (const r of parsed) {
     if (!r || !r.id || !VALID_IDS.has(r.id)) continue;
     const sources = [];
@@ -211,13 +220,40 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
        it falls back to "partial" — the claim of progress is kept, the claim of
        completion is not. */
     let status = VALID.has(r.status) ? r.status : "not_started";
-    const evidence = typeof r.evidence === "string" ? r.evidence.trim() : "";
-    const evDate = /^\d{4}-\d{2}-\d{2}$/.test(r.evidence_date || "") ? r.evidence_date : "";
+    let evidence = typeof r.evidence === "string" ? r.evidence.trim() : "";
+    let evDate = /^\d{4}-\d{2}-\d{2}$/.test(r.evidence_date || "") ? r.evidence_date : "";
+    /* Citovaná čísla předpisů proti rejstříku Sbírky. U „splněno" s ověřeným
+       předpisem se datum dokladu nahradí oficiálním datem vyhlášení (model plete
+       den hlasování, podpisu nebo účinnosti s vyhlášením) a mezi zdroje přibude
+       odkaz do e-Sbírky. Cituje-li doklad jediný ověřený předpis, srovná se
+       s oficiálním datem i den vyhlášení v textu — jinak by web ukázal opravené
+       datum vedle neopraveného tvrzení. Neexistující číslo srazí stav níž,
+       v duvodDegradace. */
+    const predpisy = REJSTRIK ? overZnacky(evidence, REJSTRIK) : null;
+    if (predpisy) {
+      sbirka.overeno += predpisy.overene.length;
+      if (predpisy.neexistujici.length) sbirka.neexistujici.push(`${r.id} (${predpisy.neexistujici.join(", ")})`);
+      if (status === "fulfilled" && predpisy.overene.length && !predpisy.neexistujici.length) {
+        const hlavni = hlavniPredpis(predpisy.overene);
+        if (hlavni.vyhlaseno !== evDate) {
+          sbirka.datum.push(`${r.id} (${evDate || "bez data"} → ${hlavni.vyhlaseno})`);
+          evDate = hlavni.vyhlaseno;
+        }
+        if (predpisy.overene.length === 1) {
+          const opraveno = opravDatumVyhlaseni(evidence, hlavni.vyhlaseno);
+          if (opraveno.zmeneno) { evidence = opraveno.text; sbirka.text.push(r.id); }
+        }
+        if (!sources.some((x) => x.url === hlavni.url)) {
+          sources.unshift({ url: hlavni.url, title: `${hlavni.kod} Sb. — ${hlavni.nazev}`.slice(0, 200) });
+          if (sources.length > MAX_SOURCES) sources.length = MAX_SOURCES;
+        }
+      }
+    }
     // Samo pravidlo je v lib/dukaz.js, aby se podle něj dala přepočítat i data,
     // která už jsou venku — dvě kopie by se časem rozešly.
     const downgradeReason = duvodDegradace(status, evidence, evDate,
       { minDelkaDokladu: EVIDENCE_MIN, nastup: DATES.tookOffice, latkaPoruseno: LATKA_PORUSENO,
-        zdroje: sources });
+        zdroje: sources, rejstrik: REJSTRIK });
     if (downgradeReason) { status = CIL_DEGRADACE[downgradeReason]; demoted[downgradeReason]++; }
 
     out[r.id] = {
@@ -231,11 +267,17 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
       sources,
       previousStatus: prevEvals[r.id]?.status || null,
       updatedAt: new Date().toISOString(),
+      /* Co o citovaných předpisech říká e-Sbírka — čte to ověřovatel přechodu
+         a později to může ukázat web („ověřeno v e-Sbírce"). */
+      sbirka: predpisy && (predpisy.overene.length || predpisy.neexistujici.length) ? {
+        overene: predpisy.overene.map(({ kod, nazev, vyhlaseno, url }) => ({ kod, nazev, vyhlaseno, url })),
+        neexistujici: predpisy.neexistujici,
+      } : undefined,
     };
   }
   /* Useknutá odpověď (stop_reason=max_tokens) se přečte jen po poslední úplný
      záznam; volající chybějící body doptá zvlášť. */
-  return { evals: out, searchCount, kept, demoted, useknuto: data.stop_reason === "max_tokens" };
+  return { evals: out, searchCount, kept, demoted, sbirka, useknuto: data.stop_reason === "max_tokens" };
 }
 
 /* Týdenní sken událostí: neptá se na stav, ale na to, co se STALO. Vrací
@@ -273,6 +315,16 @@ async function deltaScan(ch, prevEvals, odData, items) {
    Výchozí odpověď promptu je NE; selhání volání se řeší konzervativně
    u volajícího (přechod se nepřijme). */
 async function overPrechod(bod, minuly, navrh, prostredni = false) {
+  /* U přechodu na „splněno" dostane ověřovatel i znění hlavního citovaného
+     předpisu. Podle názvu se pozná cizí číslo, ne cizí obsah pod obecným
+     názvem: 15. 10. 2026 prošlo „splněno" u bydlení na zákoně 91/2026 Sb.
+     „kterým se mění stavební zákon", který jen posouvá lhůtu o rok. */
+  let zneni = null;
+  if (REJSTRIK && navrh.status === "fulfilled" && navrh.sbirka && navrh.sbirka.overene.length) {
+    const hlavni = hlavniPredpis(navrh.sbirka.overene);
+    if (!ZNENI.has(hlavni.kod)) ZNENI.set(hlavni.kod, await nactiZneni(hlavni));
+    zneni = new Map([[hlavni.kod, ZNENI.get(hlavni.kod)]]);
+  }
   const prompt = promptOvereniPrechodu({
     prostredni,
     bod: bod.cs,
@@ -281,6 +333,7 @@ async function overPrechod(bod, minuly, navrh, prostredni = false) {
     novyStav: navrh.status,
     doklad: navrh.evidence,
     datumDokladu: navrh.evidenceDate,
+    predpisy: popisProOverovatele(navrh.sbirka, Boolean(REJSTRIK), zneni),
     zmena: navrh.change && navrh.change.cs,
     komentar: navrh.comment && navrh.comment.cs,
   });
@@ -499,6 +552,22 @@ async function main() {
     + (REZIM_BEHU === "delta"
       ? ` — události od ${OD_DATA}; poslední plný audit ${posledniPlny ? posledniPlny.slice(0, 10) : "nikdy"}`
       : ""));
+  if (REJSTRIK_ZAPNUTY) {
+    const roky = [];
+    for (let rok = Number(String(DATES.tookOffice).slice(0, 4)); rok <= new Date().getUTCFullYear(); rok++) roky.push(rok);
+    const nacteno = await nactiRejstrik({ roky });
+    if (nacteno.predpisy) {
+      REJSTRIK = nacteno.predpisy;
+      TABULKA_SBIRKY = tabulkaRejstriku(REJSTRIK, DATES.tookOffice);
+      console.log(`Rejstřík Sbírky: ${REJSTRIK.size} předpisů z let ${roky.join("–")}, `
+        + `${TABULKA_SBIRKY.split("\n").length} od nástupu vlády v tabulce pro model`);
+    } else {
+      console.log(`POZOR: rejstřík Sbírky se nepodařilo načíst (${nacteno.chyba}) — model dostane prompt `
+        + "bez tabulky a čísla předpisů se tentokrát neověří.");
+    }
+  } else {
+    console.log("Rejstřík Sbírky: vypnutý (rejstrik_sbirky = 0)");
+  }
   const snapshots = readJSON(OUT_HIST, { snapshots: [] }).snapshots || [];
 
   // Carry forward only real items — drops any stray invented IDs already in the file
@@ -510,6 +579,7 @@ async function main() {
      brána podržela a kolik jich ověřovatel zamítl, je hlavní provozní
      ukazatel stability. */
   const brana = { prijato: 0, prechodu: 0, drzeno: [], potvrzeno: [], zamitnuto: [], chybaOvereni: [], kontrola: [] };
+  const sbirkaCelkem = { overeno: 0, neexistujici: [], datum: [], text: [] };
   /* Kolik událostí delta sken celkem našel. Nula napříč všemi kapitolami je
      podezřelá: buď byl opravdu mrtvý týden, nebo se sken rozbil a mlčí — a to
      druhé vypadá v měření stability jako dokonalá stabilita, protože se pak
@@ -598,7 +668,10 @@ async function main() {
             try {
               const v = await withBackoff(() => overPrechod(BODY_DLE_ID[id], minuly, navrh, prostredni), 2);
               if (!v.potvrzeno) {
-                brana.zamitnuto.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]}: ${v.duvod})`);
+                // I s dokladem: bez něj se při kontrole běhu nedá poznat, jestli
+                // ověřovatel zamítl špatný doklad, nebo dobrý doklad špatně.
+                brana.zamitnuto.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]}: ${v.duvod}`
+                  + `; doklad: ${String(navrh.evidence || "").slice(0, 200)})`);
                 pridat[id] = { ...minuly, overeno: ted };
                 continue;
               }
@@ -624,6 +697,10 @@ async function main() {
         hledani += r.searchCount;
         zdroju += r.kept;
         for (const [k, v] of Object.entries(r.demoted)) if (v) snizeno[k] = (snizeno[k] || 0) + v;
+        sbirkaCelkem.overeno += r.sbirka.overeno;
+        sbirkaCelkem.neexistujici.push(...r.sbirka.neexistujici);
+        sbirkaCelkem.datum.push(...r.sbirka.datum);
+        sbirkaCelkem.text.push(...r.sbirka.text);
         if (r.useknuto) useknuto++;
         /* Body, které odpověď nenesla. V kapitole 6 dev běhu 11. 9. 2026 se ze
            šesti vrátil jediný: useknutá odpověď se přečte jen po poslední úplný
@@ -694,6 +771,19 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
   for (const z of brana.zamitnuto) console.log(`  zamítnuto: ${z}`);
   for (const z of brana.chybaOvereni) console.log(`  chyba:     ${z}`);
   for (const z of brana.kontrola) console.log(`  ke kontrole (přijato se starším dokladem): ${z}`);
+  if (REJSTRIK) {
+    console.log(`Rejstřík Sbírky: ${sbirkaCelkem.overeno} citací předpisů ověřeno, `
+      + `${sbirkaCelkem.neexistujici.length} s neexistujícím číslem, u ${sbirkaCelkem.datum.length} „splněno“ opraveno datum vyhlášení`);
+    for (const z of sbirkaCelkem.neexistujici) console.log(`  neexistující předpis: ${z}`);
+    for (const z of sbirkaCelkem.datum) console.log(`  datum vyhlášení podle e-Sbírky: ${z}`);
+    if (sbirkaCelkem.text.length) console.log(`  den vyhlášení opraven i v textu dokladu: ${sbirkaCelkem.text.join(", ")}`);
+    if (ZNENI.size) {
+      const podle = (stav) => [...ZNENI].filter(([, z]) => z.stav === stav).map(([kod]) => kod);
+      console.log(`  znění pro ověřovatele: načteno ${podle("ok").join(", ") || "—"}`
+        + `; zatím nezpracované ${podle("nezpracovano").join(", ") || "—"}`
+        + `; chyba ${podle("chyba").join(", ") || "—"}`);
+    }
+  }
 
   const now = new Date().toISOString();
   const today = now.slice(0, 10);

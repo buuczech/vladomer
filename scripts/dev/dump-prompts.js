@@ -62,7 +62,12 @@ process.on("exit", () => {
 const realTimeout = globalThis.setTimeout;
 globalThis.setTimeout = (fn, ms, ...a) => realTimeout(fn, ms > 50 ? 0 : ms, ...a);
 
+/* Rejstřík Sbírky (lib/sbirka.js) se čte doopravdy: e-Sbírka je veřejná,
+   zdarma a nic se tím neodesílá — a jen tak výpis ukáže přesně tu tabulku,
+   kterou model dostane. Bez sítě běh spadne na text pro nedostupný rejstřík. */
+const skutecnyFetch = globalThis.fetch;
 globalThis.fetch = async (url, opt) => {
+  if (String(url).startsWith("https://e-sbirka.gov.cz/")) return skutecnyFetch(url, opt);
   const body = JSON.parse(opt.body);
   console.log("=".repeat(72));
   console.log(`POST ${url}  model=${body.model}  max_tokens=${body.max_tokens}`);
