@@ -10,11 +10,12 @@
 import { readFileSync } from "node:fs";
 import {
   predpisyZOdpovedi, nactiRejstrik, overZnacky, hlavniPredpis, opravDatumVyhlaseni, tabulkaRejstriku, popisProOverovatele,
-  druhPredpisu,
+  druhPredpisu, nactiZneni,
 } from "../lib/sbirka.js";
 import { duvodDegradace } from "../lib/dukaz.js";
 
 const fixtura = JSON.parse(readFileSync(new URL("./fixtury/sbirka-rejstrik.json", import.meta.url), "utf8"));
+const fixturaZneni = JSON.parse(readFileSync(new URL("./fixtury/sbirka-zneni.json", import.meta.url), "utf8"));
 const predpisy = new Map([...predpisyZOdpovedi(fixtura["2025"]), ...predpisyZOdpovedi(fixtura["2026"])].map((p) => [p.kod, p]));
 
 let spadlo = 0, kontrol = 0;
@@ -105,6 +106,39 @@ const stejne = (a, b) => JSON.stringify(a) === JSON.stringify(b);
   over(vyjimka.predpisy === null && /ETIMEDOUT/.test(vyjimka.chyba), "výpadek sítě nevyhodí výjimku", vyjimka);
   const prazdno = await nactiRejstrik({ roky: [2026], fetchFn: async () => ({ ok: true, json: async () => ({}) }) });
   over(prazdno.predpisy === null, "prázdná odpověď se nebere jako rejstřík bez předpisů", prazdno);
+}
+
+// --- znění předpisu pro ověřovatele ---
+{
+  const zFixtury = async (url) => {
+    const kod = decodeURIComponent(url).match(/\/sb\/(\d{4})\/(\d+)\/fragmenty/);
+    const j = kod && fixturaZneni[`${kod[2]}/${kod[1]}`];
+    return j ? { ok: true, json: async () => j } : { ok: false, status: 400 };
+  };
+  const z91 = await nactiZneni({ kod: "91/2026" }, { fetchFn: zFixtury });
+  over(z91.stav === "ok" && z91.text.includes("se číslo „2026“ nahrazuje číslem „2027“") && !/<|&nbsp;/.test(z91.text),
+    "1.3: znění 91/2026 ukáže, že novela jen posouvá lhůtu (bez značek a entit)", z91);
+  const z90 = await nactiZneni({ kod: "90/2026" }, { fetchFn: zFixtury });
+  over(z90.text.includes("ve znění pozdějších předpisů, se slova „30 % průměrné mzdy v roce 2024")
+      && !z90.text.includes("160/1993"),
+    "2.10: výčet třinácti novel se zkrátí na „ve znění pozdějších předpisů“, podstatná věta zůstane", z90.text);
+  const z180 = await nactiZneni({ kod: "180/2026" }, { fetchFn: zFixtury });
+  over(z180.stav === "nezpracovano" && z180.text === null,
+    "180/2026 týden po vyhlášení: jen hlavička a poznámka o 30 dnech → „zatím nezpracované“, ne znění", z180);
+  const kratke = await nactiZneni({ kod: "90/2026" }, { fetchFn: zFixtury, maxZnaku: 300 });
+  over(kratke.text.length < 360 && kratke.text.endsWith("(zkráceno, celé znění v e-Sbírce)"), "dlouhé znění se zkrátí a přizná to", kratke.text);
+  const chyba = await nactiZneni({ kod: "9999/2026" }, { fetchFn: zFixtury });
+  const vyjimka = await nactiZneni({ kod: "91/2026" }, { fetchFn: async () => { throw new Error("ETIMEDOUT"); } });
+  over(chyba.stav === "chyba" && /400/.test(chyba.chyba) && vyjimka.stav === "chyba" && /ETIMEDOUT/.test(vyjimka.chyba),
+    "HTTP chyba i výpadek sítě vrátí stav „chyba“, nevyhodí výjimku", { chyba, vyjimka });
+
+  const p91 = { kod: "91/2026", nazev: "Zákon, kterým se mění zákon č. 283/2021 Sb., stavební zákon, ve znění pozdějších předpisů", vyhlaseno: "2026-06-10" };
+  const s1 = popisProOverovatele({ overene: [p91] }, true, new Map([["91/2026", z91]]));
+  over(s1.includes("91/2026 Sb. existuje") && s1.includes("Znění podle e-Sbírky:") && s1.includes("nahrazuje číslem „2027“"),
+    "ověřovatel dostane u předpisu jeho znění", s1);
+  const s2 = popisProOverovatele({ overene: [predpisy.get("180/2026")] }, true, new Map([["180/2026", z180]]));
+  over(s2.includes("zatím nezpracovala") && s2.includes("podle názvu a vyhledávání"), "nezpracované znění se ověřovateli přizná", s2);
+  over(!popisProOverovatele({ overene: [p91] }, true).includes("Znění"), "bez mapy znění (prostřední přechod) jen název jako dřív");
 }
 
 // --- laťka na „splněno“ s rejstříkem (lib/dukaz.js) ---

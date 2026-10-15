@@ -161,14 +161,76 @@ export function opravDatumVyhlaseni(text, vyhlaseno) {
   return { text: out, zmeneno };
 }
 
-/** Řádky pro ověřovatele: co o citovaných předpisech říká e-Sbírka. */
-export function popisProOverovatele({ overene = [], neexistujici = [] } = {}, rejstrikNacten = true) {
+/* Typy fragmentů, které nesou vlastní text předpisu. Čerstvě vyhlášený předpis
+   je v e-Sbírce nejdřív jen jako hlavička a poznámka, že ministerstvo má na
+   nahrání strukturovaných dat 30 dní (180/2026 Sb. týden po vyhlášení) —
+   takové „znění" se ověřovateli neposílá, jen se mu řekne, že zatím není. */
+const TEXT_PREDPISU = /^(Cast|Hlava|Dil|Clanek|Paragraf|Odstavec|Bod|Pismeno|Block_Citace)/;
+
+const ENTITY = { nbsp: " ", amp: "&", lt: "<", gt: ">", quot: "\"", apos: "'" };
+function holyText(xhtml) {
+  return String(xhtml || "")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/&(#\d+|[a-z]+);/gi, (m, e) => (e[0] === "#" ? String.fromCodePoint(Number(e.slice(1))) : ENTITY[e.toLowerCase()] ?? m))
+    .replace(/\s+([,.;:)])/g, "$1")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/* „ve znění zákona č. 160/1993 Sb., zákona č. 307/1993 Sb., … a zákona
+   č. 349/2023 Sb.," — u novel to bývá polovina textu a ověřovateli nic neřekne. */
+const VYCET_NOVEL = /ve znění (?:(?:zákona|zákonů|zákonného opatření|nálezu|nařízení)[^,;:]*?č\.\s?\d+\/\d{4} Sb\.(?:,\s*|\s+a\s+)?)+/gu;
+
+/**
+ * Znění předpisu z e-Sbírky pro ověřovatele, zkrácené na začátek. Nikdy
+ * nevyhazuje výjimku.
+ * @returns { stav: "ok" | "nezpracovano" | "chyba", text, chyba }
+ */
+export async function nactiZneni(predpis, { fetchFn = fetch, timeoutMs = 20000, maxZnaku = 6000 } = {}) {
+  const [cislo, rok] = String(predpis && predpis.kod || "").split("/");
+  if (!cislo || !rok) return { stav: "chyba", text: null, chyba: "bez značky" };
+  try {
+    const res = await fetchFn(`${API}/dokumenty-sbirky/${encodeURIComponent(`/sb/${rok}/${cislo}`)}/fragmenty?cisloStranky=0`, {
+      headers: { accept: "application/json" },
+      signal: AbortSignal.timeout(timeoutMs),
+    });
+    if (!res.ok) return { stav: "chyba", text: null, chyba: `HTTP ${res.status}` };
+    const seznam = ((await res.json()) || {}).seznam || [];
+    if (!seznam.some((f) => TEXT_PREDPISU.test(f.kodTypuFragmentu || ""))) return { stav: "nezpracovano", text: null, chyba: null };
+    let text = seznam
+      .filter((f) => !/^Virtual_/.test(f.kodTypuFragmentu || ""))
+      .map((f) => holyText(f.xhtml))
+      .filter(Boolean)
+      .join("\n")
+      .replace(VYCET_NOVEL, "ve znění pozdějších předpisů, ");
+    if (text.length > maxZnaku) text = `${text.slice(0, maxZnaku).replace(/\s+\S*$/, "")} … (zkráceno, celé znění v e-Sbírce)`;
+    return { stav: "ok", text, chyba: null };
+  } catch (e) {
+    return { stav: "chyba", text: null, chyba: String(e && e.message || e).slice(0, 160) };
+  }
+}
+
+/**
+ * Řádky pro ověřovatele: co o citovaných předpisech říká e-Sbírka. Ke
+ * předpisům, které jsou v mapě zneni (kód → výsledek nactiZneni), přidá
+ * jejich znění — podle názvu se pozná cizí číslo, ale ne cizí obsah pod
+ * obecným názvem: 91/2026 Sb. „kterým se mění stavební zákon“ jen posouvá
+ * lhůtu a 15. 10. 2026 přesto prošel jako „bydlení jako veřejný zájem“.
+ */
+export function popisProOverovatele({ overene = [], neexistujici = [] } = {}, rejstrikNacten = true, zneni = null) {
   if (!rejstrikNacten) return "(Rejstřík Sbírky se tentokrát nepodařilo načíst — čísla předpisů program neověřil.)";
   if (!overene.length && !neexistujici.length) return "(Doklad necituje žádný předpis z let, které rejstřík pokrývá.)";
-  return [
-    ...overene.map((p) => `- ${p.kod} Sb. existuje: „${p.nazev}“, vyhlášeno ${DATUM_CS(p.vyhlaseno)}`),
-    ...neexistujici.map((k) => `- ${k} Sb. V E-SBÍRCE NEEXISTUJE`),
-  ].join("\n");
+  const radky = [];
+  for (const p of overene) {
+    radky.push(`- ${p.kod} Sb. existuje: „${p.nazev}“, vyhlášeno ${DATUM_CS(p.vyhlaseno)}`);
+    const z = zneni && zneni.get(p.kod);
+    if (!z) continue;
+    if (z.stav === "ok") radky.push(`  Znění podle e-Sbírky:\n  """\n${z.text}\n  """`);
+    else if (z.stav === "nezpracovano") radky.push("  Znění e-Sbírka zatím nezpracovala (strukturovaná data se nahrávají až do 30 dnů po vyhlášení) — obsah posuď podle názvu a vyhledávání.");
+    else radky.push("  Znění se nepodařilo načíst — obsah posuď podle názvu a vyhledávání.");
+  }
+  for (const k of neexistujici) radky.push(`- ${k} Sb. V E-SBÍRCE NEEXISTUJE`);
+  return radky.join("\n");
 }
 
 export { DATUM_CS as datumCs };

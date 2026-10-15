@@ -32,7 +32,7 @@ import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
 import { posudPrechod, stavOd as spocitejStavOd } from "./lib/prechody.js";
 import { parsujDeltaOdpoved, planKapitoly, prenesNeprehodnocene } from "./lib/delta.js";
 import { parsujHodnoceni, vyrezy } from "./lib/odpoved.js";
-import { nactiRejstrik, overZnacky, hlavniPredpis, opravDatumVyhlaseni, tabulkaRejstriku, popisProOverovatele } from "./lib/sbirka.js";
+import { nactiRejstrik, overZnacky, hlavniPredpis, opravDatumVyhlaseni, tabulkaRejstriku, popisProOverovatele, nactiZneni } from "./lib/sbirka.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
    upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
@@ -121,6 +121,8 @@ const VYHLEDAVANI_OVERENI = NAST.vyhledavani_overeni;
 const REJSTRIK_ZAPNUTY = NAST.rejstrik_sbirky === 1;
 let REJSTRIK = null;
 let TABULKA_SBIRKY = null;
+// Znění předpisů pro ověřovatele, kód → výsledek nactiZneni; jednou za běh.
+const ZNENI = new Map();
 
 // All real item IDs — guards against the model inventing an ID (e.g. "11.11"),
 // which the merge-based storage would otherwise carry forward forever.
@@ -313,6 +315,16 @@ async function deltaScan(ch, prevEvals, odData, items) {
    Výchozí odpověď promptu je NE; selhání volání se řeší konzervativně
    u volajícího (přechod se nepřijme). */
 async function overPrechod(bod, minuly, navrh, prostredni = false) {
+  /* U přechodu na „splněno" dostane ověřovatel i znění hlavního citovaného
+     předpisu. Podle názvu se pozná cizí číslo, ne cizí obsah pod obecným
+     názvem: 15. 10. 2026 prošlo „splněno" u bydlení na zákoně 91/2026 Sb.
+     „kterým se mění stavební zákon", který jen posouvá lhůtu o rok. */
+  let zneni = null;
+  if (REJSTRIK && navrh.status === "fulfilled" && navrh.sbirka && navrh.sbirka.overene.length) {
+    const hlavni = hlavniPredpis(navrh.sbirka.overene);
+    if (!ZNENI.has(hlavni.kod)) ZNENI.set(hlavni.kod, await nactiZneni(hlavni));
+    zneni = new Map([[hlavni.kod, ZNENI.get(hlavni.kod)]]);
+  }
   const prompt = promptOvereniPrechodu({
     prostredni,
     bod: bod.cs,
@@ -321,7 +333,7 @@ async function overPrechod(bod, minuly, navrh, prostredni = false) {
     novyStav: navrh.status,
     doklad: navrh.evidence,
     datumDokladu: navrh.evidenceDate,
-    predpisy: popisProOverovatele(navrh.sbirka, Boolean(REJSTRIK)),
+    predpisy: popisProOverovatele(navrh.sbirka, Boolean(REJSTRIK), zneni),
     zmena: navrh.change && navrh.change.cs,
     komentar: navrh.comment && navrh.comment.cs,
   });
@@ -656,7 +668,10 @@ async function main() {
             try {
               const v = await withBackoff(() => overPrechod(BODY_DLE_ID[id], minuly, navrh, prostredni), 2);
               if (!v.potvrzeno) {
-                brana.zamitnuto.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]}: ${v.duvod})`);
+                // I s dokladem: bez něj se při kontrole běhu nedá poznat, jestli
+                // ověřovatel zamítl špatný doklad, nebo dobrý doklad špatně.
+                brana.zamitnuto.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]}: ${v.duvod}`
+                  + `; doklad: ${String(navrh.evidence || "").slice(0, 200)})`);
                 pridat[id] = { ...minuly, overeno: ted };
                 continue;
               }
@@ -762,6 +777,12 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
     for (const z of sbirkaCelkem.neexistujici) console.log(`  neexistující předpis: ${z}`);
     for (const z of sbirkaCelkem.datum) console.log(`  datum vyhlášení podle e-Sbírky: ${z}`);
     if (sbirkaCelkem.text.length) console.log(`  den vyhlášení opraven i v textu dokladu: ${sbirkaCelkem.text.join(", ")}`);
+    if (ZNENI.size) {
+      const podle = (stav) => [...ZNENI].filter(([, z]) => z.stav === stav).map(([kod]) => kod);
+      console.log(`  znění pro ověřovatele: načteno ${podle("ok").join(", ") || "—"}`
+        + `; zatím nezpracované ${podle("nezpracovano").join(", ") || "—"}`
+        + `; chyba ${podle("chyba").join(", ") || "—"}`);
+    }
   }
 
   const now = new Date().toISOString();

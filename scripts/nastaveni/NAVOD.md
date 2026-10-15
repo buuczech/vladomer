@@ -110,7 +110,9 @@ a čísla si domýšlel, nebo citoval skutečný předpis k jinému tématu. Te�
 seznam zákonů, nařízení vlády a vyhlášek vydaných od nástupu vlády a program
 každé citované číslo ověří: neexistující číslo „splněno“ neunese a datum
 vyhlášení se u „splněno“ vezme z e-Sbírky (opraví se i v textu dokladu). Jestli se předpis slibu týká, posoudí
-ověřovatel, který dostane jeho oficiální název. Seznam je vidět i v sekci
+ověřovatel, který dostane jeho oficiální název a u „splněno“ i začátek jeho
+znění — samotný název nestačí, „novela stavebního zákona“ může jen posouvat
+lhůtu. Seznam je vidět i v sekci
 „Použité prompty“ (v ukázce zkrácený).
 
 K tomu patří nová nastavení v `nastaveni.txt`: `plny_audit_dni`,
