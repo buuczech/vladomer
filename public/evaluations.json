@@ -370,31 +370,31 @@
       "overeno": "2026-10-09T14:21:35.891Z"
     },
     "2.10": {
-      "status": "partial",
-      "evidence": "Poslanecká sněmovna 26. května 2026 přehlasovala veto Senátu, zákon míří k podpisu prezidenta",
-      "evidenceDate": "2026-05-26",
+      "status": "fulfilled",
+      "evidence": "Zákon č. 90/2026 Sb., kterým se mění zákon č. 589/1992 Sb., o pojistném na sociální zabezpečení, ze dne 26. května 2026, vyhlášen ve Sbírce zákonů 10. června 2026; minimální vyměřovací základ OSVČ se místo růstu na 40 % průměrné mzdy ustaluje na 35 %",
+      "evidenceDate": "2026-06-10",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda zastavila zvyšování vyměřovacího základu OSVČ a vrátila jej na 35 % průměrné mzdy. Sněmovna zákon schválila a přehlasovala Senátní veto, ale zákon ještě nebyl podepsán prezidentem a vyhlášen ve Sbírce zákonů. Od 1. července 2026 se změna částečně uplatňuje (nové zálohy), ale zpětné vrácení přebytku z ledna–června je podmíněno žádostí.",
-        "en": "The government stopped the increase in the minimum assessment base for self-employed persons and returned it to 35% of average wages. The Chamber of Deputies approved the law and overrode Senate veto, but the law has not yet been signed by the president and published in the Collection of Laws. From July 1, 2026, the change is partially applied (new contributions), but retroactive refund of overpayment from January–June is conditional on a request."
+        "cs": "Splněno. Zákon č. 90/2026 Sb. zastavil zvyšování minimálního vyměřovacího základu OSVČ: místo postupného růstu na 40 % průměrné mzdy od roku 2026 platí od 1. července 2026 trvale 35 %. Zákon vyšel ve Sbírce zákonů 10. června 2026. Kdo od ledna do června platil zálohy z vyššího základu, může do konce roku 2026 požádat o vrácení rozdílu. Opraveno ručně 15. 10. 2026 podle e-Sbírky — model zákon dosud považoval za nepodepsaný.",
+        "en": "Fulfilled. Act No. 90/2026 Coll. stopped the rise of the minimum assessment base for the self-employed: instead of climbing to 40% of the average wage from 2026, it stays at 35% from 1 July 2026. The act was published in the Collection of Laws on 10 June 2026. Those who paid advances on the higher base between January and June can apply for a refund of the difference by the end of 2026. Corrected by hand on 15 October 2026 from the e-Collection — the model still treated the act as unsigned."
       },
       "change": {
-        "cs": "beze změny",
-        "en": "no change"
+        "cs": "Ruční oprava: zákon č. 90/2026 Sb. vyšel ve Sbírce zákonů 10. června 2026, slib je tím splněn.",
+        "en": "Manual correction: Act No. 90/2026 Coll. was published on 10 June 2026, which fulfils the promise."
       },
       "sources": [
         {
-          "url": "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/minimalni-zalohy-na-socialni-odvody-osvc-pro-rok-2-64112",
-          "title": "Minimální zálohy na sociální odvody OSVČ pro rok 2026 se zpětně sníží | Ministerstvo financí ČR"
+          "url": "https://e-sbirka.gov.cz/sb/2026/90",
+          "title": "Zákon č. 90/2026 Sb., kterým se mění zákon č. 589/1992 Sb., o pojistném na sociální zabezpečení a příspěvku na státní politiku zaměstnanosti"
         },
         {
-          "url": "https://www.denik.cz/ekonomika/osvc-2026-zivnostnici-socialni-pojisteni-zdravotni-pojisteni-pausalni-dan-vlada.html",
-          "title": "Změny pro OSVČ v roce 2026: Jak to bude u záloh na pojištění, co paušální daň - Deník.cz"
+          "url": "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/minimalni-zalohy-na-socialni-odvody-osvc-pro-rok-2-64112",
+          "title": "Minimální zálohy na sociální odvody OSVČ pro rok 2026 se zpětně sníží | Ministerstvo financí ČR"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-08-28T18:00:22.291Z",
-      "overeno": "2026-10-09T14:21:35.891Z"
+      "updatedAt": "2026-10-15T11:51:12.963Z",
+      "overeno": "2026-10-15T11:51:12.963Z"
     },
     "2.11": {
       "status": "partial",
