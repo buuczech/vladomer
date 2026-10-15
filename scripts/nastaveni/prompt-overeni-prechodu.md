@@ -7,6 +7,8 @@ Navržený nový stav: {{NOVY_STAV}}
 
 Předložený doklad: {{DOKLAD}}
 Datum dokladu: {{DATUM_DOKLADU}}
+Citované předpisy podle e-Sbírky (ověřil program, mají přednost před dokladem; neexistující předpis nebo předpis, jehož název se slibu netýká, doklad neunese):
+{{PREDPISY}}
 Co se podle hodnotitele stalo: {{ZMENA}}
 Navržený komentář hodnocení: {{KOMENTAR}}
 

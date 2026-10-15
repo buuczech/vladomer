@@ -104,9 +104,18 @@ a nekonzistentně: 18. 9. 2026 pustil „splněno" u daňových odpočtů na vý
 které zavedla předchozí vláda. Co by pravidlo udělalo s dosavadními přechody,
 ukáže `node scripts/dev/prehraj-stary-doklad.js`.
 
+**Čísla předpisů ověřuje program v e-Sbírce** (`rejstrik_sbirky`). Model Sbírku
+zákonů sám nevidí — e-Sbírka je aplikace, kterou vyhledávače skoro neindexují —
+a čísla si domýšlel, nebo citoval skutečný předpis k jinému tématu. Teď dostane
+seznam zákonů, nařízení vlády a vyhlášek vydaných od nástupu vlády a program
+každé citované číslo ověří: neexistující číslo „splněno“ neunese a datum
+vyhlášení se u „splněno“ vezme z e-Sbírky (opraví se i v textu dokladu). Jestli se předpis slibu týká, posoudí
+ověřovatel, který dostane jeho oficiální název. Seznam je vidět i v sekci
+„Použité prompty“ (v ukázce zkrácený).
+
 K tomu patří nová nastavení v `nastaveni.txt`: `plny_audit_dni`,
 `overovat_prechody`, `overovat_prostredni`, `overovaci_model`,
-`vyhledavani_overeni`, `vyhledavani_delta` a `drzet_stary_doklad`. Každé má
+`vyhledavani_overeni`, `vyhledavani_delta`, `drzet_stary_doklad` a `rejstrik_sbirky`. Každé má
 komentář přímo u sebe.
 
 Na co si dát pozor:

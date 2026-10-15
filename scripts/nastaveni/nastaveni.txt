@@ -148,6 +148,14 @@ overovat_prostredni = 1
 # 0 = vypnuto (prechod pak jen oznaci ke kontrole i v delta behu).
 drzet_stary_doklad = 1
 
+# Rejstrik Sbirky zakonu z e-Sbirky. Model dostane seznam zakonu, narizeni vlady
+# a vyhlasek vydanych od nastupu vlady a cisla predpisu, ktera cituje, program
+# overi: cislo, ktere ve Sbirce neni, "splneno" neunese, a u "splneno" se datum
+# vyhlaseni prevezme z e-Sbirky. Model Sbirku sam nevidi a cisla si domyslel -
+# u 10.4 vystridal za sest tydnu pet cisel a skutecne ani jednou. Kdyz e-Sbirka
+# nebezi, beh pokracuje bez tabulky a bez overeni. 0 = vypnuto.
+rejstrik_sbirky = 1
+
 # Kolik vyhledavani smi tydeni sken udalosti pouzit na jednu kapitolu.
 # Zvyseno ze 4 na 8: pri ctyrech dotazech mineli dva totozne behy ruzne
 # udalosti a shodly se jen na 55 % bodu, kterych se vubec dotkly.

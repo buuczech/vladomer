@@ -62,12 +62,18 @@ export function radkyBodu(items, prevEvals, snapshots) {
    když je kapitola tak velká, že se odpověď nevejde do max_tokens; text promptu
    se tím nemění, jen seznam bodů v něm. Bez toho parametru se chová jako dřív,
    takže výpis promptů na webu zůstává stejný. */
-export function promptHodnoceni(ch, prevEvals, snapshots, body) {
+/* Co se dosadí místo rejstříku Sbírky, když se ho nepodařilo načíst (nebo je
+   vypnutý). Pokyn v promptu platí jen „je-li seznam uvedený" — bez seznamu by
+   tvrzení „co v seznamu není, nevyšlo" zapřelo každé skutečné splnění. */
+export const REJSTRIK_NEDOSTUPNY = "(Seznam se tentokrát nepodařilo načíst. Číslo předpisu uveď jen tehdy, když ho máš doslova z nalezeného zdroje.)";
+
+export function promptHodnoceni(ch, prevEvals, snapshots, body, rejstrik = null) {
   const items = body || ch.groups.flatMap((g) => g.items);
   return render("prompt-hodnoceni.md", {
     DATUM_NASTUPU_VLADY: TERM_START_CS,
     NAZEV_OBLASTI: ch.title.cs,
     MAX_ZDROJU: NAST.maximalne_zdroju,
+    REJSTRIK_SBIRKY: rejstrik || REJSTRIK_NEDOSTUPNY,
     SEZNAM_BODU: radkyBodu(items, prevEvals, snapshots),
     SEZNAM_STAVU: STATUSES.join("|"),
   });
@@ -105,7 +111,7 @@ export function promptDeltaScan(ch, prevEvals, odData, body) {
 /* Ověření navrženého přechodu stavu (brána v lib/prechody.js vrátila
    „overit"). Úzký dotaz bez vyhledávání: otázka nezní „jaký je stav?", ale
    „nese TENHLE doklad TENHLE přechod?" — výchozí odpověď je NE. */
-export function promptOvereniPrechodu({ bod, minulyStav, minulyOd, novyStav, doklad, datumDokladu, zmena, komentar, prostredni = false }) {
+export function promptOvereniPrechodu({ bod, minulyStav, minulyOd, novyStav, doklad, datumDokladu, zmena, komentar, predpisy, prostredni = false }) {
   /* Prostřední přechody mají vlastní šablonu. Pravidla té přísné mluví jen
      o Sbírce zákonů a o obratu ze „splněno" — na „deklarováno → probíhá" by
      model neměl podle čeho rozhodnout a spadl by na výchozí NE, takže by web
@@ -117,6 +123,7 @@ export function promptOvereniPrechodu({ bod, minulyStav, minulyOd, novyStav, dok
     NOVY_STAV: STATUS_CS[novyStav] || novyStav,
     DOKLAD: doklad || "(žádný)",
     DATUM_DOKLADU: datumDokladu || "(bez data)",
+    PREDPISY: predpisy || "(Program čísla předpisů neověřoval.)",
     ZMENA: zmena || "(neuvedeno)",
     KOMENTAR: komentar || "(neuveden)",
   });
@@ -127,6 +134,7 @@ export function promptHodnoceniKontrola() {
     DATUM_NASTUPU_VLADY: TERM_START_CS,
     NAZEV_OBLASTI: "kontrola",
     MAX_ZDROJU: NAST.maximalne_zdroju,
+    REJSTRIK_SBIRKY: REJSTRIK_NEDOSTUPNY,
     SEZNAM_BODU: "- [0.0] kontrola",
     SEZNAM_STAVU: STATUSES.join("|"),
   });

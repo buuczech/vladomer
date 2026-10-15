@@ -6,6 +6,7 @@ import { renderPrehled, CESTY } from "./scripts/lib/prehled.js";
 import { readSettings, readList } from "./scripts/lib/nastaveni.js";
 import { promptHodnoceni, promptZpravy, promptDeltaScan, promptOvereniPrechodu } from "./scripts/lib/prompty.js";
 import { promptKorektury } from "./scripts/lib/korektura.js";
+import { predpisyZOdpovedi, tabulkaRejstriku, popisProOverovatele } from "./scripts/lib/sbirka.js";
 import { ALL_ITEMS, TOTAL_ITEMS, DATES, CHAPTERS } from "./src/data.js";
 
 /* Strukturovaná data se vkládají při buildu, protože obsahují čísla z
@@ -80,14 +81,23 @@ function pouzitePrompty() {
           text: (evals[it.id] && evals[it.id].comment && evals[it.id].comment.cs) || "" }))
         .filter((z) => z.text);
 
+      /* Rejstřík Sbírky se v běhu načítá z e-Sbírky; build běží bez sítě, takže
+         ukázka bere pár skutečných předpisů z fixtury testů a přizná, že je
+         zkrácená. Šablona i tvar řádků jsou ale přesně ty, které model dostane. */
+      const fixtura = JSON.parse(readFileSync(new URL("./scripts/dev/fixtury/sbirka-rejstrik.json", import.meta.url), "utf8"));
+      const predpisyUkazka = new Map([...predpisyZOdpovedi(fixtura["2025"]), ...predpisyZOdpovedi(fixtura["2026"])].map((x) => [x.kod, x]));
+      const tabulkaUkazka = `${tabulkaRejstriku(predpisyUkazka, DATES.tookOffice)}\n`
+        + "- … (ukázka je zkrácená; v ostrém běhu se sem dosadí celý seznam načtený z e-Sbírky)";
+      const predpisyOvereni = popisProOverovatele({ overene: [], neexistujici: [] }, true);
+
       const prompty = [
         {
           id: "hodnoceni",
           soubor: `${SOUBOR}/prompt-hodnoceni.md`,
           model: nast.model,
           sablona: cti("prompt-hodnoceni.md"),
-          ukazka: promptHodnoceni(kap, evals, snapshots),
-          ukazkaPopis: `${kap.id}. ${kap.title.cs}`,
+          ukazka: promptHodnoceni(kap, evals, snapshots, null, tabulkaUkazka),
+          ukazkaPopis: `${kap.id}. ${kap.title.cs} — rejstřík Sbírky v ukázce zkrácený`,
         },
         {
           id: "zpravy",
@@ -119,6 +129,7 @@ function pouzitePrompty() {
             datumDokladu: "2026-06-15",
             zmena: "Zákon postoupil do Sněmovny",
             komentar: "Návrh prošel vládou, legislativní proces běží.",
+            predpisy: predpisyOvereni,
           }),
           ukazkaPopis: "skutečný přechod z běhu 21. 8. 2026",
         },
@@ -135,6 +146,7 @@ function pouzitePrompty() {
             datumDokladu: "2026-08-18",
             zmena: "Návrh šel do připomínkového řízení",
             komentar: "Příprava zákona pokročila z programového prohlášení do legislativního procesu.",
+            predpisy: predpisyOvereni,
           }),
           ukazkaPopis: "prostřední přechod — mírnější laťka než u „splněno“",
         },

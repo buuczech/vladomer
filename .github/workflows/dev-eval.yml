@@ -81,6 +81,7 @@ jobs:
       - name: Offline checks
         run: |
           node scripts/dev/test-zabrany.js
+          node scripts/dev/test-sbirka.js
           node scripts/dev/test-korektura.js
 
       - name: Test evaluation
@@ -129,6 +130,7 @@ jobs:
       - name: Offline checks
         run: |
           node scripts/dev/test-zabrany.js
+          node scripts/dev/test-sbirka.js
           node scripts/dev/test-korektura.js
 
       - name: Vstupní data z main (generálka)

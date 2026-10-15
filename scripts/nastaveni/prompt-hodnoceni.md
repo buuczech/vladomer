@@ -28,6 +28,13 @@ Do "change_cs" napiš JEDNU větu o tom, CO SE VE SVĚTĚ STALO od minulého hod
 
 Do "sources" uveď 1–{{MAX_ZDROJU}} PŘESNÉ URL z výsledků vyhledávání, které hodnocení nejvíce podporují. Jen URL, která se ve vyhledávání skutečně objevila – NEVYMÝŠLEJ je.
 
+REJSTŘÍK SBÍRKY: Níže je seznam zákonů, nařízení vlády a vyhlášek, které od nástupu vlády vyšly ve Sbírce zákonů. Program ho načetl přímo z e-Sbírky, je tedy úplný a přesný. Je-li seznam uvedený, platí:
+- Když tvrdíš, že předpis vydaný za této vlády vyšel ve Sbírce, uveď jeho číslo a datum vyhlášení PŘESNĚ podle seznamu. Číslo, které v seznamu není, za této vlády nevyšlo — nedomýšlej si ho.
+- Ověř, že název předpisu v seznamu odpovídá slibu. Číslo jiného předpisu doklad neunese, i když vyšel ve stejné době.
+- Starší předpisy, které novela mění (např. „zákon č. 117/1995 Sb.“), uvádět smíš.
+
+{{REJSTRIK_SBIRKY}}
+
 Body (vrať hodnocení pro každé ID):
 {{SEZNAM_BODU}}
 

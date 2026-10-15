@@ -37,6 +37,7 @@ jobs:
       - name: Offline checks
         run: |
           node scripts/dev/test-zabrany.js
+          node scripts/dev/test-sbirka.js
           node scripts/dev/test-korektura.js
 
       # Konzistence UŽ ZVEŘEJNĚNÝCH dat. Schválně NEblokuje: data jsou v tu
