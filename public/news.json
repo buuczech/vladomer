@@ -1,17 +1,41 @@
 {
-  "generatedAt": "2026-10-02T14:11:14.432Z",
+  "generatedAt": "2026-10-16T14:47:37.677Z",
   "items": [
     {
       "title": {
-        "cs": "Babišova vláda ustála druhé hlasování o nedůvěře",
-        "en": "Babiš's government survives second no-confidence vote"
+        "cs": "Sněmovna přehlasovala Pavlovo veto k zákonu o státních zaměstnancích",
+        "en": "Parliament overrode presidential veto on state employees law"
       },
       "summary": {
-        "cs": "Opozice nezískala potřebné hlasy k sesazení kabinetu, který si ponechal důvěru dolní komory.",
-        "en": "Opposition failed to gather required votes to topple the cabinet, which retained parliamentary confidence."
+        "cs": "Koalice ANO, SPD a Motoristů hlasy 104 poslanců znovu schválila kontroverzní zákon usnadňující výměnu státních úředníků navzdory prezidentově vetu.",
+        "en": "The ANO, SPD and Motoristé coalition with votes of 104 deputies reapproved a controversial law easing state employee turnover despite the presidential veto."
       },
-      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/poslanci-by-mohli-hlasovat-o-navrhu-na-vysloveni-neduvery-vlade-378124",
-      "date": "2026-10-02"
+      "url": "https://www.echo24.cz/a/H2AVw/zpravy-domaci-babis-chce-skrtnout-desetinu-urednickych-mist-novy-zakon-mu-v-tom-pomuze",
+      "date": "2026-10-16"
+    },
+    {
+      "title": {
+        "cs": "Vláda schválila státní kulturní politiku pro období 2026–2029",
+        "en": "Government approved state cultural policy for 2026–2029"
+      },
+      "summary": {
+        "cs": "Ministr kultury Klempíř prosadil vládou Státní kulturní politiku, která se dočkala kritiky opozice i části kulturní obce za svůj obsah.",
+        "en": "Culture minister Klempíř pushed through state cultural policy document that faced criticism from opposition and parts of cultural sector."
+      },
+      "url": "https://www.ceskenoviny.cz/zpravy/vlada-schvalila-navrh-kritizovane-statni-kulturni-politiky/2882438",
+      "date": "2026-10-07"
+    },
+    {
+      "title": {
+        "cs": "Koalice prosadila omezení pravomocí prezidenta při obsazování diplomatických misí",
+        "en": "Coalition imposed restrictions on presidential powers for diplomatic missions"
+      },
+      "summary": {
+        "cs": "Sněmovna hlasy 104 vládních poslanců přehlasovala i veto prezidenta na zrušení jeho pravomoci jmenovat vedoucí stálých misí u mezinárodních organizací.",
+        "en": "Parliament with 104 coalition votes overrode presidential veto on removing his authority to appoint heads of permanent missions to international organizations."
+      },
+      "url": "https://www.irozhlas.cz/zpravy-domov/pavlovo-veto-padlo-poslanci-schvalili-zruseni-pravomoci-prezidenta-i-pravidla_2610141421_ako",
+      "date": "2026-10-16"
     }
   ]
 }
