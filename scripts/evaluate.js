@@ -900,7 +900,11 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
      re-evaluated this run are recorded (carried-forward values already have
      their own earlier entry). */
   const audit = readJSON(OUT_AUDIT, { entries: [] });
-  const entries = (audit.entries || []).filter((e) => e.date !== today);
+  /* Odstraňují se jen dnešní řádky z běhu (opakovaný běh téhož dne je zapíše
+     znovu). Dnešní ruční oprava (pole „oprava“) zůstává — běh ji nenapsal,
+     takže ji nesmí ani smazat. */
+  const entries = (audit.entries || []).filter((e) => e.date !== today || e.oprava);
+  const dnesni = [];
   let recorded = 0;
   for (const id in newEvals) {
     const e = newEvals[id];
@@ -912,7 +916,7 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
        slibuje, že se stát nemůže. */
     const prehodnocen = e.updatedAt && e.updatedAt.slice(0, 10) === today;
     if (!prehodnocen && !puvodni[id]) continue;
-    entries.push({
+    dnesni.push({
       id,
       date: today,
       status: e.status,
@@ -933,7 +937,13 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
     });
     recorded++;
   }
-  entries.sort((a, b) => (a.date === b.date ? a.id.localeCompare(b.id, "cs", { numeric: true }) : a.date < b.date ? -1 : 1));
+  /* Třídí se jen dnešní řádky a připojují se na konec. Starší řádky zůstávají
+     přesně v pořadí, v jakém byly zveřejněny: ruční opravy se připojují na
+     konec nesetříděné (prepocet-degradaci.js, oprav-popis-zmeny.js) a přetřídit
+     celý soubor by je přesunulo — 16. 10. 2026 tak běh „přepsal“ opravy
+     10.4, 2.3 a 2.8 ze 14. 10. a test-konzistence [G] ho správně zastavil. */
+  dnesni.sort((a, b) => a.id.localeCompare(b.id, "cs", { numeric: true }));
+  entries.push(...dnesni);
   writeFileSync(OUT_AUDIT, JSON.stringify({ entries }, null, 2));
 
   console.log(`\nWrote ${Object.keys(newEvals).length} evaluations, ${capped.length} history snapshots, ${recorded} audit records`);
