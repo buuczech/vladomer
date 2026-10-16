@@ -300,6 +300,13 @@ const PROMPT_POPIS = {
       en: "This prompt is sent eighteen times per run, once for each area of the programme. The model receives that area's commitments, each with last week's status and comment, and may look things up — but only across the fixed list of sites below. It answers in a uniform structured form that the program checks immediately: a link that never appeared in the search results is discarded as invented, and a \"fulfilled\" status without concrete evidence and a date for the cabinet's own step is automatically downgraded to \"partially fulfilled\".",
     },
   },
+  doptani: {
+    nadpis: { cs: "Doptání, když odpověď nejde přečíst", en: "Follow-up when an answer cannot be read" },
+    p: {
+      cs: "Odešle se jen výjimečně: když model místo strukturovaného výpisu napíše souvislý rozbor, program by z něj hodnocení nepřečetl a celá oblast by zůstala týden stará. Model proto v téže konverzaci dostane svou odpověď i nalezené zdroje zpět a k nim tuhle krátkou žádost, aby hodnocení vrátil už jen v požadovaném tvaru. Nic nového nehledá a výsledek prochází stejnými kontrolami jako běžná odpověď.",
+      en: "Sent only rarely: when the model writes a running analysis instead of the structured answer, the program cannot read an assessment from it and the whole area would stay a week old. The model therefore gets its own answer and the sources it found back in the same conversation, together with this short request to return the assessment in the required form. It searches for nothing new, and the result goes through the same checks as an ordinary answer.",
+    },
+  },
   zpravy: {
     nadpis: { cs: "Zprávy týdne", en: "This week's headlines" },
     p: {
