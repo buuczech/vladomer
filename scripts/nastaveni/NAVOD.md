@@ -9,6 +9,7 @@ Kódování: UTF-8*. Jinak se rozbije diakritika a běh se zastaví chybou.
 | Soubor | Co obsahuje |
 |---|---|
 | `prompt-hodnoceni.md` | Zadání pro model, který hodnotí jednotlivé body programu |
+| `prompt-doptani.md` | Krátká žádost, kterou model dostane, když místo hodnocení napíše rozbor a program jeho odpověď nedokáže přečíst |
 | `prompt-zpravy.md` | Zadání pro výběr „Hlavních zpráv týdne" |
 | `prompt-korektura.md` | Zadání pro jazykovou korekturu hotových textů |
 | `nastaveni.txt` | Čísla a model — kolik zdrojů, jak přísné hodnocení, kolik zpráv |

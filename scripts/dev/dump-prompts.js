@@ -74,6 +74,15 @@ globalThis.fetch = async (url, opt) => {
   console.log(`tools=${JSON.stringify(body.tools)}`);
   console.log("-".repeat(72));
   console.log(body.messages[0].content);
+  /* Doptání (evaluateChapter, když odpověď nejde přečíst) posílá celou
+     konverzaci: první zadání se opakuje beze změny, nové je jen poslední
+     sdělení. Vypíše se to, aby se změna doptání v diffu ukázala. */
+  if (body.messages.length > 1) {
+    const posledni = body.messages[body.messages.length - 1];
+    console.log("-".repeat(72));
+    console.log(`(pokračování konverzace, zpráv=${body.messages.length}, poslední ${posledni.role}:)`);
+    console.log(typeof posledni.content === "string" ? posledni.content : JSON.stringify(posledni.content));
+  }
   // Prázdné pole = žádná hodnocení; skript to zvládne a pokračuje dál.
   return { ok: true, json: async () => ({ content: [{ type: "text", text: "[]" }] }) };
 };

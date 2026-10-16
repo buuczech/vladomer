@@ -21,3 +21,7 @@ kontroly/
 
 # Běhové logy sem nepatří — eval-log.txt se sem jednou dostal omylem.
 eval-log.txt
+
+# Celé odpovědi modelu, které evaluate.js nedokázal přečíst. Podklad k diagnóze,
+# deploy.yml je přikládá k běhu jako artefakt; do repozitáře nepatří.
+necitelne-odpovedi/

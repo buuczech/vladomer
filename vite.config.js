@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 import { jsonLd } from "./scripts/lib/seo.js";
 import { renderPrehled, CESTY } from "./scripts/lib/prehled.js";
 import { readSettings, readList } from "./scripts/lib/nastaveni.js";
-import { promptHodnoceni, promptZpravy, promptDeltaScan, promptOvereniPrechodu } from "./scripts/lib/prompty.js";
+import { promptHodnoceni, promptZpravy, promptDeltaScan, promptOvereniPrechodu, promptDoptani } from "./scripts/lib/prompty.js";
 import { promptKorektury } from "./scripts/lib/korektura.js";
 import { predpisyZOdpovedi, tabulkaRejstriku, popisProOverovatele } from "./scripts/lib/sbirka.js";
 import { ALL_ITEMS, TOTAL_ITEMS, DATES, CHAPTERS } from "./src/data.js";
@@ -98,6 +98,14 @@ function pouzitePrompty() {
           sablona: cti("prompt-hodnoceni.md"),
           ukazka: promptHodnoceni(kap, evals, snapshots, null, tabulkaUkazka),
           ukazkaPopis: `${kap.id}. ${kap.title.cs} — rejstřík Sbírky v ukázce zkrácený`,
+        },
+        {
+          id: "doptani",
+          soubor: `${SOUBOR}/prompt-doptani.md`,
+          model: nast.model,
+          sablona: cti("prompt-doptani.md"),
+          ukazka: promptDoptani(kap.groups.flatMap((g) => g.items).map((it) => it.id)),
+          ukazkaPopis: `${kap.id}. ${kap.title.cs}`,
         },
         {
           id: "zpravy",

@@ -129,6 +129,13 @@ export function promptOvereniPrechodu({ bod, minulyStav, minulyOd, novyStav, dok
   });
 }
 
+/* Doptání v téže konverzaci, když odpověď hodnocení nejde přečíst (model
+   napsal rozbor místo JSON). Je to jiný vstup než první dotaz, takže na rozdíl
+   od opakování při temperature 0 dostane jinou odpověď. Viz evaluateChapter. */
+export function promptDoptani(ids) {
+  return render("prompt-doptani.md", { SEZNAM_ID: ids.join(", ") });
+}
+
 export function promptHodnoceniKontrola() {
   return render("prompt-hodnoceni.md", {
     DATUM_NASTUPU_VLADY: TERM_START_CS,

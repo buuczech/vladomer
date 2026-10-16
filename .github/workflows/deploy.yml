@@ -74,6 +74,17 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: npm run evaluate
 
+      # Celé odpovědi, které běh nedokázal přečíst (kapitola propadla nebo se
+      # musela doptat). V logu je jen prvních 300 znaků, z čehož se příčina
+      # 16. 10. 2026 poznat nedala. Složka vzniká jen při takové odpovědi.
+      - name: Keep unreadable model answers
+        if: ${{ always() && github.event_name != 'push' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: necitelne-odpovedi
+          path: necitelne-odpovedi/
+          if-no-files-found: ignore
+
       # Konzistence čerstvých dat JEŠTĚ PŘED commitem. Když neprojde, job
       # spadne, nic se nezveřejní a na webu zůstane minulý týden. Zaplacený
       # běh se ale neztratí — jeho výstup se uloží jako artefakt a dá se

@@ -15,7 +15,7 @@
  * Set CHAPTER_LIMIT=1 to only evaluate the first N chapters (used by the
  * dev branch's workflow to test cheaply without spending on all 18).
  */
-import { writeFileSync, readFileSync } from "node:fs";
+import { writeFileSync, readFileSync, mkdirSync } from "node:fs";
 import { CHAPTERS, DATES } from "../src/data.js";
 import { render, readList, readSettings, assertFields } from "./lib/nastaveni.js";
 import {
@@ -26,7 +26,7 @@ import {
    jinak by se ukázka na webu mohla rozejít s tím, co se opravdu odesílá. */
 import {
   STATUSES, STATUS_CS, promptHodnoceni, promptZpravy, promptHodnoceniKontrola,
-  promptOvereniPrechodu, promptDeltaScan,
+  promptOvereniPrechodu, promptDeltaScan, promptDoptani,
 } from "./lib/prompty.js";
 import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
 import { posudPrechod, stavOd as spocitejStavOd } from "./lib/prechody.js";
@@ -93,6 +93,24 @@ const OUT_NEWS = new URL("../public/news.json", import.meta.url);
 // Append-only audit trail: one record per item per run, so any past rating
 // stays inspectable (item id + date + status + the text that justified it).
 const OUT_AUDIT = new URL("../public/audit.json", import.meta.url);
+/* Celé odpovědi, které nešly přečíst (evaluateChapter). Mimo public/ a v
+   .gitignore: nejsou to data webu, jen podklad k diagnóze, který deploy.yml
+   přiloží k běhu jako artefakt. */
+const NECITELNE_DIR = new URL("../necitelne-odpovedi/", import.meta.url);
+function ulozNecitelnou(ch, items, faze, zadani, data) {
+  try {
+    mkdirSync(NECITELNE_DIR, { recursive: true });
+    const soubor = new URL(`kapitola-${ch.id}-${faze}.json`, NECITELNE_DIR);
+    writeFileSync(soubor, JSON.stringify({
+      kapitola: ch.id, body: items.map((it) => it.id), faze,
+      model: data.model, stop_reason: data.stop_reason, usage: data.usage,
+      zadani, odpoved: data.content,
+    }, null, 2));
+  } catch (e) {
+    // Diagnostika nesmí shodit hodnocení.
+    console.log(`  (nečitelnou odpověď se nepodařilo uložit: ${e.message})`);
+  }
+}
 /* STATUSES je kontrakt mezi promptem a parserem — bydlí v lib/prompty.js
    u promptu, který ho vyhlašuje přes {{SEZNAM_STAVU}}. Prozaické definice jsou
    v scripts/nastaveni/prompt-hodnoceni.md; popisky a barvy na webu jsou zvlášť
@@ -161,41 +179,83 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
   assertFields(prompt, ["comment_cs", "comment_en", "change_cs", "change_en",
     "evidence", "evidence_date", "unverifiable", "sources"], "prompt-hodnoceni.md");
 
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: MAX_TOKENS,
-      /* temperature 0: hodnocení má být reprodukovatelné. S výchozí 1.0 se
-         úsudkové rozhodnutí („je 9 % ‚výrazné zvýšení'?") každý týden losovalo
-         znovu — bod 14.1 tak změnil stav pětkrát za pět běhů bez jediné
-         události. Nula šum nevypne (vyhledávání vrací pokaždé jiné výsledky),
-         ale přestane ho přiživovat. */
-      temperature: 0,
-      messages: [{ role: "user", content: prompt }], // no prefill — lets web_search run
-      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: NAST.vyhledavani_hodnoceni, allowed_domains: WEBY_HODNOCENI }],
-    }),
-  });
+  const dotaz = async (messages) => {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
+      body: JSON.stringify({
+        model: MODEL,
+        max_tokens: MAX_TOKENS,
+        /* temperature 0: hodnocení má být reprodukovatelné. S výchozí 1.0 se
+           úsudkové rozhodnutí („je 9 % ‚výrazné zvýšení'?") každý týden losovalo
+           znovu — bod 14.1 tak změnil stav pětkrát za pět běhů bez jediné
+           události. Nula šum nevypne (vyhledávání vrací pokaždé jiné výsledky),
+           ale přestane ho přiživovat. */
+        temperature: 0,
+        messages, // no prefill — lets web_search run
+        tools: [{ type: "web_search_20250305", name: "web_search", max_uses: NAST.vyhledavani_hodnoceni, allowed_domains: WEBY_HODNOCENI }],
+      }),
+    });
+    if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
+    return res.json();
+  };
 
-  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
-  const data = await res.json();
+  const messages = [{ role: "user", content: prompt }];
+  let data = await dotaz(messages);
+  let doptanoJson = false;
 
   // URLs the web search actually returned (used to validate the model's citations)
   const realMap = {};
-  for (const b of data.content || []) {
-    if (b.type === "web_search_tool_result" && Array.isArray(b.content)) {
-      for (const r of b.content) {
-        if (r && r.type === "web_search_result" && r.url) {
-          realMap[normUrl(r.url)] = { url: r.url, title: r.title || r.url };
+  const sebratVysledky = (d) => {
+    for (const b of d.content || []) {
+      if (b.type === "web_search_tool_result" && Array.isArray(b.content)) {
+        for (const r of b.content) {
+          if (r && r.type === "web_search_result" && r.url) {
+            realMap[normUrl(r.url)] = { url: r.url, title: r.title || r.url };
+          }
         }
       }
     }
+  };
+  const textOdpovedi = (d) => (d.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
+  sebratVysledky(data);
+
+  /* Odpověď bez čitelného hodnocení. 16. 10. 2026 vrátila kapitola 1 (jediný
+     bod, 1.1) místo JSON rozbor v Markdownu — „Vyhledám… Na základě
+     vyhledaných informací nyní mohu posoudit… Analýza: …" — a celá kapitola
+     propadla. Opakování to nespraví (temperature 0 vrátí totéž), tolerantní
+     čtení taky ne, když JSON v odpovědi vůbec není. Proto JEDNO doptání v téže
+     konverzaci: model dostane svou odpověď i výsledky vyhledávání zpět a k nim
+     pokyn vrátit už jen JSON. Je to jiný vstup, tedy i jiná odpověď. Při
+     stop_reason=pause_turn (server přerušil smyčku vyhledávání) se odpověď jen
+     nechá dokončit, bez pokynu navíc — tak to API pro pause_turn předepisuje.
+     Celé nečitelné odpovědi se ukládají do NECITELNE_DIR, odkud je deploy.yml
+     přiloží k běhu jako artefakt: z prvních 300 znaků v logu se příčina
+     poznat nedala. */
+  let parsed;
+  try {
+    parsed = parsujHodnoceni(textOdpovedi(data));
+  } catch (e) {
+    const prvni = data;
+    ulozNecitelnou(ch, items, "1", prompt, prvni);
+    const pauza = prvni.stop_reason === "pause_turn";
+    const pokracovani = [...messages, { role: "assistant", content: prvni.content || [] }];
+    if (!pauza) pokracovani.push({ role: "user", content: promptDoptani(items.map((it) => it.id)) });
+    try {
+      data = await dotaz(pokracovani);
+    } catch (e2) {
+      throw new Error(`${e.message} [stop_reason=${prvni.stop_reason}; doptání selhalo: ${e2.message.slice(0, 120)}]`);
+    }
+    sebratVysledky(data);
+    try {
+      parsed = parsujHodnoceni(textOdpovedi(data));
+    } catch (e2) {
+      ulozNecitelnou(ch, items, "2-doptani", pokracovani.at(-1).content, data);
+      throw new Error(`${e.message} [stop_reason=${prvni.stop_reason}; ani doptání (stop_reason=${data.stop_reason}) nevrátilo hodnocení]`);
+    }
+    doptanoJson = true;
   }
   const searchCount = Object.keys(realMap).length;
-
-  const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
-  const parsed = parsujHodnoceni(text);
 
   const out = {};
   let kept = 0;
@@ -277,7 +337,7 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
   }
   /* Useknutá odpověď (stop_reason=max_tokens) se přečte jen po poslední úplný
      záznam; volající chybějící body doptá zvlášť. */
-  return { evals: out, searchCount, kept, demoted, sbirka, useknuto: data.stop_reason === "max_tokens" };
+  return { evals: out, searchCount, kept, demoted, sbirka, useknuto: data.stop_reason === "max_tokens", doptanoJson };
 }
 
 /* Týdenní sken událostí: neptá se na stav, ale na to, co se STALO. Vrací
@@ -507,6 +567,8 @@ function preflight() {
     const n = promptZpravy("2026-01-01");
     assertFields(n, ["title_cs", "title_en", "summary_cs", "summary_en", "url", "date"], "prompt-zpravy.md");
 
+    promptDoptani(["0.0"]);
+
     const k = render("prompt-korektura.md", {
       SEZNAM_STAVU_CS: "- kontrola",
       SEZNAM_TEXTU: "[0.0|comment_cs] kontrola",
@@ -629,7 +691,7 @@ async function main() {
       const znacka = skupiny.length > 1 ? ` (${skupiny.length} dávky)` : "";
       process.stdout.write(`Evaluating ${ch.id} ${ch.title.cs}${znacka}… `);
     }
-    let hotovo = 0, hledani = 0, zdroju = 0, useknuto = 0;
+    let hotovo = 0, hledani = 0, zdroju = 0, useknuto = 0, doptanoJson = 0;
     const snizeno = {};
     /* Fronta místo pevného seznamu dávek: body, které odpověď nenesla, se do
        ní jednou vrátí jako samostatná menší dávka (viz níž). */
@@ -702,6 +764,7 @@ async function main() {
         sbirkaCelkem.datum.push(...r.sbirka.datum);
         sbirkaCelkem.text.push(...r.sbirka.text);
         if (r.useknuto) useknuto++;
+        if (r.doptanoJson) doptanoJson++;
         /* Body, které odpověď nenesla. V kapitole 6 dev běhu 11. 9. 2026 se ze
            šesti vrátil jediný: useknutá odpověď se přečte jen po poslední úplný
            záznam. Menší dotaz se do stropu vejde a dostane jinou odpověď, takže
@@ -740,6 +803,7 @@ async function main() {
         console.log(`ok (${hotovo}) — ${hledani} search hits, ${zdroju} sources kept`
           + (dm ? `, downgraded: ${dm}` : "")
           + (useknuto ? `, useknuto ${useknuto}× (max_tokens)` : "")
+          + (doptanoJson ? `, odpověď bez hodnocení ${doptanoJson}× — doptáno v téže konverzaci` : "")
           + (doptano.length ? `, doptáno zvlášť: ${doptano.join(", ")}` : "")
           + (selhaloDoptani.length ? `, doptání selhalo (${selhaloDoptani.join("; ")})` : "")
           + (vynechane.length ? `, model vynechal: ${vynechane.join(", ")}` : ""));
