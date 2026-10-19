@@ -1,0 +1,55 @@
+{
+  "typ": "reel",
+  "hudba": "vychozi.mp3",
+  "publikovat_v": "2026-10-20T18:00:00+02:00",
+  "popisek": "Volby Vládoměr nesleduje. Na jednu věc ale sahají přímo: Senát je jedna ze tří bran, kterými musí slib projít, než dostane stav „splněno“ — Sněmovna, Senát, prezident.\n\nK 16. 10. 2026 je 45 ze 143 závazků ve stavu „probíhá“. Ty legislativní čeká Senát.\n\nJak ta brána funguje, je vidět na bodu #15.1 (nový stavební zákon, bydlení jako veřejný zájem). Sněmovna ho schválila 10. 7. 2026, Senát ho 20. 8. zamítl, Sněmovna ho 9. 9. přehlasovala — a zákon pořád čeká na podpis prezidenta. U běžného zákona tedy Senát zdrží, nezastaví.\n\nJedna výjimka ale existuje. Ústavní zákon potřebuje podle čl. 39 odst. 4 Ústavy souhlas třípětinové většiny všech poslanců a třípětinové většiny přítomných senátorů. Tam Sněmovna Senát přehlasovat nemůže. Vláda takový slib má: bod #2.14 chce ukotvit korunu a právo na hotovost v Ústavě. Hodnocení toho bodu uvádí, že vláda potřebnou ústavní většinu nemá, a stav je od ledna „deklarováno“.\n\nVe volbách 16.–17. října se obměnila třetina Senátu, 27 z 81 křesel. Podle ČT24 z nich ANO nezískalo ani jedno a o jediné obhajované křeslo přišlo. Složení senátorských klubů zatím není konečné — kluby se ustavují až po volbách.\n\nVládoměr výsledek voleb nehodnotí ani nepředpovídá, jak bude Senát hlasovat. Jen měří, kolik slibů tou branou ještě musí projít.\n\nStav k 16. 10. 2026, přepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #senat #volby #politika #cesko #transparentnost",
+  "sceny": [
+    {
+      "typ": "cislo",
+      "nadpis": "ROZDĚLANÝCH SLIBŮ VLÁDY",
+      "cislo": "45",
+      "jednotka": "",
+      "barva": "neutral",
+      "popis": "ze 143. Ty legislativní musí projít Senátem.",
+      "dovetek": "Stav k 16. 10. 2026",
+      "komentar": "Čtyřicet pět slibů ze sto čtyřiceti tří je rozdělaných. Ty legislativní musí projít Senátem.",
+      "trvani": 5
+    },
+    {
+      "typ": "body",
+      "nadpis": "Co Senát zmůže",
+      "styl": "kroky",
+      "body": [
+        "Sněmovna schválila stavební zákon 10. 7. 2026.",
+        "Senát ho 20. 8. zamítl.",
+        "Sněmovna ho 9. 9. přehlasovala.",
+        "Pořád čeká na podpis prezidenta."
+      ],
+      "komentar": "Stavební zákon Senát zamítl. Sněmovna ho přehlasovala. Platit ale pořád nezačal.",
+      "trvani": 6
+    },
+    {
+      "typ": "cislo",
+      "nadpis": "U ÚSTAVNÍHO ZÁKONA",
+      "cislo": "3/5",
+      "jednotka": "",
+      "barva": "neutral",
+      "popis": "všech poslanců a přítomných senátorů. Tady přehlasovat nejde.",
+      "dovetek": "Čl. 39 odst. 4 Ústavy",
+      "komentar": "U ústavního zákona je potřeba třípětinová většina v obou komorách. Tam Senát přehlasovat nejde.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "Co změnily volby",
+      "styl": "odrazky",
+      "body": [
+        "Obměnila se třetina Senátu, 27 z 81 křesel.",
+        "Vládní ANO nezískalo ani jedno z nich.",
+        "Na běžné zákony to nic nemění. Na ústavní ano."
+      ],
+      "komentar": "Obměnila se třetina Senátu. Na běžné zákony to nic nemění, na ústavní ano.",
+      "trvani": 6
+    }
+  ]
+}
