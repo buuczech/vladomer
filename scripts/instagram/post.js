@@ -1,6 +1,7 @@
-/* scripts/instagram/post.js — týdenní příspěvek na Instagram.
+/* scripts/instagram/post.js — měsíční příspěvek na Instagram.
  *
- * Běží v pátek večer, po ranním hodnocení. Vezme data z public/evaluations.json,
+ * Běží po nasazení měsíčního běhu (instagram.yml, workflow_run). Do října 2026
+ * to byl páteční příspěvek po týdenním hodnocení. Vezme data z public/evaluations.json,
  * vykreslí dvoustránkový carousel podle šablon scripts/nastaveni/instagram-1-*
  * a instagram-2-*, složí popisek z nejvýraznějších změn a zveřejní to přes
  * Graph API.
@@ -132,11 +133,11 @@ function radekZmeny(z) {
 function radekBezeZmen() {
   return `<div style="${RAMECEK}">
 <div class="chg-same" style="${KOLECKO}">→</div>
-<div style="font-size:37px;line-height:1.32;font-weight:560">Žádný bod tento týden nezměnil stav.</div>
+<div style="font-size:37px;line-height:1.32;font-weight:560">Žádný bod za poslední měsíc nezměnil stav.</div>
 </div>`;
 }
 
-const NADPIS = "Týdenní shrnutí";   // jméno profilu je nad obrázkem, neopakuje se
+const NADPIS = "Měsíční shrnutí";   // jméno profilu je nad obrázkem, neopakuje se
 const VYHRADA = "Hodnotí AI podle veřejné metodiky.";
 const datumCS = (iso) => new Date(iso).toLocaleDateString("cs-CZ",
   { day: "numeric", month: "long", year: "numeric" });
@@ -205,14 +206,14 @@ function slideSouhrn(d) {
     POPIS_SPLNENO: "Splněno", POPIS_CASTECNE: "Částečně",
     POPIS_PROBIHA: "Probíhá", POPIS_PORUSENO: "Porušeno",
     // Štítek musí slíbit to, co na dalším slidu opravdu je.
-    STITEK_DALSI: "Změny týdne",
+    STITEK_DALSI: "Změny za měsíc",
   });
 }
 
 function slideZmeny(d, vybrane) {
   return render("instagram-2-zmeny.html", {
     NADPIS, DATUM: datumCS(d.lastUpdated), VYHRADA,
-    NADPIS_ZMEN: "Změny týdne",
+    NADPIS_ZMEN: "Změny za měsíc",
     RADKY_ZMEN: vybrane.length ? vybrane.map(radekZmeny).join("\n") : radekBezeZmen(),
   });
 }
@@ -227,19 +228,19 @@ function popisek(d, vybrane) {
     `Hodnoceno ${d.hodnoceno} ze ${TOTAL_ITEMS} závazků.`,
   ];
   if (vybrane.length) {
-    r.push("", "Změny tohoto týdne:");
+    r.push("", "Změny za poslední měsíc:");
     for (const z of vybrane) {
       const tr = z.smer > 0 ? "▲" : z.smer < 0 ? "▼" : "→";
       r.push(`${tr} ${z.nazev} — z „${NAZEV[z.z]}“ na „${NAZEV[z.na]}“`);
     }
   } else {
-    r.push("", "Tento týden nezměnil stav žádný bod.");
+    r.push("", "Za poslední měsíc nezměnil stav žádný bod.");
   }
   /* Výhrada jde s číslem ven vždycky, stejně jako na /prehled/. Kdo si z
      příspěvku odnese jen procento, odnese si s ním i to, jak vzniklo. */
   r.push(
     "",
-    "Hodnotí jazykový model podle veřejné metodiky, orientační a neoficiální. Stav „splněno“ vyžaduje průchod celým legislativním procesem.",
+    "Hodnotí jazykový model podle veřejné metodiky, tvrzení ověřuje druhý model a program proti zdrojům; orientační a neoficiální. Stav „splněno“ vyžaduje průchod celým legislativním procesem.",
     "Zdroje u každého bodu na vladomer.cz",
     "",
     "#vladomer #politika #vlada #cesko #transparentnost #programoveprohlaseni",
@@ -266,7 +267,7 @@ async function build() {
   const dataZ = (d.lastUpdated || "").slice(0, 10);
 
   /* Pojistka proti zveřejnění starých čísel: kdyby ranní hodnocení spadlo,
-     vyšel by týden starý stav jako „týdenní shrnutí". */
+     vyšel by měsíc starý stav jako „měsíční shrnutí". */
   if (VYZADUJ_DNESNI && dataZ !== dnes) {
     console.log(`Data jsou z ${dataZ}, dnes je ${dnes} — hodnocení dnes neproběhlo, `
       + "příspěvek se nesestavuje ani nezveřejňuje.");
@@ -280,7 +281,7 @@ async function build() {
 
   mkdirSync(ARCHIV, { recursive: true });
   const zaklad = dataZ || dnes;
-  /* Carousel je vždycky dvoustránkový, i v týdnu beze změn — druhý slide pak
+  /* Carousel je vždycky dvoustránkový, i v měsíci beze změn — druhý slide pak
      nese jeden poctivý řádek. Jedna cesta kódem: kdyby se podle počtu změn
      přepínalo mezi jedním obrázkem a carouselem, měla by publikace dva tvary,
      a to je krok, který se nedá vzít zpět. */

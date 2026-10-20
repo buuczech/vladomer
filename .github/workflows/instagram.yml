@@ -1,6 +1,6 @@
-name: Instagram — týdenní příspěvek
+name: Instagram — měsíční příspěvek
 
-# Samostatné workflow. Do týdenního hodnocení ani do nasazení webu nezasahuje:
+# Samostatné workflow. Do měsíčního běhu ani do nasazení webu nezasahuje:
 # obrázek se ukládá do ig-archive/ (tedy mimo public/) a commit nese [skip ci],
 # takže nespustí Deploy Vládoměr.
 #
@@ -8,11 +8,13 @@ name: Instagram — týdenní příspěvek
 # sestavit → commitnout a pushnout → teprve pak zveřejnit.
 
 on:
-  schedule:
-    # 17:00 UTC = 19:00 v letním čase, 18:00 v zimním. GitHub cron letní čas
-    # neumí; hodinový posun v zimě je proti složitosti obcházení přijatelný.
-    # Hodnocení běží v 9:00 UTC, takže je mezi tím osm hodin rezervy.
-    - cron: "0 18 * * 5"
+  # Po nasazení měsíčního běhu (deploy.yml z plánovače, 1. dne v měsíci).
+  # Ne pevným časem: měsíční běh s kontrolou faktů trvá hodiny a plánovač
+  # GitHubu se zpožďuje, takže pevný čas by mohl přijít před daty. Mimořádný
+  # běh (ruční dispatch) ani nasazení po pushi příspěvek nevyvolají.
+  workflow_run:
+    workflows: ["Deploy Vládoměr"]
+    types: [completed]
   workflow_dispatch:
     inputs:
       rezim:
@@ -40,10 +42,13 @@ concurrency:
 
 jobs:
   prispevek:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'schedule')
     runs-on: ubuntu-latest
     env:
-      # Plánovaný běh vždycky publikuje; ruční běh podle volby.
-      REZIM: ${{ github.event_name == 'schedule' && 'post' || inputs.rezim }}
+      # Po měsíčním běhu se vždycky publikuje; ruční běh podle volby.
+      REZIM: ${{ github.event_name == 'workflow_run' && 'post' || inputs.rezim }}
       IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
       IG_USER_ID: ${{ secrets.IG_USER_ID }}
     steps:
@@ -56,8 +61,8 @@ jobs:
         if: env.REZIM == 'verify'
         run: node scripts/instagram/post.js --rezim verify
 
-      # --vyzaduj-dnesni jen u ostrého běhu: kdyby ranní hodnocení spadlo,
-      # nevyjde týden starý stav jako novinka. U dry se sestaví vždycky, ať jde
+      # --vyzaduj-dnesni jen u ostrého běhu: kdyby běh nic nezapsal,
+      # nevyjde měsíc starý stav jako novinka. U dry se sestaví vždycky, ať jde
       # výsledek prohlédnout kdykoli.
       - name: Sestavit příspěvek
         id: build
