@@ -89,7 +89,7 @@ function nactiData() {
   const p = (x) => (n ? (x / n) * 100 : 0);
 
   /* Změny se řadí podle velikosti posunu — stejné pořadí, jaké na webu ukazuje
-     panel „Změny od minulého týdne". Zhoršení i zlepšení se berou stejně: co
+     panel „Změny od minulé aktualizace". Zhoršení i zlepšení se berou stejně: co
      se hnulo nejvíc, je nejzajímavější. Za změnu se počítá jen přechod, který
      zapsal poslední běh (src/zmeny.js) — bod 12.6 se tu jinak hlásil jako
      „změna tohoto týdne" tři příspěvky po sobě, ačkoli se změnil 28. 8. */

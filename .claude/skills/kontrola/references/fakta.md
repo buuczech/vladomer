@@ -55,7 +55,8 @@ sněmovní tisky, a u legislativy jsou primární prameny lepší než zpravodaj
 - **sedí** — tvrzení i stav odpovídají tomu, co jsi našel.
 - **nesedí** — realita říká něco jiného. Napiš, jaký stav by odpovídal.
 - **zastaralé** — bylo to pravda v `evidenceDate`, ale mezitím se to pohnulo.
-  Nejčastější nález u týdenního webu a není to ostuda, je to práce navíc.
+  Nejčastější nález u webu, který se aktualizuje jednou měsíčně, a není to ostuda,
+  je to práce navíc.
 - **nedoložitelné** — nenašel jsi nic, co by to potvrdilo ani vyvrátilo.
   Není to totéž co „nesedí“ a nesmí se tak reportovat.
 - **zdroj nežije** — odkaz je mrtvý nebo vede jinam. Drobné, pokud tvrzení
@@ -109,9 +110,9 @@ rozporovat.
 - **doplnit strážce do kódu**, když jde o vzor, který se dá poznat strojově.
   Zásada projektu zní „guards belong in code, not prompts“ a má za sebou
   zkušenost, že model instrukce v promptu obchází.
-- **nechat to na příští páteční běh**, když jde o jednotlivost typu
+- **nechat to na příští měsíční běh**, když jde o jednotlivost typu
   „zastaralé“. Model to obvykle opraví sám a ruční zásah do publikovaných
-  čísel je horší než týden zpoždění.
+  čísel je horší než měsíc zpoždění.
 - **ruční přepočet** jen u systémové vady, a přes
   `node scripts/dev/prepocet-degradaci.js --zapsat`, které opravu připojí do
   auditní stopy jako nový záznam. Nikdy ne přímou editací `evaluations.json`.

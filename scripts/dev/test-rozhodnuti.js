@@ -115,7 +115,7 @@ over(!proved(vyvr, { prikaz: "prijmout", bod: "2.3" }).ok && proved(vyvr, { prik
 over(proved(soubor, { prikaz: "podrzet", bod: "12.2" }).ok && !soubor.prijate["12.2"], "/podrzet vrátí bod na minulý záznam");
 over(!proved(soubor, { prikaz: "prijmout", bod: "5.5" }).ok, "bod bez návrhu příkaz odmítne");
 
-const zakladPR = { evals: { evals: { ...beh.evals } }, audit: { entries: [{ id: "10.2", date: dnes, status: "declared", model: "claude-sonnet-5-5", zadrzeno: true, faktcheck: ["prechod-bez-noveho-dokladu"] }] }, hist: { snapshots: [{ date: dnes, statuses: { "10.2": "in_progress" } }] } };
+const zakladPR = { faktcheck: { body: { "10.2": { akce: "podrzet" }, "12.2": { akce: "podrzet" } } }, evals: { evals: { ...beh.evals } }, audit: { entries: [{ id: "10.2", date: dnes, status: "declared", model: "claude-sonnet-5-5", zadrzeno: true, faktcheck: ["prechod-bez-noveho-dokladu"] }] }, hist: { snapshots: [{ date: dnes, statuses: { "10.2": "in_progress" } }] } };
 const slozeno = sloz(soubor, zakladPR, "2026-10-22");
 const stejne = (x, y) => JSON.stringify(x) === JSON.stringify(y);
 over(stejne(slozeno.evals.evals["10.2"], fx.po["10.2"]) && stejne(slozeno.evals.evals["12.2"], fx.pred["12.2"]), "větev: přijatý návrh na webu, podržený bod beze změny");
@@ -123,6 +123,7 @@ const novy = slozeno.audit.entries.find((r) => r.id === "10.2" && r.oprava);
 over(novy && novy.date === "2026-10-22" && novy.model === "claude-sonnet-5-5" && novy.oprava.puvodni_status === "in_progress" && novy.oprava.prijato_z_behu === dnes,
   "přijetí je nový řádek auditu s „oprava“ (append-only), s modelem, který návrh napsal", novy);
 over(slozeno.hist.snapshots[0].statuses["10.2"] === "declared" && zakladPR.evals.evals["10.2"] === beh.evals["10.2"], "snímek běhu nese přijatý stav; vstup se nemění");
+over(!slozeno.faktcheck.body["10.2"] && slozeno.faktcheck.body["12.2"], "přijatý bod zmizí z faktcheck.json (web u něj přestane ukazovat „čeká na ověření“)", slozeno.faktcheck);
 
 over(JSON.stringify(prikazyZKomentare("Díky!\n/prijmout 10.2\n /podrzet 12.2 \n/prijmout 2.3 duvod: zdroj je zastaralý\n/prijmout 7.2; rm -rf /\n/prijmout 7.2 `x`")) === JSON.stringify([
   { prikaz: "prijmout", bod: "10.2", duvod: null }, { prikaz: "podrzet", bod: "12.2", duvod: null }, { prikaz: "prijmout", bod: "2.3", duvod: "zdroj je zastaralý" },

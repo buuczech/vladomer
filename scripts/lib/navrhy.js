@@ -78,14 +78,16 @@ export function radekAuditu(id, e, date, model) {
 
 /**
  * Složí soubory větve: zveřejněná data běhu + přijaté návrhy.
- * @param zaklad { evals: evaluations.json, audit: audit.json, hist: history.json } z commitu běhu (kopie se upraví)
+ * @param zaklad { evals: evaluations.json, audit: audit.json, hist: history.json, faktcheck?: faktcheck.json } z commitu běhu (kopie se upraví)
  * @param dnes   den přijetí (datum řádku auditu)
- * @returns { evals, audit, hist, prijato: [bod] }
+ * @returns { evals, audit, hist, faktcheck, prijato: [bod] }
  */
 export function sloz(soubor, zaklad, dnes) {
   const evals = structuredClone(zaklad.evals);
   const audit = structuredClone(zaklad.audit);
   const hist = structuredClone(zaklad.hist);
+  // Veřejný souhrn kontroly: přijatý bod už nečeká na ověření (web podle něj ukazuje odznak).
+  const faktcheck = zaklad.faktcheck ? structuredClone(zaklad.faktcheck) : null;
   const snimek = (hist.snapshots || []).find((s) => s.date === soubor.beh);
   const prijato = [];
   for (const [bod, { duvod }] of Object.entries(soubor.prijate).sort(([a], [b]) => a.localeCompare(b, "cs", { numeric: true }))) {
@@ -104,9 +106,11 @@ export function sloz(soubor, zaklad, dnes) {
       },
     });
     if (snimek) snimek.statuses[bod] = n.zaznam.status;
+    if (faktcheck && faktcheck.body) delete faktcheck.body[bod];
     prijato.push(bod);
   }
-  return { evals, audit, hist, prijato };
+  if (faktcheck) faktcheck.prijato_vlastnikem = prijato;
+  return { evals, audit, hist, faktcheck, prijato };
 }
 
 /** Přísné čtení příkazů z komentáře: jen celé řádky, jen známé tvary. Nic se nespouští. */

@@ -441,6 +441,43 @@ const AUDIT = ctiJson("public/audit.json");
 }
 
 // ===========================================================================
+//  H — texty o procesu. Web se opírá o to, že přesně popisuje, jak vzniká:
+//  po přechodu na měsíční rytmus (11/2026) by jediná zapomenutá věta „každý
+//  pátek“ tvrdila, že web běží jinak, než běží. Názvy modelů do textů nepatří
+//  vůbec — přicházejí z nastaveni.txt přes prompty.json — a každý prompt,
+//  který web vypisuje, musí mít vysvětlivku pro čtenáře.
+// ===========================================================================
+{
+  const RYTMUS = /každý pátek|každý týden|týdně se|týdenní (běh|hodnocení|snímky?)|každém týdenním|zprávy týdne|minulého týdne|every Friday|each week|every week|weekly (run|evaluation|snapshot|headlines)|this week|last week/i;
+  // Historické zmínky, které jsou pravda: datovaný seznam změn metodiky.
+  const HISTORIE = [/instead of every Friday/i];
+  const SOUBORY = ["src/App.jsx", "scripts/lib/prehled.js", "scripts/lib/seo.js", "scripts/og-image.js", "index.html", "scripts/instagram/post.js", "README.md", "LICENSE-DATA"];
+  let rytmus = 0;
+  for (const s of SOUBORY) {
+    cti(s).split(/\r?\n/).forEach((radek, i) => {
+      const m = radek.match(RYTMUS);
+      if (m && !HISTORIE.some((h) => h.test(radek))) { chyba("H", `${s}:${i + 1} mluví o týdenním rytmu („${m[0]}“), web ale běží jednou měsíčně`); rytmus++; }
+    });
+  }
+  const MODEL = /claude-(haiku|sonnet|opus|fable)-\d/i;
+  for (const s of ["src/App.jsx", "index.html", "scripts/lib/prehled.js", "scripts/lib/seo.js"]) {
+    cti(s).split(/\r?\n/).forEach((radek, i) => {
+      if (MODEL.test(radek)) chyba("H", `${s}:${i + 1} jmenuje model natvrdo — modely patří do nastaveni.txt a na web přes prompty.json`);
+    });
+  }
+  // Každý prompt z generátoru prompty.json (vite.config.js) má popisek v PROMPT_POPIS.
+  const vite = cti("vite.config.js");
+  const blok = vite.slice(vite.indexOf("function pouzitePrompty"), vite.indexOf("this.emitFile", vite.indexOf("function pouzitePrompty")));
+  const idPromptu = [...blok.matchAll(/\bid: "([a-z-]+)"/g)].map((m) => m[1]);
+  const app = cti("src/App.jsx");
+  const popisky = app.slice(app.indexOf("const PROMPT_POPIS"), app.indexOf("};", app.indexOf("const PROMPT_POPIS")) + 2);
+  const bezPopisu = idPromptu.filter((id) => !new RegExp(`(^|\\n)\\s*("${id}"|${id.includes("-") ? "\\b\\B" : id}):\\s*\\{`).test(popisky));
+  if (!idPromptu.length) varovat("H", "v vite.config.js se nepodařilo najít seznam promptů — kontrola popisků neproběhla");
+  else if (bezPopisu.length) chyba("H", `prompty bez vysvětlivky na webu (PROMPT_POPIS v src/App.jsx): ${bezPopisu.join(", ")}`);
+  if (!rytmus && idPromptu.length && !bezPopisu.length) ok("H", `texty mluví o měsíčním rytmu, žádný model natvrdo, ${idPromptu.length} promptů má vysvětlivku`);
+}
+
+// ===========================================================================
 const chyb = nalezy.filter((n) => n.uroven === "CHYBA").length;
 const varovani = nalezy.length - chyb;
 if (nalezy.length) {

@@ -9,8 +9,8 @@
  * neměřitelných bodů. Kdyby se rozešla, sdílený odkaz by tvrdil něco jiného
  * než stránka, na kterou vede.
  *
- * Proto se generuje při každém týdenním běhu, ne jednou natvrdo: číslo na
- * obrázku by bylo v sobotu nepravdivé.
+ * Proto se generuje při každém běhu, ne jednou natvrdo: číslo na obrázku
+ * by bylo po příští aktualizaci nepravdivé.
  *
  * Spuštění:  node scripts/og-image.js
  * Selhání nikdy nesmí shodit nasazení — volá se s "|| true".
@@ -118,7 +118,7 @@ function stranka(m) {
     </div>
   </div>
   <div class="bot">
-    <div>${m.datum ? `Aktualizováno ${m.datum} · nové hodnocení každý pátek` : "Hodnocení probíhá každý pátek"}</div>
+    <div>${m.datum ? `Aktualizováno ${m.datum} · nové hodnocení každý měsíc` : "Hodnocení probíhá jednou měsíčně"}</div>
     <div class="dom">vladomer.cz</div>
   </div>
 </body></html>`;

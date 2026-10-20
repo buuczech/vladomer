@@ -9,9 +9,9 @@ import { zmenaPoslednihoBehu } from "./zmeny.js";
 
 /* =========================================================================
    VLÁDOMĚR — production build.
-   Weekly AI evaluation runs server-side (GitHub Actions) and writes:
+   Monthly AI evaluation runs server-side (GitHub Actions) and writes:
      - public/evaluations.json  (statuses, comments, change notes, sources)
-     - public/history.json      (weekly status snapshots, last 52 weeks)
+     - public/history.json      (status snapshots, one per run)
    The browser only reads these files — no API key is ever shipped to clients.
    ========================================================================= */
 
@@ -38,12 +38,12 @@ const T = {
   notRatedYet: { cs: "první hodnocení zatím neproběhlo", en: "the first assessment has not run yet" },
   textVersion: { cs: "Textový výpis všech bodů", en: "Plain-text listing of every commitment" },
   promptsIntro: {
-    cs: "Každý pátek ráno spustí server program, který za vás položí jazykovému modelu několik otázek a z odpovědí sestaví to, co vidíte na webu. Otázky nejsou pokaždé jiné — jsou to tři pevné texty, které tu jsou celé a doslova. Nic dalšího model nedostane.",
-    en: "Every Friday morning a program runs on the server, puts a handful of questions to a language model and assembles what you see on the site from the answers. The questions are not improvised — they are three fixed texts, reproduced here in full and verbatim. The model receives nothing else.",
+    cs: "Jednou měsíčně, prvního dne v měsíci, spustí server program, který za vás položí jazykovým modelům několik otázek a z odpovědí sestaví to, co vidíte na webu. Otázky nejsou pokaždé jiné — jsou to pevné texty, které tu jsou celé a doslova. Nic dalšího modely nedostanou.",
+    en: "Once a month, on the first day of the month, a program runs on the server, puts a handful of questions to language models and assembles what you see on the site from the answers. The questions are not improvised — they are fixed texts, reproduced here in full and verbatim. The models receive nothing else.",
   },
   promptsSablona: {
-    cs: "Prompty jsou šablony. Značka jako {{SEZNAM_BODU}} se před odesláním nahradí skutečnými daty — konkrétními body programu, jejich minulotýdenním stavem, dnešním datem. Proto je u každého i ukázka, jak text vypadá ve chvíli, kdy se odesílá. Ukázky se skládají stejným kódem jako ostrý běh, takže se nemohou rozejít.",
-    en: "The prompts are templates. A marker such as {{SEZNAM_BODU}} is replaced with real data before sending — the actual commitments, their status a week ago, today's date. That is why each one is shown as it looks at the moment it is sent, too. The examples are assembled by the same code as the live run, so they cannot drift apart.",
+    cs: "Prompty jsou šablony. Značka jako {{SEZNAM_BODU}} se před odesláním nahradí skutečnými daty — konkrétními body programu, jejich dosavadním stavem, dnešním datem. Proto je u každého i ukázka, jak text vypadá ve chvíli, kdy se odesílá. Ukázky se skládají stejným kódem jako ostrý běh, takže se nemohou rozejít.",
+    en: "The prompts are templates. A marker such as {{SEZNAM_BODU}} is replaced with real data before sending — the actual commitments, their current status, today's date. That is why each one is shown as it looks at the moment it is sent, too. The examples are assembled by the same code as the live run, so they cannot drift apart.",
   },
   promptModel: { cs: "Použitý model", en: "Model used" },
   promptSablona: { cs: "Doslovné znění", en: "Verbatim text" },
@@ -55,7 +55,7 @@ const T = {
     en: "The model does not search the whole internet. Its search is technically restricted to these domains — it cannot reach anything else, even if it tried.",
   },
   promptZdrojeH: { cs: "Pro hodnocení", en: "For assessments" },
-  promptZdrojeZ: { cs: "Pro zprávy týdne", en: "For the weekly headlines" },
+  promptZdrojeZ: { cs: "Pro zprávy", en: "For the headlines" },
   promptLoading: { cs: "Načítám prompty…", en: "Loading prompts…" },
   promptError: { cs: "Prompty se nepodařilo načíst.", en: "The prompts could not be loaded." },
   promptShow: { cs: "Zobrazit", en: "Show" },
@@ -68,15 +68,15 @@ const T = {
   },
   lastUpdated: { cs: "Naposledy aktualizováno", en: "Last updated" },
   checkedNoChange: { cs: "prověřeno beze změny", en: "checked, no change" },
-  /* Když kapitola v pátečním běhu selže, její body si podrží hodnocení
+  /* Když kapitola v běhu selže, její body si podrží hodnocení
      z minula — data se slučují, nikdy nepřepisují. Datum v hlavičce by ale
      bez tohohle tvrdilo, že je celý web čerstvý, což pro tu kapitolu neplatí.
      Radši přiznaná díra než tiše zastaralý údaj. */
   staleTitle: { cs: "Poslední běh nepokryl všechno", en: "The last run did not cover everything" },
   staleBody: {
-    cs: (n, kdy) => `${n === 1 ? "Jednu oblast" : `${n} oblasti`} se tento týden nepodařilo přehodnotit; `
+    cs: (n, kdy) => `${n === 1 ? "Jednu oblast" : `${n} oblasti`} se při poslední aktualizaci nepodařilo přehodnotit; `
       + `její body jsou ze ${kdy} a v součtech jsou započítané v tomto starším stavu.`,
-    en: (n, kdy) => `${n === 1 ? "One area" : `${n} areas`} could not be re-assessed this week; `
+    en: (n, kdy) => `${n === 1 ? "One area" : `${n} areas`} could not be re-assessed in the latest update; `
       + `those items are from ${kdy} and are counted in the totals in that older state.`,
   },
   staleChapter: { cs: "starší hodnocení", en: "older assessment" },
@@ -129,13 +129,27 @@ const T = {
       en: "the evidence cites an instrument number that, according to the e-Collection, does not exist in the Collection of Laws.",
     },
   },
+  /* Bod, jehož novější hodnocení neprošlo kontrolou faktů (public/faktcheck.json,
+     vrstva R). Na webu je poslední ověřené hodnocení; odznak a věta to přiznají,
+     jinak by starší datum u bodu vypadalo jako zapomenutý bod. */
+  heldBadge: { cs: "čeká na ověření", en: "awaiting review" },
+  heldWhy: {
+    podrzet: {
+      cs: "Novější hodnocení tohoto bodu neprošlo kontrolou faktů a posoudí ho člověk. Do té doby tu zůstává poslední ověřené hodnocení.",
+      en: "A newer rating of this item did not pass the fact-check and will be reviewed by a person. Until then, the last verified rating stays here.",
+    },
+    "bez-razitka": {
+      cs: "Při poslední aktualizaci kontrola faktů toto hodnocení nepotvrdila; posoudí ho člověk.",
+      en: "At the latest update the fact-check could not confirm this rating; a person will review it.",
+    },
+  },
   searchPlaceholder: { cs: "Hledat v bodech programu…", en: "Search the programme…" },
   filterAll: { cs: "Vše", en: "All" },
   source: { cs: "Zdroj: programové prohlášení vlády", en: "Source: government programme statement" },
   items: { cs: "bodů", en: "items" },
   noResults: { cs: "Žádné body neodpovídají hledání.", en: "No items match your search." },
   scope: { cs: "Oblastí", en: "Areas" },
-  changesTitle: { cs: "Změny od minulého týdne", en: "Changes since last week" },
+  changesTitle: { cs: "Změny od minulé aktualizace", en: "Changes since the last update" },
   changeLabel: { cs: "Co se změnilo", en: "What changed" },
   historyLabel: { cs: "Historie stavu", en: "Status history" },
   sourcesLabel: { cs: "Zdroje hodnocení", en: "Sources for this rating" },
@@ -145,12 +159,12 @@ const T = {
     cs: "Hodnocení generuje AI, je orientační a neoficiální. Může obsahovat chyby.",
     en: "Ratings are AI-generated, indicative and unofficial. They may contain errors.",
   },
-  newsTitle: { cs: "Hlavní zprávy týdne", en: "This week's headlines" },
+  newsTitle: { cs: "Hlavní zprávy před aktualizací", en: "Headlines before the update" },
   chartsTitle: { cs: "Grafy", en: "Charts" },
   chartAxisY: { cs: "Splněno (% bodů)", en: "Fulfilled (% of items)" },
   chartAxisX: { cs: "Kvartál volebního období", en: "Quarter of term" },
   chartCompare: { cs: "Srovnání s předchozími vládami", en: "Compare with previous cabinets" },
-  chartNoData: { cs: "Zatím není dost týdenních snímků pro křivku. Graf se doplňuje každý pátek.", en: "Not enough weekly snapshots for a curve yet. The chart fills in every Friday." },
+  chartNoData: { cs: "Zatím není dost snímků pro křivku. Graf se doplňuje s každou měsíční aktualizací.", en: "Not enough snapshots for a curve yet. The chart fills in with every monthly update." },
 };
 
 /* Six-point scale, ordered by how far a commitment has actually got.
@@ -184,8 +198,8 @@ const METHOD = {
     {
       h: { cs: "Jak hodnocení vzniká", en: "How ratings are produced" },
       p: {
-        cs: "Každý pátek projde každý bod jazykovým modelem, který vyhledává aktuální zprávy a posuzuje důkazy z více úhlů – „ano, ale…“ a „ne, ale…“. Rozlišuje mezi pouhým ohlášením a skutečným zavedením, mezi částečným či formálním splněním a reálným dopadem, a zohledňuje kritiku opozice i odborníků. Bez doložitelného důkazu volí konzervativně stav „nezahájeno“. U každého bodu jsou uvedeny zdroje (odkazy z vyhledávání), o které se hodnocení opírá, abyste si je mohli sami ověřit.",
-        en: "Every Friday each item is processed by a language model that searches current news and weighs evidence from multiple angles — \"yes, but…\" and \"no, but…\". It distinguishes mere announcements from actual implementation, partial or formal delivery from real impact, and takes opposition and expert criticism into account. Without verifiable evidence it conservatively defaults to \"not started\". Each item lists the sources (links from the search) the rating relied on, so you can verify them yourself.",
+        cs: "Jednou měsíčně, prvního dne v měsíci, projde všech 143 bodů jazykový model, který vyhledává aktuální zprávy a posuzuje důkazy z více úhlů – „ano, ale…“ a „ne, ale…“. Než odpoví, úlohu si promyslí. Rozlišuje mezi pouhým ohlášením a skutečným zavedením, mezi částečným či formálním splněním a reálným dopadem, a zohledňuje kritiku opozice i odborníků. Bez doložitelného důkazu volí konzervativně stav „nezahájeno“. U každého bodu jsou uvedeny zdroje (odkazy z vyhledávání), o které se hodnocení opírá, abyste si je mohli sami ověřit.\n\nNa každé aktualizaci se podílejí čtyři role: model, který hodnotí, silnější model, který ověřuje změny stavu, model, který opravuje jen jazyk, a nezávislý model, který kontroluje fakta. Které modely to jsou, uvádí sekce Použité prompty. Sbírku zákonů čte program sám z e-Sbírky. Při velké události může proběhnout i mimořádná aktualizace mimo měsíční rytmus.",
+        en: "Once a month, on the first day of the month, all 143 items go through a language model that searches current news and weighs evidence from multiple angles — \"yes, but…\" and \"no, but…\". It thinks the task through before answering. It distinguishes mere announcements from actual implementation, partial or formal delivery from real impact, and takes opposition and expert criticism into account. Without verifiable evidence it conservatively defaults to \"not started\". Each item lists the sources (links from the search) the rating relied on, so you can verify them yourself.\n\nFour roles take part in every update: a model that assesses, a stronger model that verifies changes of status, a model that corrects language only, and an independent model that checks the facts. Which models these are is listed under Prompts used. The program reads the Collection of Laws from the e-Collection itself. A major event can trigger an extraordinary update outside the monthly rhythm.",
       },
     },
     {
@@ -195,8 +209,8 @@ const METHOD = {
          weby-*.txt, které sekce Použité prompty vypisuje celé. Tady zůstává
          jen pravidlo, podle kterého se do nich zdroje vybírají. */
       p: {
-        cs: "Vyhledávání je technicky omezeno na uzavřený seznam zdrojů: oficiální weby státu (gov.cz — vláda, ministerstva a úřady), primární prameny legislativního procesu (Poslanecká sněmovna, Senát a e-Sbírka), fact-checkingový Demagog.cz a zpravodajské weby hodnocené v ratingu NFNŽ MediaRating ve stupních A, A− a B+. Bulvární tituly zařazené nejsou. Weby, které technicky blokují přístup vyhledávání (např. iDNES.cz a Lidovky.cz), zahrnout nelze, i kdybychom chtěli. Odkazy z jiných webů se v hodnocení nemohou objevit.\n\nPrameny sněmovny, Senátu a e-Sbírky v seznamu zpočátku nebyly a chybělo to: model tak nemohl ověřit, jestli zákon opravdu vyšel, a jednou si číslo předpisu domyslel z hlasování o vetu. Tvrzení o vyhlášení ve Sbírce dnes bez odkazu na úřední pramen neobstojí.\n\nÚplný výpis obou seznamů — zvlášť pro hodnocení a zvlášť pro zprávy týdne — najdete v sekci Použité prompty.",
-        en: "The search is technically restricted to a closed list of sources: official state websites (gov.cz — the government, ministries and agencies), the primary records of the legislative process (the Chamber of Deputies, the Senate and the e-Collection of Laws), the fact-checking outlet Demagog.cz, and news sites rated A, A− or B+ in the NFNŽ MediaRating. Tabloids are not included. Sites that technically block search access (e.g. iDNES.cz and Lidovky.cz) cannot be included even if we wanted to. Links from other sites cannot appear in the ratings.\n\nThe records of the Chamber, the Senate and the e-Collection were missing from the list at first, and it showed: the model could not check whether a law had actually been promulgated, and once inferred a law number from a vote overriding a veto. A claim of promulgation now fails without a link to an official record.\n\nBoth lists — one for the assessments, one for the weekly headlines — are reproduced in full under Prompts used.",
+        cs: "Vyhledávání je technicky omezeno na uzavřený seznam zdrojů: oficiální weby státu (gov.cz — vláda, ministerstva a úřady), primární prameny legislativního procesu (Poslanecká sněmovna, Senát a e-Sbírka), fact-checkingový Demagog.cz a zpravodajské weby hodnocené v ratingu NFNŽ MediaRating ve stupních A, A− a B+. Bulvární tituly zařazené nejsou. Weby, které technicky blokují přístup vyhledávání (např. iDNES.cz a Lidovky.cz), zahrnout nelze, i kdybychom chtěli. Odkazy z jiných webů se v hodnocení nemohou objevit.\n\nPrameny sněmovny, Senátu a e-Sbírky v seznamu zpočátku nebyly a chybělo to: model tak nemohl ověřit, jestli zákon opravdu vyšel, a jednou si číslo předpisu domyslel z hlasování o vetu. Tvrzení o vyhlášení ve Sbírce dnes bez odkazu na úřední pramen neobstojí.\n\nÚplný výpis obou seznamů — zvlášť pro hodnocení a zvlášť pro zprávy — najdete v sekci Použité prompty.",
+        en: "The search is technically restricted to a closed list of sources: official state websites (gov.cz — the government, ministries and agencies), the primary records of the legislative process (the Chamber of Deputies, the Senate and the e-Collection of Laws), the fact-checking outlet Demagog.cz, and news sites rated A, A− or B+ in the NFNŽ MediaRating. Tabloids are not included. Sites that technically block search access (e.g. iDNES.cz and Lidovky.cz) cannot be included even if we wanted to. Links from other sites cannot appear in the ratings.\n\nThe records of the Chamber, the Senate and the e-Collection were missing from the list at first, and it showed: the model could not check whether a law had actually been promulgated, and once inferred a law number from a vote overriding a veto. A claim of promulgation now fails without a link to an official record.\n\nBoth lists — one for the assessments, one for the headlines — are reproduced in full under Prompts used.",
       },
     },
     {
@@ -224,29 +238,57 @@ const METHOD = {
         ],
       },
       p: {
-        cs: "Uvádíme samostatná čísla, ne jedno souhrnné skóre. „Splněno“ je podíl prokazatelně dotažených bodů – hodnotíme striktně stejně jako Demagog.cz i vládní odpočty, takže je číslo srovnatelné. „Částečně“ a „probíhá“ se uvádějí zvlášť a ke splnění se nepřičítají, protože rozdělaná práce není výsledek. Dřívější verze webu používala vážené skóre, kde „probíhá“ mělo poloviční kredit – od toho jsme ustoupili, protože takové číslo bylo z valné většiny tvořeno pouhou rozpracovaností a působilo výrazně příznivěji, než odpovídalo skutečnosti.\n\nStav „splněno“ navíc nelze udělit bez konkrétního dokladu: model musí uvést, čím byl slib splněn, a datum, kdy vláda ten krok udělala – vyhlášení ve Sbírce zákonů, schválení v Senátu, přijetí usnesení. Pokud doklad chybí nebo je bez data, systém stav automaticky sníží na „částečně splněno“ – tvrzení o dokončení tak nikdy nestojí jen na slově modelu. Doklad je vidět u každého splněného bodu pod jeho hodnocením.\n\nStrojově kontrolujeme i to datum, a to dvakrát. Uznáváme pouze kroky učiněné od 15. 12. 2025, kdy vláda nastoupila; zákon vyhlášený dříve je dílem předchozí vlády, i když tématicky odpovídá slibu. A neuznáváme datum, odkdy začal platit starší předpis: kdyby stačilo ono, připsala by si vláda každou normu, která jí náhodou nabyla účinnosti za funkčního období. Obě kontroly vznikly z konkrétních chyb – model si nejdřív připsal normy vyhlášené v srpnu 2025, a když jsme datum začali hlídat, uvedl u zákona z roku 2025 datum jeho pozdější účinnosti. Číslo citovaného předpisu navíc program ověřuje přímo v e-Sbírce: model dostane seznam předpisů vydaných od nástupu vlády, číslo, které ve Sbírce není, stav „splněno“ neunese a datum vyhlášení se převezme z e-Sbírky. Jestli předpis slib opravdu plní, posuzuje ověřovatel podle jeho znění, ne jen podle názvu.\n\nHodnocení je stavěné na stabilitu, ne na týdenní přehodnocování nálad. Každý týden se nejdřív hledají události — schválení, hlasování, vyhlášení, ustoupení — a přehodnocují se jen body, kde nějaká datovaná událost je; ostatní drží stav z minula. Změna stavu z nebo do „splněno“ či „porušeno“ musí navíc projít ověřením silnějším modelem s výchozí odpovědí ne: zásluha ani obvinění nesmí vzniknout ani zmizet šumem. Přechod se také nepřijme, když ho model opírá o krok starší, než je den, kdy bod do dosavadního stavu vstoupil — to není nová událost, jen nový úsudek o známých faktech. Jednou za čtyři týdny proběhne plný audit všech bodů, aby zmeškaná událost nezůstala zmeškaná navždy.\n\nKdyž kontrola stav sníží, bod to u sebe napíše: je označený „sníženo kontrolou“ a v jeho hodnocení stojí, co model tvrdil a proč to doklad neunesl. Původní komentář zůstává, aby bylo vidět obojí – co si myslel model i jak dopadla kontrola.",
-        en: "We report separate figures rather than one combined score. \"Fulfilled\" is the share of verifiably delivered items — scored strictly, the same way Demagog.cz and government reviews score promises, so the number is comparable. \"Partial\" and \"in progress\" are reported separately and never added to delivery, because work started is not a result. An earlier version of this site used a weighted score giving \"in progress\" half credit — we dropped it, because such a figure was overwhelmingly made up of mere activity and read far more favourably than the facts warranted.\n\nThe \"fulfilled\" status additionally cannot be awarded without concrete proof: the model must state what delivered the promise and the date the cabinet took that step — publication in the Collection of Laws, a Senate vote, a government resolution. If the proof is missing or undated, the system automatically downgrades the status to \"partially fulfilled\" — so a claim of completion never rests on the model's word alone. The proof is shown under each fulfilled item's rating.\n\nThat date is machine-checked twice over. Only steps taken since 15 Dec 2025, when the cabinet took office, are credited; a law published earlier is the previous government's work even if it matches the promise thematically. And the day an older rule merely started to apply does not count either — if it did, the cabinet could claim every norm that happened to take effect during its term. Both checks came out of real failures: the model first credited this cabinet with laws published in August 2025, and once the date was being checked, it gave a 2025 law's later effective date instead. The number of a cited instrument is also checked against the e-Collection of Laws: the model receives the list of instruments issued since the cabinet took office, a number that is not in the Collection cannot carry a “fulfilled” status, and the publication date is taken from the e-Collection. Whether the instrument actually delivers the promise is judged by the verifier from its text, not just its title.\n\nThe assessment is built for stability, not weekly mood swings. Each week the run first looks for events — approvals, votes, publications, reversals — and re-assesses only items with a dated event; the rest keep their state. A change of state from or into “fulfilled” or “broken” must additionally pass verification by a stronger model whose default answer is no: neither credit nor blame may appear or vanish through noise. Nor is a transition accepted when the model rests it on a step older than the day the item entered its current state — that is not a new event, only a new judgement of known facts. Once every four weeks a full audit of all items runs, so a missed event cannot stay missed forever.\n\nWhen a check lowers a status, the item says so: it is marked \"downgraded by check\" and its rating states what the model claimed and why the evidence did not carry it. The original comment stays, so you can see both — what the model thought, and how the check went.",
+        cs: "Uvádíme samostatná čísla, ne jedno souhrnné skóre. „Splněno“ je podíl prokazatelně dotažených bodů – hodnotíme striktně stejně jako Demagog.cz i vládní odpočty, takže je číslo srovnatelné. „Částečně“ a „probíhá“ se uvádějí zvlášť a ke splnění se nepřičítají, protože rozdělaná práce není výsledek. Dřívější verze webu používala vážené skóre, kde „probíhá“ mělo poloviční kredit – od toho jsme ustoupili, protože takové číslo bylo z valné většiny tvořeno pouhou rozpracovaností a působilo výrazně příznivěji, než odpovídalo skutečnosti.\n\nStav „splněno“ navíc nelze udělit bez konkrétního dokladu: model musí uvést, čím byl slib splněn, a datum, kdy vláda ten krok udělala – vyhlášení ve Sbírce zákonů, schválení v Senátu, přijetí usnesení. Pokud doklad chybí nebo je bez data, systém stav automaticky sníží na „částečně splněno“ – tvrzení o dokončení tak nikdy nestojí jen na slově modelu. Doklad je vidět u každého splněného bodu pod jeho hodnocením.\n\nStrojově kontrolujeme i to datum, a to dvakrát. Uznáváme pouze kroky učiněné od 15. 12. 2025, kdy vláda nastoupila; zákon vyhlášený dříve je dílem předchozí vlády, i když tématicky odpovídá slibu. A neuznáváme datum, odkdy začal platit starší předpis: kdyby stačilo ono, připsala by si vláda každou normu, která jí náhodou nabyla účinnosti za funkčního období. Obě kontroly vznikly z konkrétních chyb – model si nejdřív připsal normy vyhlášené v srpnu 2025, a když jsme datum začali hlídat, uvedl u zákona z roku 2025 datum jeho pozdější účinnosti. Číslo citovaného předpisu navíc program ověřuje přímo v e-Sbírce: model dostane seznam předpisů vydaných od nástupu vlády, číslo, které ve Sbírce není, stav „splněno“ neunese a datum vyhlášení se převezme z e-Sbírky. Jestli předpis slib opravdu plní, posuzuje ověřovatel podle jeho znění, ne jen podle názvu.\n\nHodnocení je stavěné na stabilitu, ne na přehodnocování nálad. Každá měsíční aktualizace je plný audit všech bodů, aby zmeškaná událost nezůstala zmeškaná, ale stav se smí pohnout jen s důvodem, který jde ukázat. Změna stavu z nebo do „splněno“ či „porušeno“ musí projít ověřením silnějším modelem s výchozí odpovědí ne: zásluha ani obvinění nesmí vzniknout ani zmizet šumem. Každá změna stavu navíc musí stát na události, kterou kontrola faktů potvrdila citací ze zdroje; nový úsudek o týchž faktech událost není a posoudí ho člověk. Při mimořádné aktualizaci se nejdřív hledají události — schválení, hlasování, vyhlášení, ustoupení — a přehodnocují se jen body, kde nějaká datovaná událost je; přechod opřený o krok starší, než je den, kdy bod do dosavadního stavu vstoupil, se tam nepřijme vůbec.\n\nKdyž kontrola stav sníží, bod to u sebe napíše: je označený „sníženo kontrolou“ a v jeho hodnocení stojí, co model tvrdil a proč to doklad neunesl. Původní komentář zůstává, aby bylo vidět obojí – co si myslel model i jak dopadla kontrola.",
+        en: "We report separate figures rather than one combined score. \"Fulfilled\" is the share of verifiably delivered items — scored strictly, the same way Demagog.cz and government reviews score promises, so the number is comparable. \"Partial\" and \"in progress\" are reported separately and never added to delivery, because work started is not a result. An earlier version of this site used a weighted score giving \"in progress\" half credit — we dropped it, because such a figure was overwhelmingly made up of mere activity and read far more favourably than the facts warranted.\n\nThe \"fulfilled\" status additionally cannot be awarded without concrete proof: the model must state what delivered the promise and the date the cabinet took that step — publication in the Collection of Laws, a Senate vote, a government resolution. If the proof is missing or undated, the system automatically downgrades the status to \"partially fulfilled\" — so a claim of completion never rests on the model's word alone. The proof is shown under each fulfilled item's rating.\n\nThat date is machine-checked twice over. Only steps taken since 15 Dec 2025, when the cabinet took office, are credited; a law published earlier is the previous government's work even if it matches the promise thematically. And the day an older rule merely started to apply does not count either — if it did, the cabinet could claim every norm that happened to take effect during its term. Both checks came out of real failures: the model first credited this cabinet with laws published in August 2025, and once the date was being checked, it gave a 2025 law's later effective date instead. The number of a cited instrument is also checked against the e-Collection of Laws: the model receives the list of instruments issued since the cabinet took office, a number that is not in the Collection cannot carry a “fulfilled” status, and the publication date is taken from the e-Collection. Whether the instrument actually delivers the promise is judged by the verifier from its text, not just its title.\n\nThe assessment is built for stability, not mood swings. Every monthly update is a full audit of all items, so a missed event cannot stay missed, but a status may move only for a reason that can be shown. A change of state from or into “fulfilled” or “broken” must pass verification by a stronger model whose default answer is no: neither credit nor blame may appear or vanish through noise. Every change of status must also rest on an event that the fact-check confirmed with a quotation from a source; a new judgement of the same facts is not an event, and a person reviews it. In an extraordinary update the run first looks for events — approvals, votes, publications, reversals — and re-assesses only items with a dated event; there, a transition resting on a step older than the day the item entered its current state is not accepted at all.\n\nWhen a check lowers a status, the item says so: it is marked \"downgraded by check\" and its rating states what the model claimed and why the evidence did not carry it. The original comment stays, so you can see both — what the model thought, and how the check went.",
+      },
+    },
+    {
+      h: { cs: "Kontrola faktů", en: "Fact-check" },
+      p: {
+        cs: "Než se výsledek aktualizace zveřejní, projde kontrolou faktů ve dvou vrstvách.\n\nNejdřív program ověří, co ví přesně: každé číslo předpisu a datum jeho vyhlášení proti e-Sbírce, data dokladů, jestli česká a anglická verze uvádějí stejná čísla a data, jestli odkazy na zdroje fungují a nevedou jen na titulní stránku, a jestli komentář netvrdí jiný stav, než jaký bod má.\n\nPak každý bod dostane nezávislý model — jiný a silnější než ten, který hodnotil — spolu s texty zdrojů, které program sám stáhl, a s pravidly, podle kterých se stavy přidělují. Model rozloží text bodu na jednotlivá tvrzení a ke každému musí doslova ocitovat místo ve zdroji, které ho potvrzuje nebo vyvrací. Program citaci ve staženém textu dohledá znak po znaku; citace, která ve zdroji není, se zahodí i s verdiktem. Co ze zdrojů u bodu ověřit nejde, smí model dohledat vyhledáváním na stejném seznamu povolených webů — a platí pro to totéž.\n\nCo kontrola nepotvrdí, na web nejde. Bod si ponechá poslední ověřené hodnocení, je označený „čeká na ověření“ a rozhodne o něm člověk — vybírá jen mezi tím, co navrhl model, a tím, co platilo dosud, a jeho rozhodnutí se zapisuje do auditního souboru. Web na to rozhodnutí nečeká: všechno ověřené se zveřejní hned.",
+        en: "Before the result of an update is published, it goes through a fact-check in two layers.\n\nFirst the program checks what it knows exactly: every instrument number and its promulgation date against the e-Collection of Laws, the dates of the evidence, whether the Czech and English versions give the same numbers and dates, whether source links work and do not just lead to a front page, and whether a comment claims a different status than the item has.\n\nThen every item goes to an independent model — a different and stronger one than the one that assessed it — together with the texts of the sources, which the program downloaded itself, and the rules by which statuses are assigned. The model breaks the item's text into individual claims and must quote, word for word, the passage of a source that confirms or contradicts each one. The program looks the quotation up in the downloaded text character by character; a quotation that is not in the source is discarded together with its verdict. What the item's sources cannot confirm, the model may look up by searching the same list of allowed sites — and the same rule applies.\n\nWhat the fact-check does not confirm does not go on the site. The item keeps its last verified rating, is marked “awaiting review”, and a person decides on it — choosing only between what the model proposed and what applied until then, and the decision is written to the audit file. The site does not wait for that decision: everything verified is published straight away.",
       },
     },
     {
       h: { cs: "Historie a změny", en: "History & changes" },
       p: {
-        cs: "Každý týden se ukládá snímek stavů. U každého bodu vidíte, co se změnilo oproti minulému týdnu, a barevnou časovou osu vývoje za poslední týdny.",
-        en: "A snapshot of all statuses is saved each week. For every item you can see what changed since last week and a coloured timeline of its development over recent weeks.",
+        cs: "Při každé aktualizaci se ukládá snímek stavů. U každého bodu vidíte, co se změnilo od minulé aktualizace, a barevnou časovou osu jeho vývoje.",
+        en: "A snapshot of all statuses is saved with every update. For every item you can see what changed since the last update and a coloured timeline of its development.",
       },
     },
     {
       h: { cs: "Auditní záznam", en: "Audit trail" },
       p: {
-        cs: "Každé jednotlivé hodnocení se trvale ukládá do veřejného auditního souboru: číslo bodu, datum, stav k tomu datu, celý text hodnocení, použité zdroje a model, který ho vytvořil. Záznamy se nikdy nepřepisují, takže lze dohledat i hodnocení, které se později změnilo. Soubor je ke stažení jako audit.json v datech webu.\n\nTo platí i pro opravy z naší strany. Když se ukáže, že se spletla některá z automatických kontrol, nesaháme na původní řádek – přidá se nový záznam s polem „oprava“, kde stojí, jaký stav platil předtím a co bylo špatně. V souboru tak mohou být k jednomu bodu dva záznamy ke stejnému dni; ten pozdější je opravený.",
-        en: "Every individual rating is permanently recorded in a public audit file: item number, date, the status as of that date, the full rating text, the sources used, and the model that produced it. Records are never rewritten, so a rating that later changed can still be traced. The file is downloadable as audit.json in the site's data.\n\nThat holds for our own corrections too. When one of the automatic checks turns out to have been wrong, we do not touch the original row — a new record is appended carrying an \"oprava\" (correction) field stating which status applied before and what was wrong. So the file may hold two records for one item on the same day; the later one is the corrected one.",
+        cs: "Každé jednotlivé hodnocení se trvale ukládá do veřejného auditního souboru: číslo bodu, datum, stav k tomu datu, celý text hodnocení, použité zdroje a model, který ho vytvořil. Záznamy se nikdy nepřepisují, takže lze dohledat i hodnocení, které se později změnilo. Soubor je ke stažení jako audit.json v datech webu.\n\nTo platí i pro opravy z naší strany. Když se ukáže, že se spletla některá z automatických kontrol, nesaháme na původní řádek – přidá se nový záznam s polem „oprava“, kde stojí, jaký stav platil předtím a co bylo špatně. V souboru tak mohou být k jednomu bodu dva záznamy ke stejnému dni; ten pozdější je opravený.\n\nHodnocení, které kontrola faktů nepustila na web, v souboru zůstává také — označené polem „zadrzeno“ i s důvodem. Když ho později přijme člověk, přibude nový záznam s polem „oprava“; když ne, platí dál to předchozí. Pokud odpověď místo nastaveného modelu dal záložní model, záznam to uvádí. Výsledek kontroly faktů každé aktualizace je ke stažení jako faktcheck.json a cena každého běhu jako naklady.json.",
+        en: "Every individual rating is permanently recorded in a public audit file: item number, date, the status as of that date, the full rating text, the sources used, and the model that produced it. Records are never rewritten, so a rating that later changed can still be traced. The file is downloadable as audit.json in the site's data.\n\nThat holds for our own corrections too. When one of the automatic checks turns out to have been wrong, we do not touch the original row — a new record is appended carrying an \"oprava\" (correction) field stating which status applied before and what was wrong. So the file may hold two records for one item on the same day; the later one is the corrected one.\n\nA rating that the fact-check kept off the site stays in the file too — marked with a \"zadrzeno\" (held) field and the reason. If a person later accepts it, a new record with an \"oprava\" field is appended; if not, the previous one stands. If a fallback model answered instead of the configured one, the record says so. The fact-check result of every update is downloadable as faktcheck.json and the cost of every run as naklady.json.",
+      },
+    },
+    /* Datovaný seznam změn procesu. Čísla z různých období se liší i tím,
+       jak vznikla — kdo je srovnává, má vědět, od kdy co platí. */
+    {
+      h: { cs: "Změny metodiky", en: "Changes to the methodology" },
+      list: {
+        cs: [
+          "Srpen 2026: přehodnocují se jen body s datovanou událostí; změna stavu prochází branou a ověřením silnějším modelem.",
+          "Říjen 2026: čísla a data vyhlášení předpisů se ověřují v e-Sbírce.",
+          "Listopad 2026: aktualizace jednou měsíčně místo každého pátku, silnější modely, které si úlohu promyslí, a kontrola faktů před zveřejněním.",
+        ],
+        en: [
+          "August 2026: only items with a dated event are re-assessed; a change of status passes a gate and verification by a stronger model.",
+          "October 2026: instrument numbers and promulgation dates are checked against the e-Collection of Laws.",
+          "November 2026: updates once a month instead of every Friday, stronger models that think the task through, and a fact-check before publication.",
+        ],
+      },
+      p: {
+        cs: "Když se způsob hodnocení změní, zapíšeme to sem, aby šlo čísla z různých období poctivě srovnávat.",
+        en: "When the way ratings are produced changes, we record it here, so that figures from different periods can be compared honestly.",
       },
     },
     {
       h: { cs: "Omezení a vyloučení odpovědnosti", en: "Limitations & disclaimer" },
       p: {
-        cs: "Hodnocení je orientační a generované umělou inteligencí – může obsahovat chyby, zastaralé informace nebo nesprávné posouzení, zejména u sporných témat. Neslouží jako oficiální, právní ani úplný zdroj. Informace si prosím ověřujte v primárních zdrojích. Stav i komentáře se při každém týdenním běhu přepisují.",
-        en: "Ratings are indicative and AI-generated — they may contain errors, outdated information, or misjudgements, especially on contested topics. They are not an official, legal, or complete source. Please verify against primary sources. Statuses and comments are overwritten on each weekly run.",
+        cs: "Hodnocení je orientační a generované umělou inteligencí – může obsahovat chyby, zastaralé informace nebo nesprávné posouzení, zejména u sporných témat. Neslouží jako oficiální, právní ani úplný zdroj. Informace si prosím ověřujte v primárních zdrojích. Hodnocení se aktualizuje jednou měsíčně, takže nová událost se na webu může objevit až s měsíčním zpožděním. Kontrola faktů chyby snižuje, ale bezchybnost nezaručuje; co nepotvrdí, posuzuje člověk.",
+        en: "Ratings are indicative and AI-generated — they may contain errors, outdated information, or misjudgements, especially on contested topics. They are not an official, legal, or complete source. Please verify against primary sources. Ratings are updated once a month, so a new event may reach the site up to a month late. The fact-check reduces errors but cannot guarantee there are none; what it cannot confirm is reviewed by a person.",
       },
     },
   ],
@@ -296,36 +338,52 @@ const PROMPT_POPIS = {
   hodnoceni: {
     nadpis: { cs: "Hodnocení jedné oblasti", en: "Assessing one area" },
     p: {
-      cs: "Tenhle prompt se odešle osmnáctkrát za běh, pokaždé pro jednu oblast programu. Model dostane body té oblasti, u každého minulotýdenní stav a komentář, a smí si k nim vyhledat informace — ale jen na pevném seznamu webů níže. Odpoví jednotně strukturovaným výpisem, který program hned kontroluje: odkaz, který se ve výsledcích vyhledávání nikdy neobjevil, se zahazuje jako vymyšlený, a stav „splněno“ bez konkrétního dokladu a data kroku vlády se automaticky snižuje na „částečně splněno“.",
-      en: "This prompt is sent eighteen times per run, once for each area of the programme. The model receives that area's commitments, each with last week's status and comment, and may look things up — but only across the fixed list of sites below. It answers in a uniform structured form that the program checks immediately: a link that never appeared in the search results is discarded as invented, and a \"fulfilled\" status without concrete evidence and a date for the cabinet's own step is automatically downgraded to \"partially fulfilled\".",
+      cs: "Tenhle prompt se za běh odešle pro každou oblast programu zvlášť. Model dostane body té oblasti, u každého dosavadní stav a komentář, a smí si k nim vyhledat informace — ale jen na pevném seznamu webů níže. Odpoví jednotně strukturovaným výpisem, který program hned kontroluje: odkaz, který se ve výsledcích vyhledávání nikdy neobjevil, se zahazuje jako vymyšlený, a stav „splněno“ bez konkrétního dokladu a data kroku vlády se automaticky snižuje na „částečně splněno“.",
+      en: "This prompt is sent once per run for each area of the programme. The model receives that area's commitments, each with its current status and comment, and may look things up — but only across the fixed list of sites below. It answers in a uniform structured form that the program checks immediately: a link that never appeared in the search results is discarded as invented, and a \"fulfilled\" status without concrete evidence and a date for the cabinet's own step is automatically downgraded to \"partially fulfilled\".",
     },
   },
   doptani: {
     nadpis: { cs: "Doptání, když odpověď nejde přečíst", en: "Follow-up when an answer cannot be read" },
     p: {
-      cs: "Odešle se jen výjimečně: když model místo strukturovaného výpisu napíše souvislý rozbor, program by z něj hodnocení nepřečetl a celá oblast by zůstala týden stará. Model proto v téže konverzaci dostane svou odpověď i nalezené zdroje zpět a k nim tuhle krátkou žádost, aby hodnocení vrátil už jen v požadovaném tvaru. Nic nového nehledá a výsledek prochází stejnými kontrolami jako běžná odpověď.",
-      en: "Sent only rarely: when the model writes a running analysis instead of the structured answer, the program cannot read an assessment from it and the whole area would stay a week old. The model therefore gets its own answer and the sources it found back in the same conversation, together with this short request to return the assessment in the required form. It searches for nothing new, and the result goes through the same checks as an ordinary answer.",
+      cs: "Odešle se jen výjimečně: když model místo strukturovaného výpisu napíše souvislý rozbor, program by z něj hodnocení nepřečetl a celá oblast by zůstala na minulém hodnocení. Model proto v téže konverzaci dostane svou odpověď i nalezené zdroje zpět a k nim tuhle krátkou žádost, aby hodnocení vrátil už jen v požadovaném tvaru. Nic nového nehledá a výsledek prochází stejnými kontrolami jako běžná odpověď.",
+      en: "Sent only rarely: when the model writes a running analysis instead of the structured answer, the program cannot read an assessment from it and the whole area would stay on its previous assessment. The model therefore gets its own answer and the sources it found back in the same conversation, together with this short request to return the assessment in the required form. It searches for nothing new, and the result goes through the same checks as an ordinary answer.",
     },
   },
   zpravy: {
-    nadpis: { cs: "Zprávy týdne", en: "This week's headlines" },
+    nadpis: { cs: "Hlavní zprávy", en: "Headlines" },
+    /* Stáří a počet zpráv jsou z nastaveni.txt (prompty.json → nastaveni),
+       ne natvrdo: změna nastavení by jinak udělala z popisu lež. */
     p: {
-      cs: "Jednou za běh se model zeptá na nejdůležitější zprávy z domácí politiky. Vybírá jen z novinářských webů — vládní ani ověřovací servery v tomhle seznamu schválně nejsou, aby týden nevedla tisková zpráva úřadu. Z každé redakce se bere nejvýš jedna zpráva. Program pak vyřadí vymyšlené odkazy, rozcestníky místo článků a zprávy starší než dvanáct dní, a zbytek zkrátí na pět.",
-      en: "Once per run the model is asked for the most important domestic-politics stories. It picks only from journalistic outlets — government and fact-checking sites are deliberately absent from this list, so the week is not led by an official press release. At most one story is taken per outlet. The program then drops invented links, section fronts instead of articles, and anything older than twelve days, and trims the rest to five.",
+      cs: (n) => `Jednou za běh se model zeptá na nejdůležitější zprávy z domácí politiky. Vybírá jen z novinářských webů — vládní ani ověřovací servery v tomhle seznamu schválně nejsou, aby zprávám nevévodila tisková zpráva úřadu. Z každé redakce se bere nejvýš jedna zpráva. Program pak vyřadí vymyšlené odkazy, rozcestníky místo článků a zprávy starší než ${n.zpravy_max_stari_dni} dní, a zbytek zkrátí na ${n.pocet_zprav}.`,
+      en: (n) => `Once per run the model is asked for the most important domestic-politics stories. It picks only from journalistic outlets — government and fact-checking sites are deliberately absent from this list, so the headlines are not led by an official press release. At most one story is taken per outlet. The program then drops invented links, section fronts instead of articles, and anything older than ${n.zpravy_max_stari_dni} days, and trims the rest to ${n.pocet_zprav}.`,
     },
   },
   delta: {
     nadpis: { cs: "Sken událostí", en: "Event scan" },
     p: {
-      cs: "Od srpna 2026 se každý týden nehodnotí všechno znovu. Tenhle prompt se ptá jen na to, co se od minulého běhu STALO — schválení, hlasování, vyhlášení, ustoupení. Přehodnocují se pak pouze body s nalezenou datovanou událostí; ostatní drží stav z minula. Jednou za čtyři týdny proběhne plný audit všech 143 bodů, aby zmeškaná událost nezůstala zmeškaná navždy.",
-      en: "Since August 2026 the run no longer re-grades everything weekly. This prompt asks only what has HAPPENED since the last run — approvals, votes, publications, reversals. Only items with a dated event get re-assessed; the rest keep their state. Once every four weeks a full audit of all 143 items runs, so a missed event cannot stay missed forever.",
+      cs: "Měsíční aktualizace je plný audit všech 143 bodů. Tenhle prompt se používá jen při mimořádné aktualizaci mezi nimi: ptá se jen na to, co se od minulého běhu STALO — schválení, hlasování, vyhlášení, ustoupení. Přehodnocují se pak pouze body s nalezenou datovanou událostí; ostatní drží stav z minula.",
+      en: "Every monthly update is a full audit of all 143 items. This prompt is used only in an extraordinary update between them: it asks only what has HAPPENED since the last run — approvals, votes, publications, reversals. Only items with a dated event get re-assessed; the rest keep their state.",
     },
   },
   overeni: {
     nadpis: { cs: "Ověření přechodu", en: "Transition check" },
     p: {
-      cs: "Změna stavu z nebo do „splněno“ či „porušeno“ se nepřijímá jen na základě jednoho hodnocení. Silnější model dostane úzkou otázku: nese předložený doklad právě tento přechod? Výchozí odpověď je ne — nová interpretace starých faktů obratem není. Zamítnutý přechod znamená, že bod podrží minulé hodnocení celé a událost přezkoumá nejbližší plný audit.",
-      en: "A change of state from or into “fulfilled” or “broken” is not accepted on one assessment alone. A stronger model gets a narrow question: does the presented evidence carry this exact transition? The default answer is no — reinterpreting old facts is not a reversal. A rejected transition means the item keeps its previous assessment in full and the nearest full audit re-examines the event.",
+      cs: "Změna stavu z nebo do „splněno“ či „porušeno“ se nepřijímá jen na základě jednoho hodnocení. Silnější model dostane úzkou otázku: nese předložený doklad právě tento přechod? Výchozí odpověď je ne — nová interpretace starých faktů obratem není. Zamítnutý přechod znamená, že bod podrží minulé hodnocení celé a událost přezkoumá příští měsíční aktualizace.",
+      en: "A change of state from or into “fulfilled” or “broken” is not accepted on one assessment alone. A stronger model gets a narrow question: does the presented evidence carry this exact transition? The default answer is no — reinterpreting old facts is not a reversal. A rejected transition means the item keeps its previous assessment in full and the next monthly update re-examines the event.",
+    },
+  },
+  "overeni-prostredniho": {
+    nadpis: { cs: "Ověření menší změny stavu", en: "Check of a smaller status change" },
+    p: {
+      cs: "Změny mezi prostředními stavy — „jen deklarováno“, „probíhá“, „částečně splněno“ — ověřuje týž silnější model s mírnější laťkou: stačí, když doklad ukazuje skutečný krok, který změnu nese. I tady je výchozí odpověď ne a zamítnutý přechod znamená, že bod podrží minulé hodnocení.",
+      en: "Changes between the middle statuses — “declared only”, “in progress”, “partially fulfilled” — are checked by the same stronger model with a milder bar: it is enough that the evidence shows a real step carrying the change. Here too the default answer is no, and a rejected transition means the item keeps its previous assessment.",
+    },
+  },
+  faktcheck: {
+    nadpis: { cs: "Kontrola faktů", en: "Fact-check" },
+    p: {
+      cs: "Po hodnocení dostane každý bod nezávislý model, jiný a silnější než ten, který hodnotil. Znovu nehodnotí: rozloží, co web o bodu tvrdí, na jednotlivá tvrzení a ke každému doslova ocituje zdroj. Dostane k tomu texty zdrojů, které program sám stáhl, a pravidla, podle kterých se stavy přidělují. Program pak každou citaci ve staženém textu dohledá; co ve zdroji není, se zahodí. Bod, u kterého neprojde tvrzení nesoucí stav, na web nejde a posoudí ho člověk.",
+      en: "After the assessment, every item goes to an independent model, different from and stronger than the one that assessed it. It does not re-assess: it breaks what the site says about the item into individual claims and quotes a source word for word for each. It receives the texts of the sources, downloaded by the program itself, and the rules by which statuses are assigned. The program then looks every quotation up in the downloaded text; whatever is not in the source is discarded. An item where a claim its status rests on does not pass does not go on the site, and a person reviews it.",
     },
   },
   korektura: {
@@ -346,8 +404,8 @@ const PAGES = {
       {
         h: { cs: "Co je Vládoměr", en: "What Vládoměr is" },
         p: {
-          cs: "Vládoměr je nezávislý občanský projekt, který týden po týdnu sleduje, jak vláda plní vlastní programové prohlášení. Není nijak spojen s vládou ani s žádnou politickou stranou.\n\nVšech 143 bodů hodnotí jazykový model a u každého uvádí zdroje, ze kterých vycházel — smyslem není říct vám, co si máte myslet, ale dát vám dohledatelný odrazový můstek. Jak přesně hodnocení vzniká a co jednotlivé stavy znamenají, popisuje Metodika; doslovné instrukce pro model jsou v sekci Použité prompty.",
-          en: "Vládoměr is an independent civic project that tracks, week by week, how the government is delivering on its own programme statement. It is not affiliated with the government or any political party.\n\nAll 143 items are assessed by a language model, each with the sources it drew on — the point is not to tell you what to think, but to give you a traceable starting point. How the ratings are produced and what each status means is set out in the Methodology; the literal instructions given to the model are under Prompts used.",
+          cs: "Vládoměr je nezávislý občanský projekt, který měsíc po měsíci sleduje, jak vláda plní vlastní programové prohlášení. Není nijak spojen s vládou ani s žádnou politickou stranou.\n\nVšech 143 bodů hodnotí jazykový model a u každého uvádí zdroje, ze kterých vycházel — smyslem není říct vám, co si máte myslet, ale dát vám dohledatelný odrazový můstek. Jak přesně hodnocení vzniká a co jednotlivé stavy znamenají, popisuje Metodika; doslovné instrukce pro model jsou v sekci Použité prompty.",
+          en: "Vládoměr is an independent civic project that tracks, month by month, how the government is delivering on its own programme statement. It is not affiliated with the government or any political party.\n\nAll 143 items are assessed by a language model, each with the sources it drew on — the point is not to tell you what to think, but to give you a traceable starting point. How the ratings are produced and what each status means is set out in the Methodology; the literal instructions given to the model are under Prompts used.",
         },
       },
       {
@@ -393,15 +451,15 @@ const PAGES = {
       {
         h: { cs: "Proč podpora", en: "Why support" },
         p: {
-          cs: "Vládoměr je zdarma, bez reklam a bez sledování. Provoz ale není nulový: každé týdenní AI hodnocení všech 143 bodů stojí peníze (tokeny jazykového modelu s vyhledáváním) a k tomu doména. Vše zatím platí autor z vlastní kapsy.",
-          en: "Vládoměr is free, ad-free and tracker-free. Running it isn't free though: each weekly AI evaluation of all 143 items costs money (language-model tokens with web search), plus the domain. So far the author covers it all out of pocket.",
+          cs: "Vládoměr je zdarma, bez reklam a bez sledování. Provoz ale není nulový: každá měsíční aktualizace všech 143 bodů stojí peníze (tokeny jazykových modelů s vyhledáváním a kontrolou faktů) a k tomu doména. Kolik stál který běh, je zveřejněné v souboru naklady.json. Vše zatím platí autor z vlastní kapsy.",
+          en: "Vládoměr is free, ad-free and tracker-free. Running it isn't free though: each monthly update of all 143 items costs money (language-model tokens for search and the fact-check), plus the domain. The cost of every run is published in naklady.json. So far the author covers it all out of pocket.",
         },
       },
       {
         h: { cs: "Jak přispět", en: "How to contribute" },
         p: {
-          cs: "Přispět můžete přes Buy Me a Coffee — jednorázově, bez registrace a v libovolné výši. Příspěvky jdou na týdenní hodnocení a provoz domény, nic víc. Podpora není podmínkou ničeho: web zůstane celý zdarma, bez reklam a bez placených částí.\n\nPříspěvky od politických stran, hnutí a napojených subjektů se vracejí — pravidlo i jeho meze najdete v Deklaraci nestrannosti v sekci O projektu.",
-          en: "You can contribute through Buy Me a Coffee — one-off, no account needed, any amount. Contributions go towards the weekly assessment and the domain, nothing else. Supporting is not a condition of anything: the site stays entirely free, ad-free, with no paid sections.\n\nContributions from political parties, movements and connected entities are refunded — the rule and its limits are set out in the impartiality declaration under About.",
+          cs: "Přispět můžete přes Buy Me a Coffee — jednorázově, bez registrace a v libovolné výši. Příspěvky jdou na měsíční hodnocení a provoz domény, nic víc. Podpora není podmínkou ničeho: web zůstane celý zdarma, bez reklam a bez placených částí.\n\nPříspěvky od politických stran, hnutí a napojených subjektů se vracejí — pravidlo i jeho meze najdete v Deklaraci nestrannosti v sekci O projektu.",
+          en: "You can contribute through Buy Me a Coffee — one-off, no account needed, any amount. Contributions go towards the monthly assessment and the domain, nothing else. Supporting is not a condition of anything: the site stays entirely free, ad-free, with no paid sections.\n\nContributions from political parties, movements and connected entities are refunded — the rule and its limits are set out in the impartiality declaration under About.",
         },
       },
     ],
@@ -425,8 +483,8 @@ const PAGES = {
       {
         h: { cs: "Hodnotí to umělá inteligence. Proč bych tomu měl věřit?", en: "It’s rated by AI. Why should I trust it?" },
         p: {
-          cs: "Nemusíte — a právě proto je web postavený tak, aby si šlo všechno ověřit. U každého bodu jsou odkazy na zdroje, ze kterých hodnocení vychází. Instrukce, které model dostane, jsou zveřejněné do posledního znaku v sekci Použité prompty. Každé hodnocení se navíc trvale ukládá do auditního souboru, který se nikdy nepřepisuje.\n\nModel taky nemá poslední slovo. Program jeho odpověď kontroluje: odkaz, který se ve vyhledávání neobjevil, vyhodí jako vymyšlený, a stav „splněno“ bez konkrétního dokladu automaticky sníží. Berte to jako rychlý první průchod, který ukáže, kam se podívat — ne jako rozsudek.",
-          en: "You don’t have to — which is why the site is built so that everything can be checked. Every item lists the sources its rating draws on. The instructions the model receives are published to the last character under Prompts used. And every rating is permanently recorded in an audit file that is never rewritten.\n\nThe model also doesn’t get the last word. The program checks its answer: a link that never appeared in the search is discarded as invented, and a “fulfilled” status without concrete evidence is automatically downgraded. Treat it as a fast first pass that shows you where to look — not as a verdict.",
+          cs: "Nemusíte — a právě proto je web postavený tak, aby si šlo všechno ověřit. U každého bodu jsou odkazy na zdroje, ze kterých hodnocení vychází. Instrukce, které model dostane, jsou zveřejněné do posledního znaku v sekci Použité prompty. Každé hodnocení se navíc trvale ukládá do auditního souboru, který se nikdy nepřepisuje.\n\nModel taky nemá poslední slovo. Program jeho odpověď kontroluje: odkaz, který se ve vyhledávání neobjevil, vyhodí jako vymyšlený, a stav „splněno“ bez konkrétního dokladu automaticky sníží. Než se hodnocení zveřejní, ověří každé tvrzení, na kterém stojí stav, druhý model doslovnou citací ze zdroje a program tu citaci ve zdroji dohledá. Co se ověřit nepodaří, na web nejde. Berte to jako rychlý první průchod, který ukáže, kam se podívat — ne jako rozsudek.",
+          en: "You don’t have to — which is why the site is built so that everything can be checked. Every item lists the sources its rating draws on. The instructions the model receives are published to the last character under Prompts used. And every rating is permanently recorded in an audit file that is never rewritten.\n\nThe model also doesn’t get the last word. The program checks its answer: a link that never appeared in the search is discarded as invented, and a “fulfilled” status without concrete evidence is automatically downgraded. Before a rating is published, a second model checks every claim its status rests on against a word-for-word quotation from a source, and the program looks the quotation up in that source. Whatever cannot be confirmed does not go on the site. Treat it as a fast first pass that shows you where to look — not as a verdict.",
         },
       },
       {
@@ -453,15 +511,29 @@ const PAGES = {
       {
         h: { cs: "Našel jsem chybné hodnocení. Co s tím?", en: "I found a wrong rating. What now?" },
         p: {
-          cs: "Napište nám — formulář i GitHub najdete v sekci Návrhy na zlepšení. Nejvíc pomůže, když uvedete číslo bodu (třeba #2.4) a odkaz na zdroj, který hodnocení vyvrací.\n\nJednotlivá hodnocení se ručně nepřepisují: bylo by to přesně to zasahování, kterému se web brání. Když je chyba systematická, opraví se instrukce pro model nebo kontroly v programu a projeví se to při dalším týdenním běhu.",
-          en: "Tell us — the form and GitHub are both under Suggest improvements. It helps most if you give the item number (say #2.4) and a link to a source that contradicts the rating.\n\nIndividual ratings are not edited by hand: that would be exactly the interference this site guards against. Where an error is systematic, the model’s instructions or the program’s checks get fixed and the change shows up in the next weekly run.",
+          cs: "Napište nám — formulář i GitHub najdete v sekci Návrhy na zlepšení. Nejvíc pomůže, když uvedete číslo bodu (třeba #2.4) a odkaz na zdroj, který hodnocení vyvrací.\n\nJednotlivá hodnocení se ručně nepřepisují: bylo by to přesně to zasahování, kterému se web brání. Když je chyba systematická, opraví se instrukce pro model nebo kontroly v programu a projeví se to při další aktualizaci.",
+          en: "Tell us — the form and GitHub are both under Suggest improvements. It helps most if you give the item number (say #2.4) and a link to a source that contradicts the rating.\n\nIndividual ratings are not edited by hand: that would be exactly the interference this site guards against. Where an error is systematic, the model’s instructions or the program’s checks get fixed and the change shows up in the next update.",
         },
       },
       {
         h: { cs: "Jak často se to aktualizuje?", en: "How often is it updated?" },
         p: {
-          cs: "Každý pátek v 9:00 UTC. Běh trvá zhruba půl hodiny a přepíše stavy i komentáře u všech bodů. Datum posledního hodnocení je vždy nahoře na stránce.",
-          en: "Every Friday at 09:00 UTC. The run takes about half an hour and rewrites the statuses and comments for every item. The date of the latest assessment is always shown at the top of the page.",
+          cs: "Jednou měsíčně, prvního dne v měsíci ráno (UTC). Celý běh včetně kontroly faktů trvá několik hodin. Při velké události může proběhnout mimořádná aktualizace. Datum poslední i příští aktualizace je vždy nahoře na stránce.",
+          en: "Once a month, on the morning of the first day of the month (UTC). The whole run, including the fact-check, takes a few hours. A major event can trigger an extraordinary update. The dates of the latest and the next update are always shown at the top of the page.",
+        },
+      },
+      {
+        h: { cs: "Co znamená „čeká na ověření“?", en: "What does “awaiting review” mean?" },
+        p: {
+          cs: "Novější hodnocení bodu neprošlo kontrolou faktů — některé tvrzení, na kterém stojí stav, se nepodařilo potvrdit citací ze zdroje, nebo mu zdroj odporuje. Takové hodnocení na web nejde. Bod si ponechá poslední ověřené hodnocení i s jeho datem a o novějším rozhodne člověk. Co přesně kontrola nepotvrdila, je v souboru faktcheck.json.",
+          en: "A newer rating of the item did not pass the fact-check — a claim its status rests on could not be confirmed by a quotation from a source, or a source contradicts it. Such a rating does not go on the site. The item keeps its last verified rating, with its date, and a person decides on the newer one. What exactly the check could not confirm is in faktcheck.json.",
+        },
+      },
+      {
+        h: { cs: "Kdo kontroluje, že to sedí?", en: "Who checks that it is right?" },
+        p: {
+          cs: "Tři vrstvy. Program kontroluje, co ví přesně — čísla a data předpisů proti e-Sbírce, odkazy, shodu české a anglické verze. Nezávislý model ověřuje každé tvrzení, na kterém stojí stav, doslovnou citací ze zdroje, kterou program dohledá. A co ani jeden nepotvrdí, posoudí člověk dřív, než se to na webu objeví. Podrobnosti jsou v Metodice v části Kontrola faktů.",
+          en: "Three layers. The program checks what it knows exactly — instrument numbers and dates against the e-Collection, links, agreement between the Czech and English versions. An independent model checks every claim a status rests on against a word-for-word quotation from a source, which the program looks up. And whatever neither of them confirms is reviewed by a person before it appears on the site. The details are in the Methodology, under Fact-check.",
         },
       },
       {
@@ -474,22 +546,22 @@ const PAGES = {
       {
         h: { cs: "Jak poznám, že jste data zpětně nezměnili?", en: "How do I know you haven’t quietly changed the data?" },
         p: {
-          cs: "Nijak nám nemusíte věřit. Celý web i všechna data jsou na GitHubu a každý týdenní běh je samostatný commit — jde se podívat, co přesně se kdy změnilo, a vrátit se k libovolnému staršímu stavu. K tomu existuje auditní soubor audit.json, do kterého se hodnocení přidávají a nikdy se nepřepisují.",
-          en: "You don’t have to take our word for it. The whole site and all its data are on GitHub, and each weekly run is a separate commit — you can see exactly what changed and when, and go back to any earlier state. On top of that there is audit.json, an append-only file where ratings are added and never rewritten.",
+          cs: "Nijak nám nemusíte věřit. Celý web i všechna data jsou na GitHubu a každá aktualizace je samostatný commit — jde se podívat, co přesně se kdy změnilo, a vrátit se k libovolnému staršímu stavu. K tomu existuje auditní soubor audit.json, do kterého se hodnocení přidávají a nikdy se nepřepisují.",
+          en: "You don’t have to take our word for it. The whole site and all its data are on GitHub, and each update is a separate commit — you can see exactly what changed and when, and go back to any earlier state. On top of that there is audit.json, an append-only file where ratings are added and never rewritten.",
         },
       },
       {
         h: { cs: "Můžu vaše data použít?", en: "Can I reuse your data?" },
         p: {
-          cs: "Ano, i komerčně, stačí uvést zdroj — hodnocení a data jsou pod licencí CC BY 4.0, zdrojový kód pod MIT. Prosíme jen, abyste u čísla uváděli i datum: přepisuje se každý pátek, takže údaj bez data je za týden nepravdivý. Doporučený tvar citace je v souboru LICENSE-DATA na GitHubu.",
-          en: "Yes, commercially too, as long as you credit the source — the assessments and data are under CC BY 4.0, the source code under MIT. We only ask that you quote the date alongside the figure: it is rewritten every Friday, so a number without one is wrong within the week. The suggested wording is in LICENSE-DATA on GitHub.",
+          cs: "Ano, i komerčně, stačí uvést zdroj — hodnocení a data jsou pod licencí CC BY 4.0, zdrojový kód pod MIT. Prosíme jen, abyste u čísla uváděli i datum: mění se s každou měsíční aktualizací, takže údaj bez data za měsíc nemusí platit. Doporučený tvar citace je v souboru LICENSE-DATA na GitHubu.",
+          en: "Yes, commercially too, as long as you credit the source — the assessments and data are under CC BY 4.0, the source code under MIT. We only ask that you quote the date alongside the figure: it changes with every monthly update, so a number without one may be wrong within the month. The suggested wording is in LICENSE-DATA on GitHub.",
         },
       },
       {
         h: { cs: "Kdo to platí a sledujete návštěvníky?", en: "Who pays for this, and do you track visitors?" },
         p: {
-          cs: "Provoz platí autor ze svého; je to řádově pár tisíc korun ročně za tokeny modelu a doménu. Příspěvky od politických stran, hnutí a napojených subjektů se vracejí — podrobnosti jsou v Deklaraci nestrannosti.\n\nMěření návštěvnosti se spustí jedině tehdy, když k němu dáte souhlas v liště dole. Když ho odmítnete, neodesílá se nic a rozhodnutí jde kdykoli změnit odkazem v patičce.",
-          en: "The author pays for it personally; it runs to a few thousand crowns a year for model tokens and the domain. Contributions from political parties, movements and connected entities are refunded — the details are in the impartiality declaration.\n\nAnalytics only start if you consent in the bar at the bottom. Decline and nothing is sent; you can change your mind at any time via the link in the footer.",
+          cs: "Provoz platí autor ze svého: tokeny jazykových modelů a doménu. Kolik stál který běh, je zveřejněné v souboru naklady.json v datech webu. Příspěvky od politických stran, hnutí a napojených subjektů se vracejí — podrobnosti jsou v Deklaraci nestrannosti.\n\nMěření návštěvnosti se spustí jedině tehdy, když k němu dáte souhlas v liště dole. Když ho odmítnete, neodesílá se nic a rozhodnutí jde kdykoli změnit odkazem v patičce.",
+          en: "The author pays for it personally: language-model tokens and the domain. The cost of every run is published in naklady.json in the site's data. Contributions from political parties, movements and connected entities are refunded — the details are in the impartiality declaration.\n\nAnalytics only start if you consent in the bar at the bottom. Decline and nothing is sent; you can change your mind at any time via the link in the footer.",
         },
       },
       {
@@ -533,9 +605,11 @@ function daysBetween(a, b) { return Math.floor((b - a) / 86400000); }
 function fmtDate(d, lang) {
   return new Date(d).toLocaleDateString(lang === "cs" ? "cs-CZ" : "en-GB", { day: "numeric", month: "long", year: "numeric" });
 }
-function nextFriday(from) {
-  const d = new Date(from); const day = d.getDay(); const add = (5 - day + 7) % 7 || 7;
-  d.setDate(d.getDate() + add); d.setHours(9, 0, 0, 0); return d;
+/* Další měsíční běh: 1. den příštího měsíce v 05:15 UTC (cron v deploy.yml).
+   I po mimořádné aktualizaci uprostřed měsíce je další ta pravidelná. */
+function dalsiBeh(from) {
+  const d = new Date(from);
+  return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 1, 5, 15));
 }
 function trend(from, to) {
   const a = (STATUS[to]?.rank ?? 1) - (STATUS[from]?.rank ?? 1);
@@ -882,7 +956,7 @@ function MethodologyModal({ lang, onClose, onOpenPrompts }) {
 
 /* ── Charts ────────────────────────────────────────────────────────────────
    Line chart comparing cumulative "fulfilled %" per quarter of the term.
-   The current cabinet's curve is derived live from weekly snapshots using the
+   The current cabinet's curve is derived live from the run snapshots using the
    STRICT metric (fulfilled / all items) so it is directly comparable with the
    external series — see src/governments.js for the full reasoning.          */
 const CHART_METHOD = {
@@ -898,7 +972,7 @@ function strictPctFromStatuses(statuses) {
   return (done / ids.length) * 100;
 }
 
-/** Live quarterly series for the current cabinet, from weekly snapshots.
+/** Live quarterly series for the current cabinet, from the run snapshots.
  *  Latest snapshot within each quarter wins. */
 function currentSeries(snapshots, evals, termStartMs) {
   const out = new Array(QUARTER_COUNT).fill(null);
@@ -1112,7 +1186,7 @@ function PromptsPage({ lang }) {
                 {t("promptSoubor")} ↗
               </a>
             </div>
-            {popis && <p>{popis.p[lang]}</p>}
+            {popis && <p>{typeof popis.p[lang] === "function" ? popis.p[lang](data.nastaveni || {}) : popis.p[lang]}</p>}
 
             <div className="vm-toggle"><span className="lab">{t("promptSablona")}</span></div>
             <pre className="vm-code">{p.sablona}</pre>
@@ -1218,6 +1292,8 @@ export default function App() {
   const [evals, setEvals] = useState({});
   const [snapshots, setSnapshots] = useState([]);
   const [news, setNews] = useState([]);
+  // Body, jejichž novější hodnocení neprošlo kontrolou faktů: id → "podrzet" | "bez-razitka".
+  const [zadrzene, setZadrzene] = useState({});
   // Po načtení je sbalené všechno — na začátku má být vidět souhrn a rozcestník,
   // ne rozevřený obsah, kterým se musí uživatel proscrollovat k tomu, co hledá.
   const [newsOpen, setNewsOpen] = useState(false);
@@ -1239,18 +1315,20 @@ export default function App() {
   useEffect(() => { const id = setInterval(() => setNow(Date.now()), 1000); return () => clearInterval(id); }, []);
 
   /* Volá se jen jednou při startu. Tlačítko „Obnovit“ tu bývalo, ale data se
-     mění jednou týdně, takže kliknutí prakticky nikdy nic nezměnilo a jen
+     mění jednou měsíčně, takže kliknutí prakticky nikdy nic nezměnilo a jen
      budilo dojem, že je co obnovovat. */
   const loadData = useCallback(async () => {
     try {
-      const [er, hr, nr] = await Promise.all([
+      const [er, hr, nr, fr] = await Promise.all([
         fetch(`${import.meta.env.BASE_URL}evaluations.json?t=${Date.now()}`),
         fetch(`${import.meta.env.BASE_URL}history.json?t=${Date.now()}`),
         fetch(`${import.meta.env.BASE_URL}news.json?t=${Date.now()}`).catch(() => null),
+        fetch(`${import.meta.env.BASE_URL}faktcheck.json?t=${Date.now()}`).catch(() => null),
       ]);
       if (er.ok) { const j = await er.json(); setEvals(j.evals || {}); setLastUpdated(j.lastUpdated || null); }
       if (hr.ok) { const h = await hr.json(); setSnapshots(h.snapshots || []); }
       if (nr && nr.ok) { const n = await nr.json(); setNews(n.items || []); }
+      if (fr && fr.ok) { const f = await fr.json(); setZadrzene(Object.fromEntries(Object.entries(f.body || {}).map(([id, b]) => [id, b.akce]))); }
     } catch (e) { /* keep empty state */ }
   }, []);
 
@@ -1295,7 +1373,7 @@ export default function App() {
      computes to 0. "0 % splněno" is a claim about the cabinet; "–" is the
      absence of one. Chapter rows already make that distinction — the headline
      gauge has to make it too, or the site states a falsehood until the first
-     Friday. */
+     run. */
   const pctOrDash = (v) => (evaluatedCount ? `${pct1(v)}%` : "–");
 
   const changes = useMemo(() => {
@@ -1352,7 +1430,7 @@ export default function App() {
     return CHAPTERS
       .map((ch) => {
         const body = ch.groups.flatMap((g) => g.items).map((i) => evals[i.id]).filter(Boolean);
-        /* Od delta běhů (08/2026) se bod nemusí každý týden přepisovat, aby byl
+        /* Od delta běhů (08/2026) se bod nemusí při každém běhu přepisovat, aby byl
            čerstvý — sken událostí ho razítkuje polem overeno. Zastaralý je až
            bod, na který se běh nepodíval vůbec. */
         if (!body.length || body.some((e) => ((e.overeno || e.updatedAt) || "").slice(0, 10) === den)) return null;
@@ -1363,7 +1441,7 @@ export default function App() {
   }, [evals, lastUpdated]);
   const zastaraleIds = new Set(zastarale.map((z) => z.id));
 
-  const next = nextFriday(lastUpdated ? new Date(lastUpdated) : new Date(now));
+  const next = dalsiBeh(lastUpdated ? new Date(lastUpdated) : new Date(now));
   const filterOpts = ["all", "fulfilled", "partial", "in_progress", "declared", "not_started", "broken", "pending"];
 
   return (
@@ -1596,7 +1674,8 @@ export default function App() {
                           // Vysvětlení snížení musí jít otevřít i u bodu, kde by
                           // jinak nebylo co číst — jinak by o něm nikdo nevěděl.
                           const demoted = e && T.demotedWhy[e.evidenceMissing] ? e.evidenceMissing : null;
-                          const hasNote = e && ((e.comment && (e.comment[lang] || e.comment.cs)) || (e.change && (e.change[lang] || e.change.cs)) || hasSrc || demoted);
+                          const held = e && T.heldWhy[zadrzene[it.id]] ? zadrzene[it.id] : null;
+                          const hasNote = e && ((e.comment && (e.comment[lang] || e.comment.cs)) || (e.change && (e.change[lang] || e.change.cs)) || hasSrc || demoted || held);
                           return (
                             <div className="vm-it" key={it.id}>
                               <div className="vm-it-row">
@@ -1611,6 +1690,7 @@ export default function App() {
                                     <span className="vm-pill" style={{ color: sObj.color, border: `1px solid ${sObj.color}` }}>{sObj[lang]}</span>
                                     {e?.unverifiable && <span className="vm-pill vm-pill-unver">{t("unverBadge")}</span>}
                                     {demoted && <span className="vm-pill vm-pill-demoted">{t("demotedBadge")}</span>}
+                                    {held && <span className="vm-pill vm-pill-demoted">{t("heldBadge")}</span>}
                                     {tr && <span className="vm-trend" style={{ color: tr.c }} title={`${STATUS[e.previousStatus]?.[lang] || ""} → ${sObj[lang]}`}>{tr.g}</span>}
                                     <span className="vm-id vm-mono">#{it.id}</span>
                                     {hasNote && (
@@ -1622,6 +1702,7 @@ export default function App() {
                                   </div>
                                   {cmtOpen && e && (
                                     <div className="vm-cmt">
+                                      {held && <div className="vm-demoted">{T.heldWhy[held][lang]}</div>}
                                       {demoted && (
                                         <div className="vm-demoted">
                                           <b>{t("demotedLead")}</b>{" "}

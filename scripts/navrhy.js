@@ -30,12 +30,15 @@ const zGitu = (commit, cesta) => JSON.parse(execFileSync("git", ["-C", KOREN, "s
 const zapis = (cesta, data) => { mkdirSync(dirname(join(KOREN, cesta)), { recursive: true }); writeFileSync(join(KOREN, cesta), `${JSON.stringify(data, null, 2)}${cesta.startsWith("navrhy/") ? "\n" : ""}`); };
 
 function preskladej(soubor, cestaSouboru) {
-  const zaklad = { evals: zGitu(soubor.zaklad, "public/evaluations.json"), audit: zGitu(soubor.zaklad, "public/audit.json"), hist: zGitu(soubor.zaklad, "public/history.json") };
+  let faktcheck = null;
+  try { faktcheck = zGitu(soubor.zaklad, "public/faktcheck.json"); } catch { /* běh bez kontroly faktů */ }
+  const zaklad = { evals: zGitu(soubor.zaklad, "public/evaluations.json"), audit: zGitu(soubor.zaklad, "public/audit.json"), hist: zGitu(soubor.zaklad, "public/history.json"), faktcheck };
   const dnes = new Date().toISOString().slice(0, 10);
   const r = sloz(soubor, zaklad, dnes);
   zapis("public/evaluations.json", r.evals);
   zapis("public/audit.json", r.audit);
   zapis("public/history.json", r.hist);
+  if (r.faktcheck) zapis("public/faktcheck.json", r.faktcheck);
   zapis(cestaSouboru, soubor);
   return r;
 }

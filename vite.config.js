@@ -7,6 +7,7 @@ import { readSettings, readList } from "./scripts/lib/nastaveni.js";
 import { promptHodnoceni, promptZpravy, promptDeltaScan, promptOvereniPrechodu, promptDoptani } from "./scripts/lib/prompty.js";
 import { promptKorektury } from "./scripts/lib/korektura.js";
 import { predpisyZOdpovedi, tabulkaRejstriku, popisProOverovatele } from "./scripts/lib/sbirka.js";
+import { promptKontroly, nactiMetodiku } from "./scripts/lib/faktcheck/modelova.js";
 import { ALL_ITEMS, TOTAL_ITEMS, DATES, CHAPTERS } from "./src/data.js";
 
 /* Strukturovaná data se vkládají při buildu, protože obsahují čísla z
@@ -166,6 +167,26 @@ function pouzitePrompty() {
           ukazka: davka.length ? promptKorektury(davka) : null,
           ukazkaPopis: davka.length ? `${davka.length} úryvky z oblasti ${kap.id}` : null,
         },
+        /* Kontrola faktů (spec 004). Ukázka na prvním „splněném“ bodu webu.
+           Texty zdrojů program v ostrém běhu stahuje; build běží bez sítě,
+           takže ukázka jejich místo jen označí a přizná to. */
+        (() => {
+          const polozka = ALL_ITEMS.find((it) => evals[it.id] && evals[it.id].status === "fulfilled") || ALL_ITEMS[0];
+          const e = evals[polozka.id] || { status: "declared", sources: [] };
+          return {
+            id: "faktcheck",
+            soubor: `${SOUBOR}/prompt-faktcheck.md`,
+            model: nast.faktcheck_model,
+            sablona: cti("prompt-faktcheck.md"),
+            ukazka: promptKontroly({
+              id: polozka.id, slib: polozka.cs, e,
+              predpisy: ((e.sbirka && e.sbirka.overene) || []).map(({ kod, nazev, vyhlaseno }) => ({ kod, nazev, vyhlaseno })),
+              zdroje: (e.sources || []).slice(0, 2).map((z) => ({ url: z.url, text: "(text stránky, který program stáhl — v ukázce vynechaný)" })),
+              metodika: nactiMetodiku(), dnes: "2026-11-01", nastup: String(DATES.tookOffice).slice(0, 10), kolo: 1,
+            }),
+            ukazkaPopis: `bod ${polozka.id}, 1. kolo — texty zdrojů v ukázce vynechané`,
+          };
+        })(),
       ];
 
       this.emitFile({
@@ -173,6 +194,13 @@ function pouzitePrompty() {
         fileName: "prompty.json",
         source: JSON.stringify({
           prompty,
+          /* Čísla, která texty stránky uvádějí — z nastaveni.txt, aby je
+             nebylo nutné opisovat (a nemohla se rozejít s během). */
+          nastaveni: {
+            zpravy_max_stari_dni: nast.zpravy_pocet_dni + nast.zpravy_tolerance_dni,
+            pocet_zprav: nast.pocet_zprav,
+            oblasti: CHAPTERS.length,
+          },
           zdroje: {
             hodnoceni: readList("weby-hodnoceni.txt"),
             zpravy: readList("weby-zpravy.txt"),

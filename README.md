@@ -1,18 +1,18 @@
 # Vládoměr
 
-Bilingual (CS/EN) tracker of how the Czech government's programme statement is being delivered. Live counters (days in office / days to the estimated election), an expandable chapter → sub-group → item checklist mirroring the official document, per-item progress, dark mode, and a weekly AI evaluation.
+Bilingual (CS/EN) tracker of how the Czech government's programme statement is being delivered. Live counters (days in office / days to the estimated election), an expandable chapter → sub-group → item checklist mirroring the official document, per-item progress, dark mode, and a monthly AI evaluation with a fact-check before publication.
 
 - **Data source:** [Programové prohlášení vlády](https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/) (approved 5 Jan 2026)
 - **Stack:** React + Vite, deployed as a static site to GitHub Pages
-- **Weekly evaluation:** GitHub Actions cron → Anthropic API (Haiku) → `public/evaluations.json`
+- **Monthly evaluation:** GitHub Actions cron (1st of the month) → Anthropic API (models set in [`scripts/nastaveni/nastaveni.txt`](scripts/nastaveni/nastaveni.txt)) → fact-check → `public/evaluations.json`
 
 ## How it fits together
 
-The browser **never** calls a model and **never** sees an API key. A scheduled job runs `scripts/evaluate.js` on the server every Friday, writes `public/evaluations.json`, and the static site just fetches that file.
+The browser **never** calls a model and **never** sees an API key. A scheduled job runs `scripts/evaluate.js` on the server on the 1st of every month, checks the result with `scripts/faktcheck.js`, publishes what the check confirmed (`scripts/rozhodni.js`), and the static site just fetches the resulting files. What the check could not confirm keeps its previous rating and goes to the owner as a pull request, with a PDF report by e-mail.
 
 ```
-push / Friday cron ─▶ GitHub Actions
-                        ├─ (Fri only) npm run evaluate  ──▶ public/evaluations.json
+push / monthly cron ─▶ GitHub Actions
+                        ├─ (cron only) evaluate → fact-check → decide ──▶ public/*.json (+ PR with held items, e-mail)
                         └─ npm run build ──▶ deploy to GitHub Pages ──▶ your site
 ```
 
@@ -41,15 +41,15 @@ ANTHROPIC_API_KEY=sk-ant-... npm run evaluate
    ```
    https://buuczech.github.io/vladomer/
    ```
-5. **Populate the first evaluation.** Repo → **Actions → Deploy Vládoměr → Run workflow** (the manual run executes the evaluation step). After that it runs by itself every Friday.
+5. **Populate the first evaluation.** Repo → **Actions → Deploy Vládoměr → Run workflow** (the manual run executes the evaluation step). After that it runs by itself on the 1st of every month.
 
-That's it — the site is online and updates itself weekly.
+That's it — the site is online and updates itself monthly.
 
 ## Cost
 
-Each weekly run is 18 API calls (one per chapter) on Haiku with web search enabled — a few cents per week.
+Every run records its cost in `public/naklady.json` (published with the site). A fuse in `nastaveni.txt` (`pojistka_ceny_usd`) stops a run that would cost more, so a bug cannot run up a bill.
 
-**Prompts and settings live in [`scripts/nastaveni/`](scripts/nastaveni/) as plain text** — the prompts themselves, the model, source whitelists, and the tunable numbers. Edit them without touching JavaScript; see [`scripts/nastaveni/NAVOD.md`](scripts/nastaveni/NAVOD.md). A bad edit stops the run with a readable error *before* any API call, leaving last week's data live. To preview exactly what would be sent, without spending anything:
+**Prompts and settings live in [`scripts/nastaveni/`](scripts/nastaveni/) as plain text** — the prompts themselves, the model, source whitelists, and the tunable numbers. Edit them without touching JavaScript; see [`scripts/nastaveni/NAVOD.md`](scripts/nastaveni/NAVOD.md). A bad edit stops the run with a readable error *before* any API call, leaving the previous data live. To preview exactly what would be sent, without spending anything:
 
 ```bash
 ANTHROPIC_API_KEY=x node --import ./scripts/dev/dump-prompts.js scripts/evaluate.js
@@ -63,7 +63,7 @@ All commitments live in `src/data.js` as `{ id, cs, en }`. Add, reword, or regro
 
 ## Alternative: Vercel / Netlify
 
-Import the repo, framework preset **Vite**, build `npm run build`, output `dist`. Hosting works instantly, but keep the **GitHub Actions** workflow for the Friday evaluation (free-tier cron on these hosts is more limited) — it commits `evaluations.json` back to the repo, which triggers a redeploy.
+Import the repo, framework preset **Vite**, build `npm run build`, output `dist`. Hosting works instantly, but keep the **GitHub Actions** workflow for the monthly evaluation (free-tier cron on these hosts is more limited) — it commits `evaluations.json` back to the repo, which triggers a redeploy.
 
 ## Licence
 
@@ -75,8 +75,8 @@ Commons licences are not meant for software:
 | Source code — app, build, scripts | **MIT** — see [LICENSE](LICENSE) |
 | Assessments, item texts, the JSON data | **CC BY 4.0** — see [LICENSE-DATA](LICENSE-DATA) |
 
-Reusing the figures? Include the date — the assessment is overwritten every
-Friday, so a number without one is wrong within the week:
+Reusing the figures? Include the date — the assessment changes with every
+monthly update, so a number without one may be wrong within the month:
 
 > Zdroj: Vládoměr (vladomer.cz), CC BY 4.0. Stav k &lt;datum&gt;.
 

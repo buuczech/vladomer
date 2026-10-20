@@ -11,8 +11,8 @@ on ho schválí, teprve pak jde ven.
 ## Co Vládoměr je
 
 Občanský projekt, který sleduje plnění programového prohlášení Babišovy vlády:
-143 závazků, přehodnocených každý pátek jazykovým modelem podle veřejné
-metodiky. Web vladomer.cz, kód a data otevřené (MIT a CC BY 4.0).
+143 závazků, přehodnocených jednou měsíčně jazykovým modelem podle veřejné
+metodiky, s kontrolou faktů před zveřejněním. Web vladomer.cz, kód a data otevřené (MIT a CC BY 4.0).
 
 Jeho jediný kapitál je důvěryhodnost. Přísně počítá „splněno" (jen to, co
 prošlo celým legislativním procesem), přiznává, že hodnotí AI, a zveřejňuje

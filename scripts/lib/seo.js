@@ -1,8 +1,8 @@
 /* scripts/lib/seo.js — strukturovaná data (JSON-LD) vkládaná do index.html
    při buildu.
  *
- * Proč při buildu a ne natvrdo do index.html: čísla i datum se mění každý
- * pátek. Zapsané ručně by byla druhý den nepravdivá — stejný důvod, proč se
+ * Proč při buildu a ne natvrdo do index.html: čísla i datum se mění s každou
+ * aktualizací. Zapsané ručně by byla po ní nepravdivá — stejný důvod, proč se
  * překresluje og.png a proč v sitemap.xml není <lastmod>.
  *
  * Co to řeší: web je jednostránková aplikace, obsah dotahuje JavaScript.
@@ -37,9 +37,9 @@ export function jsonLd({ evaluationsPath, items, totalItems, tookOffice }) {
   const popis = n
     ? `Nezávislé sledování plnění programového prohlášení vlády Andreje Babiše. `
       + `Z ${totalItems} závazků je ${n} hodnoceno, splněno ${done}. `
-      + `Hodnocení se obnovuje každý pátek.`
+      + `Hodnocení se obnovuje jednou měsíčně.`
     : `Nezávislé sledování plnění programového prohlášení vlády Andreje Babiše `
-      + `(${totalItems} závazků). Hodnocení se obnovuje každý pátek.`;
+      + `(${totalItems} závazků). Hodnocení se obnovuje jednou měsíčně.`;
 
   const soubor = (jmeno, popisSouboru) => ({
     "@type": "DataDownload",
@@ -90,7 +90,7 @@ export function jsonLd({ evaluationsPath, items, totalItems, tookOffice }) {
       ],
       distribution: [
         soubor("evaluations.json", "Aktuální hodnocení všech závazků"),
-        soubor("history.json", "Týdenní snímky stavů pro graf vývoje"),
+        soubor("history.json", "Snímky stavů z každé aktualizace pro graf vývoje"),
         soubor("audit.json", "Auditní stopa — každé hodnocení s datem a odůvodněním"),
       ],
       ...(lastUpdated ? { dateModified: lastUpdated.slice(0, 10) } : {}),

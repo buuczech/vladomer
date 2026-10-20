@@ -11,8 +11,8 @@ sepíšeš report a navrhneš opravu. Opravuješ až po schválení.
 ## Co Vládoměr je a proč se kontroluje zrovna takhle
 
 Občanský projekt, který sleduje plnění programového prohlášení Babišovy vlády:
-143 závazků, přehodnocených každý pátek jazykovým modelem podle veřejné
-metodiky. Web vladomer.cz, kód a data otevřené (MIT a CC BY 4.0).
+143 závazků, přehodnocených jednou měsíčně jazykovým modelem podle veřejné
+metodiky, s kontrolou faktů před zveřejněním. Web vladomer.cz, kód a data otevřené (MIT a CC BY 4.0).
 
 Jeho jediný kapitál je důvěryhodnost. Z toho plyne, co je vlastně vada:
 **nález se měří tím, jak moc podkopává důvěru**, ne tím, jak je technicky
@@ -22,7 +22,7 @@ neošetřená výjimka v build skriptu, protože první vidí návštěvník a d
 A platí tu asymetrie, kterou popisuje `CLAUDE.md`: **podhodnotit plnění je
 horší směr, než ho nadhodnotit.** Hlídací pes, který tvrdí, že vláda nesplnila
 něco, co splnila, přijde o právo být brán vážně rychleji než ten, který je
-o týden pozadu. Když si nejsi jistý směrem, tenhle je dražší.
+o měsíc pozadu. Když si nejsi jistý směrem, tenhle je dražší.
 
 ## Tři pravidla, která platí ve všech oblastech
 
@@ -137,8 +137,9 @@ npm run build
 ```
 
 **Data se za běhu berou ze čtyř souborů v `public/`** — `evaluations.json`
-(aktuální stav 143 bodů), `history.json` (týdenní snímky pro graf),
-`news.json` (zprávy týdne) a `audit.json` (auditní stopa, append-only, do
+(aktuální stav 143 bodů), `history.json` (snímky z každého běhu pro graf),
+`news.json` (zprávy před aktualizací), `faktcheck.json` (co kontrola faktů
+nepustila na web) a `audit.json` (auditní stopa, append-only, do
 prohlížeče se nenačítá). Struktura je popsaná v `references/data.md`.
 
 **Rozdělení mezi oblastmi `data` a `fakta` je záměrné a nemá se stírat.**

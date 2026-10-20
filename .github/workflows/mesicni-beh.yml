@@ -138,7 +138,7 @@ jobs:
           git switch -c "$VETEV"
           node scripts/navrhy.js vytvor --rozhodnuti faktcheck-vystup/rozhodnuti.json --zaklad "${{ steps.zapis.outputs.sha }}" | tee /tmp/navrhy-pr.log
           if grep -q "^návrhů: 0" /tmp/navrhy-pr.log; then echo "Nic k rozhodnutí, PR se nezakládá."; exit 0; fi
-          git add public/evaluations.json public/audit.json public/history.json navrhy/
+          git add public/evaluations.json public/audit.json public/history.json public/faktcheck.json navrhy/
           git commit -m "Návrhy z běhu $(date -u +%Y-%m) k rozhodnutí vlastníka"
           git push -u origin "$VETEV" --force-with-lease
           node scripts/report.js --pred /tmp/pred/evaluations.json --bez-pdf --vystup /tmp/report-pr > /dev/null
