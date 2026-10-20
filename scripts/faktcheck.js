@@ -6,6 +6,7 @@
  *     node scripts/faktcheck.js --model --body 2.3,12.2 --bez-davky
  *     node scripts/faktcheck.js --model --bez-kola2   # jen kolo 1 (měření; ostrý běh vždy obě kola)
  *     node scripts/faktcheck.js --model --zapsat-naklady  # měsíční běh: pojistka na celý běh, cena do public/naklady.json
+ *     node scripts/faktcheck.js --model --body … --vyzvednout msgbatch_…  # výsledky už zaplacené dávky (z davky.json nebo logu)
  *     node scripts/faktcheck.js --vystup adresar
  *
  * Vrstva D (deterministická, zdarma) kontroluje to, co program ví přesně:
@@ -46,6 +47,7 @@ const BEZ_SITE = process.argv.includes("--bez-site");
 const S_MODELEM = process.argv.includes("--model");
 const BEZ_DAVKY = process.argv.includes("--bez-davky");
 const BEZ_KOLA2 = process.argv.includes("--bez-kola2");
+const VYZVEDNOUT = (arg("vyzvednout", "") || "").split(",").map((x) => x.trim()).filter(Boolean);
 const VYSTUP = resolve(KOREN, arg("vystup", "faktcheck-vystup"));
 
 const data = JSON.parse(readFileSync(join(KOREN, "public", "evaluations.json"), "utf8"));
@@ -203,37 +205,67 @@ if (S_MODELEM) {
       catch (e) { zpracuj(id, 1, null, e.message.slice(0, 200)); if (pojistkaZasahla()) break; }
     }
   } else {
-    /* Dávka po částech. Pojistka ceny jednou odeslanou dávku nezastaví a její
-       cenu zná až po doběhnutí, takže se uplatní mezi částmi: před každou
-       další částí se její cena odhadne z průměru dosavadních (s rezervou 1,5×),
-       a když by překročila strop, zbylé body zůstanou nezkontrolované —
-       vrstva R je podrží, nikdy je nepustí jako ověřené. */
-    const velikost = Math.max(1, Number(process.env.DAVKA_VELIKOST) || 25);
-    const nCasti = Math.ceil(vyber.length / velikost);
-    const casti = Array.from({ length: nCasti }, (_, i) => vyber.slice(Math.round((i * vyber.length) / nCasti), Math.round(((i + 1) * vyber.length) / nCasti)));
-    let hotovo = 0;
-    for (const [i, cast] of casti.entries()) {
-      const utraceno = souhrnNakladu().celkem_usd;
-      const odhad = hotovo ? (utraceno / hotovo) * cast.length * 1.5 : 0;
-      if (hotovo && utraceno + odhad > POJISTKA) {
-        console.error(`POJISTKA CENY: část ${i + 1}/${nCasti} (${cast.length} bodů) by podle dosavadního průměru stála ~${odhad.toFixed(2)} $ a s utracenými ${utraceno.toFixed(2)} $ překročila strop ${POJISTKA} $ — zbylé body zůstávají nezkontrolované`);
-        zastavenoPredem = true;
-        break;
-      }
-      const d = await odesliDavku(cast.map((id) => ({ custom_id: id.replace(".", "_"), params: parametry1(id) })), { klic: KLIC, role: "faktcheck-1" });
-      console.log(`  dávka ${i + 1}/${nCasti} (${cast.length} bodů) ${d.id} odeslána, čekám…`);
-      // Dávka obvykle doběhne do hodiny. Strop je pod limitem jobu (240 min), aby běh
-      // skončil chybou s id dávky, ne zabitím — výsledky dávky API drží 29 dní.
-      const hotova = await cekejNaDavku(d.id, { klic: KLIC, maxMs: Number(process.env.DAVKA_MAX_MIN || 180) * 60000, hlas: (c) => console.log(`  … ${JSON.stringify(c)}`) });
-      const vys = await vysledkyDavky(hotova, { klic: KLIC, role: "faktcheck-1" });
-      for (const id of cast) {
+    /* Kolo 1 přes Batch API ve dvou krocích. Pojistka ceny odeslanou dávku
+       nezastaví a její cenu zná až po doběhnutí. Proto napřed malá zkušební
+       dávka (DAVKA_PRVNI, výchozí 12 bodů) — z ní je skutečná cena za bod —
+       a zbytek jednou dávkou, pokud se i s rezervou 1,5× vejde pod strop;
+       jinak jen tolik bodů, kolik se vejde, a ostatní zůstanou nezkontrolované
+       (vrstva R je podrží, nikdy je nepustí jako ověřené). Dvě čekání, ne
+       jedno za každou část: v měření 20. 10. 2026 se čtyři dávky po sobě
+       sčítaly na hodiny.
+       Čísla odeslaných dávek se hned zapisují do <vystup>/davky.json. Kdyby
+       běh skončil dřív, než dávka doběhne, výsledky jdou vyzvednout
+       (--vyzvednout id,id) a nic se neplatí dvakrát — API je drží 29 dní. */
+    const davky = [];
+    const prevezmi = (vys, body) => {
+      for (const id of body) {
         const r = vys.get(id.replace(".", "_"));
         if (!r) zpracuj(id, 1, null, "výsledek chybí");
         else if (!r.ok) zpracuj(id, 1, null, r.chyba);
         else zpracuj(id, 1, r.zprava);
       }
-      hotovo += cast.length;
-      console.log(`  … hotovo ${hotovo}/${vyber.length}, zatím ${souhrnNakladu().celkem_usd.toFixed(2)} $`);
+    };
+    const pockej = async (id) => {
+      let posledni = "";
+      // Dávka obvykle doběhne do hodiny. Strop je pod limitem jobu, aby běh
+      // skončil chybou s číslem dávky, ne zabitím.
+      const hotova = await cekejNaDavku(id, {
+        klic: KLIC, maxMs: Number(process.env.DAVKA_MAX_MIN || 180) * 60000,
+        hlas: (c) => { const t = JSON.stringify(c); if (t !== posledni) { posledni = t; console.log(`  … ${t}`); } },
+      });
+      return vysledkyDavky(hotova, { klic: KLIC, role: "faktcheck-1" });
+    };
+    const posli = async (body, popis) => {
+      const d = await odesliDavku(body.map((id) => ({ custom_id: id.replace(".", "_"), params: parametry1(id) })), { klic: KLIC, role: "faktcheck-1" });
+      davky.push({ id: d.id, odeslano: new Date().toISOString(), body });
+      writeFileSync(join(VYSTUP, "davky.json"), JSON.stringify(davky, null, 2));
+      console.log(`  dávka ${popis} (${body.length} bodů) ${d.id} odeslána, čekám…`);
+      prevezmi(await pockej(d.id), body);
+      console.log(`  … hotovo, kontrola zatím stála ${souhrnNakladu().celkem_usd.toFixed(2)} $`);
+    };
+    if (VYZVEDNOUT.length) {
+      // Z každé dávky jen její body; bod, který nebyl v žádné, je „výsledek chybí“.
+      for (const id of VYZVEDNOUT) {
+        console.log(`  vyzvedávám dávku ${id}`);
+        const vys = await pockej(id);
+        prevezmi(vys, vyber.filter((b) => vys.has(b.replace(".", "_"))));
+      }
+      for (const id of vyber) if (!vysledky[id]) zpracuj(id, 1, null, "výsledek chybí");
+    } else {
+      const prvni = Math.min(vyber.length, Math.max(1, Number(process.env.DAVKA_PRVNI) || 12));
+      await posli(vyber.slice(0, prvni), vyber.length > prvni ? "1/2 (zkušební)" : "1/1");
+      const zbytek = vyber.slice(prvni);
+      if (zbytek.length) {
+        const utraceno = souhrnNakladu().celkem_usd;
+        const naBod = (utraceno / prvni) * 1.5;
+        const vejde = naBod > 0 ? Math.max(0, Math.floor((POJISTKA - utraceno) / naBod)) : zbytek.length;
+        const cast = zbytek.slice(0, vejde);
+        if (cast.length < zbytek.length) {
+          console.error(`POJISTKA CENY: zkušební dávka stála ${(utraceno / prvni).toFixed(3)} $ za bod; do stropu ${POJISTKA} $ se s rezervou vejde ${cast.length} z ${zbytek.length} zbylých bodů — ostatní zůstávají nezkontrolované`);
+          zastavenoPredem = true;
+        }
+        if (cast.length) await posli(cast, "2/2");
+      }
     }
   }
 

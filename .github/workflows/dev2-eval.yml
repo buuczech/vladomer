@@ -116,9 +116,9 @@ jobs:
       - name: Kontrola faktů (zlatá + kontrolní sada)
         if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim == 'faktcheck'
         env:
-          # Dávka po 12 bodech: pojistka ceny se uplatní mezi částmi, a první
+          # Zkušební dávka 12 bodů, pak zbytek najednou, vejde-li se pod strop. První
           # část strop nepřekročí ani v nejhorším případě (každá odpověď na max_tokens).
-          DAVKA_VELIKOST: "12"
+          DAVKA_PRVNI: "12"
         run: |
           mkdir -p /tmp/vysledky
           node -e 'const j=require("./public/evaluations.json");console.log("data z DEV2: lastUpdated",j.lastUpdated)'
