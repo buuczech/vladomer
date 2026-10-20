@@ -17,6 +17,11 @@ name: DEV2 měření (stojí peníze)
 #   stabilita   dva plné běhy nad týmiž vstupy, porovnání stavů
 #               (porovnej-behy.js) a skóre obou proti zlaté sadě.
 #   beh         jeden plný běh nad daty z main (generálka), nic se nezveřejní.
+#   faktcheck   kontrola faktů (scripts/faktcheck.js --model) bodů zlaté
+#               a kontrolní sady nad daty ZAPSANÝMI NA DEV2 (ta, proti kterým
+#               vlastník sady ověřil), a skóre faktcheck-skore.js: kolik bodů,
+#               kde se web liší od pravdy, kontrola chytila. Hodnocení neběží.
+#               kola: 1 = jen kolo 1 (dávka), 2 = obě kola (výchozí).
 #
 # nahrat_kazetu: běh navíc uloží všechny požadavky a odpovědi do kazety
 # (scripts/dev/parita/zmrazit.js, režim nahrat) — podklad pro paritu
@@ -61,7 +66,7 @@ jobs:
       # Vstupem jsou VŽDY data z main: brána rozhoduje podle minulých stavů,
       # a jen s produkčními daty se běh chová jako ostrý.
       - name: Vstupní data z main
-        if: steps.m.outputs.spustit == 'true'
+        if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim != 'faktcheck'
         run: |
           git checkout origin/main -- public/evaluations.json public/history.json public/news.json public/audit.json
           mkdir -p /tmp/vstup && cp public/*.json /tmp/vstup/
@@ -76,8 +81,20 @@ jobs:
           echo "dnes=$(date -u +%FT%TZ)" >> "$GITHUB_OUTPUT"
           echo "Modely: hodnocení=${EVAL_MODEL:-nastavení} ověření=${OVEROVACI_MODEL:-nastavení} korektura=${KOREKTURA_MODEL:-nastavení}"
 
+      # Kontrola faktů nad daty zapsanými na DEV2: sady platí k datu, ke kterému
+      # je vlastník ověřil, a main mezitím může mít novější běh.
+      - name: Kontrola faktů (zlatá + kontrolní sada)
+        if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim == 'faktcheck'
+        run: |
+          mkdir -p /tmp/vysledky
+          node -e 'const j=require("./public/evaluations.json");console.log("data z DEV2: lastUpdated",j.lastUpdated)'
+          IDS=$(node -e 'const z=require("./scripts/dev/fixtury/zlata-sada.json"),k=require("./scripts/dev/fixtury/kontrolni-sada.json");console.log([...new Set([...z.body,...k.body].map(b=>b.id))].join(","))')
+          KOLA=""; if [ "${{ steps.m.outputs.kola }}" = "1" ]; then KOLA="--bez-kola2"; fi
+          node scripts/faktcheck.js --model --body "$IDS" $KOLA --vystup /tmp/vysledky/faktcheck 2>&1 | tee /tmp/vysledky/faktcheck.log
+          node scripts/dev/faktcheck-skore.js /tmp/vysledky/faktcheck public/evaluations.json | tee /tmp/vysledky/skore-faktcheck.txt
+
       - name: Běh 1
-        if: steps.m.outputs.spustit == 'true'
+        if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim != 'faktcheck'
         env:
           REZIM_BEHU: plny
           CHAPTER_LIMIT: "18"
@@ -119,6 +136,8 @@ jobs:
             echo "## Měření DEV2 — ${{ steps.m.outputs.rezim }}"
             echo
             grep -h "^Cena běhu" /tmp/vysledky/beh*.log 2>/dev/null | sed 's/^/- /'
+            grep -h "^Cena vrstvy M" /tmp/vysledky/faktcheck.log 2>/dev/null | sed 's/^/- /'
+            if [ -f /tmp/vysledky/skore-faktcheck.txt ]; then echo "### kontrola faktů"; echo '```'; grep -E "^(souhrn|Akceptace)" /tmp/vysledky/skore-faktcheck.txt; echo '```'; fi
             echo
             for f in /tmp/vysledky/skore-beh*.txt; do [ -f "$f" ] && { echo "### $(basename $f)"; echo '```'; tail -8 "$f"; echo '```'; }; done
             if [ -f /tmp/vysledky/stabilita.txt ]; then echo "### stabilita"; echo '```'; head -8 /tmp/vysledky/stabilita.txt; echo '```'; fi

@@ -10,10 +10,10 @@
 - [ ] T005 D5 vykreslený web (headless Chrome: SPA, /prehled/, /overview/, JSON-LD proti datům)
 
 ## Vrstva M (model) — po výběru modelu
-- [ ] T006 `scripts/nastaveni/prompt-faktcheck.md` (nový prompt; existující beze změny)
-- [ ] T007 1. kolo přes Batch API nad texty zdrojů; 2. kolo s vyhledáváním jen pro nepotvrzené
-- [ ] T008 Kontrola kontrolora: citace doslova ve zdroji, URL ze zdrojů/vyhledávání
-- [ ] T009 Akceptace: 6/6 nesouladů se zlatou sadou
+- [x] T006 `scripts/nastaveni/prompt-faktcheck.md` (nový prompt; existující beze změny) + pravidla vlastníka v `scripts/nastaveni/metodika.md`
+- [x] T007 1. kolo přes Batch API nad texty zdrojů; 2. kolo s vyhledáváním jen pro nepotvrzené (pause_turn a volání neexistujícího nástroje se dokončí)
+- [x] T008 Kontrola kontrolora: citace doslova ve zdroji, URL ze zdrojů/vyhledávání (simulace: zahozeno 46/46 vymyšlených citací)
+- [ ] T009 Akceptace: všech 19 bodů, kde se web liší od zlaté (6) a kontrolní (13) sady, označeno; žádný propuštěný. Nástroj `scripts/dev/faktcheck-skore.js`, placený běh `dev2-eval.yml` → `rezim: faktcheck` (čeká na schválení)
 
 ## Vrstva R (rozhodnutí)
 - [ ] T010 `scripts/lib/faktcheck/rozhodnuti.js`: podržení, zákaz přechodu bez potvrzené události, kalibrace, audit (`zadrzeno`, `faktcheck`)

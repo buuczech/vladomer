@@ -4,6 +4,7 @@
  *     node scripts/faktcheck.js --bez-site      # jen pravidla bez sítě (bez rejstříku a odkazů)
  *     node scripts/faktcheck.js --model         # + vrstva M: nezávislý model (STOJÍ PENÍZE)
  *     node scripts/faktcheck.js --model --body 2.3,12.2 --bez-davky
+ *     node scripts/faktcheck.js --model --bez-kola2   # jen kolo 1 (měření; ostrý běh vždy obě kola)
  *     node scripts/faktcheck.js --vystup adresar
  *
  * Vrstva D (deterministická, zdarma) kontroluje to, co program ví přesně:
@@ -25,7 +26,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { spawnSync } from "node:child_process";
-import { join, dirname } from "node:path";
+import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { DATES, CHAPTERS } from "../src/data.js";
 import { readList, readSettings } from "./lib/nastaveni.js";
@@ -43,7 +44,8 @@ const arg = (j, v) => { const i = process.argv.indexOf(`--${j}`); return i >= 0 
 const BEZ_SITE = process.argv.includes("--bez-site");
 const S_MODELEM = process.argv.includes("--model");
 const BEZ_DAVKY = process.argv.includes("--bez-davky");
-const VYSTUP = join(KOREN, arg("vystup", "faktcheck-vystup"));
+const BEZ_KOLA2 = process.argv.includes("--bez-kola2");
+const VYSTUP = resolve(KOREN, arg("vystup", "faktcheck-vystup"));
 
 const data = JSON.parse(readFileSync(join(KOREN, "public", "evaluations.json"), "utf8"));
 const evals = data.evals || {};
@@ -190,7 +192,9 @@ if (S_MODELEM) {
   } else {
     const d = await odesliDavku(vyber.map((id) => ({ custom_id: id.replace(".", "_"), params: parametry1(id) })), { klic: KLIC, role: "faktcheck-1" });
     console.log(`  dávka ${d.id} odeslána, čekám…`);
-    const hotova = await cekejNaDavku(d.id, { klic: KLIC, hlas: (c) => console.log(`  … ${JSON.stringify(c)}`) });
+    // Dávka obvykle doběhne do hodiny. Strop je pod limitem jobu (240 min), aby běh
+    // skončil chybou s id dávky, ne zabitím — výsledky dávky API drží 29 dní.
+    const hotova = await cekejNaDavku(d.id, { klic: KLIC, maxMs: Number(process.env.DAVKA_MAX_MIN || 180) * 60000, hlas: (c) => console.log(`  … ${JSON.stringify(c)}`) });
     const vys = await vysledkyDavky(hotova, { klic: KLIC, role: "faktcheck-1" });
     for (const id of vyber) {
       const r = vys.get(id.replace(".", "_"));
@@ -205,15 +209,34 @@ if (S_MODELEM) {
     const v = vysledky[id] && vysledky[id].kolo1;
     return !v || v.chyba || shrnutiBodu(id, evals[id], v).neovereno > 0 || !v.stav_podle_pravidel;
   });
-  console.log(`  kolo 2 (s vyhledáváním): ${doKola2.length} bodů`);
-  for (const id of doKola2) {
+  console.log(`  kolo 2 (s vyhledáváním): ${doKola2.length} bodů${BEZ_KOLA2 ? " — VYNECHÁNO (--bez-kola2)" : ""}`);
+  /* Odpověď s vyhledáváním se nemusí vrátit hotová: pause_turn (server
+     přerušil smyčku vyhledávání) se jen nechá dokončit, a na volání
+     nástroje, který neexistuje (stalo se v hodnocení 20. 10. 2026), se
+     odpoví chybou — jinak API pokračování odmítne. Obsah odpovědi zůstává
+     beze změny (append-only kvůli bloků přemýšlení). */
+  const kolo2 = async (id) => {
+    const hledani = { maxUses: NAST.vyhledavani_overeni, domeny: WEBY };
+    const messages = [{ role: "user", content: prompt(id, 2) }];
+    let zprava;
+    for (let pokus = 0; pokus < 3; pokus++) {
+      zprava = await zavolejApi(teloPozadavku({ model: MODEL, maxTokens: 4000, effort: EFFORT, hledani, messages }), { klic: KLIC, role: "faktcheck-2" });
+      const volani = (zprava.content || []).filter((b) => b.type === "tool_use");
+      if (zprava.stop_reason !== "pause_turn" && !volani.length) break;
+      messages.push({ role: "assistant", content: zprava.content || [] });
+      if (volani.length) {
+        messages.push({ role: "user", content: [
+          ...volani.map((b) => ({ type: "tool_result", tool_use_id: b.id, is_error: true, content: "Tento nástroj není k dispozici." })),
+          { type: "text", text: "Odpověz teď POUZE jedním JSON objektem podle zadání." },
+        ] });
+      }
+    }
+    return zprava;
+  };
+  for (const id of BEZ_KOLA2 ? [] : doKola2) {
     if (pojistkaZasahla()) break;
     try {
-      const zprava = await zavolejApi(teloPozadavku({
-        model: MODEL, maxTokens: 4000, effort: EFFORT,
-        hledani: { maxUses: NAST.vyhledavani_overeni, domeny: WEBY },
-        messages: [{ role: "user", content: prompt(id, 2) }],
-      }), { klic: KLIC, role: "faktcheck-2" });
+      const zprava = await kolo2(id);
       // Citované stránky, které program ještě nemá, si stáhne (jen z povolených webů).
       let v = parsujKontrolu(textOdpovedi(zprava));
       for (const t of v.tvrzeni) {
@@ -236,6 +259,7 @@ if (S_MODELEM) {
   const cena = souhrnNakladu();
   const vysledekM = {
     vytvoreno: new Date().toISOString(), dnes, model: MODEL, effort: EFFORT, davka: !BEZ_DAVKY,
+    kolo2: { bodu: doKola2.length, vynechano: BEZ_KOLA2, seznam: doKola2 },
     souhrn: {
       bodu: vyber.length,
       ciste: shrnuti.filter((s) => s.cisty).length,
