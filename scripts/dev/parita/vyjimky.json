@@ -1,5 +1,11 @@
 {
-  "_popis": "Ohlášené záměrné rozdíly DEV2 proti základu (spec 001). Každá položka MUSÍ mít zdůvodnění. soubory: chráněný soubor, který se smí lišit. pole_pozadavku: pole těla požadavku na model, které se při porovnání vynechá (nikdy ne text promptu). pole_vystupu: pole výstupních dat ve tvaru \"soubor.json:cesta.k[].poli\", které se vynechá. Prázdné seznamy = DEV2 nesmí měnit nic, co model čte nebo program rozhoduje.",
+  "_popis": "Ohlášené záměrné rozdíly DEV2 proti základu (spec 001). Každá položka MUSÍ mít zdůvodnění. zmeny: patche (scripts/dev/parita/zmeny/*.patch), které se v tomto pořadí aplikují na základ — main se během refaktoru nemění, takže záměrná změna chráněného souboru nebo rozhodování programu se ohlašuje takhle; parita pak dokazuje DEV2 = main + patche. soubory: chráněný soubor, který se smí lišit i po patchích. pole_pozadavku: pole těla požadavku na model, které se při porovnání vynechá (nikdy ne text promptu). pole_vystupu: pole výstupních dat ve tvaru \"soubor.json:cesta.k[].poli\", které se vynechá.",
+  "zmeny": [
+    {
+      "patch": "zmeny/01-minuly-od.patch",
+      "duvod": "Ověřovatel přechodu dostával jako „drží se od“ den posledního přepisu záznamu (updatedAt) místo dne vstupu do stavu (stavOd). Text promptu beze změny, mění se jen dosazené datum; oprava i komentáře v lib/prompty.js."
+    }
+  ],
   "soubory": [],
   "pole_pozadavku": [],
   "pole_vystupu": []

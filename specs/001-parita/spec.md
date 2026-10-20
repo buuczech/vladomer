@@ -85,6 +85,7 @@ Každý push do DEV2 a každý PR do main kontrolu spustí automaticky a zdarma.
   - zprávy.
 - **FR-009**: Kontrola MUSÍ umět i režim s nahranou kazetou: nahrávání (jen ručně, stojí peníze) a přehrávání (zdarma). Přehrávání páruje podle obsahu požadavku, ne podle pořadí.
 - **FR-010**: Kontrola MUSÍ běžet v CI na každý push do DEV2 a PR do main, bez secrets.
+- **FR-012**: Záměrné změny DEV2 v chráněných souborech nebo v rozhodování programu MUSÍ být ohlášené jako patche (`scripts/dev/parita/zmeny/`) se zdůvodněním. Kontrola je aplikuje na základ před porovnáním, protože `main` se během refaktoru nemění (rozhodnutí vlastníka 20. 10. 2026). Patch, který nejde aplikovat, je chyba.
 - **FR-011**: Kontrola NESMÍ měnit soubory pracovního adresáře a po sobě uklidí dočasné kopie (pokud se výslovně nevyžádá jejich ponechání pro diagnózu).
 
 ### Key Entities

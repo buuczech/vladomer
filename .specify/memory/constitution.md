@@ -27,7 +27,7 @@ Vládoměr (vladomer.cz) sleduje plnění programového prohlášení vlády. Je
   - texty, které model čte, a rozhodnutí programu nad stejnými odpověďmi modelu jsou bajtově stejné jako na `main`;
   - dokládá to nástroj parity (`scripts/dev/parita/`);
   - každý záměrný rozdíl je zapsaný v `vyjimky.json` se zdůvodněním.
-- Změna hlídací knihovny se dělá nejdřív na `main` a do DEV2 se merguje.
+- **Na `main` refaktor nesahá** (rozhodnutí vlastníka 20. 10. 2026): dokud se DEV2 nesloučí, `main` jen běží a DEV2 si z něj přebírá data a případné opravy vlastníka. Záměrná změna chráněného souboru nebo rozhodování programu se na DEV2 zapisuje jako patch v `scripts/dev/parita/zmeny/` se zdůvodněním. Parita patche aplikuje na `main` a dokazuje, že DEV2 = `main` + ohlášené patche, nic víc.
 - **Ve vydání A se `scripts/nastaveni/prompt-*.md` nemění.**
 - Úprava promptů je samostatné vydání B a každá její změna se dokládá:
   - diffem `dump-prompts`;
@@ -102,4 +102,4 @@ Před každým commitem, který se týká toho, co pokrývají:
   - PATCH = upřesnění.
 - Při rozporu s `CLAUDE.md` platí přísnější výklad a rozpor se opraví v obou.
 
-**Version**: 1.0.0 | **Ratified**: 2026-10-20 | **Last Amended**: 2026-10-20
+**Version**: 1.1.0 | **Ratified**: 2026-10-20 | **Last Amended**: 2026-10-20 (III: main se nemění, odchylky jsou ohlášené patche)

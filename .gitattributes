@@ -13,3 +13,8 @@ scripts/nastaveni/** text eol=lf
 # nestalo (blob v HEAD je pořád původní), stačilo by ale jedno „git add“.
 # „binary“ = -text -diff: žádná normalizace a žádný textový diff.
 scripts/nastaveni/hudba/** binary
+
+# Ohlášené změny parity (scripts/dev/parita/zmeny/*.patch) se aplikují
+# na základ rozbalený s LF. Patch v CRLF by se na Windows po checkoutu
+# nedal aplikovat a parita by hlásila „main se posunul“, i když neposunul.
+scripts/dev/parita/zmeny/** text eol=lf

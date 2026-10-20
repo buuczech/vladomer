@@ -72,7 +72,9 @@ const STROM = { zaklad: join(TMP, "zaklad"), dev2: join(TMP, "dev2"), testy: joi
 
 function stromZRevize(ref, cil) {
   mkdirSync(cil, { recursive: true });
-  const archiv = spawnSync("git", ["archive", "--format=tar", ref, ...CESTY], { cwd: KOREN, maxBuffer: 1 << 30 });
+  /* core.autocrlf=false: základ s LF, stejně jako v repozitáři — jinak by se
+     ohlášené patche (LF) na Windows nedaly aplikovat. */
+  const archiv = spawnSync("git", ["-c", "core.autocrlf=false", "archive", "--format=tar", ref, ...CESTY], { cwd: KOREN, maxBuffer: 1 << 30 });
   if (archiv.status !== 0) throw new Error(`git archive ${ref} selhal: ${String(archiv.stderr).trim()} — v CI potřebuje checkout fetch-depth: 0`);
   /* Rozbaluje se s cwd = cíl a bez cesty v argumentech: GNU tar z Git Bashe
      čte „C:\…“ jako vzdálený stroj (dvojtečka), bsdtar z Windows ne. */
@@ -104,6 +106,19 @@ console.log(`dočasné kopie: ${TMP}${NECHAT ? " (ponechají se)" : ""}\n`);
 
 try {
   stromZRevize(ZAKLAD, STROM.zaklad);
+  /* Ohlášené změny: main se během refaktoru nemění, takže záměrná odchylka
+     DEV2 v chráněném souboru nebo v rozhodování programu se zapisuje jako
+     patch se zdůvodněním. Aplikuje se na základ PŘED vším ostatním — parita
+     pak dokazuje DEV2 = main + ohlášené patche, nic víc. */
+  for (const z of VYJIMKY.zmeny || []) {
+    const cesta = join(KOREN, "scripts", "dev", "parita", z.patch);
+    const r = spawnSync("git", ["apply", "--whitespace=nowarn", cesta], { cwd: STROM.zaklad, encoding: "utf8" });
+    if (r.status !== 0) {
+      chyba(`ohlášenou změnu ${z.patch} nejde aplikovat na ${ZAKLAD} (main se posunul?): ${String(r.stderr).trim().split(/\r?\n/)[0]}`);
+    } else {
+      console.log(`ohlášeno  změna ${z.patch} — ${z.duvod}`);
+    }
+  }
   stromZPracovniKopie(STROM.dev2);
   // Vstupy: data (a nastavení) ze základu pro všechny strany.
   const vstupy = Object.fromEntries(DATA.map((n) => [n, readFileSync(join(STROM.zaklad, "public", n))]));
