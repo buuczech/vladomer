@@ -158,9 +158,10 @@ Kolik který běh stál, je vidět na konci logu („Cena běhu: …“) a v sou
 Na co si dát pozor:
 
 - **Nejdřív měřit, pak měnit.** Model se vybírá podle shody se zlatou sadou
-  (body, jejichž skutečný stav jsi potvrdil): na GitHubu v Actions spusť
-  „DEV2 měření“ v režimu `zlata-sada` a vyplň model. Stojí to peníze,
-  nic se tím nezveřejní a výsledek (shoda stavu, předpisu a data, cena) je
-  vidět v souhrnu běhu.
+  (body, jejichž skutečný stav jsi potvrdil). Měření se spouští změnou
+  souboru `scripts/dev/mereni.json` na větvi DEV2: vyplní se model, režim
+  `zlata-sada` a do „schvaleno“ kdo a kdy placený běh schválil — bez toho
+  se nic nespustí ani nezaplatí. Nic se tím nezveřejní a výsledek (shoda
+  stavu, předpisu a data, cena) je vidět v souhrnu běhu na GitHubu.
 - Ověřovatel a korektor mají být silnější než hodnotitel — slabší model
   neuhlídá úsudek silnějšího. Na webu to tak i stojí v metodice.

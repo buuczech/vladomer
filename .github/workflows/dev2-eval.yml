@@ -1,10 +1,16 @@
-name: DEV2 měření (ručně, stojí peníze)
+name: DEV2 měření (stojí peníze)
 
-# Měření pro refaktor na DEV2 (spec 002). JEN ručně, JEN na větvi DEV2,
-# NIKDY nic necommituje — výsledky jsou artefakt běhu. Každé spuštění stojí
-# peníze (API Anthropic); odhad ceny se ohlašuje vlastníkovi předem.
+# Měření pro refaktor na DEV2 (spec 002). JEN na větvi DEV2, NIKDY nic
+# necommituje — výsledky jsou artefakt běhu. Každé spuštění stojí peníze
+# (API Anthropic); odhad ceny se ohlašuje vlastníkovi předem.
 #
-# Režimy:
+# SPOUŠTÍ SE ZMĚNOU scripts/dev/mereni.json na DEV2, ne tlačítkem: ruční
+# spuštění (workflow_dispatch) GitHub nabízí jen workflow z výchozí větve
+# a na main refaktor nesahá. Běh proběhne JEN když mereni.json obsahuje
+# vyplněné „schvaleno“ (kdo a kdy placený běh schválil) — souhlas je tak
+# dohledatelný v historii gitu. Bez něj se job ukončí, nic nezaplatí.
+#
+# Režimy (mereni.json → rezim):
 #   zlata-sada  ohodnotí jen body zlaté sady (scripts/dev/fixtury/zlata-sada.json)
 #               nad daty z main a změří shodu s realitou. Nejlevnější měření
 #               modelu: ~22 bodů v 9 kapitolách, bez korektury a zpráv.
@@ -17,40 +23,9 @@ name: DEV2 měření (ručně, stojí peníze)
 # s přehráním a skutečný přepis streamu pro test-modely.js.
 
 on:
-  workflow_dispatch:
-    inputs:
-      rezim:
-        description: "zlata-sada · stabilita · beh"
-        required: true
-        default: "zlata-sada"
-        type: choice
-        options: [zlata-sada, stabilita, beh]
-      model:
-        description: "Hodnoticí model (prázdné = podle nastaveni.txt), např. claude-sonnet-5-5"
-        required: false
-        default: ""
-      overovaci_model:
-        description: "Ověřovatel přechodů (prázdné = podle nastaveni.txt), např. claude-opus-5-5"
-        required: false
-        default: ""
-      korektura_model:
-        description: "Korektor (prázdné = podle nastaveni.txt)"
-        required: false
-        default: ""
-      effort_hodnoceni:
-        description: "Hloubka přemýšlení hodnotitele (jen modely s přemýšlením; prázdné = nastavení)"
-        required: false
-        default: ""
-      effort_kontroly:
-        description: "Hloubka přemýšlení ověřovatele a korektoru (prázdné = nastavení)"
-        required: false
-        default: ""
-      nahrat_kazetu:
-        description: "Uložit požadavky a odpovědi do kazety (artefakt)"
-        required: false
-        default: "false"
-        type: choice
-        options: ["false", "true"]
+  push:
+    branches: [DEV2]
+    paths: ["scripts/dev/mereni.json"]
 
 permissions:
   contents: read      # nic se necommituje
@@ -62,11 +37,6 @@ jobs:
     timeout-minutes: 240
     env:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-      EVAL_MODEL: ${{ github.event.inputs.model }}
-      OVEROVACI_MODEL: ${{ github.event.inputs.overovaci_model }}
-      KOREKTURA_MODEL: ${{ github.event.inputs.korektura_model }}
-      EFFORT_HODNOCENI: ${{ github.event.inputs.effort_hodnoceni }}
-      EFFORT_KONTROLY: ${{ github.event.inputs.effort_kontroly }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -76,8 +46,14 @@ jobs:
         with:
           node-version: 20
 
+      # Parametry a souhlas z scripts/dev/mereni.json. Bez „schvaleno“ konec.
+      - name: Parametry a souhlas
+        id: m
+        run: node scripts/dev/mereni-parametry.js
+
       # Zdarma a dřív, než se cokoli zaplatí.
       - name: Offline kontroly
+        if: steps.m.outputs.spustit == 'true'
         run: |
           for t in korektura zabrany prechody delta odpoved sbirka modely; do node scripts/dev/test-$t.js > /dev/null || { node scripts/dev/test-$t.js; exit 1; }; done
           echo "offline kontroly prošly"
@@ -85,12 +61,14 @@ jobs:
       # Vstupem jsou VŽDY data z main: brána rozhoduje podle minulých stavů,
       # a jen s produkčními daty se běh chová jako ostrý.
       - name: Vstupní data z main
+        if: steps.m.outputs.spustit == 'true'
         run: |
           git checkout origin/main -- public/evaluations.json public/history.json public/news.json public/audit.json
           mkdir -p /tmp/vstup && cp public/*.json /tmp/vstup/
           node -e 'const j=require("./public/evaluations.json");console.log("data z main: lastUpdated",j.lastUpdated)'
 
       - name: Parametry běhu
+        if: steps.m.outputs.spustit == 'true'
         id: par
         run: |
           IDS=$(node -e 'console.log(require("./scripts/dev/fixtury/zlata-sada.json").body.map(b=>b.id).join(","))')
@@ -99,18 +77,19 @@ jobs:
           echo "Modely: hodnocení=${EVAL_MODEL:-nastavení} ověření=${OVEROVACI_MODEL:-nastavení} korektura=${KOREKTURA_MODEL:-nastavení}"
 
       - name: Běh 1
+        if: steps.m.outputs.spustit == 'true'
         env:
           REZIM_BEHU: plny
           CHAPTER_LIMIT: "18"
-          BODY: ${{ github.event.inputs.rezim == 'zlata-sada' && steps.par.outputs.ids || '' }}
-          BEZ_KOREKTURY: ${{ github.event.inputs.rezim == 'beh' && '0' || '1' }}
-          BEZ_ZPRAV: ${{ github.event.inputs.rezim == 'beh' && '0' || '1' }}
+          BODY: ${{ steps.m.outputs.rezim == 'zlata-sada' && steps.par.outputs.ids || '' }}
+          BEZ_KOREKTURY: ${{ steps.m.outputs.rezim == 'beh' && '0' || '1' }}
+          BEZ_ZPRAV: ${{ steps.m.outputs.rezim == 'beh' && '0' || '1' }}
           PARITA_ODPOVEDI: nahrat
           PARITA_DNES: ${{ steps.par.outputs.dnes }}
           PARITA_KAZETA: /tmp/vysledky/kazeta-beh1.json
         run: |
           mkdir -p /tmp/vysledky
-          if [ "${{ github.event.inputs.nahrat_kazetu }}" = "true" ]; then
+          if [ "${{ steps.m.outputs.kazeta }}" = "true" ]; then
             node --import ./scripts/dev/parita/zmrazit.js scripts/evaluate.js 2>&1 | tee /tmp/vysledky/beh1.log
           else
             node scripts/evaluate.js 2>&1 | tee /tmp/vysledky/beh1.log
@@ -119,7 +98,7 @@ jobs:
           node scripts/dev/zlata-sada-skore.js public/evaluations.json | tee /tmp/vysledky/skore-beh1.txt
 
       - name: Běh 2 (stabilita)
-        if: github.event.inputs.rezim == 'stabilita'
+        if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim == 'stabilita'
         env:
           REZIM_BEHU: plny
           CHAPTER_LIMIT: "18"
@@ -134,10 +113,10 @@ jobs:
           node scripts/dev/porovnej-behy.js /tmp/vysledky/beh1/evaluations.json /tmp/vysledky/beh2/evaluations.json | tee /tmp/vysledky/stabilita.txt
 
       - name: Souhrn
-        if: always()
+        if: always() && steps.m.outputs.spustit == 'true'
         run: |
           {
-            echo "## Měření DEV2 — ${{ github.event.inputs.rezim }}"
+            echo "## Měření DEV2 — ${{ steps.m.outputs.rezim }}"
             echo
             grep -h "^Cena běhu" /tmp/vysledky/beh*.log 2>/dev/null | sed 's/^/- /'
             echo
@@ -146,9 +125,9 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Výsledky jako artefakt
-        if: always()
+        if: always() && steps.m.outputs.spustit == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: dev2-mereni-${{ github.event.inputs.rezim }}-${{ github.run_id }}
+          name: dev2-mereni-${{ steps.m.outputs.rezim }}-${{ github.run_id }}
           path: /tmp/vysledky
           if-no-files-found: warn

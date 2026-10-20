@@ -22,7 +22,7 @@
 
 - [x] T006 Filtr `BODY` v `evaluate.js` (bez filtru beze změny; s filtrem se neposune `posledniPlnyAudit`)
 - [x] T007 `scripts/dev/zlata-sada-skore.js` a základní měření nad dnešními daty (16/22)
-- [x] T008 `.github/workflows/dev2-eval.yml` (ručně, jen DEV2, bez commitu, artefakty)
+- [x] T008 `.github/workflows/dev2-eval.yml`: spouští ho změna `scripts/dev/mereni.json` se souhlasem (`schvaleno`), jen DEV2, bez commitu, artefakty
 
 ## Phase N: Parita a dokumentace
 

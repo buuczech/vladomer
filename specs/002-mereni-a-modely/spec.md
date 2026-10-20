@@ -80,7 +80,7 @@ Vlastník (nebo agent s jeho souhlasem) spustí ručně v GitHubu měření: zvo
 - **FR-006**: Nová nastavení (effort hodnocení, effort kontrol, pojistka ceny) jsou povinná jako všechna ostatní. Platí zásada `lib/nastaveni.js`, že žádné nastavení nesmí tiše spadnout na výchozí hodnotu. Parita je k nastavení ze základu doplní hodnotami z DEV2. Pro vlastníka MUSÍ být popsaná v `NAVOD.md`.
 - **FR-007**: Program MUSÍ umět ohodnotit jen vybrané body (pro měření na zlaté sadě). Výchozí chování se tím nemění.
 - **FR-008**: Skórovač MUSÍ porovnat hodnocení se zlatou sadou (stav, `unverifiable`, citovaný předpis, datum dokladu) a vypsat skóre a rozdíly.
-- **FR-009**: Měřicí workflow MUSÍ jít spustit jen ručně, jen na DEV2, nesmí nic commitovat a výsledky uloží jako artefakt.
+- **FR-009**: Měřicí workflow MUSÍ běžet jen na DEV2 a jen se zapsaným souhlasem vlastníka (`scripts/dev/mereni.json` → `schvaleno`). `workflow_dispatch` GitHub nabízí jen z výchozí větve, kam refaktor nesahá. Workflow nesmí nic commitovat a výsledky uloží jako artefakt.
 - **FR-010**: Změny v chráněných souborech (`lib/nastaveni.js`, `lib/korektura.js`) MUSÍ být ohlášené patche, které prokazatelně nemění chování pro dnešní modely (parita i bez nich).
 
 ## Success Criteria *(mandatory)*
