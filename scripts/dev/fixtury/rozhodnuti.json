@@ -1,0 +1,357 @@
+{
+  "_popis": "Skutečné záznamy pro test-rozhodnuti.js. pred = web k 16. 10. 2026 (public/evaluations.json). po = záznamy, které z nich udělal běh se Sonnetem 5.5 při měření 20. 10. 2026 (dev2-eval, běh 39418493938). neprijate = návrhy z téhož běhu, které brána podržela (převedené z odpovědi modelu stejně jako v evaluate.js). predchozi_2_3 = poslední řádek auditu, kde 2.3 bylo „částečně“ (záznam před přechodem na „splněno“). nalezy_d = nálezy vrstvy D nad daty k 16. 10. 2026.",
+  "pred": {
+    "2.3": {
+      "status": "fulfilled",
+      "evidence": "Zákon č. 180/2026 Sb., vyhlášen 7. 10. 2026",
+      "evidenceDate": "2026-10-07",
+      "unverifiable": false,
+      "comment": {
+        "cs": "Splněno. Zákon o evidenci tržeb (EET 2.0) prošel celým legislativním procesem: Sněmovna 9. září 2026 přehlasovala Senát, prezident Pavel zákon podepsal 17. září 2026 a vyšel ve Sbírce zákonů 7. října 2026. Systém startuje 1. ledna 2027 v pilotním režimu. Vláda slibuje omezení daňových úniků a 14–15 miliard Kč ročně pro rozpočet.",
+        "en": "Fulfilled. The Electronic Records of Receipts Act (EET 2.0) completed the full legislative process: Parliament overrode the Senate on 9 September 2026, President Pavel signed on 17 September 2026, and it was published in the Collection of Laws on 7 October 2026. The system launches on 1 January 2027 in pilot mode. The government expects to reduce tax evasion and generate 14–15 billion CZK annually for the budget."
+      },
+      "change": {
+        "cs": "Beze změny.",
+        "en": "No change."
+      },
+      "sources": [
+        {
+          "url": "https://e-sbirka.gov.cz/sb/2026/180",
+          "title": "180/2026 Sb. — Zákon o evidenci tržeb a o změně některých dalších zákonů"
+        },
+        {
+          "url": "https://eet.gov.cz/cs/pro-media/tiskove-zpravy/2026/prezident-podepsal-zakon-o-eet-2-0-evidence-trzeb-1315",
+          "title": "Prezident podepsal zákon o EET 2.0. Evidence tržeb startuje 1. ledna 2027"
+        },
+        {
+          "url": "https://www.e15.cz/finexpert/danove-priznani/eet-2-0-leden-2027-zivnostnici-firmy-1436505",
+          "title": "EET 2.0 od ledna 2027: Nová pravidla pro živnostníky a firmy"
+        }
+      ],
+      "previousStatus": "fulfilled",
+      "updatedAt": "2026-10-16T14:28:45.172Z",
+      "sbirka": {
+        "overene": [
+          {
+            "kod": "180/2026",
+            "nazev": "Zákon o evidenci tržeb a o změně některých dalších zákonů",
+            "vyhlaseno": "2026-10-07",
+            "url": "https://e-sbirka.gov.cz/sb/2026/180"
+          }
+        ],
+        "neexistujici": []
+      },
+      "overeno": "2026-10-16T14:27:59.937Z"
+    },
+    "7.2": {
+      "status": "broken",
+      "evidence": "Rada ministrů financí EU schválila ETS2 12. 10. 2026; vláda deklaruje odmítnutí implementace, ale právně nemůže zabránit zavedení od 1. 1. 2028",
+      "evidenceDate": "2026-10-12",
+      "unverifiable": false,
+      "comment": {
+        "cs": "Vláda slib porušila. Deklaruje, že ETS2 nechce implementovat a hledá podporu pro jeho zrušení, ale právně nemůže zabránit jeho zavedení od 1. 1. 2028. Ministr Havlíček tvrdí, že Parlament ETS2 nepřijme, což je fakticky nesprávné – Parlament jej již schválil. Česko riskuje pokuty od EU a ztrátu miliard z Sociálního klimatického fondu.",
+        "en": "The government has broken its promise. It declares that it does not want to implement ETS2 and seeks EU support for its abolition, but legally cannot prevent its introduction from 1 January 2028. Minister Havlíček claims Parliament will not adopt ETS2, which is factually incorrect – Parliament has already approved it. Czechia risks EU fines and loss of billions from the Social Climate Fund."
+      },
+      "change": {
+        "cs": "Rada ministrů financí EU 12. 10. 2026 definitivně schválila ETS2; Česko se oficiálně přihlásilo k implementaci, přestože vláda dříve slibovala jeho nezavedení.",
+        "en": "EU Council of Finance Ministers on 12 October 2026 definitively approved ETS2; Czechia officially committed to implementation despite the government's earlier promise not to introduce it."
+      },
+      "sources": [
+        {
+          "url": "https://www.newstream.cz/nazory/povolenky-ets-2-jsou-definitivne-schvaleny-zdrazi-benzin-naftu-i-plyn-a-babis-mlci",
+          "title": "Povolenky ETS 2 jsou definitivně schváleny. Zdraží benzín, naftu i plyn. A Babiš mlčí"
+        },
+        {
+          "url": "https://www.e15.cz/byznys/prumysl-a-energetika/emisni-povolenky-pro-domacnosti-maji-finalni-podobu-co-to-znamena-pro-ceny-benzinu-a-topeni-1433481",
+          "title": "e15.cz - Emisní povolenky pro domácnosti mají finální podobu. Co to znamená pro ceny benzinu a topení?"
+        },
+        {
+          "url": "https://www.irozhlas.cz/ekonomika/parlament-ets2-v-nejblizsi-dobe-neprijme-rika-havlicek-nerudova-je-mimo-misu_2604161440_cen",
+          "title": "Parlament ETS2 v nejbližší době nepřijme, říká Havlíček. Nerudová: Je to mimo mísu, hrozí pokuty"
+        }
+      ],
+      "previousStatus": "broken",
+      "updatedAt": "2026-10-16T14:34:14.542Z",
+      "overeno": "2026-10-16T14:33:24.012Z"
+    },
+    "10.2": {
+      "status": "in_progress",
+      "evidence": "",
+      "unverifiable": false,
+      "comment": {
+        "cs": "Ministr Juchelka v lednu 2026 oznámil přípravu novely se změnou valorizace z jedné třetiny na jednu polovinu reálných mezd. Návrh měl být předložen v dubnu, Sněmovna měla začít projednávat v květnu. Dosud však nebyla norma schválena – legislativní proces pokračuje, ale bez konkrétního termínu. Vláda se vyjádřila, že změna se nemůže uskutečnit v roce 2026 kvůli propadům reálných mezd v covidových letech.",
+        "en": "Minister Juchelka announced in January 2026 preparation of an amendment changing indexation from one-third to one-half of real wage growth. The proposal was to be submitted in April, with Parliament to begin deliberation in May. However, no law has been passed yet – the legislative process continues without a specific timeline. The government stated the change cannot take effect in 2026 due to real wage declines in covid years."
+      },
+      "change": {
+        "cs": "Beze změny.",
+        "en": "No change."
+      },
+      "sources": [
+        {
+          "url": "https://ct24.ceskatelevize.cz/clanek/ekonomika/vlada-planuje-zvysovani-duchodu-i-zastropovani-duchodoveho-veku-371078",
+          "title": "▶ Vláda plánuje zvyšování důchodů i zastropování důchodového věku — ČT24 — Česká televize"
+        },
+        {
+          "url": "https://www.denik.cz/z_domova/ales-juchelka-duchody-strop-novela-reforma.html",
+          "title": "Ministr Juchelka oznámil důchodovou novelu. Vrátí věkový strop i valorizace - Deník.cz"
+        }
+      ],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-10-16T14:38:13.651Z",
+      "overeno": "2026-10-16T14:37:01.683Z"
+    },
+    "12.2": {
+      "status": "fulfilled",
+      "evidence": "Potravinový ombudsman Jindřich Fialka jmenován 26. února 2026, funkce zavedena bez vytvoření nového úřadu",
+      "evidenceDate": "2026-02-26",
+      "unverifiable": false,
+      "comment": {
+        "cs": "Ano, ale s výhradami: Potravinový ombudsman byl skutečně zřízen a funguje jako mediátor v potravinovém řetězci. Jde však o exekutivní opatření bez legislativního procesu – funkce byla zavedena jmenováním vrchního ředitele sekce potravinářství bez nového zákona. Ombudsman zatím pouze sbírá a zveřejňuje data o cenách a maržích, konkrétní regulace se neplánuje. Kritici (Asociace soukromého zemědělství, ODS) tvrdí, že opatření nebude mít reálný dopad na ceny potravin.",
+        "en": "Yes, but with caveats: The food ombudsman was indeed established and functions as a mediator in the food chain. However, this is an executive measure without legislative process – the position was created by appointing an existing ministry official without new legislation. The ombudsman currently only collects and publishes price and margin data; no concrete regulation is planned. Critics (Association of Private Agriculture, ODS) argue the measure will have no real impact on food prices."
+      },
+      "change": {
+        "cs": "Beze změny.",
+        "en": "No change."
+      },
+      "sources": [
+        {
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/ministr-sebestyan-predstavi-pozici-potravinoveho-ombudsmana-370731",
+          "title": "▶ Potravinový ombudsman Fialka má chránit spotřebitele, zemědělce i výrobce — ČT24 — Česká televize"
+        },
+        {
+          "url": "https://mze.gov.cz/public/portal/mze/vyhledavani/ministr",
+          "title": "Ministr"
+        },
+        {
+          "url": "https://www.respekt.cz/informacni-servis/cesko-ma-potravinoveho-ombudsmana-podle-malych-zemedelcu-je-to-nesmysl-zato-ti-velci-jako-babisuv-agrofert-ho-vitaji-2026-02-26-10-51",
+          "title": "Česko má \"potravinového ombudsmana\". Podle malých zemědělců je to nesmysl, zato ti velcí (jako Babišův Agrofert) ho vítají • RESPEKT"
+        }
+      ],
+      "previousStatus": "fulfilled",
+      "updatedAt": "2026-10-16T14:40:40.859Z",
+      "overeno": "2026-10-16T14:39:48.048Z"
+    },
+    "1.2": {
+      "status": "partial",
+      "evidence": "Zákon č. 236/2025 Sb., vyhlášen 31. 12. 2025; eŽádanky spuštěny od 2. 1. 2026 (dobrovolně); povinné od 1. 7. 2027 dle novely v přípravě",
+      "evidenceDate": "2025-12-31",
+      "unverifiable": false,
+      "comment": {
+        "cs": "Elektronizace zdravotnictví (eŽádanky, EZKarta) byla zavedena zákonem č. 236/2025 Sb. (vyhlášen 31. 12. 2025, tedy ještě před nástupem vlády). Pilotní režim spuštěn od ledna 2026, eŽádanky jsou dobrovolné. Novela zákona připravuje povinné používání od 1. 7. 2027. Čekací doby se sledují, ale systém není plně funkční. Bez dokladu o zkrácení čekacích dob.",
+        "en": "Healthcare digitalization (e-referrals, EZKarta) was introduced by Law No. 236/2025 Sb. (published 31 Dec 2025, before the government took office). Pilot mode launched January 2026, e-referrals voluntary. Amendment prepares mandatory use from 1 July 2027. Waiting times are tracked but system not fully functional. No evidence of reduced waiting times."
+      },
+      "change": {
+        "cs": "beze změny",
+        "en": "no change"
+      },
+      "sources": [
+        {
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/elektronizace-i-rozsireni-prevence-novy-rok-prinasi-zmeny-ve-zdravotnictvi-368849",
+          "title": "Elektronizace i rozšíření prevence. Nový rok přináší změny ve zdravotnictví"
+        }
+      ],
+      "previousStatus": "partial",
+      "updatedAt": "2026-10-02T13:49:57.177Z",
+      "overeno": "2026-10-16T14:26:55.650Z"
+    },
+    "6.6": {
+      "status": "broken",
+      "evidence": "Ministr Tejc 9. července 2026 oznámil, že vláda nenalezla finanční prostředky na splnění slibu o nástupním platu 50 tisíc Kč pro vězeňskou službu.",
+      "evidenceDate": "2026-07-09",
+      "unverifiable": false,
+      "comment": {
+        "cs": "Programové prohlášení (5. 1. 2026) slibuje nástupní plat vězeňské služby 50 tisíc Kč. Ministr Tejc však 9. července 2026 oznámil, že vláda nenalezla finanční prostředky na splnění tohoto slibu. Jde o jasné porušení závazku z důvodu rozpočtových omezení.",
+        "en": "The government programme (5 January 2026) promises an entry salary of 50,000 CZK for the prison service. However, Minister Tejc announced on 9 July 2026 that the government could not find financial resources to fulfill this promise. This is a clear breach of the commitment due to budget constraints."
+      },
+      "change": {
+        "cs": "beze změny",
+        "en": "no change"
+      },
+      "sources": [
+        {
+          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
+          "title": "Programové prohlášení vlády"
+        },
+        {
+          "url": "https://www.echo24.cz/a/HHNBt/zpravy-domaci-ministr-tejc-dobre-maka-chvali-babis-zprisnovani-trestu-preplnene-veznice-vlada",
+          "title": "Babiš si pochvaluje zpřísňování trestů. Co bude s často přetíženými věznicemi? - Echo24.cz"
+        }
+      ],
+      "previousStatus": "broken",
+      "updatedAt": "2026-10-16T14:33:03.996Z",
+      "overeno": "2026-10-16T14:32:08.883Z"
+    }
+  },
+  "po": {
+    "10.2": {
+      "status": "declared",
+      "evidence": "",
+      "unverifiable": false,
+      "comment": {
+        "cs": "Změna vzorce z jedné třetiny na polovinu růstu reálných mezd byla v návrhu novely z dubna 2026. Vláda však 20. 7. 2026 schválila novelu už bez ní, protože ministerstvo financí nesouhlasilo, a politici ji slíbili zařadit do další novely. Sněmovna novelu bez změny vzorce v září podpořila v prvním čtení. Valorizace pro rok 2027 se počítá podle stávajícího vzorce a průměrný důchod vzroste o 304 Kč (asi 1,4 %). Dopad nového vzorce by se navíc projevil až kolem roku 2029. Zatím jde tedy jen o deklaraci bez legislativního kroku.",
+        "en": "The change of the formula from one third to one half of real wage growth was in the April 2026 draft amendment. On 20 July 2026, however, the government approved the amendment without it after the Finance Ministry objected, and politicians promised to include it in a later amendment. The Chamber backed the amendment, without the formula change, in first reading in September. The 2027 indexation uses the existing formula, and the average pension rises by CZK 304 (about 1.4%). The new formula would also take effect only around 2029. For now it is only a declaration without a legislative step."
+      },
+      "change": {
+        "cs": "Vláda schválila valorizaci důchodů pro rok 2027 podle stávajícího vzorce (průměrný důchod +304 Kč) a Sněmovna v prvním čtení podpořila důchodovou novelu bez změny vzorce.",
+        "en": "The government approved the 2027 pension indexation under the existing formula (average pension +CZK 304), and the Chamber backed the pension amendment, without the formula change, in first reading."
+      },
+      "sources": [
+        {
+          "url": "https://www.blesk.cz/clanek/zpravy-politika/844213/vlada-kyvla-na-zmeny-v-duchodech-novinka-pro-seniory-nad-80-let-a-vyssi-valorizace-zatim-nic.html",
+          "title": "Vláda kývla na změny v důchodech: Novinka pro seniory nad 80 let. A vyšší valorizace zatím nic?"
+        },
+        {
+          "url": "https://mpsv.gov.cz/vlada-schvalila-valorizaci-duchodu-prumerny-duchod-vzroste-na-22-196-korun-k-tomu-duchodci-obdrzi-jednorazove-2-000-korun-navic",
+          "title": "Vláda schválila valorizaci důchodů. Průměrný důchod vzroste na 22 196 korun, k tomu důchodci obdrží jednorázově 2 000 korun navíc"
+        },
+        {
+          "url": "https://www.ceskenoviny.cz/zpravy/lidem-od-80-let-se-asi-bude-zvysovat-penze-o-500-kc-mesicne/2878926",
+          "title": "Lidem od 80 let se asi bude zvyšovat penze o 500 Kč měsíčně"
+        }
+      ],
+      "previousStatus": "in_progress",
+      "updatedAt": "2026-10-20T11:56:26.000Z",
+      "overeno": "2026-10-20T11:56:26.000Z"
+    },
+    "12.2": {
+      "status": "fulfilled",
+      "evidence": "Ministr zemědělství Martin Šebestyán 26. 2. 2026 oficiálně představil potravinového ombudsmana Jindřicha Fialku. Jde o exekutivní opatření bez zákona. Funkce má web a e-mail pro podněty a vede meziresortní pracovní skupinu k transparentnosti potravinového řetězce (tisková zpráva MZe).",
+      "evidenceDate": "2026-02-26",
+      "unverifiable": false,
+      "comment": {
+        "cs": "Ano, ale: funkce je zřízena a funguje. Přijímá podněty přes web a e-mail a vede pracovní skupinu, která se sešla i v rozšířeném formátu. Ne, ale: ombudsman nedostal žádné nové pravomoci, jde o rozšířenou agendu stávajícího ředitele sekce. Opozice (Bendl, Výborný) i obchodníci (Prouza) pochybují o dopadu na ceny. Samostatný systém dosledovatelnosti původu potravin jsem nenašel, zatím jde hlavně o zveřejňování dat o cenách a původu na webu.",
+        "en": "Yes, but: the post has been established and is operating. It takes submissions via a website and e-mail and chairs a working group, which has also met in an expanded format. No, but: the ombudsman received no new powers, as it is an expanded remit for the existing head of the food section. Opposition (Bendl, Výborný) and retailers (Prouza) doubt any effect on prices. I found no separate origin-traceability system, only publication of price and origin data on a website."
+      },
+      "change": {
+        "cs": "beze změny",
+        "en": "no change"
+      },
+      "sources": [
+        {
+          "url": "https://www.ceskenoviny.cz/zpravy/potravinovym-ombudsmanem-bude-jindrich-fialka/2791609",
+          "title": "Potravinovým ombudsmanem bude Jindřich Fialka"
+        },
+        {
+          "url": "https://mze.gov.cz/public/portal/mze/vyhledavani/potravinarska-vyroba",
+          "title": "Potravinářská výroba"
+        },
+        {
+          "url": "https://www.blesk.cz/clanek/zpravy-epicentrum/834328/potravinovy-ombudsman-pro-blesk-jak-chce-zkrotit-ceny-v-obchodech-a-co-jeho-role-znamena.html",
+          "title": "Potravinový ombudsman pro Blesk: Jak chce zkrotit ceny v obchodech? A co jeho role znamená"
+        }
+      ],
+      "previousStatus": "fulfilled",
+      "updatedAt": "2026-10-20T11:56:26.000Z",
+      "overeno": "2026-10-20T11:56:26.000Z"
+    }
+  },
+  "neprijate": {
+    "7.2": {
+      "akce": "drzeno",
+      "duvod": "zapadka-bez-datovaneho-dokladu",
+      "detail": null,
+      "navrh": {
+        "status": "declared",
+        "evidence": "",
+        "unverifiable": false,
+        "comment": {
+          "cs": "Vláda ETS2 odmítla usnesením z prosince 2025 a Senát se k odmítnutí připojil. Žádný zákon ani krok, který by ETS2 do českého práva zaváděl, však v rejstříku Sbírky ani ve zprávách nevidím, takže doložený rozpor se slibem chybí. Proti tomu stojí, že ETS2 se podle dohody EU odkládá na rok 2028 a Česko právně nemůže jeho zavedení zastavit. Havlíček navíc mluví o cíli odložit systém a počkat na novou Evropskou komisi, což je méně než slíbené neimplementování. Na říjnovém summitu Evropské rady Babiš odklad do roku 2030 ani zrušení neprosadil.",
+          "en": "The government rejected ETS2 by a resolution in December 2025, and the Senate joined the rejection. I see no law or step in the Collection of Laws register or in the news that would implement ETS2 in Czech law, so there is no documented breach of the pledge. On the other side, the EU deal postpones ETS2 only to 2028, and the Czech Republic cannot legally stop its introduction. Havlíček also describes the aim as postponing the system and waiting for a new European Commission, which is less than the promised non-implementation. At the October European Council summit Babiš won neither a postponement to 2030 nor abolition."
+        },
+        "change": {
+          "cs": "Na summitu Evropské rady v Bruselu Babiš podle zpráv prosadil většinu požadavků k povolenkám a cenám energií, ale zrušení ani odklad ETS2 do roku 2030 v závěrech není.",
+          "en": "At the European Council summit in Brussels, Babiš reportedly won most of his demands on emission allowances and energy prices, but neither abolition nor a postponement of ETS2 to 2030 is in the conclusions."
+        },
+        "sources": [
+          {
+            "url": "https://m.echo24.cz/a/HzbdN/babis-brusel-summit-evropska-rada-ets2-povolenky-energie-metan-rozpocet-koheze-havlicek-cbam-tabak-unie"
+          },
+          {
+            "url": "https://www.irozhlas.cz/zpravy-svet/havlicek-evropska-komise-udelala-fatalni-chyby-a-nechce-priznat_2602090742_vdv"
+          },
+          {
+            "url": "https://www.ceskenoviny.cz/zpravy/ep-schvalil-omezeni-rustu-cen-emisnich-povolenek-pro-silnicni-dopravu-a-budovy/2874548"
+          }
+        ],
+        "previousStatus": "broken",
+        "updatedAt": "2026-10-20T11:56:26.000Z"
+      }
+    },
+    "6.6": {
+      "akce": "drzeno",
+      "duvod": "zapadka-bez-datovaneho-dokladu",
+      "detail": null,
+      "navrh": {
+        "status": "declared",
+        "evidence": "",
+        "unverifiable": false,
+        "comment": {
+          "cs": "Ano, ale: vláda počítá s tím, že platy příslušníků včetně Vězeňské služby porostou v letech 2027–2029. Ministr vnitra Metnar uvedl, že 50 tis. Kč nástupního platu po odborné přípravě má být dosaženo od ledna 2029. Pro rok 2027 se dohodl kompromis, tarify vzrostou o 2 400 Kč. Ne, ale: 50 tis. Kč nejsou zavedeny. Dohoda platí jen pro rok 2027 a další roky se teprve vyjednávají. Část peněz jde mimo tarify, na stabilizační příspěvek a nadtarifní složky. Odbory žádaly 10 %, opozice poukazuje na to, že růst odpovídá plánu předchozí vlády. Dřívější sdělení ministra Tejce o nedostatku prostředků nepotvrdilo žádné nové vyhledávání. Slib je proto hodnocen jen jako deklarovaný, bez zavedeného nástupního platu 50 tis. Kč.",
+          "en": "Yes, but: the government plans pay rises for security forces, including the Prison Service, in 2027–2029. Interior Minister Metnar said the 50,000 CZK entry salary after basic training is to be reached by January 2029. A compromise was agreed for 2027, with tariffs rising by 2,400 CZK. No, but: the 50,000 CZK entry salary is not in place. The deal covers only 2027, and later years are still being negotiated. Part of the money goes outside tariffs, into a stabilisation allowance and non-tariff pay components. Unions demanded 10%, and the opposition notes the increase matches the previous government's plan. The earlier statement by Minister Tejc about a lack of funds was not confirmed by any new search. The pledge is therefore rated only as declared, with no 50,000 CZK entry salary in force."
+        },
+        "change": {
+          "cs": "Ministr vnitra Metnar po jednání s odbory oznámil kompromis, podle něhož tarify bezpečnostních sborů v roce 2027 vzrostou o 2 400 Kč, a znovu potvrdil cíl 50 tis. Kč nástupního platu do tří let.",
+          "en": "After talks with the unions, Interior Minister Metnar announced a compromise under which security-force tariffs rise by 2,400 CZK in 2027, and he reaffirmed the goal of a 50,000 CZK entry salary within three years."
+        },
+        "sources": [
+          {
+            "url": "https://www.ceskenoviny.cz/zpravy/bezpecnostni-sbory-dostanou-pristi-rok-pridano-2400-kc-do-tarifu-rekl-metnar/2880363"
+          },
+          {
+            "url": "https://www.ceskenoviny.cz/zpravy/odbory-nesouhlasi-s-planem-pro-platy-policistu-a-hasicu/2877577"
+          },
+          {
+            "url": "https://ct24.ceskatelevize.cz/clanek/domaci/platy-prislusniku-bezpecnostnich-sboru-v-pristich-trech-letech-porostou-377964"
+          }
+        ],
+        "previousStatus": "broken",
+        "updatedAt": "2026-10-20T11:56:26.000Z"
+      }
+    }
+  },
+  "predchozi_2_3": {
+    "id": "2.3",
+    "date": "2026-10-09",
+    "status": "partial",
+    "evidence": "Zákon č. 270/2026 Sb., vyhlášen ve Sbírce zákonů 22. září 2026; prezident Petr Pavel zákon podepsal 17. září 2026",
+    "evidence_date": "2026-09-22",
+    "unverifiable": false,
+    "comment_cs": "Ano, splněno. Legislativní proces byl dokončen: Sněmovna schválila návrh 15. července 2026, Senát jej vrátil se změnami, Sněmovna 9. září 2026 přehlasovala Senát a setrvala na původním znění. Prezident zákon podepsal 17. září 2026. EET 2.0 bude zavedena od 1. ledna 2027 s pilotním režimem v lednu. Vláda tak splnila svůj slib o zavedení modernizované evidence tržeb.",
+    "comment_en": "Yes, fulfilled. The legislative process was completed: the Chamber approved the proposal on July 15, 2026, the Senate returned it with amendments, the Chamber overrode the Senate on September 9, 2026, and the President signed the law on September 17, 2026. EET 2.0 will be introduced from January 1, 2027 with a pilot regime in January. The government thus fulfilled its promise to introduce a modernized system of revenue reporting.",
+    "change_cs": "Prezident podepsal zákon 17. září 2026, který nyní čeká na vyhlášení ve Sbírce zákonů.",
+    "change_en": "The President signed the law on September 17, 2026, which is now awaiting publication in the Collection of Laws.",
+    "sources": [
+      "https://eet.gov.cz/cs/pro-media/tiskove-zpravy/2026/prezident-podepsal-zakon-o-eet-2-0-evidence-trzeb-1315",
+      "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/snemovna-prehlasovala-senat-a-stvrdila-zavedeni-ee-65151"
+    ],
+    "model": "claude-haiku-4-5-20251001",
+    "original": {
+      "comment_cs": "Ano, splněno. Legislativní proces byl dokončen: Sněmovna schválila návrh 15. července 2026, Senát jej vrátil se změnami, Sněmovna 9. září 2026 přehlasovala Senát a setrvala na původním znění. Prezident zákon podepsal 17. září 2026. EET 2.0 bude zavedena od 1. ledna 2027 s pilotním režimem v lednu. Vláda tak splnila svůj slib na zavedení modernizované evidence tržeb.",
+      "comment_en": "Yes, fulfilled. The legislative process was completed: the Chamber approved the proposal on July 15, 2026, the Senate returned it with amendments, the Chamber overrode the Senate on September 9, 2026, and the President signed the law on September 17, 2026. EET 2.0 will be introduced from January 1, 2027 with a pilot regime in January. The government thus fulfilled its promise to introduce modernized evidence of revenues."
+    },
+    "proofread_model": "claude-sonnet-4-6"
+  },
+  "nalezy_d": [
+    {
+      "bod": "1.2",
+      "pravidlo": "datum-vyhlaseni",
+      "zavaznost": "CHYBA",
+      "nesestav": true,
+      "text": "doklad uvádí jiné datum vyhlášení 236/2025 Sb., než má e-Sbírka (2025-07-15)"
+    },
+    {
+      "bod": "1.2",
+      "pravidlo": "nestabilni-predpisy",
+      "zavaznost": "VAROVANI",
+      "nesestav": true,
+      "text": "za stavu „partial“ doklad citoval 5 různé sady předpisů: 432/2025 → 473/2025 → 432/2025+473/2025 → 361/2025 → 236/2025"
+    },
+    {
+      "bod": "1.2",
+      "pravidlo": "nemeritelne-neuplatneno",
+      "zavaznost": "VAROVANI",
+      "nesestav": true,
+      "text": "vlastník bod rozhodl jako neměřitelný, na webu je zatím měřitelný — uplatní se při nejbližším hodnocení"
+    }
+  ]
+}

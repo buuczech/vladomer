@@ -96,6 +96,8 @@ const SCHEMA = {
   pojistka_ceny_usd: { type: "int", min: 1, max: 500 },
   // Kontrola faktů (spec 004): nezávislý model, silnější a jiný než hodnotitel.
   faktcheck_model: { type: "text" },
+  // Kalibrace (první měsíční běhy): každý přechod stavu schvaluje vlastník.
+  faktcheck_kalibrace: { type: "int", min: 0, max: 1 },
 };
 
 export function readSettings(name = "nastaveni.txt") {

@@ -44,6 +44,7 @@ jobs:
           node scripts/dev/test-odpoved.js
           node scripts/dev/test-modely.js
           node scripts/dev/test-faktcheck.js
+          node scripts/dev/test-rozhodnuti.js
           node scripts/dev/test-email.js
           node scripts/dev/test-soukromi.js
 

@@ -182,3 +182,9 @@ pojistka_ceny_usd = 80
 # Má být silnější než hodnotitel a jiný než on — kontrolor se stejnými
 # slepými místy by chyby neviděl. Řídí se pravidly v metodika.md.
 faktcheck_model = claude-opus-5-5
+
+# Kalibrace kontroly faktů. 1 = KAŽDÁ změna stavu počká na tvoje schválení
+# (přijde v reportu a v PR), i když ji kontrola potvrdila; ostatní se
+# zveřejní. Platí pro první dva měsíční běhy, než se ukáže, jak kontrola
+# rozhoduje. Potom 0: ověřené změny půjdou na web samy a k tobě jen sporné.
+faktcheck_kalibrace = 1

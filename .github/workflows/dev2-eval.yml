@@ -60,7 +60,7 @@ jobs:
       - name: Offline kontroly
         if: steps.m.outputs.spustit == 'true'
         run: |
-          for t in korektura zabrany prechody delta odpoved sbirka modely faktcheck; do node scripts/dev/test-$t.js > /dev/null || { node scripts/dev/test-$t.js; exit 1; }; done
+          for t in korektura zabrany prechody delta odpoved sbirka modely faktcheck rozhodnuti; do node scripts/dev/test-$t.js > /dev/null || { node scripts/dev/test-$t.js; exit 1; }; done
           echo "offline kontroly prošly"
 
       # Vstupem jsou VŽDY data z main: brána rozhoduje podle minulých stavů,

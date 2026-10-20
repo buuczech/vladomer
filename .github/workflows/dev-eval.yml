@@ -86,6 +86,11 @@ jobs:
           node scripts/dev/test-prechody.js
           node scripts/dev/test-delta.js
           node scripts/dev/test-odpoved.js
+          node scripts/dev/test-modely.js
+          node scripts/dev/test-faktcheck.js
+          node scripts/dev/test-rozhodnuti.js
+          node scripts/dev/test-email.js
+          node scripts/dev/test-soukromi.js
 
       - name: Test evaluation
         env:
@@ -138,6 +143,11 @@ jobs:
           node scripts/dev/test-prechody.js
           node scripts/dev/test-delta.js
           node scripts/dev/test-odpoved.js
+          node scripts/dev/test-modely.js
+          node scripts/dev/test-faktcheck.js
+          node scripts/dev/test-rozhodnuti.js
+          node scripts/dev/test-email.js
+          node scripts/dev/test-soukromi.js
 
       - name: Vstupní data z main (generálka)
         if: github.event.inputs.data_z_main == 'true'

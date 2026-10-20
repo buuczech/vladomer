@@ -153,6 +153,10 @@ Nová nastavení, každé s komentářem u sebe:
   ale pojistka proti chybě v programu: po překročení se už nic neodešle,
   běh skončí chybou a na webu zůstanou předchozí data.
 
+- `faktcheck_kalibrace` — 1 = každá změna stavu počká na tvoje schválení,
+  i když ji kontrola faktů potvrdila (první dva měsíční běhy); 0 = ověřené
+  změny jdou na web samy a k tobě přijdou jen sporné body.
+
 Kolik který běh stál, je vidět na konci logu („Cena běhu: …“) a v souboru
 `public/naklady.json`.
 

@@ -129,6 +129,14 @@ const OUT_NAKLADY = new URL("../public/naklady.json", import.meta.url);
 /* Model, který odpověď skutečně dal. Liší se od nastaveného jen při
    serverovém záložním modelu (odmítnutí) — pak to audit musí říct. */
 const SKUTECNY_MODEL = new Map();
+/* Návrhy, které brána podržela nebo ověřovatel zamítl (spec 004, FR-009).
+   Na web nejdou — bod drží minulý záznam —, ale rozhodovací vrstva kontroly
+   faktů je potřebuje: když kontrola vyvrátí DOSAVADNÍ stav, jde návrh
+   vlastníkovi do PR. Oprava chybně zveřejněného stavu totiž nemá událost
+   a brána by ji podržela navždy. Zapisuje se jen s NAVRHY_BEHU (cesta mimo
+   public/), takže výstupy běhu ani parita se nemění. */
+const NAVRHY_BEHU = process.env.NAVRHY_BEHU || null;
+const NEPRIJATE = {};
 /* Celé odpovědi, které nešly přečíst (evaluateChapter). Mimo public/ a v
    .gitignore: nejsou to data webu, jen podklad k diagnóze, který deploy.yml
    přiloží k běhu jako artefakt. */
@@ -775,6 +783,7 @@ async function main() {
             // běh se na bod díval, jen nepřijal jeho přechod.
             brana.drzeno.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]}: ${verdikt.duvod}`
               + `${verdikt.detail ? `; ${verdikt.detail}` : ""})`);
+            NEPRIJATE[id] = { akce: "drzeno", duvod: verdikt.duvod, detail: verdikt.detail || null, navrh };
             pridat[id] = { ...minuly, overeno: ted };
             continue;
           }
@@ -788,6 +797,7 @@ async function main() {
                 // ověřovatel zamítl špatný doklad, nebo dobrý doklad špatně.
                 brana.zamitnuto.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]}: ${v.duvod}`
                   + `; doklad: ${String(navrh.evidence || "").slice(0, 200)})`);
+                NEPRIJATE[id] = { akce: "zamitnuto", duvod: v.duvod, detail: null, navrh };
                 pridat[id] = { ...minuly, overeno: ted };
                 continue;
               }
@@ -796,6 +806,7 @@ async function main() {
               /* Konzervativně: nejde-li přechod ověřit, nepřijme se. Bod
                  podrží minulý stav a příští běh to zkusí znovu. */
               brana.chybaOvereni.push(`${id}: ${e.message}`.slice(0, 160));
+              NEPRIJATE[id] = { akce: "chyba-overeni", duvod: e.message.slice(0, 160), detail: null, navrh };
               pridat[id] = { ...minuly, overeno: ted };
               continue;
             }
@@ -1066,6 +1077,7 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
   dnesni.sort((a, b) => a.id.localeCompare(b.id, "cs", { numeric: true }));
   entries.push(...dnesni);
   writeFileSync(OUT_AUDIT, JSON.stringify({ entries }, null, 2));
+  if (NAVRHY_BEHU) writeFileSync(NAVRHY_BEHU, JSON.stringify({ datum: today, neprijate: NEPRIJATE }, null, 2));
 
   console.log(`\nWrote ${Object.keys(newEvals).length} evaluations, ${capped.length} history snapshots, ${recorded} audit records`);
 

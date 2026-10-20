@@ -36,7 +36,7 @@ jobs:
       # Všech sedm, ne výběr. Do 20. 10. 2026 běžely v CI jen tři, ačkoli
       # CLAUDE.md tvrdil opak — test-prechody, test-delta a test-odpoved
       # nehlídal nikdo.
-      - name: Offline kontroly (sedm původních + modely, faktcheck, email, soukromi)
+      - name: Offline kontroly (sedm původních + modely, faktcheck, rozhodnuti, email, soukromi)
         run: |
           node scripts/dev/test-korektura.js
           node scripts/dev/test-zabrany.js
@@ -46,6 +46,7 @@ jobs:
           node scripts/dev/test-sbirka.js
           node scripts/dev/test-modely.js
           node scripts/dev/test-faktcheck.js
+          node scripts/dev/test-rozhodnuti.js
           node scripts/dev/test-email.js
           node scripts/dev/test-soukromi.js
           node scripts/dev/test-konzistence.js

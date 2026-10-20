@@ -16,9 +16,10 @@
 - [ ] T009 Akceptace: všech 19 bodů, kde se web liší od zlaté (6) a kontrolní (13) sady, označeno; žádný propuštěný. Nástroj `scripts/dev/faktcheck-skore.js`, placený běh `dev2-eval.yml` → `rezim: faktcheck` (čeká na schválení)
 
 ## Vrstva R (rozhodnutí)
-- [ ] T010 `scripts/lib/faktcheck/rozhodnuti.js`: podržení, zákaz přechodu bez potvrzené události, kalibrace, audit (`zadrzeno`, `faktcheck`)
-- [ ] T011 `public/faktcheck.json`
+- [x] T010 `scripts/lib/faktcheck/rozhodnuti.js` + `scripts/rozhodni.js`: podržení, zákaz přechodu bez potvrzené události (stejný doklad = oprava k vlastníkovi), FR-009 (návrhy z `NAVRHY_BEHU`), kalibrace `faktcheck_kalibrace`, audit (`zadrzeno`, `faktcheck`), dnešní snímek historie; `scripts/dev/test-rozhodnuti.js` na skutečných záznamech (10.2, 7.2, 12.2, 1.2, 2.3)
+- [x] T011 `public/faktcheck.json` (jen kódy a počty; návrhy pro vlastníka v `faktcheck-vystup/rozhodnuti.json`)
+- [ ] T011b Zapojení do měsíčního běhu (spec 003/005): `NAVRHY_BEHU`, faktcheck, rozhodni, test-konzistence, PR s podrženými body
 
 ## Ověření
 - [x] T012 Devět offline kontrol prochází (sedm + test-modely + test-faktcheck)
-- [ ] T013 Parita zelená (faktcheck neovlivňuje evaluate.js)
+- [x] T013 Parita zelená (faktcheck neovlivňuje evaluate.js; `NAVRHY_BEHU` se zapisuje jen s proměnnou prostředí)
