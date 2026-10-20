@@ -13,13 +13,13 @@
 - [x] T006 `scripts/nastaveni/prompt-faktcheck.md` (nový prompt; existující beze změny) + pravidla vlastníka v `scripts/nastaveni/metodika.md`
 - [x] T007 1. kolo přes Batch API nad texty zdrojů; 2. kolo s vyhledáváním jen pro nepotvrzené (pause_turn a volání neexistujícího nástroje se dokončí)
 - [x] T008 Kontrola kontrolora: citace doslova ve zdroji, URL ze zdrojů/vyhledávání (simulace: zahozeno 46/46 vymyšlených citací)
-- [ ] T009 Akceptace: všech 19 bodů, kde se web liší od zlaté (6) a kontrolní (13) sady, označeno; žádný propuštěný. Nástroj `scripts/dev/faktcheck-skore.js`, placený běh `dev2-eval.yml` → `rezim: faktcheck` (čeká na schválení)
+- [ ] T009 Akceptace: všech 19 bodů, kde se web liší od zlaté (6) a kontrolní (13) sady, označeno; žádný propuštěný. Nástroj `scripts/dev/faktcheck-skore.js`, placený běh `dev2-eval.yml` → `rezim: faktcheck`. Schváleno 20. 10. 2026: jen kolo 1, strop 6 $ (dávka po 12 bodech, pojistka mezi částmi)
 
 ## Vrstva R (rozhodnutí)
 - [x] T010 `scripts/lib/faktcheck/rozhodnuti.js` + `scripts/rozhodni.js`: podržení, zákaz přechodu bez potvrzené události (stejný doklad = oprava k vlastníkovi), FR-009 (návrhy z `NAVRHY_BEHU`), kalibrace `faktcheck_kalibrace`, audit (`zadrzeno`, `faktcheck`), dnešní snímek historie; `scripts/dev/test-rozhodnuti.js` na skutečných záznamech (10.2, 7.2, 12.2, 1.2, 2.3)
 - [x] T011 `public/faktcheck.json` (jen kódy a počty; návrhy pro vlastníka v `faktcheck-vystup/rozhodnuti.json`)
-- [ ] T011b Zapojení do měsíčního běhu (spec 003/005): `NAVRHY_BEHU`, faktcheck, rozhodni, test-konzistence, PR s podrženými body
+- [x] T011b Zapojení do měsíčního běhu: `.github/workflows/mesicni-beh.yml` (NAVRHY_BEHU → faktcheck --zapsat-naklady → rozhodni → test-konzistence → commit → PR → report)
 
 ## Ověření
-- [x] T012 Devět offline kontrol prochází (sedm + test-modely + test-faktcheck)
+- [x] T012 Offline kontroly procházejí (sedm + modely, faktcheck, rozhodnuti, email, soukromi)
 - [x] T013 Parita zelená (faktcheck neovlivňuje evaluate.js; `NAVRHY_BEHU` se zapisuje jen s proměnnou prostředí)
