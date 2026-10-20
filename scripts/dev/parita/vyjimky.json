@@ -6,6 +6,10 @@
       "duvod": "Ověřovatel přechodu dostával jako „drží se od“ den posledního přepisu záznamu (updatedAt) místo dne vstupu do stavu (stavOd). Text promptu beze změny, mění se jen dosazené datum; oprava i komentáře v lib/prompty.js."
     },
     {
+      "patch": "zmeny/02-nemeritelne.patch",
+      "duvod": "Neměřitelnost bodu rozhoduje vlastník, ne model (scripts/nastaveni/nemeritelne.txt: 5.4, 1.2, 4.3 ze zlaté a kontrolní sady 20. 10. 2026). Bod ze seznamu dostane při hodnocení unverifiable vždy. Mění zveřejněná data a hlavní metriku (neměřitelné body nejsou ve jmenovateli)."
+    },
+    {
       "soubory": [
         "scripts/lib/modely.js",
         "scripts/lib/nastaveni.js",

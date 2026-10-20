@@ -23,7 +23,7 @@ import { fileURLToPath } from "node:url";
 import { DATES } from "../src/data.js";
 import { readList } from "./lib/nastaveni.js";
 import { nactiRejstrik } from "./lib/sbirka.js";
-import { kontrolaBodu, citovaneRoky } from "./lib/faktcheck/deterministicky.js";
+import { kontrolaBodu, citovaneRoky, citovanePredpisy } from "./lib/faktcheck/deterministicky.js";
 
 const KOREN = join(dirname(fileURLToPath(import.meta.url)), "..");
 const arg = (j, v) => { const i = process.argv.indexOf(`--${j}`); return i >= 0 ? process.argv[i + 1] : v; };
@@ -51,8 +51,17 @@ if (!BEZ_SITE) {
 }
 
 /* --- D1–D3, D6 ------------------------------------------------------------ */
+const audit = existsSync(join(KOREN, "public", "audit.json")) ? JSON.parse(readFileSync(join(KOREN, "public", "audit.json"), "utf8")).entries || [] : [];
+const auditPodleBodu = {};
+for (const r of audit) (auditPodleBodu[r.id] = auditPodleBodu[r.id] || []).push(r);
+const nemeritelne = new Set(readList("nemeritelne.txt").map((r) => r.split(/\s+/)[0]));
 const nalezy = [];
-for (const [id, e] of Object.entries(evals)) nalezy.push(...kontrolaBodu(id, e, { dnes, nastup, rejstrik }));
+const predpisyBodu = {};
+for (const [id, e] of Object.entries(evals)) {
+  nalezy.push(...kontrolaBodu(id, e, { dnes, nastup, rejstrik, auditBodu: auditPodleBodu[id] || [], nemeritelne }));
+  const c = citovanePredpisy(e, rejstrik);
+  if (c.length) predpisyBodu[id] = c;
+}
 
 /* --- D4 zdroje ------------------------------------------------------------ */
 const WHITELIST = readList("weby-hodnoceni.txt").map((d) => d.replace(/^www\./, ""));
@@ -142,6 +151,7 @@ const vysledek = {
     seznam: zdroje,
   },
   souhrn, podle_pravidla: podlePravidla,
+  citovane_predpisy: predpisyBodu,
   nalezy: nalezy.sort((a, b) => (a.zavaznost === b.zavaznost ? a.bod.localeCompare(b.bod, "cs", { numeric: true }) : a.zavaznost === "CHYBA" ? -1 : 1)),
 };
 writeFileSync(join(VYSTUP, "deterministicky.json"), JSON.stringify(vysledek, null, 2));

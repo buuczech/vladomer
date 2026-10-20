@@ -42,6 +42,10 @@ import { teloPozadavku, zavolejApi, overModely, nastavPojistku, souhrnNakladu } 
 const NAST = readSettings();
 const WEBY_HODNOCENI = readList("weby-hodnoceni.txt");
 const WEBY_ZPRAVY = readList("weby-zpravy.txt");
+/* Body, které vlastník rozhodl jako neměřitelné (scripts/nastaveni/nemeritelne.txt).
+   Neměřitelnost je vlastnost znění slibu, ne událostí — rozhodl ji člověk
+   a program ji drží; model se na ni neptá. */
+const NEMERITELNE = new Set(readList("nemeritelne.txt").map((r) => r.split(/\s+/)[0]));
 
 // Nothing this cabinet did can predate its own appointment. The first full run
 // on the strict scale credited it with laws published in August 2025 — i.e.
@@ -364,7 +368,7 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
       status,
       evidence,
       evidenceDate: evDate || undefined,
-      unverifiable: r.unverifiable === true,
+      unverifiable: r.unverifiable === true || NEMERITELNE.has(r.id),
       evidenceMissing: downgradeReason || undefined,
       comment: { cs: r.comment_cs || "", en: r.comment_en || "" },
       change: { cs: r.change_cs || "", en: r.change_en || "" },
@@ -600,6 +604,9 @@ function preflight() {
     assertFields(n, ["title_cs", "title_en", "summary_cs", "summary_en", "url", "date"], "prompt-zpravy.md");
 
     promptDoptani(["0.0"]);
+
+    const nezname = [...NEMERITELNE].filter((id) => !VALID_IDS.has(id));
+    if (nezname.length) throw new Error(`nemeritelne.txt: neznámé číslo bodu ${nezname.join(", ")}`);
 
     const k = render("prompt-korektura.md", {
       SEZNAM_STAVU_CS: "- kontrola",

@@ -1,0 +1,57 @@
+diff --git a/scripts/evaluate.js b/scripts/evaluate.js
+index 1435ae9..f1a1cf8 100644
+--- a/scripts/evaluate.js
++++ b/scripts/evaluate.js
+@@ -41,6 +41,10 @@ import { nactiRejstrik, overZnacky, hlavniPredpis, opravDatumVyhlaseni, tabulkaR
+ const NAST = readSettings();
+ const WEBY_HODNOCENI = readList("weby-hodnoceni.txt");
+ const WEBY_ZPRAVY = readList("weby-zpravy.txt");
++/* Body, které vlastník rozhodl jako neměřitelné (scripts/nastaveni/nemeritelne.txt).
++   Neměřitelnost je vlastnost znění slibu, ne událostí — rozhodl ji člověk
++   a program ji drží; model se na ni neptá. */
++const NEMERITELNE = new Set(readList("nemeritelne.txt").map((r) => r.split(/\s+/)[0]));
+ 
+ // Nothing this cabinet did can predate its own appointment. The first full run
+ // on the strict scale credited it with laws published in August 2025 — i.e.
+@@ -320,7 +324,7 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
+       status,
+       evidence,
+       evidenceDate: evDate || undefined,
+-      unverifiable: r.unverifiable === true,
++      unverifiable: r.unverifiable === true || NEMERITELNE.has(r.id),
+       evidenceMissing: downgradeReason || undefined,
+       comment: { cs: r.comment_cs || "", en: r.comment_en || "" },
+       change: { cs: r.change_cs || "", en: r.change_en || "" },
+@@ -577,6 +581,9 @@ function preflight() {
+ 
+     promptDoptani(["0.0"]);
+ 
++    const nezname = [...NEMERITELNE].filter((id) => !VALID_IDS.has(id));
++    if (nezname.length) throw new Error(`nemeritelne.txt: neznámé číslo bodu ${nezname.join(", ")}`);
++
+     const k = render("prompt-korektura.md", {
+       SEZNAM_STAVU_CS: "- kontrola",
+       SEZNAM_TEXTU: "[0.0|comment_cs] kontrola",
+diff --git a/scripts/nastaveni/nemeritelne.txt b/scripts/nastaveni/nemeritelne.txt
+new file mode 100644
+index 0000000..1a86620
+--- /dev/null
++++ b/scripts/nastaveni/nemeritelne.txt
+@@ -0,0 +1,17 @@
++# Body programu, které vlastník rozhodl jako NEMĚŘITELNÉ.
++# Jedno číslo bodu na řádek, za # důvod a kdy se rozhodlo.
++#
++# Neměřitelný bod se nezapočítává do procent (na webu „neměřitelné“).
++# Jestli je slib tak obecný, že jeho splnění nejde objektivně posoudit, je
++# vlastnost jeho znění, ne toho, co se stalo — proto o tom rozhoduje člověk
++# jednou a program to drží, místo aby se model každý měsíc ptal znovu
++# (zásada: na co program zná odpověď, na to se model neptá). Model u bodu
++# na tomto seznamu může napsat cokoli, „neměřitelné“ platí vždy.
++#
++# Platí od nejbližšího hodnocení daného bodu (měsíční běh hodnotí všechny).
++# Kontrola faktů (scripts/faktcheck.js) upozorní na bod ze seznamu, který je
++# na webu ještě vedený jako měřitelný.
++
++5.4   # „Nepřesouvat další pravomoci na EU, hájit jednomyslnost“ — příliš obecné, bez měřitelného kritéria (zlatá sada, 20. 10. 2026)
++1.2   # „Dostupné a bezplatné zdravotnictví, kratší čekací doby“ — strategický směr; čekací doby se celostátně neměří (kontrolní sada, 20. 10. 2026)
++4.3   # „Odmítnout vznik Armády EU“ — negativní slib bez události, na které by se dal změřit (kontrolní sada, 20. 10. 2026)

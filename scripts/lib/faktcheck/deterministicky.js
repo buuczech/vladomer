@@ -78,7 +78,7 @@ const POLARITA = [
  * @returns [{ bod, pravidlo, zavaznost, nesestav, text }]
  *   nesestav = nález se týká tvrzení, na kterém stojí stav (doklad, „splněno“/„porušeno“)
  */
-export function kontrolaBodu(id, e, { dnes, nastup, rejstrik = null }) {
+export function kontrolaBodu(id, e, { dnes, nastup, rejstrik = null, auditBodu = [], nemeritelne = null }) {
   const nalezy = [];
   const pridej = (pravidlo, zavaznost, text, nesestav = false) => nalezy.push({ bod: id, pravidlo, zavaznost, nesestav, text });
   const silny = e.status === "fulfilled" || e.status === "broken";
@@ -128,6 +128,26 @@ export function kontrolaBodu(id, e, { dnes, nastup, rejstrik = null }) {
     }
   }
 
+  // D7 — čísla předpisů se střídají, stav ne (podpis fabulace, viz CLAUDE.md:
+  // 10.4 vystřídal pět čísel za šest týdnů). Z auditu: dokud bod drží dnešní
+  // stav, kolik různých sad čísel z let od 2025 jeho doklad citoval.
+  const sady = sadyPredpisuZaStavu(e.status, auditBodu);
+  if (sady.length >= 3) {
+    pridej("nestabilni-predpisy", "VAROVANI", `za stavu „${e.status}“ doklad citoval ${sady.length} různé sady předpisů: ${sady.join(" → ")}`, e.status !== "not_started");
+  }
+
+  // D8 — „splněno“, ačkoli komentář sám uvádí výhradu. Splněno má být jen při
+  // splnění všech částí slibu; 12.2 (Sonnet 5.5, 20. 10. 2026) napsal „Ne, ale:
+  // … samostatný systém [dohledatelnosti] …“ a dal „splněno“.
+  if (e.status === "fulfilled" && /\bNe,\s*ale\b/i.test((e.comment && e.comment.cs) || "")) {
+    pridej("splneno-s-vyhradou", "VAROVANI", "„splněno“, ale komentář uvádí „Ne, ale…“ — jsou splněné všechny části slibu?", true);
+  }
+
+  // D9 — vlastník rozhodl, že bod je neměřitelný (scripts/nastaveni/nemeritelne.txt)
+  if (nemeritelne && nemeritelne.has(id) && e.unverifiable !== true) {
+    pridej("nemeritelne-neuplatneno", "VAROVANI", "vlastník bod rozhodl jako neměřitelný, na webu je zatím měřitelný — uplatní se při nejbližším hodnocení", true);
+  }
+
   // D6 — komentář na začátku tvrdí jiný stav než status
   const zacatek = ((e.comment && e.comment.cs) || "").trim();
   for (const [stav, re] of POLARITA) {
@@ -136,6 +156,32 @@ export function kontrolaBodu(id, e, { dnes, nastup, rejstrik = null }) {
     }
   }
   return nalezy;
+}
+
+/** Různé po sobě jdoucí sady předpisů (od 2025) v dokladech auditu, dokud bod drží stav. */
+export function sadyPredpisuZaStavu(status, auditBodu) {
+  let sady = [];
+  for (const r of auditBodu || []) {
+    if (r.oprava) continue;
+    if (r.status !== status) { sady = []; continue; }
+    const sada = znackySb(r.evidence).filter((k) => Number(k.split("/")[1]) >= 2025).sort().join("+");
+    if (sada && sady[sady.length - 1] !== sada) sady.push(sada);
+  }
+  return sady;
+}
+
+/** Citované předpisy s názvem a datem z rejstříku — pro report a modelovou vrstvu
+    (název hned ukáže cizí předpis: 108/2024 Sb. u superdávky je vyhláška o AML). */
+export function citovanePredpisy(e, rejstrik) {
+  if (!rejstrik) return [];
+  const out = [];
+  for (const [kde, text] of [["doklad", e.evidence], ["komentář", e.comment && e.comment.cs]]) {
+    for (const kod of new Set(znackySb(text))) {
+      const p = rejstrik.get(kod);
+      out.push({ kde, kod, nazev: p ? p.nazev : null, vyhlaseno: p ? p.vyhlaseno : null, url: p ? p.url : null });
+    }
+  }
+  return out;
 }
 
 /** Roky citované v datech — kvůli načtení rejstříku i pro starší novelizované zákony. */

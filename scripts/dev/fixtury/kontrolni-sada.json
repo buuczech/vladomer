@@ -1,0 +1,439 @@
+{
+  "verze": "2026-10-20",
+  "popis": "Kontrolní sada Vládoměru: body mimo zlatou sadu, na kterých se nepsala pravidla promptu. Skutečný stav vlastník potvrdil z primárních záznamů (e-Sbírka, psp.cz, usnesení a plány legislativy vlády, weby ministerstev) při revizi 20. 10. 2026. Měří se shoda s realitou na bodech, které metodika neviděla. Výběr: 8 bodů pevně (kontrola faktů: 1.2, 15.4, 3.2, 15.2; body mimo zlatou sadu, které na webu kdy byly fulfilled nebo broken: 6.2, 14.1, 14.4, 17.2) a 17 bodů losem po vrstvách podle stavu na webu (semínko vladomer-kontrolni-sada-2026-10-20). Předem vyřazeno: 22 bodů zlaté sady a její nejisté body 8.4, 14.6 a 17.4. Sada nemá žádný bod fulfilled: mimo zlatou sadu žádný nezbyl a žádný se nepotvrdil. Podklady: kandidati.md.",
+  "datum_pravdy": "2026-10-20",
+  "metodika": {
+    "M1": "Dílo předchozí vlády (zákon vyhlášený před 15. 12. 2025, účinný až za této vlády) = partial, stejně jako lib/dukaz.js (date-mismatch).",
+    "M2": "Negativní slib (vláda zakázanou věc neudělala a usnesením deklarovala, že ji neudělá) = declared.",
+    "M3": "Odklad, nebo ústup: posuzuje se bod po bodu; rozhodnutí jsou u bodů 10.2, 2.7 a 10.1.",
+    "M4": "Poslanecký návrh koaličních poslanců se souhlasným stanoviskem vlády = in_progress.",
+    "M5": "Pohyblivý cíl se zařazuje s datem platnosti (datum_pravdy) a hodnotí se k tomuto dni.",
+    "M6": "Návrh ministerstva v meziresortním připomínkovém řízení, návrh představený vládou, věcný záměr a úkol v Plánu legislativních prací nebo ve Výhledu (usnesení vlády) = declared; in_progress začíná schválením návrhu zákona vládou (nebo podle M4). Důvod: definice declared zahrnuje usnesení a plány; hranice in_progress zůstává stejná jako u 10.2 a 16.5 ve zlaté sadě.",
+    "M7": "Nelegislativní slib je in_progress, jen když doložitelně běží realizace (zahájená stavba, vyhlášená výzva s alokací, podepsaná smlouva); projekt jen zapsaný v plánu nebo ohlášený = declared. Důvod: definice in_progress v promptu mluví jen o legislativním procesu; web takto hodnotí stavby už dnes.",
+    "M8": "Opatření předchozí vlády, které nabylo účinnosti ještě před nástupem této vlády (před 15. 12. 2025), se hodnotí stejně jako podle M1 = partial. Důvod: shodně s kódem (lib/dukaz.js, predates-term → partial); pro čtenáře není rozdíl mezi účinností den před nástupem a den po něm.",
+    "M9": "Plošné opatření, které skupinu jmenovanou ve slibu zasáhne stejně jako všechny ostatní, splňuje sektorový slib nanejvýš částečně = partial. Důvod: slib „výrazně zvýšit platy v kultuře“ míří na postavení kultury, které plošné zvýšení nemění.",
+    "M10": "M1 (a tím i M8) platí jen tehdy, když předpis nebo opatření předchozí vlády skutečně provádí část slibu; předpis, který jde proti slibu nebo s ním jen sdílí téma, se nepočítá. Důvod: zákon č. 270/2025 Sb. drogové sazby snižuje (bod 6.2), superdávka není příspěvek pro policisty a hasiče (bod 3.2)."
+  },
+  "vynechano": [
+    { "id": "17.2", "duvod": "nejisté podle vlastníka: obsah tisku 284 (novela zákona o výzkumu) nečten; revize M17+ (Metodika 2025+, usnesení vlády č. 458 z 18. 6. 2025) je dílo předchozí vlády" }
+  ],
+  "body": [
+    {
+      "id": "1.2",
+      "stav": null,
+      "unverifiable": true,
+      "doklad": "Strategický směr („dostupné a bezplatné zdravotnictví, kratší čekací doby“) nemá měřitelné kritérium kromě čekacích dob, které se celostátně neměří (monitoring je samostatný bod 11.4). Web cituje zákon č. 236/2025 Sb. (novela zákona o elektronizaci zdravotnictví, eŽádanka): je to dílo předchozí vlády (vládou schválen 2. 10. 2024), vyhlášen 15. 7. 2025, ne 31. 12. 2025, účinný 1. 1. 2026.",
+      "predpis": null,
+      "datum_dokladu": null,
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://e-sbirka.gov.cz/sb/2025/236",
+        "https://mzd.gov.cz/tiskove-centrum-mz/vlada-schvalila-novelu-zakona-o-elektronizaci-zdravotnictvi/"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M10"],
+      "jistota": "nízká až střední (stav), vysoká (fakta k 236/2025)",
+      "poznamka": "Hodnotí se jen unverifiable = true; obdoba bodu 5.4 ve zlaté sadě. Kontrola faktů: datum vyhlášení na webu je chybné."
+    },
+    {
+      "id": "1.3",
+      "stav": "in_progress",
+      "unverifiable": false,
+      "doklad": "Novela stavebního zákona (sněmovní tisk 67, poslanecký návrh koalice, souhlas vlády 16. 12. 2025) prohlašuje bytové stavby nad 10 000 m² za stavby ve veřejném zájmu. Sněmovna setrvala na původním znění 9. 9. 2026, prezident podepsal 17. 9. 2026, 19. 10. 2026 odeslána k vyhlášení ve Sbírce; k 20. 10. 2026 nevyhlášena.",
+      "predpis": null,
+      "datum_dokladu": "2026-10-19",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://www.psp.cz/sqw/historie.sqw?o=10&t=67",
+        "https://www.echo24.cz/a/HK3ry/zpravy-domov-navrh-na-vznik-centralni-stavebni-spravy-snemovna"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M4", "M5"],
+      "jistota": "střední (slib je širší než stavební zákon)",
+      "poznamka": "Pohyblivý cíl stejně jako 15.1 ve zlaté sadě: po vyhlášení se stav změní. Vedle toho zákon č. 129/2026 Sb. (novela zákona o podpoře bydlení, vyhlášen 23. 7. 2026) snižuje nároky zákona o podpoře bydlení."
+    },
+    {
+      "id": "2.4",
+      "stav": "declared",
+      "unverifiable": false,
+      "doklad": "Projekt „DWH – Digitální daňová kobra“ (Ministerstvo financí, označení PPV) je v plánu Digitální Česko 2.0 s dokončením 31. 12. 2027; mluvčí MF 1. 2. 2026: první analytická funkce datového skladu v 1. čtvrtletí 2027. Doklad o běžící realizaci (smlouva, spuštěná funkce) chybí.",
+      "predpis": null,
+      "datum_dokladu": "2026-02-01",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://digitalnicesko.gov.cz/projekty-pred-dokoncenim",
+        "https://www.echo24.cz/a/HWdH6/zpravy-ekonomika-schillerova-chysta-danovou-kobru-prace-na-cerno-danove-uniky-ai"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M7"],
+      "jistota": "střední"
+    },
+    {
+      "id": "3.2",
+      "stav": "declared",
+      "unverifiable": false,
+      "doklad": "Slib se týká příslušníků bezpečnostních sborů (oddíl PP o policistech a hasičích), ne sociálního příspěvku na bydlení. Výhled legislativních prací vlády na léta 2027–2029 (příloha 2 k usnesení vlády č. 175 z 23. 3. 2026): MV, novela zákona č. 361/2003 Sb., o služebním poměru příslušníků bezpečnostních sborů (předložení vládě ve 2. čtvrtletí 2027, účinnost 1/2028), v tabulce vztahu k PP výslovně přiřazená k větě o příspěvku na bydlení. Ministr vnitra na poradě 14.–15. 5. 2026: nový služební zákon s příspěvkem počítá, ne plošně, podle regionu.",
+      "predpis": null,
+      "datum_dokladu": "2026-03-23",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://vlada.gov.cz/assets/media-centrum/dulezite-dokumenty/1234_2026_priloha_c-_2.pdf",
+        "https://ekonomickydenik.cz/platy-policistu-a-hasicu-se-srovnaji-s-platy-vojaku-nejdrive-v-roce-2029/"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M6", "M10"],
+      "jistota": "střední až vysoká",
+      "poznamka": "Web hodnotí superdávku (zákon č. 151/2025 Sb.) a cituje 108/2024 Sb., což je vyhláška o opatřeních proti legalizaci výnosů z trestné činnosti; doklad je navíc starší než nástup vlády."
+    },
+    {
+      "id": "3.5",
+      "stav": "declared",
+      "unverifiable": false,
+      "doklad": "Vláda 16. 12. 2025 odmítla současnou podobu Paktu o migraci a azylu EU, zejména zapojení ČR do relokací, a bude žádat jeho zpřísnění. Pakt (nařízení EU) platí od 12. 6. 2026 a ČR ho provádí; vládní cizinecký zákon (tisk 144), který s paktem souvisí, schválila Sněmovna 11. 9. 2026.",
+      "predpis": null,
+      "datum_dokladu": "2025-12-16",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://vlada.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-odmitla-migracni-pakt-eu-i-novy-system-obchodovani-s-emisnimi-povolenkami--domacnostem-i-firmam-zlevni-elektrinu-224297/",
+        "https://www.psp.cz/sqw/historie.sqw?o=10&t=144",
+        "https://www.novinky.cz/clanek/domaci-migracni-pakt-vlada-odmitla-cesko-je-presto-v-jeho-plneni-premiantem-40582902"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M2"],
+      "jistota": "střední",
+      "poznamka": "Odmítnutí je deklarace postoje (obdoba 7.2); povinné provádění nařízení EU není ústup."
+    },
+    {
+      "id": "4.3",
+      "stav": null,
+      "unverifiable": true,
+      "doklad": "Negativní slib („odmítáme vytváření paralelních vojenských struktur na bázi EU, tzv. Armády EU“) bez události, na které by se dal změřit: armáda EU nevzniká a usnesení ani formální stanovisko vlády k ní není; jediným projevem je program a premiérův projekt Europatriot.",
+      "predpis": null,
+      "datum_dokladu": null,
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M2"],
+      "jistota": "střední",
+      "poznamka": "Hodnotí se jen unverifiable = true; obdoba bodu 5.4 ve zlaté sadě."
+    },
+    {
+      "id": "6.2",
+      "stav": "declared",
+      "unverifiable": false,
+      "doklad": "Ministerstvo spravedlnosti 11. 5. 2026 předložilo do meziresortního připomínkového řízení novelu trestního zákoníku – zpřísnění postihu nebezpečného jednání v silničním provozu a v oblasti návykových látek (řízení pod vlivem s těžkou újmou nebo smrtí, organizované nakládání s drogami, zabrání vozidla; účinnost navržena 1. 7. 2027); Plán legislativních prací 2026, úkol MSp 5 (předložení vládě 8/2026). Vláda ji k 20. 10. 2026 neschválila; část o intoxikovaném pachateli ministr 31. 8. 2026 ohlásil na podzim. Zákon č. 270/2025 Sb. předchozí vlády sazby za drogové trestné činy snižuje (§ 283), proto se M1 nepoužije.",
+      "predpis": null,
+      "datum_dokladu": "2026-05-11",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://msp.gov.cz/web/msp/pravni-predpisy-v-legislativnim-procesu",
+        "https://e-sbirka.gov.cz/sb/2025/270",
+        "https://www.ceskenoviny.cz/zpravy/tejc-chce-zmenou-legislativy-zprisnit-tresty-mj-za-jizdu-pod-vlivem/2868003"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M6", "M10"],
+      "jistota": "vysoká (fakta), stav podle M6",
+      "poznamka": "Web cituje 268/2025 Sb., což je novela občanského zákoníku; audit vystřídal čísla 220/2025, 221/2025, 334/2025, 266/2025, 74/2024 a 268/2025, žádné se slibu netýká."
+    },
+    {
+      "id": "7.8",
+      "stav": "declared",
+      "unverifiable": false,
+      "doklad": "Plán legislativních prací vlády 2026 (příloha 1 k usnesení č. 175 z 23. 3. 2026), úkol MPO 17: návrh zákona o podpoře startupů (předložení vládě 12/2026, účinnost 1/2028). Vláda 27. 8. 2026 návrh představila (definice a certifikace startupu, odpočet investice do 5 mil. Kč ročně, navržená účinnost 1. 7. 2027); paragrafované znění teprve projde legislativním procesem, ve Sněmovně tisk není.",
+      "predpis": null,
+      "datum_dokladu": "2026-08-27",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://vlada.gov.cz/cz/media-centrum/aktualne/vlada-predstavuje-startupovy-zakon--ma-privest-cesky-kapital-k-inovacim-a-udrzet-talenty-v-cesku--228519/",
+        "https://vlada.gov.cz/assets/media-centrum/dulezite-dokumenty/1234_2026_priloha_c-_1.pdf"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M6"],
+      "jistota": "vysoká",
+      "poznamka": "Komentář webu tvrdí, že slib v programovém prohlášení není; PP ho obsahuje."
+    },
+    {
+      "id": "8.3",
+      "stav": "in_progress",
+      "unverifiable": false,
+      "doklad": "D0 511 Běchovice–D1 (propojení D1 a D11) se staví od 16. 12. 2024, zprovoznění podle ŘSD na přelomu 2027/28. Rozšíření D0 510 Satalice–Běchovice u Černého Mostu na šest pruhů: ŘSD vyhlásilo začátkem července 2026 tendr design & build (2,97 mld. Kč), stavba 2027–2028; soud zrušil právní moc územního rozhodnutí.",
+      "predpis": null,
+      "datum_dokladu": null,
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://md.gov.cz/getattachment/Media/Media-a-tiskove-zpravy/Zacala-dostavba-Prazskeho-okruhu/infoletak_d0-511-bechovice-d1.pdf.aspx",
+        "https://www.e15.cz/domaci/klicovy-pro-cele-cesko-zacala-stavba-useku-prazskeho-okruhu-mezi-bechovicemi-a-d1-1420970",
+        "https://ekonomickydenik.cz/prazsky-okruh-se-rozsiri/"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M7"],
+      "jistota": "střední",
+      "poznamka": "Termín 2027 je u D0 510 podle ŘSD nedosažitelný; ústupem není, dokud neuplyne. Tvrzení webu o zpoždění D0 511 do 2. pololetí 2028 kvůli geologii je nedoložené."
+    },
+    {
+      "id": "8.5",
+      "stav": "in_progress",
+      "unverifiable": false,
+      "doklad": "Správa železnic 26. 5. 2026 zahájila přestavbu úseku Praha-Ruzyně – Kladno (15 km, 8,279 mld. Kč), hotovo v roce 2029; tratě u letiště postaví soukromník v PPP, dialog s koncesionáři je před finále.",
+      "predpis": null,
+      "datum_dokladu": "2026-05-26",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://md.gov.cz/Media/Media-a-tiskove-zpravy/zahajeni-rekonstrukce-trati-Praha-Ruzyne-%E2%80%93-Kladno"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M7"],
+      "jistota": "vysoká",
+      "poznamka": "Zda letištní větev stihne rok 2029, je otevřené."
+    },
+    {
+      "id": "8.7",
+      "stav": "broken",
+      "unverifiable": false,
+      "doklad": "Ministr dopravy 14. 9. 2026 před jednáním vlády: návrh rozpočtu na rok 2027 počítá s dosavadní 50% slevou, na 75 % od 1. 1. 2027 nejsou zdroje (20. 2. 2026 přitom ohlásil slevu od 1. 1. 2027); premiér: pokud ne v roce 2027, vláda se o to pokusí v roce následujícím.",
+      "predpis": null,
+      "datum_dokladu": "2026-09-14",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://www.mesec.cz/aktuality/ano-slevy-jsme-slibili-na-vyssi-jizdne-pro-studenty-a-seniory-ale-vlada-nema-penize/",
+        "https://www.irozhlas.cz/ekonomika/sleva-75-procent-na-jizdne-pro-seniory-a-studenty-bude-platit-od-roku-2027-rika_2602201741_elev"
+      ],
+      "rozhodl": "vlastnik",
+      "metodika": ["M3"],
+      "jistota": "střední (zdroj prohlášení je sekundární)",
+      "poznamka": "Vlastník (M3 u tohoto bodu): vyřazení z rozpočtu je ústup. Navržené declared neplatí."
+    },
+    {
+      "id": "9.4",
+      "stav": "declared",
+      "unverifiable": false,
+      "doklad": "Výhled legislativních prací vlády 2027–2029 (příloha 2 k usnesení č. 175 z 23. 3. 2026): MŠMT, věcný záměr zákona o pedagogických pracovnících, který má zavést kariérní systém pro učitele (předložení ve 4. čtvrtletí 2027). Ministr školství 13. 6. 2026 nastínil nový systém odměňování. Návrh zákona neexistuje.",
+      "predpis": null,
+      "datum_dokladu": "2026-03-23",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://vlada.gov.cz/assets/media-centrum/dulezite-dokumenty/1234_2026_priloha_c-_2.pdf",
+        "https://www.irozhlas.cz/zpravy-domov/platove-tabulky-pro-ucitele-uz-nestaci-plaga-chysta-novy-system-odmenovani-ve_2606131051_ako",
+        "https://www.psp.cz/sqw/historie.sqw?o=10&t=232"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M6"],
+      "jistota": "vysoká",
+      "poznamka": "Tisk 232 (Babiš, Plaga), který audit 28. 8.–18. 9. 2026 citoval jako kariérní řád, je zákaz mobilních telefonů ve školách."
+    },
+    {
+      "id": "10.8",
+      "stav": "declared",
+      "unverifiable": false,
+      "doklad": "Ministr práce a sociálních věcí 29. 1. 2026: podpora neformálně pečujících je jeho osobní téma, chce jim dát finanční stabilitu. Výhled legislativních prací 2027–2029 (příloha 2 k usnesení č. 175 z 23. 3. 2026): MPSV, nový zákon o sociálních službách včetně podpory pečujících osob, v tabulce vztahu k PP přiřazený i k větě o hmotném zabezpečení neformálních pečujících. Konkrétní návrh hmotného zabezpečení není.",
+      "predpis": null,
+      "datum_dokladu": "2026-03-23",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://www.seznamzpravy.cz/clanek/domaci-zivot-v-cesku-zelezo-a-beton-i-pecujici-a-deti-juchelka-predstavil-sve-priority-297556",
+        "https://vlada.gov.cz/assets/media-centrum/dulezite-dokumenty/1234_2026_priloha_c-_2.pdf"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M6"],
+      "jistota": "střední"
+    },
+    {
+      "id": "10.9",
+      "stav": "partial",
+      "unverifiable": false,
+      "doklad": "Povinné vstupní prohlídky u dohod mimo rizikovou práci zrušil zákon č. 360/2025 Sb. předchozí vlády (čl. XXVII, změna § 59 zákona č. 373/2011 Sb.), vyhlášen 29. 9. 2025, tato část účinná 30. 9. 2025, tedy před nástupem vlády. Povinné hlášení dohodářů trvá (od 1. 4. 2026 v jednotném měsíčním hlášení zaměstnavatele) a tato vláda ho nezrušila; limit (12 000 Kč pro rok 2026) se stanoví automaticky podle dřívějšího zákona.",
+      "predpis": {
+        "kod": "360/2025",
+        "nazev": "Zákon, kterým se mění některé zákony v souvislosti s přijetím zákona o jednotném měsíčním hlášení zaměstnavatele",
+        "vyhlaseno": "2025-09-29",
+        "url": "https://e-sbirka.gov.cz/sb/2025/360"
+      },
+      "datum_dokladu": "2025-09-29",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://e-sbirka.gov.cz/sb/2025/360"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M8"],
+      "jistota": "střední (fakta k prohlídkám vysoká; u hlášení se opírá o nenalezený krok)"
+    },
+    {
+      "id": "12.1",
+      "stav": "declared",
+      "unverifiable": false,
+      "doklad": "Vláda 29. 6. 2026 schválila materiál „Uplatnění lokálních potravin včetně nápojů v institucionálním stravování napříč státní správou a samosprávou“ (čj. 464/26, předkladatel ministr zemědělství). Nárůst soběstačnosti nedoložen.",
+      "predpis": null,
+      "datum_dokladu": "2026-06-29",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://vlada.gov.cz/cz/media-centrum/aktualne/vysledky-jednani-vlady-29--cervna-2026-227811/"
+      ],
+      "rozhodl": "navrh",
+      "metodika": [],
+      "jistota": "střední"
+    },
+    {
+      "id": "13.5",
+      "stav": "declared",
+      "unverifiable": false,
+      "doklad": "SFŽP vyhlásil v červenci 2026 výzvu č. 2/2026 FN – půjčky na intenzifikaci čistíren odpadních vod z OPŽP (alokace 1 355,2 mil. Kč), ale jen pro čistírny nad 10 000 EO, tedy větší sídla; ministr životního prostředí 17. 8. 2026 uvedl 1,4 mld. Kč na čistírny pro obce. Krok k zrychlení výstavby ve stovkách menších obcí ani k domovním čistírnám není doložen.",
+      "predpis": null,
+      "datum_dokladu": "2026-08-17",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://vlada.gov.cz/cz/media-centrum/tiskove-konference/tiskova-konference-po-jednani-vlady--17--srpna-2026-228352/",
+        "https://sfzp.gov.cz/files/documents/storage/2026/07/02/1782985744_V%C3%BDzva%20%C4%8D.%202_2026%20FN%20-%20P%C5%AFj%C4%8Dky%20na%20podporu%20VHI%20-%20Intenzifikace%20%C4%8COV.pdf"
+      ],
+      "rozhodl": "vlastnik",
+      "metodika": ["M7"],
+      "jistota": "nízká až střední",
+      "poznamka": "Vlastník: výzva míří na velké čistírny, ne na malé obce ze slibu. Navržené in_progress neplatí."
+    },
+    {
+      "id": "13.7",
+      "stav": "declared",
+      "unverifiable": false,
+      "doklad": "Vláda 20. 1. 2026 vyslovila nesouhlas s poslaneckým návrhem zálohování PET lahví a plechovek (sněmovní tisk 73, Hladík a další); ministerstva životního prostředí a průmyslu uvedla, že je v rozporu s programovým prohlášením. Zálohový systém zaveden nebyl.",
+      "predpis": null,
+      "datum_dokladu": "2026-01-20",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://www.psp.cz/sqw/historie.sqw?o=10&t=73",
+        "https://www.ceskenoviny.cz/index_view.php?id=2773453"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M2"],
+      "jistota": "vysoká"
+    },
+    {
+      "id": "14.1",
+      "stav": "partial",
+      "unverifiable": false,
+      "doklad": "Nařízení vlády č. 16/2026 Sb. ze dne 26. 1. 2026, vyhlášené 10. 2. 2026, účinné 1. 4. 2026: obecná stupnice (příloha 1 nařízení vlády č. 341/2017 Sb.) +9,0 % (platová třída 1: 13 540 → 14 760 Kč) a státní zaměstnanci +9 %; podle dohody vlády s odbory k tomu +1 % nenárokových složek. Zvýšení je plošné pro všechny na obecné stupnici, kultura samostatnou sazbu nemá.",
+      "predpis": {
+        "kod": "16/2026",
+        "nazev": "Nařízení vlády, kterým se mění nařízení vlády č. 304/2014 Sb., o platových poměrech státních zaměstnanců, ve znění pozdějších předpisů, a nařízení vlády č. 341/2017 Sb., o platových poměrech zaměstnanců ve veřejných službách a správě, ve znění pozdějších předpisů",
+        "vyhlaseno": "2026-02-10",
+        "url": "https://e-sbirka.gov.cz/sb/2026/16"
+      },
+      "datum_dokladu": "2026-02-10",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://e-sbirka.gov.cz/sb/2026/16",
+        "https://ct24.ceskatelevize.cz/clanek/ekonomika/zastupci-vlady-a-odboru-budou-jednat-o-zvyseni-platu-koalice-projedna-rozpocet-369522"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M9"],
+      "jistota": "střední (stav), vysoká (fakta)",
+      "poznamka": "Audit vystřídal čísla 16/2026, 341/2017 a 22/2026 (nařízení o zalesňování) a data schválení 22. 1. i 26. 1. 2026; nařízení je ze dne 26. 1. 2026."
+    },
+    {
+      "id": "14.3",
+      "stav": "in_progress",
+      "unverifiable": false,
+      "doklad": "Národní divadlo zahájilo 24. 3. 2026 generální rekonstrukci Nové scény (1,8 mld. Kč bez DPH, zhruba dva roky). Janáčkovo kulturní centrum v Brně se staví od února 2025 (stavebník město Brno, Ministerstvo kultury přispívá 600 mil. Kč, dokončení zhruba 2027). Vltavská filharmonie (hl. m. Praha) je ve fázi povolování.",
+      "predpis": null,
+      "datum_dokladu": "2026-03-24",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://ct24.ceskatelevize.cz/clanek/kultura/zacina-rekonstrukce-nove-sceny-narodni-divadlo-tak-napravuje-kompromis-371629",
+        "https://ct24.ceskatelevize.cz/clanek/regiony/v-brne-zacala-stavba-koncertniho-salu-pripravy-se-tahly-radu-let-358411",
+        "https://www.e15.cz/byznys/reality-a-stavebnictvi/o-krok-bliz-vltavske-filharmonii-upraveny-projekt-ceka-na-sve-prvni-povoleni-1417814"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M7"],
+      "jistota": "střední"
+    },
+    {
+      "id": "14.4",
+      "stav": "in_progress",
+      "unverifiable": false,
+      "doklad": "Vláda 15. 6. 2026 schválila a 19. 6. 2026 předložila Sněmovně návrh, který mění zákon o České televizi a zákon o Českém rozhlasu a ruší zákon č. 348/2005 Sb., o rozhlasových a televizních poplatcích (tisk 231, čj. OVA 449/26); zařazen na pořad 34. schůze, první čtení k 20. 10. 2026 neproběhlo. Souběžně poslanecký tisk 201 (souhlas vlády 24. 6. 2026).",
+      "predpis": null,
+      "datum_dokladu": "2026-06-19",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://www.psp.cz/sqw/historie.sqw?o=10&t=231",
+        "https://www.psp.cz/sqw/historie.sqw?o=10&t=201"
+      ],
+      "rozhodl": "navrh",
+      "metodika": [],
+      "jistota": "vysoká",
+      "poznamka": "Web měl bod 7.–14. 8. 2026 jako fulfilled se schválením vládou jako dokladem."
+    },
+    {
+      "id": "15.2",
+      "stav": "declared",
+      "unverifiable": false,
+      "doklad": "Doložené kroky této vlády jsou odklady: zákon č. 91/2026 Sb. (vyhlášen 10. 6. 2026) prodlužuje v § 334b stavebního zákona přechodné období pro informační systémy stavební správy o rok; novela stavebního zákona (tisk 67, podepsána 17. 9. 2026, k 20. 10. 2026 nevyhlášena) prodlužuje přechodné období pro plně funkční informační systémy do konce roku 2030 a Portál stavebníka dělá nepovinným. Modulové řešení ani pilotní ověření nedoloženo.",
+      "predpis": null,
+      "datum_dokladu": "2026-06-10",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://e-sbirka.gov.cz/sb/2026/91",
+        "https://www.psp.cz/sqw/historie.sqw?o=10&t=67",
+        "https://www.ceska-justice.cz/2025/12/vlada-odklada-digitalizaci-stavebniho-rizeni-do-roku-2030/"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M3"],
+      "jistota": "nízká",
+      "poznamka": "M3 u tohoto bodu (vlastník): odkládá se lhůta pro povinnou plnou funkčnost, ne slib sám, proto ne broken. Doklad webu (hlasování Senátu 11. 12. 2024) je z doby předchozí vlády."
+    },
+    {
+      "id": "15.4",
+      "stav": "partial",
+      "unverifiable": false,
+      "doklad": "Odpočet úroků z úvěru bytového družstva připadajících na podíl člena zavedl zákon č. 176/2025 Sb. předchozí vlády (změna zákona o daních z příjmů), vyhlášen 16. 6. 2025 (ne 31. 12. 2025), účinný 1. 1. 2026. Tato vláda: Plán legislativních prací 2026, úkol MMR 3 – zákon v oblasti bytových družstev „včetně daňových úlev“ (předložení vládě 12/2026).",
+      "predpis": {
+        "kod": "176/2025",
+        "nazev": "Zákon, kterým se mění některé zákony v souvislosti s přijetím zákona o podpoře bydlení",
+        "vyhlaseno": "2025-06-16",
+        "url": "https://e-sbirka.gov.cz/sb/2025/176"
+      },
+      "datum_dokladu": "2025-06-16",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://e-sbirka.gov.cz/sb/2025/176",
+        "https://vlada.gov.cz/assets/media-centrum/dulezite-dokumenty/1234_2026_priloha_c-_1.pdf"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M1"],
+      "jistota": "střední",
+      "poznamka": "Kontrola faktů: datum vyhlášení na webu je chybné. Audit vystřídal čísla 586/1992, 250/2025, 296/2025, 404/2025, 128/2026 a 176/2025."
+    },
+    {
+      "id": "15.7",
+      "stav": "declared",
+      "unverifiable": false,
+      "doklad": "Výhled legislativních prací 2027–2029 (příloha 2 k usnesení č. 175 z 23. 3. 2026): MMR, novela zákona č. 248/2000 Sb., o podpoře regionálního rozvoje (předložení vládě v 1. čtvrtletí 2027, účinnost 1/2028); tabulka vztahu k PP jí výslovně přiřazuje větu o zákonu na transformaci uhelných regionů. Samostatný zákon v plánu ani ve Sněmovně není.",
+      "predpis": null,
+      "datum_dokladu": "2026-03-23",
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://vlada.gov.cz/assets/media-centrum/dulezite-dokumenty/1234_2026_priloha_c-_2.pdf"
+      ],
+      "rozhodl": "navrh",
+      "metodika": ["M6"],
+      "jistota": "nízká až střední",
+      "poznamka": "Úkol sám popisuje revizi zákona podle politiky soudržnosti EU po roce 2027; se slibem ho spojuje jen vazební tabulka."
+    },
+    {
+      "id": "16.3",
+      "stav": "not_started",
+      "unverifiable": false,
+      "doklad": "Celostátní program ani jiný krok vlády k projektům „Trenéři do škol“ a „Trenéři do školek“ nedoložen; programy běží z iniciativy měst. Ministr pro sport 4. 3. 2026 ve Sněmovně mluvil obecně o kustodech a trenérech pro sportovní organizace ve školách.",
+      "predpis": null,
+      "datum_dokladu": null,
+      "datum_pravdy": "2026-10-20",
+      "zdroje": [
+        "https://psp.cz/eknih/2025ps/stenprot/010schuz/s010095.htm"
+      ],
+      "rozhodl": "vlastnik",
+      "metodika": [],
+      "jistota": "nízká až střední",
+      "poznamka": "Vlastník: obecný výrok o kustodech a trenérech není krok k programům Trenéři do škol a do školek. Navržené declared neplatí."
+    }
+  ]
+}

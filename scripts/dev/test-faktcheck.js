@@ -84,5 +84,39 @@ over(!n.some((x) => x.pravidlo === "polarita"), "17.4 skutečně: „Ano, splně
 n = kontrolaBodu("x", bod({ status: "partial", comment: { cs: "Částečně splněno: zákon prošel jen Sněmovnou.", en: "Partially fulfilled." } }), { ...KONTEXT, rejstrik: null });
 over(!n.some((x) => x.pravidlo === "polarita"), "„Částečně splněno“ u „částečně“ se nesplete se „splněno“", pravidla(n));
 
+console.log("\nNestabilní čísla předpisů (skutečný audit 15.4, srpen–říjen 2026)");
+const audit154 = [
+  ["2026-08-03", ""],
+  ["2026-08-07", "zákon č. 586/1992 Sb., Daňový zákon (novelizace účinná od 1. 1. 2026)"],
+  ["2026-08-14", "zákon č. 250/2025 Sb., daňový odpočet na splátky družstevního podílu"],
+  ["2026-08-21", "Daňový odpočet na družstevní bydlení (úroky z úvěru) od 1. ledna 2026 je součástí zákona o daních z příjmů"],
+  ["2026-08-28", "Zákon č. 296/2025 Sb., vyhlášen 31. prosince 2025, zavedl daňový odpočet pro družstevní bydlení od 1. ledna 2026"],
+  ["2026-09-04", "Zákon č. 404/2025 Sb., který zavedl daňový odpočet pro družstevní bydlení, vyhlášen 31. prosince 2025; účinný od 1. ledna 2026"],
+  ["2026-09-25", "Zákon č. 128/2026 Sb., vyhlášen 1. srpna 2026, zavádí daňový odpočet úroků z bytového družstva od 1. ledna 2026"],
+  ["2026-10-02", "Zákon č. 586/1992 Sb., účinný od 1. 1. 2026; daňový odpočet úroků z družstevního bydlení"],
+  ["2026-10-16", "Zákon č. 176/2025 Sb., vyhlášen 31. prosince 2025; účinný od 1. ledna 2026 – daňový odpočet úroků z úvěrů bytových družstev"],
+].map(([date, evidence]) => ({ id: "15.4", date, status: "partial", evidence }));
+n = kontrolaBodu("15.4", bod({ evidence: audit154.at(-1).evidence }), { ...KONTEXT, rejstrik: null, auditBodu: audit154 });
+const nest = n.find((x) => x.pravidlo === "nestabilni-predpisy");
+over(nest && nest.zavaznost === "VAROVANI" && nest.text.includes("250/2025 → 296/2025 → 404/2025 → 128/2026 → 176/2025"),
+  "15.4: pět různých čísel za stavu „částečně“ → VAROVÁNÍ (podpis fabulace); 586/1992 z let před 2025 se nepočítá", nest && nest.text);
+n = kontrolaBodu("15.4", bod({ evidence: "x" }), { ...KONTEXT, rejstrik: null, auditBodu: [...audit154.slice(0, 6), { id: "15.4", date: "2026-09-10", status: "in_progress", evidence: "Zákon č. 1/2026 Sb." }, ...audit154.slice(6)] });
+over(!n.some((x) => x.pravidlo === "nestabilni-predpisy"), "změna stavu počítadlo nuluje (po přechodu zbydou 2 sady: 128/2026 → 176/2025)", pravidla(n));
+
+console.log("\n„Splněno“ s výhradou (Sonnet 5.5, bod 12.2, měření 20. 10. 2026)");
+n = kontrolaBodu("12.2", bod({ status: "fulfilled", comment: {
+  cs: "Ano, ale: funkce je zřízena a funguje. Přijímá podněty přes web a e-mail a vede pracovní skupinu. Ne, ale: ombudsman nedostal žádné nové pravomoci, jde o rozšířenou agendu stávajícího ředitele sekce.",
+  en: "Yes, but: the office exists and works. No, but: the ombudsman received no new powers.",
+} }), { ...KONTEXT, rejstrik: null });
+over(n.some((x) => x.pravidlo === "splneno-s-vyhradou" && x.nesestav), "12.2: „splněno“ + „Ne, ale:“ → VAROVÁNÍ, nese stav", pravidla(n));
+n = kontrolaBodu("12.2", bod({ status: "partial", comment: { cs: "Ano, ale: funkce je zřízena. Ne, ale: dohledatelnost původu chybí.", en: "x" } }), { ...KONTEXT, rejstrik: null });
+over(!n.some((x) => x.pravidlo === "splneno-s-vyhradou"), "totéž u „částečně“ je v pořádku", pravidla(n));
+
+console.log("\nNeměřitelnost podle vlastníka (scripts/nastaveni/nemeritelne.txt)");
+n = kontrolaBodu("5.4", bod({ status: "broken", unverifiable: false }), { ...KONTEXT, rejstrik: null, nemeritelne: new Set(["5.4"]) });
+over(n.some((x) => x.pravidlo === "nemeritelne-neuplatneno"), "5.4 na seznamu, na webu měřitelný → VAROVÁNÍ", pravidla(n));
+n = kontrolaBodu("5.4", bod({ status: "broken", unverifiable: true }), { ...KONTEXT, rejstrik: null, nemeritelne: new Set(["5.4"]) });
+over(!n.some((x) => x.pravidlo === "nemeritelne-neuplatneno"), "5.4 už neměřitelný → bez nálezu", pravidla(n));
+
 console.log(chyb ? `\nSELHALO: ${chyb} chyb.` : "\nVše prošlo.");
 process.exit(chyb ? 1 : 0);

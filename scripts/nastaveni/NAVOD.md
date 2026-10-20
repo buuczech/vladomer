@@ -13,6 +13,7 @@ Kódování: UTF-8*. Jinak se rozbije diakritika a běh se zastaví chybou.
 | `prompt-zpravy.md` | Zadání pro výběr „Hlavních zpráv týdne" |
 | `prompt-korektura.md` | Zadání pro jazykovou korekturu hotových textů |
 | `nastaveni.txt` | Čísla a model — kolik zdrojů, jak přísné hodnocení, kolik zpráv |
+| `nemeritelne.txt` | Body, které jsi rozhodl jako neměřitelné — program je tak vede vždy, model o tom nerozhoduje |
 | `weby-hodnoceni.txt` | Weby, ze kterých se smí čerpat při hodnocení |
 | `weby-zpravy.txt` | Weby pro zprávy týdne (užší seznam, jen zpravodajství) |
 
@@ -165,3 +166,16 @@ Na co si dát pozor:
   stavu, předpisu a data, cena) je vidět v souhrnu běhu na GitHubu.
 - Ověřovatel a korektor mají být silnější než hodnotitel — slabší model
   neuhlídá úsudek silnějšího. Na webu to tak i stojí v metodice.
+
+## Tvoje rozhodnutí, která drží program (od října 2026)
+
+Jestli je slib tak obecný, že jeho splnění nejde změřit, je vlastnost jeho
+znění — ne toho, co se stalo. Proto o tom rozhoduješ ty, jednou, a program to
+pak drží: body v `nemeritelne.txt` dostanou „neměřitelné“ při každém hodnocení,
+ať model napíše cokoli, a nezapočítávají se do procent. Řádek je číslo bodu
+a za `#` důvod. Překlep v čísle bodu zastaví běh hned na začátku.
+
+Rozhodnutí o tom, JAK hodnotit (co je „deklarováno“ a co „probíhá“, kdy je
+odklad porušení…), program držet nemůže — to jsou pravidla pro model a patří
+do promptu. Tvoje pravidla M1–M10 ze zlaté a kontrolní sady se do promptu
+dostanou ve vydání B, změřeně.

@@ -1,0 +1,17 @@
+# Body programu, které vlastník rozhodl jako NEMĚŘITELNÉ.
+# Jedno číslo bodu na řádek, za # důvod a kdy se rozhodlo.
+#
+# Neměřitelný bod se nezapočítává do procent (na webu „neměřitelné“).
+# Jestli je slib tak obecný, že jeho splnění nejde objektivně posoudit, je
+# vlastnost jeho znění, ne toho, co se stalo — proto o tom rozhoduje člověk
+# jednou a program to drží, místo aby se model každý měsíc ptal znovu
+# (zásada: na co program zná odpověď, na to se model neptá). Model u bodu
+# na tomto seznamu může napsat cokoli, „neměřitelné“ platí vždy.
+#
+# Platí od nejbližšího hodnocení daného bodu (měsíční běh hodnotí všechny).
+# Kontrola faktů (scripts/faktcheck.js) upozorní na bod ze seznamu, který je
+# na webu ještě vedený jako měřitelný.
+
+5.4   # „Nepřesouvat další pravomoci na EU, hájit jednomyslnost“ — příliš obecné, bez měřitelného kritéria (zlatá sada, 20. 10. 2026)
+1.2   # „Dostupné a bezplatné zdravotnictví, kratší čekací doby“ — strategický směr; čekací doby se celostátně neměří (kontrolní sada, 20. 10. 2026)
+4.3   # „Odmítnout vznik Armády EU“ — negativní slib bez události, na které by se dal změřit (kontrolní sada, 20. 10. 2026)

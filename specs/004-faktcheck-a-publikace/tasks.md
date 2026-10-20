@@ -5,6 +5,8 @@
 - [x] T002 `scripts/faktcheck.js`: rejstřík pro citované roky, D4 odkazy (živost, titulka, whitelist, uložení textu), test-konzistence, výstup `faktcheck-vystup/deterministicky.json`
 - [x] T003 `scripts/dev/test-faktcheck.js` na skutečných dokladech (1.2, 15.4, 270/2026, 233/2026, 11.9, 14.1, 3.2) + fixtura e-Sbírky 2025
 - [x] T004 První ostrý běh nad daty k 20. 10. 2026: 2 CHYBA (1.2, 15.4, obě skutečné), 7 VAROVÁNÍ; 199/231 zdrojů přečteno
+- [x] T004b Nová pravidla D po kontrolní sadě: nestabilní čísla předpisů z auditu (1.2, 10.5, 11.4, 14.1, 15.4), „splněno“ s výhradou „Ne, ale“, neměřitelnost podle vlastníka neuplatněná; názvy citovaných předpisů ve výstupu
+- [x] T004c `scripts/nastaveni/nemeritelne.txt` + `evaluate.js` (ohlášený patch parity 02): neměřitelnost drží program
 - [ ] T005 D5 vykreslený web (headless Chrome: SPA, /prehled/, /overview/, JSON-LD proti datům)
 
 ## Vrstva M (model) — po výběru modelu
