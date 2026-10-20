@@ -51,18 +51,31 @@ for soubor in $(git diff --cached --name-only --diff-filter=ACM); do
   radky=$(printf '%s' "$obsah" | grep -nE \
     -e 'sk_[0-9a-f]{32,}' \
     -e 'sk-ant-[A-Za-z0-9_-]{20,}' \
-    -e '(IG_ACCESS_TOKEN|ELEVENLABS_API_KEY|ANTHROPIC_API_KEY)[[:space:]]*=[[:space:]]*[A-Za-z0-9_-]{20,}' \
+    -e '(IG_ACCESS_TOKEN|ELEVENLABS_API_KEY|ANTHROPIC_API_KEY|RESEND_API_KEY)[[:space:]]*=[[:space:]]*[A-Za-z0-9_-]{20,}'     -e 're_[A-Za-z0-9]{8,}_[A-Za-z0-9]{16,}' \
     $vzor_token | cut -d: -f1 | tr '
 ' ' ')
   if [ -n "$radky" ]; then
     echo "ZASTAVENO: $soubor — vypadá jako klíč nebo token na řádku: $radky"
     nalezeno=1
   fi
+
+  # E-mailová adresa. Repozitář je veřejný a adresa vlastníka (příjemce
+  # reportů) patří jen do GitHub secrets (REPORT_EMAIL_TO). Hledá se obecný
+  # vzor — konkrétní adresu tu napsat nejde, to by byl sám únik. Povolené
+  # jsou jen dva tvary: veřejný odesílatel služby Resend (@resend.dev) a
+  # vymyšlené adresy v rezervované doméně .invalid (RFC 2606) v testech.
+  # Stejné pravidlo má scripts/dev/test-soukromi.js pro CI.
+  adresy=$(printf '%s' "$obsah" | grep -noE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}'     | grep -vE ':[^:]*(@resend\.dev|\.invalid)$' | cut -d: -f1 | sort -un | tr '
+' ' ')
+  if [ -n "$adresy" ]; then
+    echo "ZASTAVENO: $soubor — e-mailová adresa na řádku: $adresy"
+    nalezeno=1
+  fi
 done
 
 if [ "$nalezeno" -ne 0 ]; then
   echo ""
-  echo "Klíče patří do .env.local (lokálně) nebo do GitHub Actions secrets."
+  echo "Klíče a e-mailové adresy patří do .env.local (lokálně) nebo do GitHub Actions secrets."
   echo "Kdyby klíč přesto někdy odešel, nestačí ho smazat — musí se zneplatnit."
   exit 1
 fi

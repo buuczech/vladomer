@@ -44,6 +44,8 @@ jobs:
           node scripts/dev/test-odpoved.js
           node scripts/dev/test-modely.js
           node scripts/dev/test-faktcheck.js
+          node scripts/dev/test-email.js
+          node scripts/dev/test-soukromi.js
 
       # Konzistence UŽ ZVEŘEJNĚNÝCH dat. Schválně NEblokuje: data jsou v tu
       # chvíli dávno venku, takže zastavené nasazení nic nespraví — jen by
@@ -145,6 +147,10 @@ jobs:
             public/og.png
 
       - run: npm run build
+
+      # Sestavený web je veřejný: žádná e-mailová adresa ani klíč (spec 005).
+      - name: Soukromí v sestaveném webu
+        run: node scripts/dev/test-soukromi.js --dist
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
