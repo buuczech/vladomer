@@ -32,6 +32,7 @@ export function druhPozadavku(telo) {
   const zpravy = telo.messages || [];
   if (zpravy.length > 1) return "doptani";
   const t = typeof zpravy[0]?.content === "string" ? zpravy[0].content : JSON.stringify(zpravy[0]?.content || "");
+  if (t.includes("Jsi nezávislý kontrolor faktů")) return "faktcheck";
   if (t.includes("Hledáš jen UDÁLOSTI")) return "sken";
   if (t.includes('"potvrzeno"')) return "overeni";
   if (t.includes("[1.1|comment_cs]") && t.includes("[nic]")) return "korektura";
@@ -229,6 +230,25 @@ function zpravy(telo, ctx) {
   return zprava(telo, [...vyhledavani(urls, "zprávy týdne"), { type: "text", text: JSON.stringify(polozky) }]);
 }
 
+/* Kontrola faktů (scripts/faktcheck.js --model): potvrdí první tvrzení doslovnou
+   citací z prvního přiloženého zdroje, druhé „potvrdí“ vymyšlenou citací (program
+   ji musí zahodit) a stav podle pravidel podle hashe ponechá, nebo změní. */
+function faktcheck(telo) {
+  const t = telo.messages[0].content;
+  const id = (t.match(/SLIB \(bod (\d{1,2}\.\d{1,2})\)/) || [])[1] || "?";
+  const stav = (t.match(/- stav: ([a-z_]+)/) || [])[1] || "declared";
+  const zdroj = t.match(/\[1\] (https?:\/\/\S+)\n([^\n]+)/);
+  const slova = zdroj ? zdroj[2].split(" ").slice(5, 17).join(" ") : "";
+  const tvrzeni = [];
+  if (zdroj && slova.split(" ").length >= 6) tvrzeni.push({ text: "Tvrzení doložené zdrojem.", verdikt: "POTVRZENO", nese_stav: true, citace: slova, url: zdroj[1] });
+  else tvrzeni.push({ text: "Tvrzení bez zdroje.", verdikt: "NEOVERITELNE", nese_stav: true, citace: "", url: "" });
+  tvrzeni.push({ text: "Tvrzení s vymyšlenou citací.", verdikt: "POTVRZENO", nese_stav: false, citace: "tato věta ve zdroji určitě není a program ji musí zahodit", url: zdroj ? zdroj[1] : "https://www.vlada.gov.cz/x" });
+  const jiny = { fulfilled: "partial", partial: "declared", in_progress: "declared", declared: "in_progress", not_started: "declared", broken: "declared" };
+  const stavPodle = h(`fc:${id}`) % 5 === 0 ? jiny[stav] || "declared" : stav;
+  const text = `Kontroluji bod ${id}.\n${JSON.stringify({ tvrzeni, stav_podle_pravidel: stavPodle, pravidlo: stavPodle === stav ? null : "M6", zduvodneni: "Simulace." })}`;
+  return zprava(telo, [{ type: "text", text }]);
+}
+
 /** Odpověď na jedno tělo požadavku. */
 export function odpovez(telo, ctx) {
   const druh = druhPozadavku(telo);
@@ -240,6 +260,7 @@ export function odpovez(telo, ctx) {
     case "overeni": return overeni(telo);
     case "korektura": return korektura(telo);
     case "zpravy": return zpravy(telo, ctx);
+    case "faktcheck": return faktcheck(telo);
     default:
       throw new Error(`[parita] simulátor nezná tento druh požadavku — přidej ho do syntetika.js (začátek: ${prvni.slice(0, 120)})`);
   }

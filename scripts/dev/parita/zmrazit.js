@@ -93,7 +93,9 @@ globalThis.Date = ZmrazeneDate;
 /* Při nahrávání běží skutečné API: pauzy mezi kapitolami a čekání po 429
    zůstávají, jinak by běh narazil na limity. */
 const skutecnyTimeout = globalThis.setTimeout;
-if (REZIM !== "nahrat") globalThis.setTimeout = (fn, ms, ...a) => skutecnyTimeout(fn, ms > 50 ? 0 : ms, ...a);
+/* Se skutečnou sítí (PARITA_SIT=1) taky ne: undici měří limit pro navázání
+   spojení přes setTimeout a zkrácený na nulu by shodil každé stažení. */
+if (REZIM !== "nahrat" && process.env.PARITA_SIT !== "1") globalThis.setTimeout = (fn, ms, ...a) => skutecnyTimeout(fn, ms > 50 ? 0 : ms, ...a);
 
 /* --- kazeta ------------------------------------------------------------- */
 const hash = (s) => createHash("sha256").update(s).digest("hex");
@@ -112,6 +114,7 @@ if (REZIM === "nahrat") {
 /* --- fetch -------------------------------------------------------------- */
 const skutecnyFetch = globalThis.fetch;
 let poradi = 0;
+const DAVKY = new Map();
 
 const odpovedJson = (data, status = 200) => ({
   ok: status >= 200 && status < 300,
@@ -168,6 +171,7 @@ globalThis.fetch = async (vstup, opt = {}) => {
   const klicSbirky = `${opt.method || "GET"} ${url} ${opt.body || ""}`;
 
   if (url.startsWith("https://e-sbirka.gov.cz/")) {
+    if (process.env.PARITA_SIT === "1" && REZIM === "synteticke") return skutecnyFetch(vstup, opt);
     if (REZIM === "kazeta") {
       const p = podleHashe.get(hash(klicSbirky));
       if (!p) throw new Error(`[parita] e-Sbírka: požadavek není v kazetě: ${klicSbirky.slice(0, 160)}`);
@@ -241,5 +245,18 @@ globalThis.fetch = async (vstup, opt = {}) => {
     return odpovedJson(data, res.status);
   }
 
+  /* Batch API (kontrola faktů): dávka se „zpracuje“ hned simulátorem. */
+  if (url === "https://api.anthropic.com/v1/messages/batches" && REZIM === "synteticke") {
+    const d = JSON.parse(opt.body);
+    DAVKY.set("msgbatch_parita", d.requests.map((r) => ({ custom_id: r.custom_id, result: { type: "succeeded", message: odpovez(r.params, KONTEXT) } })));
+    return odpovedJson({ id: "msgbatch_parita", processing_status: "in_progress" });
+  }
+  if (url.startsWith("https://api.anthropic.com/v1/messages/batches/msgbatch_parita") && REZIM === "synteticke") {
+    if (url.endsWith("/results")) return new Response(DAVKY.get("msgbatch_parita").map((r) => JSON.stringify(r)).join("\n"), { status: 200 });
+    return odpovedJson({ id: "msgbatch_parita", processing_status: "ended", request_counts: { succeeded: DAVKY.get("msgbatch_parita").length }, results_url: "https://api.anthropic.com/v1/messages/batches/msgbatch_parita/results" });
+  }
+  /* PARITA_SIT=1: zdroje a e-Sbírku stahovat doopravdy (zdarma) — pro zkoušku
+     kontroly faktů se simulovaným modelem. Parita sama to nikdy nezapíná. */
+  if (process.env.PARITA_SIT === "1") return skutecnyFetch(vstup, opt);
   throw new Error(`[parita] zakázaný síťový požadavek: ${url.slice(0, 120)} — parita běží bez živého webu`);
 };

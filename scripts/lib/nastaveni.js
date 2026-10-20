@@ -94,6 +94,8 @@ const SCHEMA = {
   // Pojistka proti zacyklenému běhu (chyba v kódu), ne rozpočet: po jejím
   // překročení se už nic neodešle a běh skončí chybou bez zveřejnění.
   pojistka_ceny_usd: { type: "int", min: 1, max: 500 },
+  // Kontrola faktů (spec 004): nezávislý model, silnější a jiný než hodnotitel.
+  faktcheck_model: { type: "text" },
 };
 
 export function readSettings(name = "nastaveni.txt") {

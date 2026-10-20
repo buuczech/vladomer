@@ -115,7 +115,7 @@ export function limitPremysleni(maxTokens) {
  * @param effort     hloubka přemýšlení (jen modely s přemýšlením)
  * @param messages   konverzace
  */
-export function teloPozadavku({ model, maxTokens, teplota0 = false, hledani = null, effort = "high", messages }) {
+export function teloPozadavku({ model, maxTokens, teplota0 = false, hledani = null, effort = "high", messages, bezStreamu = false }) {
   const p = profilModelu(model);
   const tools = hledani
     ? { tools: [{ type: p.hledani, name: "web_search", max_uses: hledani.maxUses, allowed_domains: hledani.domeny }] }
@@ -131,8 +131,9 @@ export function teloPozadavku({ model, maxTokens, teplota0 = false, hledani = nu
     output_config: { effort },
     messages,
     ...tools,
-    stream: true,
-    ...(p.zaloha ? { fallbacks: "default" } : {}),
+    // V dávce (Batch API) se nestreamuje — odpověď se vyzvedne hotová.
+    ...(bezStreamu ? {} : { stream: true }),
+    ...(p.zaloha && !bezStreamu ? { fallbacks: "default" } : {}),
   };
 }
 
@@ -142,10 +143,10 @@ const ucet = { polozky: [], celkem: 0, pojistka: Infinity, zasahla: false };
 export function nastavPojistku(usd) { ucet.pojistka = usd; }
 export function pojistkaZasahla() { return ucet.zasahla; }
 
-function zapisSpotrebu(role, pozadovanyModel, data) {
+function zapisSpotrebu(role, pozadovanyModel, data, nasobek = 1) {
   const model = data.model || pozadovanyModel;
   const usage = data.usage || {};
-  const usd = cenaVolani(model, usage);
+  const usd = cenaVolani(model, usage) * nasobek;
   ucet.celkem += usd;
   ucet.polozky.push({
     role, model, usd,
@@ -265,6 +266,58 @@ export async function slozStream(res) {
   if (!zprava || !konec) throw new Error("stream skončil před message_stop — odpověď neúplná [opakovat]");
   zprava.content = bloky.filter(Boolean);
   return zprava;
+}
+
+/* --- Batch API (dávky, −50 % ceny) ----------------------------------------
+   Pro práci, která nespěchá: kontrola faktů 143 bodů. Dávka se odešle, program
+   čeká, až doběhne (obvykle do hodiny, nejvýš 24 h), a výsledky páruje podle
+   custom_id, nikdy podle pořadí. Spotřeba se zapisuje s polovičním násobkem. */
+const API_DAVKY = "https://api.anthropic.com/v1/messages/batches";
+
+export async function odesliDavku(pozadavky, { klic, role }) {
+  if (ucet.celkem >= ucet.pojistka) {
+    ucet.zasahla = true;
+    throw new Error(`POJISTKA CENY: běh už stál ${ucet.celkem.toFixed(2)} $ (strop ${ucet.pojistka} $) — dávka se neposílá`);
+  }
+  const res = await fetch(API_DAVKY, {
+    method: "POST",
+    headers: { "content-type": "application/json", "x-api-key": klic, "anthropic-version": "2023-06-01" },
+    body: JSON.stringify({ requests: pozadavky.map((p) => ({ custom_id: p.custom_id, params: p.params })) }),
+  });
+  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
+  const d = await res.json();
+  return { id: d.id, role };
+}
+
+export async function cekejNaDavku(id, { klic, intervalMs = 30000, maxMs = 24 * 3600 * 1000, hlas = null } = {}) {
+  const zacatek = Date.now();
+  for (;;) {
+    const res = await fetch(`${API_DAVKY}/${id}`, { headers: { "x-api-key": klic, "anthropic-version": "2023-06-01" } });
+    if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
+    const d = await res.json();
+    if (d.processing_status === "ended") return d;
+    if (hlas) hlas(d.request_counts);
+    if (Date.now() - zacatek > maxMs) throw new Error(`dávka ${id} nedoběhla za ${Math.round(maxMs / 60000)} min`);
+    await new Promise((r) => setTimeout(r, intervalMs));
+  }
+}
+
+/** Výsledky dávky jako Map(custom_id → { ok, zprava | chyba }); spotřeba se připíše s −50 %. */
+export async function vysledkyDavky(davka, { klic, role }) {
+  const res = await fetch(davka.results_url, { headers: { "x-api-key": klic, "anthropic-version": "2023-06-01" } });
+  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
+  const out = new Map();
+  for (const radek of (await res.text()).split("\n")) {
+    if (!radek.trim()) continue;
+    const r = JSON.parse(radek);
+    if (r.result && r.result.type === "succeeded") {
+      zapisSpotrebu(role, r.result.message.model, r.result.message, 0.5);
+      out.set(r.custom_id, { ok: true, zprava: r.result.message });
+    } else {
+      out.set(r.custom_id, { ok: false, chyba: (r.result && r.result.type) || "neznámá" });
+    }
+  }
+  return out;
 }
 
 /* Existují nastavené modely? Překlep v nastaveni.txt by jinak vyšel najevo až

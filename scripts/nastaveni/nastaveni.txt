@@ -177,3 +177,8 @@ effort_kontroly = high
 # zacyklila: po překročení se už nic neodešle, běh skončí chybou a na webu
 # zůstanou předchozí data. (1 až 500)
 pojistka_ceny_usd = 80
+
+# Model, který po hodnocení nezávisle kontroluje fakta (scripts/faktcheck.js).
+# Má být silnější než hodnotitel a jiný než on — kontrolor se stejnými
+# slepými místy by chyby neviděl. Řídí se pravidly v metodika.md.
+faktcheck_model = claude-opus-5-5
