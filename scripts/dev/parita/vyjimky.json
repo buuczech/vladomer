@@ -1,0 +1,6 @@
+{
+  "_popis": "Ohlášené záměrné rozdíly DEV2 proti základu (spec 001). Každá položka MUSÍ mít zdůvodnění. soubory: chráněný soubor, který se smí lišit. pole_pozadavku: pole těla požadavku na model, které se při porovnání vynechá (nikdy ne text promptu). pole_vystupu: pole výstupních dat ve tvaru \"soubor.json:cesta.k[].poli\", které se vynechá. Prázdné seznamy = DEV2 nesmí měnit nic, co model čte nebo program rozhoduje.",
+  "soubory": [],
+  "pole_pozadavku": [],
+  "pole_vystupu": []
+}

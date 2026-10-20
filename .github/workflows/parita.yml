@@ -4,9 +4,9 @@ name: Parita a offline kontroly (DEV2)
 # NIC NESTOJÍ: žádný klíč API, žádné secrets, žádné volání modelu.
 # Placené běhy na DEV2 se pouštějí jen ručně (dev2-eval.yml, fáze 2).
 #
-# Fáze 1 sem přidá job „parita“ (scripts/dev/parita/porovnej-vetve.js):
-# stejné vstupy → bajtově stejné požadavky na model a stejné výstupy
-# programu jako na main. Do té doby tu běží kontroly, které už existují.
+# Job „parita“ (scripts/dev/parita/porovnej-vetve.js, spec 001): stejné
+# vstupy → bajtově stejné požadavky na model a stejná data jako origin/main.
+# Neohlášený rozdíl shodí job; záměrné rozdíly patří do vyjimky.json.
 
 on:
   push:
@@ -53,3 +53,20 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  parita:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0     # porovnává se s origin/main přes git archive
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Bez npm ci: pipeline importuje jen node: a soubory z repozitáře.
+      # Žádný klíč API — loader zmrazit.js síť nepustí.
+      - name: Parita DEV2 ↔ origin/main
+        run: node scripts/dev/parita/porovnej-vetve.js --zaklad origin/main

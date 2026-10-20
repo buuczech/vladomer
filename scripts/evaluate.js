@@ -370,8 +370,10 @@ async function deltaScan(ch, prevEvals, odData, items) {
   return { udalosti, searchCount, chyba, zahozeno, ukazka };
 }
 
-/* Ověření navrženého přechodu druhým, silnějším modelem. Bez vyhledávání —
-   otázka nezní „jaký je stav?", ale „nese TENHLE doklad TENHLE přechod?".
+/* Ověření navrženého přechodu druhým, silnějším modelem. Otázka nezní „jaký
+   je stav?", ale „nese TENHLE doklad TENHLE přechod?" — a od 21. 8. 2026 si
+   ověřovatel smí citovaný předpis vyhledat (vyhledavani_overeni), protože bez
+   vyhledávání kontroloval jen logiku tvrzení, ne jeho pravdivost.
    Výchozí odpověď promptu je NE; selhání volání se řeší konzervativně
    u volajícího (přechod se nepřijme). */
 async function overPrechod(bod, minuly, navrh, prostredni = false) {
