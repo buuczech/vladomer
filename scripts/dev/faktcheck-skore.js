@@ -98,5 +98,9 @@ for (const [sada, x] of Object.entries(souhrn)) {
     + `zbytečně podrženo ${x.podrzeno_zbytecne}/${x.bodu - x.spatne_na_webu}, návrh M sedí s pravdou ${x.navrh_m_sedi}/${x.navrh_m_z}`);
 }
 const c = souhrn.celkem;
-console.log(`\nAkceptace (spec 004, T009): ${c.propusteno.length === 0 ? "SPLNĚNA — žádný špatný bod neprošel jako ověřený" : `NESPLNĚNA — propuštěno ${c.propusteno.join(", ")}`}`);
+// Nezkontrolovaný bod se podrží (počítá se jako označený), ale měření o něm nic neříká.
+const nezkontrolovano = vsechny.filter((r) => r.duvody.includes("M:nezkontrolováno")).map((r) => r.id);
+c.nezkontrolovano = nezkontrolovano;
+const verdikt = c.propusteno.length ? `NESPLNĚNA — propuštěno ${c.propusteno.join(", ")}` : "SPLNĚNA — žádný špatný bod neprošel jako ověřený";
+console.log(`\nAkceptace (spec 004, T009): ${verdikt}${nezkontrolovano.length ? ` — ALE měření je neúplné, vrstva M nezkontrolovala ${nezkontrolovano.join(", ")}` : ""}`);
 console.log(`\nSKORE_FC ${JSON.stringify({ ...c, zahozeno_citaci: vsechny.reduce((n, r) => n + r.zahozeno, 0), cena_usd: M && M.cena ? Number(M.cena.celkem_usd.toFixed(2)) : null })}`);

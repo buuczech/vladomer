@@ -85,6 +85,10 @@ jobs:
       # je vlastník ověřil, a main mezitím může mít novější běh.
       - name: Kontrola faktů (zlatá + kontrolní sada)
         if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim == 'faktcheck'
+        env:
+          # Dávka po 12 bodech: pojistka ceny se uplatní mezi částmi, a první
+          # část strop nepřekročí ani v nejhorším případě (každá odpověď na max_tokens).
+          DAVKA_VELIKOST: "12"
         run: |
           mkdir -p /tmp/vysledky
           node -e 'const j=require("./public/evaluations.json");console.log("data z DEV2: lastUpdated",j.lastUpdated)'

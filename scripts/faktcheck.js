@@ -161,7 +161,9 @@ if (S_MODELEM) {
   if (!KLIC) { console.error("--model potřebuje ANTHROPIC_API_KEY"); process.exit(1); }
   const MODEL = process.env.FAKTCHECK_MODEL || NAST.faktcheck_model;
   const EFFORT = process.env.EFFORT_KONTROLY || NAST.effort_kontroly;
-  nastavPojistku(Number(process.env.POJISTKA_CENY_USD) || NAST.pojistka_ceny_usd);
+  const POJISTKA = Number(process.env.POJISTKA_CENY_USD) || NAST.pojistka_ceny_usd;
+  nastavPojistku(POJISTKA);
+  let zastavenoPredem = false; // pojistka zastavila další část dávky podle odhadu
   await overModely([MODEL], KLIC);
   const WEBY = readList("weby-hodnoceni.txt");
   const SLIBY = Object.fromEntries(CHAPTERS.flatMap((c) => c.groups.flatMap((g) => g.items)).map((i) => [i.id, i.cs]));
@@ -190,17 +192,37 @@ if (S_MODELEM) {
       catch (e) { zpracuj(id, 1, null, e.message.slice(0, 200)); if (pojistkaZasahla()) break; }
     }
   } else {
-    const d = await odesliDavku(vyber.map((id) => ({ custom_id: id.replace(".", "_"), params: parametry1(id) })), { klic: KLIC, role: "faktcheck-1" });
-    console.log(`  dávka ${d.id} odeslána, čekám…`);
-    // Dávka obvykle doběhne do hodiny. Strop je pod limitem jobu (240 min), aby běh
-    // skončil chybou s id dávky, ne zabitím — výsledky dávky API drží 29 dní.
-    const hotova = await cekejNaDavku(d.id, { klic: KLIC, maxMs: Number(process.env.DAVKA_MAX_MIN || 180) * 60000, hlas: (c) => console.log(`  … ${JSON.stringify(c)}`) });
-    const vys = await vysledkyDavky(hotova, { klic: KLIC, role: "faktcheck-1" });
-    for (const id of vyber) {
-      const r = vys.get(id.replace(".", "_"));
-      if (!r) zpracuj(id, 1, null, "výsledek chybí");
-      else if (!r.ok) zpracuj(id, 1, null, r.chyba);
-      else zpracuj(id, 1, r.zprava);
+    /* Dávka po částech. Pojistka ceny jednou odeslanou dávku nezastaví a její
+       cenu zná až po doběhnutí, takže se uplatní mezi částmi: před každou
+       další částí se její cena odhadne z průměru dosavadních (s rezervou 1,5×),
+       a když by překročila strop, zbylé body zůstanou nezkontrolované —
+       vrstva R je podrží, nikdy je nepustí jako ověřené. */
+    const velikost = Math.max(1, Number(process.env.DAVKA_VELIKOST) || 25);
+    const nCasti = Math.ceil(vyber.length / velikost);
+    const casti = Array.from({ length: nCasti }, (_, i) => vyber.slice(Math.round((i * vyber.length) / nCasti), Math.round(((i + 1) * vyber.length) / nCasti)));
+    let hotovo = 0;
+    for (const [i, cast] of casti.entries()) {
+      const utraceno = souhrnNakladu().celkem_usd;
+      const odhad = hotovo ? (utraceno / hotovo) * cast.length * 1.5 : 0;
+      if (hotovo && utraceno + odhad > POJISTKA) {
+        console.error(`POJISTKA CENY: část ${i + 1}/${nCasti} (${cast.length} bodů) by podle dosavadního průměru stála ~${odhad.toFixed(2)} $ a s utracenými ${utraceno.toFixed(2)} $ překročila strop ${POJISTKA} $ — zbylé body zůstávají nezkontrolované`);
+        zastavenoPredem = true;
+        break;
+      }
+      const d = await odesliDavku(cast.map((id) => ({ custom_id: id.replace(".", "_"), params: parametry1(id) })), { klic: KLIC, role: "faktcheck-1" });
+      console.log(`  dávka ${i + 1}/${nCasti} (${cast.length} bodů) ${d.id} odeslána, čekám…`);
+      // Dávka obvykle doběhne do hodiny. Strop je pod limitem jobu (240 min), aby běh
+      // skončil chybou s id dávky, ne zabitím — výsledky dávky API drží 29 dní.
+      const hotova = await cekejNaDavku(d.id, { klic: KLIC, maxMs: Number(process.env.DAVKA_MAX_MIN || 180) * 60000, hlas: (c) => console.log(`  … ${JSON.stringify(c)}`) });
+      const vys = await vysledkyDavky(hotova, { klic: KLIC, role: "faktcheck-1" });
+      for (const id of cast) {
+        const r = vys.get(id.replace(".", "_"));
+        if (!r) zpracuj(id, 1, null, "výsledek chybí");
+        else if (!r.ok) zpracuj(id, 1, null, r.chyba);
+        else zpracuj(id, 1, r.zprava);
+      }
+      hotovo += cast.length;
+      console.log(`  … hotovo ${hotovo}/${vyber.length}, zatím ${souhrnNakladu().celkem_usd.toFixed(2)} $`);
     }
   }
 
@@ -233,7 +255,7 @@ if (S_MODELEM) {
     }
     return zprava;
   };
-  for (const id of BEZ_KOLA2 ? [] : doKola2) {
+  for (const id of BEZ_KOLA2 || zastavenoPredem ? [] : doKola2) {
     if (pojistkaZasahla()) break;
     try {
       const zprava = await kolo2(id);
@@ -279,5 +301,5 @@ if (S_MODELEM) {
   if (s.vyvraceno.length) console.log(`  vyvráceno: ${s.vyvraceno.join(", ")}`);
   console.log(`Cena vrstvy M: ${cena.celkem_usd.toFixed(2)} $ (${Object.entries(cena.podle_role).map(([r, x]) => `${r} ${x.usd.toFixed(2)} $`).join(", ")})`);
   console.log(`Úplný výpis: ${join(VYSTUP, "modelova.json")}`);
-  if (pojistkaZasahla()) { console.error("POJISTKA CENY ZASÁHLA — kontrola nedoběhla"); process.exitCode = 3; }
+  if (pojistkaZasahla() || zastavenoPredem) { console.error("POJISTKA CENY ZASÁHLA — kontrola nedoběhla"); process.exitCode = 3; }
 }
