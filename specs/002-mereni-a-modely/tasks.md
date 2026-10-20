@@ -29,7 +29,7 @@
 - [x] T009 `zmrazit.js`: GET `/v1/models/{id}`, odpovědi ve streamu pro `stream: true`
 - [x] T010 Patch `02-volani-modelu.patch` (nastaveni.js, korektura.js, modely.js) s příznakem neutrální; orchestrátor ověří paritu i bez něj
 - [x] T011 `nastaveni.txt` + `NAVOD.md`, CLAUDE.md, AGENTS.md
-- [ ] T012 Ukázku streamu nahradit skutečným přepisem při prvním placeném měření (fixtury ze skutečných běhů) — ČEKÁ na první placené měření se souhlasem vlastníka (`dev2-eval.yml`, `nahrat_kazetu: true`)
+- [x] T012 Ukázka streamu nahrazena skutečným přepisem z měření 20. 10. 2026 (`fixtury/sse-sonnet55-kapitola2.txt`); sestavená ukázka zůstává pro okrajové případy
 
 ## Phase N+1: Ověření (POVINNÉ)
 

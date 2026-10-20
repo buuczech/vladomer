@@ -121,7 +121,7 @@ jobs:
             grep -h "^Cena běhu" /tmp/vysledky/beh*.log 2>/dev/null | sed 's/^/- /'
             echo
             for f in /tmp/vysledky/skore-beh*.txt; do [ -f "$f" ] && { echo "### $(basename $f)"; echo '```'; tail -8 "$f"; echo '```'; }; done
-            [ -f /tmp/vysledky/stabilita.txt ] && { echo "### stabilita"; echo '```'; head -8 /tmp/vysledky/stabilita.txt; echo '```'; }
+            if [ -f /tmp/vysledky/stabilita.txt ]; then echo "### stabilita"; echo '```'; head -8 /tmp/vysledky/stabilita.txt; echo '```'; fi
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Výsledky jako artefakt

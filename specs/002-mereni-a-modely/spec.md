@@ -90,6 +90,33 @@ Vlastník (nebo agent s jeho souhlasem) spustí ručně v GitHubu měření: zvo
 - **SC-003**: Offline test pokryje tvar volání pro všechny podporované modely a složení streamu.
 - **SC-004**: Nic z této feature nestojí peníze. Placená měření se spouštějí zvlášť, s předem ohlášeným odhadem.
 
+## Výsledky měření
+
+### 2026-10-20: Sonnet 5.5 na zlaté sadě (schválil vlastník, celkem 6,51 $)
+
+**1. běh (3,14 $), neplatný.** Novější vyhledávání `web_search_20260209` (dynamické filtrování) vedlo model k hledání vlastním kódem:
+- vyčerpal limit 4 vyhledávání na kapitolu;
+- usoudil, že „vyhledávání selhalo“, a v 8 kapitolách z 9 necitoval žádný zdroj;
+- v kapitole 2 zavolal neexistující nástroj „code_execost“ a doptání pak API odmítlo (400).
+
+Oprava: základní vyhledávání pro všechny modely a odpověď chybou na volání neexistujícího nástroje.
+
+**2. běh (3,37 $: hodnocení 3,03 $ za 9 volání, ověření 0,35 $ za 1 volání).** Zdroje se zachovaly (3–12 na kapitolu).
+
+| | dnešní web (Haiku + ruční opravy) | Sonnet 5.5: návrh hodnotitele | Sonnet 5.5: po bráně přechodů |
+|---|---|---|---|
+| stav | 16/22 | 17/22 | 17/22 |
+| datum dokladu | 4/10 | — | 6/10 |
+| předpis | 4/5 | — | 3/5 |
+
+Co z toho plyne:
+- **Hodnotitel navrhl správně** 6.6 a 7.2 („porušeno“ → „deklarováno“) a 10.2 („probíhá“ → „deklarováno“). Ověřovatel (Opus 5.5) potvrdil 10.2. Brána přechodů ale 6.6 a 7.2 podržela („západka bez datovaného dokladu“). Oprava chyby nemá událost, proto spec 004, FR-009.
+- **Hodnotitel se mýlil** u 10.1 („porušeno“ → „deklarováno“, pravda je „porušeno“) a 17.3 („částečně“ → „deklarováno“). Obojí brána podržela, tedy správně.
+- **Beze změny zůstaly chybné stavy** 12.2 („splněno“, pravda „částečně“) a 2.7 („porušeno“, pravda „deklarováno“). Ty musí chytit kontrola faktů.
+- **Odhad ceny plného měsíčního běhu se Sonnetem 5.5:** hodnocení ~6–7 $ (19 volání), ověřování ~5 $, korektura a zprávy ~3 $, kontrola faktů ~16–26 $. Celkem ~31–41 $, tedy v rozpočtu.
+
+Opus 5.5 a Sonnet 4.6 jako hodnotitelé zatím změřeni nebyli; vlastník schválil jen Sonnet 5.5.
+
 ## Assumptions
 
 - Ceny a schopnosti modelů jsou podle dokumentace Anthropic ke 2026-10-06. Tabulka cen je v kódu na jednom místě, s datem.
