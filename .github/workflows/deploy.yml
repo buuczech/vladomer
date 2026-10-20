@@ -43,6 +43,7 @@ jobs:
           node scripts/dev/test-delta.js
           node scripts/dev/test-odpoved.js
           node scripts/dev/test-modely.js
+          node scripts/dev/test-faktcheck.js
 
       # Konzistence UŽ ZVEŘEJNĚNÝCH dat. Schválně NEblokuje: data jsou v tu
       # chvíli dávno venku, takže zastavené nasazení nic nespraví — jen by

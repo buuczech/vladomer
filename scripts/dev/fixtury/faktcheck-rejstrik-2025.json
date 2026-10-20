@@ -1,0 +1,571 @@
+{
+ "2025": {
+  "dokumentySbirkyVMesici": [
+   {
+    "mesic": 6,
+    "sbirkyDokumentuSbirky": [
+     {
+      "dokumentySbirkyRejstrikInfo": [
+       {
+        "staleUrl": "/sb/2025/176",
+        "nazev": "Zákon, kterým se mění některé zákony v souvislosti s přijetím zákona o podpoře bydlení",
+        "kodDokumentuSbirky": "176/2025 Sb.",
+        "stavDokumentuSbirky": "AKTUALNE_PLATNY",
+        "datum": "2025-06-16"
+       }
+      ],
+      "sadaDokumentuKod": "sb9"
+     }
+    ]
+   },
+   {
+    "mesic": 7,
+    "sbirkyDokumentuSbirky": [
+     {
+      "dokumentySbirkyRejstrikInfo": [
+       {
+        "staleUrl": "/sb/2025/236",
+        "nazev": "Zákon, kterým se mění zákon č. 325/2021 Sb., o elektronizaci zdravotnictví, ve znění pozdějších předpisů, a další související zákony",
+        "kodDokumentuSbirky": "236/2025 Sb.",
+        "stavDokumentuSbirky": "AKTUALNE_PLATNY",
+        "datum": "2025-07-15"
+       }
+      ],
+      "sadaDokumentuKod": "sb9"
+     }
+    ]
+   }
+  ],
+  "fazetovyFiltr": {
+   "sbirka": [
+    {
+     "kod": "sb",
+     "vybrano": false,
+     "potomci": [
+      {
+       "kod": "sb9",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Sbírka zákonů a mezinárodních smluv (od 1. 1. 2024)",
+       "pocet": 586
+      }
+     ],
+     "text": "Sbírka zákonů",
+     "pocet": 586
+    }
+   ],
+   "typPravnihoAktu": [
+    {
+     "kod": "PRAVPRED",
+     "vybrano": false,
+     "potomci": [
+      {
+       "kod": "ZAKON",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Zákon",
+       "pocet": 99
+      },
+      {
+       "kod": "NARIZENI",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Nařízení",
+       "pocet": 94
+      },
+      {
+       "kod": "VYHLASKA",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Vyhláška",
+       "pocet": 264
+      }
+     ],
+     "text": "Právní předpis",
+     "pocet": 457
+    },
+    {
+     "kod": "MEZINAKT",
+     "vybrano": false,
+     "potomci": [
+      {
+       "kod": "MSSMLOUVA",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Mezinárodní smlouva",
+       "pocet": 26
+      },
+      {
+       "kod": "MSOZNAMENI",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Oznámení související s mezinárodní smlouvou",
+       "pocet": 3
+      }
+     ],
+     "text": "Akt mezinárodního práva",
+     "pocet": 29
+    },
+    {
+     "kod": "DALSIAKT",
+     "vybrano": false,
+     "potomci": [
+      {
+       "kod": "NALEZ",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Nález Ústavního soudu",
+       "pocet": 18
+      },
+      {
+       "kod": "SDELENIUS",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Sdělení Ústavního soudu",
+       "pocet": 3
+      },
+      {
+       "kod": "UNZAKON",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Usnesení o setrvání na zákonu",
+       "pocet": 1
+      },
+      {
+       "kod": "ROZHPREZ",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Rozhodnutí prezidenta republiky",
+       "pocet": 2
+      },
+      {
+       "kod": "OZNREDAK",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Oprava chyby",
+       "pocet": 6
+      },
+      {
+       "kod": "SDELENI",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Sdělení",
+       "pocet": 70
+      }
+     ],
+     "text": "Další právní akt",
+     "pocet": 100
+    }
+   ],
+   "vecnyRejstrik": [
+    {
+     "kod": "255339",
+     "vybrano": false,
+     "potomci": [],
+     "text": "Evropské právo",
+     "pocet": 88
+    },
+    {
+     "kod": "255143",
+     "vybrano": false,
+     "potomci": [
+      {
+       "kod": "255195",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Bankovnictví, Peněžnictví",
+       "pocet": 55
+      },
+      {
+       "kod": "255203",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Celní právo",
+       "pocet": 13
+      },
+      {
+       "kod": "255149",
+       "vybrano": false,
+       "potomci": [
+        {
+         "kod": "255155",
+         "vybrano": false,
+         "potomci": [],
+         "text": "Daně spotřební",
+         "pocet": 3
+        },
+        {
+         "kod": "255167",
+         "vybrano": false,
+         "potomci": [],
+         "text": "Daně z příjmů",
+         "pocet": 2
+        }
+       ],
+       "text": "Daně",
+       "pocet": 27
+      },
+      {
+       "kod": "255183",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Poplatky",
+       "pocet": 19
+      }
+     ],
+     "text": "Finance",
+     "pocet": 117
+    },
+    {
+     "kod": "255301",
+     "vybrano": false,
+     "potomci": [
+      {
+       "kod": "255307",
+       "vybrano": false,
+       "potomci": [
+        {
+         "kod": "255321",
+         "vybrano": false,
+         "potomci": [],
+         "text": "Státní orgány v oblasti mezinárodních styků",
+         "pocet": 1
+        }
+       ],
+       "text": "Mezinárodní právo veřejné",
+       "pocet": 9
+      }
+     ],
+     "text": "Mezinárodní právo",
+     "pocet": 9
+    },
+    {
+     "kod": "254819",
+     "vybrano": false,
+     "potomci": [
+      {
+       "kod": "254841",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Živnostenské podnikání",
+       "pocet": 6
+      }
+     ],
+     "text": "Obchodní právo",
+     "pocet": 17
+    },
+    {
+     "kod": "254751",
+     "vybrano": false,
+     "potomci": [
+      {
+       "kod": "254753",
+       "vybrano": false,
+       "potomci": [
+        {
+         "kod": "254763",
+         "vybrano": false,
+         "potomci": [],
+         "text": "Majetková práva",
+         "pocet": 6
+        },
+        {
+         "kod": "254787",
+         "vybrano": false,
+         "potomci": [],
+         "text": "Rodinné právo",
+         "pocet": 9
+        },
+        {
+         "kod": "254767",
+         "vybrano": false,
+         "potomci": [],
+         "text": "Vlastnická práva",
+         "pocet": 6
+        }
+       ],
+       "text": "Občanské právo hmotné",
+       "pocet": 45
+      },
+      {
+       "kod": "254803",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Občanské právo procesní",
+       "pocet": 15
+      }
+     ],
+     "text": "Občanské právo",
+     "pocet": 49
+    },
+    {
+     "kod": "255217",
+     "vybrano": false,
+     "potomci": [],
+     "text": "Pracovní právo",
+     "pocet": 77
+    },
+    {
+     "kod": "255243",
+     "vybrano": false,
+     "potomci": [],
+     "text": "Právo sociálního zabezpečení",
+     "pocet": 25
+    },
+    {
+     "kod": "254849",
+     "vybrano": false,
+     "potomci": [
+      {
+       "kod": "254995",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Bezpečnost",
+       "pocet": 34
+      },
+      {
+       "kod": "255025",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Doprava",
+       "pocet": 32
+      },
+      {
+       "kod": "254981",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Geodézie, Geologie, Kartografie",
+       "pocet": 5
+      },
+      {
+       "kod": "255133",
+       "vybrano": false,
+       "potomci": [
+        {
+         "kod": "255135",
+         "vybrano": false,
+         "potomci": [],
+         "text": "Těžba a dobývání nerostů",
+         "pocet": 4
+        }
+       ],
+       "text": "Horní právo, Hornictví",
+       "pocet": 5
+      },
+      {
+       "kod": "254851",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Informace, Data, Údaje",
+       "pocet": 59
+      },
+      {
+       "kod": "254931",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Kultura",
+       "pocet": 5
+      },
+      {
+       "kod": "255109",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Lesy, Lesní hospodářství",
+       "pocet": 6
+      },
+      {
+       "kod": "255013",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Obrana státu",
+       "pocet": 26
+      },
+      {
+       "kod": "255097",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Půda, Pozemky",
+       "pocet": 18
+      },
+      {
+       "kod": "254865",
+       "vybrano": false,
+       "potomci": [
+        {
+         "kod": "254867",
+         "vybrano": false,
+         "potomci": [],
+         "text": "Profesní samospráva",
+         "pocet": 6
+        }
+       ],
+       "text": "Samospráva",
+       "pocet": 6
+      },
+      {
+       "kod": "255047",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Správa státního (národního) majetku",
+       "pocet": 5
+      },
+      {
+       "kod": "254877",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Správní orgány",
+       "pocet": 7
+      },
+      {
+       "kod": "255005",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Stavebnictví",
+       "pocet": 10
+      },
+      {
+       "kod": "254887",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Státní (úřední) kontrola",
+       "pocet": 22
+      },
+      {
+       "kod": "254861",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Státní správa",
+       "pocet": 8
+      },
+      {
+       "kod": "254987",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Telekomunikace, Spoje, Pošta",
+       "pocet": 15
+      },
+      {
+       "kod": "255119",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Vody, Vodní hospodářství",
+       "pocet": 6
+      },
+      {
+       "kod": "254919",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Věda a výzkum",
+       "pocet": 9
+      },
+      {
+       "kod": "254963",
+       "vybrano": false,
+       "potomci": [
+        {
+         "kod": "254973",
+         "vybrano": false,
+         "potomci": [],
+         "text": "Evidence obyvatelstva",
+         "pocet": 3
+        }
+       ],
+       "text": "Všeobecná vnitřní správa",
+       "pocet": 14
+      },
+      {
+       "kod": "254947",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Zdravotnictví",
+       "pocet": 72
+      },
+      {
+       "kod": "255063",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Zemědělství",
+       "pocet": 51
+      },
+      {
+       "kod": "254897",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Školství, Vzdělání, Výchova",
+       "pocet": 34
+      },
+      {
+       "kod": "255083",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Životní prostředí",
+       "pocet": 38
+      }
+     ],
+     "text": "Správní právo",
+     "pocet": 307
+    },
+    {
+     "kod": "255261",
+     "vybrano": false,
+     "potomci": [
+      {
+       "kod": "255263",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Trestní právo hmotné",
+       "pocet": 5
+      },
+      {
+       "kod": "255271",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Trestní právo procesní",
+       "pocet": 9
+      }
+     ],
+     "text": "Trestní právo",
+     "pocet": 12
+    },
+    {
+     "kod": "254701",
+     "vybrano": false,
+     "potomci": [
+      {
+       "kod": "254713",
+       "vybrano": false,
+       "potomci": [
+        {
+         "kod": "254717",
+         "vybrano": false,
+         "potomci": [],
+         "text": "Prezident",
+         "pocet": 4
+        }
+       ],
+       "text": "Moc výkonná a orgány státní správy",
+       "pocet": 6
+      },
+      {
+       "kod": "254725",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Moc zákonodárná a parlamentní procedury",
+       "pocet": 5
+      },
+      {
+       "kod": "254737",
+       "vybrano": false,
+       "potomci": [],
+       "text": "Soudnictví a státní zastupitelství",
+       "pocet": 28
+      }
+     ],
+     "text": "Ústavní (státní) právo",
+     "pocet": 54
+    }
+   ]
+  }
+ },
+ "_popis": "Výřez skutečné odpovědi e-Sbírky (POST /sbr-cache/chronologicke-rejstriky/dokumenty-sbirky-po-mesicich, {rok: 2025}) z 20. 10. 2026: předpisy 176/2025 a 236/2025, které doklady bodů 15.4 a 1.2 vydávaly za vyhlášené 31. 12. 2025. Pro test-faktcheck.js."
+}

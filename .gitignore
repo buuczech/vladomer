@@ -25,3 +25,7 @@ eval-log.txt
 # Celé odpovědi modelu, které evaluate.js nedokázal přečíst. Podklad k diagnóze,
 # deploy.yml je přikládá k běhu jako artefakt; do repozitáře nepatří.
 necitelne-odpovedi/
+
+# Mezivýsledky kontroly faktů (texty stažených zdrojů, nálezy) — podklad
+# pro modelovou vrstvu a report, do repozitáře nepatří.
+faktcheck-vystup/
