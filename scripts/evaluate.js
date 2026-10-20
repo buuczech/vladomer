@@ -262,7 +262,21 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
     ulozNecitelnou(ch, items, "1", prompt, prvni);
     const pauza = prvni.stop_reason === "pause_turn";
     const pokracovani = [...messages, { role: "assistant", content: prvni.content || [] }];
-    if (!pauza) pokracovani.push({ role: "user", content: promptDoptani(items.map((it) => it.id)) });
+    /* Model zavolal nástroj, který neexistuje (žádné vlastní nástroje mu
+       nedáváme — 20. 10. 2026 Sonnet 5.5 zavolal „code_execost“). API pak
+       pokračování bez výsledku toho volání odmítne (400), takže se na každé
+       volání odpoví chybou „nástroj není k dispozici“ a hned za ni jde
+       doptání. Bloky odpovědi zůstávají beze změny (append-only). */
+    const volani = (prvni.content || []).filter((b) => b.type === "tool_use");
+    if (!pauza) {
+      const doptani = promptDoptani(items.map((it) => it.id));
+      pokracovani.push({
+        role: "user",
+        content: volani.length
+          ? [...volani.map((b) => ({ type: "tool_result", tool_use_id: b.id, is_error: true, content: "Tento nástroj není k dispozici." })), { type: "text", text: doptani }]
+          : doptani,
+      });
+    }
     try {
       data = await dotaz(pokracovani);
     } catch (e2) {

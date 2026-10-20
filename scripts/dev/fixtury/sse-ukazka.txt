@@ -1,8 +1,7 @@
 : Ukázka streamu (SSE) odpovědi modelu s přemýšlením a vyhledáváním.
-: POZOR: sestavená podle dokumentovaného formátu 2026-10-20, NENÍ to přepis
-: skutečného běhu (ten by stál peníze). Při prvním placeném měření se nahradí
-: syrovým streamem z kazety (zmrazit.js ho v režimu nahrat ukládá jako „sse“)
-: — spec 002, úloha T012. Pravidlo ústavy IV: fixtury ze skutečných přepisů.
+: Sestavená podle dokumentovaného formátu — doplňuje skutečný přepis
+: (sse-sonnet55-kapitola2.txt, měření 20. 10. 2026) o okrajové případy:
+: podpis rozdělený do dvou delta událostí, ping, text odpovědi složený z kusů.
 
 event: message_start
 data: {"type":"message_start","message":{"id":"msg_ukazka","type":"message","role":"assistant","model":"claude-sonnet-5-5","content":[],"stop_reason":null,"stop_sequence":null,"usage":{"input_tokens":12000,"cache_creation_input_tokens":0,"cache_read_input_tokens":9000,"output_tokens":1}}}

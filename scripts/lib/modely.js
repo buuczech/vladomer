@@ -65,6 +65,15 @@ export function cenaVolani(model, usage = {}) {
 /* --- profily ------------------------------------------------------------- */
 const KLASICKE = /^claude-(haiku-4-5|sonnet-4-[056]|opus-4-[0156])/;
 const PREMYSLENI = /^claude-(opus-4-[78]|opus-5|sonnet-5|haiku-5|fable|mythos)/;
+/* Vyhledávání má pro všechny modely tutéž, základní verzi. Novější
+   web_search_20260209 („dynamické filtrování“: model si hledání řídí vlastním
+   kódem) se při prvním placeném měření 20. 10. 2026 (Sonnet 5.5, zlatá sada)
+   neosvědčilo: model rozeslal dotazy z kódu, vyčerpal max_uses 4 na kapitolu,
+   usoudil, že „vyhledávání selhalo“, a necitoval žádný zdroj (0 sources kept
+   v 8 kapitolách z 9); v kapitole 2 navíc zavolal neexistující nástroj
+   „code_execost“. Prompty i limity vyhledávání jsou psané pro základní verzi. */
+const WEB_SEARCH = "web_search_20250305";
+
 /* Serverový záložní model při odmítnutí („fallbacks: default“) nabízí API jen
    u těchto modelů. */
 const SE_ZALOHOU = /^claude-(opus-5-5|opus-5|sonnet-5-5|fable-5-1)$/;
@@ -75,20 +84,19 @@ const SE_ZALOHOU = /^claude-(opus-5-5|opus-5|sonnet-5-5|fable-5-1)$/;
    nestálo. */
 export function profilModelu(model) {
   if (KLASICKE.test(model)) {
-    return { druh: "klasicky", znamy: true, hledani: "web_search_20250305", teplota: true, stream: false, zaloha: false };
+    return { druh: "klasicky", znamy: true, hledani: WEB_SEARCH, teplota: true, stream: false, zaloha: false };
   }
   if (PREMYSLENI.test(model)) {
     return {
       druh: "premysleni",
       znamy: true,
-      // Novější vyhledávání (dynamické filtrování výsledků) Haiku 5.5 neumí.
-      hledani: /^claude-haiku-5/.test(model) ? "web_search_20250305" : "web_search_20260209",
+      hledani: WEB_SEARCH,
       teplota: false,
       stream: true,
       zaloha: SE_ZALOHOU.test(model),
     };
   }
-  return { druh: "klasicky", znamy: false, hledani: "web_search_20250305", teplota: true, stream: false, zaloha: false };
+  return { druh: "klasicky", znamy: false, hledani: WEB_SEARCH, teplota: true, stream: false, zaloha: false };
 }
 
 /* Limit odpovědi pro modely s přemýšlením. Přemýšlení se počítá do téhož

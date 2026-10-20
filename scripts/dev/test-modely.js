@@ -67,8 +67,7 @@ for (const model of ["claude-sonnet-5-5", "claude-opus-5-5", "claude-opus-4-8", 
   over(!("temperature" in t), `${model}: bez temperature (jinak 400)`);
   over(stejne(t.thinking, { type: "adaptive" }) && stejne(t.output_config, { effort: "high" }), `${model}: adaptivní přemýšlení a effort`);
   over(t.stream === true && t.max_tokens === limitPremysleni(6000), `${model}: stream a limit ${limitPremysleni(6000)}`);
-  const ws = /haiku-5/.test(model) ? "web_search_20250305" : "web_search_20260209";
-  over(t.tools && t.tools[0].type === ws, `${model}: vyhledávání ${ws}`);
+  over(t.tools && t.tools[0].type === "web_search_20250305", `${model}: základní vyhledávání (dynamické se 20. 10. 2026 neosvědčilo)`);
   const zaloha = /^claude-(opus-5-5|sonnet-5-5|fable-5-1)$/.test(model);
   over((t.fallbacks === "default") === zaloha, `${model}: záložní model ${zaloha ? "ano" : "ne"}`);
 }
@@ -101,6 +100,19 @@ try {
   await slozStream(proud('event: error\ndata: {"type":"error","error":{"type":"overloaded_error","message":"Overloaded"}}\n\n'));
   over(false, "chyba ve streamu musí vyhodit výjimku");
 } catch (e) { over(/^API 529/.test(e.message) && opakovalBy(e.message), "overloaded ve streamu → API 529 (withBackoff počká)", e.message); }
+
+// Skutečný přepis (měření 20. 10. 2026) — hlavní důkaz, že skládání sedí na
+// tom, co API opravdu posílá; ukázka výš doplňuje okrajové případy.
+const skutecny = readFileSync(new URL("./fixtury/sse-sonnet55-kapitola2.txt", import.meta.url), "utf8");
+const zs = await slozStream(proud(skutecny, 40));
+const typy = zs.content.map((b) => b.type);
+over(zs.model === "claude-sonnet-5-5" && zs.stop_reason === "tool_use", "skutečný stream: model a stop_reason tool_use");
+over(typy.includes("thinking") && typy.includes("server_tool_use") && typy.includes("web_search_tool_result") && typy.at(-1) === "tool_use",
+  "skutečný stream: přemýšlení, vyhledávání, kód a nakonec volání nástroje", typy.join(","));
+over(zs.content.filter((b) => b.type === "thinking").every((b) => typeof b.signature === "string" && b.signature.length > 20), "skutečný stream: každý blok přemýšlení má podpis");
+over(zs.content.at(-1).name === "code_execost" && zs.content.filter((b) => b.type === "server_tool_use").every((b) => b.input && typeof b.input === "object"),
+  "skutečný stream: vstupy nástrojů složené z input_json_delta; neexistující nástroj „code_execost“");
+over(zs.usage && zs.usage.output_tokens > 0 && zs.usage.input_tokens > 0, "skutečný stream: spotřeba vstupu i výstupu");
 
 console.log("\n4) Cena, pojistka, odmítnutí");
 const blizko = (a, b) => Math.abs(a - b) < 1e-9;

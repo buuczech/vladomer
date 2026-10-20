@@ -199,6 +199,22 @@ globalThis.fetch = async (vstup, opt = {}) => {
       appendFileSync(POZADAVKY, JSON.stringify({ n: poradi, druh, telo }) + "\n");
     }
     const h = hash(kanonicky(telo));
+    /* Totéž pravidlo, jaké uplatňuje API: na každé volání nástroje (tool_use)
+       v odpovědi asistenta musí následující zpráva uživatele začínat jeho
+       výsledkem (tool_result). Jinak 400 — přesně na tom 20. 10. 2026 v ostrém
+       měření spadla kapitola 2, a simulace to dřív nepoznala. */
+    const zpravy = telo.messages || [];
+    for (let i = 0; i < zpravy.length; i++) {
+      const z = zpravy[i];
+      if (z.role !== "assistant" || !Array.isArray(z.content)) continue;
+      const id = z.content.filter((b) => b.type === "tool_use").map((b) => b.id);
+      if (!id.length) continue;
+      const dalsi = zpravy[i + 1];
+      const vysledky = Array.isArray(dalsi && dalsi.content) ? dalsi.content.filter((b) => b.type === "tool_result").map((b) => b.tool_use_id) : [];
+      if (id.some((x) => !vysledky.includes(x))) {
+        return odpovedJson({ type: "error", error: { type: "invalid_request_error", message: `messages.${i + 1}: \`tool_use\` ids were found without \`tool_result\` blocks immediately after` } }, 400);
+      }
+    }
     if (REZIM === "prazdne") {
       return odpovedModelu(telo, { type: "message", role: "assistant", model: telo.model, stop_reason: "end_turn",
         content: [{ type: "text", text: "[]" }], usage: { input_tokens: 0, output_tokens: 1 } });

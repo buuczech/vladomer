@@ -158,6 +158,11 @@ function hodnoceni(telo, ids, ctx, doptani = false) {
   const hledani = doptani ? [] : vyhledavani(urls, `hodnocení ${ids.join(" ")}`);
   const klic = ids.join(",");
   let text, stop = "end_turn";
+  if (!doptani && telo.thinking && ids.length >= 2 && h(`nastroj:${klic}`) % 7 === 0) {
+    // 20. 10. 2026 (Sonnet 5.5): volání neexistujícího nástroje „code_execost“
+    // místo odpovědi. Jen u modelů s přemýšlením — parita s main se nemění.
+    return zprava(telo, [...hledani, { type: "tool_use", id: `toolu_parita_${h(klic).toString(16)}`, name: "code_execost", input: {} }], "tool_use");
+  }
   if (!doptani && ids.length >= 2 && h(`bezjson:${klic}`) % 9 === 0) {
     // 16. 10. 2026: rozbor v Markdownu místo JSON → doptání v téže konverzaci
     text = `Vyhledám informace k bodům ${ids.join(", ")}.\n\nNa základě vyhledaných informací nyní mohu posoudit stav.\n\n## Analýza\n- Vláda pokračuje v přípravě.`;

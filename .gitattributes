@@ -18,3 +18,11 @@ scripts/nastaveni/hudba/** binary
 # na základ rozbalený s LF. Patch v CRLF by se na Windows po checkoutu
 # nedal aplikovat a parita by hlásila „main se posunul“, i když neposunul.
 scripts/dev/parita/zmeny/** text eol=lf
+
+# Skutečné záznamy streamu (SSE) pro test-modely.js: čtou se bajt po bajtu
+# jako ze sítě, kde jsou řádky LF. CRLF test kontroluje zvlášť.
+scripts/dev/fixtury/sse-*.txt text eol=lf
+
+# Pre-commit hook je shellový skript: s CRLF z checkoutu na Windows by sh
+# četl znak CR na konci řádku jako součást příkazů.
+scripts/dev/hooks/** text eol=lf
