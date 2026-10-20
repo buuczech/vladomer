@@ -1,12 +1,12 @@
 {
   "_popis": "Parametry placeného měření na DEV2 (.github/workflows/dev2-eval.yml). Změna tohoto souboru na DEV2 spustí měření — ALE jen když je vyplněné „schvaleno“ (kdo a kdy placený běh schválil). Po měření se „schvaleno“ vyprázdní, aby další úprava parametrů omylem nic nespustila. rezim: zlata-sada | stabilita | beh. Prázdný model = podle scripts/nastaveni/nastaveni.txt.",
-  "schvaleno": "",
-  "odhad_usd": null,
+  "schvaleno": "vlastník v konverzaci 2026-10-20: jen Sonnet 5.5 na zlaté sadě (odhad ~7 $)",
+  "odhad_usd": 7,
   "rezim": "zlata-sada",
-  "model": "",
-  "overovaci_model": "",
+  "model": "claude-sonnet-5-5",
+  "overovaci_model": "claude-opus-5-5",
   "korektura_model": "",
-  "effort_hodnoceni": "",
-  "effort_kontroly": "",
-  "nahrat_kazetu": false
+  "effort_hodnoceni": "high",
+  "effort_kontroly": "high",
+  "nahrat_kazetu": true
 }
