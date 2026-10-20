@@ -109,8 +109,10 @@ export function promptDeltaScan(ch, prevEvals, odData, body) {
 }
 
 /* Ověření navrženého přechodu stavu (brána v lib/prechody.js vrátila
-   „overit"). Úzký dotaz bez vyhledávání: otázka nezní „jaký je stav?", ale
-   „nese TENHLE doklad TENHLE přechod?" — výchozí odpověď je NE. */
+   „overit"). Úzký dotaz: otázka nezní „jaký je stav?", ale „nese TENHLE
+   doklad TENHLE přechod?" — výchozí odpověď je NE. Ověřovatel smí citovaný
+   předpis vyhledat (vyhledavani_overeni); MINULY_OD je den vstupu do
+   dosavadního stavu (stavOd), ne den posledního přepisu záznamu. */
 export function promptOvereniPrechodu({ bod, minulyStav, minulyOd, novyStav, doklad, datumDokladu, zmena, komentar, predpisy, prostredni = false }) {
   /* Prostřední přechody mají vlastní šablonu. Pravidla té přísné mluví jen
      o Sbírce zákonů a o obratu ze „splněno" — na „deklarováno → probíhá" by

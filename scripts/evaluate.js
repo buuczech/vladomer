@@ -376,7 +376,7 @@ async function deltaScan(ch, prevEvals, odData, items) {
    vyhledávání kontroloval jen logiku tvrzení, ne jeho pravdivost.
    Výchozí odpověď promptu je NE; selhání volání se řeší konzervativně
    u volajícího (přechod se nepřijme). */
-async function overPrechod(bod, minuly, navrh, prostredni = false) {
+async function overPrechod(bod, minuly, navrh, prostredni = false, stavOdBodu = null) {
   /* U přechodu na „splněno" dostane ověřovatel i znění hlavního citovaného
      předpisu. Podle názvu se pozná cizí číslo, ne cizí obsah pod obecným
      názvem: 15. 10. 2026 prošlo „splněno" u bydlení na zákoně 91/2026 Sb.
@@ -391,7 +391,13 @@ async function overPrechod(bod, minuly, navrh, prostredni = false) {
     prostredni,
     bod: bod.cs,
     minulyStav: minuly.status,
-    minulyOd: (minuly.updatedAt || "").slice(0, 10),
+    /* Den, kdy bod do dosavadního stavu vstoupil (stavOd ze snímků) — tentýž,
+       podle kterého brána drží přechod se starším dokladem. Do 10/2026 se sem
+       psal updatedAt, tedy den posledního přepisu záznamu: po plném auditu
+       2. 10. tak ověřovatel četl „drží se od 2026-10-02“ i u bodu, který stav
+       držel od srpna, a doklad z mezidobí mu vycházel jako starší než stav.
+       Bez snímku se stavem (stavOd null) zůstává původní hodnota. */
+    minulyOd: stavOdBodu || (minuly.updatedAt || "").slice(0, 10),
     novyStav: navrh.status,
     doklad: navrh.evidence,
     datumDokladu: navrh.evidenceDate,
@@ -708,13 +714,14 @@ async function main() {
         const r = await withBackoff(() => evaluateChapter(ch, prevEvals, snapshots, skupina));
         for (const [id, navrh] of Object.entries(r.evals)) {
           const minuly = prevEvals[id];
+          const stavOdBodu = minuly ? spocitejStavOd(id, minuly.status, snapshots) : null;
           const verdikt = posudPrechod({
             minuly, navrh,
             udalost: plan.udalosti ? plan.udalosti[id] || null : null,
             plnyAudit: plan.plnyAudit,
             overovatProstredni: OVEROVAT_PROSTREDNI,
             // Den vstupu do dosavadního stavu — ze snímků PŘED tímto během.
-            stavOd: minuly ? spocitejStavOd(id, minuly.status, snapshots) : null,
+            stavOd: stavOdBodu,
             drzetStaryDoklad: DRZET_STARY_DOKLAD,
           });
           if (verdikt.akce === "drzet") {
@@ -730,7 +737,7 @@ async function main() {
             // Prostřední přechod má vlastní, mírnější laťku než západka.
             const prostredni = verdikt.duvod === "prostredni-prechod";
             try {
-              const v = await withBackoff(() => overPrechod(BODY_DLE_ID[id], minuly, navrh, prostredni), 2);
+              const v = await withBackoff(() => overPrechod(BODY_DLE_ID[id], minuly, navrh, prostredni, stavOdBodu), 2);
               if (!v.potvrzeno) {
                 // I s dokladem: bez něj se při kontrole běhu nedá poznat, jestli
                 // ověřovatel zamítl špatný doklad, nebo dobrý doklad špatně.
