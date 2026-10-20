@@ -33,3 +33,4 @@ env("OVEROVACI_MODEL", m.overovaci_model);
 env("KOREKTURA_MODEL", m.korektura_model);
 env("EFFORT_HODNOCENI", m.effort_hodnoceni);
 env("EFFORT_KONTROLY", m.effort_kontroly);
+env("POJISTKA_CENY_USD", m.pojistka_usd);

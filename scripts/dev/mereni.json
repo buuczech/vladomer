@@ -1,12 +1,13 @@
 {
-  "_popis": "Parametry placeného měření na DEV2 (.github/workflows/dev2-eval.yml). Změna tohoto souboru na DEV2 spustí měření — ALE jen když je vyplněné „schvaleno“ (kdo a kdy placený běh schválil). Po měření se „schvaleno“ vyprázdní, aby další úprava parametrů omylem nic nespustila. rezim: zlata-sada | stabilita | beh. Prázdný model = podle scripts/nastaveni/nastaveni.txt.",
-  "schvaleno": "vlastník v konverzaci 2026-10-20: jen Sonnet 5.5 na zlaté sadě (odhad ~7 $)",
-  "odhad_usd": 7,
+  "_popis": "Parametry placeného měření na DEV2 (.github/workflows/dev2-eval.yml). Změna tohoto souboru na DEV2 spustí měření — ALE jen když je vyplněné „schvaleno“ (kdo a kdy placený běh schválil). Po měření se „schvaleno“ vyprázdní, aby další úprava parametrů omylem nic nespustila. rezim: zlata-sada | stabilita | beh. Prázdný model = podle scripts/nastaveni/nastaveni.txt. pojistka_usd = strop ceny tohoto běhu (aby nepřekročil schválenou částku).",
+  "schvaleno": "vlastník v konverzaci 2026-10-20: jen Sonnet 5.5 na zlaté sadě, celkem ~7 $. Opakování po opravě vyhledávání (1. běh 3,14 $), pojistka 4 $.",
+  "odhad_usd": 4,
   "rezim": "zlata-sada",
   "model": "claude-sonnet-5-5",
   "overovaci_model": "claude-opus-5-5",
   "korektura_model": "",
   "effort_hodnoceni": "high",
   "effort_kontroly": "high",
-  "nahrat_kazetu": true
+  "nahrat_kazetu": true,
+  "pojistka_usd": 4
 }

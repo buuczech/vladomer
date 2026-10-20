@@ -70,6 +70,13 @@ for (const k of ["EFFORT_HODNOCENI", "EFFORT_KONTROLY"]) {
 }
 NAST.effort_hodnoceni = process.env.EFFORT_HODNOCENI || NAST.effort_hodnoceni;
 NAST.effort_kontroly = process.env.EFFORT_KONTROLY || NAST.effort_kontroly;
+/* Pojistka ceny pro jeden běh — měření v dev2-eval.yml ji nastavuje tak, aby
+   placený běh nepřekročil částku, kterou vlastník schválil. */
+if (process.env.POJISTKA_CENY_USD) {
+  const p = Number(process.env.POJISTKA_CENY_USD);
+  if (!(p > 0 && p <= 500)) { console.error(`POJISTKA_CENY_USD="${process.env.POJISTKA_CENY_USD}" — povoleno 0–500`); process.exit(1); }
+  NAST.pojistka_ceny_usd = p;
+}
 /* Měřicí režim „stabilita" (dev-eval.yml) běží hodnocení dvakrát a porovnává
    stavy. Korektura ani zprávy stav neovlivňují, jen by se za ně dvakrát
    platilo — tyhle přepínače je vypnou. V ostrém běhu se NIKDY nenastavují.
