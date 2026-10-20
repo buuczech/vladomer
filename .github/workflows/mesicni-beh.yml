@@ -109,6 +109,12 @@ jobs:
         if: steps.mesic.outputs.preskocit != 'true'
         run: node scripts/og-image.js || echo "og-image selhalo — ponechávám minulý obrázek"
 
+      # Vrstva D5: sestavený web proti datům (ukazatel, /prehled/, /overview/,
+      # JSON-LD). Rozpor zastaví běh dřív, než se cokoli zapíše.
+      - name: Vykreslený web proti datům
+        if: steps.mesic.outputs.preskocit != 'true'
+        run: npm run build && node scripts/kontrola-webu.js
+
       - name: Zápis na main
         id: zapis
         if: steps.mesic.outputs.preskocit != 'true' && !inputs.zkouska

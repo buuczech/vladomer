@@ -43,11 +43,14 @@ function textovyPrehled() {
         evals = j.evals || {};
         lastUpdated = j.lastUpdated || null;
       } catch { /* před prvním během */ }
+      // Body, které kontrola faktů nepustila (vrstva R) — výpis je přizná stejně jako web.
+      let zadrzene = {};
+      try { zadrzene = JSON.parse(readFileSync(new URL("./public/faktcheck.json", import.meta.url), "utf8")).body || {}; } catch { /* běh bez kontroly faktů */ }
       for (const [lang, cesta] of Object.entries(CESTY)) {
         this.emitFile({
           type: "asset",
           fileName: `${cesta}/index.html`,
-          source: renderPrehled(lang, { chapters: CHAPTERS, evals, lastUpdated, totalItems: TOTAL_ITEMS }),
+          source: renderPrehled(lang, { chapters: CHAPTERS, evals, lastUpdated, totalItems: TOTAL_ITEMS, zadrzene }),
         });
       }
     },

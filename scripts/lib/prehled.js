@@ -49,6 +49,8 @@ const T = {
        který tvrdí opak — a tenhle výpis čtou hlavně roboti, kteří si to
        nerozklíčují. Stejné texty jsou v aplikaci. */
     snizeno: "Sníženo kontrolou",
+    // Bod, jehož novější hodnocení neprošlo kontrolou faktů (public/faktcheck.json).
+    zadrzeno: "Novější hodnocení neprošlo kontrolou faktů a čeká na ověření člověkem; tady je poslední ověřené.",
     snizenoProc: {
       "no-evidence": "model uvedl „splněno“, ale nedoložil to ničím konkrétním.",
       "no-date": "model uvedl „splněno“, ale doklad nemá datum.",
@@ -94,6 +96,7 @@ const T = {
     nehodnoceno: "Unrated",
     nemeritelne: "unmeasurable",
     snizeno: "Downgraded by check",
+    zadrzeno: "A newer rating did not pass the fact-check and awaits review by a person; this is the last verified one.",
     snizenoProc: {
       "no-evidence": "the model said “fulfilled” but cited nothing concrete.",
       "no-date": "the model said “fulfilled” but the evidence carries no date.",
@@ -197,14 +200,17 @@ footer{margin-top:52px;padding-top:20px;border-top:1px solid var(--line);font-si
 @media print{body{background:#fff;color:#000}.nav{display:none}a{color:#000;text-decoration:none}}
 `;
 
-export function renderPrehled(lang, { chapters, evals, lastUpdated, totalItems }) {
+/** Popisky stavů výpisu — pro kontrolu vykresleného webu (scripts/kontrola-webu.js). */
+export const stavyPrehledu = (lang) => ({ ...T[lang].stavy, nehodnoceno: T[lang].nehodnoceno, nemeritelne: T[lang].nemeritelne });
+
+export function renderPrehled(lang, { chapters, evals, lastUpdated, totalItems, zadrzene = {} }) {
   const t = T[lang];
   const items = chapters.flatMap((c) => c.groups.flatMap((g) => g.items));
   const m = metriky(items, evals);
   const kdy = datum(lastUpdated, lang);
 
   /* Kapitola je zastaralá, když ani jeden její bod nenese datum posledního
-     běhu — tedy když ji páteční běh nestihl přehodnotit. Stejný výpočet jako
+     běhu — tedy když ji poslední běh nestihl přehodnotit. Stejný výpočet jako
      v src/App.jsx; obě stránky musí přiznat totéž. */
   const zastarale = chapters.map((ch) => {
     const den = String(lastUpdated || "").slice(0, 10);
@@ -251,6 +257,7 @@ export function renderPrehled(lang, { chapters, evals, lastUpdated, totalItems }
           // Před komentářem, ne za ním: rámuje ho, aby čtenář nenarazil nejdřív
           // na tvrzení modelu o splnění a až potom zjistil, že neobstálo.
           + (snizeno ? `<p class="dg"><strong>${esc(t.snizeno)}:</strong> ${esc(t.snizenoProc[snizeno])}</p>` : "")
+          + (zadrzene[it.id] ? `<p class="dg">${esc(t.zadrzeno)}</p>` : "")
           + (komentar ? `<p class="cmt">${esc(komentar)}</p>` : "")
           + (doklad ? `<p class="ev"><strong>${esc(t.doklad)}:</strong> ${esc(doklad)}</p>` : "")
           + (zdroje ? `<ul class="src">${zdroje}</ul>` : "")

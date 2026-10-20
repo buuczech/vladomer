@@ -84,6 +84,13 @@ jobs:
 
       - run: npm run build
 
+      # Vykreslený web proti datům (vrstva D5). Při nasazení neblokuje — data
+      # jsou už zapsaná a blokovat by šlo i nasazení opravy; čerstvý běh to
+      # hlídá blokujícím krokem v mesicni-beh.yml.
+      - name: Vykreslený web proti datům
+        continue-on-error: true
+        run: node scripts/kontrola-webu.js
+
       # Sestavený web je veřejný: žádná e-mailová adresa ani klíč (spec 005).
       - name: Soukromí v sestaveném webu
         run: node scripts/dev/test-soukromi.js --dist

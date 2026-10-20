@@ -448,7 +448,7 @@ const AUDIT = ctiJson("public/audit.json");
 //  který web vypisuje, musí mít vysvětlivku pro čtenáře.
 // ===========================================================================
 {
-  const RYTMUS = /každý pátek|každý týden|týdně se|týdenní (běh|hodnocení|snímky?)|každém týdenním|zprávy týdne|minulého týdne|every Friday|each week|every week|weekly (run|evaluation|snapshot|headlines)|this week|last week/i;
+  const RYTMUS = /každý pátek|páteční běh|každý týden|týdně se|týdenní (běh|hodnocení|snímky?)|každém týdenním|zprávy týdne|minulého týdne|every Friday|each week|every week|weekly (run|evaluation|snapshot|headlines)|this week|last week/i;
   // Historické zmínky, které jsou pravda: datovaný seznam změn metodiky.
   const HISTORIE = [/instead of every Friday/i];
   const SOUBORY = ["src/App.jsx", "scripts/lib/prehled.js", "scripts/lib/seo.js", "scripts/og-image.js", "index.html", "scripts/instagram/post.js", "README.md", "LICENSE-DATA"];

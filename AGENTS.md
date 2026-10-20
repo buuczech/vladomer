@@ -37,6 +37,7 @@ node scripts/dev/test-faktcheck.js      # deterministic fact-check rules on real
 node scripts/dev/test-rozhodnuti.js     # what a run may publish: held items, corrections without an event to the owner, audit and history, the PR's commands
 node scripts/dev/test-report.js         # the owner's report from real records: every item to decide with its command, no e-mail address anywhere
 node scripts/report.js --fixture        # build that report (HTML/PDF, pro-AI.md, PR text) into report/ — free, offline
+npm run build && node scripts/kontrola-webu.js   # the built site against the data: headline, /prehled/, /overview/, JSON-LD (needs Chrome)
 node scripts/faktcheck.js               # deterministic fact-check of the published data (free; network for e-Sbírka and source links)
 ANTHROPIC_API_KEY=x CHAPTER_LIMIT=18 \
   node --import ./scripts/dev/dump-prompts.js scripts/evaluate.js   # prints every prompt, sends nothing
