@@ -90,8 +90,10 @@ class ZmrazeneDate extends SkutecneDate {
 }
 globalThis.Date = ZmrazeneDate;
 
+/* Při nahrávání běží skutečné API: pauzy mezi kapitolami a čekání po 429
+   zůstávají, jinak by běh narazil na limity. */
 const skutecnyTimeout = globalThis.setTimeout;
-globalThis.setTimeout = (fn, ms, ...a) => skutecnyTimeout(fn, ms > 50 ? 0 : ms, ...a);
+if (REZIM !== "nahrat") globalThis.setTimeout = (fn, ms, ...a) => skutecnyTimeout(fn, ms > 50 ? 0 : ms, ...a);
 
 /* --- kazeta ------------------------------------------------------------- */
 const hash = (s) => createHash("sha256").update(s).digest("hex");
@@ -117,6 +119,39 @@ const odpovedJson = (data, status = 200) => ({
   json: async () => JSON.parse(JSON.stringify(data)),
   text: async () => JSON.stringify(data),
 });
+
+/* Odpověď ve streamu (SSE) pro požadavky se `stream: true` — modely
+   s přemýšlením (lib/modely.js). Skládá se z hotové zprávy přesně podle
+   dokumentovaného pořadí událostí, takže parita s vlastním nastavením
+   (řada 5.x) projde i skládáním streamu v lib/modely.js. */
+function sseZeZpravy(zprava) {
+  const u = (udalost, data) => `event: ${udalost}
+data: ${JSON.stringify({ type: udalost, ...data })}
+
+`;
+  let out = u("message_start", { message: { ...zprava, content: [], stop_reason: null, usage: { input_tokens: zprava.usage?.input_tokens || 0, output_tokens: 1 } } });
+  zprava.content.forEach((b, index) => {
+    if (b.type === "text") {
+      out += u("content_block_start", { index, content_block: { type: "text", text: "" } });
+      out += u("content_block_delta", { index, delta: { type: "text_delta", text: b.text } });
+    } else if (b.type === "thinking") {
+      out += u("content_block_start", { index, content_block: { type: "thinking", thinking: "" } });
+      if (b.thinking) out += u("content_block_delta", { index, delta: { type: "thinking_delta", thinking: b.thinking } });
+      out += u("content_block_delta", { index, delta: { type: "signature_delta", signature: b.signature || "" } });
+    } else if (b.type === "server_tool_use") {
+      out += u("content_block_start", { index, content_block: { ...b, input: {} } });
+      out += u("content_block_delta", { index, delta: { type: "input_json_delta", partial_json: JSON.stringify(b.input || {}) } });
+    } else {
+      out += u("content_block_start", { index, content_block: b });
+    }
+    out += u("content_block_stop", { index });
+  });
+  out += u("message_delta", { delta: { stop_reason: zprava.stop_reason, stop_sequence: null }, usage: { output_tokens: zprava.usage?.output_tokens || 0 } });
+  out += u("message_stop", {});
+  return out;
+}
+const odpovedSse = (text, status = 200) => new Response(text, { status, headers: { "content-type": "text/event-stream" } });
+const odpovedModelu = (telo, zprava) => (telo.stream ? odpovedSse(sseZeZpravy(zprava)) : odpovedJson(zprava));
 
 function sbirkaZFixtury(url, opt) {
   if (url.includes("/chronologicke-rejstriky/dokumenty-sbirky-po-mesicich")) {
@@ -147,6 +182,14 @@ globalThis.fetch = async (vstup, opt = {}) => {
     return sbirkaZFixtury(url, opt);
   }
 
+  /* Ověření, že nastavené modely existují (lib/modely.js, overModely). Při
+     nahrávání se ptá skutečné API, jinak model „existuje“. Do seznamu
+     požadavků se nepíše — není to volání modelu a main ho nedělá. */
+  if (url.startsWith("https://api.anthropic.com/v1/models/")) {
+    if (REZIM === "nahrat") return skutecnyFetch(url, opt);
+    return odpovedJson({ type: "model", id: decodeURIComponent(url.split("/").pop()) });
+  }
+
   if (url === "https://api.anthropic.com/v1/messages") {
     const telo = JSON.parse(opt.body);
     const druh = druhPozadavku(telo);
@@ -157,20 +200,26 @@ globalThis.fetch = async (vstup, opt = {}) => {
     }
     const h = hash(kanonicky(telo));
     if (REZIM === "prazdne") {
-      return odpovedJson({ type: "message", role: "assistant", model: telo.model, stop_reason: "end_turn",
+      return odpovedModelu(telo, { type: "message", role: "assistant", model: telo.model, stop_reason: "end_turn",
         content: [{ type: "text", text: "[]" }], usage: { input_tokens: 0, output_tokens: 1 } });
     }
-    if (REZIM === "synteticke") return odpovedJson(odpovez(telo, KONTEXT));
+    if (REZIM === "synteticke") return odpovedModelu(telo, odpovez(telo, KONTEXT));
     if (REZIM === "kazeta") {
       const p = podleHashe.get(h);
       if (!p) {
         throw new Error(`[parita] požadavek č. ${poradi} (${druh}) není v kazetě — tělo se liší od nahraného. `
           + "Buď se změnil program, nebo kazeta patří k jinému vstupu.");
       }
-      return odpovedJson(p.odpoved, p.status || 200);
+      return p.sse !== undefined ? odpovedSse(p.sse, p.status || 200) : odpovedJson(p.odpoved, p.status || 200);
     }
-    // nahrat — skutečné volání, stojí peníze
+    // nahrat — skutečné volání, stojí peníze. Stream se ukládá syrový: je to
+    // zároveň skutečný přepis pro offline test skládání streamu.
     const res = await skutecnyFetch(url, opt);
+    if (telo.stream && res.ok) {
+      const sse = await res.text();
+      kazeta.polozky.push({ hash: h, typ: "model", druh, telo, status: res.status, sse });
+      return odpovedSse(sse, res.status);
+    }
     const data = await res.json();
     kazeta.polozky.push({ hash: h, typ: "model", druh, telo, status: res.status, odpoved: data });
     return odpovedJson(data, res.status);

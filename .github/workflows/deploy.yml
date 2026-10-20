@@ -42,6 +42,7 @@ jobs:
           node scripts/dev/test-prechody.js
           node scripts/dev/test-delta.js
           node scripts/dev/test-odpoved.js
+          node scripts/dev/test-modely.js
 
       # Konzistence UŽ ZVEŘEJNĚNÝCH dat. Schválně NEblokuje: data jsou v tu
       # chvíli dávno venku, takže zastavené nasazení nic nespraví — jen by

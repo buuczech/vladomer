@@ -133,3 +133,34 @@ Na co si dát pozor:
   se víc házet sem a tam.
 - Všechny prompty se zobrazují na webu v sekci „Použité prompty" — po změně
   se na ně tam podívej, jestli dávají smysl i pro čtenáře.
+
+## Silnější modely a cena běhu (od října 2026)
+
+Model se mění jen v `nastaveni.txt` (`model`, `overovaci_model`,
+`korektura_model`). Program podle názvu modelu sám pozná, jak ho volat:
+dnešní modely (`claude-haiku-4-5…`, `claude-sonnet-4-6`, `claude-opus-4-6`)
+dostanou přesně totéž co dřív, modely s přemýšlením (`claude-sonnet-5-5`,
+`claude-opus-5-5` a další z řady 5) se volají jinak — bez „teploty“, kterou
+odmítají, a s přemýšlením. Model, který program nezná, nebo překlep v názvu
+zastaví běh hned na začátku, ještě než se cokoli zaplatí.
+
+Nová nastavení, každé s komentářem u sebe:
+
+- `effort_hodnoceni`, `effort_kontroly` — jak hluboko model s přemýšlením
+  přemýšlí (`low` až `max`). U dnešních modelů se nepoužijí.
+- `pojistka_ceny_usd` — kolik smí jeden běh nejvýš stát. Není to rozpočet,
+  ale pojistka proti chybě v programu: po překročení se už nic neodešle,
+  běh skončí chybou a na webu zůstanou předchozí data.
+
+Kolik který běh stál, je vidět na konci logu („Cena běhu: …“) a v souboru
+`public/naklady.json`.
+
+Na co si dát pozor:
+
+- **Nejdřív měřit, pak měnit.** Model se vybírá podle shody se zlatou sadou
+  (body, jejichž skutečný stav jsi potvrdil): na GitHubu v Actions spusť
+  „DEV2 měření“ v režimu `zlata-sada` a vyplň model. Stojí to peníze,
+  nic se tím nezveřejní a výsledek (shoda stavu, předpisu a data, cena) je
+  vidět v souhrnu běhu.
+- Ověřovatel a korektor mají být silnější než hodnotitel — slabší model
+  neuhlídá úsudek silnějšího. Na webu to tak i stojí v metodice.

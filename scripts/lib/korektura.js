@@ -10,6 +10,7 @@
  *      původní text. Korektor, který tiše přepíše číslo, je horší než překlep.
  */
 import { render, assertFields } from "./nastaveni.js";
+import { teloPozadavku, zavolejApi } from "./modely.js";
 
 export const POLE_KOREKTURY = ["comment_cs", "comment_en", "change_cs", "change_en", "evidence"];
 
@@ -187,22 +188,16 @@ export function promptKorektury(davka) {
   return prompt;
 }
 
-export async function opravDavku(davka, { model, key, maxTokens, stropProcent = 100, minDelkaDokladu = 0 }) {
+export async function opravDavku(davka, { model, key, maxTokens, stropProcent = 100, minDelkaDokladu = 0, effort = "high" }) {
   const prompt = promptKorektury(davka);
 
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "content-type": "application/json", "x-api-key": key, "anthropic-version": "2023-06-01" },
-    body: JSON.stringify({
-      model,
-      max_tokens: maxTokens,
-      temperature: 0,   // korektura má být opakovatelná — stejný vstup, stejná oprava
-      messages: [{ role: "user", content: prompt }],
-      // Žádné tools: korektor nesmí nic dohledávat, jen opravovat jazyk.
-    }),
-  });
-  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
-  const data = await res.json();
+  // Tělo podle profilu modelu (lib/modely.js). U dnešních modelů
+  // temperature 0: korektura má být opakovatelná — stejný vstup, stejná oprava.
+  // Žádné vyhledávání: korektor nesmí nic dohledávat, jen opravovat jazyk.
+  const data = await zavolejApi(teloPozadavku({
+    model, maxTokens, teplota0: true, effort,
+    messages: [{ role: "user", content: prompt }],
+  }), { klic: key, role: "korektura" });
 
   const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
   const clean = text.replace(/```[a-z]*\n?|```/g, "").trim();

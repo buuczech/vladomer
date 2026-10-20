@@ -3,6 +3,7 @@
  *     node scripts/dev/parita/porovnej-vetve.js                 # proti origin/main
  *     node scripts/dev/parita/porovnej-vetve.js --zaklad main   # proti lokální main
  *     node scripts/dev/parita/porovnej-vetve.js --nechat        # nechá dočasné kopie k prohlédnutí
+ *     node scripts/dev/parita/porovnej-vetve.js --nastaveni vlastni   # DEV2 se svým nastavením (modely)
  *     node scripts/dev/parita/porovnej-vetve.js --kazeta scripts/dev/fixtury/kazeta-….json
  *
  * Odpovídá na jedinou otázku: posílá DEV2 při STEJNÝCH vstupech modelu stejné
@@ -11,13 +12,26 @@
  * všechno běží v dočasných kopiích.
  *
  * Strany:
- *   základ  = zadaná revize (výchozí origin/main), `git archive`
+ *   základ  = zadaná revize (výchozí origin/main) + ohlášené změny (vyjimky.json)
  *   DEV2    = pracovní strom VČETNĚ necommitnutých změn
  *   testy   = kopie DEV2, do které se přenesou testy a fixtury ze základu:
  *             testy z main musí projít na kódu DEV2
- * Obě strany dostanou data public/*.json ze základu a (výchozí) i jeho
- * nastaveni.txt — rozdíl v nastavení je rozhodnutí, ne kód, a parita měří kód.
- * Loader i simulátor jsou pro obě strany tytéž soubory z DEV2.
+ *
+ * Ohlášené změny (vyjimky.json → zmeny). Main se během refaktoru nemění, takže
+ * záměrná odchylka DEV2 se ohlašuje:
+ *   { patch, duvod }                    změna chování: patch se aplikuje na
+ *                                       základ, parita pak dokazuje DEV2 =
+ *                                       main + patch
+ *   { soubory, neutralni: true, duvod } změna BEZ vlivu na chování (refaktor,
+ *                                       nová vrstva): soubory se zkopírují
+ *                                       z DEV2 do základu A NAVÍC proběhne
+ *                                       důkazní průchod proti základu bez nich
+ *                                       — požadavky a data musí sedět i tak
+ *
+ * Nastavení: obě strany dostanou nastaveni.txt ze základu (výchozí) nebo z DEV2
+ * (--nastaveni vlastni). Klíče, které strana nezná, se vynechají, a klíče, které
+ * zná a v souboru chybí, se doplní hodnotou z DEV2 — nová nastavení DEV2 tak
+ * nerozbijí běh se starým souborem a strana bez nich je nedostane.
  *
  * Porovnává se:
  *   - bajty chráněných souborů (prompty, whitelisty, hlídací knihovny),
@@ -26,7 +40,7 @@
  *   - výstup přehrání korpusu (prehraj-zabrany, prehraj-stary-doklad),
  *   - testy základu na kódu DEV2.
  * Log běhu se porovná jen pro informaci: nový řádek (třeba s cenou) není
- * změna procesu. Záměrné rozdíly patří do vyjimky.json se zdůvodněním.
+ * změna procesu.
  */
 import { spawnSync } from "node:child_process";
 import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, copyFileSync, existsSync, rmSync, readdirSync, statSync } from "node:fs";
@@ -51,6 +65,8 @@ const DNES = "2026-10-20T06:00:00.000Z";
 const OD_DATA = "2026-10-09";
 
 const VYJIMKY = JSON.parse(readFileSync(join(KOREN, "scripts", "dev", "parita", "vyjimky.json"), "utf8"));
+const ZMENY = VYJIMKY.zmeny || [];
+const NEUTRALNI_SOUBORY = new Set(ZMENY.filter((z) => z.neutralni).flatMap((z) => z.soubory || []));
 const DATA = ["evaluations.json", "history.json", "audit.json", "news.json"];
 const CESTY = ["package.json", "scripts", "src", "public"];
 
@@ -68,7 +84,12 @@ function spust(prikaz, args, opt = {}) {
 
 /* --- strany ------------------------------------------------------------- */
 const TMP = mkdtempSync(join(tmpdir(), "vladomer-parita-"));
-const STROM = { zaklad: join(TMP, "zaklad"), dev2: join(TMP, "dev2"), testy: join(TMP, "testy") };
+const STROM = {
+  zaklad: join(TMP, "zaklad"),            // main + všechny ohlášené změny
+  zakladBezNeutralnich: join(TMP, "zaklad-bez-neutralnich"),
+  dev2: join(TMP, "dev2"),
+  testy: join(TMP, "testy"),
+};
 
 function stromZRevize(ref, cil) {
   mkdirSync(cil, { recursive: true });
@@ -101,31 +122,66 @@ function kopirujStrom(z, cil) {
   }
 }
 
-console.log(`Parita: základ ${ZAKLAD} ↔ DEV2 (pracovní strom), nastavení ${NASTAVENI === "zaklad" ? "ze základu" : "vlastní"}`);
+/* Základ + ohlášené změny. Neutrální změny se dají vynechat — pak je to strom
+   pro důkazní průchod, že na chování nemají vliv. */
+function pripravZaklad(cil, { sNeutralnimi, vypsat }) {
+  stromZRevize(ZAKLAD, cil);
+  for (const z of ZMENY) {
+    if (z.patch) {
+      const cesta = join(KOREN, "scripts", "dev", "parita", z.patch);
+      const r = spawnSync("git", ["apply", "--whitespace=nowarn", cesta], { cwd: cil, encoding: "utf8" });
+      if (r.status !== 0) {
+        chyba(`ohlášenou změnu ${z.patch} nejde aplikovat na ${ZAKLAD} (main se posunul?): ${String(r.stderr).trim().split(/\r?\n/)[0]}`);
+      } else if (vypsat) console.log(`ohlášeno  změna ${z.patch} — ${z.duvod}`);
+    } else if (z.neutralni && sNeutralnimi) {
+      for (const rel of z.soubory || []) {
+        mkdirSync(dirname(join(cil, rel)), { recursive: true });
+        copyFileSync(join(KOREN, rel), join(cil, rel));
+      }
+      if (vypsat) console.log(`ohlášeno  neutrální změna ${(z.soubory || []).join(", ")} — ${z.duvod}`);
+    }
+  }
+}
+
+/* Klíče, které strom zná: deklarace ve SCHEMA v jeho lib/nastaveni.js. */
+function znameKlice(strom) {
+  const zdroj = readFileSync(join(strom, "scripts", "lib", "nastaveni.js"), "utf8");
+  const schema = zdroj.slice(zdroj.indexOf("const SCHEMA"), zdroj.indexOf("};", zdroj.indexOf("const SCHEMA")));
+  return new Set([...schema.matchAll(/^\s+([a-z_]+):\s*\{\s*type:/gm)].map((m) => m[1]));
+}
+const radkyNastaveni = (text) => lf(text).split("\n");
+const klicRadku = (radek) => (radek.replace(/#.*$/, "").trim().match(/^([a-z_]+)\s*=/) || [])[1] || null;
+
+function nastaveniPro(strom, zdrojText, dev2Text) {
+  const zna = znameKlice(strom);
+  const radky = radkyNastaveni(zdrojText).filter((r) => { const k = klicRadku(r); return !k || zna.has(k); });
+  const ma = new Set(radky.map(klicRadku).filter(Boolean));
+  const doplnit = radkyNastaveni(dev2Text).filter((r) => { const k = klicRadku(r); return k && zna.has(k) && !ma.has(k); });
+  return [...radky, ...(doplnit.length ? ["", "# doplněno paritou z DEV2", ...doplnit] : [])].join("\n") + "\n";
+}
+
+console.log(`Parita: základ ${ZAKLAD} ↔ DEV2 (pracovní strom), nastavení ${NASTAVENI === "zaklad" ? "ze základu" : "vlastní (DEV2)"}`);
 console.log(`dočasné kopie: ${TMP}${NECHAT ? " (ponechají se)" : ""}\n`);
 
 try {
-  stromZRevize(ZAKLAD, STROM.zaklad);
-  /* Ohlášené změny: main se během refaktoru nemění, takže záměrná odchylka
-     DEV2 v chráněném souboru nebo v rozhodování programu se zapisuje jako
-     patch se zdůvodněním. Aplikuje se na základ PŘED vším ostatním — parita
-     pak dokazuje DEV2 = main + ohlášené patche, nic víc. */
-  for (const z of VYJIMKY.zmeny || []) {
-    const cesta = join(KOREN, "scripts", "dev", "parita", z.patch);
-    const r = spawnSync("git", ["apply", "--whitespace=nowarn", cesta], { cwd: STROM.zaklad, encoding: "utf8" });
-    if (r.status !== 0) {
-      chyba(`ohlášenou změnu ${z.patch} nejde aplikovat na ${ZAKLAD} (main se posunul?): ${String(r.stderr).trim().split(/\r?\n/)[0]}`);
-    } else {
-      console.log(`ohlášeno  změna ${z.patch} — ${z.duvod}`);
-    }
-  }
+  pripravZaklad(STROM.zaklad, { sNeutralnimi: true, vypsat: true });
+  if (NEUTRALNI_SOUBORY.size) pripravZaklad(STROM.zakladBezNeutralnich, { sNeutralnimi: false, vypsat: false });
   stromZPracovniKopie(STROM.dev2);
-  // Vstupy: data (a nastavení) ze základu pro všechny strany.
+
+  // Vstupy: data ze základu pro všechny strany, nastavení podle --nastaveni.
   const vstupy = Object.fromEntries(DATA.map((n) => [n, readFileSync(join(STROM.zaklad, "public", n))]));
-  const nastaveniZakladu = readFileSync(join(STROM.zaklad, "scripts", "nastaveni", "nastaveni.txt"));
+  const nastaveniDev2 = readFileSync(join(STROM.dev2, "scripts", "nastaveni", "nastaveni.txt"), "utf8");
+  const nastaveniZdroj = NASTAVENI === "zaklad"
+    ? readFileSync(join(STROM.zaklad, "scripts", "nastaveni", "nastaveni.txt"), "utf8")
+    : nastaveniDev2;
+  const nastaveniStromu = new Map();
+  for (const s of [STROM.zaklad, STROM.zakladBezNeutralnich, STROM.dev2]) {
+    if (existsSync(s)) nastaveniStromu.set(s, nastaveniPro(s, nastaveniZdroj, nastaveniDev2));
+  }
   const pripravVstupy = (strom) => {
     for (const n of DATA) writeFileSync(join(strom, "public", n), vstupy[n]);
-    if (NASTAVENI === "zaklad") writeFileSync(join(strom, "scripts", "nastaveni", "nastaveni.txt"), nastaveniZakladu);
+    rmSync(join(strom, "public", "naklady.json"), { force: true });
+    writeFileSync(join(strom, "scripts", "nastaveni", "nastaveni.txt"), nastaveniStromu.get(strom));
     rmSync(join(strom, "necitelne-odpovedi"), { recursive: true, force: true });
   };
   pripravVstupy(STROM.dev2);
@@ -140,7 +196,7 @@ try {
   kopirujStrom(join(STROM.zaklad, "scripts", "dev", "fixtury"), join(STROM.testy, "scripts", "dev", "fixtury"));
 
   /* --- 1. chráněné soubory --------------------------------------------- */
-  console.log("1) Chráněné soubory (co model čte a podle čeho program rozhoduje)");
+  console.log("\n1) Chráněné soubory (co model čte a podle čeho program rozhoduje)");
   const vyjimkySouboru = new Map((VYJIMKY.soubory || []).map((v) => [v.cesta, v.duvod]));
   const chranene = new Set([
     "scripts/lib/dukaz.js", "scripts/lib/prechody.js", "scripts/lib/sbirka.js", "scripts/lib/korektura.js",
@@ -162,7 +218,7 @@ try {
     if (vyjimkySouboru.has(rel)) console.log(`ohlášeno  ${rel} ${popis} — ${vyjimkySouboru.get(rel)}`);
     else chyba(`${rel} ${popis} (není ve vyjimky.json)`);
   }
-  ok(`${shodnych} chráněných souborů shodných`);
+  ok(`${shodnych} chráněných souborů shodných (po ohlášených změnách)`);
 
   /* --- 2. scénáře běhu ------------------------------------------------- */
   const zmrazit = pathToFileURL(join(STROM.dev2, "scripts", "dev", "parita", "zmrazit.js")).href;
@@ -171,12 +227,12 @@ try {
   const polePozadavku = new Set((VYJIMKY.pole_pozadavku || []).map((v) => v.pole));
   const poleVystupu = (VYJIMKY.pole_vystupu || []);
 
-  function behni(strom, sc) {
+  function behni(strom, sc, stitek) {
     pripravVstupy(strom);
-    const pozadavky = join(TMP, `${strom === STROM.zaklad ? "zaklad" : "dev2"}-${sc.jmeno}.jsonl`);
+    const pozadavky = join(TMP, `${stitek}-${sc.jmeno}.jsonl`);
     rmSync(pozadavky, { force: true });
     const env = { ...process.env };
-    for (const k of ["CHAPTER_LIMIT", "REZIM_BEHU", "OD_DATA", "EVAL_MODEL", "KOREKTURA_MODEL", "OVEROVACI_MODEL", "BEZ_KOREKTURY", "BEZ_ZPRAV"]) delete env[k];
+    for (const k of ["CHAPTER_LIMIT", "REZIM_BEHU", "OD_DATA", "EVAL_MODEL", "KOREKTURA_MODEL", "OVEROVACI_MODEL", "BEZ_KOREKTURY", "BEZ_ZPRAV", "BODY"]) delete env[k];
     Object.assign(env, {
       ANTHROPIC_API_KEY: "parita-bez-klice",
       PARITA_DNES: DNES,
@@ -189,6 +245,7 @@ try {
     const r = spust(process.execPath, ["--import", zmrazit, join("scripts", "evaluate.js")], { cwd: strom, env, timeout: 600000 });
     const vystupy = Object.fromEntries(DATA.map((n) => [n, JSON.parse(readFileSync(join(strom, "public", n), "utf8"))]));
     const radky = existsSync(pozadavky) ? readFileSync(pozadavky, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l)) : [];
+    if (process.env.PARITA_LOG) writeFileSync(join(TMP, `${stitek}-${sc.jmeno}.log`), `${r.stdout}${r.stderr}`);
     return { kod: r.status, log: lf(`${r.stdout}${r.stderr}`), pozadavky: radky, vystupy };
   }
 
@@ -241,43 +298,42 @@ try {
     return `\n          od znaku ${i}:\n          základ: …${a.slice(od, i + 80).replace(/\n/g, "⏎")}\n          DEV2:   …${b.slice(od, i + 80).replace(/\n/g, "⏎")}`;
   }
 
-  for (const sc of scenare) {
-    console.log(`\n2) Scénář „${sc.jmeno}“`);
-    const za = behni(STROM.zaklad, sc);
-    const de = behni(STROM.dev2, sc);
-    if (za.kod !== de.kod) chyba(`návratový kód evaluate.js: základ ${za.kod}, DEV2 ${de.kod}`);
-    if (za.kod !== 0) varuj(`evaluate.js na základu skončil kódem ${za.kod} — konec logu: ${za.log.trim().split("\n").slice(-3).join(" | ")}`);
-
-    // požadavky
+  /* Porovná jeden běh základu s během DEV2. Vrací počet chyb. */
+  function porovnej(za, de, popis) {
+    const pred = chyb;
+    if (za.kod !== de.kod) chyba(`${popis}: návratový kód evaluate.js: základ ${za.kod}, DEV2 ${de.kod} — konec logu DEV2: ${de.log.trim().split("\n").slice(-2).join(" | ")}`);
     const n = Math.max(za.pozadavky.length, de.pozadavky.length);
-    let shoda = true;
     for (let i = 0; i < n; i++) {
       const pa = za.pozadavky[i], pb = de.pozadavky[i];
-      if (!pa || !pb) { chyba(`požadavek č. ${i + 1}: ${!pa ? "navíc v DEV2" : "chybí v DEV2"} (${(pa || pb).druh}); základ ${za.pozadavky.length}, DEV2 ${de.pozadavky.length}`); shoda = false; break; }
+      if (!pa || !pb) { chyba(`${popis}: požadavek č. ${i + 1}: ${!pa ? "navíc v DEV2" : "chybí v DEV2"} (${(pa || pb).druh}); základ ${za.pozadavky.length}, DEV2 ${de.pozadavky.length}`); break; }
       if (pa.druh !== pb.druh) {
-        chyba(`požadavek č. ${i + 1}: základ posílá ${pa.druh}, DEV2 ${pb.druh} — program se rozhodl jinak už dřív (přechod, brána, doptání)`);
-        shoda = false; break;
+        chyba(`${popis}: požadavek č. ${i + 1}: základ posílá ${pa.druh}, DEV2 ${pb.druh} — program se rozhodl jinak už dřív (přechod, brána, doptání)`);
+        break;
       }
-      const ta = bezPoli(pa.telo), tb = bezPoli(pb.telo);
-      const r = prvniRozdil(ta, tb);
-      if (r) { chyba(`požadavek č. ${i + 1} (${pa.druh}) se liší v ${r.cesta}:${ukazRozdilTextu(r.a, r.b)}`); shoda = false; break; }
+      const r = prvniRozdil(bezPoli(pa.telo), bezPoli(pb.telo));
+      if (r) { chyba(`${popis}: požadavek č. ${i + 1} (${pa.druh}) se liší v ${r.cesta}:${ukazRozdilTextu(r.a, r.b)}`); break; }
     }
-    if (shoda) {
+    for (const nazev of DATA) {
+      const r = prvniRozdil(bezVyjimekVystupu(nazev, za.vystupy[nazev]), bezVyjimekVystupu(nazev, de.vystupy[nazev]));
+      if (r) chyba(`${popis}: ${nazev} se liší v ${r.cesta}:\n          základ: ${ukazka(r.a)}\n          DEV2:   ${ukazka(r.b)}`);
+    }
+    return chyb - pred;
+  }
+
+  const behyDev2 = new Map();
+  for (const sc of scenare) {
+    console.log(`\n2) Scénář „${sc.jmeno}“`);
+    const za = behni(STROM.zaklad, sc, "zaklad");
+    const de = behni(STROM.dev2, sc, "dev2");
+    behyDev2.set(sc.jmeno, de);
+    if (za.kod !== 0) varuj(`evaluate.js na základu skončil kódem ${za.kod} — konec logu: ${za.log.trim().split("\n").slice(-3).join(" | ")}`);
+    if (!porovnej(za, de, sc.jmeno)) {
       const druhy = {};
       for (const p of za.pozadavky) druhy[p.druh] = (druhy[p.druh] || 0) + 1;
       ok(`${za.pozadavky.length} požadavků na model shodných (${Object.entries(druhy).map(([k, v]) => `${v} ${k}`).join(", ")})`);
+      const ev = za.vystupy["evaluations.json"].evals || {};
+      ok(`výstupní data shodná (${Object.keys(ev).length} hodnocení, ${(za.vystupy["audit.json"].entries || []).length} auditních řádků)`);
     }
-
-    // data
-    for (const nazev of DATA) {
-      const a = bezVyjimekVystupu(nazev, za.vystupy[nazev]);
-      const b = bezVyjimekVystupu(nazev, de.vystupy[nazev]);
-      const r = prvniRozdil(a, b);
-      if (r) chyba(`${nazev} se liší v ${r.cesta}:\n          základ: ${ukazka(r.a)}\n          DEV2:   ${ukazka(r.b)}`);
-    }
-    const ev = za.vystupy["evaluations.json"].evals || {};
-    ok(`výstupní data porovnána (${Object.keys(ev).length} hodnocení, ${(za.vystupy["audit.json"].entries || []).length} auditních řádků)`);
-
     // log — jen informace
     if (za.log !== de.log) {
       const ra = za.log.split("\n"), rb = de.log.split("\n");
@@ -285,10 +341,19 @@ try {
       while (i < ra.length && ra[i] === rb[i]) i++;
       varuj(`log běhu se liší od řádku ${i + 1} (nepočítá se jako chyba):\n          základ: ${ukazka(ra[i] || "")}\n          DEV2:   ${ukazka(rb[i] || "")}`);
     }
-    // přehled cest, kterými běh prošel — jen pro kontrolu pokrytí
     const brana = (za.log.match(/^Brána přechodů:.*$/m) || [""])[0];
     if (brana) console.log(`        ${brana}`);
-    if (process.env.PARITA_LOG) writeFileSync(join(TMP, `zaklad-${sc.jmeno}.log`), za.log);
+  }
+
+  /* --- 2b. důkaz neutrality ------------------------------------------- */
+  if (NEUTRALNI_SOUBORY.size) {
+    console.log(`\n2b) Neutrální změny (${[...NEUTRALNI_SOUBORY].join(", ")}): DEV2 proti základu BEZ nich`);
+    for (const sc of scenare) {
+      const zb = behni(STROM.zakladBezNeutralnich, sc, "zaklad-bez-neutralnich");
+      if (!porovnej(zb, behyDev2.get(sc.jmeno), `${sc.jmeno} (bez neutrálních změn)`)) {
+        ok(`${sc.jmeno}: požadavky i data shodné i bez neutrálních změn — chování nemění`);
+      }
+    }
   }
 
   /* --- 3. přehrání korpusu --------------------------------------------- */

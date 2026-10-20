@@ -87,6 +87,13 @@ const SCHEMA = {
   overovaci_model: { type: "text" },
   vyhledavani_overeni: { type: "int", min: 0, max: 10 },
   vyhledavani_delta: { type: "int", min: 1, max: 10 },
+  // Modely s přemýšlením (řada 5.x, Opus 4.7+): jak hluboko přemýšlí.
+  // U dnešních modelů (Haiku 4.5, Sonnet/Opus 4.6) se nepoužije — viz lib/modely.js.
+  effort_hodnoceni: { type: "volba", moznosti: ["low", "medium", "high", "xhigh", "max"] },
+  effort_kontroly: { type: "volba", moznosti: ["low", "medium", "high", "xhigh", "max"] },
+  // Pojistka proti zacyklenému běhu (chyba v kódu), ne rozpočet: po jejím
+  // překročení se už nic neodešle a běh skončí chybou bez zveřejnění.
+  pojistka_ceny_usd: { type: "int", min: 1, max: 500 },
 };
 
 export function readSettings(name = "nastaveni.txt") {
@@ -106,6 +113,11 @@ export function readSettings(name = "nastaveni.txt") {
         throw new Error(`${name}, řádek ${i + 1}: "${key}" musí být celé číslo ${def.min}–${def.max}, je tam "${raw}".`);
       }
       out[key] = n;
+    } else if (def.type === "volba") {
+      if (!def.moznosti.includes(raw)) {
+        throw new Error(`${name}, řádek ${i + 1}: "${key}" musí být jedno z: ${def.moznosti.join(", ")}; je tam "${raw}".`);
+      }
+      out[key] = raw;
     } else out[key] = raw;
   });
   const missing = Object.keys(SCHEMA).filter((k) => !(k in out));

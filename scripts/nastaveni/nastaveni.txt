@@ -160,3 +160,19 @@ rejstrik_sbirky = 1
 # Zvyseno ze 4 na 8: pri ctyrech dotazech mineli dva totozne behy ruzne
 # udalosti a shodly se jen na 55 % bodu, kterych se vubec dotkly.
 vyhledavani_delta = 8
+
+# --- modely s přemýšlením a cena běhu (od 10/2026) --------------------------
+# Jak hluboko model přemýšlí, než odpoví. Platí JEN pro modely s přemýšlením
+# (řada 5.x, Opus 4.7 a novější); u claude-haiku-4-5, claude-sonnet-4-6 a
+# claude-opus-4-6 se nepoužije. Hlubší = důkladnější, pomalejší a dražší.
+#   low | medium | high | xhigh | max
+# effort_hodnoceni platí pro hodnocení, sken událostí a zprávy,
+# effort_kontroly pro ověření přechodů a korekturu.
+effort_hodnoceni = high
+effort_kontroly = high
+
+# Pojistka v dolarech na JEDEN běh. Není to rozpočet (běžný měsíční běh má
+# stát kolem 35 $), ale ochrana před chybou v programu, která by běh
+# zacyklila: po překročení se už nic neodešle, běh skončí chybou a na webu
+# zůstanou předchozí data. (1 až 500)
+pojistka_ceny_usd = 80

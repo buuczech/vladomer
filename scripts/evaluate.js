@@ -33,6 +33,7 @@ import { posudPrechod, stavOd as spocitejStavOd } from "./lib/prechody.js";
 import { parsujDeltaOdpoved, planKapitoly, prenesNeprehodnocene } from "./lib/delta.js";
 import { parsujHodnoceni, vyrezy } from "./lib/odpoved.js";
 import { nactiRejstrik, overZnacky, hlavniPredpis, opravDatumVyhlaseni, tabulkaRejstriku, popisProOverovatele, nactiZneni } from "./lib/sbirka.js";
+import { teloPozadavku, zavolejApi, overModely, nastavPojistku, souhrnNakladu } from "./lib/modely.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
    upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
@@ -47,10 +48,28 @@ const WEBY_ZPRAVY = readList("weby-zpravy.txt");
 // the previous government's work — so the cut-off is enforced in code.
 
 const CHAPTER_LIMIT = process.env.CHAPTER_LIMIT ? Number(process.env.CHAPTER_LIMIT) : CHAPTERS.length;
+/* BODY=2.3,10.4,… ohodnotí jen vybrané body — pro měření proti zlaté sadě
+   (dev2-eval.yml). Bez proměnné se nic nemění. S filtrem se neposouvá datum
+   plného auditu ani se nepíše snímek historie: takový běh není týdenní ani
+   měsíční stav webu, jen měření. */
+const FILTR_BODU = process.env.BODY
+  ? new Set(process.env.BODY.split(",").map((x) => x.trim()).filter(Boolean))
+  : null;
 
 const KEY = process.env.ANTHROPIC_API_KEY;
 const MODEL = process.env.EVAL_MODEL || NAST.model; // env still wins, for one-off experiments
 const KOR_MODEL = process.env.KOREKTURA_MODEL || NAST.korektura_model;
+/* Hloubka přemýšlení (jen modely s přemýšlením, lib/modely.js). Env vyhrává
+   kvůli měření v dev2-eval.yml; hodnota se ověřuje stejně jako v nastavení. */
+const EFFORTY = ["low", "medium", "high", "xhigh", "max"];
+for (const k of ["EFFORT_HODNOCENI", "EFFORT_KONTROLY"]) {
+  if (process.env[k] && !EFFORTY.includes(process.env[k])) {
+    console.error(`${k}="${process.env[k]}" — povoleno ${EFFORTY.join(", ")}`);
+    process.exit(1);
+  }
+}
+NAST.effort_hodnoceni = process.env.EFFORT_HODNOCENI || NAST.effort_hodnoceni;
+NAST.effort_kontroly = process.env.EFFORT_KONTROLY || NAST.effort_kontroly;
 /* Měřicí režim „stabilita" (dev-eval.yml) běží hodnocení dvakrát a porovnává
    stavy. Korektura ani zprávy stav neovlivňují, jen by se za ně dvakrát
    platilo — tyhle přepínače je vypnou. V ostrém běhu se NIKDY nenastavují.
@@ -93,6 +112,12 @@ const OUT_NEWS = new URL("../public/news.json", import.meta.url);
 // Append-only audit trail: one record per item per run, so any past rating
 // stays inspectable (item id + date + status + the text that justified it).
 const OUT_AUDIT = new URL("../public/audit.json", import.meta.url);
+/* Cena každého běhu (lib/modely.js, souhrnNakladu). Veřejné: provoz webu
+   má být stejně dohledatelný jako jeho hodnocení. */
+const OUT_NAKLADY = new URL("../public/naklady.json", import.meta.url);
+/* Model, který odpověď skutečně dal. Liší se od nastaveného jen při
+   serverovém záložním modelu (odmítnutí) — pak to audit musí říct. */
+const SKUTECNY_MODEL = new Map();
 /* Celé odpovědi, které nešly přečíst (evaluateChapter). Mimo public/ a v
    .gitignore: nejsou to data webu, jen podklad k diagnóze, který deploy.yml
    přiloží k běhu jako artefakt. */
@@ -138,6 +163,7 @@ const VYHLEDAVANI_OVERENI = NAST.vyhledavani_overeni;
    null = vypnutý nebo nedostupný a běh jede jako dřív, bez tabulky i ověření. */
 const REJSTRIK_ZAPNUTY = NAST.rejstrik_sbirky === 1;
 let REJSTRIK = null;
+let REZIM_BEHU_ZAZNAM = null; // pro záznam ceny v zaverBehu()
 let TABULKA_SBIRKY = null;
 // Znění předpisů pro ověřovatele, kód → výsledek nactiZneni; jednou za běh.
 const ZNENI = new Map();
@@ -179,26 +205,22 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
   assertFields(prompt, ["comment_cs", "comment_en", "change_cs", "change_en",
     "evidence", "evidence_date", "unverifiable", "sources"], "prompt-hodnoceni.md");
 
-  const dotaz = async (messages) => {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
-      body: JSON.stringify({
-        model: MODEL,
-        max_tokens: MAX_TOKENS,
-        /* temperature 0: hodnocení má být reprodukovatelné. S výchozí 1.0 se
-           úsudkové rozhodnutí („je 9 % ‚výrazné zvýšení'?") každý týden losovalo
-           znovu — bod 14.1 tak změnil stav pětkrát za pět běhů bez jediné
-           události. Nula šum nevypne (vyhledávání vrací pokaždé jiné výsledky),
-           ale přestane ho přiživovat. */
-        temperature: 0,
-        messages, // no prefill — lets web_search run
-        tools: [{ type: "web_search_20250305", name: "web_search", max_uses: NAST.vyhledavani_hodnoceni, allowed_domains: WEBY_HODNOCENI }],
-      }),
-    });
-    if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
-    return res.json();
-  };
+  /* Tělo podle profilu modelu (lib/modely.js). U dnešních modelů s
+     temperature 0: hodnocení má být reprodukovatelné. S výchozí 1.0 se
+     úsudkové rozhodnutí („je 9 % ‚výrazné zvýšení'?") každý týden losovalo
+     znovu — bod 14.1 tak změnil stav pětkrát za pět běhů bez jediné
+     události. Nula šum nevypne (vyhledávání vrací pokaždé jiné výsledky),
+     ale přestane ho přiživovat. Modely s přemýšlením teplotu odmítají; tam
+     ochranu nese brána přechodů, ověřovatel a kontrola faktů. Bez prefillu,
+     aby mohl běžet web_search. */
+  const dotaz = async (messages) => zavolejApi(teloPozadavku({
+    model: MODEL,
+    maxTokens: MAX_TOKENS,
+    teplota0: true,
+    hledani: { maxUses: NAST.vyhledavani_hodnoceni, domeny: WEBY_HODNOCENI },
+    effort: NAST.effort_hodnoceni,
+    messages,
+  }), { klic: KEY, role: messages.length > 1 ? "doptani" : "hodnoceni" });
 
   const messages = [{ role: "user", content: prompt }];
   let data = await dotaz(messages);
@@ -256,6 +278,7 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
     doptanoJson = true;
   }
   const searchCount = Object.keys(realMap).length;
+  const skutecny = data.model || MODEL;
 
   const out = {};
   let kept = 0;
@@ -334,6 +357,7 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
         neexistujici: predpisy.neexistujici,
       } : undefined,
     };
+    SKUTECNY_MODEL.set(r.id, skutecny);
   }
   /* Useknutá odpověď (stop_reason=max_tokens) se přečte jen po poslední úplný
      záznam; volající chybějící body doptá zvlášť. */
@@ -346,17 +370,12 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
 async function deltaScan(ch, prevEvals, odData, items) {
   const prompt = promptDeltaScan(ch, prevEvals, odData, items);
   assertFields(prompt, ["udalost", "datum", "zdroje"], "prompt-delta.md");
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
-    body: JSON.stringify({
-      model: MODEL, max_tokens: 3000, temperature: 0,
-      messages: [{ role: "user", content: prompt }],
-      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: NAST.vyhledavani_delta, allowed_domains: WEBY_HODNOCENI }],
-    }),
-  });
-  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
-  const data = await res.json();
+  const data = await zavolejApi(teloPozadavku({
+    model: MODEL, maxTokens: 3000, teplota0: true,
+    hledani: { maxUses: NAST.vyhledavani_delta, domeny: WEBY_HODNOCENI },
+    effort: NAST.effort_hodnoceni,
+    messages: [{ role: "user", content: prompt }],
+  }), { klic: KEY, role: "sken" });
   const text = (data.content || []).map((b) => (b.type === "text" ? b.text : "")).filter(Boolean).join("\n");
   let searchCount = 0;
   for (const blok of data.content || []) {
@@ -405,24 +424,14 @@ async function overPrechod(bod, minuly, navrh, prostredni = false, stavOdBodu = 
     zmena: navrh.change && navrh.change.cs,
     komentar: navrh.comment && navrh.comment.cs,
   });
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
-    body: JSON.stringify({
-      model: OVEROVACI_MODEL, max_tokens: MAX_TOKENS_OVERENI, temperature: 0,
-      messages: [{ role: "user", content: prompt }],
-      /* Bez vyhledávání ověřovatel kontroluje jen logiku tvrzení, ne jeho
-         pravdivost — a vymyšlené číslo zákona je logicky bezvadný doklad. */
-      ...(VYHLEDAVANI_OVERENI > 0 ? {
-        tools: [{
-          type: "web_search_20250305", name: "web_search",
-          max_uses: VYHLEDAVANI_OVERENI, allowed_domains: WEBY_HODNOCENI,
-        }],
-      } : {}),
-    }),
-  });
-  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
-  const data = await res.json();
+  const data = await zavolejApi(teloPozadavku({
+    model: OVEROVACI_MODEL, maxTokens: MAX_TOKENS_OVERENI, teplota0: true,
+    /* Bez vyhledávání ověřovatel kontroluje jen logiku tvrzení, ne jeho
+       pravdivost — a vymyšlené číslo zákona je logicky bezvadný doklad. */
+    hledani: VYHLEDAVANI_OVERENI > 0 ? { maxUses: VYHLEDAVANI_OVERENI, domeny: WEBY_HODNOCENI } : null,
+    effort: NAST.effort_kontroly,
+    messages: [{ role: "user", content: prompt }],
+  }), { klic: KEY, role: "overeni" });
   /* Se zapnutým vyhledáváním přijde textových bloků víc a JSON je až v tom
      posledním; hledá se odzadu, aby složená závorka v úvaze o hledání
      nepřebila vlastní odpověď. */
@@ -447,18 +456,12 @@ async function fetchHeadlines() {
   const prompt = promptZpravy(new Date().toISOString().slice(0, 10));
   assertFields(prompt, ["title_cs", "title_en", "summary_cs", "summary_en", "url", "date"], "prompt-zpravy.md");
 
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
-    method: "POST",
-    headers: { "content-type": "application/json", "x-api-key": KEY, "anthropic-version": "2023-06-01" },
-    body: JSON.stringify({
-      model: MODEL,
-      max_tokens: MAX_TOKENS_ZPRAVY,
-      messages: [{ role: "user", content: prompt }],
-      tools: [{ type: "web_search_20250305", name: "web_search", max_uses: NAST.vyhledavani_zpravy, allowed_domains: WEBY_ZPRAVY }],
-    }),
-  });
-  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
-  const data = await res.json();
+  const data = await zavolejApi(teloPozadavku({
+    model: MODEL, maxTokens: MAX_TOKENS_ZPRAVY,
+    hledani: { maxUses: NAST.vyhledavani_zpravy, domeny: WEBY_ZPRAVY },
+    effort: NAST.effort_hodnoceni,
+    messages: [{ role: "user", content: prompt }],
+  }), { klic: KEY, role: "zpravy" });
 
   const realMap = {};
   for (const b of data.content || []) {
@@ -599,6 +602,18 @@ function preflight() {
 
 async function main() {
   preflight();
+  if (FILTR_BODU) {
+    const nezname = [...FILTR_BODU].filter((id) => !VALID_IDS.has(id));
+    if (nezname.length) { console.error(`BODY obsahuje neznámá id: ${nezname.join(", ")}`); process.exit(1); }
+    console.log(`Filtr bodů: hodnotí se jen ${[...FILTR_BODU].join(", ")}`);
+  }
+  nastavPojistku(NAST.pojistka_ceny_usd);
+  try {
+    await overModely([MODEL, OVEROVAT_PRECHODY ? OVEROVACI_MODEL : null, KOREKTURA_MODELEM ? KOR_MODEL : null], KEY);
+  } catch (e) {
+    console.error(`\nCHYBA V NASTAVENÍ MODELŮ — běh se nespustil, na webu zůstávají předchozí data.\n\n  ${e.message}\n`);
+    process.exit(1);
+  }
   const drivejsi = readJSON(OUT_EVAL, { evals: {} });
   const prevEvals = drivejsi.evals || {};
 
@@ -618,6 +633,7 @@ async function main() {
   const OD_DATA = /^\d{4}-\d{2}-\d{2}$/.test(process.env.OD_DATA || "")
     ? process.env.OD_DATA
     : String(drivejsi.lastUpdated || DATES.tookOffice).slice(0, 10);
+  REZIM_BEHU_ZAZNAM = REZIM_BEHU;
   console.log(`Režim běhu: ${REZIM_BEHU}`
     + (REZIM_BEHU === "delta"
       ? ` — události od ${OD_DATA}; poslední plný audit ${posledniPlny ? posledniPlny.slice(0, 10) : "nikdy"}`
@@ -660,7 +676,8 @@ async function main() {
   const BODY_DLE_ID = Object.fromEntries(
     CHAPTERS.flatMap((c) => c.groups.flatMap((g) => g.items)).map((i) => [i.id, i]));
   for (const ch of CHAPTERS.slice(0, CHAPTER_LIMIT)) {
-    const vsechnyBody = ch.groups.flatMap((g) => g.items);
+    const vsechnyBody = ch.groups.flatMap((g) => g.items).filter((b) => !FILTR_BODU || FILTR_BODU.has(b.id));
+    if (!vsechnyBody.length) continue; // jen s filtrem BODY: kapitola bez vybraných bodů
     /* Co se v kapitole přehodnotí (lib/delta.js). Plný audit bere všechno;
        delta jen body s událostí — a když sken nejde přečíst, zase všechno.
        V deltě se plán zná až po skenu; když sken spadne, kapitola propadne. */
@@ -913,7 +930,7 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
     kor.davek++;
     try {
       const r = await withBackoff(() => opravDavku(davka, {
-        model: KOR_MODEL, key: KEY, maxTokens: MAX_TOKENS_KOREKTURA,
+        model: KOR_MODEL, key: KEY, maxTokens: MAX_TOKENS_KOREKTURA, effort: NAST.effort_kontroly,
         stropProcent: NAST.korektura_nejvic_zmen_procent, minDelkaDokladu: EVIDENCE_MIN,
       }), 3);
       for (const o of r.opravy) {
@@ -939,7 +956,7 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
 
   /* Plný audit se počítá jen úplný: všech 18 kapitol prošlo a nic nespadlo.
      Neúplný plný běh datum neposune, takže se plný audit brzy zopakuje. */
-  const plnyDokoncen = REZIM_BEHU === "plny" && !failedChapters && CHAPTER_LIMIT >= CHAPTERS.length;
+  const plnyDokoncen = REZIM_BEHU === "plny" && !failedChapters && CHAPTER_LIMIT >= CHAPTERS.length && !FILTR_BODU;
   writeFileSync(OUT_EVAL, JSON.stringify({
     evals: newEvals,
     lastUpdated: now,
@@ -955,7 +972,9 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
      evaluations.json a audit.json se zapisují vždy — hodnocení, která
      proběhla, jsou platná a patří ven i do auditní stopy. */
   let capped = snapshots.slice(-HISTORY_WEEKS);
-  if (failedChapters) {
+  if (FILTR_BODU) {
+    console.log(`Snímek do historie se nezapisuje: běh hodnotil jen vybrané body (BODY, ${FILTR_BODU.size})`);
+  } else if (failedChapters) {
     console.log(`Snímek do historie se nezapisuje: ${failedChapters} kapitol selhalo, `
       + `graf by ukázal neúplný týden`);
   } else {
@@ -1004,6 +1023,7 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
       change_en: e.change?.en || "",
       sources: (e.sources || []).map((s) => s.url),
       model: MODEL,
+      ...(SKUTECNY_MODEL.get(id) && SKUTECNY_MODEL.get(id) !== MODEL ? { model_skutecny: SKUTECNY_MODEL.get(id) } : {}),
       /* Původní znění se ukládá JEN u polí, která se opravdu změnila —
          u čistého textu se klíč "original" vůbec nevytvoří. */
       ...(puvodni[id] ? { original: puvodni[id], proofread_model: KOR_MODEL } : {}),
@@ -1045,7 +1065,7 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
       if (KOREKTURA_MODELEM && davkaZ.length) {
         try {
           const rk = await withBackoff(() => opravDavku(davkaZ, {
-            model: KOR_MODEL, key: KEY, maxTokens: MAX_TOKENS_KOREKTURA,
+            model: KOR_MODEL, key: KEY, maxTokens: MAX_TOKENS_KOREKTURA, effort: NAST.effort_kontroly,
             stropProcent: NAST.korektura_nejvic_zmen_procent,
           }), 3);
           for (const o of rk.opravy) {
@@ -1067,4 +1087,28 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
   }
 }
 
-main();
+/* Cena běhu: log a záznam do public/naklady.json. Pojistka, která zasáhla,
+   ukončí proces nenulovým kódem — workflow pak nic necommitne a na webu
+   zůstanou předchozí data. */
+function zaverBehu() {
+  const s = souhrnNakladu();
+  const role = Object.entries(s.podle_role)
+    .map(([r, x]) => `${r} ${x.usd.toFixed(2)} $ (${x.volani}×, ${x.modely.join("+")})`).join(", ");
+  console.log(`\nCena běhu: ${s.celkem_usd.toFixed(2)} $ za ${s.volani} volání${role ? ` — ${role}` : ""}`);
+  if (s.nezname_ceny.length) console.log(`  POZOR: cenu modelu ${s.nezname_ceny.join(", ")} program nezná — počítáno jako nejdražší řada`);
+  const zaznam = readJSON(OUT_NAKLADY, { behy: [] });
+  (zaznam.behy = zaznam.behy || []).push({
+    datum: new Date().toISOString(),
+    rezim: REZIM_BEHU_ZAZNAM,
+    kapitol: CHAPTER_LIMIT,
+    ...(FILTR_BODU ? { body: [...FILTR_BODU] } : {}),
+    ...s,
+  });
+  writeFileSync(OUT_NAKLADY, JSON.stringify(zaznam, null, 2));
+  if (s.pojistka_zasahla) {
+    console.error(`\nPOJISTKA CENY ZASÁHLA (${s.celkem_usd.toFixed(2)} $, strop ${s.pojistka_usd} $) — běh se nemá zveřejnit.`);
+    process.exitCode = 3;
+  }
+}
+
+main().then(zaverBehu);

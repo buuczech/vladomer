@@ -36,7 +36,7 @@ jobs:
       # Všech sedm, ne výběr. Do 20. 10. 2026 běžely v CI jen tři, ačkoli
       # CLAUDE.md tvrdil opak — test-prechody, test-delta a test-odpoved
       # nehlídal nikdo.
-      - name: Sedm offline kontrol
+      - name: Offline kontroly (sedm původních + test-modely)
         run: |
           node scripts/dev/test-korektura.js
           node scripts/dev/test-zabrany.js
@@ -44,6 +44,7 @@ jobs:
           node scripts/dev/test-delta.js
           node scripts/dev/test-odpoved.js
           node scripts/dev/test-sbirka.js
+          node scripts/dev/test-modely.js
           node scripts/dev/test-konzistence.js
 
       # AGENTS.md a .agents/skills/ (Codex) se generují z CLAUDE.md

@@ -1,0 +1,154 @@
+name: DEV2 měření (ručně, stojí peníze)
+
+# Měření pro refaktor na DEV2 (spec 002). JEN ručně, JEN na větvi DEV2,
+# NIKDY nic necommituje — výsledky jsou artefakt běhu. Každé spuštění stojí
+# peníze (API Anthropic); odhad ceny se ohlašuje vlastníkovi předem.
+#
+# Režimy:
+#   zlata-sada  ohodnotí jen body zlaté sady (scripts/dev/fixtury/zlata-sada.json)
+#               nad daty z main a změří shodu s realitou. Nejlevnější měření
+#               modelu: ~22 bodů v 9 kapitolách, bez korektury a zpráv.
+#   stabilita   dva plné běhy nad týmiž vstupy, porovnání stavů
+#               (porovnej-behy.js) a skóre obou proti zlaté sadě.
+#   beh         jeden plný běh nad daty z main (generálka), nic se nezveřejní.
+#
+# nahrat_kazetu: běh navíc uloží všechny požadavky a odpovědi do kazety
+# (scripts/dev/parita/zmrazit.js, režim nahrat) — podklad pro paritu
+# s přehráním a skutečný přepis streamu pro test-modely.js.
+
+on:
+  workflow_dispatch:
+    inputs:
+      rezim:
+        description: "zlata-sada · stabilita · beh"
+        required: true
+        default: "zlata-sada"
+        type: choice
+        options: [zlata-sada, stabilita, beh]
+      model:
+        description: "Hodnoticí model (prázdné = podle nastaveni.txt), např. claude-sonnet-5-5"
+        required: false
+        default: ""
+      overovaci_model:
+        description: "Ověřovatel přechodů (prázdné = podle nastaveni.txt), např. claude-opus-5-5"
+        required: false
+        default: ""
+      korektura_model:
+        description: "Korektor (prázdné = podle nastaveni.txt)"
+        required: false
+        default: ""
+      effort_hodnoceni:
+        description: "Hloubka přemýšlení hodnotitele (jen modely s přemýšlením; prázdné = nastavení)"
+        required: false
+        default: ""
+      effort_kontroly:
+        description: "Hloubka přemýšlení ověřovatele a korektoru (prázdné = nastavení)"
+        required: false
+        default: ""
+      nahrat_kazetu:
+        description: "Uložit požadavky a odpovědi do kazety (artefakt)"
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+
+permissions:
+  contents: read      # nic se necommituje
+
+jobs:
+  mereni:
+    if: github.ref == 'refs/heads/DEV2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      EVAL_MODEL: ${{ github.event.inputs.model }}
+      OVEROVACI_MODEL: ${{ github.event.inputs.overovaci_model }}
+      KOREKTURA_MODEL: ${{ github.event.inputs.korektura_model }}
+      EFFORT_HODNOCENI: ${{ github.event.inputs.effort_hodnoceni }}
+      EFFORT_KONTROLY: ${{ github.event.inputs.effort_kontroly }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Zdarma a dřív, než se cokoli zaplatí.
+      - name: Offline kontroly
+        run: |
+          for t in korektura zabrany prechody delta odpoved sbirka modely; do node scripts/dev/test-$t.js > /dev/null || { node scripts/dev/test-$t.js; exit 1; }; done
+          echo "offline kontroly prošly"
+
+      # Vstupem jsou VŽDY data z main: brána rozhoduje podle minulých stavů,
+      # a jen s produkčními daty se běh chová jako ostrý.
+      - name: Vstupní data z main
+        run: |
+          git checkout origin/main -- public/evaluations.json public/history.json public/news.json public/audit.json
+          mkdir -p /tmp/vstup && cp public/*.json /tmp/vstup/
+          node -e 'const j=require("./public/evaluations.json");console.log("data z main: lastUpdated",j.lastUpdated)'
+
+      - name: Parametry běhu
+        id: par
+        run: |
+          IDS=$(node -e 'console.log(require("./scripts/dev/fixtury/zlata-sada.json").body.map(b=>b.id).join(","))')
+          echo "ids=$IDS" >> "$GITHUB_OUTPUT"
+          echo "dnes=$(date -u +%FT%TZ)" >> "$GITHUB_OUTPUT"
+          echo "Modely: hodnocení=${EVAL_MODEL:-nastavení} ověření=${OVEROVACI_MODEL:-nastavení} korektura=${KOREKTURA_MODEL:-nastavení}"
+
+      - name: Běh 1
+        env:
+          REZIM_BEHU: plny
+          CHAPTER_LIMIT: "18"
+          BODY: ${{ github.event.inputs.rezim == 'zlata-sada' && steps.par.outputs.ids || '' }}
+          BEZ_KOREKTURY: ${{ github.event.inputs.rezim == 'beh' && '0' || '1' }}
+          BEZ_ZPRAV: ${{ github.event.inputs.rezim == 'beh' && '0' || '1' }}
+          PARITA_ODPOVEDI: nahrat
+          PARITA_DNES: ${{ steps.par.outputs.dnes }}
+          PARITA_KAZETA: /tmp/vysledky/kazeta-beh1.json
+        run: |
+          mkdir -p /tmp/vysledky
+          if [ "${{ github.event.inputs.nahrat_kazetu }}" = "true" ]; then
+            node --import ./scripts/dev/parita/zmrazit.js scripts/evaluate.js 2>&1 | tee /tmp/vysledky/beh1.log
+          else
+            node scripts/evaluate.js 2>&1 | tee /tmp/vysledky/beh1.log
+          fi
+          mkdir -p /tmp/vysledky/beh1 && cp public/*.json /tmp/vysledky/beh1/
+          node scripts/dev/zlata-sada-skore.js public/evaluations.json | tee /tmp/vysledky/skore-beh1.txt
+
+      - name: Běh 2 (stabilita)
+        if: github.event.inputs.rezim == 'stabilita'
+        env:
+          REZIM_BEHU: plny
+          CHAPTER_LIMIT: "18"
+          BEZ_KOREKTURY: "1"
+          BEZ_ZPRAV: "1"
+        run: |
+          cp /tmp/vstup/*.json public/
+          rm -f public/naklady.json
+          node scripts/evaluate.js 2>&1 | tee /tmp/vysledky/beh2.log
+          mkdir -p /tmp/vysledky/beh2 && cp public/*.json /tmp/vysledky/beh2/
+          node scripts/dev/zlata-sada-skore.js public/evaluations.json | tee /tmp/vysledky/skore-beh2.txt
+          node scripts/dev/porovnej-behy.js /tmp/vysledky/beh1/evaluations.json /tmp/vysledky/beh2/evaluations.json | tee /tmp/vysledky/stabilita.txt
+
+      - name: Souhrn
+        if: always()
+        run: |
+          {
+            echo "## Měření DEV2 — ${{ github.event.inputs.rezim }}"
+            echo
+            grep -h "^Cena běhu" /tmp/vysledky/beh*.log 2>/dev/null | sed 's/^/- /'
+            echo
+            for f in /tmp/vysledky/skore-beh*.txt; do [ -f "$f" ] && { echo "### $(basename $f)"; echo '```'; tail -8 "$f"; echo '```'; }; done
+            [ -f /tmp/vysledky/stabilita.txt ] && { echo "### stabilita"; echo '```'; head -8 /tmp/vysledky/stabilita.txt; echo '```'; }
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Výsledky jako artefakt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dev2-mereni-${{ github.event.inputs.rezim }}-${{ github.run_id }}
+          path: /tmp/vysledky
+          if-no-files-found: warn

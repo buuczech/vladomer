@@ -139,6 +139,11 @@ function vyhledavani(urls, dotaz) {
 
 const zprava = (telo, content, stop_reason = "end_turn") => {
   const delka = content.filter((b) => b.type === "text").reduce((n, b) => n + b.text.length, 0);
+  /* Model s přemýšlením vrací nejdřív blok přemýšlení s podpisem. Doptání
+     ho musí vrátit beze změny (preserved thinking) — simulace to prověří. */
+  if (telo.thinking) {
+    content = [{ type: "thinking", thinking: "", signature: `parita-podpis-${h(JSON.stringify(telo.messages)).toString(16)}` }, ...content];
+  }
   return {
     id: `msg_parita_${h(JSON.stringify(telo.messages)).toString(16)}`,
     type: "message", role: "assistant", model: telo.model, stop_reason,
