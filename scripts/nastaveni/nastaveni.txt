@@ -13,9 +13,11 @@
 # ==========================================================
 
 # Který model Claude hodnocení píše.
-#   claude-haiku-4-5-20251001 = levný a rychlý (výchozí)
-#   claude-sonnet-4-6         = několikanásobně dražší, ale důkladnější
-model = claude-haiku-4-5-20251001
+#   claude-sonnet-5-5         = přemýšlí; vybrán měřením na zlaté sadě 20. 10. 2026
+#                               (17/22 proti 16/22 dnešního webu), ~6–7 $ za plný běh
+#   claude-haiku-4-5-20251001 = levný a rychlý, do 10/2026 výchozí
+#   claude-sonnet-4-6         = bez přemýšlení, s temperature 0
+model = claude-sonnet-5-5
 
 # Kolik odkazů na zdroje se smí zobrazit u jednoho bodu. (1 až 5)
 maximalne_zdroju = 3
@@ -97,12 +99,11 @@ korektura = 1
 
 # Který model korekturu dělá. MUSÍ být jiný a silnější než ten, který
 # texty psal — model své vlastní slovakismy nevidí.
-#   claude-sonnet-4-6 = doporučeno, ~0,60 $ za běh (výchozí)
-#   claude-opus-4-8   = nejdůkladnější, ~0,95 $ za běh
-#   claude-sonnet-5   = NEPOUŽÍVAT bez zásahu do programu: sám od sebe
-#                       zapíná „přemýšlení", které se vejde do stejného
-#                       limitu jako odpověď, a hrozí useknutí JSONu.
-korektura_model = claude-sonnet-4-6
+#   claude-opus-5-5   = silnější než hodnotitel claude-sonnet-5-5 (výchozí od 10/2026)
+#   claude-sonnet-4-6 = do 10/2026, kdy hodnotil Haiku
+# Modely s přemýšlením program od 10/2026 volá správně (lib/modely.js):
+# limit odpovědi se zvedne, takže přemýšlení JSON neusekne.
+korektura_model = claude-opus-5-5
 
 # Pojistka. Když model v jedné kapitole přepíše víc než tolik procent
 # úryvků, zahodí se celá dávka a kapitola zůstane neopravená. Chrání
@@ -122,7 +123,7 @@ overovat_prechody = 1
 
 # Model na overovani prechodu. Ma byt silnejsi nez hodnotici model - slabsi
 # model neuhlida usudek silnejsiho.
-overovaci_model = claude-sonnet-4-6
+overovaci_model = claude-opus-5-5
 
 # Kolik vyhledavani smi overovatel pouzit na JEDEN prechod. Bez vyhledavani
 # kontroluje jen logiku tvrzeni, ne jeho pravdivost - a 21. 8. 2026 kvuli tomu
