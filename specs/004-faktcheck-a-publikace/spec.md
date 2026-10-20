@@ -48,6 +48,7 @@ Program rozhodne bez člověka:
 ### Edge Cases
 
 - Chyba v textu, který je i v předchozím záznamu: podržení nepomůže, bod jde k člověku.
+- **Oprava chybně zveřejněného stavu nemá „událost“.** V měření 20. 10. 2026 navrhl Sonnet 5.5 správně 7.2 „porušeno“ → „deklarováno“ a 12.2 „splněno“ → „částečně“ (shoda se zlatou sadou). Brána přechodů obojí podržela („západka bez datovaného dokladu“), protože od „porušeno“ a „splněno“ chce datovanou událost. Pravda ale je, že k porušení nikdy nedošlo, a to žádnou událost nemá. Když vrstva D nebo M vyvrátí tvrzení, na kterém stojí **dosavadní** stav, a hodnotitel navrhuje jiný stav, jde návrh vlastníkovi do PR s důkazy. Potichu podržet se nesmí, jinak zůstane chyba na webu napořád.
 - Zdroj blokuje stahování (403, timeout): neověřitelné odtud. 2. kolo M pak hledá jinde.
 - Kontrola bodu technicky selže: bod je „nezkontrolovaný“ a podrží se. Nikdy nevyjde jako ověřený.
 
@@ -61,6 +62,7 @@ Program rozhodne bez člověka:
 - **FR-006** (M): citace a URL verdiktu se ověří kódem.
 - **FR-007** (R): rozhodnutí podle pravidel výš. Do auditu se zapíše návrh i verdikt (`zadrzeno`, `faktcheck`). Opravy jsou jen nové řádky.
 - **FR-008**: zveřejněný `public/faktcheck.json` (bez UI) a podklady pro report (spec 005).
+- **FR-009** (R): přechod, který brána podržela, ale jehož dosavadní stav kontrola faktů vyvrátila, jde do PR k rozhodnutí vlastníka, i s důkazy obou stran. Brána (`lib/prechody.js`) se nemění, rozhoduje vrstva R.
 
 ## Success Criteria *(mandatory)*
 
