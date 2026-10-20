@@ -32,7 +32,7 @@ ANTHROPIC_API_KEY=x CHAPTER_LIMIT=18 \
   node --import ./scripts/dev/dump-prompts.js scripts/evaluate.js   # prints every prompt, sends nothing
 ```
 
-They run in CI on every push (`deploy.yml`, `dev-eval.yml`), and `test-konzistence.js` runs again on the weekly run's fresh data *before* it is committed: a failure there uploads the produced JSON as an artifact and stops the job, so the site keeps last week's data rather than publishing something that contradicts itself. It separates **CHYBA** (exit 1 — the site is inconsistent now) from **VAROVÁNÍ** (exit 0 — one data value away from being inconsistent); a warning is a finding, not noise. It imports its rules from `lib/dukaz.js`, `lib/korektura.js` and `src/data.js` rather than restating them, for the same reason `prepocet-degradaci.js` does.
+All seven run in CI on every push (`deploy.yml`, `dev-eval.yml`, and `parita.yml` on DEV2 — until 2026-10-20 only three of them actually did), and `test-konzistence.js` runs again on the weekly run's fresh data *before* it is committed: a failure there uploads the produced JSON as an artifact and stops the job, so the site keeps last week's data rather than publishing something that contradicts itself. It separates **CHYBA** (exit 1 — the site is inconsistent now) from **VAROVÁNÍ** (exit 0 — one data value away from being inconsistent); a warning is a finding, not noise. It imports its rules from `lib/dukaz.js`, `lib/korektura.js` and `src/data.js` rather than restating them, for the same reason `prepocet-degradaci.js` does.
 
 `dump-prompts` is the tool for any change that could alter what the model receives: capture its output before and after and diff. An empty diff is the proof. It restores `public/*.json` on exit, so it cannot clobber live data.
 
@@ -41,6 +41,14 @@ They run in CI on every push (`deploy.yml`, `dev-eval.yml`), and `test-konzisten
 `prehraj-zabrany.js` is the same idea for the evidence bar: it replays `lib/dukaz.js` over every rating in `audit.json` — the full corpus of what the model has actually written, run after run — and prints which ones the bar would demote, with the verbatim evidence under each. Capture it before and after a rule change; the diff is that change's entire benefit and its entire cost. It is a tool, not a seventh check: it never fails, because a new demotion can be a correct catch as easily as a regression, and only a human reading the evidence can tell which. Note its one blind spot — `audit.json` records the status *after* degradation and has no `evidenceMissing`, so the corpus is the set of ratings that passed the bar at the time, which is exactly the set a tightened rule needs to be tried against.
 
 The `/kontrola` skill (`.claude/skills/kontrola/`) drives a wider audit — data consistency, fact-check, UI, code, security — on top of those three. Its reports go to `kontroly/`, which is gitignored on purpose: a security finding in a public repo is a disclosure.
+
+## Spec-driven changes (Spec Kit)
+
+Changes that are not trivial go through GitHub Spec Kit, pinned to v1.1.1 (`uv tool install specify-cli --from git+https://github.com/github/spec-kit.git@v1.1.1`, integrations `claude` and `codex`, script type `py`). The constitution in `.specify/memory/constitution.md` (Czech) condenses the invariants below into seven gates; each feature lives in `specs/NNN-name/` (spec → plan → tasks). Vládoměr-specific templates are project overrides in `.specify/templates/overrides/` — the plan's Technical Context and Constitution Check come pre-filled and every task list ends with a mandatory verification phase. Edit the overrides, never the core templates in `.specify/templates/`, which an upgrade replaces.
+
+The `speckit-*` skills are user-invoked only (`disable-model-invocation: true`, set by hand after init because the flag for it arrived in v1.2.0), so they never compete with `kontrola`, `prispevek` or `reels`: type `/speckit-specify`, `/speckit-clarify`, `/speckit-plan`, `/speckit-tasks`, `/speckit-analyze`, `/speckit-implement`, `/speckit-converge`. Deliberately absent: the `git` extension (it creates its own `001-*` branches), the `agent-context` extension (it rewrites this file) and `speckit-taskstoissues` (deprecated upstream, and it opens GitHub issues). A Spec Kit upgrade may bring the last one back and reset the invocation flag — check the diff.
+
+`AGENTS.md` and `.agents/skills/` exist for Codex and are **generated** from this file and `.claude/skills/` by `node scripts/dev/sync-agenti.js`; CI fails on drift (`--kontrola`). The hand-kept copies they replace had already drifted — they claimed six checks and named the skill path `.Codex/skills/`. Edit this file, then regenerate.
 
 ## What costs money
 
@@ -118,6 +126,8 @@ Three separate things share one repository:
 **`audit.json` is append-only and the site says so in three places** (methodology, FAQ, "how do I know you're not making this up"). Corrections are appended as new entries carrying an `oprava` field — never written over the original row. Breaking that promise to fix a number would cost more than the number is worth.
 
 ### Branches and flags
+
+**DEV2** carries the monthly-cadence refactor (monthly run, stronger models, fact-check of the whole built site, report by e-mail; see `specs/`). It was cut from `main`, not from `dev`, which had fallen eight commits behind. Until it merges, `main` keeps running weekly and every fix on `main` is merged into DEV2; `parita.yml` guards that DEV2 changes nothing the model reads or the program decides unless the difference is declared. Pushes to DEV2 cost nothing — no workflow evaluates on them.
 
 **Secrets.** Instagram and Anthropic keys live only in GitHub Actions secrets. The one key that must exist locally is `ELEVENLABS_API_KEY`, because reels are built on the owner's machine — it belongs in `.env.local`, covered by `*.local` in `.gitignore`. Vite reads that file too, but only exposes `VITE_`-prefixed vars, so the key does not reach the bundle (verified by grepping `dist/`). A pre-commit hook in `scripts/dev/hooks/` refuses to commit anything key-shaped; enable it in a fresh clone with `git config core.hooksPath scripts/dev/hooks`. The hook reports line numbers only and never echoes the matching line — hook output ends up in CI logs and session transcripts, where printing the secret would just move the leak.
 

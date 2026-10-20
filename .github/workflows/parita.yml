@@ -1,0 +1,55 @@
+name: Parita a offline kontroly (DEV2)
+
+# Hlídá větev DEV2 (měsíční běh, fact-check) a PR z ní do main.
+# NIC NESTOJÍ: žádný klíč API, žádné secrets, žádné volání modelu.
+# Placené běhy na DEV2 se pouštějí jen ručně (dev2-eval.yml, fáze 2).
+#
+# Fáze 1 sem přidá job „parita“ (scripts/dev/parita/porovnej-vetve.js):
+# stejné vstupy → bajtově stejné požadavky na model a stejné výstupy
+# programu jako na main. Do té doby tu běží kontroly, které už existují.
+
+on:
+  push:
+    branches: [DEV2]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-kontroly:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0     # test-konzistence čte předchozí audit.json z gitu
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      # Všech sedm, ne výběr. Do 20. 10. 2026 běžely v CI jen tři, ačkoli
+      # CLAUDE.md tvrdil opak — test-prechody, test-delta a test-odpoved
+      # nehlídal nikdo.
+      - name: Sedm offline kontrol
+        run: |
+          node scripts/dev/test-korektura.js
+          node scripts/dev/test-zabrany.js
+          node scripts/dev/test-prechody.js
+          node scripts/dev/test-delta.js
+          node scripts/dev/test-odpoved.js
+          node scripts/dev/test-sbirka.js
+          node scripts/dev/test-konzistence.js
+
+      # AGENTS.md a .agents/skills/ (Codex) se generují z CLAUDE.md
+      # a .claude/skills/. Ručně upravená nebo zapomenutá kopie = chyba.
+      - name: AGENTS.md odpovídá CLAUDE.md
+        run: node scripts/dev/sync-agenti.js --kontrola
+
+      - name: Build
+        run: npm run build
