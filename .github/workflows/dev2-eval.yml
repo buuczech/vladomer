@@ -22,6 +22,10 @@ name: DEV2 měření (stojí peníze)
 #               vlastník sady ověřil), a skóre faktcheck-skore.js: kolik bodů,
 #               kde se web liší od pravdy, kontrola chytila. Hodnocení neběží.
 #               kola: 1 = jen kolo 1 (dávka), 2 = obě kola (výchozí).
+#   generalka   celý měsíční běh (mesicni-beh.yml — přesně to, co poběží na
+#               main) nad daty z DEV2, jen se nic nezapíše na main, nezaloží
+#               PR a e-mail má v předmětu [ZKOUŠKA]. pojistka_usd = strop
+#               ceny CELÉHO běhu (hodnocení + kontrola faktů).
 #
 # nahrat_kazetu: běh navíc uloží všechny požadavky a odpovědi do kazety
 # (scripts/dev/parita/zmrazit.js, režim nahrat) — podklad pro paritu
@@ -36,8 +40,34 @@ permissions:
   contents: read      # nic se necommituje
 
 jobs:
-  mereni:
+  parametry:
     if: github.ref == 'refs/heads/DEV2'
+    runs-on: ubuntu-latest
+    outputs:
+      spustit: ${{ steps.m.outputs.spustit }}
+      rezim: ${{ steps.m.outputs.rezim }}
+      pojistka: ${{ steps.m.outputs.pojistka }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - id: m
+        run: node scripts/dev/mereni-parametry.js
+
+  generalka:
+    needs: parametry
+    if: needs.parametry.outputs.spustit == 'true' && needs.parametry.outputs.rezim == 'generalka'
+    uses: ./.github/workflows/mesicni-beh.yml
+    with:
+      rezim_behu: plny
+      zkouska: true
+      pojistka_usd: ${{ needs.parametry.outputs.pojistka }}
+    secrets: inherit
+
+  mereni:
+    needs: parametry
+    if: needs.parametry.outputs.spustit == 'true' && needs.parametry.outputs.rezim != 'generalka'
     runs-on: ubuntu-latest
     timeout-minutes: 240
     env:

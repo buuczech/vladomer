@@ -1,0 +1,193 @@
+name: Měsíční běh
+
+# Celý měsíční běh na jednom místě (spec 003, 004, 005). Volá ho deploy.yml
+# (ostrý běh na main, 1. dne v měsíci) a dev2-eval.yml (generálka na DEV2,
+# zkouska: true — všechno kromě zveřejnění). Jedna definice pro obojí, aby
+# generálka zkoušela přesně to, co pak poběží naostro.
+#
+#   hodnocení (evaluate.js) → kontrola faktů (faktcheck.js --model)
+#   → rozhodnutí (rozhodni.js: ověřené ven, sporné podržet)
+#   → kontrola konzistence → commit na main → PR s podrženými návrhy
+#   → report e-mailem (PDF + pro-AI.md)
+#
+# Stojí peníze (API Anthropic). Pojistka ceny (pojistka_ceny_usd) zastaví
+# zacyklený běh; pak se nic nezveřejní a přijde e-mail o selhání.
+
+on:
+  workflow_call:
+    inputs:
+      rezim_behu:
+        description: "plny = měsíční plný audit, delta = mimořádný běh"
+        type: string
+        default: plny
+      zkouska:
+        description: "generálka: nic se nezapíše na main, e-mail má [ZKOUŠKA]"
+        type: boolean
+        default: false
+      pojistka_usd:
+        description: "strop ceny celého běhu; prázdné = pojistka_ceny_usd z nastaveni.txt"
+        type: string
+        default: ""
+    outputs:
+      zapsano:
+        description: "true, když běh zapsal nová data na main"
+        value: ${{ jobs.beh.outputs.zapsano }}
+
+jobs:
+  beh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    outputs:
+      zapsano: ${{ steps.zapis.outputs.zapsano }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm ci
+
+      # Pravidla dřív, než se cokoli zaplatí.
+      - name: Offline kontroly
+        run: |
+          for t in zabrany sbirka korektura prechody delta odpoved modely faktcheck rozhodnuti email soukromi; do
+            node scripts/dev/test-$t.js > /dev/null || { node scripts/dev/test-$t.js; exit 1; }
+          done
+          echo "offline kontroly prošly"
+
+      # Plánovač GitHubu umí běh opozdit o hodiny a jednou už pustil druhý běh
+      # téhož dne (28. 8. 2026). Plánovaný běh se přeskočí, jsou-li data už
+      # z tohoto měsíce; ruční spuštění běží vždy — to je úmysl.
+      - name: Už tento měsíc hodnoceno?
+        id: mesic
+        run: |
+          node -e '
+            const j = require("./public/evaluations.json");
+            const mesic = new Date().toISOString().slice(0, 7);
+            const hotovo = process.env.UDALOST === "schedule" && String(j.lastUpdated || "").slice(0, 7) === mesic;
+            console.log(hotovo ? `Data jsou už z ${mesic}, plánovaný běh se přeskočí.` : "Běží se.");
+            require("fs").appendFileSync(process.env.GITHUB_OUTPUT, `preskocit=${hotovo}\n`);
+          '
+        env:
+          UDALOST: ${{ github.event_name }}
+
+      - name: Data před během
+        if: steps.mesic.outputs.preskocit != 'true'
+        run: mkdir -p /tmp/pred && cp public/*.json /tmp/pred/
+
+      - name: Hodnocení
+        if: steps.mesic.outputs.preskocit != 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          REZIM_BEHU: ${{ inputs.rezim_behu }}
+          NAVRHY_BEHU: /tmp/navrhy.json
+          POJISTKA_CENY_USD: ${{ inputs.pojistka_usd }}
+        run: node scripts/evaluate.js 2>&1 | tee /tmp/hodnoceni.log; exit ${PIPESTATUS[0]}
+
+      # Selhání kontroly faktů zastaví celý běh: bez ní by se nic nesmělo
+      # pustit jako ověřené a web radši zůstane na minulém měsíci.
+      - name: Kontrola faktů
+        if: steps.mesic.outputs.preskocit != 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          POJISTKA_CENY_USD: ${{ inputs.pojistka_usd }}
+        run: node scripts/faktcheck.js --model --zapsat-naklady 2>&1 | tee /tmp/faktcheck.log; exit ${PIPESTATUS[0]}
+
+      - name: Rozhodnutí (ověřené ven, sporné podržet)
+        if: steps.mesic.outputs.preskocit != 'true'
+        run: node scripts/rozhodni.js --pred /tmp/pred/evaluations.json --navrhy /tmp/navrhy.json
+
+      # Konzistence dat, která půjdou ven. Když neprojde, nic se nezveřejní.
+      - name: Kontrola čerstvých dat
+        if: steps.mesic.outputs.preskocit != 'true'
+        run: node scripts/dev/test-konzistence.js
+
+      - name: Obrázek pro sdílení
+        if: steps.mesic.outputs.preskocit != 'true'
+        run: node scripts/og-image.js || echo "og-image selhalo — ponechávám minulý obrázek"
+
+      - name: Zápis na main
+        id: zapis
+        if: steps.mesic.outputs.preskocit != 'true' && !inputs.zkouska
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/evaluations.json public/history.json public/news.json public/audit.json public/og.png public/naklady.json public/faktcheck.json
+          git commit -m "chore: monthly evaluation $(date -u +%Y-%m)" || { echo "zapsano=false" >> "$GITHUB_OUTPUT"; exit 0; }
+          # Rebase je bezpečný: běh sahá jen na public/*.json a og.png.
+          git pull --rebase --autostash origin main
+          git push
+          echo "zapsano=true" >> "$GITHUB_OUTPUT"
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      # Podržené body s návrhem jdou do PR beh/RRRR-MM. Starší nevyřízený PR
+      # se zavře: tyhle body tenhle běh posoudil znovu.
+      - name: PR s návrhy k rozhodnutí
+        id: pr
+        if: steps.zapis.outputs.zapsano == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VETEV="beh/$(date -u +%Y-%m)"
+          for c in $(gh pr list --state open --json number,headRefName -q '.[] | select(.headRefName | startswith("beh/")) | .number'); do
+            gh pr close "$c" --comment "Nahrazeno během $(date -u +%Y-%m): podržené body se posoudily znovu." --delete-branch || true
+          done
+          git switch -c "$VETEV"
+          node scripts/navrhy.js vytvor --rozhodnuti faktcheck-vystup/rozhodnuti.json --zaklad "${{ steps.zapis.outputs.sha }}" | tee /tmp/navrhy-pr.log
+          if grep -q "^návrhů: 0" /tmp/navrhy-pr.log; then echo "Nic k rozhodnutí, PR se nezakládá."; exit 0; fi
+          git add public/evaluations.json public/audit.json public/history.json navrhy/
+          git commit -m "Návrhy z běhu $(date -u +%Y-%m) k rozhodnutí vlastníka"
+          git push -u origin "$VETEV" --force-with-lease
+          node scripts/report.js --pred /tmp/pred/evaluations.json --bez-pdf --vystup /tmp/report-pr > /dev/null
+          # Zakládat PR smí workflow jen s povolením v nastavení repozitáře
+          # (Settings → Actions → General → „Allow GitHub Actions to create and
+          # approve pull requests“). Bez něj e-mail dostane odkaz na porovnání
+          # větví, odkud jde PR založit jedním klepnutím.
+          if URL=$(gh pr create --base main --head "$VETEV" --title "Vládoměr $(date -u +%Y-%m): návrhy k rozhodnutí" --body-file /tmp/report-pr/pr.md); then
+            echo "url=$URL" >> "$GITHUB_OUTPUT"
+          else
+            echo "PR nešlo založit — povol v nastavení repozitáře zakládání PR z Actions. Posílám odkaz na větev."
+            echo "url=${{ github.server_url }}/${{ github.repository }}/compare/main...$VETEV?expand=1" >> "$GITHUB_OUTPUT"
+          fi
+          git switch -
+
+      - name: Report e-mailem
+        if: steps.mesic.outputs.preskocit != 'true'
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          REPORT_EMAIL_TO: ${{ secrets.REPORT_EMAIL_TO }}
+          PR_URL: ${{ steps.pr.outputs.url }}
+        run: |
+          ZK=""; if [ "${{ inputs.zkouska }}" = "true" ]; then ZK="--zkouska"; fi
+          PR=""; if [ -n "$PR_URL" ]; then PR="--pr $PR_URL"; fi
+          node scripts/report.js --pred /tmp/pred/evaluations.json --poslat $ZK $PR || echo "report: e-mail neodešel, report je v artefaktu"
+
+      - name: E-mail o selhání
+        if: failure()
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          REPORT_EMAIL_TO: ${{ secrets.REPORT_EMAIL_TO }}
+        run: |
+          ZK=""; if [ "${{ inputs.zkouska }}" = "true" ]; then ZK="--zkouska"; fi
+          node scripts/report.js --selhani "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" $ZK
+
+      # Zaplacený běh se nesmí ztratit s runnerem — ani když selže.
+      - name: Výstupy běhu jako artefakt (příprava)
+        if: always() && steps.mesic.outputs.preskocit != 'true'
+        run: mkdir -p beh-vystup && cp /tmp/navrhy.json /tmp/hodnoceni.log /tmp/faktcheck.log beh-vystup/ 2>/dev/null || true
+      - name: Výstupy běhu jako artefakt
+        if: always() && steps.mesic.outputs.preskocit != 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mesicni-beh-${{ github.run_id }}
+          path: |
+            public/*.json
+            public/og.png
+            faktcheck-vystup/*.json
+            report/
+            necitelne-odpovedi/
+            beh-vystup/
+          if-no-files-found: ignore

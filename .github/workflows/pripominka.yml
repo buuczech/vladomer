@@ -1,0 +1,45 @@
+name: Připomínka nevyřízeného PR
+
+# PR beh/RRRR-MM s návrhy k rozhodnutí čeká na vlastníka. Po třech dnech
+# (a pak každé tři dny) přijde e-mailem připomínka. Další měsíční běh
+# nevyřízený PR zavře a podržené body posoudí znovu. Nic nestojí.
+
+on:
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  pripominka:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Čekající PR
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr list --state open --json url,headRefName,createdAt > /tmp/pr.json
+          node -e '
+            const pr = require("/tmp/pr.json").filter((p) => /^beh\/\d{4}-\d{2}$/.test(p.headRefName));
+            const dni = (p) => Math.floor((Date.now() - Date.parse(p.createdAt)) / 86400000);
+            const pripomenout = pr.filter((p) => dni(p) >= 3 && dni(p) % 3 === 0);
+            for (const p of pr) console.log(`${p.headRefName}: otevřený ${dni(p)} dní${pripomenout.includes(p) ? " — připomenu" : ""}`);
+            require("fs").appendFileSync(process.env.GITHUB_OUTPUT, `url=${pripomenout.map((p) => p.url).join(" ")}\n` + `dni=${pripomenout.map(dni).join(" ")}\n`);
+          '
+
+      - name: E-mail
+        if: steps.pr.outputs.url != ''
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          REPORT_EMAIL_TO: ${{ secrets.REPORT_EMAIL_TO }}
+        run: node scripts/report.js --pripominka "${{ steps.pr.outputs.url }}" --dni "${{ steps.pr.outputs.dni }}"

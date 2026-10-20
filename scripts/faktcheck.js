@@ -5,6 +5,7 @@
  *     node scripts/faktcheck.js --model         # + vrstva M: nezávislý model (STOJÍ PENÍZE)
  *     node scripts/faktcheck.js --model --body 2.3,12.2 --bez-davky
  *     node scripts/faktcheck.js --model --bez-kola2   # jen kolo 1 (měření; ostrý běh vždy obě kola)
+ *     node scripts/faktcheck.js --model --zapsat-naklady  # měsíční běh: pojistka na celý běh, cena do public/naklady.json
  *     node scripts/faktcheck.js --vystup adresar
  *
  * Vrstva D (deterministická, zdarma) kontroluje to, co program ví přesně:
@@ -161,8 +162,18 @@ if (S_MODELEM) {
   if (!KLIC) { console.error("--model potřebuje ANTHROPIC_API_KEY"); process.exit(1); }
   const MODEL = process.env.FAKTCHECK_MODEL || NAST.faktcheck_model;
   const EFFORT = process.env.EFFORT_KONTROLY || NAST.effort_kontroly;
-  const POJISTKA = Number(process.env.POJISTKA_CENY_USD) || NAST.pojistka_ceny_usd;
-  nastavPojistku(POJISTKA);
+  /* Pojistka platí na celý běh, ne na proces: s --zapsat-naklady (měsíční
+     běh) už hodnocení část utratilo a zapsalo ji do public/naklady.json.
+     Bez toho by hodnocení i kontrola smělo každé utratit celý strop. */
+  const ZAPSAT_NAKLADY = process.argv.includes("--zapsat-naklady");
+  const CESTA_NAKLADU = join(KOREN, "public", "naklady.json");
+  const naklady = ZAPSAT_NAKLADY && existsSync(CESTA_NAKLADU) ? JSON.parse(readFileSync(CESTA_NAKLADU, "utf8")) : null;
+  const behNakladu = naklady && (naklady.behy || []).at(-1);
+  const dnesniBeh = behNakladu && String(behNakladu.datum).slice(0, 10) === new Date().toISOString().slice(0, 10) ? behNakladu : null;
+  const uzUtraceno = dnesniBeh ? dnesniBeh.celkem_usd : 0;
+  const POJISTKA = (Number(process.env.POJISTKA_CENY_USD) || NAST.pojistka_ceny_usd) - uzUtraceno;
+  if (uzUtraceno) console.log(`Hodnocení už stálo ${uzUtraceno.toFixed(2)} $ — kontrole faktů zbývá do stropu ${POJISTKA.toFixed(2)} $`);
+  nastavPojistku(Math.max(0.01, POJISTKA));
   let zastavenoPredem = false; // pojistka zastavila další část dávky podle odhadu
   await overModely([MODEL], KLIC);
   const WEBY = readList("weby-hodnoceni.txt");
@@ -295,6 +306,14 @@ if (S_MODELEM) {
     body,
   };
   writeFileSync(join(VYSTUP, "modelova.json"), JSON.stringify(vysledekM, null, 2));
+  // Cena kontroly k ceně běhu (veřejné, jako cena hodnocení).
+  if (ZAPSAT_NAKLADY) {
+    const zaznam = naklady || { behy: [] };
+    const kontrola = { celkem_usd: cena.celkem_usd, podle_role: cena.podle_role, model: MODEL };
+    if (dnesniBeh) { dnesniBeh.faktcheck = kontrola; dnesniBeh.celkem_s_kontrolou_usd = Math.round((dnesniBeh.celkem_usd + cena.celkem_usd) * 10000) / 10000; }
+    else (zaznam.behy = zaznam.behy || []).push({ datum: new Date().toISOString(), rezim: "faktcheck", celkem_usd: 0, faktcheck: kontrola, celkem_s_kontrolou_usd: cena.celkem_usd });
+    writeFileSync(CESTA_NAKLADU, JSON.stringify(zaznam, null, 2));
+  }
   const s = vysledekM.souhrn;
   console.log(`Vrstva M: ${s.ciste}/${s.bodu} čistých; vyvráceno ${s.vyvraceno.length}, spor o stav ${s.spor_o_stav.length}, neověřeno ${s.neovereno.length}, nezkontrolováno ${s.nezkontrolovano.length}; zahozených citací ${s.citaci_zahozeno}`);
   for (const x of s.spor_o_stav) console.log(`  spor     ${x}`);

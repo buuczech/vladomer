@@ -29,3 +29,7 @@ necitelne-odpovedi/
 # Mezivýsledky kontroly faktů (texty stažených zdrojů, nálezy) — podklad
 # pro modelovou vrstvu a report, do repozitáře nepatří.
 faktcheck-vystup/
+
+# Report běhu pro vlastníka (PDF, pro-AI.md, popis PR). Jde e-mailem a jako
+# artefakt běhu; obsahuje návrhy, které na web nešly, takže do repozitáře nepatří.
+report/

@@ -1,0 +1,77 @@
+<!doctype html>
+<!--
+  Report měsíčního běhu pro vlastníka (spec 005). Z téhle stránky vzniká PDF
+  v e-mailu (headless Chrome, --print-to-pdf) a podle ní se rozhoduje na
+  telefonu. Proto úzká stránka (130 × 230 mm), jeden sloupec, velké písmo.
+
+  Oddíly (SOUHRN, K_ROZHODNUTI, …) skládá scripts/lib/report.js, tady jsou
+  jen vzhled a pořadí. Barvy stavů jsou barvy legendy webu a doplňuje je
+  program. Zástupné texty ve dvojitých složených závorkách se nesmí
+  přejmenovat ani smazat (render() je přísný a běh by se zastavil).
+-->
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vládoměr — kontrola běhu {{MESIC}}</title>
+<style>
+  @page { size: 130mm 230mm; margin: 8mm 7mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 10.5pt/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "DejaVu Sans", Helvetica, Arial, sans-serif; color: #0F172A; background: #fff; }
+  .trikolora { height: 5px; display: flex; margin-bottom: 10px; }
+  .trikolora i { flex: 1; } .trikolora i:nth-child(1) { background: #E2E7EF; } .trikolora i:nth-child(2) { background: #3f7fd6; } .trikolora i:nth-child(3) { background: #ff5a5f; }
+  h1 { font-size: 15pt; margin: 0 0 2px; }
+  h2 { font-size: 12.5pt; margin: 18px 0 8px; padding-bottom: 3px; border-bottom: 2px solid #E2E7EF; }
+  h3 { font-size: 11pt; margin: 0 0 4px; }
+  h4 { font-size: 9.5pt; margin: 0 0 4px; color: #5B6577; text-transform: uppercase; letter-spacing: .04em; }
+  p { margin: 0 0 6px; }
+  a { color: #3B5BDB; }
+  .verdikt { font-size: 12pt; font-weight: 700; margin: 0 0 12px; }
+  .slabe { color: #5B6577; font-size: 9pt; font-weight: 400; }
+  .karta { border: 1px solid #E2E7EF; border-radius: 8px; padding: 9px 10px; margin: 0 0 10px; break-inside: avoid; }
+  .bod { break-inside: auto; }
+  .cisla { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+  .cisla div { flex: 1 1 30%; min-width: 30mm; }
+  .cisla b { display: block; font-size: 12.5pt; }
+  .cisla span { color: #5B6577; font-size: 8.5pt; }
+  .pruh { display: flex; height: 9px; border-radius: 5px; overflow: hidden; margin: 2px 0 6px; }
+  .legenda { font-size: 8.5pt; color: #5B6577; display: flex; flex-wrap: wrap; gap: 4px 10px; }
+  .legenda i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 3px; }
+  .stav { display: inline-block; color: #fff; font-size: 8.5pt; font-weight: 700; padding: 1px 7px; border-radius: 10px; }
+  .typ { font-weight: 700; color: #B45309; margin-bottom: 4px; }
+  .duvody { margin: 0 0 8px; padding-left: 16px; font-size: 9.5pt; }
+  .vedle { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 6px; }
+  .vedle > div { background: #F6F8FB; border-radius: 6px; padding: 7px; font-size: 9.5pt; }
+  .doklad { font-size: 9.5pt; }
+  del { background: #FDE2E2; text-decoration: line-through; }
+  ins { background: #DCFCE7; text-decoration: none; }
+  .tvrzeni { padding-left: 16px; font-size: 9.5pt; }
+  blockquote { margin: 3px 0 5px; padding: 3px 7px; border-left: 3px solid #94A0B2; color: #334155; font-style: italic; }
+  .prikaz { background: #EEF2FF; border-radius: 6px; padding: 5px 7px; }
+  code { font: 9.5pt ui-monospace, Consolas, "DejaVu Sans Mono", monospace; background: #fff; padding: 0 3px; border-radius: 3px; }
+  .pozor { background: #FEF3C7; border-radius: 6px; padding: 5px 7px; }
+  footer { margin-top: 16px; color: #5B6577; font-size: 8pt; }
+  @media (max-width: 520px) { .vedle { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="trikolora"><i></i><i></i><i></i></div>
+<h1>Vládoměr — kontrola běhu {{MESIC}}</h1>
+<p class="verdikt">{{VERDIKT}}</p>
+{{SOUHRN}}
+
+<h2>K rozhodnutí</h2>
+{{K_ROZHODNUTI}}
+
+<h2>Co se na webu změnilo</h2>
+{{ZMENY}}
+
+<h2>Ostatní nálezy</h2>
+{{OSTATNI}}
+
+<h2>Jak rozhodnout</h2>
+{{JAK_ROZHODNOUT}}
+
+<footer>Vytvořeno {{VYTVORENO}}. Report je jen pro vlastníka webu; na web jde souhrn bez návrhů (faktcheck.json).</footer>
+</body>
+</html>

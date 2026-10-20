@@ -17,7 +17,7 @@ if (!m.schvaleno || !String(m.schvaleno).trim()) {
   out("spustit", "false");
   process.exit(0);
 }
-const REZIMY = ["zlata-sada", "stabilita", "beh", "faktcheck"];
+const REZIMY = ["zlata-sada", "stabilita", "beh", "faktcheck", "generalka"];
 if (!REZIMY.includes(m.rezim)) {
   console.error(`mereni.json: neznámý rezim „${m.rezim}“ — povoleno ${REZIMY.join(", ")}`);
   process.exit(1);
@@ -35,6 +35,7 @@ out("spustit", "true");
 out("rezim", m.rezim);
 out("kazeta", m.nahrat_kazetu ? "true" : "false");
 out("kola", String(m.kola ?? 2));
+out("pojistka", m.pojistka_usd ?? "");
 env("EVAL_MODEL", m.model);
 env("OVEROVACI_MODEL", m.overovaci_model);
 env("KOREKTURA_MODEL", m.korektura_model);

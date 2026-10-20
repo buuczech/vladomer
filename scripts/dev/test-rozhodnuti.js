@@ -20,6 +20,7 @@
  */
 import { readFileSync } from "node:fs";
 import { rozhodniBod, rozhodniBeh, problemyBodu, oznacAudit, upravSnimek, stavZaznamu } from "../lib/faktcheck/rozhodnuti.js";
+import { novySoubor, proved, sloz, prikazyZKomentare } from "../lib/navrhy.js";
 
 const fx = JSON.parse(readFileSync(new URL("./fixtury/rozhodnuti.json", import.meta.url), "utf8"));
 let chyb = 0;
@@ -101,6 +102,31 @@ const audit = [
 const n = oznacAudit(audit, dnes, beh.body);
 over(n === 1 && audit[1].zadrzeno === true && audit[1].faktcheck.includes("prechod-bez-noveho-dokladu"), "dnešní řádek podrženého 10.2 nese zadrzeno a důvod", audit[1]);
 over(!audit[0].zadrzeno && !audit[2].zadrzeno && !audit[3].zadrzeno, "starší řádky, zveřejněné body a opravy se nemění (append-only)");
+
+console.log("\nPR s návrhy (lib/navrhy.js)");
+const rozh = { beh: dnes, body: beh.body };
+const soubor = novySoubor({ rozhodnuti: rozh, zaklad: "abc123" });
+over(Object.keys(soubor.navrhy).sort().join() === "10.2,12.2,7.2" && Object.keys(soubor.prijate).sort().join() === "10.2,12.2,7.2",
+  "návrhy hodnotitele jdou do PR a ve výchozím stavu jsou přijaté (Merge = přijmout)", Object.keys(soubor.navrhy));
+const vyvr = novySoubor({ rozhodnuti: { beh: dnes, body: { "2.3": { bod: "2.3", problemy: ["m-vyvraceno"], vlastnik: { typ: "podrzeno", navrh: { zdroj: "hodnotitel", zaznam: po23 } } } } }, zaklad: "abc" });
+over(vyvr.navrhy["2.3"].vyvraceny && !vyvr.prijate["2.3"], "návrh s vyvráceným tvrzením se jen vypíše, přijatý není");
+over(!proved(vyvr, { prikaz: "prijmout", bod: "2.3" }).ok && proved(vyvr, { prikaz: "prijmout", bod: "2.3", duvod: "Zdroj je zastaralý, platí novější." }).ok,
+  "vyvrácený návrh jde přijmout jen s důvodem");
+over(proved(soubor, { prikaz: "podrzet", bod: "12.2" }).ok && !soubor.prijate["12.2"], "/podrzet vrátí bod na minulý záznam");
+over(!proved(soubor, { prikaz: "prijmout", bod: "5.5" }).ok, "bod bez návrhu příkaz odmítne");
+
+const zakladPR = { evals: { evals: { ...beh.evals } }, audit: { entries: [{ id: "10.2", date: dnes, status: "declared", model: "claude-sonnet-5-5", zadrzeno: true, faktcheck: ["prechod-bez-noveho-dokladu"] }] }, hist: { snapshots: [{ date: dnes, statuses: { "10.2": "in_progress" } }] } };
+const slozeno = sloz(soubor, zakladPR, "2026-10-22");
+const stejne = (x, y) => JSON.stringify(x) === JSON.stringify(y);
+over(stejne(slozeno.evals.evals["10.2"], fx.po["10.2"]) && stejne(slozeno.evals.evals["12.2"], fx.pred["12.2"]), "větev: přijatý návrh na webu, podržený bod beze změny");
+const novy = slozeno.audit.entries.find((r) => r.id === "10.2" && r.oprava);
+over(novy && novy.date === "2026-10-22" && novy.model === "claude-sonnet-5-5" && novy.oprava.puvodni_status === "in_progress" && novy.oprava.prijato_z_behu === dnes,
+  "přijetí je nový řádek auditu s „oprava“ (append-only), s modelem, který návrh napsal", novy);
+over(slozeno.hist.snapshots[0].statuses["10.2"] === "declared" && zakladPR.evals.evals["10.2"] === beh.evals["10.2"], "snímek běhu nese přijatý stav; vstup se nemění");
+
+over(JSON.stringify(prikazyZKomentare("Díky!\n/prijmout 10.2\n /podrzet 12.2 \n/prijmout 2.3 duvod: zdroj je zastaralý\n/prijmout 7.2; rm -rf /\n/prijmout 7.2 `x`")) === JSON.stringify([
+  { prikaz: "prijmout", bod: "10.2", duvod: null }, { prikaz: "podrzet", bod: "12.2", duvod: null }, { prikaz: "prijmout", bod: "2.3", duvod: "zdroj je zastaralý" },
+]), "příkazy z komentáře: jen celé řádky známého tvaru, nic navíc", prikazyZKomentare("/prijmout 7.2; rm -rf /"));
 
 console.log(chyb ? `\nSELHALO: ${chyb} chyb.` : "\nVše prošlo.");
 process.exit(chyb ? 1 : 0);

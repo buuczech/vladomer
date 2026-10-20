@@ -1,0 +1,83 @@
+name: Rozhodnutí vlastníka v PR
+
+# Příkazy v komentáři PR beh/RRRR-MM (spec 005): /prijmout <bod>,
+# /podrzet <bod>, u vyvráceného tvrzení /prijmout <bod> duvod: … — každý na
+# vlastním řádku. Merge PR přijme, co je ve větvi; Close nepřijme nic.
+#
+# Bezpečnost:
+#   - platí JEN komentář vlastníka repozitáře (login i author_association),
+#   - text komentáře jde do skriptu přes proměnnou prostředí a čte ho přísný
+#     regex v lib/navrhy.js; nikdy se nevkládá do příkazové řádky,
+#   - spouští se kód z výchozí větve; větev PR je vedle (adresář pr/) jen
+#     jako data, takže obsah PR nemůže nic spustit.
+# GitHub spouští workflow na issue_comment vždy z výchozí větve — funguje
+# tedy až od sloučení DEV2 do main.
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: rozhodnuti-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  prikaz:
+    if: >-
+      github.event.issue.pull_request &&
+      github.event.comment.user.login == github.repository_owner &&
+      github.event.comment.author_association == 'OWNER' &&
+      (contains(github.event.comment.body, '/prijmout') || contains(github.event.comment.body, '/podrzet'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Větev PR
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CISLO: ${{ github.event.issue.number }}
+        run: |
+          VETEV=$(gh pr view "$CISLO" --json headRefName,state -q 'select(.state == "OPEN") | .headRefName')
+          case "$VETEV" in
+            beh/[0-9][0-9][0-9][0-9]-[0-9][0-9]) echo "vetev=$VETEV" >> "$GITHUB_OUTPUT" ;;
+            *) echo "Není to otevřený PR beh/RRRR-MM — nic se nedělá." ;;
+          esac
+
+      - uses: actions/checkout@v4
+        if: steps.pr.outputs.vetev != ''
+        with:
+          ref: ${{ steps.pr.outputs.vetev }}
+          path: pr
+          fetch-depth: 0
+
+      - name: Provést příkazy
+        if: steps.pr.outputs.vetev != ''
+        env:
+          KOMENTAR: ${{ github.event.comment.body }}
+          KDO: ${{ github.event.comment.user.login }}
+          VETEV: ${{ steps.pr.outputs.vetev }}
+        run: |
+          SOUBOR="navrhy/${VETEV#beh/}.json"
+          node scripts/navrhy.js komentar --soubor "$SOUBOR" --koren pr > /tmp/odpoved.md
+          cd pr
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/evaluations.json public/audit.json public/history.json "$SOUBOR"
+          git commit -m "Rozhodnutí vlastníka v PR" || echo "beze změny"
+          git push
+
+      - name: Odpověď do PR
+        if: steps.pr.outputs.vetev != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CISLO: ${{ github.event.issue.number }}
+        run: gh pr comment "$CISLO" --body-file /tmp/odpoved.md

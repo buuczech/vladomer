@@ -1,0 +1,162 @@
+/* scripts/report.js — report běhu pro vlastníka: PDF, pro-AI.md, popis PR, e-mail (spec 005).
+ *
+ *     node scripts/report.js --pred <evaluations.json před během> [--faktcheck faktcheck-vystup]
+ *     node scripts/report.js --fixture              # ze skutečných záznamů ve fixturách, bez sítě, zdarma
+ *     node scripts/report.js … --poslat [--zkouska] [--pr <odkaz na PR>]
+ *     node scripts/report.js … --bez-pdf --vystup report
+ *
+ * Běží po scripts/rozhodni.js. Čte public/evaluations.json (to, co šlo na
+ * web), <faktcheck>/rozhodnuti.json, deterministicky.json, modelova.json
+ * a public/naklady.json. Zapisuje do <vystup>/ (výchozí report/, gitignored):
+ *   vladomer-kontrola-RRRR-MM.pdf  (headless Chrome; bez Chromu jen HTML)
+ *   report-RRRR-MM.html, pro-AI.md, pr.md
+ * --poslat pošle e-mail přes lib/email.js (RESEND_API_KEY, REPORT_EMAIL_TO
+ * z prostředí). Chybějící secret běh nezastaví — report zůstane jako
+ * artefakt a log řekne, který secret chybí.
+ */
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { join, dirname, resolve } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { ALL_ITEMS } from "../src/data.js";
+import { render, readSettings } from "./lib/nastaveni.js";
+import { nactiMetodiku } from "./lib/faktcheck/modelova.js";
+import { rozhodniBeh } from "./lib/faktcheck/rozhodnuti.js";
+import { podkladyReportu, htmlOddily, proAI, popisPR, esc } from "./lib/report.js";
+import { chrome } from "./lib/instagram.js";
+import { posliEmail } from "./lib/email.js";
+
+const KOREN = join(dirname(fileURLToPath(import.meta.url)), "..");
+const arg = (j, v) => { const i = process.argv.indexOf(`--${j}`); return i >= 0 ? process.argv[i + 1] : v; };
+const ma = (j) => process.argv.includes(`--${j}`);
+const cist = (p) => JSON.parse(readFileSync(p, "utf8"));
+const cistPokud = (p) => (existsSync(p) ? cist(p) : null);
+const VYSTUP = resolve(KOREN, arg("vystup", "report"));
+mkdirSync(VYSTUP, { recursive: true });
+
+/* Připomínka: PR s návrhy čeká na rozhodnutí (pripominka.yml). */
+if (ma("pripominka")) {
+  const odkazy = String(arg("pripominka", "")).split(/\s+/).filter((u) => /^https:\/\/github\.com\//.test(u));
+  const dni = String(arg("dni", "")).split(/\s+/)[0] || "?";
+  const predmet = `Vládoměr: návrhy čekají na rozhodnutí ${dni} dní`;
+  try {
+    const r = await posliEmail({
+      predmet,
+      html: `<p><b>${esc(predmet)}.</b> Dokud nerozhodneš, zůstávají body na minulém záznamu. Příští měsíční běh je posoudí znovu a tenhle PR zavře.</p><ul>${odkazy.map((u) => `<li><a href="${esc(u)}">${esc(u.replace("https://github.com/", ""))}</a></li>`).join("")}</ul>`,
+      text: `${predmet}.\n${odkazy.join("\n")}`,
+    });
+    console.log(`připomínka odeslána (id ${r.id})`);
+  } catch (e) { console.log(`E-MAIL NEODEŠEL: ${e.message}`); }
+  process.exit(0);
+}
+
+/* Běh selhal: krátký e-mail s odkazem na log. Web zůstal na minulém měsíci. */
+if (ma("selhani")) {
+  const odkaz = arg("selhani");
+  const predmet = `${ma("zkouska") ? "[ZKOUŠKA] " : ""}Vládoměr: měsíční běh selhal`;
+  try {
+    const r = await posliEmail({
+      predmet,
+      html: `<p><b>${esc(predmet)}.</b> Na webu zůstávají data z minulého měsíce, nic se nezveřejnilo.</p><p><a href="${esc(odkaz)}">Otevřít log běhu</a> — zaplacené výstupy jsou u běhu jako artefakty.</p>`,
+      text: `${predmet}. Na webu zůstávají data z minulého měsíce.\n${odkaz}`,
+    });
+    console.log(`e-mail o selhání odeslán (id ${r.id})`);
+  } catch (e) { console.log(`E-MAIL NEODEŠEL: ${e.message}`); }
+  process.exit(0);
+}
+
+/* --- vstupy ------------------------------------------------------------------ */
+let pred, po, rozhodnuti, D, M, naklady;
+if (ma("fixture")) {
+  /* Skutečné záznamy (fixtury/rozhodnuti.json: web k 16. 10. 2026 a návrhy
+     Sonnetu 5.5 z měření 20. 10.) složené do běhu přes skutečnou vrstvu R.
+     Výsledky vrstvy M jsou ve fixtuře; bez sítě a bez placení. */
+  const fx = cist(join(KOREN, "scripts", "dev", "fixtury", "rozhodnuti.json"));
+  const fxr = cist(join(KOREN, "scripts", "dev", "fixtury", "report.json"));
+  pred = cist(join(KOREN, "public", "evaluations.json"));
+  pred = { ...pred, evals: { ...pred.evals, ...fx.pred } };
+  const poEvals = { ...pred.evals };
+  for (const [id, e] of Object.entries(pred.evals)) poEvals[id] = { ...e, overeno: fxr.beh_razitko };
+  Object.assign(poEvals, fx.po);
+  M = fxr.modelova;
+  D = { nalezy: fx.nalezy_d, souhrn: { CHYBA: 1, VAROVANI: 2 }, rejstrik: { predpisu: 412 }, zdroje: { celkem: 231, citelne: 199, mrtve: 4 } };
+  // Body mimo fixturu vrstva M „zkontrolovala“ čistě — fixtura ukazuje jen sporné.
+  for (const id of Object.keys(poEvals)) if (!M.body[id]) M.body[id] = { shrnuti: { vyvraceno: 0, neovereno: 0, potvrzeno: 1, spor_o_stav: false }, finalni: { tvrzeni: [] } };
+  const r = rozhodniBeh({ pred: pred.evals, po: poEvals, nalezy: D.nalezy, modelova: M, neprijate: fx.neprijate, kalibrace: true });
+  po = { ...pred, lastUpdated: fxr.beh_razitko, evals: r.evals };
+  rozhodnuti = { beh: fxr.beh_razitko.slice(0, 10), kalibrace: true, souhrn: r.souhrn, body: r.body };
+  naklady = { behy: [{ datum: fxr.beh_razitko, celkem_usd: fxr.cena_hodnoceni_usd }] };
+} else {
+  const cestaPred = arg("pred");
+  if (!cestaPred || !existsSync(cestaPred)) { console.error("--pred <evaluations.json před během> je povinné (nebo --fixture)"); process.exit(1); }
+  const FC = resolve(KOREN, arg("faktcheck", "faktcheck-vystup"));
+  pred = cist(cestaPred);
+  po = cist(join(KOREN, "public", "evaluations.json"));
+  rozhodnuti = cistPokud(join(FC, "rozhodnuti.json"));
+  if (!rozhodnuti) { console.error(`${FC}/rozhodnuti.json chybí — report běží po scripts/rozhodni.js`); process.exit(1); }
+  D = cistPokud(join(FC, "deterministicky.json"));
+  M = cistPokud(join(FC, "modelova.json"));
+  naklady = cistPokud(join(KOREN, "public", "naklady.json"));
+}
+const NAST = readSettings();
+const modely = {
+  hodnoceni: process.env.EVAL_MODEL || NAST.model,
+  overeni: process.env.OVEROVACI_MODEL || NAST.overovaci_model,
+  korektura: process.env.KOREKTURA_MODEL || NAST.korektura_model,
+  kontrola: (M && M.model) || process.env.FAKTCHECK_MODEL || NAST.faktcheck_model,
+};
+
+/* --- report ------------------------------------------------------------------ */
+const p = podkladyReportu({ pred, po, rozhodnuti, D, M, naklady, polozky: ALL_ITEMS, modely });
+const odkazPR = arg("pr", null);
+const html = render("report-behu.html", {
+  MESIC: esc(p.mesic),
+  VERDIKT: esc(`Zveřejněno${p.verdikt.slice("zveřejněno".length)}`),
+  ...htmlOddily(p, { odkazPR }),
+  VYTVORENO: esc(new Date().toISOString().slice(0, 16).replace("T", " ") + " UTC"),
+});
+const stem = `${p.beh.slice(0, 7)}`;
+const cestaHtml = join(VYSTUP, `report-${stem}.html`);
+writeFileSync(cestaHtml, html);
+writeFileSync(join(VYSTUP, "pro-AI.md"), proAI(p, { metodika: nactiMetodiku() }));
+writeFileSync(join(VYSTUP, "pr.md"), popisPR(p));
+
+let cestaPdf = null;
+if (!ma("bez-pdf")) {
+  try {
+    cestaPdf = join(VYSTUP, `vladomer-kontrola-${stem}.pdf`);
+    execFileSync(chrome(), [
+      "--headless", "--disable-gpu", "--no-sandbox", "--no-pdf-header-footer", "--print-to-pdf-no-header",
+      `--print-to-pdf=${cestaPdf}`, pathToFileURL(cestaHtml).href,
+    ], { stdio: "ignore", timeout: 120000 });
+    if (!existsSync(cestaPdf) || readFileSync(cestaPdf).subarray(0, 4).toString() !== "%PDF") throw new Error("Chrome PDF nevytvořil");
+  } catch (e) {
+    console.log(`PDF nevzniklo (${e.message.slice(0, 120)}) — report je jako HTML`);
+    cestaPdf = null;
+  }
+}
+console.log(`Report ${p.mesic}: ${p.verdikt}; k rozhodnutí ${p.kRozhodnuti.map((k) => k.bod).join(", ") || "nic"}; změn na webu ${p.zmeny.length}`);
+console.log(`  ${cestaPdf || cestaHtml}\n  ${join(VYSTUP, "pro-AI.md")}\n  ${join(VYSTUP, "pr.md")}`);
+
+/* --- e-mail ------------------------------------------------------------------ */
+if (ma("poslat")) {
+  const predmet = `${ma("zkouska") ? "[ZKOUŠKA] " : ""}Vládoměr ${p.mesic}: ${p.verdikt}`;
+  const body = p.kRozhodnuti.map((k) => `<li><b>${esc(k.bod)}</b> ${esc(k.popisTypu)}${k.prikaz ? ` — <code>${esc(k.prikaz)}</code>` : ""}</li>`).join("");
+  const htmlMail = `<p><b>${esc(predmet)}</b></p>
+<p>Splněno ${p.metrikaPred.procent.toFixed(1).replace(".", ",")} % → ${p.metrikaPo.procent.toFixed(1).replace(".", ",")} %. Cena běhu ${p.cena.celkem.toFixed(2).replace(".", ",")} $.</p>
+${body ? `<p>K rozhodnutí:</p><ul>${body}</ul>` : "<p>Nic k rozhodnutí.</p>"}
+<p>${odkazPR ? `<a href="${esc(odkazPR)}">Otevřít PR</a> · ` : ""}<a href="https://vladomer.cz">Otevřít web</a></p>
+<p style="color:#5B6577">Podrobnosti s citacemi jsou v přiloženém PDF. Soubor pro-AI.md můžeš nahrát do aplikace Claude a nechat si doporučit, co s body udělat.</p>`;
+  const text = `${predmet}\n\n${p.kRozhodnuti.map((k) => `${k.bod}: ${k.popisTypu}${k.prikaz ? ` — ${k.prikaz}` : ""}`).join("\n") || "Nic k rozhodnutí."}\n\n${odkazPR || ""}`;
+  const prilohy = [{ nazev: "pro-AI.md", obsah: readFileSync(join(VYSTUP, "pro-AI.md")) }];
+  if (cestaPdf) prilohy.unshift({ nazev: `vladomer-kontrola-${stem}.pdf`, obsah: readFileSync(cestaPdf) });
+  else prilohy.unshift({ nazev: `report-${stem}.html`, obsah: readFileSync(cestaHtml) });
+  try {
+    const r = await posliEmail({ predmet, html: htmlMail, text, prilohy });
+    console.log(`e-mail odeslán (id ${r.id})`);
+  } catch (e) {
+    // Běh kvůli e-mailu nepadá: report je artefakt. Zpráva z lib/email.js adresu nikdy neobsahuje.
+    console.log(`E-MAIL NEODEŠEL: ${e.message}`);
+    process.exitCode = 4;
+  }
+}
