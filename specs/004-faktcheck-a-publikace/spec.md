@@ -137,6 +137,21 @@ Tři propuštěné jsou výklad pravidel, ne vymyšlená fakta — model fakta z
 
 Cena: kolo 1 0,076 $ za bod s daty Sněmovny (~11 $ za 143 bodů), kolo 2 0,48 $ za bod. Odhad měsíčního běhu: hodnocení ~6–8 $, ověření, korektura a zprávy ~5 $, kontrola kolo 1 ~11 $, kolo 2 strop 15 $ → **~37–39 $**.
 
+### 2026-10-21: druhé měření řetězu — ověření oprav 3.2 a 8.7 (schválil vlastník, strop 18 $; stálo 18,16 $)
+
+Hodnocení 5,09 $, kontrola faktů 13,07 $ (kolo 1 3,43 $; kolo 2 9,64 $ za 17 bodů, 0,57 $ za bod). Pojistka zastavila poslední volání kola 2 (přesah 0,16 $ — pojistka se kontroluje před voláním); body bez kola 2 zůstaly podržené.
+
+| | celkem (46) |
+|---|---|
+| hodnocení samo sedí s pravdou | 28 |
+| na web jako ověřené, stav sedí | 19 |
+| **na web jako ověřené se špatným stavem** | **1 (8.7)** |
+| k vlastníkovi — web sedí / správný návrh / bez dobrého návrhu | 9 / 11 / 6 |
+
+- **3.2 opraveno:** s kapitolou a oddílem kontrola použila M10 (superdávka se u příspěvku pro policisty nepočítá) a bod podržela.
+- **8.7 zůstává:** hodnotitel tentokrát zářijový návrh rozpočtu nenašel (minule ano) a komentář stojí na červnovém vyjádření ministra; kontrola ověřuje web proti jeho zdrojům a novější událost nevidí. Je to rozptyl vyhledávání hodnotitele, ne chyba pravidel — upřesněné M3 se neuplatnilo, protože fakt o rozpočtu v podkladech nebyl.
+- Zátěž vlastníka 26/46 — sady jsou vybrané s převahou sporných bodů, na všech 143 bodech se změří až generálkou.
+
 ## Assumptions
 
 - Vrstva M a R se dokončí po výběru modelu (spec 002). Prompt kontroly faktů je nový soubor a existující prompty se nemění.
