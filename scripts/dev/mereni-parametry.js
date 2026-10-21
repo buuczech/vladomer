@@ -17,7 +17,7 @@ if (!m.schvaleno || !String(m.schvaleno).trim()) {
   out("spustit", "false");
   process.exit(0);
 }
-const REZIMY = ["zlata-sada", "stabilita", "beh", "faktcheck", "generalka", "retez"];
+const REZIMY = ["zlata-sada", "stabilita", "beh", "faktcheck", "generalka", "retez", "email"];
 if (!REZIMY.includes(m.rezim)) {
   console.error(`mereni.json: neznámý rezim „${m.rezim}“ — povoleno ${REZIMY.join(", ")}`);
   process.exit(1);

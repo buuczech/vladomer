@@ -28,6 +28,7 @@ name: DEV2 měření (stojí peníze)
 #               (s daty Sněmovny, kolo 2 se stropem) → rozhodnutí, bez kalibrace.
 #               retez-skore.js: kolik bodů by šlo na web jako ověřené se špatným
 #               stavem (cíl 0) a kolik práce dostane vlastník.
+#   email       zkušební e-mail s reportem z fixtury — bez modelu, zdarma.
 #   generalka   celý měsíční běh (mesicni-beh.yml — přesně to, co poběží na
 #               main) nad daty z DEV2, jen se nic nezapíše na main, nezaloží
 #               PR a e-mail má v předmětu [ZKOUŠKA]. pojistka_usd = strop
@@ -102,7 +103,7 @@ jobs:
       # Vstupem jsou VŽDY data z main: brána rozhoduje podle minulých stavů,
       # a jen s produkčními daty se běh chová jako ostrý.
       - name: Vstupní data z main
-        if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim != 'faktcheck' && steps.m.outputs.rezim != 'retez'
+        if: steps.m.outputs.spustit == 'true' && contains(fromJSON('["zlata-sada","stabilita","beh"]'), steps.m.outputs.rezim)
         run: |
           git checkout origin/main -- public/evaluations.json public/history.json public/news.json public/audit.json
           mkdir -p /tmp/vstup && cp public/*.json /tmp/vstup/
@@ -134,6 +135,18 @@ jobs:
           node scripts/faktcheck.js --model --body "$IDS" $KOLA --vystup /tmp/vysledky/faktcheck 2>&1 | tee /tmp/vysledky/faktcheck.log
           node scripts/dev/faktcheck-skore.js /tmp/vysledky/faktcheck public/evaluations.json | tee /tmp/vysledky/skore-faktcheck.txt
 
+      # Zkušební e-mail: report z fixtury (skutečné záznamy, žádné volání modelu,
+      # nic nestojí) přes lib/email.js s [ZKOUŠKA] v předmětu. Ověří secrets,
+      # účet Resend a doručení; adresa se nikde nevypisuje.
+      - name: Zkušební e-mail (report z fixtury)
+        if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim == 'email'
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          REPORT_EMAIL_TO: ${{ secrets.REPORT_EMAIL_TO }}
+        run: |
+          mkdir -p /tmp/vysledky
+          node scripts/report.js --fixture --poslat --zkouska --vystup /tmp/vysledky/report
+
       - name: Řetěz — hodnocení → kontrola faktů → rozhodnutí
         if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim == 'retez'
         env:
@@ -156,7 +169,7 @@ jobs:
           node scripts/dev/retez-skore.js public/evaluations.json /tmp/vysledky/faktcheck/rozhodnuti.json /tmp/vysledky/po-hodnoceni.json | tee /tmp/vysledky/skore-retez.txt
 
       - name: Běh 1
-        if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim != 'faktcheck' && steps.m.outputs.rezim != 'retez'
+        if: steps.m.outputs.spustit == 'true' && contains(fromJSON('["zlata-sada","stabilita","beh"]'), steps.m.outputs.rezim)
         env:
           REZIM_BEHU: plny
           CHAPTER_LIMIT: "18"
