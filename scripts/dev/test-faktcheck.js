@@ -15,7 +15,8 @@
 import { readFileSync } from "node:fs";
 import { predpisyZOdpovedi } from "../lib/sbirka.js";
 import { kontrolaBodu, datumyCs, datumyEn, znackySb, citovaneRoky, citovanePredpisy } from "../lib/faktcheck/deterministicky.js";
-import { zdrojeSbirky, overCitace, parsujKontrolu, shrnutiBodu, klicUrl } from "../lib/faktcheck/modelova.js";
+import { zdrojeSbirky, overCitace, parsujKontrolu, shrnutiBodu, klicUrl, slibySKontextem } from "../lib/faktcheck/modelova.js";
+import { CHAPTERS } from "../../src/data.js";
 
 const fx = (n) => JSON.parse(readFileSync(new URL(`./fixtury/${n}`, import.meta.url), "utf8"));
 const rejstrikFx = fx("sbirka-rejstrik.json");
@@ -159,6 +160,12 @@ const t157 = [
 ];
 const s157 = shrnutiBodu("15.7", { status: "not_started" }, odp(t157));
 over(!s157.cisty && s157.neovereno === 2, "15.7: u „nezahájeno“ neověřená absence bod drží (jinak by prošlo podhodnocení)", s157);
+
+console.log("\nVrstva M: znění slibu s kapitolou a oddílem (bod 3.2, měření 21. 10. 2026)");
+const sliby = slibySKontextem(CHAPTERS);
+over(sliby["3.2"].startsWith("Příspěvek na bydlení až 6 000 Kč/měsíc dle regionu") && sliby["3.2"].includes("oddíl „Platy a podmínky bezpečnostních složek“"),
+  "3.2: kontrola ví, že jde o příspěvek pro bezpečnostní složky, ne o superdávku", sliby["3.2"]);
+over(Object.keys(sliby).length === 143, "všech 143 bodů má znění s kontextem");
 
 console.log(chyb ? `\nSELHALO: ${chyb} chyb.` : "\nVše prošlo.");
 process.exit(chyb ? 1 : 0);

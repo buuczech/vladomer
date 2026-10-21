@@ -38,7 +38,7 @@ import { nactiRejstrik } from "./lib/sbirka.js";
 import { nactiTisky, zdrojTisku, zdrojSeznamu } from "./lib/psp.js";
 import { kontrolaBodu, citovaneRoky, citovanePredpisy } from "./lib/faktcheck/deterministicky.js";
 import { stahniVse, stahniZdroj } from "./lib/faktcheck/zdroje.js";
-import { promptKontroly, nactiMetodiku, parsujKontrolu, overCitace, shrnutiBodu, klicUrl, zdrojeSbirky } from "./lib/faktcheck/modelova.js";
+import { promptKontroly, nactiMetodiku, parsujKontrolu, overCitace, shrnutiBodu, klicUrl, zdrojeSbirky, slibySKontextem } from "./lib/faktcheck/modelova.js";
 import {
   teloPozadavku, zavolejApi, overModely, nastavPojistku, pojistkaZasahla, souhrnNakladu, cenaVolani,
   odesliDavku, cekejNaDavku, vysledkyDavky,
@@ -198,7 +198,7 @@ if (S_MODELEM) {
   let zastavenoPredem = false; // pojistka zastavila další část dávky podle odhadu
   await overModely([MODEL], KLIC);
   const WEBY = readList("weby-hodnoceni.txt");
-  const SLIBY = Object.fromEntries(CHAPTERS.flatMap((c) => c.groups.flatMap((g) => g.items)).map((i) => [i.id, i.cs]));
+  const SLIBY = slibySKontextem(CHAPTERS);
   const vyber = arg("body", null) ? arg("body").split(",").map((x) => x.trim()).filter(Boolean) : Object.keys(evals);
   const nezname = vyber.filter((id) => !evals[id]);
   if (nezname.length) { console.error(`--body: neznámá id ${nezname.join(", ")}`); process.exit(1); }

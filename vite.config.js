@@ -7,7 +7,7 @@ import { readSettings, readList } from "./scripts/lib/nastaveni.js";
 import { promptHodnoceni, promptZpravy, promptDeltaScan, promptOvereniPrechodu, promptDoptani } from "./scripts/lib/prompty.js";
 import { promptKorektury } from "./scripts/lib/korektura.js";
 import { predpisyZOdpovedi, tabulkaRejstriku, popisProOverovatele } from "./scripts/lib/sbirka.js";
-import { promptKontroly, nactiMetodiku, zdrojeSbirky } from "./scripts/lib/faktcheck/modelova.js";
+import { promptKontroly, nactiMetodiku, zdrojeSbirky, slibySKontextem } from "./scripts/lib/faktcheck/modelova.js";
 import { ALL_ITEMS, TOTAL_ITEMS, DATES, CHAPTERS } from "./src/data.js";
 
 /* Strukturovaná data se vkládají při buildu, protože obsahují čísla z
@@ -183,7 +183,7 @@ function pouzitePrompty() {
             model: nast.faktcheck_model,
             sablona: cti("prompt-faktcheck.md"),
             ukazka: promptKontroly({
-              id: polozka.id, slib: polozka.cs, e,
+              id: polozka.id, slib: slibySKontextem(CHAPTERS)[polozka.id], e,
               predpisy,
               zdroje: [...zdrojeSbirky(predpisy), ...(e.sources || []).slice(0, 2).map((z) => ({ url: z.url, text: "(text stránky, který program stáhl — v ukázce vynechaný)" }))],
               metodika: nactiMetodiku(), dnes: "2026-11-01", nastup: String(DATES.tookOffice).slice(0, 10), kolo: 1,

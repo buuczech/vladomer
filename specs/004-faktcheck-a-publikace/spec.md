@@ -113,6 +113,28 @@ S opravou e-Sbírky a pravidlem A, ještě bez dat Sněmovny. Dvoustupňová dá
 - **Kolo 2:** 0,44 $ za bod (2,7 vyhledávání na bod). Na vzorku pustilo 2 správné body (12.7, 4.3), u 1.3, 7.8, 10.9 a 15.2 převedlo „neověřeno“ na „vyvráceno“ a jeden chybný bod pustilo (13.5). Potřebovalo by ho 57 % bodů → ~36 $ měsíčně, nad rozpočet.
 - **Kolo 1:** 0,05 $ za bod, ~7 $ měsíčně (s daty Sněmovny odhad ~9,5 $).
 
+### 2026-10-21: řetěz hodnocení → kontrola faktů → rozhodnutí na 46 bodech (schválil vlastník, strop 18 $; stálo 17,71 $)
+
+Data DEV2 k 16. 10., hodnocení Sonnet 5.5 s vyhledáváním (5,08 $), kontrola faktů Opus 5.5 s daty Sněmovny a stropem kola 2 (12,63 $: kolo 1 3,48 $, kolo 2 9,16 $ za 19 bodů), rozhodnutí bez kalibrace. `retez-skore.js`:
+
+| | zlatá (22) | kontrolní (24) | celkem |
+|---|---|---|---|
+| hodnocení samo sedí s pravdou | 15 | 11 | 26/46 |
+| na web jako ověřené, stav sedí | 11 | 11 | 22 |
+| **na web jako ověřené se špatným stavem** | 0 | 3 | **3 (3.2, 8.7, 13.5)** |
+| k vlastníkovi — web sedí | 5 | 0 | 5 |
+| k vlastníkovi — správný návrh | 5 | 5 | 10 |
+| k vlastníkovi — bez dobrého návrhu | 1 | 5 | 6 |
+
+Pro srovnání: dnešní web má správně 27/46 a všechno vydává za hotové hodnocení.
+
+Tři propuštěné jsou výklad pravidel, ne vymyšlená fakta — model fakta zná:
+- **3.2** „Příspěvek na bydlení až 6 000 Kč/měsíc dle regionu“ je z oddílu o platech bezpečnostních složek; hodnotitel i kontrola ho „splnili“ superdávkou, přesně podle protipříkladu v M10. Kontrola dostávala jen text bodu bez kapitoly a oddílu — **opraveno** (`slibySKontextem`), změří se příště.
+- **8.7** Návrh rozpočtu 2027 slevu 75 % vynechal a premiér říká „pokusíme se v roce 2028“. M3 obsahuje obojí: „vyřazení z rozpočtu = porušeno“ i „odklad, který zůstává v tomto období, není ústup“; model zvolil druhé, vlastník první. **Rozhodne vlastník** (upřesnění M3).
+- **13.5** Výzva SFŽP s penězi (M7 → probíhá) míří jen na čistírny nad 10 000 EO, slib na obce obecně; vlastník neuznal (jistota nízká až střední). **Rozhodne vlastník** (dílčí krok vůči cílové skupině slibu).
+
+Cena: kolo 1 0,076 $ za bod s daty Sněmovny (~11 $ za 143 bodů), kolo 2 0,48 $ za bod. Odhad měsíčního běhu: hodnocení ~6–8 $, ověření, korektura a zprávy ~5 $, kontrola kolo 1 ~11 $, kolo 2 strop 15 $ → **~37–39 $**.
+
 ## Assumptions
 
 - Vrstva M a R se dokončí po výběru modelu (spec 002). Prompt kontroly faktů je nový soubor a existující prompty se nemění.
