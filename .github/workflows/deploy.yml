@@ -70,6 +70,7 @@ jobs:
           node scripts/dev/test-odpoved.js
           node scripts/dev/test-modely.js
           node scripts/dev/test-faktcheck.js
+          node scripts/dev/test-psp.js
           node scripts/dev/test-rozhodnuti.js
           node scripts/dev/test-report.js
           node scripts/dev/test-email.js

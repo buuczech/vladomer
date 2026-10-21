@@ -53,7 +53,7 @@ jobs:
       # Pravidla dřív, než se cokoli zaplatí.
       - name: Offline kontroly
         run: |
-          for t in zabrany sbirka korektura prechody delta odpoved modely faktcheck rozhodnuti report email soukromi; do
+          for t in zabrany sbirka korektura prechody delta odpoved modely faktcheck psp rozhodnuti report email soukromi; do
             node scripts/dev/test-$t.js > /dev/null || { node scripts/dev/test-$t.js; exit 1; }
           done
           echo "offline kontroly prošly"

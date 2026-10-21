@@ -53,7 +53,7 @@ export function zdrojeSbirky(predpisy = []) {
 
 /**
  * Prompt kontroly jednoho bodu.
- * @param zdroje  [{ url, text }] — texty stažené vrstvou D (zkrácené)
+ * @param zdroje  [{ url, text, bezZkraceni? }] — texty stažené vrstvou D (zkrácené; úplný seznam Sněmovny ne)
  * @param predpisy [{ kod, nazev, vyhlaseno }] — citované předpisy z rejstříku
  */
 export function promptKontroly({ id, slib, e, predpisy = [], zdroje = [], metodika, dnes, nastup, kolo = 1, maxZnakuZdroje = 8000 }) {
@@ -62,7 +62,7 @@ export function promptKontroly({ id, slib, e, predpisy = [], zdroje = [], metodi
     ? predpisy.map((p) => `- ${p.kod} Sb.${p.nazev ? ` — ${p.nazev}, vyhlášeno ${p.vyhlaseno}` : " — ve Sbírce zákonů NENÍ (nebo rok mimo rejstřík)"}`).join("\n")
     : "(žádné)";
   const zdrojeText = zdroje.length
-    ? zdroje.map((z, i) => `[${i + 1}] ${z.url}\n${String(z.text || "").slice(0, maxZnakuZdroje).replace(/\{\{/g, "{ {")}`).join("\n\n")
+    ? zdroje.map((z, i) => `[${i + 1}] ${z.url}\n${String(z.text || "").slice(0, z.bezZkraceni ? undefined : maxZnakuZdroje).replace(/\{\{/g, "{ {")}`).join("\n\n")
     : "(žádný zdroj se nepodařilo stáhnout)";
   const bezpecne = (s) => String(s || "—").replace(/\{\{/g, "{ {");
   return render("prompt-faktcheck.md", {

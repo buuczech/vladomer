@@ -34,6 +34,7 @@ import { fileURLToPath } from "node:url";
 import { DATES, CHAPTERS } from "../src/data.js";
 import { readList, readSettings } from "./lib/nastaveni.js";
 import { nactiRejstrik } from "./lib/sbirka.js";
+import { nactiTisky, zdrojTisku, zdrojSeznamu } from "./lib/psp.js";
 import { kontrolaBodu, citovaneRoky, citovanePredpisy } from "./lib/faktcheck/deterministicky.js";
 import { stahniVse, stahniZdroj } from "./lib/faktcheck/zdroje.js";
 import { promptKontroly, nactiMetodiku, parsujKontrolu, overCitace, shrnutiBodu, klicUrl, zdrojeSbirky } from "./lib/faktcheck/modelova.js";
@@ -68,6 +69,18 @@ if (!BEZ_SITE) {
   const n = await nactiRejstrik({ roky: infoRejstriku.roky });
   if (n.predpisy) { rejstrik = n.predpisy; infoRejstriku.predpisu = n.predpisy.size; }
   else infoRejstriku.chyba = n.chyba;
+}
+
+/* --- otevřená data Sněmovny (spec 006) --------------------------------------
+   Průběh tisku ke každému citovanému zákonu a úplný seznam návrhů zákonů
+   období — vrstva M z nich ověřuje data kroků legislativního procesu a to,
+   že návrh předložen NEBYL. Při výpadku se bez nich obejde a výstup to řekne. */
+let psp = null;
+const infoSnemovny = { tisku: 0, obdobi: null, chyba: BEZ_SITE ? "vypnuto (--bez-site)" : null };
+if (!BEZ_SITE) {
+  const n = await nactiTisky();
+  if (n.model) { psp = n.model; infoSnemovny.tisku = psp.tisky.length; infoSnemovny.obdobi = psp.cisloObdobi; }
+  else infoSnemovny.chyba = n.chyba;
 }
 
 /* --- D1–D3, D6–D9 --------------------------------------------------------- */
@@ -138,6 +151,7 @@ const vysledekD = {
   vytvoreno: new Date().toISOString(),
   dnes, nastup,
   rejstrik: infoRejstriku,
+  snemovna: infoSnemovny,
   zdroje: BEZ_SITE ? null : {
     celkem: zdroje.length,
     citelne: zdroje.filter((z) => z.znaku > 200).length,
@@ -153,6 +167,7 @@ writeFileSync(join(VYSTUP, "deterministicky.json"), JSON.stringify(vysledekD, nu
 
 console.log(`Kontrola faktů — vrstva D (deterministická), data k ${dnes}`);
 console.log(`Rejstřík Sbírky: ${rejstrik ? `${infoRejstriku.predpisu} předpisů z let ${infoRejstriku.roky.join(", ")}` : `nenačten (${infoRejstriku.chyba})`}`);
+console.log(`Sněmovna: ${psp ? `${infoSnemovny.tisku} tisků ${infoSnemovny.obdobi}. období` : `data nenačtena (${infoSnemovny.chyba})`}`);
 if (vysledekD.zdroje) console.log(`Zdroje: ${vysledekD.zdroje.celkem} odkazů, ${vysledekD.zdroje.citelne} přečteno, ${vysledekD.zdroje.mrtve} mrtvých, ${vysledekD.zdroje.neoveritelne} neověřitelných odtud`);
 console.log(`Nálezy: ${souhrn.CHYBA} CHYBA, ${souhrn.VAROVANI} VAROVÁNÍ — ${Object.entries(podlePravidla).map(([p, n]) => `${p} ${n}`).join(", ") || "žádné"}`);
 for (const n of vysledekD.nalezy.filter((x) => x.zavaznost === "CHYBA")) console.log(`  CHYBA    ${n.bod.padEnd(5)} ${n.pravidlo}: ${n.text}`);
@@ -193,9 +208,23 @@ if (S_MODELEM) {
     const dosud = textyZdroju.get(klicUrl(z.url)) || "";
     if (!dosud.includes(z.text)) textyZdroju.set(klicUrl(z.url), `${z.text}\n${dosud}`.trim());
   }
+  /* Sněmovna: průběh tisku, kterým vznikl citovaný zákon (všechny body),
+     a úplný seznam návrhů zákonů (body, které nejsou „splněno“ — tam se
+     tvrdí, co se v legislativě stalo a co ne). Seznam se nezkracuje:
+     zkrácený by nebyl úplný a věta o úplnosti by lhala. */
+  // Datum seznamu = den stažení: úplný je k němu, ne k datu dat webu.
+  const seznamSnemovny = psp ? { ...zdrojSeznamu(psp, new Date().toISOString().slice(0, 10)), bezZkraceni: true } : null;
+  const snemovnaBodu = Object.fromEntries(Object.keys(evals).map((id) => {
+    const tisky = psp ? [...new Set((predpisyBodu[id] || []).map((p) => psp.podleSb.get(p.kod)).filter(Boolean))] : [];
+    const z = tisky.map((t) => zdrojTisku(psp, t));
+    if (seznamSnemovny && evals[id].status !== "fulfilled") z.push(seznamSnemovny);
+    return [id, z];
+  }));
+  for (const z of Object.values(snemovnaBodu).flat()) textyZdroju.set(klicUrl(z.url), z.text);
+  const urednich = (id) => [...(sbirkaBodu[id] || []), ...(snemovnaBodu[id] || [])];
   const zdrojeProBod = (id) => [
-    ...(sbirkaBodu[id] || []),
-    ...(evals[id].sources || []).filter((s) => !(sbirkaBodu[id] || []).some((z) => klicUrl(z.url) === klicUrl(s.url))).map((s) => ({ url: s.url, text: textyZdroju.get(klicUrl(s.url)) })),
+    ...urednich(id),
+    ...(evals[id].sources || []).filter((s) => !urednich(id).some((z) => klicUrl(z.url) === klicUrl(s.url))).map((s) => ({ url: s.url, text: textyZdroju.get(klicUrl(s.url)) })),
   ].filter((z) => z.text);
   const prompt = (id, kolo) => promptKontroly({ id, slib: SLIBY[id], e: evals[id], predpisy: predpisyBodu[id] || [], zdroje: zdrojeProBod(id), metodika, dnes, nastup, kolo });
   const textOdpovedi = (m) => (m.content || []).filter((b) => b.type === "text").map((b) => b.text).join("\n");
