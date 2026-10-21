@@ -2,6 +2,7 @@
  *
  *     node scripts/navrhy.js vytvor --rozhodnuti faktcheck-vystup/rozhodnuti.json --zaklad <commit běhu>
  *     KOMENTAR="…" node scripts/navrhy.js komentar --soubor navrhy/2026-11.json [--koren pr]
+ *     node scripts/navrhy.js soubory --soubor navrhy/2026-11.json
  *     node scripts/navrhy.js souhrn --soubor navrhy/2026-11.json [--koren pr]
  *
  * vytvor   na čerstvé větvi z commitu běhu založí navrhy/RRRR-MM.json a složí
@@ -9,17 +10,22 @@
  *          Vypíše, kolik návrhů je (0 = PR není potřeba).
  * komentar přečte příkazy z komentáře vlastníka (proměnná KOMENTAR — text se
  *          nikdy nevkládá do příkazové řádky) a větev přeskládá.
+ * soubory  totéž pro soubory rozhodnuti/ ve větvi (odkazy z e-mailu,
+ *          rozhodnuti-vetev.yml): provede je v pořadí, v jakém je vlastník
+ *          přidal, a smaže je.
  * souhrn   vypíše stav rozhodnutí v Markdownu (odpověď do PR).
  *
- * --koren je adresář s checkoutem větve PR. Workflow spouští TENTO skript
- * z výchozí větve a větev PR má vedle, takže kód z PR se nikdy nespustí.
+ * --koren je adresář s checkoutem větve PR. rozhodnuti.yml (komentáře v PR)
+ * spouští TENTO skript z výchozí větve a větev PR má vedle, takže kód z PR
+ * se nikdy nespustí. rozhodnuti-vetev.yml běží z větve samotné — na tu smí
+ * pushovat jen vlastník.
  * Pravidla jsou v lib/navrhy.js.
  */
-import { readFileSync, writeFileSync, mkdirSync, existsSync, appendFileSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, appendFileSync, readdirSync, statSync, rmSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { novySoubor, proved, sloz, prikazyZKomentare } from "./lib/navrhy.js";
+import { novySoubor, proved, sloz, prikazyZKomentare, prikazyZeSouboru } from "./lib/navrhy.js";
 
 const KOREN = resolve(join(dirname(fileURLToPath(import.meta.url)), ".."), (() => { const i = process.argv.indexOf("--koren"); return i >= 0 ? process.argv[i + 1] : "."; })());
 const arg = (j, v) => { const i = process.argv.indexOf(`--${j}`); return i >= 0 ? process.argv[i + 1] : v; };
@@ -62,20 +68,31 @@ if (prikaz === "vytvor") {
   const cesta = `navrhy/${soubor.beh.slice(0, 7)}.json`;
   const r = preskladej(soubor, cesta);
   console.log(`návrhů: ${n}; ve výchozím stavu přijato ${r.prijato.length} (${r.prijato.join(", ") || "—"}); soubor ${cesta}`);
-} else if (prikaz === "komentar") {
+} else if (prikaz === "komentar" || prikaz === "soubory") {
   const cesta = arg("soubor");
   if (!cesta || !existsSync(join(KOREN, cesta))) { console.error("--soubor navrhy/RRRR-MM.json je povinné"); process.exit(1); }
   const soubor = JSON.parse(readFileSync(join(KOREN, cesta), "utf8"));
-  const prikazy = prikazyZKomentare(process.env.KOMENTAR);
-  if (!prikazy.length) { console.log("žádný příkaz"); process.exit(0); }
+  let prikazy, neplatne = [], adr = null, jmena = [];
+  if (prikaz === "komentar") prikazy = prikazyZKomentare(process.env.KOMENTAR);
+  else {
+    adr = join(KOREN, "rozhodnuti");
+    jmena = existsSync(adr) ? readdirSync(adr).filter((n) => statSync(join(adr, n)).isFile()) : [];
+    // Pořadí = čas commitu, který soubor přidal (git log), při shodě jméno.
+    const pridano = (n) => Number(execFileSync("git", ["-C", KOREN, "log", "-1", "--diff-filter=A", "--format=%ct", "--", `rozhodnuti/${n}`], { encoding: "utf8" }).trim()) || Number.MAX_SAFE_INTEGER;
+    ({ prikazy, neplatne } = prikazyZeSouboru(jmena.map((jmeno) => ({ jmeno, text: readFileSync(join(adr, jmeno), "utf8"), poradi: pridano(jmeno) }))));
+  }
+  if (!prikazy.length && !neplatne.length) { console.log("žádný příkaz"); process.exit(0); }
   const zpravy = prikazy.map((p) => proved(soubor, { ...p, kdo: process.env.KDO || "vlastník" }).zprava);
+  zpravy.push(...neplatne.map((n) => `Soubor rozhodnuti/${n} neobsahuje platný příkaz (třeba chybí důvod za „duvod:“) — nic se neprovedlo, soubor je smazaný.`));
   // /zverejnit provede workflow (sloučí PR a spustí nasazení) — tady jen řekne, že má.
   if (prikazy.some((p) => p.prikaz === "zverejnit") && process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, "zverejnit=true\n");
   preskladej(soubor, cesta);
+  // Provedené soubory pryč — do sloučené větve ani na main nepatří.
+  for (const n of jmena) rmSync(join(adr, n));
   console.log([...zpravy.map((z) => `- ${z}`), "", souhrn(soubor)].join("\n"));
 } else if (prikaz === "souhrn") {
   console.log(souhrn(JSON.parse(readFileSync(join(KOREN, arg("soubor")), "utf8"))));
 } else {
-  console.error("použití: navrhy.js vytvor | komentar | souhrn");
+  console.error("použití: navrhy.js vytvor | komentar | soubory | souhrn");
   process.exit(1);
 }

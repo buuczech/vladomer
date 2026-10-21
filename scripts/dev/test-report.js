@@ -50,7 +50,7 @@ try {
   over(html.includes("<del>") && html.includes("<ins>"), "dosavadní a navržený text vedle sebe se zvýrazněným rozdílem");
   over(ai.includes("## Pravidla vlastníka") && ai.includes("M1") && ai.includes("## Dotaz") && ai.includes("přijmout"), "pro-AI.md: pravidla vlastníka a závěrečný dotaz");
   over(pr.includes("Merge = přijmout"), "popis PR říká, co dělá Merge a Close");
-  over(!html.includes("issues/new"), "bez větve PR žádné odkazy na rozhodnutí (zkouška, nic k rozhodnutí)");
+  over(!html.includes("/new/beh/"), "bez větve PR žádné odkazy na rozhodnutí");
   execFileSync(process.execPath, [join("scripts", "report.js"), "--fixture", "--bez-pdf", "--vetev", "beh/2026-11", "--vystup", dir], { cwd: KOREN, encoding: "utf8", env: { ...process.env, RESEND_API_KEY: "", REPORT_EMAIL_TO: "", GITHUB_REPOSITORY: "buuczech/vladomer" } });
   const html2 = soubor("report-2026-11.html");
   over(html2.includes(encodeURIComponent("/prijmout 10.2")) && html2.includes(encodeURIComponent("/podrzet 10.2")) && html2.includes(encodeURIComponent("/zverejnit")),
@@ -63,9 +63,13 @@ try {
   };
   const ostry = posledniEmail(["--pr", "https://github.com/buuczech/vladomer/pull/123", "--vetev", "beh/2026-11"]);
   over(ostry.includes("Otevřít PR na GitHubu") && ostry.includes("https://github.com/buuczech/vladomer/pull/123") && ostry.includes("Zveřejnit rozhodnutí"), "ostrý e-mail: tlačítko na PR, rozhodnutí u bodů a Zveřejnit");
-  const zkouska = posledniEmail(["--zkouska"]);
-  over(zkouska.includes("Zkouška: PR se nezakládá") && !zkouska.includes("issues/new"), "zkušební e-mail řekne, proč odkaz na PR chybí");
-  over(![ostry, zkouska].some((t) => adresa.test(t)), "e-maily nenesou žádnou e-mailovou adresu");
+  over(ostry.includes("/new/beh/2026-11?filename=rozhodnuti/") && !ostry.includes("Zkouška."), "ostrý e-mail: odkazy zakládají soubor s rozhodnutím ve větvi PR");
+  const zkouska = posledniEmail(["--zkouska", "--pr", "https://github.com/buuczech/vladomer/pull/124", "--vetev", "beh/2026-11-zkouska"]);
+  over(zkouska.includes("Zkouška.") && zkouska.includes("zahazovací větve") && zkouska.includes("/new/beh/2026-11-zkouska?filename=rozhodnuti/10.2-prijmout.txt"),
+    "zkušební e-mail: rozhodování jde vyzkoušet celé, s upozorněním, že nic nejde na web ani na Instagram");
+  const bezVetve = posledniEmail(["--zkouska"]);
+  over(bezVetve.includes("Nic k rozhodnutí") || bezVetve.includes("PR se nepodařilo založit"), "bez PR e-mail řekne proč");
+  over(![ostry, zkouska, bezVetve].some((t) => adresa.test(t)), "e-maily nenesou žádnou e-mailovou adresu");
   over(![html, ai, pr, log].some((t) => adresa.test(t)), "žádná e-mailová adresa ve výstupech");
 } finally { rmSync(dir, { recursive: true, force: true }); }
 

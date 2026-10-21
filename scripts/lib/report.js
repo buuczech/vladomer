@@ -234,7 +234,7 @@ export function htmlOddily(p, { odkazPR = null, odkazWeb = "https://vladomer.cz"
   const zverejnit = repo && vetev ? odkazRozhodnuti(repo, vetev, "/zverejnit") : null;
   const JAK_ROZHODNOUT = `
   <ul>
-    ${zverejnit ? `<li><b>U každého bodu klepni na Přijmout, nebo Nechat</b> — GitHub otevře předvyplněné rozhodnutí, stačí ho potvrdit. Nakonec <a href="${esc(zverejnit)}"><b>Zveřejnit</b></a>: PR se sloučí a web se nasadí. Bod, o kterém nerozhodneš, se zveřejní podle výchozího návrhu (vyvrácené ne).</li>` : ""}
+    ${zverejnit ? `<li><b>U každého bodu klepni na Přijmout, nebo Nechat</b> — GitHub otevře předvyplněný soubor s rozhodnutím, stačí ho potvrdit (Commit changes). Nakonec <a href="${esc(zverejnit)}"><b>Zveřejnit</b></a>: PR se sloučí a web se nasadí. Bod, o kterém nerozhodneš, se zveřejní podle výchozího návrhu (vyvrácené ne).</li>` : ""}
     <li><b>Přijmout všechny návrhy:</b> v PR zmáčkni Merge${odkazPR ? ` (<a href="${esc(odkazPR)}">otevřít PR</a>)` : ""}.</li>
     <li><b>Nepřijmout nic:</b> PR zavři (Close). Body zůstanou na minulém záznamu.</li>
     <li><b>Po bodech:</b> komentář v PR, třeba <code>/prijmout 10.2</code> nebo <code>/podrzet 10.2</code>. U vyvráceného tvrzení napiš důvod: <code>/prijmout 10.2 duvod: …</code> — zapíše se do auditu.</li>

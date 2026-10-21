@@ -129,13 +129,33 @@ export function prikazyZKomentare(text) {
   return out;
 }
 
+/* Větev s návrhy: beh/RRRR-MM, u generálky beh/RRRR-MM-zkouska (PR proti
+   zahazovací větvi zkouska/RRRR-MM, nic nejde na web ani na Instagram). */
+export const VETEV_BEHU = /^beh\/\d{4}-\d{2}(-zkouska)?$/;
+
 /* Rozhodnutí jedním klepnutím z e-mailu. GitHub neumí předvyplnit komentář
-   v PR, ale umí předvyplnit nové issue — odkaz ho otevře s příkazem v těle
-   a vlastník jen potvrdí. rozhodnuti.yml issue přijme jen od vlastníka a jen
-   s titulkem „Rozhodnutí beh/RRRR-MM: …“, provede příkaz ve větvi PR
-   a issue zavře. Issue je veřejné stejně jako PR. */
-export const TITULEK_ROZHODNUTI = /^Rozhodnutí (beh\/\d{4}-\d{2}):/;
+   v PR, ale umí předvyplnit nový soubor ve větvi: odkaz otevře editor se
+   souborem rozhodnuti/<bod>-<příkaz>.txt a příkazem uvnitř a vlastník jen
+   potvrdí commit. Push do beh/** spustí rozhodnuti-vetev.yml, které příkaz
+   provede, soubor smaže a odpoví do PR. Na rozdíl od issue (to GitHub předá
+   jen workflow z výchozí větve) to funguje v každé větvi — i v generálce
+   na DEV2. Na větev smí pushovat jen vlastník. */
 export function odkazRozhodnuti(repo, vetev, prikaz) {
-  const titulek = `Rozhodnutí ${vetev}: ${prikaz.replace(/\s+duvod:.*$/, "")}`;
-  return `https://github.com/${repo}/issues/new?title=${encodeURIComponent(titulek)}&body=${encodeURIComponent(prikaz)}`;
+  const m = prikaz.match(/^\/(prijmout|podrzet)\s+(\d{1,2}\.\d{1,2})/);
+  const jmeno = m ? `${m[2]}-${m[1]}` : prikaz.replace(/^\//, "").split(/\s/)[0];
+  return `https://github.com/${repo}/new/${vetev}?filename=rozhodnuti/${encodeURIComponent(jmeno)}.txt&value=${encodeURIComponent(prikaz)}`;
+}
+
+/** Příkazy ze souborů rozhodnuti/ ve větvi (odkazy z e-mailu).
+ *  @param soubory [{ jmeno, text, poradi }] — poradi = čas commitu, který soubor přidal
+ *  @returns { prikazy, neplatne: [jméno souboru bez platného příkazu] }
+ *  Pořadí je pořadí přidání: „přijmout“ a pak „nechat“ u téhož bodu znamená
+ *  nechat. Soubor bez platného příkazu (třeba „duvod:“ bez důvodu) se jen ohlásí. */
+export function prikazyZeSouboru(soubory) {
+  const prikazy = [], neplatne = [];
+  for (const s of [...soubory].sort((a, b) => a.poradi - b.poradi || a.jmeno.localeCompare(b.jmeno))) {
+    const p = prikazyZKomentare(String(s.text || "").slice(0, 2000));
+    if (p.length) prikazy.push(...p); else neplatne.push(s.jmeno);
+  }
+  return { prikazy, neplatne };
 }

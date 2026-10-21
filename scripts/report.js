@@ -23,7 +23,7 @@ import { render, readSettings } from "./lib/nastaveni.js";
 import { nactiMetodiku } from "./lib/faktcheck/modelova.js";
 import { rozhodniBeh } from "./lib/faktcheck/rozhodnuti.js";
 import { podkladyReportu, htmlOddily, proAI, popisPR, esc, odkazyBodu, NAZVY } from "./lib/report.js";
-import { odkazRozhodnuti } from "./lib/navrhy.js";
+import { odkazRozhodnuti, VETEV_BEHU } from "./lib/navrhy.js";
 import { chrome } from "./lib/instagram.js";
 import { posliEmail } from "./lib/email.js";
 
@@ -112,7 +112,7 @@ const p = podkladyReportu({ pred, po, rozhodnuti, D, M, naklady, polozky: ALL_IT
 const odkazPR = arg("pr", null);
 /* Větev PR s návrhy (beh/RRRR-MM): s ní dostane e-mail i PDF u každého bodu
    odkazy Přijmout / Nechat a na konci Zveřejnit (lib/navrhy.js). */
-const vetev = /^beh\/\d{4}-\d{2}$/.test(arg("vetev", "")) ? arg("vetev") : null;
+const vetev = VETEV_BEHU.test(arg("vetev", "")) ? arg("vetev") : null;
 const repo = process.env.GITHUB_REPOSITORY || "buuczech/vladomer";
 const html = render("report-behu.html", {
   MESIC: esc(p.mesic),
@@ -148,8 +148,9 @@ console.log(`  ${cestaPdf || cestaHtml}\n  ${join(VYSTUP, "pro-AI.md")}\n  ${joi
 {
   const predmet = `${ma("zkouska") ? "[ZKOUŠKA] " : ""}Vládoměr ${p.mesic}: ${p.verdikt}`;
   /* Tlačítka jsou obyčejné odkazy se styly v řádku — e-mailoví klienti CSS
-     ve <style> často zahazují. Klepnutí otevře na GitHubu předvyplněné
-     rozhodnutí; potvrzením ho provede rozhodnuti.yml. */
+     ve <style> často zahazují. Klepnutí otevře na GitHubu předvyplněný
+     soubor s rozhodnutím ve větvi PR; potvrzením (Commit changes) ho provede
+     rozhodnuti-vetev.yml. */
   const tlacitko = (href, text, barva) => `<a href="${esc(href)}" style="display:inline-block;padding:8px 14px;margin:4px 6px 4px 0;border-radius:6px;background:${barva};color:#fff;text-decoration:none;font-weight:700">${esc(text)}</a>`;
   const zverejnit = vetev ? odkazRozhodnuti(repo, vetev, "/zverejnit") : null;
   const body = p.kRozhodnuti.map((k) => {
@@ -166,17 +167,21 @@ ${o ? `${tlacitko(o.prijmout, o.sDuvodem ? "Přijmout (s důvodem)" : "Přijmout
      nic k rozhodnutí), věta proč — prázdné místo vypadalo jako chyba (vlastník,
      21. 10. 2026). Log běhu je odkaz navíc pro případ, že něco nesedí. */
   const odkazBehu = process.env.GITHUB_RUN_ID ? `${process.env.GITHUB_SERVER_URL || "https://github.com"}/${repo}/actions/runs/${process.env.GITHUB_RUN_ID}` : null;
-  const bezPR = ma("zkouska")
-    ? "Zkouška: PR se nezakládá a tlačítka Přijmout / Nechat chybí. V ostrém běhu tu bude odkaz na PR s návrhy."
-    : body ? "PR se nepodařilo založit — návrhy jsou jen v PDF; dej vědět, ať se oprava dohledá v logu běhu." : "Nic k rozhodnutí, PR se nezakládá.";
-  const htmlMail = `<p><b>${esc(predmet)}</b></p>
+  const bezPR = body ? "PR se nepodařilo založit — návrhy jsou jen v PDF; dej vědět, ať se oprava dohledá v logu běhu." : "Nic k rozhodnutí, PR se nezakládá.";
+  /* Generálka zakládá PR proti zahazovací větvi zkouska/RRRR-MM: rozhodování
+     jde vyzkoušet celé, jen Zveřejnit sloučí PR tam a web s příspěvkem
+     sestaví jako artefakt — na vladomer.cz ani na Instagram nejde nic. */
+  const zkouska = ma("zkouska")
+    ? `<p style="background:#FEF3C7;padding:8px;border-radius:6px"><b>Zkouška.</b> Všechno funguje jako naostro, jen ${vetev ? "PR míří do zahazovací větve a Zveřejnit ji sloučí tam, sestaví web a příspěvek na Instagram jako artefakt běhu" : "se PR nezakládá"} — na vladomer.cz ani na Instagram nejde nic.</p>`
+    : "";
+  const htmlMail = `<p><b>${esc(predmet)}</b></p>${zkouska}
 <p>Splněno ${p.metrikaPred.procent.toFixed(1).replace(".", ",")} % → ${p.metrikaPo.procent.toFixed(1).replace(".", ",")} %. Cena běhu ${p.cena.celkem.toFixed(2).replace(".", ",")} $.</p>
 <p>${odkazPR ? tlacitko(odkazPR, "Otevřít PR na GitHubu", "#0F172A") : `<span style="color:#B45309">${esc(bezPR)}</span>`}</p>
-${body ? `<p><b>K rozhodnutí</b>${vetev ? " — klepni u každého bodu na Přijmout, nebo Nechat. GitHub otevře předvyplněné rozhodnutí, stačí ho potvrdit (Create)." : ""}</p>${body}` : "<p>Nic k rozhodnutí.</p>"}
-${zverejnit ? `<p>Až budeš hotový: ${tlacitko(zverejnit, "Zveřejnit rozhodnutí", "#3B5BDB")}<br><span style="color:#5B6577">Sloučí PR a nasadí web. Bod, o kterém nerozhodneš, se zveřejní podle výchozího návrhu; vyvrácené jen s tvým důvodem.</span></p>` : ""}
+${body ? `<p><b>K rozhodnutí</b>${vetev ? " — klepni u každého bodu na Přijmout, nebo Nechat. GitHub otevře předvyplněný soubor s rozhodnutím, stačí ho potvrdit (Commit changes). Do minuty se provede a v PR se objeví odpověď." : ""}</p>${body}` : "<p>Nic k rozhodnutí.</p>"}
+${zverejnit ? `<p>Až budeš hotový: ${tlacitko(zverejnit, "Zveřejnit rozhodnutí", "#3B5BDB")}<br><span style="color:#5B6577">${ma("zkouska") ? "Sloučí PR do zahazovací větve a sestaví web jako artefakt — nic se nezveřejní." : "Sloučí PR a nasadí web."} Bod, o kterém nerozhodneš, se zveřejní podle výchozího návrhu; vyvrácené jen s tvým důvodem.</span></p>` : ""}
 <p>${odkazPR ? `<a href="${esc(odkazPR)}">PR na GitHubu</a> · ` : ""}${odkazBehu ? `<a href="${esc(odkazBehu)}">Log běhu</a> · ` : ""}<a href="https://vladomer.cz">Web</a></p>
 <p style="color:#5B6577">Podrobnosti s citacemi jsou v přiloženém PDF. Soubor pro-AI.md můžeš nahrát do aplikace Claude a nechat si doporučit, co s body udělat.</p>`;
-  const text = `${predmet}\n\n${odkazPR ? `PR na GitHubu: ${odkazPR}` : bezPR}\n\n${p.kRozhodnuti.map((k) => {
+  const text = `${predmet}\n\n${ma("zkouska") ? "ZKOUŠKA — na vladomer.cz ani na Instagram nejde nic.\n\n" : ""}${odkazPR ? `PR na GitHubu: ${odkazPR}` : bezPR}\n\n${p.kRozhodnuti.map((k) => {
     const o = odkazyBodu(k, { repo, vetev });
     return `${k.bod}: ${k.popisTypu}${o ? `\n  Přijmout: ${o.prijmout}\n  Nechat: ${o.podrzet}` : k.prikaz ? ` — ${k.prikaz}` : ""}`;
   }).join("\n") || "Nic k rozhodnutí."}${zverejnit ? `\n\nZveřejnit rozhodnutí: ${zverejnit}` : ""}${odkazBehu ? `\n\nLog běhu: ${odkazBehu}` : ""}`;

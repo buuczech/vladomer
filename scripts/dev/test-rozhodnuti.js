@@ -18,9 +18,12 @@
  * Výsledky vrstvy M jsou zatím sestavené ručně; první placený běh kontroly
  * faktů je nahradí skutečnými.
  */
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, mkdtempSync, rmSync, existsSync, readdirSync } from "node:fs";
+import { execFileSync } from "node:child_process";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 import { rozhodniBod, rozhodniBeh, problemyBodu, oznacAudit, upravSnimek, stavZaznamu } from "../lib/faktcheck/rozhodnuti.js";
-import { novySoubor, proved, sloz, prikazyZKomentare, odkazRozhodnuti, TITULEK_ROZHODNUTI } from "../lib/navrhy.js";
+import { novySoubor, proved, sloz, prikazyZKomentare, odkazRozhodnuti, prikazyZeSouboru, VETEV_BEHU } from "../lib/navrhy.js";
 
 const fx = JSON.parse(readFileSync(new URL("./fixtury/rozhodnuti.json", import.meta.url), "utf8"));
 let chyb = 0;
@@ -138,11 +141,58 @@ over(JSON.stringify(prikazyZKomentare("/zverejnit\n/zverejnit teď")) === JSON.s
 console.log("\nOdkazy z e-mailu (rozhodnutí jedním klepnutím)");
 const odkaz = odkazRozhodnuti("buuczech/vladomer", "beh/2026-11", "/prijmout 10.2");
 const u = new URL(odkaz);
-over(u.origin + u.pathname === "https://github.com/buuczech/vladomer/issues/new" && u.searchParams.get("body") === "/prijmout 10.2"
-  && TITULEK_ROZHODNUTI.exec(u.searchParams.get("title"))[1] === "beh/2026-11", "odkaz otevře nové issue s příkazem v těle a větví v titulku", odkaz);
+over(u.origin + u.pathname === "https://github.com/buuczech/vladomer/new/beh/2026-11" && u.searchParams.get("filename") === "rozhodnuti/10.2-prijmout.txt"
+  && u.searchParams.get("value") === "/prijmout 10.2", "odkaz otevře nový soubor rozhodnuti/10.2-prijmout.txt s příkazem ve větvi PR", odkaz);
 const sDuvodem = new URL(odkazRozhodnuti("buuczech/vladomer", "beh/2026-11", "/prijmout 2.3 duvod: "));
-over(sDuvodem.searchParams.get("title") === "Rozhodnutí beh/2026-11: /prijmout 2.3" && sDuvodem.searchParams.get("body") === "/prijmout 2.3 duvod: ", "u vyvráceného bodu je v těle místo pro důvod, titulek bez něj");
-over(!TITULEK_ROZHODNUTI.test("Rozhodnutí beh/2026-11-x: /prijmout 1.1") && !TITULEK_ROZHODNUTI.test("Re: Rozhodnutí beh/2026-11: x"), "titulek jiného tvaru workflow nepřijme");
+over(sDuvodem.searchParams.get("filename") === "rozhodnuti/2.3-prijmout.txt" && sDuvodem.searchParams.get("value") === "/prijmout 2.3 duvod: ", "u vyvráceného bodu je v souboru místo pro důvod");
+const zv = new URL(odkazRozhodnuti("buuczech/vladomer", "beh/2026-11-zkouska", "/zverejnit"));
+over(zv.pathname === "/buuczech/vladomer/new/beh/2026-11-zkouska" && zv.searchParams.get("filename") === "rozhodnuti/zverejnit.txt", "Zveřejnit: soubor rozhodnuti/zverejnit.txt, i ve zkušební větvi");
+over(VETEV_BEHU.test("beh/2026-11") && VETEV_BEHU.test("beh/2026-11-zkouska") && !VETEV_BEHU.test("beh/2026-11-x") && !VETEV_BEHU.test("beh/2026-11/../main"), "větev běhu jen ve tvaru beh/RRRR-MM[-zkouska]");
+
+console.log("\nSoubory rozhodnuti/ ve větvi (rozhodnuti-vetev.yml)");
+const zeSouboru = prikazyZeSouboru([
+  { jmeno: "10.2-podrzet.txt", text: "/podrzet 10.2\n", poradi: 200 },
+  { jmeno: "10.2-prijmout.txt", text: "/prijmout 10.2", poradi: 100 },
+  { jmeno: "2.3-prijmout.txt", text: "/prijmout 2.3 duvod: ", poradi: 150 },
+  { jmeno: "zverejnit.txt", text: "/zverejnit", poradi: 300 },
+]);
+over(JSON.stringify(zeSouboru.prikazy) === JSON.stringify([{ prikaz: "prijmout", bod: "10.2", duvod: null }, { prikaz: "podrzet", bod: "10.2", duvod: null }, { prikaz: "zverejnit" }])
+  && JSON.stringify(zeSouboru.neplatne) === JSON.stringify(["2.3-prijmout.txt"]),
+  "v pořadí přidání (přijmout, pak nechat = nechat); „duvod:“ bez důvodu se ohlásí, neprovede", zeSouboru);
+
+/* Celá cesta jako v rozhodnuti-vetev.yml: větev z commitu běhu (navrhy.js
+   vytvor), vlastník přidá dva soubory dvěma commity, navrhy.js soubory je
+   provede v pořadí přidání a smaže. Dočasný git repozitář, nic se nestahuje. */
+{
+  const tmp = mkdtempSync(join(tmpdir(), "vm-vetev-"));
+  const git = (...a) => execFileSync("git", ["-C", tmp, "-c", "user.name=t", "-c", "user.email=test", "-c", "core.autocrlf=false", ...a], { encoding: "utf8", env: { ...process.env, ...(git.cas ? { GIT_COMMITTER_DATE: git.cas, GIT_AUTHOR_DATE: git.cas } : {}) } });
+  const navrhy = (...a) => execFileSync(process.execPath, [join("scripts", "navrhy.js"), ...a, "--koren", tmp], { encoding: "utf8", env: { ...process.env, GITHUB_OUTPUT: join(tmp, "..", `${tmp.split(/[\\/]/).pop()}-out.txt`) } });
+  try {
+    git("init", "-q");
+    mkdirSync(join(tmp, "public"));
+    const zapis = (n, d) => writeFileSync(join(tmp, "public", n), JSON.stringify(d, null, 2));
+    zapis("evaluations.json", zakladPR.evals); zapis("audit.json", zakladPR.audit); zapis("history.json", zakladPR.hist); zapis("faktcheck.json", zakladPR.faktcheck);
+    git("add", "-A"); git("commit", "-qm", "běh");
+    const sha = git("rev-parse", "HEAD").trim();
+    writeFileSync(join(tmp, "rozhodnuti-vstup.json"), JSON.stringify(rozh));
+    navrhy("vytvor", "--rozhodnuti", join(tmp, "rozhodnuti-vstup.json"), "--zaklad", sha);
+    const cesta = `navrhy/${dnes.slice(0, 7)}.json`;
+    git("add", "-A"); git("commit", "-qm", "návrhy");
+    mkdirSync(join(tmp, "rozhodnuti"));
+    // 12.2 nechat (dřív), pak 10.2 nechat — commity s různým časem, jména v opačném pořadí
+    git.cas = "2026-11-01T10:00:00Z"; writeFileSync(join(tmp, "rozhodnuti", "12.2-podrzet.txt"), "/podrzet 12.2"); git("add", "-A"); git("commit", "-qm", "rozhodnutí 1");
+    git.cas = "2026-11-01T10:05:00Z"; writeFileSync(join(tmp, "rozhodnuti", "10.2-podrzet.txt"), "/podrzet 10.2\n"); writeFileSync(join(tmp, "rozhodnuti", "7.2-prijmout.txt"), "/prijmout 7.2 duvod:"); git("add", "-A"); git("commit", "-qm", "rozhodnutí 2");
+    git.cas = null;
+    const vystup = navrhy("soubory", "--soubor", cesta);
+    const po = JSON.parse(readFileSync(join(tmp, cesta), "utf8"));
+    const evals = JSON.parse(readFileSync(join(tmp, "public", "evaluations.json"), "utf8"));
+    over(!po.prijate["12.2"] && !po.prijate["10.2"] && po.prijate["7.2"] && po.historie.map((h) => h.bod).join() === "12.2,10.2",
+      "soubory provedené v pořadí přidání; 7.2 bez důvodu zůstal, jak byl", { prijate: po.prijate, historie: po.historie });
+    over(JSON.stringify(evals.evals["10.2"]) === JSON.stringify(zakladPR.evals.evals["10.2"]), "větev přeskládaná: 10.2 na minulém záznamu");
+    over(!readdirSync(join(tmp, "rozhodnuti")).length, "provedené soubory jsou smazané (do main nepatří)");
+    over(/7\.2-prijmout\.txt neobsahuje platný příkaz/.test(vystup) && /\| 12\.2 \|/.test(vystup), "odpověď do PR: co se provedlo, co ne, a souhrn", vystup.slice(0, 400));
+  } finally { rmSync(tmp, { recursive: true, force: true }); rmSync(`${tmp}-out.txt`, { force: true }); }
+}
 
 console.log(chyb ? `\nSELHALO: ${chyb} chyb.` : "\nVše prošlo.");
 process.exit(chyb ? 1 : 0);

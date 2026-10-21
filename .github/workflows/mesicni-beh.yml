@@ -10,6 +10,12 @@ name: Měsíční běh
 #   → kontrola konzistence → commit na main → PR s podrženými návrhy
 #   → report e-mailem (PDF + pro-AI.md)
 #
+# Generálka (zkouska: true) dělá totéž, jen commit jde na zahazovací větev
+# zkouska/RRRR-MM a PR beh/RRRR-MM-zkouska míří tam. Rozhodování z e-mailu
+# jde tak vyzkoušet celé (rozhodnuti-vetev.yml); Zveřejnit sloučí PR do
+# zahazovací větve a web jen sestaví. Příspěvek na Instagram se sestaví jako
+# artefakt. Na main, na vladomer.cz ani na Instagram nejde nic.
+#
 # Stojí peníze (API Anthropic). Pojistka ceny (pojistka_ceny_usd) zastaví
 # zacyklený běh; pak se nic nezveřejní a přijde e-mail o selhání.
 
@@ -21,7 +27,7 @@ on:
         type: string
         default: plny
       zkouska:
-        description: "generálka: nic se nezapíše na main, e-mail má [ZKOUŠKA]"
+        description: "generálka: běh i PR jdou do zahazovací větve zkouska/RRRR-MM, nic na main, web ani Instagram; e-mail má [ZKOUŠKA]"
         type: boolean
         default: false
       pojistka_usd:
@@ -31,14 +37,14 @@ on:
     outputs:
       zapsano:
         description: "true, když běh zapsal nová data na main"
-        value: ${{ jobs.beh.outputs.zapsano }}
+        value: ${{ jobs.beh.outputs.na_main }}
 
 jobs:
   beh:
     runs-on: ubuntu-latest
     timeout-minutes: 330
     outputs:
-      zapsano: ${{ steps.zapis.outputs.zapsano }}
+      na_main: ${{ steps.zapis.outputs.na_main }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -115,51 +121,97 @@ jobs:
         if: steps.mesic.outputs.preskocit != 'true'
         run: npm run build && node scripts/kontrola-webu.js
 
-      - name: Zápis na main
+      # Naostro commit na main. Generálka commitne na zahazovací větev
+      # zkouska/RRRR-MM (z kódu, na kterém běží) — PR s návrhy pak míří tam.
+      - name: Zápis běhu
         id: zapis
-        if: steps.mesic.outputs.preskocit != 'true' && !inputs.zkouska
+        if: steps.mesic.outputs.preskocit != 'true'
+        env:
+          ZKOUSKA: ${{ inputs.zkouska }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          CIL=main; ZPRAVA="chore: monthly evaluation $(date -u +%Y-%m)"
+          if [ "$ZKOUSKA" = "true" ]; then
+            CIL="zkouska/$(date -u +%Y-%m)"; ZPRAVA="Generálka: měsíční běh $(date -u +%Y-%m) (zkouška, nic se nezveřejní)"
+            git switch -c "$CIL"
+          fi
           git add public/evaluations.json public/history.json public/news.json public/audit.json public/og.png public/naklady.json public/faktcheck.json
-          git commit -m "chore: monthly evaluation $(date -u +%Y-%m)" || { echo "zapsano=false" >> "$GITHUB_OUTPUT"; exit 0; }
-          # Rebase je bezpečný: běh sahá jen na public/*.json a og.png.
-          git pull --rebase --autostash origin main
-          git push
+          git commit -m "$ZPRAVA" || { echo "zapsano=false" >> "$GITHUB_OUTPUT"; exit 0; }
+          if [ "$ZKOUSKA" = "true" ]; then
+            # Zahazovací větev: opakovaná generálka téhož měsíce ji přepíše.
+            git push --force origin "HEAD:refs/heads/$CIL"
+          else
+            # Rebase je bezpečný: běh sahá jen na public/*.json a og.png.
+            git pull --rebase --autostash origin main
+            git push
+            echo "na_main=true" >> "$GITHUB_OUTPUT"
+          fi
           echo "zapsano=true" >> "$GITHUB_OUTPUT"
+          echo "cil=$CIL" >> "$GITHUB_OUTPUT"
           echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-      # Podržené body s návrhem jdou do PR beh/RRRR-MM. Starší nevyřízený PR
-      # se zavře: tyhle body tenhle běh posoudil znovu.
+      # Podržené body s návrhem jdou do PR beh/RRRR-MM (generálka:
+      # beh/RRRR-MM-zkouska do zkouska/RRRR-MM). Starší nevyřízený PR téhož
+      # druhu se zavře: tyhle body tenhle běh posoudil znovu.
       - name: PR s návrhy k rozhodnutí
         id: pr
         if: steps.zapis.outputs.zapsano == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
+          ZKOUSKA: ${{ inputs.zkouska }}
+          CIL: ${{ steps.zapis.outputs.cil }}
         run: |
-          VETEV="beh/$(date -u +%Y-%m)"
-          for c in $(gh pr list --state open --json number,headRefName -q '.[] | select(.headRefName | startswith("beh/")) | .number'); do
-            gh pr close "$c" --comment "Nahrazeno během $(date -u +%Y-%m): podržené body se posoudily znovu." --delete-branch || true
+          VETEV="beh/$(date -u +%Y-%m)"; TITULEK="Vládoměr $(date -u +%Y-%m): návrhy k rozhodnutí"
+          if [ "$ZKOUSKA" = "true" ]; then VETEV="$VETEV-zkouska"; TITULEK="[ZKOUŠKA] $TITULEK"; fi
+          for r in $(gh pr list --state open --json number,headRefName -q '.[] | select(.headRefName | startswith("beh/")) | "\(.number):\(.headRefName)"'); do
+            case "${r#*:}" in *-zkouska) DRUH=true ;; *) DRUH=false ;; esac
+            [ "$DRUH" = "$ZKOUSKA" ] || continue
+            gh pr close "${r%%:*}" --comment "Nahrazeno během $(date -u +%Y-%m): podržené body se posoudily znovu." --delete-branch || true
           done
           git switch -c "$VETEV"
           node scripts/navrhy.js vytvor --rozhodnuti faktcheck-vystup/rozhodnuti.json --zaklad "${{ steps.zapis.outputs.sha }}" | tee /tmp/navrhy-pr.log
           if grep -q "^návrhů: 0" /tmp/navrhy-pr.log; then echo "Nic k rozhodnutí, PR se nezakládá."; exit 0; fi
           git add public/evaluations.json public/audit.json public/history.json public/faktcheck.json navrhy/
           git commit -m "Návrhy z běhu $(date -u +%Y-%m) k rozhodnutí vlastníka"
-          git push -u origin "$VETEV" --force-with-lease
+          # Větev je čerstvě složená z commitu běhu; starší téhož jména patřila
+          # zavřenému PR. --force-with-lease by tu selhal na zastaralé
+          # vzdálené větvi z checkoutu.
+          git push --force -u origin "$VETEV"
           node scripts/report.js --pred /tmp/pred/evaluations.json --bez-pdf --vystup /tmp/report-pr > /dev/null
           # Zakládat PR smí workflow jen s povolením v nastavení repozitáře
           # (Settings → Actions → General → „Allow GitHub Actions to create and
           # approve pull requests“). Bez něj e-mail dostane odkaz na porovnání
           # větví, odkud jde PR založit jedním klepnutím.
-          if URL=$(gh pr create --base main --head "$VETEV" --title "Vládoměr $(date -u +%Y-%m): návrhy k rozhodnutí" --body-file /tmp/report-pr/pr.md); then
+          if URL=$(gh pr create --base "$CIL" --head "$VETEV" --title "$TITULEK" --body-file /tmp/report-pr/pr.md); then
             echo "url=$URL" >> "$GITHUB_OUTPUT"
             echo "vetev=$VETEV" >> "$GITHUB_OUTPUT"
           else
             echo "PR nešlo založit — povol v nastavení repozitáře zakládání PR z Actions. Posílám odkaz na větev."
-            echo "url=${{ github.server_url }}/${{ github.repository }}/compare/main...$VETEV?expand=1" >> "$GITHUB_OUTPUT"
+            echo "url=${{ github.server_url }}/${{ github.repository }}/compare/$CIL...$VETEV?expand=1" >> "$GITHUB_OUTPUT"
           fi
           git switch -
+
+      # Generálka: měsíční příspěvek na Instagram se sestaví z dat běhu (jako
+      # naostro po nasazení) a s webem přiloží k běhu. Nezveřejní se nic.
+      - uses: actions/setup-node@v4
+        if: inputs.zkouska && steps.zapis.outputs.zapsano == 'true'
+        with:
+          node-version: 24
+      - name: Zkouška — web a příspěvek na Instagram jako artefakt
+        if: inputs.zkouska && steps.zapis.outputs.zapsano == 'true'
+        run: |
+          mkdir -p zkouska-vystup/instagram
+          cp -r dist zkouska-vystup/web
+          node scripts/instagram/post.js --rezim build | tee zkouska-vystup/instagram/log.txt || echo "příspěvek se nesestavil — viz log"
+          D=$(node -e 'console.log(String(require("./public/evaluations.json").lastUpdated).slice(0,10))')
+          cp ig-archive/"$D"* zkouska-vystup/instagram/ 2>/dev/null || true
+      - uses: actions/upload-artifact@v4
+        if: inputs.zkouska && steps.zapis.outputs.zapsano == 'true'
+        with:
+          name: zkouska-web-a-instagram-${{ github.run_id }}
+          path: zkouska-vystup
+          if-no-files-found: warn
 
       - name: Report e-mailem
         if: steps.mesic.outputs.preskocit != 'true'
@@ -171,7 +223,8 @@ jobs:
         run: |
           ZK=""; if [ "${{ inputs.zkouska }}" = "true" ]; then ZK="--zkouska"; fi
           PR=""; if [ -n "$PR_URL" ]; then PR="--pr $PR_URL"; fi
-          # S větví PR dostane e-mail u každého bodu odkazy Přijmout / Nechat a Zveřejnit.
+          # S větví PR dostane e-mail u každého bodu odkazy Přijmout / Nechat a Zveřejnit
+          # (i v generálce — tam míří do zkušební větve).
           if [ -n "$VETEV" ]; then PR="$PR --vetev $VETEV"; fi
           node scripts/report.js --pred /tmp/pred/evaluations.json --poslat $ZK $PR || echo "report: e-mail neodešel, report je v artefaktu"
 

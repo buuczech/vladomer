@@ -200,18 +200,25 @@ celý běh je v `mesicni-beh.yml`) a trvá několik hodin:
 **Jak rozhodnout (stačí telefon, přihlášený na GitHub):**
 
 1. V e-mailu je u každého bodu tlačítko **Přijmout** a **Nechat**. Klepnutí
-   otevře na GitHubu předvyplněné rozhodnutí — jen ho potvrď (Create).
-   Do minuty se zapíše do PR a GitHub ho sám uzavře. U bodu, kde kontrola
+   otevře na GitHubu předvyplněný soubor s rozhodnutím — jen ho potvrď
+   (**Commit changes**, zapsat přímo do větve). Do minuty se rozhodnutí
+   provede, soubor zmizí a v PR se objeví odpověď. U bodu, kde kontrola
    tvrzení **vyvrátila**, je „Přijmout (s důvodem)“: dopiš důvod za
-   „duvod:“, zapíše se do auditu.
+   „duvod:“, zapíše se do auditu. Když si to rozmyslíš, klepni na druhé
+   tlačítko — platí, co jsi potvrdil naposled.
 2. Až budeš hotový, klepni na **Zveřejnit rozhodnutí**: PR se sloučí a web
    se nasadí. Bod, o kterém nerozhodneš, se zveřejní podle výchozího návrhu
    (vyvrácené ne).
 3. Stejně funguje v PR tlačítko Merge (= zveřejnit), Close (= nic nepřijmout)
    a komentáře `/prijmout 10.2`, `/podrzet 10.2`, `/zverejnit`.
 
-Rozhodnutí platí jen z tvého účtu. Issue i PR jsou veřejné, stejně jako
+Rozhodnutí platí jen z tvého účtu. Větev i PR jsou veřejné, stejně jako
 auditní záznam — každé rozhodnutí je dohledatelné.
+
+**Generálka** (zkouška celého měsíčního běhu na DEV2) funguje stejně, jen
+e-mail má v předmětu `[ZKOUŠKA]`, PR míří do zahazovací větve
+`zkouska/RRRR-MM` a Zveřejnit sestaví web jen jako přílohu běhu. Na
+vladomer.cz ani na Instagram se nedostane nic.
 - Nevíš? Nahraj `pro-AI.md` do aplikace Claude, na konci má připravený dotaz.
 - Nevyřízený PR ti po třech dnech připomene e-mail. Příští měsíční běh ho
   zavře a body posoudí znovu.

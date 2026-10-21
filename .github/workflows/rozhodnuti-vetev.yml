@@ -1,0 +1,173 @@
+name: Rozhodnutí vlastníka z e-mailu
+
+# Rozhodnutí o návrzích z běhu jedním klepnutím (spec 005). Tlačítko v e-mailu
+# nebo v PDF otevře na GitHubu předvyplněný soubor rozhodnuti/<bod>-<příkaz>.txt
+# ve větvi PR (beh/RRRR-MM, u generálky beh/RRRR-MM-zkouska) a vlastník jen
+# potvrdí commit. Tenhle workflow pak:
+#   - provede příkazy v pořadí, v jakém soubory přibyly (scripts/navrhy.js
+#     soubory; pravidla v lib/navrhy.js), soubory smaže a větev přeskládá,
+#   - odpoví do PR, co se provedlo a co ne,
+#   - na /zverejnit sloučí PR: naostro do main a spustí nasazení webu
+#     (deploy.yml, jen_nasadit), u generálky do zahazovací větve
+#     zkouska/RRRR-MM a web jen sestaví a zkontroluje jako artefakt běhu —
+#     na vladomer.cz ani na Instagram nejde nic.
+#
+# Bezpečnost:
+#   - na větve beh/** pushuje jen vlastník (jediný s právem zápisu) a token
+#     workflow, jehož push žádný workflow nespouští; job navíc ověří, že push
+#     udělal vlastník repozitáře,
+#   - obsah souborů čte přísný regex v lib/navrhy.js, nic z něj se nespouští
+#     ani nevkládá do příkazové řádky,
+#   - na rozdíl od rozhodnuti.yml (komentáře v PR) neběží z výchozí větve,
+#     ale z větve běhu — proto funguje i v generálce na DEV2, před sloučením.
+
+on:
+  push:
+    branches: ["beh/**"]
+    paths: ["rozhodnuti/**"]
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write          # /zverejnit spouští nasazení (deploy.yml)
+
+# Běhy téže větve jdou po sobě. Čekající běh, který GitHub nahradí novějším,
+# nic neztratí: každý běh provede všechny soubory, které ve větvi najde.
+concurrency:
+  group: rozhodnuti-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  rozhodnuti:
+    if: github.actor == github.repository_owner && github.triggering_actor == github.repository_owner
+    runs-on: ubuntu-latest
+    steps:
+      # Větev musí mít přesný tvar a otevřený PR do správné větve: naostro
+      # do main, generálka do zkouska/RRRR-MM.
+      - name: Větev a PR
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          VETEV: ${{ github.ref_name }}
+        run: |
+          case "$VETEV" in
+            beh/[0-9][0-9][0-9][0-9]-[0-9][0-9]) ZKOUSKA=false ;;
+            beh/[0-9][0-9][0-9][0-9]-[0-9][0-9]-zkouska) ZKOUSKA=true ;;
+            *) echo "Větev $VETEV není větev běhu — nic se nedělá."; exit 0 ;;
+          esac
+          RADEK=$(gh pr list --state open --head "$VETEV" --json number,baseRefName -q '.[0] | "\(.number) \(.baseRefName)"')
+          if [ -z "$RADEK" ]; then echo "K větvi $VETEV není otevřený PR (sloučený nebo zavřený) — nic se nedělá."; exit 0; fi
+          PR="${RADEK%% *}"; ZAKLAD="${RADEK#* }"
+          case "$ZKOUSKA:$ZAKLAD" in
+            false:main) ;;
+            true:zkouska/[0-9][0-9][0-9][0-9]-[0-9][0-9]) ;;
+            *) echo "PR #$PR míří do $ZAKLAD, což k větvi $VETEV nepatří — nic se nedělá."; exit 0 ;;
+          esac
+          MESIC=$(echo "${VETEV#beh/}" | cut -c1-7)
+          {
+            echo "vetev=$VETEV"; echo "pr=$PR"; echo "zaklad=$ZAKLAD"; echo "zkouska=$ZKOUSKA"
+            echo "soubor=navrhy/$MESIC.json"
+          } >> "$GITHUB_OUTPUT"
+
+      - uses: actions/checkout@v4
+        if: steps.pr.outputs.vetev != ''
+        with:
+          ref: ${{ steps.pr.outputs.vetev }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        if: steps.pr.outputs.vetev != ''
+        with:
+          node-version: 20
+
+      - name: Provést rozhodnutí
+        id: proved
+        if: steps.pr.outputs.vetev != ''
+        env:
+          KDO: ${{ github.actor }}
+          SOUBOR: ${{ steps.pr.outputs.soubor }}
+          VETEV: ${{ steps.pr.outputs.vetev }}
+        run: |
+          if [ ! -d rozhodnuti ] || [ -z "$(ls -A rozhodnuti)" ]; then
+            echo "Ve větvi není žádný nový soubor s rozhodnutím (provedl ho už předchozí běh)."
+            echo "nic=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          node scripts/navrhy.js soubory --soubor "$SOUBOR" > /tmp/odpoved.md
+          cat /tmp/odpoved.md
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A rozhodnuti public/evaluations.json public/audit.json public/history.json public/faktcheck.json "$SOUBOR"
+          git commit -m "Rozhodnutí vlastníka z e-mailu" || echo "beze změny"
+          # Vlastník mezitím mohl potvrdit další rozhodnutí: to je jen nový
+          # soubor v rozhodnuti/, takže rebase je bezpečný a provede ho další běh.
+          for pokus in 1 2 3; do
+            git push origin "HEAD:refs/heads/$VETEV" && exit 0
+            git fetch origin "$VETEV" && git rebase "origin/$VETEV"
+          done
+          echo "Push se ani na třetí pokus nepovedl."; exit 1
+
+      - name: Odpověď do PR
+        if: steps.pr.outputs.vetev != '' && steps.proved.outputs.nic != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ steps.pr.outputs.pr }}
+        run: gh pr comment "$PR" --body-file /tmp/odpoved.md
+
+      # Naostro: sloučit do main a nasadit. Push tokenem workflow nasazení sám
+      # nespustí, proto se spouští ručně a jen sestavení s nasazením
+      # (jen_nasadit) — hodnocení znovu neběží. gh běží mimo checkout, aby
+      # neměnil místní větev.
+      - name: Zveřejnit (sloučit PR do main a nasadit)
+        if: steps.proved.outputs.zverejnit == 'true' && steps.pr.outputs.zkouska == 'false'
+        working-directory: /tmp
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ steps.pr.outputs.pr }}
+        run: |
+          gh pr merge "$PR" --merge --delete-branch
+          gh workflow run deploy.yml --ref main -f jen_nasadit=true
+          gh pr comment "$PR" --body "Sloučeno a nasazení spuštěno — web se aktualizuje během pár minut."
+
+      # Generálka: sloučit do zahazovací větve a web jen sestavit a zkontrolovat
+      # (vrstva D5) jako artefakt. Nic se nenasazuje a nic nejde na Instagram.
+      - name: Zkouška — sloučit PR do zahazovací větve
+        if: steps.proved.outputs.zverejnit == 'true' && steps.pr.outputs.zkouska == 'true'
+        working-directory: /tmp
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ steps.pr.outputs.pr }}
+        run: gh pr merge "$PR" --merge --delete-branch
+
+      - uses: actions/checkout@v4
+        if: steps.proved.outputs.zverejnit == 'true' && steps.pr.outputs.zkouska == 'true'
+        with:
+          ref: ${{ steps.pr.outputs.zaklad }}
+          path: web
+
+      - name: Zkouška — sestavit a zkontrolovat web
+        if: steps.proved.outputs.zverejnit == 'true' && steps.pr.outputs.zkouska == 'true'
+        working-directory: web
+        run: npm ci && npm run build && node scripts/kontrola-webu.js
+
+      - name: Zkouška — web jako artefakt
+        if: steps.proved.outputs.zverejnit == 'true' && steps.pr.outputs.zkouska == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: zkouska-web-po-rozhodnuti-${{ github.run_id }}
+          path: web/dist
+          if-no-files-found: error
+
+      - name: Zkouška — odpověď do PR
+        if: steps.proved.outputs.zverejnit == 'true' && steps.pr.outputs.zkouska == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR: ${{ steps.pr.outputs.pr }}
+          ZAKLAD: ${{ steps.pr.outputs.zaklad }}
+          BEH: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh pr comment "$PR" --body "Zkouška: sloučeno do \`$ZAKLAD\`, web sestavený a zkontrolovaný proti datům — ke stažení jako artefakt běhu $BEH. Na vladomer.cz ani na Instagram nešlo nic."
