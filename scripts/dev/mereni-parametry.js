@@ -36,6 +36,7 @@ out("rezim", m.rezim);
 out("kazeta", m.nahrat_kazetu ? "true" : "false");
 out("kola", String(m.kola ?? 2));
 out("pojistka", m.pojistka_usd ?? "");
+out("kolo2_vzorek", String(m.kolo2_vzorek ?? ""));
 env("EVAL_MODEL", m.model);
 env("OVEROVACI_MODEL", m.overovaci_model);
 env("KOREKTURA_MODEL", m.korektura_model);

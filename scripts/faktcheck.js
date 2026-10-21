@@ -5,6 +5,7 @@
  *     node scripts/faktcheck.js --model         # + vrstva M: nezávislý model (STOJÍ PENÍZE)
  *     node scripts/faktcheck.js --model --body 2.3,12.2 --bez-davky
  *     node scripts/faktcheck.js --model --bez-kola2   # jen kolo 1 (měření; ostrý běh vždy obě kola)
+ *     node scripts/faktcheck.js --model --kolo2-vzorek 10  # kolo 2 jen na vzorku (měření ceny kola 2)
  *     node scripts/faktcheck.js --model --zapsat-naklady  # měsíční běh: pojistka na celý běh, cena do public/naklady.json
  *     node scripts/faktcheck.js --model --body … --vyzvednout msgbatch_…  # výsledky už zaplacené dávky (z davky.json nebo logu)
  *     node scripts/faktcheck.js --vystup adresar
@@ -37,7 +38,7 @@ import { kontrolaBodu, citovaneRoky, citovanePredpisy } from "./lib/faktcheck/de
 import { stahniVse, stahniZdroj } from "./lib/faktcheck/zdroje.js";
 import { promptKontroly, nactiMetodiku, parsujKontrolu, overCitace, shrnutiBodu, klicUrl, zdrojeSbirky } from "./lib/faktcheck/modelova.js";
 import {
-  teloPozadavku, zavolejApi, overModely, nastavPojistku, pojistkaZasahla, souhrnNakladu,
+  teloPozadavku, zavolejApi, overModely, nastavPojistku, pojistkaZasahla, souhrnNakladu, cenaVolani,
   odesliDavku, cekejNaDavku, vysledkyDavky,
 } from "./lib/modely.js";
 
@@ -279,7 +280,16 @@ if (S_MODELEM) {
         for (const id of chybi.slice(cast.length)) zpracuj(id, 1, null, "výsledek chybí");
       }
     } else {
-      const prvni = Math.min(vyber.length, Math.max(1, Number(process.env.DAVKA_PRVNI) || 12));
+      /* Když se pod strop vejde i nejhorší možná cena všech bodů (vstup
+         odhadnutý shora: 2 znaky na token; výstup celý max_tokens; −50 % za
+         dávku), jde všechno jednou dávkou — měsíční běh tak čeká jen jednou.
+         Jinak zkušební dávka a zbytek podle její skutečné ceny. */
+      const nejhorsi = vyber.reduce((n, id) => {
+        const p = parametry1(id);
+        return n + cenaVolani(MODEL, { input_tokens: Math.ceil(JSON.stringify(p.messages).length / 2), output_tokens: p.max_tokens }) * 0.5;
+      }, 0);
+      const prvni = nejhorsi <= POJISTKA ? vyber.length : Math.min(vyber.length, Math.max(1, Number(process.env.DAVKA_PRVNI) || 12));
+      console.log(`  nejhorší možná cena kola 1: ${nejhorsi.toFixed(2)} $ (strop ${POJISTKA.toFixed(2)} $) → ${prvni === vyber.length ? "jedna dávka" : "zkušební dávka a zbytek"}`);
       await posli(vyber.slice(0, prvni), vyber.length > prvni ? "1/2 (zkušební)" : "1/1");
       const zbytek = vyber.slice(prvni);
       if (zbytek.length) {
@@ -301,7 +311,15 @@ if (S_MODELEM) {
     const v = vysledky[id] && vysledky[id].kolo1;
     return !v || v.chyba || shrnutiBodu(id, evals[id], v).neovereno > 0 || !v.stav_podle_pravidel;
   });
-  console.log(`  kolo 2 (s vyhledáváním): ${doKola2.length} bodů${BEZ_KOLA2 ? " — VYNECHÁNO (--bez-kola2)" : ""}`);
+  /* --kolo2-vzorek N (jen měření): kolo 2 dostane N rovnoměrně vybraných
+     bodů z těch, které by ho potřebovaly — aby šla změřit jeho cena za bod,
+     aniž by se platilo za všechny. Ostatní zůstanou s výsledkem kola 1.
+     Ostrý běh vzorek nepoužívá. */
+  const VZOREK = Number(arg("kolo2-vzorek", 0)) || 0;
+  const doKola2Beh = VZOREK && doKola2.length > VZOREK
+    ? Array.from({ length: VZOREK }, (_, i) => doKola2[Math.floor((i * doKola2.length) / VZOREK)])
+    : doKola2;
+  console.log(`  kolo 2 (s vyhledáváním): ${doKola2.length} bodů${BEZ_KOLA2 ? " — VYNECHÁNO (--bez-kola2)" : doKola2Beh.length < doKola2.length ? ` — VZOREK ${doKola2Beh.length}: ${doKola2Beh.join(", ")}` : ""}`);
   /* Odpověď s vyhledáváním se nemusí vrátit hotová: pause_turn (server
      přerušil smyčku vyhledávání) se jen nechá dokončit, a na volání
      nástroje, který neexistuje (stalo se v hodnocení 20. 10. 2026), se
@@ -325,7 +343,7 @@ if (S_MODELEM) {
     }
     return zprava;
   };
-  for (const id of BEZ_KOLA2 || zastavenoPredem ? [] : doKola2) {
+  for (const id of BEZ_KOLA2 || zastavenoPredem ? [] : doKola2Beh) {
     if (pojistkaZasahla()) break;
     try {
       const zprava = await kolo2(id);
@@ -351,7 +369,7 @@ if (S_MODELEM) {
   const cena = souhrnNakladu();
   const vysledekM = {
     vytvoreno: new Date().toISOString(), dnes, model: MODEL, effort: EFFORT, davka: !BEZ_DAVKY,
-    kolo2: { bodu: doKola2.length, vynechano: BEZ_KOLA2, seznam: doKola2 },
+    kolo2: { bodu: doKola2.length, vynechano: BEZ_KOLA2, seznam: doKola2, ...(doKola2Beh.length < doKola2.length && !BEZ_KOLA2 ? { vzorek: doKola2Beh } : {}) },
     souhrn: {
       bodu: vyber.length,
       ciste: shrnuti.filter((s) => s.cisty).length,
@@ -378,6 +396,12 @@ if (S_MODELEM) {
   for (const x of s.spor_o_stav) console.log(`  spor     ${x}`);
   if (s.vyvraceno.length) console.log(`  vyvráceno: ${s.vyvraceno.join(", ")}`);
   console.log(`Cena vrstvy M: ${cena.celkem_usd.toFixed(2)} $ (${Object.entries(cena.podle_role).map(([r, x]) => `${r} ${x.usd.toFixed(2)} $`).join(", ")})`);
+  // Cena za bod — podle ní se odhaduje měsíční rozpočet (143 bodů).
+  for (const [kolo, role] of [[1, "faktcheck-1"], [2, "faktcheck-2"]]) {
+    const r = cena.podle_role[role];
+    const n = Object.values(vysledky).filter((v) => v[`kolo${kolo}`] && !v[`kolo${kolo}`].chyba).length;
+    if (r && n) console.log(`  kolo ${kolo}: ${(r.usd / n).toFixed(3)} $ za bod (${n} bodů${r.hledani ? `, ${r.hledani} vyhledávání` : ""}) → za 143 bodů ~${((r.usd / n) * 143).toFixed(1)} $`);
+  }
   console.log(`Úplný výpis: ${join(VYSTUP, "modelova.json")}`);
   if (pojistkaZasahla() || zastavenoPredem) { console.error("POJISTKA CENY ZASÁHLA — kontrola nedoběhla"); process.exitCode = 3; }
 }

@@ -21,7 +21,8 @@ name: DEV2 měření (stojí peníze)
 #               a kontrolní sady nad daty ZAPSANÝMI NA DEV2 (ta, proti kterým
 #               vlastník sady ověřil), a skóre faktcheck-skore.js: kolik bodů,
 #               kde se web liší od pravdy, kontrola chytila. Hodnocení neběží.
-#               kola: 1 = jen kolo 1 (dávka), 2 = obě kola (výchozí).
+#               kola: 1 = jen kolo 1 (dávka), 2 = obě kola (výchozí);
+#               kolo2_vzorek: N = kolo 2 jen na N bodech (měření jeho ceny).
 #   generalka   celý měsíční běh (mesicni-beh.yml — přesně to, co poběží na
 #               main) nad daty z DEV2, jen se nic nezapíše na main, nezaloží
 #               PR a e-mail má v předmětu [ZKOUŠKA]. pojistka_usd = strop
@@ -124,6 +125,7 @@ jobs:
           node -e 'const j=require("./public/evaluations.json");console.log("data z DEV2: lastUpdated",j.lastUpdated)'
           IDS=$(node -e 'const z=require("./scripts/dev/fixtury/zlata-sada.json"),k=require("./scripts/dev/fixtury/kontrolni-sada.json");console.log([...new Set([...z.body,...k.body].map(b=>b.id))].join(","))')
           KOLA=""; if [ "${{ steps.m.outputs.kola }}" = "1" ]; then KOLA="--bez-kola2"; fi
+          if [ -n "${{ steps.m.outputs.kolo2_vzorek }}" ]; then KOLA="$KOLA --kolo2-vzorek ${{ steps.m.outputs.kolo2_vzorek }}"; fi
           node scripts/faktcheck.js --model --body "$IDS" $KOLA --vystup /tmp/vysledky/faktcheck 2>&1 | tee /tmp/vysledky/faktcheck.log
           node scripts/dev/faktcheck-skore.js /tmp/vysledky/faktcheck public/evaluations.json | tee /tmp/vysledky/skore-faktcheck.txt
 
