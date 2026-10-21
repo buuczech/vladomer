@@ -32,6 +32,25 @@ const REZIM = {
   2: "KOLO 2: zdroje výše tvrzení nepotvrdily. Smíš vyhledávat (web search) na povolených webech. Citovat smíš jen stránku, kterou jsi našel, a citace musí doslova stát v jejím textu — program si stránku stáhne a citaci v ní dohledá. Úřední prameny (e-sbirka.gov.cz, psp.cz, senat.cz, vlada.gov.cz) mají přednost.",
 };
 
+/* Úřední údaje e-Sbírky jako citovatelný zdroj. Číslo, název a datum
+   vyhlášení předpisu program ověřil v rejstříku Sbírky (vrstva D). Model je
+   bez nich neměl odkud citovat a značil je „neověřitelné“ — v měření
+   20. 10. 2026 tak „neověřil“ zákon 90/2026 Sb. u bodu 2.10, který program
+   v e-Sbírce našel. Stránky e-Sbírky jsou aplikace v JavaScriptu, stažený
+   text je prázdný, takže zdroj skládá program z rejstříku. */
+const MESICE = ["ledna", "února", "března", "dubna", "května", "června", "července", "srpna", "září", "října", "listopadu", "prosince"];
+const datumCs = (iso) => { const [r, m, d] = String(iso).split("-").map(Number); return `${d}. ${MESICE[m - 1]} ${r}`; };
+export function zdrojeSbirky(predpisy = []) {
+  const videno = new Set();
+  const out = [];
+  for (const p of predpisy) {
+    if (!p.nazev || !p.url || videno.has(p.kod)) continue;
+    videno.add(p.kod);
+    out.push({ url: p.url, text: `e-Sbírka, úřední údaje Sbírky zákonů ověřené programem: ${p.kod} Sb. — ${p.nazev}. Vyhlášeno ${datumCs(p.vyhlaseno)} (${p.vyhlaseno}).` });
+  }
+  return out;
+}
+
 /**
  * Prompt kontroly jednoho bodu.
  * @param zdroje  [{ url, text }] — texty stažené vrstvou D (zkrácené)
@@ -77,6 +96,8 @@ export function parsujKontrolu(text) {
           nese_stav: t.nese_stav === true,
           citace: typeof t.citace === "string" ? t.citace : "",
           url: typeof t.url === "string" ? t.url : "",
+          // Tvrzení, že něco NENASTALO — citací doložit nejde (pravidlo vlastníka A, 21. 10. 2026).
+          absence: t.absence === true,
         })),
         stav_podle_pravidel: STAVY.has(j.stav_podle_pravidel) ? j.stav_podle_pravidel : null,
         pravidlo: typeof j.pravidlo === "string" && /^M\d+$/.test(j.pravidlo) ? j.pravidlo : null,
@@ -123,15 +144,26 @@ export function overCitace(vysledek, texty) {
 
 /**
  * Souhrn bodu pro vrstvu R a report.
- *   vyvraceno     ověřeně vyvrácená tvrzení, na kterých stojí stav → bod se podrží
- *   neovereno     tvrzení nesoucí stav, která se nepodařilo ověřit → kolo 2 / člověk
- *   spor_o_stav   pravidla dávají jiný stav, než má web → člověk
+ *   vyvraceno          ověřeně vyvrácená tvrzení, na kterých stojí stav → bod se podrží
+ *   neovereno          tvrzení nesoucí stav, která se nepodařilo ověřit → kolo 2 / člověk
+ *   neovereno_absence  z toho tvrzení, že něco NENASTALO („návrh nebyl předložen“):
+ *                      citací doložit nejdou. Rozhodnutí vlastníka (21. 10. 2026,
+ *                      varianta A): bod, jehož stav se nemění, kvůli nim nedrží —
+ *                      KROMĚ „nezahájeno“, kde je tvrzení, že se nic nestalo,
+ *                      celým důvodem stavu. Bez té výjimky by v měření 20. 10.
+ *                      prošlo 15.7 „nezahájeno“, ačkoli zákon je ve výhledu
+ *                      legislativních prací (pravda: „deklarováno“) — a podhodnotit
+ *                      plnění je pro web horší směr. Při změně stavu drží vždy
+ *                      (vrstva R). Platí do napojení otevřených dat Sněmovny (spec 006).
+ *   spor_o_stav        pravidla dávají jiný stav, než má web → člověk
  */
 export function shrnutiBodu(id, e, vysledek) {
   const nesouci = vysledek.tvrzeni.filter((t) => t.nese_stav);
   const vyvraceno = nesouci.filter((t) => t.verdikt === "VYVRACENO" || t.verdikt === "ZASTARALE");
-  const neovereno = nesouci.filter((t) => t.verdikt === "NEOVERITELNE");
   const stavWebu = e.unverifiable ? "unverifiable" : e.status;
+  const absenceDrzi = stavWebu === "not_started";
+  const neovereno = nesouci.filter((t) => t.verdikt === "NEOVERITELNE" && (!t.absence || absenceDrzi));
+  const neoverenoAbsence = nesouci.filter((t) => t.verdikt === "NEOVERITELNE" && t.absence);
   const spor = Boolean(vysledek.stav_podle_pravidel) && !e.unverifiable && vysledek.stav_podle_pravidel !== e.status;
   return {
     bod: id,
@@ -140,6 +172,7 @@ export function shrnutiBodu(id, e, vysledek) {
     pravidlo: vysledek.pravidlo,
     vyvraceno: vyvraceno.length,
     neovereno: neovereno.length,
+    neovereno_absence: neoverenoAbsence.length,
     potvrzeno: nesouci.filter((t) => t.verdikt === "POTVRZENO").length,
     spor_o_stav: spor,
     cisty: !vyvraceno.length && !neovereno.length && !spor,

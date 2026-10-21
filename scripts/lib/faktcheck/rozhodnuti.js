@@ -27,6 +27,8 @@ const obsah = (e) => { if (!e) return null; const { overeno, ...zbytek } = e; re
  *   m-vyvraceno         ověřeně vyvrácené tvrzení nesoucí stav
  *   m-neovereno         tvrzení nesoucí stav, které nešlo ověřit ani v kole 2
  *   m-spor              podle pravidel vlastníka (metodika.md) fakta zakládají jiný stav
+ *   m-neovereno-absence změna stavu stojí na neověřeném tvrzení, že něco nenastalo
+ *                       (přidává rozhodniBod jen u přechodu — rozhodnutí vlastníka A)
  * VAROVÁNÍ vrstvy D bod nedrží: jde do reportu, rozhodne model a vlastník.
  */
 export function problemyBodu(nalezyD = [], m = null) {
@@ -71,6 +73,10 @@ export function rozhodniBod({ bod, pred, po, nalezyD = [], m = null, neprijaty =
        zdroje. Nový úsudek o týchž faktech (stejný doklad) událost není —
        je to oprava a o té rozhoduje vlastník, ne program (10.2 v měření
        20. 10. 2026: správně, ale bez události). */
+    /* Tvrzení, že něco nenastalo, citací doložit nejde. Bod, jehož stav se
+       nemění, kvůli němu nedrží; změna stavu na něm stát nesmí (vlastník,
+       21. 10. 2026 — platí do napojení otevřených dat Sněmovny, spec 006). */
+    if (prechod && s.neovereno_absence > 0) problemy.push("m-neovereno-absence");
     if (prechod && !problemy.length) {
       if (pred && String(pred.evidence || "") === String(po.evidence || "")) problemy.push("prechod-bez-noveho-dokladu");
       else if (!(s.potvrzeno > 0)) problemy.push("prechod-bez-potvrzene-udalosti");

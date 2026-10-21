@@ -89,6 +89,12 @@ Opus 5.5, effort high, Batch API, 46 bodů, data webu k 16. 10. 2026. Čtyři d�
 - **Proč tolik „neověřeno“ (69 tvrzení nesoucích stav, 59 z nich u bodů s čitelnými zdroji):** (a) číslo a datum vyhlášení předpisu, které program ověřil v e-Sbírce, model nemá odkud citovat (2.10, 10.4); (b) tvrzení o tom, že něco NENASTALO („návrh dosud nebyl předložen“), citací doložit nejde — to vyřeší až otevřená data Sněmovny (spec 006); (c) tvrzení, které zdroje opravdu nenesou.
 - **Cena:** kolo 1 0,05 $ za bod → ~7 $ za 143 bodů měsíčně. Do kola 2 by dnes šlo 72 % bodů (~100 měsíčně, odhad 40–60 $) — to rozpočet nepustí; nejdřív se musí snížit (a) a (b).
 
+### 2026-10-21: opravy (a) a (b) — zdarma, odhad na odpovědích z 20. 10.
+
+- **(a)** Ověřené předpisy jsou citovatelný zdroj (`zdrojeSbirky`, údaje rejstříku e-Sbírky). Na odpovědích z 20. 10. by šlo potvrdit 14 tvrzení.
+- **(b)** Model značí tvrzení, že něco nenastalo (`absence`). Rozhodnutí vlastníka (A): nezměněný bod kvůli neověřené absenci nedrží, změna stavu ano. Přehrání ukázalo, že čisté A propustí 15.7 („nezahájeno“, pravda „deklarováno“), proto výjimka: u „nezahájeno“ absence drží dál. Přísnější než čisté A; vlastník může výjimku zrušit.
+- **Odhad** (tvrzení o neexistenci poznaná podle slov, ne modelem): chyceno 19/19, propuštěno 0, zbytečně podrženo 13/27 (bylo 18), do kola 2 28/46 (bylo 33). Skutečné číslo dá až další placené měření.
+
 ## Assumptions
 
 - Vrstva M a R se dokončí po výběru modelu (spec 002). Prompt kontroly faktů je nový soubor a existující prompty se nemění.

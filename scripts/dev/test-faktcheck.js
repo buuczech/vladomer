@@ -14,7 +14,8 @@
  */
 import { readFileSync } from "node:fs";
 import { predpisyZOdpovedi } from "../lib/sbirka.js";
-import { kontrolaBodu, datumyCs, datumyEn, znackySb, citovaneRoky } from "../lib/faktcheck/deterministicky.js";
+import { kontrolaBodu, datumyCs, datumyEn, znackySb, citovaneRoky, citovanePredpisy } from "../lib/faktcheck/deterministicky.js";
+import { zdrojeSbirky, overCitace, parsujKontrolu, shrnutiBodu, klicUrl } from "../lib/faktcheck/modelova.js";
 
 const fx = (n) => JSON.parse(readFileSync(new URL(`./fixtury/${n}`, import.meta.url), "utf8"));
 const rejstrikFx = fx("sbirka-rejstrik.json");
@@ -117,6 +118,40 @@ n = kontrolaBodu("5.4", bod({ status: "broken", unverifiable: false }), { ...KON
 over(n.some((x) => x.pravidlo === "nemeritelne-neuplatneno"), "5.4 na seznamu, na webu měřitelný → VAROVÁNÍ", pravidla(n));
 n = kontrolaBodu("5.4", bod({ status: "broken", unverifiable: true }), { ...KONTEXT, rejstrik: null, nemeritelne: new Set(["5.4"]) });
 over(!n.some((x) => x.pravidlo === "nemeritelne-neuplatneno"), "5.4 už neměřitelný → bez nálezu", pravidla(n));
+
+console.log("\nVrstva M: e-Sbírka jako citovatelný zdroj (bod 10.4, měření 20. 10. 2026)");
+/* V měření model „neověřil“ doklad „zákon č. 152/2026 Sb., vyhlášený 26. 8. 2026“,
+   který program v e-Sbírce našel — neměl ho odkud citovat. */
+const predpisy104 = citovanePredpisy({ evidence: "Zákon č. 152/2026 Sb., vyhlášený 26. 8. 2026", comment: { cs: "Novela zákona č. 152/2026 Sb." } }, REJSTRIK);
+const sb = zdrojeSbirky(predpisy104);
+over(sb.length === 1 && sb[0].url === "https://e-sbirka.gov.cz/sb/2026/152" && sb[0].text.includes("Vyhlášeno 26. srpna 2026 (2026-08-26)"),
+  "jeden zdroj na předpis (doklad i komentář), datum česky i ISO", sb);
+const texty = new Map(sb.map((z) => [klicUrl(z.url), z.text]));
+const odp = (tvrzeni, stav = null) => parsujKontrolu(`Kontroluji.\n${JSON.stringify({ tvrzeni, stav_podle_pravidel: stav, pravidlo: null, zduvodneni: "" })}`);
+let v = overCitace(odp([{ text: "Zákon č. 152/2026 Sb. vyhlášen 26. 8. 2026", verdikt: "POTVRZENO", nese_stav: true, citace: "Vyhlášeno 26. srpna 2026", url: "https://e-sbirka.gov.cz/sb/2026/152" }]), texty);
+over(v.tvrzeni[0].overeno && v.tvrzeni[0].verdikt === "POTVRZENO", "citace z údajů e-Sbírky projde kontrolou kontrolora", v.tvrzeni[0]);
+v = overCitace(odp([{ text: "Zákon vyhlášen 31. 12. 2025", verdikt: "POTVRZENO", nese_stav: true, citace: "Vyhlášeno 31. prosince 2025", url: "https://e-sbirka.gov.cz/sb/2026/152" }]), texty);
+over(v.tvrzeni[0].verdikt === "NEOVERITELNE" && v.tvrzeni[0].duvod_zahozeni === "citace-nenalezena", "vymyšlené datum vyhlášení se citací z e-Sbírky nepotvrdí", v.tvrzeni[0]);
+
+console.log("\nVrstva M: tvrzení, že něco nenastalo (bod 13.7, měření 20. 10. 2026)");
+const t137 = [
+  { text: "Vláda se k tématu zálohování PET lahví a plechovek vyjádřila.", verdikt: "NEOVERITELNE", nese_stav: true, absence: false },
+  { text: "K bodu neexistuje žádný legislativní návrh (ani v připomínkovém řízení, ani schválený vládou).", verdikt: "NEOVERITELNE", nese_stav: true, absence: true },
+  { text: "Vláda ani ministerstvo neiniciovaly k tématu pracovní skupinu.", verdikt: "NEOVERITELNE", nese_stav: true, absence: true },
+];
+const s137 = shrnutiBodu("13.7", { status: "declared" }, odp(t137));
+over(s137.neovereno === 1 && s137.neovereno_absence === 2, "absence se počítá zvlášť: 1 neověřené tvrzení + 2 tvrzení, že něco nenastalo", s137);
+const bezAbsence = shrnutiBodu("13.7", { status: "declared" }, odp(t137.slice(1)));
+over(bezAbsence.cisty && bezAbsence.neovereno_absence === 2, "bod jen s neověřenou absencí je čistý (nezměněný bod kvůli ní nedrží)", bezAbsence);
+over(odp([{ text: "x", verdikt: "POTVRZENO", nese_stav: true, citace: "a b c", url: "u" }]).tvrzeni[0].absence === false, "chybějící „absence“ = false");
+/* 15.7: web „nezahájeno“ jen na tvrzení, že vláda nic neudělala; pravda je
+   „deklarováno“ (zákon ve výhledu legislativních prací). Tady absence drží. */
+const t157 = [
+  { text: "Vláda Andreje Babiše nepředložila ani neschválila specifický legislativní návrh zákona o transformaci uhelných regionů.", verdikt: "NEOVERITELNE", nese_stav: true, absence: true },
+  { text: "K slibu zákona na transformaci uhelných regionů nebyl učiněn žádný doložitelný krok.", verdikt: "NEOVERITELNE", nese_stav: true, absence: true },
+];
+const s157 = shrnutiBodu("15.7", { status: "not_started" }, odp(t157));
+over(!s157.cisty && s157.neovereno === 2, "15.7: u „nezahájeno“ neověřená absence bod drží (jinak by prošlo podhodnocení)", s157);
 
 console.log(chyb ? `\nSELHALO: ${chyb} chyb.` : "\nVše prošlo.");
 process.exit(chyb ? 1 : 0);

@@ -75,7 +75,12 @@ over(r.akce === "podrzet" && r.vlastnik.typ === "kalibrace", "kalibrace: i ově�
 r = rozhodniBod({ bod: "2.3", pred: pred23, po: po23, m: m({ neovereno: 1 }) });
 over(r.akce === "podrzet" && r.vlastnik.typ === "podrzeno", "neověřené tvrzení nesoucí stav → podržet", strucne(r));
 
+r = rozhodniBod({ bod: "2.3", pred: pred23, po: po23, m: m({ potvrzeno: 2, neovereno_absence: 1 }) });
+over(r.akce === "podrzet" && r.problemy.includes("m-neovereno-absence"), "změna stavu na neověřeném tvrzení, že něco nenastalo → podržet (vlastník, 21. 10. 2026)", strucne(r));
+
 console.log("\nNezměněné záznamy");
+r = rozhodniBod({ bod: "6.6", pred: fx.pred["6.6"], po: orazitkuj(fx.pred["6.6"]), m: m({ neovereno_absence: 2 }) });
+over(r.akce === "zverejnit" && !r.vlastnik, "nezměněný bod kvůli neověřené absenci nedrží", strucne(r));
 r = rozhodniBod({ bod: "2.3", pred: fx.pred["2.3"], po: po23, m: m() });
 over(r.akce === "zverejnit" && r.zaznam.overeno === RAZITKO, "kontrola potvrdila → razítko „prověřeno beze změny“ platí", strucne(r));
 r = rozhodniBod({ bod: "2.3", pred: fx.pred["2.3"], po: po23, m: null });

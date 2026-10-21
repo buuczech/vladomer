@@ -16,7 +16,7 @@ CO O NĚM WEB TVRDÍ
 PŘEDPISY, KTERÉ TEXT CITUJE (úřední údaje, které program načetl z e-Sbírky; u čísla bez názvu ho Sbírka nezná nebo ho nešlo ověřit):
 {{PREDPISY}}
 
-ZDROJE (texty, které program stáhl z odkazů u bodu; mohou být zkrácené):
+ZDROJE (texty, které program stáhl z odkazů u bodu; mohou být zkrácené. Zdroj, který začíná „e-Sbírka, úřední údaje“, sestavil program z úředního rejstříku Sbírky zákonů — číslo, název a datum vyhlášení předpisu potvrzuj citací z něj):
 {{ZDROJE}}
 
 {{REZIM_KOLA}}
@@ -29,8 +29,8 @@ POSTUP
    - ZASTARALE — platilo, ale zdroj ukazuje novější vývoj.
    - NEOVERITELNE — zdroj to neříká ani nevyvrací. To je výchozí verdikt.
    U POTVRZENO, VYVRACENO a ZASTARALE uveď DOSLOVNOU citaci — souvislý úsek textu zdroje (5 až 40 slov), přesně jak tam stojí — a URL toho zdroje. Citaci nevymýšlej, nezkracuj uprostřed a neparafrázuj: program ji v textu zdroje hledá znak po znaku a nenalezenou citaci zahodí i s verdiktem.
-3. U každého tvrzení urči, jestli na něm stojí stav bodu (nese_stav true/false).
+3. U každého tvrzení urči, jestli na něm stojí stav bodu (nese_stav true/false) a jestli tvrdí, že něco NENASTALO nebo zatím neexistuje — návrh nebyl předložen, proces nezačal, krok se neudělal (absence true/false). Takové tvrzení potvrď jen tehdy, když to zdroj výslovně říká; jinak je NEOVERITELNE.
 4. Podle pravidel výše urči, jaký stav zakládají fakta, která jsi ve zdrojích ověřil (stav_podle_pravidel), a které pravidlo rozhoduje. Když ověřených faktů nestačí, napiš null.
 
 Odpověz POUZE jedním JSON objektem, bez textu okolo:
-{"tvrzeni":[{"text":"…","verdikt":"POTVRZENO","nese_stav":true,"citace":"…","url":"https://…"}],"stav_podle_pravidel":"partial","pravidlo":"M1","zduvodneni":"1–2 věty"}
+{"tvrzeni":[{"text":"…","verdikt":"POTVRZENO","nese_stav":true,"absence":false,"citace":"…","url":"https://…"}],"stav_podle_pravidel":"partial","pravidlo":"M1","zduvodneni":"1–2 věty"}

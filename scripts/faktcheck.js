@@ -35,7 +35,7 @@ import { readList, readSettings } from "./lib/nastaveni.js";
 import { nactiRejstrik } from "./lib/sbirka.js";
 import { kontrolaBodu, citovaneRoky, citovanePredpisy } from "./lib/faktcheck/deterministicky.js";
 import { stahniVse, stahniZdroj } from "./lib/faktcheck/zdroje.js";
-import { promptKontroly, nactiMetodiku, parsujKontrolu, overCitace, shrnutiBodu, klicUrl } from "./lib/faktcheck/modelova.js";
+import { promptKontroly, nactiMetodiku, parsujKontrolu, overCitace, shrnutiBodu, klicUrl, zdrojeSbirky } from "./lib/faktcheck/modelova.js";
 import {
   teloPozadavku, zavolejApi, overModely, nastavPojistku, pojistkaZasahla, souhrnNakladu,
   odesliDavku, cekejNaDavku, vysledkyDavky,
@@ -184,7 +184,18 @@ if (S_MODELEM) {
   const nezname = vyber.filter((id) => !evals[id]);
   if (nezname.length) { console.error(`--body: neznámá id ${nezname.join(", ")}`); process.exit(1); }
   const metodika = nactiMetodiku();
-  const zdrojeProBod = (id) => (evals[id].sources || []).map((s) => ({ url: s.url, text: textyZdroju.get(klicUrl(s.url)) })).filter((z) => z.text);
+  /* Úřední údaje e-Sbírky ke každému citovanému předpisu jsou citovatelný
+     zdroj (lib/faktcheck/modelova.js, zdrojeSbirky) — jdou do promptu první
+     a do textů, ve kterých program citace dohledává. */
+  const sbirkaBodu = Object.fromEntries(Object.entries(predpisyBodu).map(([id, p]) => [id, zdrojeSbirky(p)]));
+  for (const z of Object.values(sbirkaBodu).flat()) {
+    const dosud = textyZdroju.get(klicUrl(z.url)) || "";
+    if (!dosud.includes(z.text)) textyZdroju.set(klicUrl(z.url), `${z.text}\n${dosud}`.trim());
+  }
+  const zdrojeProBod = (id) => [
+    ...(sbirkaBodu[id] || []),
+    ...(evals[id].sources || []).filter((s) => !(sbirkaBodu[id] || []).some((z) => klicUrl(z.url) === klicUrl(s.url))).map((s) => ({ url: s.url, text: textyZdroju.get(klicUrl(s.url)) })),
+  ].filter((z) => z.text);
   const prompt = (id, kolo) => promptKontroly({ id, slib: SLIBY[id], e: evals[id], predpisy: predpisyBodu[id] || [], zdroje: zdrojeProBod(id), metodika, dnes, nastup, kolo });
   const textOdpovedi = (m) => (m.content || []).filter((b) => b.type === "text").map((b) => b.text).join("\n");
   const vysledky = {};
