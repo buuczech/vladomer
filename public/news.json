@@ -1,41 +1,65 @@
 {
-  "generatedAt": "2026-10-16T14:47:37.677Z",
+  "generatedAt": "2026-10-21T12:19:07.755Z",
   "items": [
     {
       "title": {
-        "cs": "Sněmovna přehlasovala Pavlovo veto k zákonu o státních zaměstnancích",
-        "en": "Parliament overrode presidential veto on state employees law"
+        "cs": "Senátní volby: ANO bez jediného mandátu, Senát zůstává opoziční",
+        "en": "Senate elections: ANO wins no seats, Senate stays in opposition hands"
       },
       "summary": {
-        "cs": "Koalice ANO, SPD a Motoristů hlasy 104 poslanců znovu schválila kontroverzní zákon usnadňující výměnu státních úředníků navzdory prezidentově vetu.",
-        "en": "The ANO, SPD and Motoristé coalition with votes of 104 deputies reapproved a controversial law easing state employee turnover despite the presidential veto."
+        "cs": "Ve druhém kole senátních voleb vyhráli Starostové a ODS, ANO neobhájilo ani jedno křeslo a Babiš výsledek označil za katastrofální.",
+        "en": "In the Senate runoffs, STAN and ODS won most seats while ANO won none, and Babiš called the result a catastrophe."
       },
-      "url": "https://www.echo24.cz/a/H2AVw/zpravy-domaci-babis-chce-skrtnout-desetinu-urednickych-mist-novy-zakon-mu-v-tom-pomuze",
-      "date": "2026-10-16"
+      "url": "https://www.irozhlas.cz/zpravy-domov/online-lide-znovu-voli-rozhodnou-o-zbyvajicich-22-senatorech-mistnosti-se_2610170605_med",
+      "date": "2026-10-17"
     },
     {
       "title": {
-        "cs": "Vláda schválila státní kulturní politiku pro období 2026–2029",
-        "en": "Government approved state cultural policy for 2026–2029"
+        "cs": "Schillerová hájí ve Sněmovně rozpočet se schodkem 386 miliard",
+        "en": "Schillerová defends the 386bn deficit budget in the Chamber"
       },
       "summary": {
-        "cs": "Ministr kultury Klempíř prosadil vládou Státní kulturní politiku, která se dočkala kritiky opozice i části kulturní obce za svůj obsah.",
-        "en": "Culture minister Klempíř pushed through state cultural policy document that faced criticism from opposition and parts of cultural sector."
+        "cs": "Ministryně financí obhajovala při prvním čtení návrh rozpočtu na rok 2027 se schodkem 386 miliard korun a opozice se ostře ohradila proti jejímu vystoupení.",
+        "en": "At the first reading of the 2027 budget, the finance minister defended the 386bn CZK deficit and the opposition reacted sharply."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/vlada-schvalila-navrh-kritizovane-statni-kulturni-politiky/2882438",
-      "date": "2026-10-07"
+      "url": "https://www.forum24.cz/vrchol-politickeho-cynismu-schillerova-hanebne-zneuzila-miladu-horakovou-zuri-opozice",
+      "date": "2026-10-21"
     },
     {
       "title": {
-        "cs": "Koalice prosadila omezení pravomocí prezidenta při obsazování diplomatických misí",
-        "en": "Coalition imposed restrictions on presidential powers for diplomatic missions"
+        "cs": "Koalice přehlasovala Pavlovo veto k zákonu o státních zaměstnancích",
+        "en": "Coalition overrides Pavel's veto on the civil service law"
       },
       "summary": {
-        "cs": "Sněmovna hlasy 104 vládních poslanců přehlasovala i veto prezidenta na zrušení jeho pravomoci jmenovat vedoucí stálých misí u mezinárodních organizací.",
-        "en": "Parliament with 104 coalition votes overrode presidential veto on removing his authority to appoint heads of permanent missions to international organizations."
+        "cs": "Sněmovna hlasy koalice znovu schválila zákon o státních zaměstnancích a zrušila pravomoc prezidenta jmenovat a odvolávat vedoucí stálých misí.",
+        "en": "The Chamber, with coalition votes, re-passed the civil service law and again removed the president's power to appoint and dismiss heads of permanent missions."
       },
-      "url": "https://www.irozhlas.cz/zpravy-domov/pavlovo-veto-padlo-poslanci-schvalili-zruseni-pravomoci-prezidenta-i-pravidla_2610141421_ako",
-      "date": "2026-10-16"
+      "url": "https://www.ceskenoviny.cz/zpravy/snemovna-po-pavlove-vetu-opet-prijala-nova-pravidla-zamestnavani-uredniku-statu/2884672",
+      "date": "2026-10-14"
+    },
+    {
+      "title": {
+        "cs": "Vláda schválila novelu o asistentech pedagoga",
+        "en": "Government approves teaching assistants reform"
+      },
+      "summary": {
+        "cs": "Kabinet po dvou týdnech sporů s koaličními partnery jednomyslně schválil novelu, která mění financování asistentů pedagoga a zastropuje jejich počet.",
+        "en": "After two weeks of coalition disputes, the cabinet unanimously approved a bill changing the funding of teaching assistants and capping their numbers."
+      },
+      "url": "https://www.echo24.cz/a/HZpc5/zpravy-domov-plaga-meni-pravidla-financovani-a-profesionalizace-asistenti-pedagoga",
+      "date": "2026-10-19"
+    },
+    {
+      "title": {
+        "cs": "Politolog: Babiš po volebním debaklu přitvrdí",
+        "en": "Political scientist: Babiš will take a harder line after election losses"
+      },
+      "summary": {
+        "cs": "Analýza dopadů porážky ANO v komunálních a senátních volbách na vládní koalici a Babišovu strategii.",
+        "en": "Analysis of how ANO's losses in local and Senate elections may affect the coalition and Babiš's strategy."
+      },
+      "url": "https://novinky.cz/clanek/podcasty-politicka-sezona-babis-po-volbach-pritvrdi-musi-byt-radikalnejsi-nez-spd-soudi-politolog-40603880",
+      "date": "2026-10-21"
     }
   ]
 }
