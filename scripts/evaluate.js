@@ -47,6 +47,11 @@ const WEBY_ZPRAVY = readList("weby-zpravy.txt");
    Neměřitelnost je vlastnost znění slibu, ne událostí — rozhodl ji člověk
    a program ji drží; model se na ni neptá. */
 const NEMERITELNE = new Set(readList("nemeritelne.txt").map((r) => r.split(/\s+/)[0]));
+/* Platí i pro záznam, který brána podržela: neměřitelnost není přechod
+   stavu, a bez toho by brána záznam s dosavadním stavem držela každý měsíc
+   znovu a bod by šel k vlastníkovi pořád dokola (5.4 a 1.2 v měření
+   21. 10. 2026). Stav ani komentář se nemění — jen se uplatní rozhodnutí. */
+const sNemeritelnosti = (id, zaznam) => (NEMERITELNE.has(id) && !zaznam.unverifiable ? { ...zaznam, unverifiable: true } : zaznam);
 
 // Nothing this cabinet did can predate its own appointment. The first full run
 // on the strict scale credited it with laws published in August 2025 — i.e.
@@ -798,7 +803,7 @@ async function main() {
             brana.drzeno.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]}: ${verdikt.duvod}`
               + `${verdikt.detail ? `; ${verdikt.detail}` : ""})`);
             NEPRIJATE[id] = { akce: "drzeno", duvod: verdikt.duvod, detail: verdikt.detail || null, navrh };
-            pridat[id] = { ...minuly, overeno: ted };
+            pridat[id] = sNemeritelnosti(id, { ...minuly, overeno: ted });
             continue;
           }
           if (verdikt.akce === "overit" && OVEROVAT_PRECHODY) {
@@ -812,7 +817,7 @@ async function main() {
                 brana.zamitnuto.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]}: ${v.duvod}`
                   + `; doklad: ${String(navrh.evidence || "").slice(0, 200)})`);
                 NEPRIJATE[id] = { akce: "zamitnuto", duvod: v.duvod, detail: null, navrh };
-                pridat[id] = { ...minuly, overeno: ted };
+                pridat[id] = sNemeritelnosti(id, { ...minuly, overeno: ted });
                 continue;
               }
               brana.potvrzeno.push(`${id} (${STATUS_CS[minuly.status]}→${STATUS_CS[navrh.status]})`);
@@ -821,7 +826,7 @@ async function main() {
                  podrží minulý stav a příští běh to zkusí znovu. */
               brana.chybaOvereni.push(`${id}: ${e.message}`.slice(0, 160));
               NEPRIJATE[id] = { akce: "chyba-overeni", duvod: e.message.slice(0, 160), detail: null, navrh };
-              pridat[id] = { ...minuly, overeno: ted };
+              pridat[id] = sNemeritelnosti(id, { ...minuly, overeno: ted });
               continue;
             }
           }

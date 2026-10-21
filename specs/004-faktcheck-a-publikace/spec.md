@@ -152,6 +152,25 @@ Hodnocení 5,09 $, kontrola faktů 13,07 $ (kolo 1 3,43 $; kolo 2 9,64 $ za 17 b
 - **8.7 zůstává:** hodnotitel tentokrát zářijový návrh rozpočtu nenašel (minule ano) a komentář stojí na červnovém vyjádření ministra; kontrola ověřuje web proti jeho zdrojům a novější událost nevidí. Je to rozptyl vyhledávání hodnotitele, ne chyba pravidel — upřesněné M3 se neuplatnilo, protože fakt o rozpočtu v podkladech nebyl.
 - Zátěž vlastníka 26/46 — sady jsou vybrané s převahou sporných bodů, na všech 143 bodech se změří až generálkou.
 
+### 2026-10-21: řetěz s vydáním B (spec 007; schválil vlastník v rámci 70 $, strop 20 $; stálo 20,20 $)
+
+Stejný režim a stejná data DEV2 jako obě měření výše; jediný rozdíl je vydání B v promptech hodnotitele a ověřovatelů. Hodnocení 7,02 $ (dřív 5,08 a 5,09 $), kontrola faktů 13,18 $; pojistka zastavila kolo 2 po 16 z 24 bodů (přesah 0,20 $). Srovnání podle dnešní pravdy (13.5 a 8.7 upravené vlastníkem 21. 10.):
+
+| | řetěz 1 | řetěz 2 | vydání B |
+|---|---|---|---|
+| návrh hodnotitele (před branou) sedí s pravdou | 32 (Z 15, K 17) | 33 (Z 15, K 18) | 33 (Z 17, K 16) |
+| hodnocení po bráně sedí | 27 | 28 | 29 |
+| na web jako ověřené se špatným stavem | 2 (3.2, 8.7) | 1 (8.7) | 1 (15.2) |
+| k vlastníkovi | 26 | 26 | 26 |
+
+- **Přesnost hodnotitele se měřitelně nezlepšila.** Rozdíl 0–2 body je v mezích rozptylu mezi běhy (body 2.6, 2.7, 6.8, 7.8, 8.7, 10.2 se mezi běhy přelévají i bez změny promptu).
+- **Lépe:** 3.2 — hodnotitel sám použil M10 („superdávka se slibem jen sdílí téma“) a návrh „částečně“ opustil (zvolil ale „nezahájeno“, pravda „deklarováno“); 6.6 a 17.3.
+- **Hůř:** 10.8 a 15.7 „nezahájeno“ místo „deklarováno“ — podle M6 rozhoduje úkol v Plánu legislativních prací, který model nemá odkud číst; u 15.7 se komentář opírá i o seznam tisků („návrh v seznamu není“). Seznam říká jen, že návrh předložen nebyl, ne že vláda nic nenaplánovala.
+- **Trvalé rozdíly ve výkladu** (ve všech třech bězích): 1.3, 10.1, 10.9, 15.2, 16.3.
+- **Brána drží rozhodnutí vlastníka:** 5.4 a 1.2 (neměřitelné podle `nemeritelne.txt`) brána podržela jako měřitelné, protože odchod z „porušeno“ bez datovaného dokladu nepustí. Opraveno: rozhodnutí platí i pro podržený záznam (`evaluate.js`, ohlášený patch `04-nemeritelne-pri-drzeni.patch`) a vrstva R ho nebere jako přechod (`rozhodnuti.js`, parametr `nemeritelne`). Přehráno na datech měření: oba body se na webu ukážou jako neměřitelné; k vlastníkovi jdou dál, protože kontrola faktů zpochybnila jejich starý komentář.
+- **Cena:** prompt hodnocení je o ~30 000 znaků delší (metodika ~5 500, seznam tisků ~24 000) a s vyhledáváním se čte v každém kole znovu — proto +1,9 $ na 46 bodů, ne +0,4 $ podle prvního odhadu. Měsíční běh: hodnocení ~9–11 $ místo 6–8 $.
+- Další krok s největší nadějí: Plán legislativních prací a Výhled jako primární záznam pro „deklarováno“ (spec 006, T008).
+
 ## Assumptions
 
 - Vrstva M a R se dokončí po výběru modelu (spec 002). Prompt kontroly faktů je nový soubor a existující prompty se nemění.

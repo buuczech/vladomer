@@ -2,7 +2,7 @@
 
 **Feature Branch**: `DEV2`
 **Created**: 2026-10-21
-**Status**: Hotové v kódu (parita: ohlášený patch `03-vydani-b.patch`); čeká na placené měření řetězu na obou sadách.
+**Status**: Hotové v kódu (parita: ohlášený patch `03-vydani-b.patch`). Změřeno 21. 10. 2026 (spec 004): přesnost hodnotitele beze změny (33/46 proti 32 a 33), na web se špatným stavem 1, cena hodnocení +38 %. O ponechání rozhodne vlastník; generálka dá druhý bod měření zdarma.
 **Input**: Rozbor odpovědí Sonnetu 5.5 z měření 20. a 21. 10. 2026: ve čtyřech z pěti chyb hodnotitel našel stejná fakta jako vlastník a zařadil je podle jiných pravidel. Pravidla M1–M10 byla jen v hlavě vlastníka, v sadách a v promptu kontroly faktů, ne v promptu hodnocení — a ten jim v M1 (dílo předchozí vlády) a M3 (příklad porušení) dokonce odporoval. U bodu 3.2 chyběl oddíl programového prohlášení, bez kterého je slib nejednoznačný. Stádium legislativního procesu model hádal ze zpráv, ačkoli ho Sněmovna zveřejňuje jako úřední záznam.
 
 ## User Scenarios & Testing *(mandatory)*
@@ -42,6 +42,14 @@ Hodnotitel dostane úplný seznam návrhů zákonů období z otevřených dat S
 - **SC-002**: Na web jako ověřené se špatným stavem: 0.
 - **SC-003**: Méně bodů k vlastníkovi než 26/46.
 - **SC-004**: Cena hodnocení vzroste nejvýš o ~1 $ za měsíční běh (metodika ~1 500 a seznam tisků ~8 000 tokenů na dotaz).
+
+## Výsledek měření (2026-10-21)
+
+- SC-001 nesplněno přesvědčivě: po bráně 29 proti 27 a 28, návrh hodnotitele 33 proti 32 a 33 — v mezích rozptylu.
+- SC-002 nesplněno: 1 bod (15.2) na web se špatným stavem, stejně jako v druhém řetězu.
+- SC-003 beze změny: 26 bodů k vlastníkovi.
+- SC-004 nesplněno: hodnocení +1,9 $ na 46 bodů (prompt se s vyhledáváním čte v každém kole znovu).
+- Měření odhalilo, že brána drží rozhodnutí vlastníka o neměřitelnosti (5.4, 1.2) — opraveno patchem 04.
 
 ## Assumptions
 

@@ -111,6 +111,22 @@ const n = oznacAudit(audit, dnes, beh.body);
 over(n === 1 && audit[1].zadrzeno === true && audit[1].faktcheck.includes("prechod-bez-noveho-dokladu"), "dnešní řádek podrženého 10.2 nese zadrzeno a důvod", audit[1]);
 over(!audit[0].zadrzeno && !audit[2].zadrzeno && !audit[3].zadrzeno, "starší řádky, zveřejněné body a opravy se nemění (append-only)");
 
+console.log("\nNeměřitelnost podle vlastníka (nemeritelne.txt)");
+{
+  const pred54 = { status: "broken", unverifiable: false, evidence: "x", comment: { cs: "a", en: "a" }, updatedAt: "2026-10-16T10:00:00Z" };
+  const drzeny = { ...pred54, overeno: "2026-11-01T06:00:00Z", unverifiable: true }; // evaluate.js: brána podržela, rozhodnutí vlastníka platí
+  const nem = new Set(["5.4"]);
+  const a = rozhodniBod({ bod: "5.4", pred: pred54, po: drzeny, m: { shrnuti: { potvrzeno: 1 } }, kalibrace: true, nemeritelne: nem });
+  over(a.akce === "zverejnit" && !a.vlastnik && a.zaznam.unverifiable, "záznam liší jen neměřitelností podle vlastníka: zveřejní se, k vlastníkovi nejde (ani v kalibraci)", a);
+  const b = rozhodniBod({ bod: "5.4", pred: pred54, po: drzeny, nalezyD: [{ bod: "5.4", zavaznost: "CHYBA", pravidlo: "x", nesestav: true }], m: { shrnuti: { vyvraceno: 1 } }, nemeritelne: nem });
+  over(b.akce === "bez-razitka" && b.zaznam.unverifiable === true, "i bez razítka zůstane bod neměřitelný", b.zaznam);
+  const prepsany = { ...pred54, status: "declared", unverifiable: true, evidence: "y", comment: { cs: "b", en: "b" }, updatedAt: "2026-11-01T06:00:00Z" };
+  const c = rozhodniBod({ bod: "5.4", pred: pred54, po: prepsany, m: { shrnuti: { vyvraceno: 1 } }, nemeritelne: nem });
+  over(c.akce === "podrzet" && c.zaznam.status === "broken" && c.zaznam.unverifiable === true, "podržený přepis: předchozí záznam, ale neměřitelný", c.zaznam);
+  const d = rozhodniBod({ bod: "5.4", pred: pred54, po: drzeny, m: { shrnuti: { potvrzeno: 1 } } });
+  over(d.vlastnik, "bez seznamu vlastníka jde změna neměřitelnosti k vlastníkovi jako dřív", d);
+}
+
 console.log("\nPR s návrhy (lib/navrhy.js)");
 const rozh = { beh: dnes, body: beh.body };
 const soubor = novySoubor({ rozhodnuti: rozh, zaklad: "abc123" });

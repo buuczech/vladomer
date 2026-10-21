@@ -54,6 +54,7 @@ export function problemyBodu(nalezyD = [], m = null) {
  * @param m          výsledek vrstvy M k bodu ({ shrnuti, finalni }), null = neběžela
  * @param neprijaty  návrh, který brána podržela / ověřovatel zamítl (NAVRHY_BEHU), nebo null
  * @param kalibrace  první měsíční běhy: každý přechod stavu schvaluje vlastník
+ * @param nemeritelne  body, které vlastník rozhodl jako neměřitelné (nemeritelne.txt)
  * @returns {{ bod, akce: "zverejnit"|"podrzet"|"bez-razitka", zaznam, problemy, prechod, vlastnik }}
  *   zverejnit    na web jde záznam z běhu
  *   podrzet      na web jde CELÝ předchozí záznam (běh ho přepsal, ale neprošel)
@@ -61,7 +62,13 @@ export function problemyBodu(nalezyD = [], m = null) {
  *                bez nového „prověřeno beze změny“ — to by bylo nepravdivé
  *   vlastnik     null, nebo { typ, navrh } — co jde do PR a reportu
  */
-export function rozhodniBod({ bod, pred, po, nalezyD = [], m = null, neprijaty = null, kalibrace = false }) {
+export function rozhodniBod({ bod, pred: predZBehu, po, nalezyD = [], m = null, neprijaty = null, kalibrace = false, nemeritelne = new Set() }) {
+  /* Rozhodnutí vlastníka o neměřitelnosti platí i pro předchozí záznam:
+     není to tvrzení modelu ani přechod, který by šlo ověřit citací. Bez
+     toho by záznam, který se od minula liší jen jím, šel jako „přechod
+     bez nové události“ k vlastníkovi každý měsíc znovu (5.4 a 1.2 v měření
+     21. 10. 2026) a podržený bod by na webu zůstal měřitelný. */
+  const pred = predZBehu && nemeritelne.has(bod) && !predZBehu.unverifiable ? { ...predZBehu, unverifiable: true } : predZBehu;
   const problemy = problemyBodu(nalezyD, m);
   const zmenen = !pred || obsah(pred) !== obsah(po);
   const prechod = pred && stavZaznamu(pred) !== stavZaznamu(po) ? { z: stavZaznamu(pred), na: stavZaznamu(po) } : null;
@@ -114,7 +121,7 @@ export function rozhodniBod({ bod, pred, po, nalezyD = [], m = null, neprijaty =
  * Rozhodne celý běh.
  * @returns { evals (k zveřejnění), body: { id → rozhodnutí bez záznamu }, souhrn }
  */
-export function rozhodniBeh({ pred = {}, po = {}, nalezy = [], modelova = null, neprijate = {}, kalibrace = false }) {
+export function rozhodniBeh({ pred = {}, po = {}, nalezy = [], modelova = null, neprijate = {}, kalibrace = false, nemeritelne = new Set() }) {
   const nalezyPodleBodu = {};
   for (const n of nalezy) (nalezyPodleBodu[n.bod] = nalezyPodleBodu[n.bod] || []).push(n);
   const evals = {};
@@ -125,7 +132,7 @@ export function rozhodniBeh({ pred = {}, po = {}, nalezy = [], modelova = null, 
       nalezyD: nalezyPodleBodu[bod] || [],
       m: modelova && modelova.body ? modelova.body[bod] || null : null,
       neprijaty: neprijate[bod] || null,
-      kalibrace,
+      kalibrace, nemeritelne,
     });
     evals[bod] = r.zaznam;
     const { zaznam, ...bezZaznamu } = r;

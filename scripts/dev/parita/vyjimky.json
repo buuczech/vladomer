@@ -21,6 +21,10 @@
     {
       "patch": "zmeny/03-vydani-b.patch",
       "duvod": "Vydání B (spec 007): hodnotitel i oba ověřovatelé dostávají pravidla vlastníka (scripts/nastaveni/metodika.md, M1–M10) a u každého bodu oddíl programového prohlášení (případ 3.2); hodnotitel navíc seznam návrhů zákonů z otevřených dat Sněmovny (lib/psp.js, {{TISKY_PSP}}). Definice stavů v promptu hodnocení nahradila metodika, příklad porušení odpovídá M3, ubyly verzálky psané pro Haiku. Na neměřitelnost se model neptá (jen nemeritelne.txt). Pryč týdenní formulace v doptání a zprávách. Mění texty promptů i zveřejněná data — změřeno na zlaté a kontrolní sadě."
+    },
+    {
+      "patch": "zmeny/04-nemeritelne-pri-drzeni.patch",
+      "duvod": "Rozhodnutí vlastníka o neměřitelnosti (nemeritelne.txt) platí i pro záznam, který brána podržela nebo ověřovatel zamítl: není to přechod stavu. Bez toho brána držela 5.4 a 1.2 jako měřitelné každý měsíc znovu (měření řetězu 21. 10. 2026). Mění zveřejněná data (příznak unverifiable u podržených bodů ze seznamu), texty promptů ne."
     }
   ],
   "soubory": [

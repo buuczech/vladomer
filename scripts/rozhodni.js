@@ -21,7 +21,7 @@
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { readSettings } from "./lib/nastaveni.js";
+import { readSettings, readList } from "./lib/nastaveni.js";
 import { rozhodniBeh, stavZaznamu, oznacAudit, upravSnimek, nezverejnene as jenNezverejnene } from "./lib/faktcheck/rozhodnuti.js";
 
 const KOREN = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -47,7 +47,9 @@ const dnes = String(data.lastUpdated || new Date().toISOString()).slice(0, 10);
 if (!D) console.log("POZOR: chybí výstup vrstvy D (deterministicky.json) — rozhoduje se jen podle vrstvy M");
 if (!M) console.log("POZOR: chybí výstup vrstvy M (modelova.json) — nic se nepustí jako ověřené");
 
-const { evals, body, souhrn } = rozhodniBeh({ pred, po: data.evals || {}, nalezy: (D && D.nalezy) || [], modelova: M, neprijate, kalibrace });
+// Body, které vlastník rozhodl jako neměřitelné — stejný seznam jako v evaluate.js.
+const nemeritelne = new Set(readList("nemeritelne.txt").map((r) => r.split(/\s+/)[0]));
+const { evals, body, souhrn } = rozhodniBeh({ pred, po: data.evals || {}, nalezy: (D && D.nalezy) || [], modelova: M, neprijate, kalibrace, nemeritelne });
 const nezverejnene = jenNezverejnene(body);
 
 /* --- výpis ---------------------------------------------------------------- */

@@ -9,5 +9,7 @@
 - [x] T007 Parita: `zmeny/03-vydani-b.patch`, `vyjimky.json`, data Sněmovny z fixtury v `zmrazit.js`
 - [x] T008 `dump-prompts.js`: ověření modelů, SSE pro modely 5.x, data Sněmovny, ochrana `naklady.json` (nefungoval od spec 002)
 - [x] T009 Web: ukázka promptu se seznamem tisků a znění bodu u ověřovatele (`vite.config.js`), metodika, „Změny metodiky“, popis promptu hodnocení; NAVOD, CLAUDE.md, AGENTS.md
-- [ ] T010 Placené měření řetězu na 46 bodech (`rezim: retez`), srovnání s 21. 10. 2026; výsledek sem a do spec 004
-- [ ] T011 Ověření: všech 14 offline kontrol, parita, build, `test-soukromi --dist`
+- [x] T010 Placené měření řetězu na 46 bodech (`rezim: retez`, 20,20 $): přesnost beze změny, výsledek ve spec 004
+- [x] T010b Rozhodnutí vlastníka o neměřitelnosti i pro záznam podržený branou (`evaluate.js`, patch 04) a ve vrstvě R (`rozhodnuti.js`); test v `test-rozhodnuti.js`
+- [ ] T010c Druhý bod měření z generálky (46 bodů sad z výstupu celého běhu, zdarma); pak rozhodnutí vlastníka o ponechání B
+- [x] T011 Ověření: všech 14 offline kontrol, parita, build, `test-soukromi --dist`
