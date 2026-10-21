@@ -39,6 +39,8 @@ export function problemyBodu(nalezyD = [], m = null) {
   else {
     if (s.vyvraceno > 0) p.push("m-vyvraceno");
     if (s.neovereno > 0) p.push("m-neovereno");
+    // Vysvětlení pro vlastníka: kolo 2 by tvrzení možná ověřilo, ale nevešlo se do stropu.
+    if (s.neovereno > 0 && m.kolo2_vynechano === "strop") p.push("m-kolo2-strop");
     if (s.spor_o_stav) p.push("m-spor");
   }
   return [...new Set(p)];

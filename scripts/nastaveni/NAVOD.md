@@ -207,6 +207,12 @@ celý běh je v `mesicni-beh.yml`) a trvá několik hodin:
 - Nevyřízený PR ti po třech dnech připomene e-mail. Příští měsíční běh ho
   zavře a body posoudí znovu.
 
+**Strop 2. kola kontroly faktů** (`faktcheck_druhe_kolo_usd`, výchozí 15 $): 2. kolo
+dohledává vyhledáváním tvrzení, která zdroje u bodu nepotvrdily. Je drahé
+(~0,44 $ za bod), proto má strop a jde v pořadí změny stavu → „splněno“
+a „porušeno“ → ostatní. Co se nevejde, přijde k tobě jako neověřené —
+ven nejde nic, co ověřené není.
+
 **Kalibrace** (`faktcheck_kalibrace = 1`): první dva měsíční běhy půjde k tobě
 i každá potvrzená změna stavu. Pak nastav 0.
 

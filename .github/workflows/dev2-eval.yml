@@ -23,6 +23,11 @@ name: DEV2 měření (stojí peníze)
 #               kde se web liší od pravdy, kontrola chytila. Hodnocení neběží.
 #               kola: 1 = jen kolo 1 (dávka), 2 = obě kola (výchozí);
 #               kolo2_vzorek: N = kolo 2 jen na N bodech (měření jeho ceny).
+#   retez       řetěz měsíčního běhu na 46 bodech zlaté a kontrolní sady nad
+#               daty z DEV2: hodnocení (bez korektury a zpráv) → kontrola faktů
+#               (s daty Sněmovny, kolo 2 se stropem) → rozhodnutí, bez kalibrace.
+#               retez-skore.js: kolik bodů by šlo na web jako ověřené se špatným
+#               stavem (cíl 0) a kolik práce dostane vlastník.
 #   generalka   celý měsíční běh (mesicni-beh.yml — přesně to, co poběží na
 #               main) nad daty z DEV2, jen se nic nezapíše na main, nezaloží
 #               PR a e-mail má v předmětu [ZKOUŠKA]. pojistka_usd = strop
@@ -97,7 +102,7 @@ jobs:
       # Vstupem jsou VŽDY data z main: brána rozhoduje podle minulých stavů,
       # a jen s produkčními daty se běh chová jako ostrý.
       - name: Vstupní data z main
-        if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim != 'faktcheck'
+        if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim != 'faktcheck' && steps.m.outputs.rezim != 'retez'
         run: |
           git checkout origin/main -- public/evaluations.json public/history.json public/news.json public/audit.json
           mkdir -p /tmp/vstup && cp public/*.json /tmp/vstup/
@@ -129,8 +134,29 @@ jobs:
           node scripts/faktcheck.js --model --body "$IDS" $KOLA --vystup /tmp/vysledky/faktcheck 2>&1 | tee /tmp/vysledky/faktcheck.log
           node scripts/dev/faktcheck-skore.js /tmp/vysledky/faktcheck public/evaluations.json | tee /tmp/vysledky/skore-faktcheck.txt
 
+      - name: Řetěz — hodnocení → kontrola faktů → rozhodnutí
+        if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim == 'retez'
+        env:
+          REZIM_BEHU: plny
+          CHAPTER_LIMIT: "18"
+          BEZ_KOREKTURY: "1"
+          BEZ_ZPRAV: "1"
+          NAVRHY_BEHU: /tmp/navrhy.json
+          FAKTCHECK_KALIBRACE: "0"
+          DAVKA_PRVNI: "12"
+        run: |
+          mkdir -p /tmp/vysledky /tmp/pred && cp public/*.json /tmp/pred/
+          node -e 'const j=require("./public/evaluations.json");console.log("data z DEV2: lastUpdated",j.lastUpdated)'
+          IDS=$(node -e 'const z=require("./scripts/dev/fixtury/zlata-sada.json"),k=require("./scripts/dev/fixtury/kontrolni-sada.json");console.log([...new Set([...z.body,...k.body].map(b=>b.id))].join(","))')
+          BODY="$IDS" node scripts/evaluate.js 2>&1 | tee /tmp/vysledky/hodnoceni.log; test ${PIPESTATUS[0]} -eq 0
+          cp public/evaluations.json /tmp/vysledky/po-hodnoceni.json
+          node scripts/faktcheck.js --model --zapsat-naklady --body "$IDS" --pred /tmp/pred/evaluations.json --vystup /tmp/vysledky/faktcheck 2>&1 | tee /tmp/vysledky/faktcheck.log
+          node scripts/rozhodni.js --pred /tmp/pred/evaluations.json --navrhy /tmp/navrhy.json --faktcheck /tmp/vysledky/faktcheck 2>&1 | tee /tmp/vysledky/rozhodnuti.log
+          cp public/evaluations.json /tmp/vysledky/po-rozhodnuti.json; cp /tmp/navrhy.json /tmp/vysledky/ 2>/dev/null || true
+          node scripts/dev/retez-skore.js public/evaluations.json /tmp/vysledky/faktcheck/rozhodnuti.json /tmp/vysledky/po-hodnoceni.json | tee /tmp/vysledky/skore-retez.txt
+
       - name: Běh 1
-        if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim != 'faktcheck'
+        if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim != 'faktcheck' && steps.m.outputs.rezim != 'retez'
         env:
           REZIM_BEHU: plny
           CHAPTER_LIMIT: "18"
@@ -172,7 +198,8 @@ jobs:
             echo "## Měření DEV2 — ${{ steps.m.outputs.rezim }}"
             echo
             grep -h "^Cena běhu" /tmp/vysledky/beh*.log 2>/dev/null | sed 's/^/- /'
-            grep -h "^Cena vrstvy M" /tmp/vysledky/faktcheck.log 2>/dev/null | sed 's/^/- /'
+            grep -h "^Cena běhu\|^Cena vrstvy M\|^  kolo [12]:" /tmp/vysledky/hodnoceni.log /tmp/vysledky/faktcheck.log 2>/dev/null | sed 's/^/- /'
+            if [ -f /tmp/vysledky/skore-retez.txt ]; then echo "### řetěz"; echo '```'; grep -E "^(souhrn|Na web)" /tmp/vysledky/skore-retez.txt; echo '```'; fi
             if [ -f /tmp/vysledky/skore-faktcheck.txt ]; then echo "### kontrola faktů"; echo '```'; grep -E "^(souhrn|Akceptace)" /tmp/vysledky/skore-faktcheck.txt; echo '```'; fi
             echo
             for f in /tmp/vysledky/skore-beh*.txt; do [ -f "$f" ] && { echo "### $(basename $f)"; echo '```'; tail -8 "$f"; echo '```'; }; done

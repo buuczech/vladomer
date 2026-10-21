@@ -188,3 +188,10 @@ faktcheck_model = claude-opus-5-5
 # zveřejní. Platí pro první dva měsíční běhy, než se ukáže, jak kontrola
 # rozhoduje. Potom 0: ověřené změny půjdou na web samy a k tobě jen sporné.
 faktcheck_kalibrace = 1
+
+# Kolik smí za běh stát 2. kolo kontroly faktů — dohledávání s vyhledáváním
+# u tvrzení, která zdroje u bodu nepotvrdily (~0,44 $ za bod). Jde v pořadí:
+# změny stavu, pak „splněno“ a „porušeno“, pak ostatní. Co se nevejde,
+# zůstane neověřené, na web nepůjde a přijde ti k rozhodnutí. Nic se tím
+# nevynechá — 1. kolem projdou vždy všechny body. (0 až 200)
+faktcheck_druhe_kolo_usd = 15

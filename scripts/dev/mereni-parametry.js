@@ -17,7 +17,7 @@ if (!m.schvaleno || !String(m.schvaleno).trim()) {
   out("spustit", "false");
   process.exit(0);
 }
-const REZIMY = ["zlata-sada", "stabilita", "beh", "faktcheck", "generalka"];
+const REZIMY = ["zlata-sada", "stabilita", "beh", "faktcheck", "generalka", "retez"];
 if (!REZIMY.includes(m.rezim)) {
   console.error(`mereni.json: neznámý rezim „${m.rezim}“ — povoleno ${REZIMY.join(", ")}`);
   process.exit(1);
@@ -27,7 +27,7 @@ if (m.rezim === "faktcheck" && m.kola != null && ![1, 2].includes(m.kola)) {
   console.error(`mereni.json: kola musí být 1 nebo 2, ne „${m.kola}“`);
   process.exit(1);
 }
-console.log(m.rezim === "faktcheck"
+console.log(["faktcheck", "retez"].includes(m.rezim)
   ? `Režim: faktcheck; model kontroly=${m.faktcheck_model || "nastavení"}, kola ${m.kola ?? 2}; odhad ${m.odhad_usd ?? "?"} $`
   : `Režim: ${m.rezim}; modely: hodnocení=${m.model || "nastavení"}, ověření=${m.overovaci_model || "nastavení"}, `
     + `korektura=${m.korektura_model || "nastavení"}; odhad ${m.odhad_usd ?? "?"} $`);

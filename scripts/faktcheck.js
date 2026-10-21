@@ -6,6 +6,7 @@
  *     node scripts/faktcheck.js --model --body 2.3,12.2 --bez-davky
  *     node scripts/faktcheck.js --model --bez-kola2   # jen kolo 1 (měření; ostrý běh vždy obě kola)
  *     node scripts/faktcheck.js --model --kolo2-vzorek 10  # kolo 2 jen na vzorku (měření ceny kola 2)
+ *     node scripts/faktcheck.js --model --pred <evaluations před během>  # pořadí kola 2: změny stavu napřed
  *     node scripts/faktcheck.js --model --zapsat-naklady  # měsíční běh: pojistka na celý běh, cena do public/naklady.json
  *     node scripts/faktcheck.js --model --body … --vyzvednout msgbatch_…  # výsledky už zaplacené dávky (z davky.json nebo logu)
  *     node scripts/faktcheck.js --vystup adresar
@@ -50,6 +51,8 @@ const S_MODELEM = process.argv.includes("--model");
 const BEZ_DAVKY = process.argv.includes("--bez-davky");
 const BEZ_KOLA2 = process.argv.includes("--bez-kola2");
 const VYZVEDNOUT = (arg("vyzvednout", "") || "").split(",").map((x) => x.trim()).filter(Boolean);
+// Data před během (měsíční běh: /tmp/pred/evaluations.json) — jen kvůli pořadí kola 2.
+const PRED = arg("pred", null) && existsSync(arg("pred")) ? JSON.parse(readFileSync(arg("pred"), "utf8")).evals || {} : null;
 const VYSTUP = resolve(KOREN, arg("vystup", "faktcheck-vystup"));
 
 const data = JSON.parse(readFileSync(join(KOREN, "public", "evaluations.json"), "utf8"));
@@ -345,10 +348,21 @@ if (S_MODELEM) {
      aniž by se platilo za všechny. Ostatní zůstanou s výsledkem kola 1.
      Ostrý běh vzorek nepoužívá. */
   const VZOREK = Number(arg("kolo2-vzorek", 0)) || 0;
-  const doKola2Beh = VZOREK && doKola2.length > VZOREK
+  /* Pořadí a strop kola 2 (rozhodnutí vlastníka 21. 10. 2026). Kolo 2 stojí
+     ~0,44 $ za bod a potřebovalo by ho přes polovinu bodů, takže má vlastní
+     strop (faktcheck_druhe_kolo_usd) a jde v pořadí: změny stavu proti datům
+     před během, pak „splněno“ a „porušeno“, pak ostatní. Co se do stropu
+     nevejde, zůstane s výsledkem kola 1 — neověřené se nezveřejní, podrží
+     se a přijde vlastníkovi (vrstva R). Žádný bod se nevynechá z kola 1. */
+  const stavB = (e) => (e ? (e.unverifiable ? "unverifiable" : e.status) : null);
+  const priorita = (id) => (PRED && PRED[id] && stavB(PRED[id]) !== stavB(evals[id]) ? 0 : ["fulfilled", "broken"].includes(evals[id].status) ? 1 : 2);
+  const serazene = doKola2.map((id, i) => ({ id, i, p: priorita(id) })).sort((a, b) => a.p - b.p || a.i - b.i).map((x) => x.id);
+  const doKola2Beh = VZOREK && serazene.length > VZOREK
     ? Array.from({ length: VZOREK }, (_, i) => doKola2[Math.floor((i * doKola2.length) / VZOREK)])
-    : doKola2;
-  console.log(`  kolo 2 (s vyhledáváním): ${doKola2.length} bodů${BEZ_KOLA2 ? " — VYNECHÁNO (--bez-kola2)" : doKola2Beh.length < doKola2.length ? ` — VZOREK ${doKola2Beh.length}: ${doKola2Beh.join(", ")}` : ""}`);
+    : serazene;
+  const STROP2 = Number(process.env.FAKTCHECK_KOLO2_USD) || NAST.faktcheck_druhe_kolo_usd;
+  const nadStrop = [];
+  console.log(`  kolo 2 (s vyhledáváním): ${doKola2.length} bodů, strop ${STROP2} $${BEZ_KOLA2 ? " — VYNECHÁNO (--bez-kola2)" : doKola2Beh.length < doKola2.length ? ` — VZOREK ${doKola2Beh.length}: ${doKola2Beh.join(", ")}` : ""}`);
   /* Odpověď s vyhledáváním se nemusí vrátit hotová: pause_turn (server
      přerušil smyčku vyhledávání) se jen nechá dokončit, a na volání
      nástroje, který neexistuje (stalo se v hodnocení 20. 10. 2026), se
@@ -374,6 +388,11 @@ if (S_MODELEM) {
   };
   for (const id of BEZ_KOLA2 || zastavenoPredem ? [] : doKola2Beh) {
     if (pojistkaZasahla()) break;
+    // Strop kola 2: další bod se pustí, jen když se i s průměrem dosavadních vejde.
+    const r2 = souhrnNakladu().podle_role["faktcheck-2"];
+    const hotovo2 = Object.values(vysledky).filter((v) => v.kolo2).length;
+    const odhad2 = hotovo2 && r2 ? r2.usd / hotovo2 : 0.5;
+    if ((r2 ? r2.usd : 0) + odhad2 > STROP2) { nadStrop.push(id); continue; }
     try {
       const zprava = await kolo2(id);
       // Citované stránky, které program ještě nemá, si stáhne (jen z povolených webů).
@@ -392,13 +411,13 @@ if (S_MODELEM) {
   const body = {};
   for (const id of vyber) {
     const f = vysledky[id] && vysledky[id].finalni;
-    body[id] = { ...vysledky[id], shrnuti: f ? shrnutiBodu(id, evals[id], f) : { bod: id, nezkontrolovano: true, cisty: false } };
+    body[id] = { ...vysledky[id], ...(nadStrop.includes(id) ? { kolo2_vynechano: "strop" } : {}), shrnuti: f ? shrnutiBodu(id, evals[id], f) : { bod: id, nezkontrolovano: true, cisty: false } };
   }
   const shrnuti = Object.values(body).map((b) => b.shrnuti);
   const cena = souhrnNakladu();
   const vysledekM = {
     vytvoreno: new Date().toISOString(), dnes, model: MODEL, effort: EFFORT, davka: !BEZ_DAVKY,
-    kolo2: { bodu: doKola2.length, vynechano: BEZ_KOLA2, seznam: doKola2, ...(doKola2Beh.length < doKola2.length && !BEZ_KOLA2 ? { vzorek: doKola2Beh } : {}) },
+    kolo2: { bodu: doKola2.length, vynechano: BEZ_KOLA2, seznam: doKola2, strop_usd: STROP2, nad_strop: nadStrop, ...(doKola2Beh.length < doKola2.length && !BEZ_KOLA2 ? { vzorek: doKola2Beh } : {}) },
     souhrn: {
       bodu: vyber.length,
       ciste: shrnuti.filter((s) => s.cisty).length,
@@ -421,6 +440,7 @@ if (S_MODELEM) {
     writeFileSync(CESTA_NAKLADU, JSON.stringify(zaznam, null, 2));
   }
   const s = vysledekM.souhrn;
+  if (nadStrop.length) console.log(`  kolo 2 nad strop ${STROP2} $: ${nadStrop.length} bodů zůstává s výsledkem kola 1 (neověřené se podrží): ${nadStrop.join(", ")}`);
   console.log(`Vrstva M: ${s.ciste}/${s.bodu} čistých; vyvráceno ${s.vyvraceno.length}, spor o stav ${s.spor_o_stav.length}, neověřeno ${s.neovereno.length}, nezkontrolováno ${s.nezkontrolovano.length}; zahozených citací ${s.citaci_zahozeno}`);
   for (const x of s.spor_o_stav) console.log(`  spor     ${x}`);
   if (s.vyvraceno.length) console.log(`  vyvráceno: ${s.vyvraceno.join(", ")}`);

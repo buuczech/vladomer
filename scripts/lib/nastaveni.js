@@ -98,6 +98,8 @@ const SCHEMA = {
   faktcheck_model: { type: "text" },
   // Kalibrace (první měsíční běhy): každý přechod stavu schvaluje vlastník.
   faktcheck_kalibrace: { type: "int", min: 0, max: 1 },
+  // Strop ceny kola 2 kontroly faktů (vyhledávání) za běh, v dolarech.
+  faktcheck_druhe_kolo_usd: { type: "int", min: 0, max: 200 },
 };
 
 export function readSettings(name = "nastaveni.txt") {

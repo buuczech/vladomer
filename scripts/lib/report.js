@@ -44,6 +44,7 @@ export const PROBLEMY = {
   "m-vyvraceno": "zdroj tvrzení, na kterém stojí stav, vyvrací",
   "m-neovereno": "tvrzení, na kterém stojí stav, nejde ze zdrojů ověřit",
   "m-spor": "podle tvých pravidel (metodika.md) fakta zakládají jiný stav",
+  "m-kolo2-strop": "dohledání vyhledáváním (kolo 2) se nevešlo do měsíčního stropu",
   "m-neovereno-absence": "změna stavu stojí na tvrzení, že něco nenastalo, a to citací doložit nejde",
   "prechod-bez-noveho-dokladu": "změna stavu na tomtéž dokladu — není to nová událost, ale oprava",
   "prechod-bez-potvrzene-udalosti": "změna stavu, jejíž událost kontrola faktů nepotvrdila",

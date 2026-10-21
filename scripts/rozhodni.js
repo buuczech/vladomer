@@ -40,7 +40,8 @@ const pred = cist(cestaPred).evals || {};
 const D = existsSync(join(FC, "deterministicky.json")) ? cist(join(FC, "deterministicky.json")) : null;
 const M = existsSync(join(FC, "modelova.json")) ? cist(join(FC, "modelova.json")) : null;
 const neprijate = cestaNavrhu && existsSync(cestaNavrhu) ? cist(cestaNavrhu).neprijate || {} : {};
-const kalibrace = readSettings().faktcheck_kalibrace === 1;
+// FAKTCHECK_KALIBRACE (0/1) přebije nastavení — měření řetězu měří ustálený stav bez kalibrace.
+const kalibrace = (process.env.FAKTCHECK_KALIBRACE !== undefined ? Number(process.env.FAKTCHECK_KALIBRACE) : readSettings().faktcheck_kalibrace) === 1;
 const dnes = String(data.lastUpdated || new Date().toISOString()).slice(0, 10);
 
 if (!D) console.log("POZOR: chybí výstup vrstvy D (deterministicky.json) — rozhoduje se jen podle vrstvy M");
