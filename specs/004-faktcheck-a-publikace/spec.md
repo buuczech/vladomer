@@ -131,7 +131,9 @@ Pro srovnání: dnešní web má správně 27/46 a všechno vydává za hotové 
 Tři propuštěné jsou výklad pravidel, ne vymyšlená fakta — model fakta zná:
 - **3.2** „Příspěvek na bydlení až 6 000 Kč/měsíc dle regionu“ je z oddílu o platech bezpečnostních složek; hodnotitel i kontrola ho „splnili“ superdávkou, přesně podle protipříkladu v M10. Kontrola dostávala jen text bodu bez kapitoly a oddílu — **opraveno** (`slibySKontextem`), změří se příště.
 - **8.7** Návrh rozpočtu 2027 slevu 75 % vynechal a premiér říká „pokusíme se v roce 2028“. M3 obsahuje obojí: „vyřazení z rozpočtu = porušeno“ i „odklad, který zůstává v tomto období, není ústup“; model zvolil druhé, vlastník první. **Rozhodne vlastník** (upřesnění M3).
-- **13.5** Výzva SFŽP s penězi (M7 → probíhá) míří jen na čistírny nad 10 000 EO, slib na obce obecně; vlastník neuznal (jistota nízká až střední). **Rozhodne vlastník** (dílčí krok vůči cílové skupině slibu).
+- **13.5** Výzva SFŽP s penězi (M7 → probíhá) míří jen na čistírny nad 10 000 EO, slib na obce obecně; vlastník neuznal (jistota nízká až střední). **Rozhodl vlastník 21. 10.:** krok pro část cílové skupiny se počítá → pravda změněna na in_progress, M7 upřesněno.
+- **8.7 rozhodl vlastník 21. 10.:** porušeno; M3 upřesněno (slib s pevným termínem vynechaný z návrhu rozpočtu na rok, od kterého měl platit = porušeno, i se slibem pokusu později).
+- Přepočet s novou pravdou: ověřeno správně 23, **ověřeno se špatným stavem 2 (3.2, 8.7)** — obojí řeší opravy, které se změří příštím placeným během.
 
 Cena: kolo 1 0,076 $ za bod s daty Sněmovny (~11 $ za 143 bodů), kolo 2 0,48 $ za bod. Odhad měsíčního běhu: hodnocení ~6–8 $, ověření, korektura a zprávy ~5 $, kontrola kolo 1 ~11 $, kolo 2 strop 15 $ → **~37–39 $**.
 

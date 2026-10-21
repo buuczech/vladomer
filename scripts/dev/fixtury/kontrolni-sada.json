@@ -5,11 +5,11 @@
   "metodika": {
     "M1": "Dílo předchozí vlády (zákon vyhlášený před 15. 12. 2025, účinný až za této vlády) = partial, stejně jako lib/dukaz.js (date-mismatch).",
     "M2": "Negativní slib (vláda zakázanou věc neudělala a usnesením deklarovala, že ji neudělá) = declared.",
-    "M3": "Odklad, nebo ústup: posuzuje se bod po bodu; rozhodnutí jsou u bodů 10.2, 2.7 a 10.1.",
+    "M3": "Odklad, nebo ústup: posuzuje se bod po bodu; rozhodnutí jsou u bodů 10.2, 2.7 a 10.1. Upřesněno 21. 10. 2026 podle bodu 8.7 této sady (scripts/nastaveni/metodika.md) — 8.7 proto už není nezávislý test M3.",
     "M4": "Poslanecký návrh koaličních poslanců se souhlasným stanoviskem vlády = in_progress.",
     "M5": "Pohyblivý cíl se zařazuje s datem platnosti (datum_pravdy) a hodnotí se k tomuto dni.",
     "M6": "Návrh ministerstva v meziresortním připomínkovém řízení, návrh představený vládou, věcný záměr a úkol v Plánu legislativních prací nebo ve Výhledu (usnesení vlády) = declared; in_progress začíná schválením návrhu zákona vládou (nebo podle M4). Důvod: definice declared zahrnuje usnesení a plány; hranice in_progress zůstává stejná jako u 10.2 a 16.5 ve zlaté sadě.",
-    "M7": "Nelegislativní slib je in_progress, jen když doložitelně běží realizace (zahájená stavba, vyhlášená výzva s alokací, podepsaná smlouva); projekt jen zapsaný v plánu nebo ohlášený = declared. Důvod: definice in_progress v promptu mluví jen o legislativním procesu; web takto hodnotí stavby už dnes.",
+    "M7": "Nelegislativní slib je in_progress, jen když doložitelně běží realizace (zahájená stavba, vyhlášená výzva s alokací, podepsaná smlouva); projekt jen zapsaný v plánu nebo ohlášený = declared. Důvod: definice in_progress v promptu mluví jen o legislativním procesu; web takto hodnotí stavby už dnes. Upřesněno 21. 10. 2026 podle bodu 13.5: počítá se i krok, který pokrývá jen část toho, na co slib míří — 13.5 proto už není nezávislý test M7.",
     "M8": "Opatření předchozí vlády, které nabylo účinnosti ještě před nástupem této vlády (před 15. 12. 2025), se hodnotí stejně jako podle M1 = partial. Důvod: shodně s kódem (lib/dukaz.js, predates-term → partial); pro čtenáře není rozdíl mezi účinností den před nástupem a den po něm.",
     "M9": "Plošné opatření, které skupinu jmenovanou ve slibu zasáhne stejně jako všechny ostatní, splňuje sektorový slib nanejvýš částečně = partial. Důvod: slib „výrazně zvýšit platy v kultuře“ míří na postavení kultury, které plošné zvýšení nemění.",
     "M10": "M1 (a tím i M8) platí jen tehdy, když předpis nebo opatření předchozí vlády skutečně provádí část slibu; předpis, který jde proti slibu nebo s ním jen sdílí téma, se nepočítá. Důvod: zákon č. 270/2025 Sb. drogové sazby snižuje (bod 6.2), superdávka není příspěvek pro policisty a hasiče (bod 3.2)."
@@ -203,7 +203,7 @@
       "rozhodl": "vlastnik",
       "metodika": ["M3"],
       "jistota": "střední (zdroj prohlášení je sekundární)",
-      "poznamka": "Vlastník (M3 u tohoto bodu): vyřazení z rozpočtu je ústup. Navržené declared neplatí."
+      "poznamka": "Vlastník (M3 u tohoto bodu): vyřazení z rozpočtu je ústup. Navržené declared neplatí. 21. 10. 2026 zapsáno do M3 obecně: u slibu s pevným termínem je porušením, když ho vláda nezahrne do návrhu rozpočtu na rok, od kterého měl platit, i se slibem pokusu později."
     },
     {
       "id": "9.4",
@@ -276,7 +276,7 @@
     },
     {
       "id": "13.5",
-      "stav": "declared",
+      "stav": "in_progress",
       "unverifiable": false,
       "doklad": "SFŽP vyhlásil v červenci 2026 výzvu č. 2/2026 FN – půjčky na intenzifikaci čistíren odpadních vod z OPŽP (alokace 1 355,2 mil. Kč), ale jen pro čistírny nad 10 000 EO, tedy větší sídla; ministr životního prostředí 17. 8. 2026 uvedl 1,4 mld. Kč na čistírny pro obce. Krok k zrychlení výstavby ve stovkách menších obcí ani k domovním čistírnám není doložen.",
       "predpis": null,
@@ -289,7 +289,7 @@
       "rozhodl": "vlastnik",
       "metodika": ["M7"],
       "jistota": "nízká až střední",
-      "poznamka": "Vlastník: výzva míří na velké čistírny, ne na malé obce ze slibu. Navržené in_progress neplatí."
+      "poznamka": "21. 10. 2026 vlastník změnil pravdu z declared na in_progress: krok, který pokrývá jen část toho, na co slib míří (tady čistírny nad 10 000 EO), se počítá jako běžící realizace (upřesněné M7). Původně: výzva míří na velké čistírny, ne na malé obce ze slibu."
     },
     {
       "id": "13.7",

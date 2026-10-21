@@ -1,6 +1,6 @@
 PRAVIDLA HODNOCENÍ VLÁDOMĚRU
 
-Tato pravidla určil vlastník webu, když s primárními prameny v ruce prošel 46 bodů (zlatá a kontrolní sada, 20. 10. 2026). Kde se liší od starších pokynů, platí tato.
+Tato pravidla určil vlastník webu, když s primárními prameny v ruce prošel 46 bodů (zlatá a kontrolní sada, 20. 10. 2026); M3 a M7 upřesnil 21. 10. 2026. Kde se liší od starších pokynů, platí tato.
 
 STAVY
 
@@ -17,11 +17,11 @@ PRAVIDLA M1–M10
 
 M1 — Dílo předchozí vlády. Zákon nebo opatření vyhlášené před nástupem této vlády (15. 12. 2025), které část slibu skutečně provádí a účinnosti nabylo až za této vlády, je partial — ne fulfilled, ale ani declared či not_started.
 M2 — Negativní slib („nezavedeme“, „odmítáme“): vláda zakázanou věc neudělala a usnesením nebo formálně deklarovala, že ji neudělá = declared.
-M3 — Odklad a ústup. Porušeno je formální krok, který slib v tomto volebním období vylučuje: vyřazení z rozpočtu, odklad za konec volebního období („v tomto volebním období se nikoho nedotkne“), schválený plán nebo návrh zákona, který slib vynechává a jinak ho nikde nepřipravuje. Pouhé vyjádření ministra, že na to nejsou peníze nebo že se kloní k jinému řešení, bez formálního kroku = declared. Odklad termínu, který zůstává v tomto volebním období, není ústup.
+M3 — Odklad a ústup. Porušeno je formální krok, který slib vylučuje nebo nedodrží jeho termín: vyřazení z rozpočtu — u slibu s pevným termínem (v programovém prohlášení nebo ohlášeným vládou) stačí, že ho vláda nezahrne do návrhu rozpočtu na rok, od kterého měl platit, i když slibuje pokus v dalším roce; dále odklad za konec volebního období („v tomto volebním období se nikoho nedotkne“) a schválený plán nebo návrh zákona, který slib vynechává a jinak ho nikde nepřipravuje. Pouhé vyjádření ministra, že na to nejsou peníze nebo že se kloní k jinému řešení, bez formálního kroku = declared. Odklad slibu bez pevného termínu, který zůstává v tomto volebním období a nedoprovází ho formální krok, není ústup.
 M4 — Poslanecký návrh koaličních poslanců se souhlasným stanoviskem vlády = in_progress.
 M5 — Pohyblivý cíl (něco, co se brzy změní) se hodnotí k datu hodnocení, ne k očekávanému stavu.
 M6 — Návrh ministerstva v meziresortním připomínkovém řízení, návrh představený vládou, věcný záměr a úkol v Plánu legislativních prací nebo ve Výhledu = declared. in_progress začíná schválením návrhu zákona vládou (nebo podle M4).
-M7 — Nelegislativní slib je in_progress, jen když doložitelně běží realizace: zahájená stavba, vyhlášená výzva s penězi, podepsaná smlouva. Projekt jen zapsaný v plánu nebo ohlášený = declared.
+M7 — Nelegislativní slib je in_progress, jen když doložitelně běží realizace: zahájená stavba, vyhlášená výzva s penězi, podepsaná smlouva. Počítá se i krok, který pokrývá jen část toho, na co slib míří (část území, jen větší obce, jedna skupina z několika) — ne však krok, který se slibem jen sdílí téma (M10). Projekt jen zapsaný v plánu nebo ohlášený = declared.
 M8 — Opatření předchozí vlády, které nabylo účinnosti ještě před nástupem této vlády, se hodnotí stejně jako podle M1 = partial.
 M9 — Plošné opatření, které skupinu jmenovanou ve slibu zasáhne stejně jako všechny ostatní, splňuje sektorový slib nanejvýš částečně = partial.
 M10 — M1 a M8 platí jen pro předpis nebo opatření, které část slibu SKUTEČNĚ provádí. Předpis, který jde proti slibu, nebo s ním jen sdílí téma, se nepočítá (příklad: zákon snižující sazby u slibu sazby zvýšit; superdávka u slibu příspěvku pro policisty).
