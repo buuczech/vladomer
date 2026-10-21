@@ -95,6 +95,24 @@ Opus 5.5, effort high, Batch API, 46 bodů, data webu k 16. 10. 2026. Čtyři d�
 - **(b)** Model značí tvrzení, že něco nenastalo (`absence`). Rozhodnutí vlastníka (A): nezměněný bod kvůli neověřené absenci nedrží, změna stavu ano. Přehrání ukázalo, že čisté A propustí 15.7 („nezahájeno“, pravda „deklarováno“), proto výjimka: u „nezahájeno“ absence drží dál. Přísnější než čisté A; vlastník může výjimku zrušit.
 - **Odhad** (tvrzení o neexistenci poznaná podle slov, ne modelem): chyceno 19/19, propuštěno 0, zbytečně podrženo 13/27 (bylo 18), do kola 2 28/46 (bylo 33). Skutečné číslo dá až další placené měření.
 
+### 2026-10-21: druhé měření — kolo 1 na 46 bodech + kolo 2 na vzorku 10 (schválil vlastník, strop 9 $; stálo 6,71 $)
+
+S opravou e-Sbírky a pravidlem A, ještě bez dat Sněmovny. Dvoustupňová dávka doběhla za 16 minut.
+
+| | 20. 10. | 21. 10. | 21. 10. po opravě absence |
+|---|---|---|---|
+| chyceno | 19/19 | 16/19 | 17/19 |
+| propuštěno | 0 | 8.7, 13.5, 16.3 | 8.7, 13.5 |
+| zbytečně podrženo | 18/27 | 9/27 | 9/27 |
+| návrh stavu sedí s pravdou | 22/26 | 25/32 | 25/32 |
+
+- **16.3** (web „deklarováno“, pravda „nezahájeno“) prošel kvůli výjimce pro absenci: tvrzení „vláda se nevyjádřila“ stavu odporují. Oprava: absence nedrží, jen když model z ověřených faktů dojde ke stejnému stavu jako web (jinak drží). Přepočet na odpovědích tohoto běhu: zachycen, žádné podržení navíc.
+- **8.7** (web „deklarováno“, pravda „porušeno“): rozhoduje návrh rozpočtu 2027 ze září (M3: vyřazení z rozpočtu = porušeno), zdroj webu je z června. Kontrola faktů ověřuje web proti jeho zdrojům a novější událost bez vyhledávání nenajde; kolo 2 se pouští jen u neověřených tvrzení. Novou událost má najít měsíční plný audit s vyhledáváním — měří se až v řetězu hodnocení + kontrola.
+- **13.5** (web „probíhá“, pravda „deklarováno“): kolo 2 našlo výzvu SFŽP na čistírny a uznalo „probíhá“ (M7); vlastník ji neuznal, protože míří na čistírny nad 10 000 EO, ne na malé obce ze slibu. Výklad rozsahu slibu (jistota vlastníka „nízká až střední“).
+- 20. 10. chytilo 8.7 a 13.5 jen „neověřeno“, tedy náhodou: nulová propustnost proti pravdě vlastníka na samotné kontrole faktů stát nemůže.
+- **Kolo 2:** 0,44 $ za bod (2,7 vyhledávání na bod). Na vzorku pustilo 2 správné body (12.7, 4.3), u 1.3, 7.8, 10.9 a 15.2 převedlo „neověřeno“ na „vyvráceno“ a jeden chybný bod pustilo (13.5). Potřebovalo by ho 57 % bodů → ~36 $ měsíčně, nad rozpočet.
+- **Kolo 1:** 0,05 $ za bod, ~7 $ měsíčně (s daty Sněmovny odhad ~9,5 $).
+
 ## Assumptions
 
 - Vrstva M a R se dokončí po výběru modelu (spec 002). Prompt kontroly faktů je nový soubor a existující prompty se nemění.

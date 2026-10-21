@@ -161,7 +161,11 @@ export function shrnutiBodu(id, e, vysledek) {
   const nesouci = vysledek.tvrzeni.filter((t) => t.nese_stav);
   const vyvraceno = nesouci.filter((t) => t.verdikt === "VYVRACENO" || t.verdikt === "ZASTARALE");
   const stavWebu = e.unverifiable ? "unverifiable" : e.status;
-  const absenceDrzi = stavWebu === "not_started";
+  /* Absence nedrží jen tam, kde model z OVĚŘENÝCH faktů došel ke stejnému
+     stavu, jaký má web. V měření 21. 10. prošlo 16.3 „deklarováno“ na
+     tvrzeních „vláda se k programu nevyjádřila“ — ta stavu odporují, model
+     stav podle pravidel neurčil (null) a pravda je „nezahájeno“. */
+  const absenceDrzi = stavWebu === "not_started" || vysledek.stav_podle_pravidel !== e.status;
   const neovereno = nesouci.filter((t) => t.verdikt === "NEOVERITELNE" && (!t.absence || absenceDrzi));
   const neoverenoAbsence = nesouci.filter((t) => t.verdikt === "NEOVERITELNE" && t.absence);
   const spor = Boolean(vysledek.stav_podle_pravidel) && !e.unverifiable && vysledek.stav_podle_pravidel !== e.status;

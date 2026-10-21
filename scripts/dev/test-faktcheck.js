@@ -139,10 +139,17 @@ const t137 = [
   { text: "K bodu neexistuje žádný legislativní návrh (ani v připomínkovém řízení, ani schválený vládou).", verdikt: "NEOVERITELNE", nese_stav: true, absence: true },
   { text: "Vláda ani ministerstvo neiniciovaly k tématu pracovní skupinu.", verdikt: "NEOVERITELNE", nese_stav: true, absence: true },
 ];
-const s137 = shrnutiBodu("13.7", { status: "declared" }, odp(t137));
+const s137 = shrnutiBodu("13.7", { status: "declared" }, odp(t137, "declared"));
 over(s137.neovereno === 1 && s137.neovereno_absence === 2, "absence se počítá zvlášť: 1 neověřené tvrzení + 2 tvrzení, že něco nenastalo", s137);
-const bezAbsence = shrnutiBodu("13.7", { status: "declared" }, odp(t137.slice(1)));
-over(bezAbsence.cisty && bezAbsence.neovereno_absence === 2, "bod jen s neověřenou absencí je čistý (nezměněný bod kvůli ní nedrží)", bezAbsence);
+const bezAbsence = shrnutiBodu("13.7", { status: "declared" }, odp(t137.slice(1), "declared"));
+over(bezAbsence.cisty && bezAbsence.neovereno_absence === 2, "neověřená absence nedrží, když model z ověřených faktů došel ke stejnému stavu jako web", bezAbsence);
+/* 16.3 (měření 21. 10. 2026): web „deklarováno“, tvrzení „vláda se k programu
+   nevyjádřila“ stavu odporují, model stav neurčil — pravda „nezahájeno“. */
+const s163 = shrnutiBodu("16.3", { status: "declared" }, odp([
+  { text: "Vláda se k programu konkrétně nevyjádřila", verdikt: "NEOVERITELNE", nese_stav: true, absence: true },
+  { text: "Program se rozšiřuje bez přímého iniciování vládou Babiše", verdikt: "NEOVERITELNE", nese_stav: true, absence: true },
+], null));
+over(!s163.cisty && s163.neovereno === 2, "16.3: absence bez stavu podle pravidel drží (jinak by prošlo nadhodnocení)", s163);
 over(odp([{ text: "x", verdikt: "POTVRZENO", nese_stav: true, citace: "a b c", url: "u" }]).tvrzeni[0].absence === false, "chybějící „absence“ = false");
 /* 15.7: web „nezahájeno“ jen na tvrzení, že vláda nic neudělala; pravda je
    „deklarováno“ (zákon ve výhledu legislativních prací). Tady absence drží. */
