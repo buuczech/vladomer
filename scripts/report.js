@@ -162,16 +162,24 @@ ${esc(k.popisTypu)}<br>na webu: <b>${esc(web)}</b>${k.navrh ? ` → hodnotitel n
 ${o ? `${tlacitko(o.prijmout, o.sDuvodem ? "Přijmout (s důvodem)" : "Přijmout", "#047857")}${tlacitko(o.podrzet, "Nechat", "#64748B")}` : `<span style="color:#5B6577">${k.prikaz ? `v PR: ${esc(k.prikaz)}` : "bez návrhu — zůstává, jak byl"}</span>`}
 </div>`;
   }).join("");
+  /* Odkaz na GitHub je v e-mailu vždy: PR s návrhy, a když PR není (zkouška,
+     nic k rozhodnutí), věta proč — prázdné místo vypadalo jako chyba (vlastník,
+     21. 10. 2026). Log běhu je odkaz navíc pro případ, že něco nesedí. */
+  const odkazBehu = process.env.GITHUB_RUN_ID ? `${process.env.GITHUB_SERVER_URL || "https://github.com"}/${repo}/actions/runs/${process.env.GITHUB_RUN_ID}` : null;
+  const bezPR = ma("zkouska")
+    ? "Zkouška: PR se nezakládá a tlačítka Přijmout / Nechat chybí. V ostrém běhu tu bude odkaz na PR s návrhy."
+    : body ? "PR se nepodařilo založit — návrhy jsou jen v PDF; dej vědět, ať se oprava dohledá v logu běhu." : "Nic k rozhodnutí, PR se nezakládá.";
   const htmlMail = `<p><b>${esc(predmet)}</b></p>
 <p>Splněno ${p.metrikaPred.procent.toFixed(1).replace(".", ",")} % → ${p.metrikaPo.procent.toFixed(1).replace(".", ",")} %. Cena běhu ${p.cena.celkem.toFixed(2).replace(".", ",")} $.</p>
-${body ? `<p><b>K rozhodnutí</b> — klepni u každého bodu na Přijmout, nebo Nechat. GitHub otevře předvyplněné rozhodnutí, stačí ho potvrdit (Create).</p>${body}` : "<p>Nic k rozhodnutí.</p>"}
+<p>${odkazPR ? tlacitko(odkazPR, "Otevřít PR na GitHubu", "#0F172A") : `<span style="color:#B45309">${esc(bezPR)}</span>`}</p>
+${body ? `<p><b>K rozhodnutí</b>${vetev ? " — klepni u každého bodu na Přijmout, nebo Nechat. GitHub otevře předvyplněné rozhodnutí, stačí ho potvrdit (Create)." : ""}</p>${body}` : "<p>Nic k rozhodnutí.</p>"}
 ${zverejnit ? `<p>Až budeš hotový: ${tlacitko(zverejnit, "Zveřejnit rozhodnutí", "#3B5BDB")}<br><span style="color:#5B6577">Sloučí PR a nasadí web. Bod, o kterém nerozhodneš, se zveřejní podle výchozího návrhu; vyvrácené jen s tvým důvodem.</span></p>` : ""}
-<p>${odkazPR ? `<a href="${esc(odkazPR)}">Otevřít PR</a> · ` : ""}<a href="https://vladomer.cz">Otevřít web</a></p>
+<p>${odkazPR ? `<a href="${esc(odkazPR)}">PR na GitHubu</a> · ` : ""}${odkazBehu ? `<a href="${esc(odkazBehu)}">Log běhu</a> · ` : ""}<a href="https://vladomer.cz">Web</a></p>
 <p style="color:#5B6577">Podrobnosti s citacemi jsou v přiloženém PDF. Soubor pro-AI.md můžeš nahrát do aplikace Claude a nechat si doporučit, co s body udělat.</p>`;
-  const text = `${predmet}\n\n${p.kRozhodnuti.map((k) => {
+  const text = `${predmet}\n\n${odkazPR ? `PR na GitHubu: ${odkazPR}` : bezPR}\n\n${p.kRozhodnuti.map((k) => {
     const o = odkazyBodu(k, { repo, vetev });
     return `${k.bod}: ${k.popisTypu}${o ? `\n  Přijmout: ${o.prijmout}\n  Nechat: ${o.podrzet}` : k.prikaz ? ` — ${k.prikaz}` : ""}`;
-  }).join("\n") || "Nic k rozhodnutí."}${zverejnit ? `\n\nZveřejnit rozhodnutí: ${zverejnit}` : ""}\n\n${odkazPR || ""}`;
+  }).join("\n") || "Nic k rozhodnutí."}${zverejnit ? `\n\nZveřejnit rozhodnutí: ${zverejnit}` : ""}${odkazBehu ? `\n\nLog běhu: ${odkazBehu}` : ""}`;
   writeFileSync(join(VYSTUP, "email.html"), `<!doctype html><meta charset="utf-8"><title>${esc(predmet)}</title><body style="font-family:sans-serif;max-width:640px;margin:16px">${htmlMail}</body>`);
   if (!ma("poslat")) process.exit(process.exitCode || 0);
   const prilohy = [{ nazev: "pro-AI.md", obsah: readFileSync(join(VYSTUP, "pro-AI.md")) }];

@@ -56,6 +56,16 @@ try {
   over(html2.includes(encodeURIComponent("/prijmout 10.2")) && html2.includes(encodeURIComponent("/podrzet 10.2")) && html2.includes(encodeURIComponent("/zverejnit")),
     "s větví PR má PDF u bodu odkazy Přijmout / Nechat a na konci Zveřejnit");
   over(!adresa.test(html2), "ani odkazy nenesou e-mailovou adresu");
+  // E-mail má vždy odkaz na GitHub, nebo větu, proč PR není (vlastník 21. 10. 2026).
+  const posledniEmail = (args) => {
+    execFileSync(process.execPath, [join("scripts", "report.js"), "--fixture", "--bez-pdf", ...args, "--vystup", dir], { cwd: KOREN, encoding: "utf8", env: { ...process.env, RESEND_API_KEY: "", REPORT_EMAIL_TO: "", GITHUB_REPOSITORY: "buuczech/vladomer" } });
+    return soubor("email.html");
+  };
+  const ostry = posledniEmail(["--pr", "https://github.com/buuczech/vladomer/pull/123", "--vetev", "beh/2026-11"]);
+  over(ostry.includes("Otevřít PR na GitHubu") && ostry.includes("https://github.com/buuczech/vladomer/pull/123") && ostry.includes("Zveřejnit rozhodnutí"), "ostrý e-mail: tlačítko na PR, rozhodnutí u bodů a Zveřejnit");
+  const zkouska = posledniEmail(["--zkouska"]);
+  over(zkouska.includes("Zkouška: PR se nezakládá") && !zkouska.includes("issues/new"), "zkušební e-mail řekne, proč odkaz na PR chybí");
+  over(![ostry, zkouska].some((t) => adresa.test(t)), "e-maily nenesou žádnou e-mailovou adresu");
   over(![html, ai, pr, log].some((t) => adresa.test(t)), "žádná e-mailová adresa ve výstupech");
 } finally { rmSync(dir, { recursive: true, force: true }); }
 
