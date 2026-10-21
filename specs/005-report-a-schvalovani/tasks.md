@@ -5,7 +5,7 @@
 - [x] T002 `scripts/nastaveni/report-behu.html`: šablona vzhledu (striktní `render()`), čitelná na telefonu i jako A4
 - [x] T003 `scripts/report.js`: CLI, výstup do `report/` (gitignored); `--fixture` ze skutečných dat bez sítě — fixtura `fixtury/report.json` se doplní ze skutečných výsledků prvního placeného běhu kontroly faktů
 - [x] T004 PDF přes headless Chrome (`chrome()` z `lib/instagram.js`), stránka 130 × 230 mm — ověřeno na simulovaném běhu
-- [ ] T005 `scripts/dev/test-report.js` napsaný; do CI půjde s fixturou `report.json`
+- [x] T005 `scripts/dev/test-report.js` s fixturou `fixtury/report.json` (skutečné odpovědi kontroly faktů z měření 20. 10. 2026); v CI
 
 ## Doručení a rozhodování
 - [x] T006 `scripts/report.js --poslat` (+ `--selhani`, `--pripominka`): e-mail přes `lib/email.js` s PDF a `pro-AI.md`

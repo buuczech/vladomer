@@ -1,0 +1,487 @@
+{
+  "_popis": "Fixtura pro scripts/report.js --fixture a test-report.js. modelova.body = skutečné odpovědi kontroly faktů (Opus 5.5, kolo 1 přes dávku) z placeného měření 20. 10. 2026 (dev2-eval, běh 39468353288) nad daty webu k 16. 10. 2026, výřez šesti bodů. Ostatní body report v režimu fixtury bere jako čisté. cena_hodnoceni_usd = cena hodnocení zlaté sady Sonnetem 5.5 z téhož dne (jen pro zobrazení).",
+  "beh_razitko": "2026-11-01T05:40:00.000Z",
+  "cena_hodnoceni_usd": 3.37,
+  "modelova": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "cena": {
+      "celkem_usd": 2.304
+    },
+    "body": {
+      "10.2": {
+        "shrnuti": {
+          "bod": "10.2",
+          "stav_webu": "in_progress",
+          "stav_podle_pravidel": "declared",
+          "pravidlo": "M6",
+          "vyvraceno": 0,
+          "neovereno": 2,
+          "potvrzeno": 1,
+          "spor_o_stav": true,
+          "cisty": false
+        },
+        "finalni": {
+          "tvrzeni": [
+            {
+              "text": "Ministr práce Aleš Juchelka v lednu 2026 oznámil přípravu novely, která změní valorizaci z jedné třetiny na jednu polovinu růstu reálných mezd.",
+              "verdikt": "POTVRZENO",
+              "nese_stav": true,
+              "citace": "Ministerstvo práce připraví v brzké době návrh důchodové novely se zastropováním penzijního věku na 65 letech, návratem k valorizaci o polovinu růstu reálných mezd místo třetiny",
+              "url": "https://www.denik.cz/z_domova/ales-juchelka-duchody-strop-novela-reforma.html",
+              "overeno": true
+            },
+            {
+              "text": "Návrh měl být předložen (vládě) v dubnu 2026.",
+              "verdikt": "POTVRZENO",
+              "nese_stav": false,
+              "citace": "Ministr Juchelka chce návrh na rychlejší valorizace důchodů v příštích letech předložit vládě během dubna.",
+              "url": "https://ct24.ceskatelevize.cz/clanek/ekonomika/vlada-planuje-zvysovani-duchodu-i-zastropovani-duchodoveho-veku-371078",
+              "overeno": true
+            },
+            {
+              "text": "Sněmovna měla začít návrh projednávat v květnu 2026.",
+              "verdikt": "POTVRZENO",
+              "nese_stav": false,
+              "citace": "Sněmovna by mohla začít zákon projednávat v květnu.",
+              "url": "https://ct24.ceskatelevize.cz/clanek/ekonomika/vlada-planuje-zvysovani-duchodu-i-zastropovani-duchodoveho-veku-371078",
+              "overeno": true
+            },
+            {
+              "text": "Norma dosud nebyla schválena.",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": true,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Legislativní proces pokračuje, tedy vláda návrh zákona schválila nebo ho předložila Sněmovně.",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": true,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Vláda uvedla, že se změna nemůže uskutečnit v roce 2026 kvůli propadu reálných mezd v covidových letech. Zdroj z března 2026 ale mluví o příštím roce, tedy o roce 2027: zákon má platit od ledna 2027 a rychlejší růst penzí se projeví zřejmě až v roce 2029. Výrok navíc pronesl ministr Juchelka, ne vláda.",
+              "verdikt": "VYVRACENO",
+              "nese_stav": false,
+              "citace": "Jenže v příštím roce se to – i podle Juchelky – ještě nepromítne. Důvodem je hlavně propad reálných mezd v covidových letech 2022 a 2023.",
+              "url": "https://ct24.ceskatelevize.cz/clanek/ekonomika/vlada-planuje-zvysovani-duchodu-i-zastropovani-duchodoveho-veku-371078",
+              "overeno": true
+            }
+          ],
+          "stav_podle_pravidel": "declared",
+          "pravidlo": "M6",
+          "zduvodneni": "Zdroje dokládají jen to, že ministr novelu ohlásil a plánoval ji předložit vládě. Chybí doklad, že vláda návrh zákona schválila, takže stav zakládá nanejvýš declared, ne in_progress.",
+          "zahozeno": 0
+        }
+      },
+      "7.2": {
+        "shrnuti": {
+          "bod": "7.2",
+          "stav_webu": "broken",
+          "stav_podle_pravidel": "declared",
+          "pravidlo": "M2",
+          "vyvraceno": 0,
+          "neovereno": 2,
+          "potvrzeno": 1,
+          "spor_o_stav": true,
+          "cisty": false
+        },
+        "finalni": {
+          "tvrzeni": [
+            {
+              "text": "Rada ministrů financí EU definitivně potvrdila (úpravu) systému ETS2",
+              "verdikt": "POTVRZENO",
+              "nese_stav": false,
+              "citace": "Změny definitivně potvrdila Rada ministrů financí EU, a to i za účasti Aleny Schillerové v pátek.",
+              "url": "https://www.newstream.cz/nazory/povolenky-ets-2-jsou-definitivne-schvaleny-zdrazi-benzin-naftu-i-plyn-a-babis-mlci",
+              "overeno": true
+            },
+            {
+              "text": "Rada ministrů financí EU rozhodla 12. 10. 2026",
+              "verdikt": "VYVRACENO",
+              "nese_stav": false,
+              "citace": "Premiér Andrej Babiš se k finálnímu rozhodnutí z 9. října veřejně nově nevyjádřil.",
+              "url": "https://www.newstream.cz/nazory/povolenky-ets-2-jsou-definitivne-schvaleny-zdrazi-benzin-naftu-i-plyn-a-babis-mlci",
+              "overeno": true
+            },
+            {
+              "text": "ETS2 se začne uplatňovat od 1. 1. 2028",
+              "verdikt": "POTVRZENO",
+              "nese_stav": false,
+              "citace": "Emisní povolenky na pohonné hmoty a vytápění plynem a uhlím začnou platit opravdu od ledna 2028.",
+              "url": "https://www.newstream.cz/nazory/povolenky-ets-2-jsou-definitivne-schvaleny-zdrazi-benzin-naftu-i-plyn-a-babis-mlci",
+              "overeno": true
+            },
+            {
+              "text": "Vláda deklaruje, že ETS2 nechce implementovat",
+              "verdikt": "POTVRZENO",
+              "nese_stav": true,
+              "citace": "Vláda Andreje Babiše dříve deklarovala, že ETS2 nechce implementovat.",
+              "url": "https://www.e15.cz/byznys/prumysl-a-energetika/emisni-povolenky-pro-domacnosti-maji-finalni-podobu-co-to-znamena-pro-ceny-benzinu-a-topeni-1433481",
+              "overeno": true
+            },
+            {
+              "text": "Vláda hledá podporu pro zrušení ETS2",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": false,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Vláda právně nemůže zabránit zavedení ETS2 od 1. 1. 2028",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": true,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Ministr Havlíček tvrdí, že Parlament ETS2 nepřijme",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": false,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Evropský parlament úpravu ETS2 již schválil",
+              "verdikt": "POTVRZENO",
+              "nese_stav": false,
+              "citace": "citují jeho reakci z poloviny září poté, co tato úprava prošla Evropským parlamentem",
+              "url": "https://www.newstream.cz/nazory/povolenky-ets-2-jsou-definitivne-schvaleny-zdrazi-benzin-naftu-i-plyn-a-babis-mlci",
+              "overeno": true
+            },
+            {
+              "text": "Česko při neimplementaci riskuje ztrátu peněz ze Sociálního klimatického fondu a spor s Evropskou komisí",
+              "verdikt": "POTVRZENO",
+              "nese_stav": false,
+              "citace": "V takovém případě by Česko mohlo přijít o peníze ze Sociálního klimatického fondu a riskovat spor s Evropskou komisí.",
+              "url": "https://www.e15.cz/byznys/prumysl-a-energetika/emisni-povolenky-pro-domacnosti-maji-finalni-podobu-co-to-znamena-pro-ceny-benzinu-a-topeni-1433481",
+              "overeno": true
+            },
+            {
+              "text": "Česko se oficiálně přihlásilo k implementaci ETS2",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": true,
+              "citace": "",
+              "url": ""
+            }
+          ],
+          "stav_podle_pravidel": "declared",
+          "pravidlo": "M2",
+          "zduvodneni": "Zdroje dokládají jen to, že vláda deklarovala odmítnutí implementace. Nedokládají žádný formální český krok k implementaci ETS2 (zákon, návrh, usnesení) ani oficiální přihlášení k implementaci. Schválení unijní úpravy v Radě není implementací do české legislativy, proto stav broken podle M3 nemá oporu a negativní slib je podle M2 declared. Datum dokladu je navíc chybné: rozhodnutí Rady padlo 9. 10., ne 12. 10. 2026.",
+          "zahozeno": 0
+        }
+      },
+      "12.2": {
+        "shrnuti": {
+          "bod": "12.2",
+          "stav_webu": "fulfilled",
+          "stav_podle_pravidel": "partial",
+          "pravidlo": null,
+          "vyvraceno": 0,
+          "neovereno": 0,
+          "potvrzeno": 2,
+          "spor_o_stav": true,
+          "cisty": false
+        },
+        "finalni": {
+          "tvrzeni": [
+            {
+              "text": "Potravinovým ombudsmanem se stal Jindřich Fialka, vrchní ředitel sekce potravinářství MZe; oznámeno 26. 2. 2026",
+              "verdikt": "POTVRZENO",
+              "nese_stav": true,
+              "citace": "Potravinovým ombudsmanem bude Jindřich Fialka, dosavadní vrchní ředitel sekce potravinářství ministerstva zemědělství.",
+              "url": "https://www.respekt.cz/informacni-servis/cesko-ma-potravinoveho-ombudsmana-podle-malych-zemedelcu-je-to-nesmysl-zato-ti-velci-jako-babisuv-agrofert-ho-vitaji-2026-02-26-10-51",
+              "overeno": true
+            },
+            {
+              "text": "Funkce potravinového ombudsmana byla zavedena bez vytvoření nového úřadu",
+              "verdikt": "POTVRZENO",
+              "nese_stav": false,
+              "citace": "Nová funkce podle Šebestyána nevyžaduje vytváření nového úřadu ani zvýšení nákladů či byrokracie.",
+              "url": "https://ct24.ceskatelevize.cz/clanek/domaci/ministr-sebestyan-predstavi-pozici-potravinoveho-ombudsmana-370731",
+              "overeno": true
+            },
+            {
+              "text": "Potravinový ombudsman byl skutečně zřízen (zaveden)",
+              "verdikt": "POTVRZENO",
+              "nese_stav": true,
+              "citace": "Ministerstvo zemědělství za prvních šest měsíců fungování vlády splnilo řadu zásadních úkolů z programového prohlášení. Mezi nejvýznamnější výsledky patří zavedení potravinového ombudsmana",
+              "url": "https://mze.gov.cz/public/portal/mze/vyhledavani/ministr",
+              "overeno": true
+            },
+            {
+              "text": "Ombudsman v praxi funguje jako mediátor v potravinovém řetězci",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": false,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Funkce byla zavedena rozšířením působnosti vrchního ředitele sekce potravinářství, který ve své funkci zůstává",
+              "verdikt": "POTVRZENO",
+              "nese_stav": false,
+              "citace": "Ve funkci ředitele sekce potravinářství Fialka zůstane.",
+              "url": "https://ct24.ceskatelevize.cz/clanek/domaci/ministr-sebestyan-predstavi-pozici-potravinoveho-ombudsmana-370731",
+              "overeno": true
+            },
+            {
+              "text": "Funkce byla zavedena bez legislativního procesu a bez nového zákona",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": false,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Ombudsman zatím jen sbírá a zveřejňuje data o cenách a maržích, ale nevyhodnocuje je",
+              "verdikt": "POTVRZENO",
+              "nese_stav": false,
+              "citace": "Údaje se zatím podle Fialky vyhodnocovat nebudou, nyní šlo podle něj zejména o to, aby lidé měli přístup k datům o potravinách.",
+              "url": "https://ct24.ceskatelevize.cz/clanek/domaci/ministr-sebestyan-predstavi-pozici-potravinoveho-ombudsmana-370731",
+              "overeno": true
+            },
+            {
+              "text": "Konkrétní regulace se neplánuje",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": false,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Asociace soukromého zemědělství tvrdí, že opatření nebude mít reálný dopad",
+              "verdikt": "POTVRZENO",
+              "nese_stav": false,
+              "citace": "Také Asociace soukromého zemědělství (ASZ) tvrdí, že připravovaná strategie ani ombudsman nebude fungovat a nic na potravinářském trhu nezmění.",
+              "url": "https://www.respekt.cz/informacni-servis/cesko-ma-potravinoveho-ombudsmana-podle-malych-zemedelcu-je-to-nesmysl-zato-ti-velci-jako-babisuv-agrofert-ho-vitaji-2026-02-26-10-51",
+              "overeno": true
+            },
+            {
+              "text": "ODS tvrdí, že opatření nebude mít reálný dopad na ceny potravin",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": false,
+              "citace": "",
+              "url": ""
+            }
+          ],
+          "stav_podle_pravidel": "partial",
+          "pravidlo": null,
+          "zduvodneni": "Zdroje dokládají, že ombudsman byl zřízen a funkce zavedena, tedy splnění jedné části slibu. Druhou část slibu, dosledovatelnost původu potravin, zdroje nedokládají; uvádějí jen, že na webu ombudsmana jsou mimo jiné informace o původu potravin. Stav fulfilled proto pravidla nepřipouštějí.",
+          "zahozeno": 0
+        }
+      },
+      "1.2": {
+        "shrnuti": {
+          "bod": "1.2",
+          "stav_webu": "partial",
+          "stav_podle_pravidel": "partial",
+          "pravidlo": "M1",
+          "vyvraceno": 0,
+          "neovereno": 4,
+          "potvrzeno": 1,
+          "spor_o_stav": false,
+          "cisty": false
+        },
+        "finalni": {
+          "tvrzeni": [
+            {
+              "text": "Zákon č. 236/2025 Sb. byl vyhlášen 31. 12. 2025. Úřední údaj z e-Sbírky uvádí jiné datum vyhlášení, 15. 7. 2025; stažený zdroj ČT24 zákon ani datum nezmiňuje.",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": true,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Elektronizaci zdravotnictví (eŽádanky, EZKartu) zavedl zákon č. 236/2025 Sb. Zdroj ČT24 číslo předpisu neuvádí a EZKartu nezmiňuje.",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": true,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Zákon č. 236/2025 Sb. byl vyhlášen ještě před nástupem vlády (15. 12. 2025).",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": true,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "eŽádanky byly spuštěny od 2. 1. 2026 (v pátek, článek je z 3. 1. 2026).",
+              "verdikt": "POTVRZENO",
+              "nese_stav": true,
+              "citace": "Stát v pátek navíc zapnul on-line portál elektronického zdravotnictví. Pacienti i lékaři se jeho prostřednictvím dostanou například k elektronickým žádankám na vyšetření.",
+              "url": "https://ct24.ceskatelevize.cz/clanek/domaci/elektronizace-i-rozsireni-prevence-novy-rok-prinasi-zmeny-ve-zdravotnictvi-368849",
+              "overeno": true
+            },
+            {
+              "text": "Od ledna 2026 byl spuštěn pilotní režim.",
+              "verdikt": "VYVRACENO",
+              "nese_stav": false,
+              "citace": "Pevně doufám, že je odladíme, abychom se dostali do plné produkce už v pondělí",
+              "url": "https://ct24.ceskatelevize.cz/clanek/domaci/elektronizace-i-rozsireni-prevence-novy-rok-prinasi-zmeny-ve-zdravotnictvi-368849",
+              "overeno": true
+            },
+            {
+              "text": "eŽádanky jsou dobrovolné. Zdroj to jen naznačuje (ministr podmiňuje přehled o čekacích lhůtách povinností pro všechny ordinace), výslovně to neříká.",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": false,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Novela zákona připravuje povinné používání eŽádanek od 1. 7. 2027. Zdroj uvádí jen ministrovu představu přechodu „řekněme do dvou let“, žádnou novelu ani datum.",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": false,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Čekací doby se sledují, ale systém není plně funkční.",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": false,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Chybí doklad o zkrácení čekacích dob.",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": true,
+              "citace": "",
+              "url": ""
+            }
+          ],
+          "stav_podle_pravidel": "partial",
+          "pravidlo": "M1",
+          "zduvodneni": "Podle úředních údajů e-Sbírky byl zákon č. 236/2025 Sb. vyhlášen 15. 7. 2025, tedy za předchozí vlády; zdroj ČT24 potvrzuje, že eŽádanky byly zprovozněny až 2. 1. 2026, tedy za této vlády. Jde tedy o dílo předchozí vlády, které část slibu provádí a nabylo účinnosti za této vlády (M1 = partial). Datum vyhlášení na webu (31. 12. 2025) je však chybné a je nutné ho opravit, stejně jako tvrzení o pilotním režimu a o novele s termínem 1. 7. 2027, která zdroj nedokládá.",
+          "zahozeno": 0
+        }
+      },
+      "6.6": {
+        "shrnuti": {
+          "bod": "6.6",
+          "stav_webu": "broken",
+          "stav_podle_pravidel": null,
+          "pravidlo": "M3",
+          "vyvraceno": 0,
+          "neovereno": 1,
+          "potvrzeno": 0,
+          "spor_o_stav": false,
+          "cisty": false
+        },
+        "finalni": {
+          "tvrzeni": [
+            {
+              "text": "Vláda schválila programové prohlášení 5. 1. 2026.",
+              "verdikt": "POTVRZENO",
+              "nese_stav": false,
+              "citace": "Vláda Andreje Babiše schválila dne 5. ledna 2026 své programové prohlášení.",
+              "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
+              "overeno": true
+            },
+            {
+              "text": "Programové prohlášení slibuje nástupní plat vězeňské služby 50 tisíc Kč.",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": false,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Ministr Tejc 9. července 2026 oznámil, že vláda nenalezla finanční prostředky na nástupní plat 50 tisíc Kč pro vězeňskou službu.",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": true,
+              "citace": "",
+              "url": ""
+            }
+          ],
+          "stav_podle_pravidel": null,
+          "pravidlo": "M3",
+          "zduvodneni": "Text programového prohlášení je ve zdroji zkrácený a pasáž o platu vězeňské služby v něm není. Článek Echo24 z 29. 6. 2026 Tejcovo vyjádření z 9. 7. 2026 o nedostatku peněz neobsahuje a o platech vězeňské služby nepíše vůbec, takže skutečnost, na které stojí stav, je neověřitelná. I kdyby se ověřila, šlo by podle M3 jen o vyjádření ministra bez formálního kroku (např. vyřazení z rozpočtu), které zakládá nanejvýš declared, nikoli broken.",
+          "zahozeno": 0
+        }
+      },
+      "2.3": {
+        "shrnuti": {
+          "bod": "2.3",
+          "stav_webu": "fulfilled",
+          "stav_podle_pravidel": "fulfilled",
+          "pravidlo": null,
+          "vyvraceno": 0,
+          "neovereno": 0,
+          "potvrzeno": 4,
+          "spor_o_stav": false,
+          "cisty": true
+        },
+        "finalni": {
+          "tvrzeni": [
+            {
+              "text": "Zákon o evidenci tržeb (EET 2.0) vyšel ve Sbírce zákonů 7. října 2026.",
+              "verdikt": "POTVRZENO",
+              "nese_stav": true,
+              "citace": "Zákon o evidenci tržeb byl 7. října vyhlášen ve Sbírce zákonů, a podnikatelé tak již mají k dispozici definitivní podobu pravidel.",
+              "url": "https://www.e15.cz/finexpert/danove-priznani/eet-2-0-leden-2027-zivnostnici-firmy-1436505",
+              "overeno": true
+            },
+            {
+              "text": "Zákon má číslo 180/2026 Sb. (číslo uvádějí úřední údaje z e-Sbírky, texty zdrojů ho neobsahují).",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": false,
+              "citace": "",
+              "url": ""
+            },
+            {
+              "text": "Poslanecká sněmovna 9. září 2026 přehlasovala Senát.",
+              "verdikt": "POTVRZENO",
+              "nese_stav": true,
+              "citace": "Poslanecká sněmovna ve středu 9. září 2026 přehlasovala Senát, odmítla jím navržené změny a setrvala na původním znění zákona o evidenci tržeb",
+              "url": "https://eet.gov.cz/cs/pro-media/tiskove-zpravy/2026/prezident-podepsal-zakon-o-eet-2-0-evidence-trzeb-1315",
+              "overeno": true
+            },
+            {
+              "text": "Prezident Petr Pavel zákon podepsal 17. září 2026.",
+              "verdikt": "POTVRZENO",
+              "nese_stav": true,
+              "citace": "Prezident Petr Pavel z&aacute;kon podepsal ve čtvrtek 17. z&aacute;ř&iacute; 2026, povinnost evidovat tržby nastane od 1. ledna 2027",
+              "url": "https://eet.gov.cz/cs/pro-media/tiskove-zpravy/2026/prezident-podepsal-zakon-o-eet-2-0-evidence-trzeb-1315",
+              "overeno": true
+            },
+            {
+              "text": "Zákon prošel celým legislativním procesem.",
+              "verdikt": "POTVRZENO",
+              "nese_stav": true,
+              "citace": "Podpisem prezidenta republiky završuje z&aacute;kon o evidenci tržeb svou cestu legislativn&iacute;m procesem, n&aacute;sledovat bude jeho vyhl&aacute;šen&iacute; ve Sb&iacute;rce z&aacute;konů.",
+              "url": "https://eet.gov.cz/cs/pro-media/tiskove-zpravy/2026/prezident-podepsal-zakon-o-eet-2-0-evidence-trzeb-1315",
+              "overeno": true
+            },
+            {
+              "text": "Systém startuje 1. ledna 2027.",
+              "verdikt": "POTVRZENO",
+              "nese_stav": false,
+              "citace": "Elektronická evidence tržeb se od 1. ledna 2027 vrací v nové podobě jako EET 2.0 .",
+              "url": "https://www.e15.cz/finexpert/danove-priznani/eet-2-0-leden-2027-zivnostnici-firmy-1436505",
+              "overeno": true
+            },
+            {
+              "text": "Systém startuje v lednu 2027 v pilotním režimu.",
+              "verdikt": "ZASTARALE",
+              "nese_stav": false,
+              "citace": "Nejde však o odklad účinnosti. Zákon nabude účinnosti 1. ledna a podnikatelé jsou povinni tržby evidovat.",
+              "url": "https://www.e15.cz/finexpert/danove-priznani/eet-2-0-leden-2027-zivnostnici-firmy-1436505",
+              "overeno": true
+            },
+            {
+              "text": "Vláda slibuje omezení daňových úniků a 14–15 miliard Kč ročně pro rozpočet.",
+              "verdikt": "NEOVERITELNE",
+              "nese_stav": false,
+              "citace": "",
+              "url": ""
+            }
+          ],
+          "stav_podle_pravidel": "fulfilled",
+          "pravidlo": null,
+          "zduvodneni": "Zdroje potvrzují přehlasování Senátu, podpis prezidenta i vyhlášení ve Sbírce zákonů 7. 10. 2026. Zákon nabývá účinnosti 1. 1. 2027, takže slib „zavést EET 2.0 od roku 2027“ je naplněný celý a stav fulfilled odpovídá pravidlům. V komentáři je ale potřeba opravit tvrzení o pilotním režimu: dobrovolný pilotní leden pocházel z návrhu v připomínkovém řízení, podle zákona platí povinnost evidovat tržby od 1. ledna a v lednu jde jen o toleranční přístup. Částku 14–15 mld. Kč ve zdrojích ověřit nelze.",
+          "zahozeno": 0
+        }
+      }
+    }
+  }
+}

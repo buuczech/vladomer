@@ -71,6 +71,24 @@ Program rozhodne bez člověka:
 - **SC-003**: Žádný bod s chybou nebo vyvráceným tvrzením nesoucím stav nevyjde jako ověřený.
 - **SC-004**: Cena vrstvy M do ~20 $ za běh (Batch), celý měsíční běh do 50 $.
 
+## Měření
+
+### 2026-10-20: vrstva M, kolo 1 na zlaté a kontrolní sadě (schválil vlastník: jen kolo 1, strop 6 $; stálo 2,30 $)
+
+Opus 5.5, effort high, Batch API, 46 bodů, data webu k 16. 10. 2026. Čtyři dávky po sobě trvaly 3 h 40 min (proto od teď zkušební dávka a zbytek najednou).
+
+| | zlatá (22) | kontrolní (24) | celkem |
+|---|---|---|---|
+| bodů, kde se web liší od pravdy | 6 | 13 | 19 |
+| chyceno | 6 | 13 | **19/19, žádný propuštěný** |
+| podrženo, ač stav webu sedí | 11/16 | 7/11 | 18/27 |
+| návrh stavu podle pravidel sedí s pravdou | 14/16 | 8/10 | 22/26 |
+
+- **Akceptace (SC-002) splněna**, ale nerozlišuje dost: 13 z 19 chycených chytilo jen „neověřeno“, které podrželo i 18 z 27 správných bodů. Rozlišují „spor o stav“ (správně 10.2, 12.2, 2.7, 7.2; chybně 2.2, 10.1, 14.1 — M3 použité na odklad bez formálního kroku) a „vyvráceno“.
+- **Část „zbytečných“ podržení jsou skutečné chyby textu při správném stavu:** 15.1 tvrdí, že zákon čeká na podpis prezidenta, ale podle zdroje už je podepsaný; 10.1 má v doklad datum 28. 5. místo 8. 5.; 12.7 tvrdí, že návrh schválila vláda, šlo o poslanecký návrh; 6.8 cituje dohodu, kterou žádný zdroj nezmiňuje; 3.2 cituje nesouvisející vyhlášku 108/2024. Skóre měří jen stav, tohle nevidí.
+- **Proč tolik „neověřeno“ (69 tvrzení nesoucích stav, 59 z nich u bodů s čitelnými zdroji):** (a) číslo a datum vyhlášení předpisu, které program ověřil v e-Sbírce, model nemá odkud citovat (2.10, 10.4); (b) tvrzení o tom, že něco NENASTALO („návrh dosud nebyl předložen“), citací doložit nejde — to vyřeší až otevřená data Sněmovny (spec 006); (c) tvrzení, které zdroje opravdu nenesou.
+- **Cena:** kolo 1 0,05 $ za bod → ~7 $ za 143 bodů měsíčně. Do kola 2 by dnes šlo 72 % bodů (~100 měsíčně, odhad 40–60 $) — to rozpočet nepustí; nejdřív se musí snížit (a) a (b).
+
 ## Assumptions
 
 - Vrstva M a R se dokončí po výběru modelu (spec 002). Prompt kontroly faktů je nový soubor a existující prompty se nemění.

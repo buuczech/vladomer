@@ -1,7 +1,7 @@
 {
-  "_popis": "Parametry placeného měření na DEV2 (.github/workflows/dev2-eval.yml). Změna tohoto souboru na DEV2 spustí měření — ALE jen když je vyplněné „schvaleno“ (kdo a kdy placený běh schválil). Po měření se „schvaleno“ vyprázdní, aby další úprava parametrů omylem nic nespustila. rezim: zlata-sada | stabilita | beh | faktcheck. Prázdný model = podle scripts/nastaveni/nastaveni.txt. faktcheck_model a kola (1 = jen kolo 1 přes dávku, 2 = obě kola) platí pro rezim faktcheck. pojistka_usd = strop ceny tohoto běhu (aby nepřekročil schválenou částku).",
-  "schvaleno": "vlastník v konverzaci 2026-10-20: kontrola faktů, jen kolo 1, strop 6 $",
-  "odhad_usd": 4,
+  "_popis": "Parametry placeného měření na DEV2 (.github/workflows/dev2-eval.yml). Změna tohoto souboru na DEV2 spustí měření — ALE jen když je vyplněné „schvaleno“ (kdo a kdy placený běh schválil). Po měření se „schvaleno“ vyprázdní, aby další úprava parametrů omylem nic nespustila. rezim: zlata-sada | stabilita | beh | faktcheck | generalka (celý měsíční běh bez zveřejnění, e-mail [ZKOUŠKA]). Prázdný model = podle scripts/nastaveni/nastaveni.txt. faktcheck_model a kola (1 = jen kolo 1 přes dávku, 2 = obě kola) platí pro rezim faktcheck. pojistka_usd = strop ceny tohoto běhu (aby nepřekročil schválenou částku).",
+  "schvaleno": "",
+  "odhad_usd": null,
   "rezim": "faktcheck",
   "model": "claude-sonnet-5-5",
   "overovaci_model": "claude-opus-5-5",
@@ -11,5 +11,5 @@
   "effort_hodnoceni": "high",
   "effort_kontroly": "high",
   "nahrat_kazetu": true,
-  "pojistka_usd": 6
+  "pojistka_usd": null
 }

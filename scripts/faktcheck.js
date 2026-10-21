@@ -250,7 +250,23 @@ if (S_MODELEM) {
         const vys = await pockej(id);
         prevezmi(vys, vyber.filter((b) => vys.has(b.replace(".", "_"))));
       }
-      for (const id of vyber) if (!vysledky[id]) zpracuj(id, 1, null, "výsledek chybí");
+      // Body, které v žádné vyzvednuté dávce nebyly (běh skončil dřív, než je
+      // odeslal), se pošlou novou dávkou — pod stejnou pojistkou, do které se
+      // už započítala cena vyzvednutých dávek.
+      const chybi = vyber.filter((id) => !vysledky[id]);
+      if (chybi.length) {
+        const utraceno = souhrnNakladu().celkem_usd;
+        const hotovo = vyber.length - chybi.length;
+        const naBod = hotovo && utraceno ? (utraceno / hotovo) * 1.5 : 0;
+        const vejde = naBod > 0 ? Math.max(0, Math.floor((POJISTKA - utraceno) / naBod)) : chybi.length;
+        const cast = chybi.slice(0, vejde);
+        if (cast.length < chybi.length) {
+          console.error(`POJISTKA CENY: do stropu ${POJISTKA} $ se vejde ${cast.length} z ${chybi.length} chybějících bodů — ostatní zůstávají nezkontrolované`);
+          zastavenoPredem = true;
+        }
+        if (cast.length) await posli(cast, "doplnění");
+        for (const id of chybi.slice(cast.length)) zpracuj(id, 1, null, "výsledek chybí");
+      }
     } else {
       const prvni = Math.min(vyber.length, Math.max(1, Number(process.env.DAVKA_PRVNI) || 12));
       await posli(vyber.slice(0, prvni), vyber.length > prvni ? "1/2 (zkušební)" : "1/1");
