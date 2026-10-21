@@ -28,7 +28,7 @@ if (m.rezim === "faktcheck" && m.kola != null && ![1, 2].includes(m.kola)) {
   process.exit(1);
 }
 console.log(["faktcheck", "retez"].includes(m.rezim)
-  ? `Režim: faktcheck; model kontroly=${m.faktcheck_model || "nastavení"}, kola ${m.kola ?? 2}; odhad ${m.odhad_usd ?? "?"} $`
+  ? `Režim: ${m.rezim}; model kontroly=${m.faktcheck_model || "nastavení"}, kola ${m.kola ?? 2}; odhad ${m.odhad_usd ?? "?"} $`
   : `Režim: ${m.rezim}; modely: hodnocení=${m.model || "nastavení"}, ověření=${m.overovaci_model || "nastavení"}, `
     + `korektura=${m.korektura_model || "nastavení"}; odhad ${m.odhad_usd ?? "?"} $`);
 out("spustit", "true");
