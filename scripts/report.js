@@ -2,7 +2,7 @@
  *
  *     node scripts/report.js --pred <evaluations.json před během> [--faktcheck faktcheck-vystup]
  *     node scripts/report.js --fixture              # ze skutečných záznamů ve fixturách, bez sítě, zdarma
- *     node scripts/report.js … --poslat [--zkouska] [--pr <odkaz na PR>]
+ *     node scripts/report.js … --poslat [--zkouska] [--pr <odkaz na PR>] [--vetev beh/RRRR-MM]
  *     node scripts/report.js … --bez-pdf --vystup report
  *
  * Běží po scripts/rozhodni.js. Čte public/evaluations.json (to, co šlo na
@@ -22,7 +22,8 @@ import { ALL_ITEMS } from "../src/data.js";
 import { render, readSettings } from "./lib/nastaveni.js";
 import { nactiMetodiku } from "./lib/faktcheck/modelova.js";
 import { rozhodniBeh } from "./lib/faktcheck/rozhodnuti.js";
-import { podkladyReportu, htmlOddily, proAI, popisPR, esc } from "./lib/report.js";
+import { podkladyReportu, htmlOddily, proAI, popisPR, esc, odkazyBodu, NAZVY } from "./lib/report.js";
+import { odkazRozhodnuti } from "./lib/navrhy.js";
 import { chrome } from "./lib/instagram.js";
 import { posliEmail } from "./lib/email.js";
 
@@ -109,10 +110,14 @@ const modely = {
 /* --- report ------------------------------------------------------------------ */
 const p = podkladyReportu({ pred, po, rozhodnuti, D, M, naklady, polozky: ALL_ITEMS, modely });
 const odkazPR = arg("pr", null);
+/* Větev PR s návrhy (beh/RRRR-MM): s ní dostane e-mail i PDF u každého bodu
+   odkazy Přijmout / Nechat a na konci Zveřejnit (lib/navrhy.js). */
+const vetev = /^beh\/\d{4}-\d{2}$/.test(arg("vetev", "")) ? arg("vetev") : null;
+const repo = process.env.GITHUB_REPOSITORY || "buuczech/vladomer";
 const html = render("report-behu.html", {
   MESIC: esc(p.mesic),
   VERDIKT: esc(`Zveřejněno${p.verdikt.slice("zveřejněno".length)}`),
-  ...htmlOddily(p, { odkazPR }),
+  ...htmlOddily(p, { odkazPR, repo, vetev }),
   VYTVORENO: esc(new Date().toISOString().slice(0, 16).replace("T", " ") + " UTC"),
 });
 const stem = `${p.beh.slice(0, 7)}`;
@@ -139,15 +144,36 @@ console.log(`Report ${p.mesic}: ${p.verdikt}; k rozhodnutí ${p.kRozhodnuti.map(
 console.log(`  ${cestaPdf || cestaHtml}\n  ${join(VYSTUP, "pro-AI.md")}\n  ${join(VYSTUP, "pr.md")}`);
 
 /* --- e-mail ------------------------------------------------------------------ */
-if (ma("poslat")) {
+// Text e-mailu se skládá vždy a ukládá do <vystup>/email.html — jde si ho prohlédnout bez odeslání.
+{
   const predmet = `${ma("zkouska") ? "[ZKOUŠKA] " : ""}Vládoměr ${p.mesic}: ${p.verdikt}`;
-  const body = p.kRozhodnuti.map((k) => `<li><b>${esc(k.bod)}</b> ${esc(k.popisTypu)}${k.prikaz ? ` — <code>${esc(k.prikaz)}</code>` : ""}</li>`).join("");
+  /* Tlačítka jsou obyčejné odkazy se styly v řádku — e-mailoví klienti CSS
+     ve <style> často zahazují. Klepnutí otevře na GitHubu předvyplněné
+     rozhodnutí; potvrzením ho provede rozhodnuti.yml. */
+  const tlacitko = (href, text, barva) => `<a href="${esc(href)}" style="display:inline-block;padding:8px 14px;margin:4px 6px 4px 0;border-radius:6px;background:${barva};color:#fff;text-decoration:none;font-weight:700">${esc(text)}</a>`;
+  const zverejnit = vetev ? odkazRozhodnuti(repo, vetev, "/zverejnit") : null;
+  const body = p.kRozhodnuti.map((k) => {
+    const o = odkazyBodu(k, { repo, vetev });
+    const navrh = k.navrh ? NAZVY[k.navrh.unverifiable ? "unverifiable" : k.navrh.status] : k.kontrola ? NAZVY[k.kontrola.stav] : null;
+    const web = k.dosavadni ? NAZVY[k.dosavadni.unverifiable ? "unverifiable" : k.dosavadni.status] : "—";
+    return `<div style="border:1px solid #E2E7EF;border-radius:8px;padding:10px;margin:0 0 10px">
+<b>${esc(k.bod)}</b> <span style="color:#5B6577">${esc(k.slib.slice(0, 120))}</span><br>
+${esc(k.popisTypu)}<br>na webu: <b>${esc(web)}</b>${k.navrh ? ` → hodnotitel navrhuje: <b>${esc(navrh)}</b> (to přijme tlačítko Přijmout)` : ""}${k.kontrola && (!k.navrh || k.kontrola.stav !== (k.navrh.unverifiable ? "unverifiable" : k.navrh.status)) ? `<br>kontrola faktů podle tvých pravidel: <b>${esc(NAZVY[k.kontrola.stav] || k.kontrola.stav)}</b>` : ""}<br>
+${o ? `${tlacitko(o.prijmout, o.sDuvodem ? "Přijmout (s důvodem)" : "Přijmout", "#047857")}${tlacitko(o.podrzet, "Nechat", "#64748B")}` : `<span style="color:#5B6577">${k.prikaz ? `v PR: ${esc(k.prikaz)}` : "bez návrhu — zůstává, jak byl"}</span>`}
+</div>`;
+  }).join("");
   const htmlMail = `<p><b>${esc(predmet)}</b></p>
 <p>Splněno ${p.metrikaPred.procent.toFixed(1).replace(".", ",")} % → ${p.metrikaPo.procent.toFixed(1).replace(".", ",")} %. Cena běhu ${p.cena.celkem.toFixed(2).replace(".", ",")} $.</p>
-${body ? `<p>K rozhodnutí:</p><ul>${body}</ul>` : "<p>Nic k rozhodnutí.</p>"}
+${body ? `<p><b>K rozhodnutí</b> — klepni u každého bodu na Přijmout, nebo Nechat. GitHub otevře předvyplněné rozhodnutí, stačí ho potvrdit (Create).</p>${body}` : "<p>Nic k rozhodnutí.</p>"}
+${zverejnit ? `<p>Až budeš hotový: ${tlacitko(zverejnit, "Zveřejnit rozhodnutí", "#3B5BDB")}<br><span style="color:#5B6577">Sloučí PR a nasadí web. Bod, o kterém nerozhodneš, se zveřejní podle výchozího návrhu; vyvrácené jen s tvým důvodem.</span></p>` : ""}
 <p>${odkazPR ? `<a href="${esc(odkazPR)}">Otevřít PR</a> · ` : ""}<a href="https://vladomer.cz">Otevřít web</a></p>
 <p style="color:#5B6577">Podrobnosti s citacemi jsou v přiloženém PDF. Soubor pro-AI.md můžeš nahrát do aplikace Claude a nechat si doporučit, co s body udělat.</p>`;
-  const text = `${predmet}\n\n${p.kRozhodnuti.map((k) => `${k.bod}: ${k.popisTypu}${k.prikaz ? ` — ${k.prikaz}` : ""}`).join("\n") || "Nic k rozhodnutí."}\n\n${odkazPR || ""}`;
+  const text = `${predmet}\n\n${p.kRozhodnuti.map((k) => {
+    const o = odkazyBodu(k, { repo, vetev });
+    return `${k.bod}: ${k.popisTypu}${o ? `\n  Přijmout: ${o.prijmout}\n  Nechat: ${o.podrzet}` : k.prikaz ? ` — ${k.prikaz}` : ""}`;
+  }).join("\n") || "Nic k rozhodnutí."}${zverejnit ? `\n\nZveřejnit rozhodnutí: ${zverejnit}` : ""}\n\n${odkazPR || ""}`;
+  writeFileSync(join(VYSTUP, "email.html"), `<!doctype html><meta charset="utf-8"><title>${esc(predmet)}</title><body style="font-family:sans-serif;max-width:640px;margin:16px">${htmlMail}</body>`);
+  if (!ma("poslat")) process.exit(process.exitCode || 0);
   const prilohy = [{ nazev: "pro-AI.md", obsah: readFileSync(join(VYSTUP, "pro-AI.md")) }];
   if (cestaPdf) prilohy.unshift({ nazev: `vladomer-kontrola-${stem}.pdf`, obsah: readFileSync(cestaPdf) });
   else prilohy.unshift({ nazev: `report-${stem}.html`, obsah: readFileSync(cestaHtml) });

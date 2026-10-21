@@ -13,6 +13,8 @@
  * jen do lib/email.js při odeslání.
  */
 
+import { odkazRozhodnuti } from "./navrhy.js";
+
 /* Barvy legendy webu, světlý motiv (src/App.jsx, :root). Report se tiskne
    na bílý papír, tmavý motiv by v PDF působil jako jiný web. */
 export const BARVY = { fulfilled: "#047857", partial: "#4D7C0F", in_progress: "#B45309", declared: "#64748B", not_started: "#5B6577", broken: "#DC2626", unverifiable: "#94A0B2" };
@@ -161,8 +163,18 @@ const zaznamHtml = (e, rozdil) => !e ? "<p class=\"slabe\">—</p>" : `
 
 const tvrzeniHtml = (t) => `<li><b>${esc(t.verdikt)}</b> ${esc(t.text)}${t.citace ? `<blockquote>„${esc(zkrat(t.citace, 400))}“${t.url ? ` <a href="${esc(t.url)}">zdroj</a>` : ""}</blockquote>` : ""}${t.duvod_zahozeni ? ` <span class="slabe">(model tvrdil ${esc(t.puvodni_verdikt)}, ale citaci program ve zdroji nenašel)</span>` : ""}</li>`;
 
+/** Odkazy na rozhodnutí jedním klepnutím (lib/navrhy.js). Bez větve PR žádné. */
+export function odkazyBodu(k, { repo, vetev }) {
+  if (!repo || !vetev || !k.prikaz) return null;
+  return {
+    prijmout: odkazRozhodnuti(repo, vetev, k.prikaz.replace(" duvod: …", " duvod: ")),
+    podrzet: odkazRozhodnuti(repo, vetev, `/podrzet ${k.bod}`),
+    sDuvodem: k.prikaz.includes("duvod:"),
+  };
+}
+
 /** HTML oddíly pro šablonu report-behu.html. */
-export function htmlOddily(p, { odkazPR = null, odkazWeb = "https://vladomer.cz" } = {}) {
+export function htmlOddily(p, { odkazPR = null, odkazWeb = "https://vladomer.cz", repo = null, vetev = null } = {}) {
   const mp = p.metrikaPred, mn = p.metrikaPo;
   const pruh = (m) => `<div class="pruh">${PORADI.filter((s) => m.stavy[s]).map((s) => `<span style="flex:${m.stavy[s]};background:${BARVY[s]}" title="${esc(NAZVY[s])}: ${m.stavy[s]}"></span>`).join("")}</div>`;
   const legenda = PORADI.filter((s) => mn.stavy[s] || mp.stavy[s]).map((s) => `<span><i style="background:${BARVY[s]}"></i>${esc(NAZVY[s])} ${mp.stavy[s]} → ${mn.stavy[s]}</span>`).join("");
@@ -201,7 +213,11 @@ export function htmlOddily(p, { odkazPR = null, odkazWeb = "https://vladomer.cz"
       : `<p><b>Kontrola faktů navrhuje</b> ${stitek(k.kontrola.stav)}${k.kontrola.pravidlo ? ` podle pravidla ${esc(k.kontrola.pravidlo)}` : ""}${k.kontrola.zduvodneni ? `: ${esc(k.kontrola.zduvodneni)}` : ""}</p>`}
     ${k.nalezyD.length ? `<p><b>Program:</b></p><ul>${k.nalezyD.map((n) => `<li>${esc(n.text)}</li>`).join("")}</ul>` : ""}
     ${k.tvrzeni.length ? `<p><b>Tvrzení, která neprošla:</b></p><ul class="tvrzeni">${k.tvrzeni.map(tvrzeniHtml).join("")}</ul>` : ""}
-    ${k.prikaz ? `<p class="prikaz">Přijmout: <code>${esc(k.prikaz)}</code> · nechat: <code>/podrzet ${esc(k.bod)}</code></p>` : "<p class=\"slabe\">Bez navrženého záznamu: opravu napiš ručně, nebo ji navrhne příští běh.</p>"}
+    ${(() => {
+      const o = odkazyBodu(k, { repo, vetev });
+      if (o) return `<p class="prikaz"><a href="${esc(o.prijmout)}"><b>Přijmout</b></a>${o.sDuvodem ? " (napiš důvod)" : ""} · <a href="${esc(o.podrzet)}">Nechat</a></p>`;
+      return k.prikaz ? `<p class="prikaz">Přijmout: <code>${esc(k.prikaz)}</code> · nechat: <code>/podrzet ${esc(k.bod)}</code></p>` : "<p class=\"slabe\">Bez navrženého záznamu: zůstává, jak byl, a příští běh ho posoudí znovu.</p>";
+    })()}
   </section>`;
   }).join("") + (p.nezkontrolovane.length ? `<p class="slabe">Nezkontrolováno (zůstaly bez razítka „prověřeno“): ${esc(p.nezkontrolovane.join(", "))}</p>` : "");
 
@@ -215,8 +231,10 @@ export function htmlOddily(p, { odkazPR = null, odkazWeb = "https://vladomer.cz"
   </section>`).join("");
 
   const OSTATNI = !p.ostatni.length ? "<p>Nic dalšího.</p>" : `<ul>${p.ostatni.map((n) => `<li><b>${esc(n.bod)}</b> ${esc(n.text)}</li>`).join("")}</ul>`;
+  const zverejnit = repo && vetev ? odkazRozhodnuti(repo, vetev, "/zverejnit") : null;
   const JAK_ROZHODNOUT = `
   <ul>
+    ${zverejnit ? `<li><b>U každého bodu klepni na Přijmout, nebo Nechat</b> — GitHub otevře předvyplněné rozhodnutí, stačí ho potvrdit. Nakonec <a href="${esc(zverejnit)}"><b>Zveřejnit</b></a>: PR se sloučí a web se nasadí. Bod, o kterém nerozhodneš, se zveřejní podle výchozího návrhu (vyvrácené ne).</li>` : ""}
     <li><b>Přijmout všechny návrhy:</b> v PR zmáčkni Merge${odkazPR ? ` (<a href="${esc(odkazPR)}">otevřít PR</a>)` : ""}.</li>
     <li><b>Nepřijmout nic:</b> PR zavři (Close). Body zůstanou na minulém záznamu.</li>
     <li><b>Po bodech:</b> komentář v PR, třeba <code>/prijmout 10.2</code> nebo <code>/podrzet 10.2</code>. U vyvráceného tvrzení napiš důvod: <code>/prijmout 10.2 duvod: …</code> — zapíše se do auditu.</li>

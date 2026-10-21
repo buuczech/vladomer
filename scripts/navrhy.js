@@ -15,7 +15,7 @@
  * z výchozí větve a větev PR má vedle, takže kód z PR se nikdy nespustí.
  * Pravidla jsou v lib/navrhy.js.
  */
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, appendFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -69,6 +69,8 @@ if (prikaz === "vytvor") {
   const prikazy = prikazyZKomentare(process.env.KOMENTAR);
   if (!prikazy.length) { console.log("žádný příkaz"); process.exit(0); }
   const zpravy = prikazy.map((p) => proved(soubor, { ...p, kdo: process.env.KDO || "vlastník" }).zprava);
+  // /zverejnit provede workflow (sloučí PR a spustí nasazení) — tady jen řekne, že má.
+  if (prikazy.some((p) => p.prikaz === "zverejnit") && process.env.GITHUB_OUTPUT) appendFileSync(process.env.GITHUB_OUTPUT, "zverejnit=true\n");
   preskladej(soubor, cesta);
   console.log([...zpravy.map((z) => `- ${z}`), "", souhrn(soubor)].join("\n"));
 } else if (prikaz === "souhrn") {

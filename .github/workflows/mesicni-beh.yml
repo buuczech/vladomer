@@ -154,6 +154,7 @@ jobs:
           # větví, odkud jde PR založit jedním klepnutím.
           if URL=$(gh pr create --base main --head "$VETEV" --title "Vládoměr $(date -u +%Y-%m): návrhy k rozhodnutí" --body-file /tmp/report-pr/pr.md); then
             echo "url=$URL" >> "$GITHUB_OUTPUT"
+            echo "vetev=$VETEV" >> "$GITHUB_OUTPUT"
           else
             echo "PR nešlo založit — povol v nastavení repozitáře zakládání PR z Actions. Posílám odkaz na větev."
             echo "url=${{ github.server_url }}/${{ github.repository }}/compare/main...$VETEV?expand=1" >> "$GITHUB_OUTPUT"
@@ -166,9 +167,12 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           REPORT_EMAIL_TO: ${{ secrets.REPORT_EMAIL_TO }}
           PR_URL: ${{ steps.pr.outputs.url }}
+          VETEV: ${{ steps.pr.outputs.vetev }}
         run: |
           ZK=""; if [ "${{ inputs.zkouska }}" = "true" ]; then ZK="--zkouska"; fi
           PR=""; if [ -n "$PR_URL" ]; then PR="--pr $PR_URL"; fi
+          # S větví PR dostane e-mail u každého bodu odkazy Přijmout / Nechat a Zveřejnit.
+          if [ -n "$VETEV" ]; then PR="$PR --vetev $VETEV"; fi
           node scripts/report.js --pred /tmp/pred/evaluations.json --poslat $ZK $PR || echo "report: e-mail neodešel, report je v artefaktu"
 
       - name: E-mail o selhání

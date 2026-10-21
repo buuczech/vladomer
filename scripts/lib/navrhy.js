@@ -50,6 +50,7 @@ export function proved(soubor, { prikaz, bod, duvod = null, kdo = "vlastník", k
     soubor.historie.push({ kdy, kdo, prikaz, bod });
     return { ok: true, zprava: `${bod}: zůstane minulý záznam.` };
   }
+  if (prikaz === "zverejnit") return { ok: true, zprava: "Zveřejňuji: PR se sloučí do main a web se nasadí." };
   if (prikaz === "prijmout") {
     if (n.vyvraceny && !duvod) return { ok: false, zprava: `${bod}: kontrola faktů tvrzení vyvrátila — přijmout jde jen s důvodem: /prijmout ${bod} duvod: …` };
     soubor.prijate[bod] = { duvod: duvod || null };
@@ -113,13 +114,28 @@ export function sloz(soubor, zaklad, dnes) {
   return { evals, audit, hist, faktcheck, prijato };
 }
 
-/** Přísné čtení příkazů z komentáře: jen celé řádky, jen známé tvary. Nic se nespouští. */
+/** Přísné čtení příkazů z komentáře: jen celé řádky, jen známé tvary. Nic se nespouští.
+ *  /prijmout <bod> [duvod: …], /podrzet <bod>, /zverejnit (sloučit PR a nasadit web). */
 const PRIKAZ = /^\/(prijmout|podrzet)\s+(\d{1,2}\.\d{1,2})(?:\s+duvod:\s*(\S.{3,498}))?\s*$/;
+const ZVEREJNIT = /^\/zverejnit\s*$/;
 export function prikazyZKomentare(text) {
   const out = [];
   for (const radek of String(text || "").split(/\r?\n/)) {
-    const m = radek.trim().match(PRIKAZ);
+    const r = radek.trim();
+    const m = r.match(PRIKAZ);
     if (m) out.push({ prikaz: m[1], bod: m[2], duvod: m[3] ? m[3].trim() : null });
+    else if (ZVEREJNIT.test(r)) out.push({ prikaz: "zverejnit" });
   }
   return out;
+}
+
+/* Rozhodnutí jedním klepnutím z e-mailu. GitHub neumí předvyplnit komentář
+   v PR, ale umí předvyplnit nové issue — odkaz ho otevře s příkazem v těle
+   a vlastník jen potvrdí. rozhodnuti.yml issue přijme jen od vlastníka a jen
+   s titulkem „Rozhodnutí beh/RRRR-MM: …“, provede příkaz ve větvi PR
+   a issue zavře. Issue je veřejné stejně jako PR. */
+export const TITULEK_ROZHODNUTI = /^Rozhodnutí (beh\/\d{4}-\d{2}):/;
+export function odkazRozhodnuti(repo, vetev, prikaz) {
+  const titulek = `Rozhodnutí ${vetev}: ${prikaz.replace(/\s+duvod:.*$/, "")}`;
+  return `https://github.com/${repo}/issues/new?title=${encodeURIComponent(titulek)}&body=${encodeURIComponent(prikaz)}`;
 }

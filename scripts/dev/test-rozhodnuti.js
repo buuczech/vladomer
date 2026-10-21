@@ -20,7 +20,7 @@
  */
 import { readFileSync } from "node:fs";
 import { rozhodniBod, rozhodniBeh, problemyBodu, oznacAudit, upravSnimek, stavZaznamu } from "../lib/faktcheck/rozhodnuti.js";
-import { novySoubor, proved, sloz, prikazyZKomentare } from "../lib/navrhy.js";
+import { novySoubor, proved, sloz, prikazyZKomentare, odkazRozhodnuti, TITULEK_ROZHODNUTI } from "../lib/navrhy.js";
 
 const fx = JSON.parse(readFileSync(new URL("./fixtury/rozhodnuti.json", import.meta.url), "utf8"));
 let chyb = 0;
@@ -133,6 +133,16 @@ over(!slozeno.faktcheck.body["10.2"] && slozeno.faktcheck.body["12.2"], "přijat
 over(JSON.stringify(prikazyZKomentare("Díky!\n/prijmout 10.2\n /podrzet 12.2 \n/prijmout 2.3 duvod: zdroj je zastaralý\n/prijmout 7.2; rm -rf /\n/prijmout 7.2 `x`")) === JSON.stringify([
   { prikaz: "prijmout", bod: "10.2", duvod: null }, { prikaz: "podrzet", bod: "12.2", duvod: null }, { prikaz: "prijmout", bod: "2.3", duvod: "zdroj je zastaralý" },
 ]), "příkazy z komentáře: jen celé řádky známého tvaru, nic navíc", prikazyZKomentare("/prijmout 7.2; rm -rf /"));
+over(JSON.stringify(prikazyZKomentare("/zverejnit\n/zverejnit teď")) === JSON.stringify([{ prikaz: "zverejnit" }]), "/zverejnit jen sám na řádku");
+
+console.log("\nOdkazy z e-mailu (rozhodnutí jedním klepnutím)");
+const odkaz = odkazRozhodnuti("buuczech/vladomer", "beh/2026-11", "/prijmout 10.2");
+const u = new URL(odkaz);
+over(u.origin + u.pathname === "https://github.com/buuczech/vladomer/issues/new" && u.searchParams.get("body") === "/prijmout 10.2"
+  && TITULEK_ROZHODNUTI.exec(u.searchParams.get("title"))[1] === "beh/2026-11", "odkaz otevře nové issue s příkazem v těle a větví v titulku", odkaz);
+const sDuvodem = new URL(odkazRozhodnuti("buuczech/vladomer", "beh/2026-11", "/prijmout 2.3 duvod: "));
+over(sDuvodem.searchParams.get("title") === "Rozhodnutí beh/2026-11: /prijmout 2.3" && sDuvodem.searchParams.get("body") === "/prijmout 2.3 duvod: ", "u vyvráceného bodu je v těle místo pro důvod, titulek bez něj");
+over(!TITULEK_ROZHODNUTI.test("Rozhodnutí beh/2026-11-x: /prijmout 1.1") && !TITULEK_ROZHODNUTI.test("Re: Rozhodnutí beh/2026-11: x"), "titulek jiného tvaru workflow nepřijme");
 
 console.log(chyb ? `\nSELHALO: ${chyb} chyb.` : "\nVše prošlo.");
 process.exit(chyb ? 1 : 0);

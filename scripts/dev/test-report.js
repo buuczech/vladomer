@@ -39,6 +39,7 @@ try {
   const log = execFileSync(process.execPath, [join("scripts", "report.js"), "--fixture", "--bez-pdf", "--vystup", dir], { cwd: KOREN, encoding: "utf8", env: { ...process.env, RESEND_API_KEY: "", REPORT_EMAIL_TO: "" } });
   const soubor = (n) => readFileSync(join(dir, n), "utf8");
   const html = soubor("report-2026-11.html"), ai = soubor("pro-AI.md"), pr = soubor("pr.md");
+  const adresa = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
   over(/Report 11\/2026/.test(log), "report vznikl", log.slice(0, 200));
   over(!html.includes("{{") && html.includes("Vládoměr — kontrola běhu 11/2026"), "šablona vyplněná celá");
   const kRozhodnuti = (log.match(/k rozhodnutí ([^;]+);/) || [])[1].split(", ");
@@ -49,7 +50,12 @@ try {
   over(html.includes("<del>") && html.includes("<ins>"), "dosavadní a navržený text vedle sebe se zvýrazněným rozdílem");
   over(ai.includes("## Pravidla vlastníka") && ai.includes("M1") && ai.includes("## Dotaz") && ai.includes("přijmout"), "pro-AI.md: pravidla vlastníka a závěrečný dotaz");
   over(pr.includes("Merge = přijmout"), "popis PR říká, co dělá Merge a Close");
-  const adresa = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
+  over(!html.includes("issues/new"), "bez větve PR žádné odkazy na rozhodnutí (zkouška, nic k rozhodnutí)");
+  execFileSync(process.execPath, [join("scripts", "report.js"), "--fixture", "--bez-pdf", "--vetev", "beh/2026-11", "--vystup", dir], { cwd: KOREN, encoding: "utf8", env: { ...process.env, RESEND_API_KEY: "", REPORT_EMAIL_TO: "", GITHUB_REPOSITORY: "buuczech/vladomer" } });
+  const html2 = soubor("report-2026-11.html");
+  over(html2.includes(encodeURIComponent("/prijmout 10.2")) && html2.includes(encodeURIComponent("/podrzet 10.2")) && html2.includes(encodeURIComponent("/zverejnit")),
+    "s větví PR má PDF u bodu odkazy Přijmout / Nechat a na konci Zveřejnit");
+  over(!adresa.test(html2), "ani odkazy nenesou e-mailovou adresu");
   over(![html, ai, pr, log].some((t) => adresa.test(t)), "žádná e-mailová adresa ve výstupech");
 } finally { rmSync(dir, { recursive: true, force: true }); }
 

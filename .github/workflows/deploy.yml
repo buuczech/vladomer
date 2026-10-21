@@ -10,6 +10,10 @@ on:
         type: choice
         options: [plny, delta]
         default: plny
+      jen_nasadit:
+        description: "jen sestavit a nasadit web, nic nehodnotit (volá ho rozhodnuti.yml po /zverejnit)"
+        type: boolean
+        default: false
   schedule:
     # 1. den v měsíci 05:15 UTC: stav ke konci měsíce. Ne poslední den —
     # plánovač GitHubu se zpožďuje o hodiny a běh by sklouzl do nového měsíce.
@@ -29,7 +33,7 @@ jobs:
   # Hodnocení, kontrola faktů, rozhodnutí, zápis, PR a report (mesicni-beh.yml).
   # Push na main nikdy nehodnotí: merge jen sestaví a nasadí web.
   beh:
-    if: ${{ github.event_name != 'push' }}
+    if: ${{ github.event_name != 'push' && !inputs.jen_nasadit }}
     permissions:
       contents: write
       pull-requests: write

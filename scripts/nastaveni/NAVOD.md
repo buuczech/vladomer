@@ -195,14 +195,21 @@ celý běh je v `mesicni-beh.yml`) a trvá několik hodin:
 4. **e-mail** s verdiktem v předmětu („Vládoměr 11/2026: zveřejněno, 2 body
    k rozhodnutí“), PDF reportem a souborem `pro-AI.md`.
 
-**Jak rozhodnout (stačí telefon):** body s navrženým záznamem jsou v PR
-`beh/RRRR-MM` na GitHubu.
+**Jak rozhodnout (stačí telefon, přihlášený na GitHub):**
 
-- Merge = přijmout všechny návrhy. Close = nepřijmout nic.
-- Po bodech komentářem v PR, každý příkaz na vlastním řádku:
-  `/prijmout 10.2`, `/podrzet 10.2`. Když kontrola tvrzení **vyvrátila**,
-  přijmout jde jen s důvodem: `/prijmout 10.2 duvod: …` — důvod se zapíše
-  do auditu. Příkazy platí jen z tvého účtu.
+1. V e-mailu je u každého bodu tlačítko **Přijmout** a **Nechat**. Klepnutí
+   otevře na GitHubu předvyplněné rozhodnutí — jen ho potvrď (Create).
+   Do minuty se zapíše do PR a GitHub ho sám uzavře. U bodu, kde kontrola
+   tvrzení **vyvrátila**, je „Přijmout (s důvodem)“: dopiš důvod za
+   „duvod:“, zapíše se do auditu.
+2. Až budeš hotový, klepni na **Zveřejnit rozhodnutí**: PR se sloučí a web
+   se nasadí. Bod, o kterém nerozhodneš, se zveřejní podle výchozího návrhu
+   (vyvrácené ne).
+3. Stejně funguje v PR tlačítko Merge (= zveřejnit), Close (= nic nepřijmout)
+   a komentáře `/prijmout 10.2`, `/podrzet 10.2`, `/zverejnit`.
+
+Rozhodnutí platí jen z tvého účtu. Issue i PR jsou veřejné, stejně jako
+auditní záznam — každé rozhodnutí je dohledatelné.
 - Nevíš? Nahraj `pro-AI.md` do aplikace Claude, na konci má připravený dotaz.
 - Nevyřízený PR ti po třech dnech připomene e-mail. Příští měsíční běh ho
   zavře a body posoudí znovu.
