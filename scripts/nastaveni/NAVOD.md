@@ -13,7 +13,7 @@ Kódování: UTF-8*. Jinak se rozbije diakritika a běh se zastaví chybou.
 | `prompt-zpravy.md` | Zadání pro výběr hlavních zpráv |
 | `prompt-korektura.md` | Zadání pro jazykovou korekturu hotových textů |
 | `prompt-faktcheck.md` | Zadání pro nezávislou kontrolu faktů před zveřejněním |
-| `metodika.md` | Tvoje pravidla pro stavy (M1–M10) — podle nich rozhoduje kontrola faktů |
+| `metodika.md` | Tvoje pravidla pro stavy (M1–M10) — dostává je hodnotitel, ověřovatel i kontrola faktů, všichni stejná |
 | `report-behu.html` | Vzhled PDF reportu, který ti po běhu přijde e-mailem |
 | `nastaveni.txt` | Čísla a model — kolik zdrojů, jak přísné hodnocení, kolik zpráv |
 | `nemeritelne.txt` | Body, které jsi rozhodl jako neměřitelné — program je tak vede vždy, model o tom nerozhoduje |
@@ -183,7 +183,9 @@ Na co si dát pozor:
 Běh se spustí sám **1. den v měsíci ráno** (`.github/workflows/deploy.yml`,
 celý běh je v `mesicni-beh.yml`) a trvá několik hodin:
 
-1. model přehodnotí všech 143 bodů (brána přechodů a ověřovatel jako dřív),
+1. model přehodnotí všech 143 bodů podle tvých pravidel v `metodika.md`;
+   k tomu dostane seznam předpisů z e-Sbírky a seznam návrhů zákonů ze
+   Sněmovny, které program načte sám (brána přechodů a ověřovatel jako dřív),
 2. **kontrola faktů**: program ověří, co ví přesně (předpisy v e-Sbírce, data,
    odkazy, čeština proti angličtině), a nezávislý model (`faktcheck_model`)
    ověří každé tvrzení, na kterém stojí stav, citací ze zdroje — podle tvých

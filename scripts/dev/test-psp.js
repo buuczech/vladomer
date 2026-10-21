@@ -55,6 +55,8 @@ over(t11 && t11.ct === 11 && t11.druh === "Návrh zákona" && /Schillerová/.tes
 over(t198 && t198.ct === 198 && t198.druh === "Vládní návrh zákona" && t198.predlozeno === "2026-05-22", "152/2026 Sb. (bod 10.4): vládní tisk 198 předložený 22. 5. 2026", t198 && { ct: t198.ct, predlozeno: t198.predlozeno });
 over(t189 && t189.ct === 189, "180/2026 Sb. → tisk 189 (evidence tržeb)");
 const vyhl198 = t198 && t198.kroky.find((k) => k.sb === "152/2026");
+over(!m.podleSb.has("7/2026") && t198 && t198.kroky.filter((k) => k.sb).length === 1,
+  "číslo ve Sbírce jen u kroku, kterým tisk skončil (změna lhůty pozmň. návrhu nese ve sloupci 7)", t198 && t198.kroky.filter((k) => k.sb));
 over(vyhl198 && vyhl198.vyhlaseno === "2026-08-26", "datum vyhlášení 152/2026 ze Sněmovny sedí s e-Sbírkou (26. 8. 2026)", vyhl198);
 
 console.log("\nTexty pro kontrolu faktů");
@@ -65,6 +67,8 @@ over(!/\?\s/.test(zt.text.split("Průběh:")[1] || ""), "krok bez data nemá v t
 const zs = zdrojSeznamu(m, "2026-10-21");
 over(zs.text.includes(VETA_UPLNOSTI) && zs.text.includes("tisk 198 — ") && /tisk 198 — [^\n]*\(vláda;/.test(zs.text) && !/9\. volebním/.test(zs.text),
   "úplný seznam: věta o úplnosti, vládní návrh označený „vláda“", zs.text.slice(0, 300));
+over(/tisk 198 — [^\n]*stádium: KONEC; vyhlášeno ve Sbírce zákonů jako č\. 152\/2026 Sb\. dne 26\. srpna 2026\)/.test(zs.text) && /tisk 4 — [^\n]*stádium: [^\n;]*\)$/m.test(zs.text),
+  "u tisku, ze kterého vzešel předpis, je číslo ve Sbírce a datum vyhlášení; u ostatních ne", zs.text.split("\n").filter((l) => /^tisk (4|198) /.test(l)));
 
 console.log("\nVýpadek Sněmovny");
 const r = await nactiTisky({ fetchFn: async () => ({ ok: false, status: 503 }) });

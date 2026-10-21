@@ -11,8 +11,9 @@
  *
  * Nic tu nevolá API ani nesahá na síť.
  */
+import { readFileSync } from "node:fs";
 import { render, readSettings } from "./nastaveni.js";
-import { DATES } from "../../src/data.js";
+import { DATES, CHAPTERS } from "../../src/data.js";
 
 const NAST = readSettings();
 
@@ -33,6 +34,36 @@ export const STATUS_CS = {
 const D = new Date(DATES.tookOffice);
 export const TERM_START_CS = `${D.getDate()}. ${D.getMonth() + 1}. ${D.getFullYear()}`;
 
+/* Pravidla vlastníka webu (scripts/nastaveni/metodika.md, M1–M10). Čte je
+   hodnotitel, oba ověřovatelé i kontrola faktů z jednoho souboru, aby se
+   mezi rolemi nemohla rozejít. Normalizace jako readText v lib/nastaveni.js
+   (BOM, CRLF, koncové mezery), aby text v promptu nezávisel na tom, kde běh
+   jede. */
+export function nactiMetodiku() {
+  return readFileSync(new URL("../nastaveni/metodika.md", import.meta.url), "utf8")
+    .replace(/^\uFEFF/, "").replace(/\r\n/g, "\n").replace(/\s+$/, "");
+}
+
+/* Znění slibu i s kapitolou a oddílem programového prohlášení. Text bodu je
+   zkrácený a bez nich nejednoznačný: „Příspěvek na bydlení až 6 000 Kč/měsíc
+   dle regionu“ (3.2) je z oddílu o platech bezpečnostních složek, tedy pro
+   policisty — v měření 21. 10. 2026 ho hodnotitel i kontrola bez oddílu
+   „splnili“ superdávkou, přesně podle příkladu z pravidla M10.
+   @returns { id → „text (kapitola „…“, oddíl „…“)“ } */
+export function slibySKontextem(kapitoly) {
+  const out = {};
+  for (const c of kapitoly) for (const g of c.groups) for (const i of g.items) {
+    out[i.id] = `${i.cs} (kapitola „${c.title.cs}“${g.title && g.title.cs ? `, oddíl „${g.title.cs}“` : ""})`;
+  }
+  return out;
+}
+const SLIBY = slibySKontextem(CHAPTERS);
+/** Znění bodu pro ověřovatele: text s kapitolou a oddílem. */
+export const zneniSKontextem = (it) => SLIBY[it.id] || it.cs;
+/* Oddíl bodu pro seznamy bodů jedné kapitoly — kapitolu prompt uvádí zvlášť. */
+const ODDIL = {};
+for (const c of CHAPTERS) for (const g of c.groups) for (const i of g.items) ODDIL[i.id] = (g.title && g.title.cs) || null;
+
 export function truncate(s, n) { s = s || ""; return s.length > n ? s.slice(0, n) + "…" : s; }
 
 export function historyFor(id, snapshots) {
@@ -52,7 +83,7 @@ export function radkyBodu(items, prevEvals, snapshots) {
         ? `předchozí stav: ${STATUS_CS[p.status] || p.status}; předchozí komentář: "${truncate((p.comment && p.comment.cs) || "", NAST.delka_predchoziho_komentare)}"`
         : "bez předchozího hodnocení";
       const hist = historyFor(it.id, snapshots);
-      return `- [${it.id}] ${it.cs}\n   ${prev}${hist ? `; historie stavu: ${hist}` : ""}`;
+      return `- [${it.id}] ${it.cs}${ODDIL[it.id] ? ` (oddíl „${ODDIL[it.id]}“)` : ""}\n   ${prev}${hist ? `; historie stavu: ${hist}` : ""}`;
     })
     .join("\n");
 }
@@ -66,14 +97,19 @@ export function radkyBodu(items, prevEvals, snapshots) {
    vypnutý). Pokyn v promptu platí jen „je-li seznam uvedený" — bez seznamu by
    tvrzení „co v seznamu není, nevyšlo" zapřelo každé skutečné splnění. */
 export const REJSTRIK_NEDOSTUPNY = "(Seznam se tentokrát nepodařilo načíst. Číslo předpisu uveď jen tehdy, když ho máš doslova z nalezeného zdroje.)";
+/* Totéž pro seznam sněmovních tisků (lib/psp.js): bez seznamu by věta „návrh,
+   který v seznamu není, předložen nebyl“ zapřela každý skutečný návrh. */
+export const TISKY_NEDOSTUPNE = "(Seznam tisků se tentokrát nepodařilo načíst. Stádium legislativního procesu uveď jen tehdy, když ho máš doslova z nalezeného zdroje.)";
 
-export function promptHodnoceni(ch, prevEvals, snapshots, body, rejstrik = null) {
+export function promptHodnoceni(ch, prevEvals, snapshots, body, rejstrik = null, tisky = null) {
   const items = body || ch.groups.flatMap((g) => g.items);
   return render("prompt-hodnoceni.md", {
     DATUM_NASTUPU_VLADY: TERM_START_CS,
     NAZEV_OBLASTI: ch.title.cs,
     MAX_ZDROJU: NAST.maximalne_zdroju,
+    METODIKA: nactiMetodiku(),
     REJSTRIK_SBIRKY: rejstrik || REJSTRIK_NEDOSTUPNY,
+    TISKY_PSP: tisky || TISKY_NEDOSTUPNE,
     SEZNAM_BODU: radkyBodu(items, prevEvals, snapshots),
     SEZNAM_STAVU: STATUSES.join("|"),
   });
@@ -97,7 +133,7 @@ export function promptDeltaScan(ch, prevEvals, odData, body) {
   const items = body || ch.groups.flatMap((g) => g.items);
   const radky = items.map((it) => {
     const p = prevEvals[it.id];
-    return `- [${it.id}] ${it.cs} (dosavadní stav: ${p ? STATUS_CS[p.status] || p.status : "bez hodnocení"})`;
+    return `- [${it.id}] ${it.cs} (${ODDIL[it.id] ? `oddíl „${ODDIL[it.id]}“; ` : ""}dosavadní stav: ${p ? STATUS_CS[p.status] || p.status : "bez hodnocení"})`;
   }).join("\n");
   return render("prompt-delta.md", {
     DATUM_NASTUPU_VLADY: TERM_START_CS,
@@ -126,6 +162,7 @@ export function promptOvereniPrechodu({ bod, minulyStav, minulyOd, novyStav, dok
     DOKLAD: doklad || "(žádný)",
     DATUM_DOKLADU: datumDokladu || "(bez data)",
     PREDPISY: predpisy || "(Program čísla předpisů neověřoval.)",
+    METODIKA: nactiMetodiku(),
     ZMENA: zmena || "(neuvedeno)",
     KOMENTAR: komentar || "(neuveden)",
   });
@@ -143,7 +180,9 @@ export function promptHodnoceniKontrola() {
     DATUM_NASTUPU_VLADY: TERM_START_CS,
     NAZEV_OBLASTI: "kontrola",
     MAX_ZDROJU: NAST.maximalne_zdroju,
+    METODIKA: nactiMetodiku(),
     REJSTRIK_SBIRKY: REJSTRIK_NEDOSTUPNY,
+    TISKY_PSP: TISKY_NEDOSTUPNE,
     SEZNAM_BODU: "- [0.0] kontrola",
     SEZNAM_STAVU: STATUSES.join("|"),
   });

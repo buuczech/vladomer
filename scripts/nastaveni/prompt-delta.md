@@ -6,7 +6,7 @@ Událost NENÍ: komentář novináře nebo opozice bez nového kroku vlády, opa
 
 Oblast: „{{NAZEV_OBLASTI}}“
 
-Body (id, znění, dosavadní stav):
+Body (id, znění, oddíl programového prohlášení, dosavadní stav):
 {{SEZNAM_BODU}}
 
 Uveď KAŽDÝ bod, u kterého jsi událost našel — i takovou, která stav nejspíš nezmění; o tom rozhodne až hodnocení. Bod bez události neuváděj. K události patří datum (YYYY-MM-DD) a 1–{{MAX_ZDROJU}} PŘESNÉ URL z výsledků vyhledávání — NEVYMÝŠLEJ je.

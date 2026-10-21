@@ -11,5 +11,5 @@ ALE: prázdná odpověď je skoro vždycky chyba. V české politice se za týde
 
 Používej jen URL, která se skutečně objevila ve výsledcích vyhledávání – NEVYMÝŠLEJ je. Nadpis napiš vlastními slovy (nekopíruj titulek).
 
-Odpověz VŽDY platným JSON polem, i kdyby bylo prázdné. Nikdy neodpovídej větou, omluvou ani vysvětlením, proč to nejde — takovou odpověď program nepřečte a týdenní přehled zůstane prázdný. Začni [ a skonči ]. Žádný úvodní text, žádné markdown bloky:
+Odpověz VŽDY platným JSON polem, i kdyby bylo prázdné. Nikdy neodpovídej větou, omluvou ani vysvětlením, proč to nejde — takovou odpověď program nepřečte a přehled zpráv zůstane prázdný. Začni [ a skonči ]. Žádný úvodní text, žádné markdown bloky:
 [{"title_cs":"krátký nadpis","title_en":"short headline in English","summary_cs":"1 věta o čem to je","summary_en":"1 sentence in English","url":"https://...","date":"YYYY-MM-DD"}]

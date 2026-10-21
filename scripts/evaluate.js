@@ -26,13 +26,14 @@ import {
    jinak by se ukázka na webu mohla rozejít s tím, co se opravdu odesílá. */
 import {
   STATUSES, STATUS_CS, promptHodnoceni, promptZpravy, promptHodnoceniKontrola,
-  promptOvereniPrechodu, promptDeltaScan, promptDoptani,
+  promptOvereniPrechodu, promptDeltaScan, promptDoptani, zneniSKontextem,
 } from "./lib/prompty.js";
 import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
 import { posudPrechod, stavOd as spocitejStavOd } from "./lib/prechody.js";
 import { parsujDeltaOdpoved, planKapitoly, prenesNeprehodnocene } from "./lib/delta.js";
 import { parsujHodnoceni, vyrezy } from "./lib/odpoved.js";
 import { nactiRejstrik, overZnacky, hlavniPredpis, opravDatumVyhlaseni, tabulkaRejstriku, popisProOverovatele, nactiZneni } from "./lib/sbirka.js";
+import { nactiTisky, zdrojSeznamu } from "./lib/psp.js";
 import { teloPozadavku, zavolejApi, overModely, nastavPojistku, souhrnNakladu } from "./lib/modely.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
@@ -184,6 +185,8 @@ const REJSTRIK_ZAPNUTY = NAST.rejstrik_sbirky === 1;
 let REJSTRIK = null;
 let REZIM_BEHU_ZAZNAM = null; // pro záznam ceny v zaverBehu()
 let TABULKA_SBIRKY = null;
+// Seznam návrhů zákonů období z otevřených dat Sněmovny (lib/psp.js); null = nedostupný.
+let TABULKA_TISKU = null;
 // Znění předpisů pro ověřovatele, kód → výsledek nactiZneni; jednou za běh.
 const ZNENI = new Map();
 
@@ -220,9 +223,9 @@ function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, "").repl
 
 async function evaluateChapter(ch, prevEvals, snapshots, body) {
   const items = body || ch.groups.flatMap((g) => g.items);
-  const prompt = promptHodnoceni(ch, prevEvals, snapshots, items, TABULKA_SBIRKY);
+  const prompt = promptHodnoceni(ch, prevEvals, snapshots, items, TABULKA_SBIRKY, TABULKA_TISKU);
   assertFields(prompt, ["comment_cs", "comment_en", "change_cs", "change_en",
-    "evidence", "evidence_date", "unverifiable", "sources"], "prompt-hodnoceni.md");
+    "evidence", "evidence_date", "sources"], "prompt-hodnoceni.md");
 
   /* Tělo podle profilu modelu (lib/modely.js). U dnešních modelů s
      temperature 0: hodnocení má být reprodukovatelné. S výchozí 1.0 se
@@ -376,7 +379,8 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
       status,
       evidence,
       evidenceDate: evDate || undefined,
-      unverifiable: r.unverifiable === true || NEMERITELNE.has(r.id),
+      // Jen podle seznamu vlastníka; prompt se na neměřitelnost neptá (vydání B).
+      unverifiable: NEMERITELNE.has(r.id),
       evidenceMissing: downgradeReason || undefined,
       comment: { cs: r.comment_cs || "", en: r.comment_en || "" },
       change: { cs: r.change_cs || "", en: r.change_en || "" },
@@ -441,7 +445,7 @@ async function overPrechod(bod, minuly, navrh, prostredni = false, stavOdBodu = 
   }
   const prompt = promptOvereniPrechodu({
     prostredni,
-    bod: bod.cs,
+    bod: zneniSKontextem(bod),
     minulyStav: minuly.status,
     /* Den, kdy bod do dosavadního stavu vstoupil (stavOd ze snímků) — tentýž,
        podle kterého brána drží přechod se starším dokladem. Do 10/2026 se sem
@@ -606,7 +610,7 @@ function preflight() {
   try {
     const p = promptHodnoceniKontrola();
     assertFields(p, ["comment_cs", "comment_en", "change_cs", "change_en",
-      "evidence", "evidence_date", "unverifiable", "sources"], "prompt-hodnoceni.md");
+      "evidence", "evidence_date", "sources"], "prompt-hodnoceni.md");
 
     const n = promptZpravy("2026-01-01");
     assertFields(n, ["title_cs", "title_en", "summary_cs", "summary_en", "url", "date"], "prompt-zpravy.md");
@@ -689,6 +693,16 @@ async function main() {
     }
   } else {
     console.log("Rejstřík Sbírky: vypnutý (rejstrik_sbirky = 0)");
+  }
+  /* Otevřená data Sněmovny (lib/psp.js): stádium návrhu zákona a jeho
+     předkladatele model čte ze seznamu, nehádá ze zpráv. Bez dat jede běh
+     jako dřív a prompt to modelu řekne. */
+  const tisky = await nactiTisky();
+  if (tisky.model) {
+    TABULKA_TISKU = zdrojSeznamu(tisky.model, new Date().toISOString().slice(0, 10)).text;
+    console.log(`Sněmovna: ${tisky.model.tisky.length} tisků ${tisky.model.cisloObdobi}. období, seznam návrhů zákonů v promptu pro model`);
+  } else {
+    console.log(`POZOR: data Sněmovny se nepodařilo načíst (${tisky.chyba}) — model dostane prompt bez seznamu tisků.`);
   }
   const snapshots = readJSON(OUT_HIST, { snapshots: [] }).snapshots || [];
 

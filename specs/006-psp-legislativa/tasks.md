@@ -6,5 +6,5 @@
 - [ ] T004 Placené měření (spolu s dalším měřením vrstvy M)
 - [ ] T005 Hlasování (`hl-2025ps.zip`): výsledky hlasování ke krokům tisku
 - [ ] T006 Senát (`se_tisk.zip`), pokud jsou data stejně spolehlivá
-- [ ] T007 Vydání B: tabulka relevantních tisků v promptu hodnocení (`{{TISKY_PSP}}`), změřená na obou sadách
+- [x] T007 Vydání B: seznam tisků v promptu hodnocení (`{{TISKY_PSP}}`, spec 007); měření v T010 spec 007
 - [ ] T008 Plán legislativních prací vlády jako primární zdroj pro „deklarováno“ (případ 15.7)

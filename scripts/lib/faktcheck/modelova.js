@@ -13,33 +13,16 @@
  * „wherever a check reads prose the model produced, ask what a confident
  * fabrication looks like to it“).
  */
-import { readFileSync } from "node:fs";
 import { render } from "../nastaveni.js";
 import { vyrezy } from "../odpoved.js";
 
 const VERDIKTY = new Set(["POTVRZENO", "VYVRACENO", "ZASTARALE", "NEOVERITELNE"]);
 const STAVY = new Set(["fulfilled", "partial", "in_progress", "declared", "not_started", "broken"]);
 
-/* Znění slibu i s kapitolou a oddílem programového prohlášení. Text bodu je
-   zkrácený a bez nich nejednoznačný: „Příspěvek na bydlení až 6 000 Kč/měsíc
-   dle regionu“ (3.2) je z oddílu o platech bezpečnostních složek, tedy pro
-   policisty — v měření 21. 10. 2026 ho kontrola bez oddílu „ověřila“
-   superdávkou, přesně podle příkladu z pravidla M10, které tím nemohla použít.
-   @returns { id → „text (kapitola „…“, oddíl „…“)“ } */
-export function slibySKontextem(kapitoly) {
-  const out = {};
-  for (const c of kapitoly) for (const g of c.groups) for (const i of g.items) {
-    out[i.id] = `${i.cs} (kapitola „${c.title.cs}“${g.title && g.title.cs ? `, oddíl „${g.title.cs}“` : ""})`;
-  }
-  return out;
-}
-
-/* Metodika vlastníka — stejná normalizace jako readText v lib/nastaveni.js
-   (BOM, CRLF, koncové mezery), aby text v promptu nezávisel na tom, kde běžel. */
-export function nactiMetodiku() {
-  return readFileSync(new URL("../../nastaveni/metodika.md", import.meta.url), "utf8")
-    .replace(/^﻿/, "").replace(/\r\n/g, "\n").replace(/\s+$/, "");
-}
+/* Znění slibu s kapitolou a oddílem a pravidla vlastníka dostávají
+   hodnotitel, ověřovatelé i kontrola faktů z jednoho místa (lib/prompty.js),
+   aby se mezi rolemi nemohly rozejít. */
+export { slibySKontextem, nactiMetodiku } from "../prompty.js";
 
 const REZIM = {
   1: "KOLO 1: pracuj JEN s texty zdrojů výše. Nevyhledávej. Co v nich není, je NEOVERITELNE.",

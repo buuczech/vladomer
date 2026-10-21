@@ -110,7 +110,12 @@ export function modelTisku(texty, { obdobi = null } = {}) {
     const tisk = tisky.get(r[1]);
     const prechod = prechody[r[4]] || {};
     const datum = iso(r[2]);
-    const sb = r[13] ? `${Number(r[13])}/${(datum || "").slice(0, 4)}` : null;
+    /* zaver_sb_cislo platí jen u kroku, kterým projednávání skončilo
+       vyhlášením. Jinde sloupec nese jiné číslo: krok „změna lhůty pozmň.
+       návrhu“ tisků 189 a 198 v něm má 7 — bez téhle podmínky z toho byl
+       „předpis 7/2026 Sb.“ v textu pro kontrolu faktů. */
+    const konci = iso(r[11]) || (stavy[prechod.kam] || {}).typ === "KONEC";
+    const sb = r[13] && konci ? `${Number(r[13])}/${(datum || "").slice(0, 4)}` : null;
     tisk.kroky.push({ datum, akce: prechod.akce || "", stav: (stavy[prechod.kam] || {}).typ || "", sb, vyhlaseno: iso(r[11]) });
     if (sb) podleSb.set(sb, tisk);
   }
@@ -148,9 +153,12 @@ export function zdrojTisku(model, tisk) {
 /* Úplný seznam návrhů zákonů období. Věta o úplnosti je to, co model cituje,
    když ověřuje, že návrh předložen nebyl — prompt-faktcheck.md to popisuje. */
 export const VETA_UPLNOSTI = "Návrh, který v seznamu není, Sněmovně v tomto období předložen nebyl.";
+/* U tisku, ze kterého vzešel předpis, stojí i jeho číslo ve Sbírce: stádium
+   „KONEC“ samo neříká, jestli návrh skončil vyhlášením, nebo zamítnutím. */
 export function zdrojSeznamu(model, kDatu) {
+  const vyhlaseni = (t) => { const k = t.kroky.find((x) => x.sb); return k ? `; vyhlášeno ve Sbírce zákonů jako č. ${k.sb} Sb.${k.vyhlaseno ? ` dne ${datumCs(k.vyhlaseno)}` : ""}` : ""; };
   const radky = model.tisky.filter((t) => NAVRHY_ZAKONU.has(t.druh))
-    .map((t) => `tisk ${t.ct} — ${t.nazev} (${t.druh === "Vládní návrh zákona" ? "vláda" : t.navrhovatel}; předloženo ${datumCs(t.predlozeno)}; stádium: ${t.stadium || "—"})`);
+    .map((t) => `tisk ${t.ct} — ${t.nazev} (${t.druh === "Vládní návrh zákona" ? "vláda" : t.navrhovatel}; předloženo ${datumCs(t.predlozeno)}; stádium: ${t.stadium || "—"}${vyhlaseni(t)})`);
   return {
     url: `https://www.psp.cz/sqw/sntisk.sqw?o=${model.cisloObdobi}`,
     text: `Poslanecká sněmovna, otevřená data k ${datumCs(kDatu)}: úplný seznam návrhů zákonů předložených Sněmovně v ${model.cisloObdobi}. volebním období (vládních, poslaneckých, senátních i krajských), ${radky.length} tisků. ${VETA_UPLNOSTI}\n${radky.join("\n")}`,

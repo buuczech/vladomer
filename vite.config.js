@@ -4,7 +4,8 @@ import { readFileSync } from "node:fs";
 import { jsonLd } from "./scripts/lib/seo.js";
 import { renderPrehled, CESTY } from "./scripts/lib/prehled.js";
 import { readSettings, readList } from "./scripts/lib/nastaveni.js";
-import { promptHodnoceni, promptZpravy, promptDeltaScan, promptOvereniPrechodu, promptDoptani } from "./scripts/lib/prompty.js";
+import { promptHodnoceni, promptZpravy, promptDeltaScan, promptOvereniPrechodu, promptDoptani, zneniSKontextem } from "./scripts/lib/prompty.js";
+import { modelTisku, zdrojSeznamu } from "./scripts/lib/psp.js";
 import { promptKorektury } from "./scripts/lib/korektura.js";
 import { predpisyZOdpovedi, tabulkaRejstriku, popisProOverovatele } from "./scripts/lib/sbirka.js";
 import { promptKontroly, nactiMetodiku, zdrojeSbirky, slibySKontextem } from "./scripts/lib/faktcheck/modelova.js";
@@ -93,6 +94,12 @@ function pouzitePrompty() {
       const tabulkaUkazka = `${tabulkaRejstriku(predpisyUkazka, DATES.tookOffice)}\n`
         + "- … (ukázka je zkrácená; v ostrém běhu se sem dosadí celý seznam načtený z e-Sbírky)";
       const predpisyOvereni = popisProOverovatele({ overene: [], neexistujici: [] }, true);
+      /* Seznam sněmovních tisků stejně: pár skutečných tisků z fixtury testů,
+         přiznaně zkrácený, v přesně tom tvaru, který model dostane. */
+      const pspFixtura = JSON.parse(readFileSync(new URL("./scripts/dev/fixtury/psp-tisky.json", import.meta.url), "utf8"));
+      const tiskyUkazka = `${zdrojSeznamu(modelTisku(new Map(Object.entries(pspFixtura).filter(([n]) => n.endsWith(".unl")))), "2026-10-21").text}\n`
+        + "… (ukázka je zkrácená; v ostrém běhu se sem dosadí celý seznam načtený z otevřených dat Sněmovny)";
+      const bodUkazky = (id) => zneniSKontextem(ALL_ITEMS.find((it) => it.id === id));
 
       const prompty = [
         {
@@ -100,8 +107,8 @@ function pouzitePrompty() {
           soubor: `${SOUBOR}/prompt-hodnoceni.md`,
           model: nast.model,
           sablona: cti("prompt-hodnoceni.md"),
-          ukazka: promptHodnoceni(kap, evals, snapshots, null, tabulkaUkazka),
-          ukazkaPopis: `${kap.id}. ${kap.title.cs} — rejstřík Sbírky v ukázce zkrácený`,
+          ukazka: promptHodnoceni(kap, evals, snapshots, null, tabulkaUkazka, tiskyUkazka),
+          ukazkaPopis: `${kap.id}. ${kap.title.cs} — rejstřík Sbírky a seznam tisků v ukázce zkrácené`,
         },
         {
           id: "doptani",
@@ -135,7 +142,7 @@ function pouzitePrompty() {
           model: nast.overovaci_model,
           sablona: cti("prompt-overeni-prechodu.md"),
           ukazka: promptOvereniPrechodu({
-            bod: "Zrušit poplatky za veřejnoprávní média",
+            bod: bodUkazky("14.4"),
             minulyStav: "fulfilled", minulyOd: "2026-08-07", novyStav: "in_progress",
             doklad: "Vláda 15. června 2026 schválila návrh zákona; zákon čeká na projednání Poslanecké sněmovny",
             datumDokladu: "2026-06-15",
@@ -152,7 +159,7 @@ function pouzitePrompty() {
           sablona: cti("prompt-overeni-prostredniho.md"),
           ukazka: promptOvereniPrechodu({
             prostredni: true,
-            bod: "Zavést jednotné inkasní místo pro odvody",
+            bod: bodUkazky("2.11"),
             minulyStav: "declared", minulyOd: "2026-08-14", novyStav: "in_progress",
             doklad: "Ministerstvo financí 18. srpna 2026 rozeslalo paragrafové znění do mezirezortního připomínkového řízení",
             datumDokladu: "2026-08-18",

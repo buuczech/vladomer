@@ -5,8 +5,8 @@
 # Jestli je slib tak obecný, že jeho splnění nejde objektivně posoudit, je
 # vlastnost jeho znění, ne toho, co se stalo — proto o tom rozhoduje člověk
 # jednou a program to drží, místo aby se model každý měsíc ptal znovu
-# (zásada: na co program zná odpověď, na to se model neptá). Model u bodu
-# na tomto seznamu může napsat cokoli, „neměřitelné“ platí vždy.
+# (zásada: na co program zná odpověď, na to se model neptá). Model se na
+# neměřitelnost neptá vůbec: bod je neměřitelný právě tehdy, když je tady.
 #
 # Platí od nejbližšího hodnocení daného bodu (měsíční běh hodnotí všechny).
 # Kontrola faktů (scripts/faktcheck.js) upozorní na bod ze seznamu, který je

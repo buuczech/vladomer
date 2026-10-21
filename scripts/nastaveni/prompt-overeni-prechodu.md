@@ -12,6 +12,10 @@ Citované předpisy podle e-Sbírky (ověřil program; jsou to úřední údaje 
 Co se podle hodnotitele stalo: {{ZMENA}}
 Navržený komentář hodnocení: {{KOMENTAR}}
 
+Pravidla vlastníka webu pro přidělování stavů. Podle nich posuzuj, jestli doklad navržený stav zakládá; závazek čti v kontextu oddílu, ze kterého pochází:
+
+{{METODIKA}}
+
 NEJPRVE si doklad ověř vyhledáváním. Netýká se to jeho vyznění, ale jeho pravdivosti:
 
 - Uvádí-li doklad číslo předpisu („zákon č. 270/2026 Sb.“), najdi ten předpis. Když ho nenajdeš, nebo najdeš jiný obsah či jiné datum, je to důvod k zamítnutí — ne k domýšlení.

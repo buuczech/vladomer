@@ -20,6 +20,8 @@
  *                       jen ručně a jen s platným ANTHROPIC_API_KEY
  *       e-sbirka.gov.cz → fixtury ze scripts/dev/fixtury/ (v kazetě
  *                       a při nahrávání skutečná odpověď)
+ *       psp.cz tisky.zip → ZIP složený z fixtury psp-tisky.json (výřez
+ *                       skutečných otevřených dat Sněmovny), vždy
  *       cokoli jiného  → chyba. Parita nesmí sahat na živý web.
  *   - Každé tělo požadavku na model se připíše do PARITA_POZADAVKY (JSONL).
  *
@@ -57,6 +59,32 @@ const KONTEXT = {
 };
 const SBIRKA_REJSTRIK = JSON.parse(readFileSync(join(FIXTURY, "sbirka-rejstrik.json"), "utf8"));
 const SBIRKA_ZNENI = JSON.parse(readFileSync(join(FIXTURY, "sbirka-zneni.json"), "utf8"));
+/* Otevřená data Sněmovny (lib/psp.js): tisky.zip se složí z dekódovaných
+   tabulek fixtury zpátky do windows-1250 a do ZIPu (metoda stored), takže
+   prompt hodnocení dostane seznam tisků stejnou cestou jako v ostrém běhu
+   — rozbalení, dekódování i výběr období. Fixturu čte i test-psp.js. */
+function zipTiskuZFixtury() {
+  const tabulky = Object.entries(JSON.parse(readFileSync(join(FIXTURY, "psp-tisky.json"), "utf8"))).filter(([n]) => n.endsWith(".unl"));
+  const dek = new TextDecoder("windows-1250");
+  const naBajt = new Map();
+  for (let b = 0x80; b <= 0xff; b++) naBajt.set(dek.decode(Buffer.from([b])), b);
+  const kodovat = (t) => Buffer.from([...t].map((z) => (z.charCodeAt(0) < 0x80 ? z.charCodeAt(0) : naBajt.get(z) ?? 0x3f)));
+  const casti = [], adresar = [];
+  let offset = 0;
+  for (const [jmeno, text] of tabulky) {
+    const data = kodovat(text), jm = Buffer.from(jmeno, "latin1");
+    const lokal = Buffer.alloc(30); lokal.writeUInt32LE(0x04034b50, 0);
+    lokal.writeUInt32LE(data.length, 18); lokal.writeUInt32LE(data.length, 22); lokal.writeUInt16LE(jm.length, 26);
+    const cd = Buffer.alloc(46); cd.writeUInt32LE(0x02014b50, 0);
+    cd.writeUInt32LE(data.length, 20); cd.writeUInt32LE(data.length, 24); cd.writeUInt16LE(jm.length, 28); cd.writeUInt32LE(offset, 42);
+    casti.push(lokal, jm, data); adresar.push(cd, jm);
+    offset += 30 + jm.length + data.length;
+  }
+  const cdBuf = Buffer.concat(adresar);
+  const konec = Buffer.alloc(22); konec.writeUInt32LE(0x06054b50, 0); konec.writeUInt16LE(tabulky.length, 8); konec.writeUInt16LE(tabulky.length, 10);
+  konec.writeUInt32LE(cdBuf.length, 12); konec.writeUInt32LE(offset, 16);
+  return Buffer.concat([...casti, cdBuf, konec]);
+}
 /* Fixtura rejstříku je výřez a nemá ani jeden předpis, ke kterému je ve
    fixtuře i znění se skutečným textem — ověřovatel by tak nikdy nedostal
    cestu „znění načteno“. Doplní se proto dva předpisy, jejichž znění fixtura
@@ -169,6 +197,10 @@ function sbirkaZFixtury(url, opt) {
 globalThis.fetch = async (vstup, opt = {}) => {
   const url = String(vstup);
   const klicSbirky = `${opt.method || "GET"} ${url} ${opt.body || ""}`;
+
+  if (url === "https://www.psp.cz/eknih/cdrom/opendata/tisky.zip" && process.env.PARITA_SIT !== "1") {
+    return new Response(zipTiskuZFixtury(), { status: 200 });
+  }
 
   if (url.startsWith("https://e-sbirka.gov.cz/")) {
     if (process.env.PARITA_SIT === "1" && REZIM === "synteticke") return skutecnyFetch(vstup, opt);

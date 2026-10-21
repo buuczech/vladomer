@@ -1,0 +1,547 @@
+diff --git a/scripts/evaluate.js b/scripts/evaluate.js
+index f1a1cf8..d915dba 100644
+--- a/scripts/evaluate.js
++++ b/scripts/evaluate.js
+@@ -26,13 +26,14 @@ import {
+    jinak by se ukázka na webu mohla rozejít s tím, co se opravdu odesílá. */
+ import {
+   STATUSES, STATUS_CS, promptHodnoceni, promptZpravy, promptHodnoceniKontrola,
+-  promptOvereniPrechodu, promptDeltaScan, promptDoptani,
++  promptOvereniPrechodu, promptDeltaScan, promptDoptani, zneniSKontextem,
+ } from "./lib/prompty.js";
+ import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
+ import { posudPrechod, stavOd as spocitejStavOd } from "./lib/prechody.js";
+ import { parsujDeltaOdpoved, planKapitoly, prenesNeprehodnocene } from "./lib/delta.js";
+ import { parsujHodnoceni, vyrezy } from "./lib/odpoved.js";
+ import { nactiRejstrik, overZnacky, hlavniPredpis, opravDatumVyhlaseni, tabulkaRejstriku, popisProOverovatele, nactiZneni } from "./lib/sbirka.js";
++import { nactiTisky, zdrojSeznamu } from "./lib/psp.js";
+ 
+ /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
+    upravovat bez zásahu do JavaScriptu. Špatná úprava tam zastaví běh českou
+@@ -143,6 +144,8 @@ const VYHLEDAVANI_OVERENI = NAST.vyhledavani_overeni;
+ const REJSTRIK_ZAPNUTY = NAST.rejstrik_sbirky === 1;
+ let REJSTRIK = null;
+ let TABULKA_SBIRKY = null;
++// Seznam návrhů zákonů období z otevřených dat Sněmovny (lib/psp.js); null = nedostupný.
++let TABULKA_TISKU = null;
+ // Znění předpisů pro ověřovatele, kód → výsledek nactiZneni; jednou za běh.
+ const ZNENI = new Map();
+ 
+@@ -179,9 +182,9 @@ function hostOf(u) { try { return new URL(u).hostname.replace(/^www\./, "").repl
+ 
+ async function evaluateChapter(ch, prevEvals, snapshots, body) {
+   const items = body || ch.groups.flatMap((g) => g.items);
+-  const prompt = promptHodnoceni(ch, prevEvals, snapshots, items, TABULKA_SBIRKY);
++  const prompt = promptHodnoceni(ch, prevEvals, snapshots, items, TABULKA_SBIRKY, TABULKA_TISKU);
+   assertFields(prompt, ["comment_cs", "comment_en", "change_cs", "change_en",
+-    "evidence", "evidence_date", "unverifiable", "sources"], "prompt-hodnoceni.md");
++    "evidence", "evidence_date", "sources"], "prompt-hodnoceni.md");
+ 
+   const dotaz = async (messages) => {
+     const res = await fetch("https://api.anthropic.com/v1/messages", {
+@@ -324,7 +327,8 @@ async function evaluateChapter(ch, prevEvals, snapshots, body) {
+       status,
+       evidence,
+       evidenceDate: evDate || undefined,
+-      unverifiable: r.unverifiable === true || NEMERITELNE.has(r.id),
++      // Jen podle seznamu vlastníka; prompt se na neměřitelnost neptá (vydání B).
++      unverifiable: NEMERITELNE.has(r.id),
+       evidenceMissing: downgradeReason || undefined,
+       comment: { cs: r.comment_cs || "", en: r.comment_en || "" },
+       change: { cs: r.change_cs || "", en: r.change_en || "" },
+@@ -393,7 +397,7 @@ async function overPrechod(bod, minuly, navrh, prostredni = false, stavOdBodu =
+   }
+   const prompt = promptOvereniPrechodu({
+     prostredni,
+-    bod: bod.cs,
++    bod: zneniSKontextem(bod),
+     minulyStav: minuly.status,
+     /* Den, kdy bod do dosavadního stavu vstoupil (stavOd ze snímků) — tentýž,
+        podle kterého brána drží přechod se starším dokladem. Do 10/2026 se sem
+@@ -574,7 +578,7 @@ function preflight() {
+   try {
+     const p = promptHodnoceniKontrola();
+     assertFields(p, ["comment_cs", "comment_en", "change_cs", "change_en",
+-      "evidence", "evidence_date", "unverifiable", "sources"], "prompt-hodnoceni.md");
++      "evidence", "evidence_date", "sources"], "prompt-hodnoceni.md");
+ 
+     const n = promptZpravy("2026-01-01");
+     assertFields(n, ["title_cs", "title_en", "summary_cs", "summary_en", "url", "date"], "prompt-zpravy.md");
+@@ -645,6 +649,16 @@ async function main() {
+   } else {
+     console.log("Rejstřík Sbírky: vypnutý (rejstrik_sbirky = 0)");
+   }
++  /* Otevřená data Sněmovny (lib/psp.js): stádium návrhu zákona a jeho
++     předkladatele model čte ze seznamu, nehádá ze zpráv. Bez dat jede běh
++     jako dřív a prompt to modelu řekne. */
++  const tisky = await nactiTisky();
++  if (tisky.model) {
++    TABULKA_TISKU = zdrojSeznamu(tisky.model, new Date().toISOString().slice(0, 10)).text;
++    console.log(`Sněmovna: ${tisky.model.tisky.length} tisků ${tisky.model.cisloObdobi}. období, seznam návrhů zákonů v promptu pro model`);
++  } else {
++    console.log(`POZOR: data Sněmovny se nepodařilo načíst (${tisky.chyba}) — model dostane prompt bez seznamu tisků.`);
++  }
+   const snapshots = readJSON(OUT_HIST, { snapshots: [] }).snapshots || [];
+ 
+   // Carry forward only real items — drops any stray invented IDs already in the file
+diff --git a/scripts/lib/prompty.js b/scripts/lib/prompty.js
+index 7eea682..6498031 100644
+--- a/scripts/lib/prompty.js
++++ b/scripts/lib/prompty.js
+@@ -11,8 +11,9 @@
+  *
+  * Nic tu nevolá API ani nesahá na síť.
+  */
++import { readFileSync } from "node:fs";
+ import { render, readSettings } from "./nastaveni.js";
+-import { DATES } from "../../src/data.js";
++import { DATES, CHAPTERS } from "../../src/data.js";
+ 
+ const NAST = readSettings();
+ 
+@@ -33,6 +34,36 @@ export const STATUS_CS = {
+ const D = new Date(DATES.tookOffice);
+ export const TERM_START_CS = `${D.getDate()}. ${D.getMonth() + 1}. ${D.getFullYear()}`;
+ 
++/* Pravidla vlastníka webu (scripts/nastaveni/metodika.md, M1–M10). Čte je
++   hodnotitel, oba ověřovatelé i kontrola faktů z jednoho souboru, aby se
++   mezi rolemi nemohla rozejít. Normalizace jako readText v lib/nastaveni.js
++   (BOM, CRLF, koncové mezery), aby text v promptu nezávisel na tom, kde běh
++   jede. */
++export function nactiMetodiku() {
++  return readFileSync(new URL("../nastaveni/metodika.md", import.meta.url), "utf8")
++    .replace(/^\uFEFF/, "").replace(/\r\n/g, "\n").replace(/\s+$/, "");
++}
++
++/* Znění slibu i s kapitolou a oddílem programového prohlášení. Text bodu je
++   zkrácený a bez nich nejednoznačný: „Příspěvek na bydlení až 6 000 Kč/měsíc
++   dle regionu“ (3.2) je z oddílu o platech bezpečnostních složek, tedy pro
++   policisty — v měření 21. 10. 2026 ho hodnotitel i kontrola bez oddílu
++   „splnili“ superdávkou, přesně podle příkladu z pravidla M10.
++   @returns { id → „text (kapitola „…“, oddíl „…“)“ } */
++export function slibySKontextem(kapitoly) {
++  const out = {};
++  for (const c of kapitoly) for (const g of c.groups) for (const i of g.items) {
++    out[i.id] = `${i.cs} (kapitola „${c.title.cs}“${g.title && g.title.cs ? `, oddíl „${g.title.cs}“` : ""})`;
++  }
++  return out;
++}
++const SLIBY = slibySKontextem(CHAPTERS);
++/** Znění bodu pro ověřovatele: text s kapitolou a oddílem. */
++export const zneniSKontextem = (it) => SLIBY[it.id] || it.cs;
++/* Oddíl bodu pro seznamy bodů jedné kapitoly — kapitolu prompt uvádí zvlášť. */
++const ODDIL = {};
++for (const c of CHAPTERS) for (const g of c.groups) for (const i of g.items) ODDIL[i.id] = (g.title && g.title.cs) || null;
++
+ export function truncate(s, n) { s = s || ""; return s.length > n ? s.slice(0, n) + "…" : s; }
+ 
+ export function historyFor(id, snapshots) {
+@@ -52,7 +83,7 @@ export function radkyBodu(items, prevEvals, snapshots) {
+         ? `předchozí stav: ${STATUS_CS[p.status] || p.status}; předchozí komentář: "${truncate((p.comment && p.comment.cs) || "", NAST.delka_predchoziho_komentare)}"`
+         : "bez předchozího hodnocení";
+       const hist = historyFor(it.id, snapshots);
+-      return `- [${it.id}] ${it.cs}\n   ${prev}${hist ? `; historie stavu: ${hist}` : ""}`;
++      return `- [${it.id}] ${it.cs}${ODDIL[it.id] ? ` (oddíl „${ODDIL[it.id]}“)` : ""}\n   ${prev}${hist ? `; historie stavu: ${hist}` : ""}`;
+     })
+     .join("\n");
+ }
+@@ -66,14 +97,19 @@ export function radkyBodu(items, prevEvals, snapshots) {
+    vypnutý). Pokyn v promptu platí jen „je-li seznam uvedený" — bez seznamu by
+    tvrzení „co v seznamu není, nevyšlo" zapřelo každé skutečné splnění. */
+ export const REJSTRIK_NEDOSTUPNY = "(Seznam se tentokrát nepodařilo načíst. Číslo předpisu uveď jen tehdy, když ho máš doslova z nalezeného zdroje.)";
++/* Totéž pro seznam sněmovních tisků (lib/psp.js): bez seznamu by věta „návrh,
++   který v seznamu není, předložen nebyl“ zapřela každý skutečný návrh. */
++export const TISKY_NEDOSTUPNE = "(Seznam tisků se tentokrát nepodařilo načíst. Stádium legislativního procesu uveď jen tehdy, když ho máš doslova z nalezeného zdroje.)";
+ 
+-export function promptHodnoceni(ch, prevEvals, snapshots, body, rejstrik = null) {
++export function promptHodnoceni(ch, prevEvals, snapshots, body, rejstrik = null, tisky = null) {
+   const items = body || ch.groups.flatMap((g) => g.items);
+   return render("prompt-hodnoceni.md", {
+     DATUM_NASTUPU_VLADY: TERM_START_CS,
+     NAZEV_OBLASTI: ch.title.cs,
+     MAX_ZDROJU: NAST.maximalne_zdroju,
++    METODIKA: nactiMetodiku(),
+     REJSTRIK_SBIRKY: rejstrik || REJSTRIK_NEDOSTUPNY,
++    TISKY_PSP: tisky || TISKY_NEDOSTUPNE,
+     SEZNAM_BODU: radkyBodu(items, prevEvals, snapshots),
+     SEZNAM_STAVU: STATUSES.join("|"),
+   });
+@@ -97,7 +133,7 @@ export function promptDeltaScan(ch, prevEvals, odData, body) {
+   const items = body || ch.groups.flatMap((g) => g.items);
+   const radky = items.map((it) => {
+     const p = prevEvals[it.id];
+-    return `- [${it.id}] ${it.cs} (dosavadní stav: ${p ? STATUS_CS[p.status] || p.status : "bez hodnocení"})`;
++    return `- [${it.id}] ${it.cs} (${ODDIL[it.id] ? `oddíl „${ODDIL[it.id]}“; ` : ""}dosavadní stav: ${p ? STATUS_CS[p.status] || p.status : "bez hodnocení"})`;
+   }).join("\n");
+   return render("prompt-delta.md", {
+     DATUM_NASTUPU_VLADY: TERM_START_CS,
+@@ -126,6 +162,7 @@ export function promptOvereniPrechodu({ bod, minulyStav, minulyOd, novyStav, dok
+     DOKLAD: doklad || "(žádný)",
+     DATUM_DOKLADU: datumDokladu || "(bez data)",
+     PREDPISY: predpisy || "(Program čísla předpisů neověřoval.)",
++    METODIKA: nactiMetodiku(),
+     ZMENA: zmena || "(neuvedeno)",
+     KOMENTAR: komentar || "(neuveden)",
+   });
+@@ -143,7 +180,9 @@ export function promptHodnoceniKontrola() {
+     DATUM_NASTUPU_VLADY: TERM_START_CS,
+     NAZEV_OBLASTI: "kontrola",
+     MAX_ZDROJU: NAST.maximalne_zdroju,
++    METODIKA: nactiMetodiku(),
+     REJSTRIK_SBIRKY: REJSTRIK_NEDOSTUPNY,
++    TISKY_PSP: TISKY_NEDOSTUPNE,
+     SEZNAM_BODU: "- [0.0] kontrola",
+     SEZNAM_STAVU: STATUSES.join("|"),
+   });
+diff --git a/scripts/lib/psp.js b/scripts/lib/psp.js
+new file mode 100644
+index 0000000..55c0262
+--- /dev/null
++++ b/scripts/lib/psp.js
+@@ -0,0 +1,166 @@
++/* scripts/lib/psp.js — otevřená data Poslanecké sněmovny (spec 006).
++ *
++ * Kontrola faktů neuměla dvě věci, které Sněmovna zveřejňuje jako úřední
++ * záznam: ověřit tvrzení, že návrh zákona NEBYL předložen (v měření
++ * 20. 10. 2026 nejčastější důvod, proč bod zůstal „neověřený“), a ověřit
++ * data kroků legislativního procesu („Sněmovna schválila 8. 7.“). Model je
++ * hádal z novin. Sněmovna přitom denně zveřejňuje všechny tisky i s celou
++ * historií (www.psp.cz/sqw/hp.sqw?k=1300, dokumentace tabulek k=1303).
++ *
++ * Program si data načte jednou za běh, stejně jako rejstřík e-Sbírky
++ * (lib/sbirka.js): ZIP s tabulkami ve formátu UNL (řádek = záznam, pole
++ * oddělená „|“, zpětné lomítko ruší zvláštní význam dalšího znaku, kódování
++ * windows-1250). Žádná nová závislost: ZIP se rozbaluje přes node:zlib.
++ * Při výpadku se nic nesoudí a výstup řekne proč — jako u e-Sbírky.
++ */
++import { inflateRawSync } from "node:zlib";
++
++export const URL_TISKY = "https://www.psp.cz/eknih/cdrom/opendata/tisky.zip";
++/* Číslo volebního období pro odkazy na psp.cz (o=…) podle id_org_obd z dat.
++   Nové období přidat sem; neznámé se odkáže jako nejnovější známé. */
++const CISLO_OBDOBI = { 173: 9, 174: 10 };
++
++/** Rozbalí ZIP (metody stored a deflate). @returns Map(jméno → Buffer) */
++export function rozbalZip(buf) {
++  let konec = -1;
++  for (let i = buf.length - 22; i >= Math.max(0, buf.length - 65557); i--) {
++    if (buf.readUInt32LE(i) === 0x06054b50) { konec = i; break; }
++  }
++  if (konec < 0) throw new Error("ZIP: chybí konec centrálního adresáře");
++  const pocet = buf.readUInt16LE(konec + 10);
++  let p = buf.readUInt32LE(konec + 16);
++  const out = new Map();
++  for (let i = 0; i < pocet; i++) {
++    if (buf.readUInt32LE(p) !== 0x02014b50) throw new Error("ZIP: poškozený centrální adresář");
++    const metoda = buf.readUInt16LE(p + 10);
++    const velikost = buf.readUInt32LE(p + 20);
++    const nJm = buf.readUInt16LE(p + 28), nEx = buf.readUInt16LE(p + 30), nKom = buf.readUInt16LE(p + 32);
++    const lokal = buf.readUInt32LE(p + 42);
++    const jmeno = buf.toString("latin1", p + 46, p + 46 + nJm);
++    const od = lokal + 30 + buf.readUInt16LE(lokal + 26) + buf.readUInt16LE(lokal + 28);
++    const data = buf.subarray(od, od + velikost);
++    if (metoda === 0) out.set(jmeno, data);
++    else if (metoda === 8) out.set(jmeno, inflateRawSync(data));
++    p += 46 + nJm + nEx + nKom;
++  }
++  return out;
++}
++
++/** Tabulka UNL → pole záznamů (pole řetězců). Zpětné lomítko ruší zvláštní význam „|“, „\“ i konce řádku. */
++export function unl(text) {
++  const radky = [];
++  let zaznam = [], pole = "";
++  for (let i = 0; i < text.length; i++) {
++    const c = text[i];
++    if (c === "\\" && i + 1 < text.length) { pole += text[++i]; continue; }
++    if (c === "|") { zaznam.push(pole); pole = ""; continue; }
++    if (c === "\r" && text[i + 1] === "\n") continue;
++    if (c === "\n") {
++      if (zaznam.length || pole) radky.push(zaznam.concat(pole ? [pole] : []));
++      zaznam = []; pole = "";
++      continue;
++    }
++    pole += c;
++  }
++  if (zaznam.length || pole) radky.push(zaznam.concat(pole ? [pole] : []));
++  return radky;
++}
++
++const iso = (d) => {
++  const s = String(d || "").trim();
++  let m = s.match(/^(\d{2})\.(\d{2})\.(\d{4})/);
++  if (m) return `${m[3]}-${m[2]}-${m[1]}`;
++  m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
++  return m ? `${m[1]}-${m[2]}-${m[3]}` : null;
++};
++const MESICE = ["ledna", "února", "března", "dubna", "května", "června", "července", "srpna", "září", "října", "listopadu", "prosince"];
++export const datumCs = (d) => { if (!d) return "?"; const [r, m, den] = d.split("-").map(Number); return `${den}. ${MESICE[m - 1]} ${r}`; };
++
++/**
++ * Model tisků jednoho volebního období z tabulek (dokumentace www.psp.cz/sqw/hp.sqw?k=1303).
++ * @param texty Map(jméno souboru → text v UTF-16, tj. už dekódovaný z windows-1250)
++ * @param obdobi id_org_obd; výchozí = období posledně předloženého tisku
++ * @returns { obdobi, cisloObdobi, tisky: [tisk], podleSb: Map("90/2026" → tisk) }
++ *   tisk = { ct, druh, navrhovatel, nazev, uplnyNazev, predlozeno, stadium, kroky: [{ datum, akce, stav, sb, vyhlaseno }] }
++ */
++export function modelTisku(texty, { obdobi = null } = {}) {
++  const t = (n) => unl(texty.get(n) || "");
++  const druh = Object.fromEntries(t("druh_tisku.unl").map((r) => [r[0], r[2]]));
++  const typStavu = Object.fromEntries(t("typ_stavu.unl").map((r) => [r[0], r[1]]));
++  const stavy = Object.fromEntries(t("stavy.unl").map((r) => [r[0], { typ: typStavu[r[1]] || "", popis: r[3] || "" }]));
++  const akce = Object.fromEntries(t("typ_akce.unl").map((r) => [r[0], r[1]]));
++  const prechody = Object.fromEntries(t("prechody.unl").map((r) => [r[0], { kam: r[2], akce: akce[r[3]] || "" }]));
++  const radky = t("tisky.unl");
++  if (!obdobi) {
++    const posledni = radky.reduce((a, r) => ((iso(r[11]) || "") > (iso(a && a[11]) || "") && iso(r[11]) <= new Date().toISOString().slice(0, 10) ? r : a), null);
++    obdobi = posledni ? posledni[7] : null;
++  }
++  const tisky = new Map();
++  for (const r of radky) {
++    if (r[7] !== obdobi || r[23] === "1" || r[23] === "2") continue; // jiné období nebo odvolaný tisk
++    const stav = stavy[r[2]] || { typ: "", popis: "" };
++    tisky.set(r[0], {
++      ct: Number(r[3]), druh: druh[r[1]] || "", navrhovatel: r[9] || "", nazev: r[10] || "", uplnyNazev: r[15] || "",
++      predlozeno: iso(r[11]), stadium: stav.typ || stav.popis, kroky: [],
++    });
++  }
++  const hist = t("hist.unl").filter((r) => tisky.has(r[1])).sort((a, b) => Number(a[0]) - Number(b[0]));
++  const podleSb = new Map();
++  for (const r of hist) {
++    const tisk = tisky.get(r[1]);
++    const prechod = prechody[r[4]] || {};
++    const datum = iso(r[2]);
++    /* zaver_sb_cislo platí jen u kroku, kterým projednávání skončilo
++       vyhlášením. Jinde sloupec nese jiné číslo: krok „změna lhůty pozmň.
++       návrhu“ tisků 189 a 198 v něm má 7 — bez téhle podmínky z toho byl
++       „předpis 7/2026 Sb.“ v textu pro kontrolu faktů. */
++    const konci = iso(r[11]) || (stavy[prechod.kam] || {}).typ === "KONEC";
++    const sb = r[13] && konci ? `${Number(r[13])}/${(datum || "").slice(0, 4)}` : null;
++    tisk.kroky.push({ datum, akce: prechod.akce || "", stav: (stavy[prechod.kam] || {}).typ || "", sb, vyhlaseno: iso(r[11]) });
++    if (sb) podleSb.set(sb, tisk);
++  }
++  return { obdobi, cisloObdobi: CISLO_OBDOBI[obdobi] || Math.max(...Object.values(CISLO_OBDOBI)), tisky: [...tisky.values()].sort((a, b) => a.ct - b.ct), podleSb };
++}
++
++/** Načte tisky ze Sněmovny. Nikdy nevyhazuje výjimku. @returns { model, chyba } */
++export async function nactiTisky({ fetchFn = fetch, timeoutMs = 60000, obdobi = null } = {}) {
++  try {
++    const res = await fetchFn(URL_TISKY, { signal: AbortSignal.timeout(timeoutMs) });
++    if (!res.ok) return { model: null, chyba: `HTTP ${res.status}` };
++    const soubory = rozbalZip(Buffer.from(await res.arrayBuffer()));
++    const dek = new TextDecoder("windows-1250");
++    const texty = new Map([...soubory].filter(([, b]) => b).map(([n, b]) => [n, dek.decode(b)]));
++    const model = modelTisku(texty, { obdobi });
++    if (!model.tisky.length) return { model: null, chyba: "v datech nejsou tisky aktuálního období" };
++    return { model, chyba: null };
++  } catch (e) {
++    return { model: null, chyba: String(e && e.message || e).slice(0, 160) };
++  }
++}
++
++const NAVRHY_ZAKONU = new Set(["Vládní návrh zákona", "Návrh zákona", "Státní rozpočet"]);
++const odkaz = (model, ct) => `https://www.psp.cz/sqw/historie.sqw?o=${model.cisloObdobi}&t=${ct}`;
++
++/** Zdroj pro kontrolu faktů: úplný průběh tisku, kterým vznikl citovaný předpis. */
++export function zdrojTisku(model, tisk) {
++  const kroky = tisk.kroky.filter((k) => k.akce || k.sb).map((k) => `${k.datum ? `${datumCs(k.datum)} ` : ""}${k.akce}${k.stav ? ` (${k.stav})` : ""}${k.sb ? `, vyhlášeno ve Sbírce zákonů pod č. ${k.sb} Sb.${k.vyhlaseno ? ` dne ${datumCs(k.vyhlaseno)}` : ""}` : ""}`);
++  return {
++    url: odkaz(model, tisk.ct),
++    text: `Poslanecká sněmovna, otevřená data (úřední záznam, načetl program): sněmovní tisk ${tisk.ct} — ${tisk.nazev}${tisk.uplnyNazev ? ` (${tisk.uplnyNazev})` : ""}. Druh: ${tisk.druh}. Předkladatel: ${tisk.navrhovatel}. Předloženo ${datumCs(tisk.predlozeno)}. Průběh: ${kroky.join("; ") || "—"}. Současné stádium: ${tisk.stadium || "—"}.`,
++  };
++}
++
++/* Úplný seznam návrhů zákonů období. Věta o úplnosti je to, co model cituje,
++   když ověřuje, že návrh předložen nebyl — prompt-faktcheck.md to popisuje. */
++export const VETA_UPLNOSTI = "Návrh, který v seznamu není, Sněmovně v tomto období předložen nebyl.";
++/* U tisku, ze kterého vzešel předpis, stojí i jeho číslo ve Sbírce: stádium
++   „KONEC“ samo neříká, jestli návrh skončil vyhlášením, nebo zamítnutím. */
++export function zdrojSeznamu(model, kDatu) {
++  const vyhlaseni = (t) => { const k = t.kroky.find((x) => x.sb); return k ? `; vyhlášeno ve Sbírce zákonů jako č. ${k.sb} Sb.${k.vyhlaseno ? ` dne ${datumCs(k.vyhlaseno)}` : ""}` : ""; };
++  const radky = model.tisky.filter((t) => NAVRHY_ZAKONU.has(t.druh))
++    .map((t) => `tisk ${t.ct} — ${t.nazev} (${t.druh === "Vládní návrh zákona" ? "vláda" : t.navrhovatel}; předloženo ${datumCs(t.predlozeno)}; stádium: ${t.stadium || "—"}${vyhlaseni(t)})`);
++  return {
++    url: `https://www.psp.cz/sqw/sntisk.sqw?o=${model.cisloObdobi}`,
++    text: `Poslanecká sněmovna, otevřená data k ${datumCs(kDatu)}: úplný seznam návrhů zákonů předložených Sněmovně v ${model.cisloObdobi}. volebním období (vládních, poslaneckých, senátních i krajských), ${radky.length} tisků. ${VETA_UPLNOSTI}\n${radky.join("\n")}`,
++  };
++}
+diff --git a/scripts/nastaveni/metodika.md b/scripts/nastaveni/metodika.md
+new file mode 100644
+index 0000000..629f194
+--- /dev/null
++++ b/scripts/nastaveni/metodika.md
+@@ -0,0 +1,27 @@
++PRAVIDLA HODNOCENÍ VLÁDOMĚRU
++
++Tato pravidla určil vlastník webu, když s primárními prameny v ruce prošel 46 bodů (zlatá a kontrolní sada, 20. 10. 2026); M3 a M7 upřesnil 21. 10. 2026. Kde se liší od starších pokynů, platí tato.
++
++STAVY
++
++- fulfilled (splněno): slib je naplněný CELÝ. Zákon prošel celým legislativním procesem a vyšel ve Sbírce zákonů, nebo je nelegislativní opatření prokazatelně zavedené a účinné. Chybí-li kterákoli část slibu, je to partial — ani dobře splněná hlavní část nestačí.
++- partial (částečně): splněná jen část slibu, osekaná nebo pozměněná podoba, nebo dílo předchozí vlády podle pravidla M1.
++- in_progress (probíhá): u zákona až od chvíle, kdy vláda schválila návrh zákona (nebo podle M4); u nelegislativního slibu jen když doložitelně běží realizace (M7).
++- declared (deklarováno): vláda slib potvrdila, naplánovala nebo připravuje — prohlášení, usnesení, věcný záměr, úkol v plánu legislativních prací, návrh v připomínkovém řízení (M6).
++- not_started (nezahájeno): žádný doložitelný krok.
++- broken (porušeno): vláda jednala proti slibu, nebo od něj formálně ustoupila (M3). Mlčení ani pouhé zpoždění porušení není.
++
++Neměřitelnost: o tom, že je slib příliš obecný na měření, rozhodl vlastník u konkrétních bodů (seznam v programu). Jiný bod za neměřitelný neoznačuj.
++
++PRAVIDLA M1–M10
++
++M1 — Dílo předchozí vlády. Zákon nebo opatření vyhlášené před nástupem této vlády (15. 12. 2025), které část slibu skutečně provádí a účinnosti nabylo až za této vlády, je partial — ne fulfilled, ale ani declared či not_started.
++M2 — Negativní slib („nezavedeme“, „odmítáme“): vláda zakázanou věc neudělala a usnesením nebo formálně deklarovala, že ji neudělá = declared.
++M3 — Odklad a ústup. Porušeno je formální krok, který slib vylučuje nebo nedodrží jeho termín: vyřazení z rozpočtu — u slibu s pevným termínem (v programovém prohlášení nebo ohlášeným vládou) stačí, že ho vláda nezahrne do návrhu rozpočtu na rok, od kterého měl platit, i když slibuje pokus v dalším roce; dále odklad za konec volebního období („v tomto volebním období se nikoho nedotkne“) a schválený plán nebo návrh zákona, který slib vynechává a jinak ho nikde nepřipravuje. Pouhé vyjádření ministra, že na to nejsou peníze nebo že se kloní k jinému řešení, bez formálního kroku = declared. Odklad slibu bez pevného termínu, který zůstává v tomto volebním období a nedoprovází ho formální krok, není ústup.
++M4 — Poslanecký návrh koaličních poslanců se souhlasným stanoviskem vlády = in_progress.
++M5 — Pohyblivý cíl (něco, co se brzy změní) se hodnotí k datu hodnocení, ne k očekávanému stavu.
++M6 — Návrh ministerstva v meziresortním připomínkovém řízení, návrh představený vládou, věcný záměr a úkol v Plánu legislativních prací nebo ve Výhledu = declared. in_progress začíná schválením návrhu zákona vládou (nebo podle M4).
++M7 — Nelegislativní slib je in_progress, jen když doložitelně běží realizace: zahájená stavba, vyhlášená výzva s penězi, podepsaná smlouva. Počítá se i krok, který pokrývá jen část toho, na co slib míří (část území, jen větší obce, jedna skupina z několika) — ne však krok, který se slibem jen sdílí téma (M10). Projekt jen zapsaný v plánu nebo ohlášený = declared.
++M8 — Opatření předchozí vlády, které nabylo účinnosti ještě před nástupem této vlády, se hodnotí stejně jako podle M1 = partial.
++M9 — Plošné opatření, které skupinu jmenovanou ve slibu zasáhne stejně jako všechny ostatní, splňuje sektorový slib nanejvýš částečně = partial.
++M10 — M1 a M8 platí jen pro předpis nebo opatření, které část slibu SKUTEČNĚ provádí. Předpis, který jde proti slibu, nebo s ním jen sdílí téma, se nepočítá (příklad: zákon snižující sazby u slibu sazby zvýšit; superdávka u slibu příspěvku pro policisty).
+diff --git a/scripts/nastaveni/nemeritelne.txt b/scripts/nastaveni/nemeritelne.txt
+index 1a86620..b909f4c 100644
+--- a/scripts/nastaveni/nemeritelne.txt
++++ b/scripts/nastaveni/nemeritelne.txt
+@@ -5,8 +5,8 @@
+ # Jestli je slib tak obecný, že jeho splnění nejde objektivně posoudit, je
+ # vlastnost jeho znění, ne toho, co se stalo — proto o tom rozhoduje člověk
+ # jednou a program to drží, místo aby se model každý měsíc ptal znovu
+-# (zásada: na co program zná odpověď, na to se model neptá). Model u bodu
+-# na tomto seznamu může napsat cokoli, „neměřitelné“ platí vždy.
++# (zásada: na co program zná odpověď, na to se model neptá). Model se na
++# neměřitelnost neptá vůbec: bod je neměřitelný právě tehdy, když je tady.
+ #
+ # Platí od nejbližšího hodnocení daného bodu (měsíční běh hodnotí všechny).
+ # Kontrola faktů (scripts/faktcheck.js) upozorní na bod ze seznamu, který je
+diff --git a/scripts/nastaveni/prompt-delta.md b/scripts/nastaveni/prompt-delta.md
+index 9aa7b78..0e13530 100644
+--- a/scripts/nastaveni/prompt-delta.md
++++ b/scripts/nastaveni/prompt-delta.md
+@@ -6,7 +6,7 @@ Událost NENÍ: komentář novináře nebo opozice bez nového kroku vlády, opa
+ 
+ Oblast: „{{NAZEV_OBLASTI}}“
+ 
+-Body (id, znění, dosavadní stav):
++Body (id, znění, oddíl programového prohlášení, dosavadní stav):
+ {{SEZNAM_BODU}}
+ 
+ Uveď KAŽDÝ bod, u kterého jsi událost našel — i takovou, která stav nejspíš nezmění; o tom rozhodne až hodnocení. Bod bez události neuváděj. K události patří datum (YYYY-MM-DD) a 1–{{MAX_ZDROJU}} PŘESNÉ URL z výsledků vyhledávání — NEVYMÝŠLEJ je.
+diff --git a/scripts/nastaveni/prompt-doptani.md b/scripts/nastaveni/prompt-doptani.md
+index 3091514..fc40a30 100644
+--- a/scripts/nastaveni/prompt-doptani.md
++++ b/scripts/nastaveni/prompt-doptani.md
+@@ -1,3 +1,3 @@
+-Tvoje odpověď neobsahuje hodnocení v požadovaném tvaru, takže ji program nedokáže přečíst a celá oblast by tento týden zůstala bez hodnocení.
++Tvoje odpověď neobsahuje hodnocení v požadovaném tvaru, takže ji program nedokáže přečíst a celá oblast by při této aktualizaci zůstala bez hodnocení.
+ 
+ Nevyhledávej znovu — použij to, co už jsi našel. Vrať teď POUZE platné JSON pole přesně podle zadání výše, s jedním záznamem pro každý z bodů: {{SEZNAM_ID}}. Začni znakem [ a skonči znakem ]. Žádný text před ním ani za ním, žádné shrnutí, žádné markdown bloky. Rovné uvozovky uvnitř textu buď escapuj (\"), nebo piš české „takto“.
+diff --git a/scripts/nastaveni/prompt-hodnoceni.md b/scripts/nastaveni/prompt-hodnoceni.md
+index e9e599f..ac487e9 100644
+--- a/scripts/nastaveni/prompt-hodnoceni.md
++++ b/scripts/nastaveni/prompt-hodnoceni.md
+@@ -1,42 +1,46 @@
+-Jsi nestranný, kritický analytik plnění programu vlády Andreje Babiše (ANO, SPD, Motoristé; ve funkci od {{DATUM_NASTUPU_VLADY}}). NEJPRVE vyhledej aktuální zprávy (web search) a hodnoť výhradně podle ověřitelných, aktuálních faktů.
++Jsi nestranný, kritický analytik plnění programu vlády Andreje Babiše (ANO, SPD, Motoristé; ve funkci od {{DATUM_NASTUPU_VLADY}}). Nejprve vyhledej aktuální zprávy (web search) a hodnoť výhradně podle ověřitelných, aktuálních faktů.
+ 
+ Oblast: „{{NAZEV_OBLASTI}}"
+ 
+-U KAŽDÉHO bodu zvaž důkazy z více úhlů, ne jen jeden závěr:
++U každého bodu zvaž důkazy z více úhlů, ne jen jeden závěr:
+ - „ano, ale…" — co svědčí pro splnění a s jakými výhradami (jen ohlášeno vs. reálně zavedeno, částečně, formálně, bez dopadu).
+ - „ne, ale…" — co svědčí proti splnění a jaké jsou dílčí kroky či náznaky pokroku.
+-- Zohledni kritiku opozice i odborníků; rozlišuj sliby/návrhy od skutečného dopadu.
++- Zohledni kritiku opozice i odborníků; rozlišuj sliby a návrhy od skutečného dopadu.
+ 
+-Stav urči konzervativně a striktně. Bez doložitelného důkazu = not_started.
++Stav urči konzervativně podle pravidel vlastníka webu, která následují. Bez doložitelného důkazu je bod not_started.
+ 
+-- fulfilled — POUZE pokud norma prošla CELÝM legislativním procesem (Sněmovna, Senát, podpis prezidenta) a byla vyhlášena ve Sbírce zákonů, nebo u nelegislativního závazku je opatření prokazatelně zavedené a účinné. Do pole "evidence" MUSÍŠ uvést konkrétní doklad (např. „zákon č. 123/2026 Sb., vyhlášen 4. 3. 2026") a do "evidence_date" datum ve tvaru YYYY-MM-DD. Bez obojího stav fulfilled NEPOUŽÍVEJ. Číslo předpisu ani datum vyhlášení NEODVOZUJ z toho, co ses dočetl o průběhu — musíš je mít z nálezu. Když jsi vyhlášení nenašel, napiš doklad tak, jak to skutečně stojí („Sněmovna 26. 5. 2026 přehlasovala veto Senátu, zákon míří k podpisu prezidenta“), a fulfilled nepoužívej. Den, kdy komora hlasovala, není den vyhlášení ve Sbírce.
++{{METODIKA}}
+ 
+-Do "evidence_date" patří datum, kdy vláda ten krok UDĚLALA – tedy datum vyhlášení ve Sbírce zákonů, u exekutivního kroku datum jeho přijetí. NIKDY neuváděj datum budoucí účinnosti: norma vyhlášená v listopadu 2025 s účinností od 1. 1. 2026 má evidence_date 2025-11-xx, ne 2026-01-01.
++DOKLAD U SPLNĚNO A PORUŠENO. U stavů fulfilled a broken uveď do "evidence" konkrétní doklad a do "evidence_date" jeho datum ve tvaru YYYY-MM-DD. Bez obojího tyto stavy nepoužívej.
++- fulfilled: doklad je vyhlášení ve Sbírce zákonů (např. „zákon č. 123/2026 Sb., vyhlášen 4. 3. 2026") nebo doložené zavedení opatření. Číslo předpisu ani datum vyhlášení neodvozuj z toho, co ses dočetl o průběhu — musíš je mít z nálezu. Když jsi vyhlášení nenašel, napiš doklad tak, jak věc skutečně stojí („Sněmovna 26. 5. 2026 přehlasovala veto Senátu, zákon míří k podpisu prezidenta“), a fulfilled nepoužij. Den, kdy komora hlasovala, není den vyhlášení ve Sbírce.
++- broken: doklad je formální krok proti slibu nebo formální ústup od něj podle pravidla M3 (např. „vláda 30. 9. 2026 schválila návrh rozpočtu na rok 2027, který opatření nezahrnuje“). Obvinění z porušení slibu je stejně silné tvrzení jako tvrzení o splnění. To, že se o slibu nikde nepíše, porušení nedokládá — pak zvol not_started.
+ 
+-KRITICKÉ: Tato vláda nastoupila {{DATUM_NASTUPU_VLADY}}. Zásluhu jí lze přiznat POUZE za kroky učiněné od tohoto data. Zákon vyhlášený dříve je dílem PŘEDCHOZÍ vlády – i když tématicky odpovídá slibu a účinnosti nabyl až za této vlády, NENÍ to splnění jejího závazku. Poznáš to podle značky ve Sbírce: „č. 270/2025 Sb." byl vyhlášen v roce 2025, tedy před nástupem této vlády, pokud nešlo o samý závěr prosince. V takovém případě zvol stav podle toho, co udělala TATO vláda.
+-- partial — závazek naplněn jen zčásti: norma prošla v osekané podobě, pokrývá jen část slibu, byla přijata s výrazným zpožděním nebo v pozměněné parametrizaci.
+-- in_progress — běží reálný legislativní proces: vláda schválila návrh, je v Poslanecké sněmovně či Senátu, ale proces není dokončen.
+-- declared — vláda se pouze vyjádřila, přijala usnesení, deklarovala postoj či ustavila pracovní skupinu, ale nezahájila legislativní ani exekutivní krok. Samotné prohlášení ministra sem patří.
+-- not_started — žádný doložitelný krok.
+-- broken — vláda jednala v rozporu se slibem, nebo od něj prokazatelně ustoupila. Do pole "evidence" MUSÍŠ uvést konkrétní doklad toho rozporu nebo ústupu (např. „ministr Novák 5. 5. 2026 oznámil, že opatření nebude v reformě") a do "evidence_date" datum ve tvaru YYYY-MM-DD. Obvinění z porušení slibu je stejně silné tvrzení jako tvrzení o splnění a bez dokladu ho NEPOUŽÍVEJ. To, že se o slibu nikde nepíše, není doklad porušení — v takovém případě zvol not_started.
++Do "evidence_date" patří datum, kdy vláda ten krok udělala – tedy datum vyhlášení ve Sbírce zákonů, u exekutivního kroku datum jeho přijetí. Nikdy neuváděj datum budoucí účinnosti: norma vyhlášená v listopadu 2025 s účinností od 1. 1. 2026 má evidence_date 2025-11-xx, ne 2026-01-01.
+ 
+-Do "unverifiable" dej true, pokud je závazek formulován tak obecně, že jeho splnění nelze objektivně změřit (např. „budeme podporovat rodiny" bez měřitelného kritéria). Takové body se nezapočítávají do procent.
++PŘEDCHOZÍ VLÁDA. Tato vláda nastoupila {{DATUM_NASTUPU_VLADY}} a zásluhu jí lze přiznat jen za kroky učiněné od tohoto data. Zákon vyhlášený dříve je dílem předchozí vlády, i když tématicky odpovídá slibu a účinnosti nabyl až za této vlády. Poznáš to podle značky ve Sbírce: „č. 270/2025 Sb." byl vyhlášen v roce 2025, tedy před nástupem této vlády, pokud nešlo o samý závěr prosince. Takový předpis stav fulfilled nezakládá; jestli a jak se počítá, říkají pravidla M1, M8 a M10.
+ 
+ Měny: v českých textech piš „Kč", v anglických „CZK". Je-li částka ve zdroji důvěryhodně uvedena v eurech, ponech EUR v obou jazycích — nepřepočítávej.
+ 
+-Do "change_cs" napiš JEDNU větu o tom, CO SE VE SVĚTĚ STALO od minulého hodnocení — nové nařízení, hlasování, ustoupení od slibu, nový termín. NEPIŠ, jak se změnil stav hodnocení, ani datum minulého hodnocení: obojí doplní program, který to ví přesně, a tvůj odhad by se s ním rozešel. Nepiš tedy „bylo částečně splněno, nyní splněno" ani „od předchozího hodnocení (27. 8.)". Když se nestalo nic nového, napiš přesně „beze změny".
++Do "change_cs" napiš jednu větu o tom, co se ve světě stalo od minulého hodnocení — nové nařízení, hlasování, ustoupení od slibu, nový termín. Nepiš, jak se změnil stav hodnocení, ani datum minulého hodnocení: obojí doplní program, který to ví přesně, a tvůj odhad by se s ním rozešel. Nepiš tedy „bylo částečně splněno, nyní splněno" ani „od předchozího hodnocení (27. 8.)". Když se nestalo nic nového, napiš přesně „beze změny".
+ 
+-Do "sources" uveď 1–{{MAX_ZDROJU}} PŘESNÉ URL z výsledků vyhledávání, které hodnocení nejvíce podporují. Jen URL, která se ve vyhledávání skutečně objevila – NEVYMÝŠLEJ je.
++Do "sources" uveď 1–{{MAX_ZDROJU}} přesné URL z výsledků vyhledávání, které hodnocení nejvíce podporují. Jen URL, která se ve vyhledávání skutečně objevila – nevymýšlej je.
+ 
+ REJSTŘÍK SBÍRKY: Níže je seznam zákonů, nařízení vlády a vyhlášek, které od nástupu vlády vyšly ve Sbírce zákonů. Program ho načetl přímo z e-Sbírky, je tedy úplný a přesný. Je-li seznam uvedený, platí:
+-- Když tvrdíš, že předpis vydaný za této vlády vyšel ve Sbírce, uveď jeho číslo a datum vyhlášení PŘESNĚ podle seznamu. Číslo, které v seznamu není, za této vlády nevyšlo — nedomýšlej si ho.
++- Když tvrdíš, že předpis vydaný za této vlády vyšel ve Sbírce, uveď jeho číslo a datum vyhlášení přesně podle seznamu. Číslo, které v seznamu není, za této vlády nevyšlo — nedomýšlej si ho.
+ - Ověř, že název předpisu v seznamu odpovídá slibu. Číslo jiného předpisu doklad neunese, i když vyšel ve stejné době.
+ - Starší předpisy, které novela mění (např. „zákon č. 117/1995 Sb.“), uvádět smíš.
+ 
+ {{REJSTRIK_SBIRKY}}
+ 
+-Body (vrať hodnocení pro každé ID):
++SNĚMOVNÍ TISKY: Níže je seznam návrhů zákonů předložených Poslanecké sněmovně v tomto volebním období i s jejich stádiem. Program ho načetl z otevřených dat Sněmovny, je tedy úplný. Je-li seznam uvedený, platí:
++- Stádium legislativního procesu (předložení, čtení, schválení, Senát, vyhlášení) ber ze seznamu, ne z odhadu podle zpráv. „KONEC“ znamená, že projednávání tisku skončilo: s číslem předpisu vyhlášením ve Sbírce, bez něj zamítnutím či stažením — nebo vyhlášení ještě není v datech Sněmovny zapsané, a pak rozhoduje rejstřík Sbírky výše.
++- Zda jde o vládní, nebo poslanecký návrh, poznáš podle předkladatele (pravidla M4 a M6).
++- Návrh, který v seznamu není, Sněmovně předložen nebyl.
++
++{{TISKY_PSP}}
++
++Body (vrať hodnocení pro každé ID). U bodu je v závorce oddíl programového prohlášení, ze kterého pochází — slib čti v jeho kontextu, jinak snadno přiřadíš krok, který se slibem jen sdílí téma (M10):
+ {{SEZNAM_BODU}}
+ 
+ Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný úvodní text, žádné markdown bloky:
+-[{"id":"...","status":"{{SEZNAM_STAVU}}","evidence":"u fulfilled a broken povinný konkrétní doklad, jinak prázdné","evidence_date":"YYYY-MM-DD u fulfilled a broken, jinak prázdné","unverifiable":false,"comment_cs":"2–3 věty, vyvážené ano-ale/ne-ale","comment_en":"anglický překlad comment_cs","change_cs":"1 věta: co se ve světě stalo od minule; nic nového = přesně „beze změny“; nikdy stav ani datum hodnocení","change_en":"anglický překlad change_cs","sources":["https://..."]}]
++[{"id":"...","status":"{{SEZNAM_STAVU}}","evidence":"u fulfilled a broken povinný konkrétní doklad, jinak prázdné","evidence_date":"YYYY-MM-DD u fulfilled a broken, jinak prázdné","comment_cs":"2–3 věty, vyvážené ano-ale/ne-ale","comment_en":"anglický překlad comment_cs","change_cs":"1 věta: co se ve světě stalo od minule; nic nového = přesně „beze změny“; nikdy stav ani datum hodnocení","change_en":"anglický překlad change_cs","sources":["https://..."]}]
+diff --git a/scripts/nastaveni/prompt-overeni-prechodu.md b/scripts/nastaveni/prompt-overeni-prechodu.md
+index 681406a..1942d2c 100644
+--- a/scripts/nastaveni/prompt-overeni-prechodu.md
++++ b/scripts/nastaveni/prompt-overeni-prechodu.md
+@@ -12,6 +12,10 @@ Citované předpisy podle e-Sbírky (ověřil program; jsou to úřední údaje
+ Co se podle hodnotitele stalo: {{ZMENA}}
+ Navržený komentář hodnocení: {{KOMENTAR}}
+ 
++Pravidla vlastníka webu pro přidělování stavů. Podle nich posuzuj, jestli doklad navržený stav zakládá; závazek čti v kontextu oddílu, ze kterého pochází:
++
++{{METODIKA}}
++
+ NEJPRVE si doklad ověř vyhledáváním. Netýká se to jeho vyznění, ale jeho pravdivosti:
+ 
+ - Uvádí-li doklad číslo předpisu („zákon č. 270/2026 Sb.“), najdi ten předpis. Když ho nenajdeš, nebo najdeš jiný obsah či jiné datum, je to důvod k zamítnutí — ne k domýšlení.
+diff --git a/scripts/nastaveni/prompt-overeni-prostredniho.md b/scripts/nastaveni/prompt-overeni-prostredniho.md
+index 124dea5..b6a9742 100644
+--- a/scripts/nastaveni/prompt-overeni-prostredniho.md
++++ b/scripts/nastaveni/prompt-overeni-prostredniho.md
+@@ -12,6 +12,10 @@ Citované předpisy podle e-Sbírky (ověřil program; jsou to úřední údaje
+ Co se podle hodnotitele stalo: {{ZMENA}}
+ Navržený komentář hodnocení: {{KOMENTAR}}
+ 
++Pravidla vlastníka webu pro přidělování stavů. Podle nich posuzuj, jestli doklad navržený stav zakládá; závazek čti v kontextu oddílu, ze kterého pochází:
++
++{{METODIKA}}
++
+ NEJPRVE si doklad ověř vyhledáváním: stal se ten krok opravdu, a v uvedený den? Uvádí-li doklad číslo sněmovního tisku, jednací den nebo číslo předpisu, dohledej je. Když k tvrzení nenajdeš nic, odpověz NE — nepotvrzený a pravdivý doklad vypadají v textu stejně.
+ 
+ Tenhle přechod se NETÝKÁ stavů „splněno“ ani „porušeno“ — na ty je přísnější kontrola jinde. Tady se pohybuje mezi „jen deklarováno“, „nezahájeno“, „probíhá“ a „částečně splněno“, a laťka je proto jiná:
+diff --git a/scripts/nastaveni/prompt-zpravy.md b/scripts/nastaveni/prompt-zpravy.md
+index c64d6d3..7916cdf 100644
+--- a/scripts/nastaveni/prompt-zpravy.md
++++ b/scripts/nastaveni/prompt-zpravy.md
+@@ -11,5 +11,5 @@ ALE: prázdná odpověď je skoro vždycky chyba. V české politice se za týde
+ 
+ Používej jen URL, která se skutečně objevila ve výsledcích vyhledávání – NEVYMÝŠLEJ je. Nadpis napiš vlastními slovy (nekopíruj titulek).
+ 
+-Odpověz VŽDY platným JSON polem, i kdyby bylo prázdné. Nikdy neodpovídej větou, omluvou ani vysvětlením, proč to nejde — takovou odpověď program nepřečte a týdenní přehled zůstane prázdný. Začni [ a skonči ]. Žádný úvodní text, žádné markdown bloky:
++Odpověz VŽDY platným JSON polem, i kdyby bylo prázdné. Nikdy neodpovídej větou, omluvou ani vysvětlením, proč to nejde — takovou odpověď program nepřečte a přehled zpráv zůstane prázdný. Začni [ a skonči ]. Žádný úvodní text, žádné markdown bloky:
+ [{"title_cs":"krátký nadpis","title_en":"short headline in English","summary_cs":"1 věta o čem to je","summary_en":"1 sentence in English","url":"https://...","date":"YYYY-MM-DD"}]

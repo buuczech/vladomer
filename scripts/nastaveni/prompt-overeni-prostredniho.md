@@ -12,6 +12,10 @@ Citované předpisy podle e-Sbírky (ověřil program; jsou to úřední údaje 
 Co se podle hodnotitele stalo: {{ZMENA}}
 Navržený komentář hodnocení: {{KOMENTAR}}
 
+Pravidla vlastníka webu pro přidělování stavů. Podle nich posuzuj, jestli doklad navržený stav zakládá; závazek čti v kontextu oddílu, ze kterého pochází:
+
+{{METODIKA}}
+
 NEJPRVE si doklad ověř vyhledáváním: stal se ten krok opravdu, a v uvedený den? Uvádí-li doklad číslo sněmovního tisku, jednací den nebo číslo předpisu, dohledej je. Když k tvrzení nenajdeš nic, odpověz NE — nepotvrzený a pravdivý doklad vypadají v textu stejně.
 
 Tenhle přechod se NETÝKÁ stavů „splněno“ ani „porušeno“ — na ty je přísnější kontrola jinde. Tady se pohybuje mezi „jen deklarováno“, „nezahájeno“, „probíhá“ a „částečně splněno“, a laťka je proto jiná:

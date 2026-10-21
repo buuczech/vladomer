@@ -10,7 +10,7 @@
  * (dump se udělá před změnou i po ní a porovná se diffem)
  */
 
-import { readFileSync, writeFileSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, existsSync, rmSync } from "node:fs";
 import { POLE_KOREKTURY, ctiPole, promptKorektury } from "../lib/korektura.js";
 
 /* Ochrana ostrých dat: evaluate.js na konci zapisuje public/*.json, a protože
@@ -18,13 +18,13 @@ import { POLE_KOREKTURY, ctiPole, promptKorektury } from "../lib/korektura.js";
    tím týdenní práci. Přepsat writeFileSync nejde — evaluate.js si ho importuje
    jmenovitě, takže má vlastní vazbu. Proto se soubory přečtou předem a při
    ukončení procesu (i po chybě) vrátí zpět. */
-const CHRANENE = ["evaluations.json", "history.json", "news.json", "audit.json"]
+const CHRANENE = ["evaluations.json", "history.json", "news.json", "audit.json", "naklady.json"]
   .map((n) => new URL(`../../public/${n}`, import.meta.url))
-  .filter((u) => existsSync(u))
-  .map((u) => [u, readFileSync(u)]);
+  .map((u) => [u, existsSync(u) ? readFileSync(u) : null]);
 
 process.on("exit", () => {
-  for (const [url, obsah] of CHRANENE) writeFileSync(url, obsah);
+  // Soubor, který před během neexistoval (naklady.json), se zase smaže.
+  for (const [url, obsah] of CHRANENE) obsah ? writeFileSync(url, obsah) : rmSync(url, { force: true });
   console.error(`[dump] obnoveno ${CHRANENE.length} datových souborů — nic se nepřepsalo`);
 });
 
@@ -65,9 +65,13 @@ globalThis.setTimeout = (fn, ms, ...a) => realTimeout(fn, ms > 50 ? 0 : ms, ...a
 /* Rejstřík Sbírky (lib/sbirka.js) se čte doopravdy: e-Sbírka je veřejná,
    zdarma a nic se tím neodesílá — a jen tak výpis ukáže přesně tu tabulku,
    kterou model dostane. Bez sítě běh spadne na text pro nedostupný rejstřík. */
+/* Totéž otevřená data Sněmovny (lib/psp.js): seznam tisků v promptu hodnocení. */
 const skutecnyFetch = globalThis.fetch;
 globalThis.fetch = async (url, opt) => {
   if (String(url).startsWith("https://e-sbirka.gov.cz/")) return skutecnyFetch(url, opt);
+  if (String(url).startsWith("https://www.psp.cz/eknih/cdrom/opendata/")) return skutecnyFetch(url, opt);
+  // Ověření názvů modelů (lib/modely.js, overModely) — tady vždy „existuje“.
+  if (String(url).startsWith("https://api.anthropic.com/v1/models/")) return new Response("{}", { status: 200 });
   const body = JSON.parse(opt.body);
   console.log("=".repeat(72));
   console.log(`POST ${url}  model=${body.model}  max_tokens=${body.max_tokens}`);
@@ -84,5 +88,20 @@ globalThis.fetch = async (url, opt) => {
     console.log(typeof posledni.content === "string" ? posledni.content : JSON.stringify(posledni.content));
   }
   // Prázdné pole = žádná hodnocení; skript to zvládne a pokračuje dál.
-  return { ok: true, json: async () => ({ content: [{ type: "text", text: "[]" }] }) };
+  const zprava = { id: "msg_dump", type: "message", role: "assistant", model: body.model, content: [{ type: "text", text: "[]" }],
+    stop_reason: "end_turn", usage: { input_tokens: 0, output_tokens: 0 } };
+  /* Modely s přemýšlením se volají se streamem (lib/modely.js): odpověď
+     musí přijít jako SSE, jinak ji skládání streamu nepřečte. */
+  if (body.stream) {
+    const u = (typ, data) => `event: ${typ}\ndata: ${JSON.stringify({ type: typ, ...data })}\n\n`;
+    return new Response(
+      u("message_start", { message: { ...zprava, content: [], stop_reason: null } })
+      + u("content_block_start", { index: 0, content_block: { type: "text", text: "" } })
+      + u("content_block_delta", { index: 0, delta: { type: "text_delta", text: "[]" } })
+      + u("content_block_stop", { index: 0 })
+      + u("message_delta", { delta: { stop_reason: "end_turn", stop_sequence: null }, usage: { output_tokens: 0 } })
+      + u("message_stop", {}),
+      { status: 200, headers: { "content-type": "text/event-stream" } });
+  }
+  return { ok: true, status: 200, json: async () => zprava };
 };

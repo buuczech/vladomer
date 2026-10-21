@@ -17,6 +17,10 @@
       ],
       "neutralni": true,
       "duvod": "Spec 002: volání API přes lib/modely.js (profily modelů, stream, cena, pojistka) a nová povinná nastavení effort_hodnoceni, effort_kontroly, pojistka_ceny_usd. U dnešních modelů (Haiku 4.5, Sonnet/Opus 4.6) beze změny chování — dokazuje průchod 2b."
+    },
+    {
+      "patch": "zmeny/03-vydani-b.patch",
+      "duvod": "Vydání B (spec 007): hodnotitel i oba ověřovatelé dostávají pravidla vlastníka (scripts/nastaveni/metodika.md, M1–M10) a u každého bodu oddíl programového prohlášení (případ 3.2); hodnotitel navíc seznam návrhů zákonů z otevřených dat Sněmovny (lib/psp.js, {{TISKY_PSP}}). Definice stavů v promptu hodnocení nahradila metodika, příklad porušení odpovídá M3, ubyly verzálky psané pro Haiku. Na neměřitelnost se model neptá (jen nemeritelne.txt). Pryč týdenní formulace v doptání a zprávách. Mění texty promptů i zveřejněná data — změřeno na zlaté a kontrolní sadě."
     }
   ],
   "soubory": [
