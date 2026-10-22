@@ -90,11 +90,12 @@
     },
     "1.5": {
       "status": "declared",
-      "evidence": "",
+      "evidence": "Usnesení vlády ze 16. 12. 2025 o odmítnutí Paktu o migraci a azylu EU a zavedení politiky nulové tolerance nelegální migrace; ministr vnitra Metnar připravuje nový legislativní rámec (červenec 2026); návrh nového zákona o migraci a azylu předložen do Sněmovny",
+      "evidenceDate": "2025-12-16",
       "unverifiable": false,
       "comment": {
-        "cs": "Ano, ale: vláda hned na prvním jednání odmítla princip solidarity v migračním paktu a deklaruje nulovou toleranci k nelegální migraci. Sněmovna 11. 9. 2026 jednomyslně schválila nový zákon o pobytu cizinců (tisk 144, nyní v Senátu), který zjednodušuje zrušení pobytu pachatelům trestných činů. Ne, ale: ministerstvo uvádí, že se zákon azylu ani dočasné ochrany netýká a platit má až od roku 2029. Slíbená bezpečnostní novela se zásadním zpřísněním ve Sněmovně v seznamu tisků není. Opozice (Rakušan) tvrdí, že Česko migrační pakt už zavedlo, a premiér Okamura ho zavádět odmítá.",
-        "en": "Yes, but: at its first meeting the government rejected the migration pact's solidarity principle and declares zero tolerance for illegal migration. On 11 Sep 2026 the Chamber unanimously passed a new foreigners' residence act (print 144, now in the Senate) that makes it easier to revoke offenders' residence. No, but: the ministry says the act does not touch asylum or temporary protection and it is to apply only from 2029. The promised security amendment with major tightening is not among the Chamber's bills. The opposition (Rakušan) says Czechia has already implemented the migration pact, while the coalition says it will not."
+        "cs": "Vláda odmítla migrační pakt usnesením a deklaruje politiku nulové tolerance. Ministr vnitra připravuje nový zákon o migraci a azylu, který byl předložen do Sněmovny. Avšak Česko již implementovalo části migračního paktu (zpřísněná azylová pravidla od ledna 2026 z iniciativy Fialovy vlády) a výjimka z principu solidarity platí pouze na rok 2026. Legislativní proces není dokončen; skutečný dopad nového zákona se teprve uvidí.",
+        "en": "The government rejected the migration pact by resolution and declares a zero-tolerance policy for illegal migration. The interior minister is preparing a new migration and asylum law, which was submitted to Parliament. However, Czechia has already implemented parts of the migration pact (stricter asylum rules from January 2026 from the previous government's initiative) and the exemption from the solidarity principle applies only to 2026. The legislative process is not complete; the actual impact of the new law remains to be seen."
       },
       "change": {
         "cs": "beze změny",
@@ -102,8 +103,8 @@
       },
       "sources": [
         {
-          "url": "https://mv.gov.cz/snemovna-schvalila-novy-zakon-o-pobytu-cizincu-posili-bezpecnost-a-zlepsi-evidenci",
-          "title": "Sněmovna schválila nový zákon o pobytu cizinců. Posílí bezpečnost a zlepší evidenci - Ministerstvo vnitra České republiky"
+          "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-odmitla-migracni-pakt-eu-i-novy-system-obchodovani-s-emisnimi-povolenkami--domacnostem-i-firmam-zlevni-elektrinu-224297/",
+          "title": "Vláda Andreje Babiše odmítla migrační pakt EU i nový systém obchodování s emisními povolenkami, domácnostem i firmám zlevní elektřinu"
         },
         {
           "url": "https://www.ceskenoviny.cz/zpravy/cesko-podle-okamury-nebude-zavadet-migracni-pakt-sankce-jsou-mozne/2837847",
@@ -111,8 +112,8 @@
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-10-21T11:53:31.754Z",
-      "overeno": "2026-10-21T11:52:33.818Z"
+      "updatedAt": "2026-10-09T14:21:15.870Z",
+      "overeno": "2026-10-16T14:26:55.650Z"
     },
     "2.1": {
       "status": "declared",

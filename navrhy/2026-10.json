@@ -3005,9 +3005,6 @@
     "1.3": {
       "duvod": null
     },
-    "1.5": {
-      "duvod": null
-    },
     "2.1": {
       "duvod": null
     },
@@ -3270,6 +3267,12 @@
       "kdo": "buuczech",
       "prikaz": "prijmout",
       "bod": "1.3"
+    },
+    {
+      "kdy": "2026-10-22T12:11:09.508Z",
+      "kdo": "buuczech",
+      "prikaz": "podrzet",
+      "bod": "1.5"
     }
   ]
 }

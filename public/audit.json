@@ -27010,29 +27010,6 @@
       }
     },
     {
-      "id": "1.5",
-      "date": "2026-10-22",
-      "status": "declared",
-      "evidence": "",
-      "evidence_date": "",
-      "unverifiable": false,
-      "comment_cs": "Ano, ale: vláda hned na prvním jednání odmítla princip solidarity v migračním paktu a deklaruje nulovou toleranci k nelegální migraci. Sněmovna 11. 9. 2026 jednomyslně schválila nový zákon o pobytu cizinců (tisk 144, nyní v Senátu), který zjednodušuje zrušení pobytu pachatelům trestných činů. Ne, ale: ministerstvo uvádí, že se zákon azylu ani dočasné ochrany netýká a platit má až od roku 2029. Slíbená bezpečnostní novela se zásadním zpřísněním ve Sněmovně v seznamu tisků není. Opozice (Rakušan) tvrdí, že Česko migrační pakt už zavedlo, a premiér Okamura ho zavádět odmítá.",
-      "comment_en": "Yes, but: at its first meeting the government rejected the migration pact's solidarity principle and declares zero tolerance for illegal migration. On 11 Sep 2026 the Chamber unanimously passed a new foreigners' residence act (print 144, now in the Senate) that makes it easier to revoke offenders' residence. No, but: the ministry says the act does not touch asylum or temporary protection and it is to apply only from 2029. The promised security amendment with major tightening is not among the Chamber's bills. The opposition (Rakušan) says Czechia has already implemented the migration pact, while the coalition says it will not.",
-      "change_cs": "beze změny",
-      "change_en": "no change",
-      "sources": [
-        "https://mv.gov.cz/snemovna-schvalila-novy-zakon-o-pobytu-cizincu-posili-bezpecnost-a-zlepsi-evidenci",
-        "https://www.ceskenoviny.cz/zpravy/cesko-podle-okamury-nebude-zavadet-migracni-pakt-sankce-jsou-mozne/2837847"
-      ],
-      "model": "claude-sonnet-5-5",
-      "oprava": {
-        "puvodni_zaznam": "2026-10-09",
-        "puvodni_status": "declared",
-        "duvod": "Návrh z běhu 2026-10-21, který kontrola faktů podržela (m-spor), přijal vlastník.",
-        "prijato_z_behu": "2026-10-21"
-      }
-    },
-    {
       "id": "2.1",
       "date": "2026-10-22",
       "status": "declared",
