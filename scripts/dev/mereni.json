@@ -1,8 +1,8 @@
 {
   "_popis": "Parametry placeného měření na DEV2 (.github/workflows/dev2-eval.yml). Změna tohoto souboru na DEV2 spustí měření — ALE jen když je vyplněné „schvaleno“ (kdo a kdy placený běh schválil). Po měření se „schvaleno“ vyprázdní, aby další úprava parametrů omylem nic nespustila. rezim: zlata-sada | stabilita | beh | faktcheck | generalka (celý měsíční běh bez zveřejnění, e-mail [ZKOUŠKA]) | retez (hodnocení + kontrola faktů + rozhodnutí na 46 bodech sad) | email (zkušební e-mail s reportem z fixtury, zdarma). Prázdný model = podle scripts/nastaveni/nastaveni.txt. faktcheck_model a kola (1 = jen kolo 1 přes dávku, 2 = obě kola) platí pro rezim faktcheck. pojistka_usd = strop ceny tohoto běhu (aby nepřekročil schválenou částku).",
-  "schvaleno": "",
-  "odhad_usd": null,
-  "rezim": "generalka",
+  "schvaleno": "vlastník 22. 10. 2026 v konverzaci: vydání B nechat a doplnit Plán legislativních prací, pak jedno měření řetězu (~20 $ ze zbylých 30 $); strop 22 $",
+  "odhad_usd": 21,
+  "rezim": "retez",
   "model": "claude-sonnet-5-5",
   "overovaci_model": "claude-opus-5-5",
   "korektura_model": "",
@@ -11,5 +11,5 @@
   "effort_hodnoceni": "high",
   "effort_kontroly": "high",
   "nahrat_kazetu": true,
-  "pojistka_usd": null
+  "pojistka_usd": 22
 }
