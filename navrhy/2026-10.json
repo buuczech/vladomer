@@ -3264,5 +3264,12 @@
       "duvod": null
     }
   },
-  "historie": []
+  "historie": [
+    {
+      "kdy": "2026-10-22T12:10:49.699Z",
+      "kdo": "buuczech",
+      "prikaz": "prijmout",
+      "bod": "1.3"
+    }
+  ]
 }
