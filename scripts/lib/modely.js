@@ -149,12 +149,35 @@ export function pojistkaZasahla() { return ucet.zasahla; }
    bodů a skončila jako úspěšná se 107 body k rozhodnutí. Po takové chybě se
    další volání neposílá a běh končí kódem 3 jako u pojistky: nic se
    nezveřejní a přijde e-mail o selhání. Zpráva schválně neobsahuje „API 4xx“
-   ani „JSON“, aby ji withBackoff neopakoval. */
+   ani „JSON“, aby ji withBackoff neopakoval.
+
+   Došlý kredit ale bývá jen chvilkový: účet vlastníka se dobíjí sám, až
+   zůstatek klesne pod práh, a tehdy na něj narazila volání minutu poté, co
+   se najednou zaúčtovala dávka za 9,66 $. Proto se nejdřív počká na dobití
+   (CEKANI_NA_KREDIT) a zastaví se, až když nepomůže ani to — jinak by
+   chvilkový pokles zahodil celý zaplacený běh. */
+let CEKANI_NA_KREDIT = [60000, 180000, 600000];
+export function nastavCekaniNaKredit(ms) { CEKANI_NA_KREDIT = ms; } // testy
 export function zastaveniUctu() { return ucet.zastaveno; }
+async function sCekanimNaKredit(posli) {
+  for (let pokus = 0; ; pokus++) {
+    const res = await posli();
+    if (res.ok) return res;
+    const chyba = await chybaApi(res);
+    if (ucet.zastaveno === KREDIT && pokus < CEKANI_NA_KREDIT.length) {
+      console.error(`ÚČET: ${KREDIT} — čekám ${Math.round(CEKANI_NA_KREDIT[pokus] / 60000)} min na automatické dobití a zkusím to znovu`);
+      ucet.zastaveno = null;
+      await new Promise((r) => setTimeout(r, CEKANI_NA_KREDIT[pokus]));
+      continue;
+    }
+    throw chyba;
+  }
+}
+const KREDIT = "na účtu API došel kredit";
 async function chybaApi(res) {
   const text = await res.text();
   if (res.status === 401 || res.status === 403 || /credit balance is too low/i.test(text)) {
-    ucet.zastaveno = res.status === 401 || res.status === 403 ? `klíč API odmítnut (HTTP ${res.status})` : "na účtu API došel kredit";
+    ucet.zastaveno = res.status === 401 || res.status === 403 ? `klíč API odmítnut (HTTP ${res.status})` : KREDIT;
     return new Error(`ÚČET: ${ucet.zastaveno} — běh se zastavuje, další volání se neposílají`);
   }
   return new Error(`API ${res.status}: ${text}`);
@@ -205,8 +228,7 @@ export async function zavolejApi(telo, { klic, role }) {
   }
   const hlavicky = { "content-type": "application/json", "x-api-key": klic, "anthropic-version": "2023-06-01" };
   if (telo.fallbacks) hlavicky["anthropic-beta"] = "server-side-fallback-2026-07-01";
-  const res = await fetch(API, { method: "POST", headers: hlavicky, body: JSON.stringify(telo) });
-  if (!res.ok) throw await chybaApi(res);
+  const res = await sCekanimNaKredit(() => fetch(API, { method: "POST", headers: hlavicky, body: JSON.stringify(telo) }));
   const data = telo.stream ? await slozStream(res) : await res.json();
   zapisSpotrebu(role, telo.model, data);
   if (data.stop_reason === "refusal") {
@@ -298,12 +320,11 @@ export async function odesliDavku(pozadavky, { klic, role }) {
     ucet.zasahla = true;
     throw new Error(`POJISTKA CENY: běh už stál ${ucet.celkem.toFixed(2)} $ (strop ${ucet.pojistka} $) — dávka se neposílá`);
   }
-  const res = await fetch(API_DAVKY, {
+  const res = await sCekanimNaKredit(() => fetch(API_DAVKY, {
     method: "POST",
     headers: { "content-type": "application/json", "x-api-key": klic, "anthropic-version": "2023-06-01" },
     body: JSON.stringify({ requests: pozadavky.map((p) => ({ custom_id: p.custom_id, params: p.params })) }),
-  });
-  if (!res.ok) throw await chybaApi(res);
+  }));
   const d = await res.json();
   return { id: d.id, role };
 }

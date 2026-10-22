@@ -197,9 +197,12 @@ celý běh je v `mesicni-beh.yml`) a trvá několik hodin:
    podle tvých pravidel, vyvrácené tvrzení nebo chyba proti e-Sbírce. Bod,
    u kterého se stav nezměnil a jen novou formulaci komentáře kontrola
    nepotvrdila, zůstane na minulém textu a v reportu je jen jejich počet,
-   Když na účtu API dojde kredit nebo je klíč odmítnut, běh se zastaví,
-   nic se nezveřejní a přijde e-mail o selhání — dobij kredit
-   (console.anthropic.com → Plans & Billing) a spusť běh ručně,
+   Když na účtu API dojde kredit, běh počká až čtvrt hodiny na automatické
+   dobití. Když nepomůže, nebo je klíč odmítnut, běh se zastaví, nic se
+   nezveřejní a přijde e-mail o selhání — dobij kredit
+   (console.anthropic.com → Plans & Billing) a spusť běh ručně. Měsíční
+   běh stojí ~40 $ a kontrola faktů se účtuje najednou (~10 $): práh
+   automatického dobití měj nad 15 $, ať se dobíjí včas,
 4. **e-mail** s verdiktem v předmětu („Vládoměr 11/2026: zveřejněno, 2 body
    k rozhodnutí“), PDF reportem a souborem `pro-AI.md`.
 

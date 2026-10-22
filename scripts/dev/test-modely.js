@@ -14,7 +14,7 @@
  */
 import { readFileSync } from "node:fs";
 import {
-  profilModelu, teloPozadavku, slozStream, cenaVolani, zavolejApi, nastavPojistku, pojistkaZasahla, zastaveniUctu,
+  profilModelu, teloPozadavku, slozStream, cenaVolani, zavolejApi, nastavPojistku, pojistkaZasahla, zastaveniUctu, nastavCekaniNaKredit,
   souhrnNakladu, overModely, limitPremysleni,
 } from "../lib/modely.js";
 
@@ -154,11 +154,18 @@ try { await overModely(["claude-sonnet-5-5", "claude-opus-5-5"], "k"); over(true
 catch (e) { over(false, "overModely: známé modely projdou", e.message); }
 // Došlý kredit — doslovná odpověď API z generálky 21. 10. 2026 (95× v kole 2 kontroly faktů).
 nastavPojistku(Infinity);
-odpovedi = [{ status: 400, data: { type: "error", error: { type: "invalid_request_error", message: "Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits." } } }];
+nastavCekaniNaKredit([0, 0]);
+const bezKreditu = { status: 400, data: { type: "error", error: { type: "invalid_request_error", message: "Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits." } } };
+const puvodniChyba = console.error; console.error = () => {};
+odpovedi = [bezKreditu, { data: { model: "claude-opus-5-5", stop_reason: "end_turn", content: [{ type: "text", text: "dobito" }], usage: { input_tokens: 1, output_tokens: 1 } } }];
+const poDobiti = await zavolejApi({ model: "claude-opus-5-5", max_tokens: 10, messages: M }, { klic: "k", role: "test" });
+over(poDobiti.content[0].text === "dobito" && !zastaveniUctu(), "chvilkový pokles kreditu: počká na automatické dobití a pokračuje");
+odpovedi = [bezKreditu, bezKreditu, bezKreditu];
 try {
   await zavolejApi({ model: "claude-opus-5-5", max_tokens: 10, messages: M }, { klic: "k", role: "test" });
   over(false, "došlý kredit musí vyhodit výjimku");
-} catch (e) { over(/^ÚČET: na účtu API došel kredit/.test(e.message) && !opakovalBy(e.message) && zastaveniUctu() === "na účtu API došel kredit", "došlý kredit zastaví běh a neopakuje se", e.message); }
+} catch (e) { over(/^ÚČET: na účtu API došel kredit/.test(e.message) && !opakovalBy(e.message) && zastaveniUctu() === "na účtu API došel kredit" && !odpovedi.length, "kredit nedobitý ani po čekání: běh se zastaví a neopakuje se", e.message); }
+console.error = puvodniChyba;
 odpovedi = [{ data: { model: "claude-opus-5-5", stop_reason: "end_turn", content: [{ type: "text", text: "ok" }], usage: { input_tokens: 1, output_tokens: 1 } } }];
 try {
   await zavolejApi({ model: "claude-opus-5-5", max_tokens: 10, messages: M }, { klic: "k", role: "test" });
