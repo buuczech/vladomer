@@ -21,12 +21,6 @@
         "m-vyvraceno"
       ]
     },
-    "1.3": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
     "1.4": {
       "akce": "bez-razitka",
       "duvody": [
@@ -39,19 +33,6 @@
         "m-spor"
       ]
     },
-    "2.1": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "2.5": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
     "2.7": {
       "akce": "bez-razitka",
       "duvody": [
@@ -62,12 +43,6 @@
     },
     "2.9": {
       "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "2.10": {
-      "akce": "podrzet",
       "duvody": [
         "m-neovereno"
       ]
@@ -92,13 +67,6 @@
         "m-neovereno"
       ]
     },
-    "3.1": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
     "3.2": {
       "akce": "bez-razitka",
       "duvody": [
@@ -106,78 +74,8 @@
         "m-neovereno"
       ]
     },
-    "3.4": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "3.5": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "3.7": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "3.8": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "4.1": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "4.2": {
-      "akce": "podrzet",
-      "duvody": [
-        "prechod-bez-noveho-dokladu",
-        "kalibrace"
-      ]
-    },
-    "4.3": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
     "4.4": {
       "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "4.5": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "4.6": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "5.1": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-spor"
-      ]
-    },
-    "5.2": {
-      "akce": "podrzet",
       "duvody": [
         "m-neovereno"
       ]
@@ -189,26 +87,6 @@
         "m-neovereno"
       ]
     },
-    "5.5": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "5.6": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "6.1": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
     "6.2": {
       "akce": "podrzet",
       "duvody": [
@@ -216,26 +94,8 @@
         "m-neovereno"
       ]
     },
-    "6.3": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "6.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
     "6.6": {
       "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "6.7": {
-      "akce": "podrzet",
       "duvody": [
         "m-neovereno"
       ]
@@ -253,100 +113,12 @@
         "m-spor"
       ]
     },
-    "7.1": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
     "7.2": {
       "akce": "bez-razitka",
       "duvody": [
         "m-vyvraceno",
         "m-neovereno",
         "m-spor"
-      ]
-    },
-    "7.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "7.5": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "7.6": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno-absence",
-        "kalibrace"
-      ]
-    },
-    "7.7": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "7.8": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "7.9": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "7.10": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "8.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "8.5": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "8.6": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "8.7": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor",
-        "m-neovereno-absence",
-        "kalibrace"
-      ]
-    },
-    "8.8": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "8.9": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
       ]
     },
     "9.4": {
@@ -361,242 +133,8 @@
         "m-neovereno"
       ]
     },
-    "9.7": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "9.8": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-spor"
-      ]
-    },
-    "9.9": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "10.1": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-spor"
-      ]
-    },
-    "10.2": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "10.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "10.5": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "10.6": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "10.8": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "10.9": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "10.10": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "11.1": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "11.2": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "11.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "11.5": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "11.6": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "11.7": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "11.9": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-spor"
-      ]
-    },
-    "11.10": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "12.2": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "12.3": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "12.4": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "12.5": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "12.6": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "12.7": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "13.1": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "13.3": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "13.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "13.5": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
     "13.6": {
       "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "13.8": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "14.1": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "14.2": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "14.5": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "15.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "15.5": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "15.6": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-spor"
-      ]
-    },
-    "15.7": {
-      "akce": "podrzet",
       "duvody": [
         "m-neovereno"
       ]
@@ -607,94 +145,99 @@
         "m-vyvraceno"
       ]
     },
-    "16.2": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "16.3": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "16.4": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "16.6": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "17.1": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-spor"
-      ]
-    },
-    "17.2": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "17.3": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
     "17.4": {
       "akce": "bez-razitka",
       "duvody": [
         "m-neovereno"
       ]
-    },
-    "17.5": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "18.1": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
-    },
-    "18.3": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "18.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "18.5": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "18.6": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno"
-      ]
     }
-  }
+  },
+  "prijato_vlastnikem": [
+    "1.3",
+    "2.1",
+    "2.5",
+    "2.10",
+    "3.1",
+    "3.4",
+    "3.5",
+    "3.7",
+    "3.8",
+    "4.1",
+    "4.2",
+    "4.3",
+    "4.5",
+    "4.6",
+    "5.1",
+    "5.2",
+    "5.5",
+    "5.6",
+    "6.1",
+    "6.3",
+    "6.4",
+    "6.7",
+    "7.1",
+    "7.4",
+    "7.5",
+    "7.6",
+    "7.7",
+    "7.8",
+    "7.9",
+    "7.10",
+    "8.4",
+    "8.5",
+    "8.6",
+    "8.7",
+    "8.8",
+    "8.9",
+    "9.7",
+    "9.8",
+    "9.9",
+    "10.1",
+    "10.2",
+    "10.4",
+    "10.5",
+    "10.6",
+    "10.8",
+    "10.9",
+    "10.10",
+    "11.1",
+    "11.2",
+    "11.4",
+    "11.5",
+    "11.6",
+    "11.7",
+    "11.9",
+    "11.10",
+    "12.2",
+    "12.3",
+    "12.4",
+    "12.5",
+    "12.6",
+    "12.7",
+    "13.1",
+    "13.3",
+    "13.4",
+    "13.5",
+    "13.8",
+    "14.1",
+    "14.2",
+    "14.5",
+    "15.4",
+    "15.5",
+    "15.6",
+    "15.7",
+    "16.2",
+    "16.3",
+    "16.4",
+    "16.6",
+    "17.1",
+    "17.2",
+    "17.3",
+    "17.5",
+    "18.1",
+    "18.3",
+    "18.4",
+    "18.5",
+    "18.6"
+  ]
 }
