@@ -179,6 +179,23 @@ Celý `mesicni-beh.yml` na 143 bodech s daty DEV2: hodnocení 9,23 $ (Sonnet 5.5
 - **I s kreditem by vlastník četl desítky bodů bez rozhodnutí:** 64 ze 107 mělo stav beze změny a jediný problém — neověřenou novou formulaci komentáře. Plný audit přepíše skoro každý komentář a kolo 2 se stropem 15 $ ověří ~25 bodů. Rozhodnutí vlastníka 22. 10.: takový bod zůstane na minulém záznamu bez razítka a k vlastníkovi nejde (`rozhodnuti.js`, `souhrn.ponechano`). Přehráno na datech generálky: 107 → 43 (19 oprav bez události, 24 sporů či vyvrácených tvrzení). Kolo 2 nově bere po změnách stavu body se sporem o stav.
 - Kalibrace podržela všechny 3 ověřené přechody, takže příspěvek na Instagram hlásí „žádný bod nezměnil stav“ — v kalibračních měsících je to pravda o webu, ne o světě.
 
+### 2026-10-22: řetěz s plánem legislativních prací (spec 006 T008; schválil vlastník, strop 22 $; stálo 22,26 $)
+
+Stejný režim a data jako předchozí řetězy; navíc úkoly z Plánu legislativních prací a Výhledu pro každou kapitolu v promptu hodnocení a jako zdroj kontroly faktů, nové pravidlo „k vlastníkovi jen to, o čem je co rozhodnout“ a pořadí kola 2 se sporem o stav. Hodnocení 7,00 $, kontrola faktů 15,26 $ (kolo 1 4,05 $; kolo 2 11,21 $ za 17 bodů, pojistka zastavila zbytek). Podle dnešní pravdy:
+
+| | řetěz 1 | řetěz 2 | B | B + plán |
+|---|---|---|---|---|
+| návrh hodnotitele sedí s pravdou | 32 | 33 | 33 | **38** |
+| …zlatá / kontrolní sada | 15 / 17 | 15 / 18 | 17 / 16 | 18 / **20** |
+| stav po bráně sedí | 27 | 28 | 29 | 31 |
+| na web jako ověřené se špatným stavem | 2 | 1 | 1 | 2 (1.3, 15.2) |
+| k vlastníkovi | 26 | 26 | 26 | 25 |
+
+- **Spravilo se:** 3.2, 15.7, 10.9, 6.2, 7.1 — kontrolní sada (na které se pravidla nepsala) 20/24 proti 16–18. Zisk pěti bodů je nad rozptylem mezi běhy (2–3 body).
+- **Zůstává ve všech čtyřech bězích:** 1.3 (částečně × pravda probíhá), 15.2 (částečně × deklarováno), 16.3 (deklarováno × nezahájeno), 10.1 (deklarováno × porušeno), 16.5, 6.8, 2.6 a 10.8 — kandidáti, u kterých stojí za to, aby vlastník znovu přečetl slib a pravidlo, nebo jde o rozptyl vyhledávání.
+- 1.3 a 15.2 prošly na web jako ověřené se špatným stavem: kontrola faktů ověřuje fakta, a výklad pravidel (M1/M3) u nich zůstal stejný jako u hodnotitele.
+- Měsíční běh odhadem ~40 $ (hodnocení ~9 $, kontrola kolo 1 ~12,6 $, kolo 2 strop 15 $, ověření, korektura a zprávy ~3 $).
+
 ## Assumptions
 
 - Vrstva M a R se dokončí po výběru modelu (spec 002). Prompt kontroly faktů je nový soubor a existující prompty se nemění.
