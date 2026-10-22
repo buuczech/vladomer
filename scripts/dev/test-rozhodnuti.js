@@ -150,13 +150,14 @@ console.log("\nNeměřitelnost podle vlastníka (nemeritelne.txt)");
 console.log("\nPR s návrhy (lib/navrhy.js)");
 const rozh = { beh: dnes, body: beh.body };
 const soubor = novySoubor({ rozhodnuti: rozh, zaklad: "abc123" });
-over(Object.keys(soubor.navrhy).sort().join() === "10.2,12.2,7.2" && Object.keys(soubor.prijate).sort().join() === "10.2,12.2,7.2",
-  "návrhy hodnotitele jdou do PR a ve výchozím stavu jsou přijaté (Merge = přijmout)", Object.keys(soubor.navrhy));
+over(Object.keys(soubor.navrhy).sort().join() === "10.2,12.2,7.2" && !Object.keys(soubor.prijate).length,
+  "návrhy hodnotitele jdou do PR a ve výchozím stavu přijaté nejsou — vyjde jen výslovně přijaté (generálka: chybné 10.1)", Object.keys(soubor.navrhy));
 const vyvr = novySoubor({ rozhodnuti: { beh: dnes, body: { "2.3": { bod: "2.3", problemy: ["m-vyvraceno"], vlastnik: { typ: "podrzeno", navrh: { zdroj: "hodnotitel", zaznam: po23 } } } } }, zaklad: "abc" });
 over(vyvr.navrhy["2.3"].vyvraceny && !vyvr.prijate["2.3"], "návrh s vyvráceným tvrzením se jen vypíše, přijatý není");
 over(!proved(vyvr, { prikaz: "prijmout", bod: "2.3" }).ok && proved(vyvr, { prikaz: "prijmout", bod: "2.3", duvod: "Zdroj je zastaralý, platí novější." }).ok,
   "vyvrácený návrh jde přijmout jen s důvodem");
-over(proved(soubor, { prikaz: "podrzet", bod: "12.2" }).ok && !soubor.prijate["12.2"], "/podrzet vrátí bod na minulý záznam");
+over(proved(soubor, { prikaz: "prijmout", bod: "12.2" }).ok && soubor.prijate["12.2"] && proved(soubor, { prikaz: "podrzet", bod: "12.2" }).ok && !soubor.prijate["12.2"], "/podrzet vrátí přijatý bod na minulý záznam");
+proved(soubor, { prikaz: "prijmout", bod: "10.2" });
 over(!proved(soubor, { prikaz: "prijmout", bod: "5.5" }).ok, "bod bez návrhu příkaz odmítne");
 
 const zakladPR = { faktcheck: { body: { "10.2": { akce: "podrzet" }, "12.2": { akce: "podrzet" } } }, evals: { evals: { ...beh.evals } }, audit: { entries: [{ id: "10.2", date: dnes, status: "declared", model: "claude-sonnet-5-5", zadrzeno: true, faktcheck: ["prechod-bez-noveho-dokladu"] }] }, hist: { snapshots: [{ date: dnes, statuses: { "10.2": "in_progress" } }] } };
@@ -216,14 +217,16 @@ over(JSON.stringify(zeSouboru.prikazy) === JSON.stringify([{ prikaz: "prijmout",
     git("add", "-A"); git("commit", "-qm", "návrhy");
     mkdirSync(join(tmp, "rozhodnuti"));
     // 12.2 nechat (dřív), pak 10.2 nechat — commity s různým časem, jména v opačném pořadí
-    git.cas = "2026-11-01T10:00:00Z"; writeFileSync(join(tmp, "rozhodnuti", "12.2-podrzet.txt"), "/podrzet 12.2"); git("add", "-A"); git("commit", "-qm", "rozhodnutí 1");
-    git.cas = "2026-11-01T10:05:00Z"; writeFileSync(join(tmp, "rozhodnuti", "10.2-podrzet.txt"), "/podrzet 10.2\n"); writeFileSync(join(tmp, "rozhodnuti", "7.2-prijmout.txt"), "/prijmout 7.2 duvod:"); git("add", "-A"); git("commit", "-qm", "rozhodnutí 2");
+    // 10.2 přijmout (dřív), pak 10.2 nechat a 12.2 přijmout; 7.2 bez důvodu je neplatné
+    git.cas = "2026-11-01T10:00:00Z"; writeFileSync(join(tmp, "rozhodnuti", "10.2-prijmout.txt"), "/prijmout 10.2"); git("add", "-A"); git("commit", "-qm", "rozhodnutí 1");
+    git.cas = "2026-11-01T10:05:00Z"; writeFileSync(join(tmp, "rozhodnuti", "10.2-podrzet.txt"), "/podrzet 10.2\n"); writeFileSync(join(tmp, "rozhodnuti", "12.2-prijmout.txt"), "/prijmout 12.2"); writeFileSync(join(tmp, "rozhodnuti", "7.2-prijmout.txt"), "/prijmout 7.2 duvod:"); git("add", "-A"); git("commit", "-qm", "rozhodnutí 2");
     git.cas = null;
     const vystup = navrhy("soubory", "--soubor", cesta);
     const po = JSON.parse(readFileSync(join(tmp, cesta), "utf8"));
     const evals = JSON.parse(readFileSync(join(tmp, "public", "evaluations.json"), "utf8"));
-    over(!po.prijate["12.2"] && !po.prijate["10.2"] && po.prijate["7.2"] && po.historie.map((h) => h.bod).join() === "12.2,10.2",
-      "soubory provedené v pořadí přidání; 7.2 bez důvodu zůstal, jak byl", { prijate: po.prijate, historie: po.historie });
+    over(Object.keys(po.prijate).join() === "12.2" && po.historie.map((h) => `${h.prikaz} ${h.bod}`).join() === "prijmout 10.2,podrzet 10.2,prijmout 12.2",
+      "soubory provedené v pořadí přidání (přijmout, pak nechat = nechat); 7.2 bez důvodu nepřijatý", { prijate: po.prijate, historie: po.historie });
+    over(JSON.stringify(evals.evals["12.2"]) !== JSON.stringify(zakladPR.evals.evals["12.2"]), "větev přeskládaná: přijatý 12.2 nese návrh");
     over(JSON.stringify(evals.evals["10.2"]) === JSON.stringify(zakladPR.evals.evals["10.2"]), "větev přeskládaná: 10.2 na minulém záznamu");
     over(!readdirSync(join(tmp, "rozhodnuti")).length, "provedené soubory jsou smazané (do main nepatří)");
     over(/7\.2-prijmout\.txt neobsahuje platný příkaz/.test(vystup) && /\| 12\.2 \|/.test(vystup), "odpověď do PR: co se provedlo, co ne, a souhrn", vystup.slice(0, 400));

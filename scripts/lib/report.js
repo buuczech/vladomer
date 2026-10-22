@@ -236,9 +236,8 @@ export function htmlOddily(p, { odkazPR = null, odkazWeb = "https://vladomer.cz"
   const zverejnit = repo && vetev ? odkazRozhodnuti(repo, vetev, "/zverejnit") : null;
   const JAK_ROZHODNOUT = `
   <ul>
-    ${zverejnit ? `<li><b>U každého bodu klepni na Přijmout, nebo Nechat</b> — GitHub otevře předvyplněný soubor s rozhodnutím, stačí ho potvrdit (Commit changes). Nakonec <a href="${esc(zverejnit)}"><b>Zveřejnit</b></a>: PR se sloučí a web se nasadí. Bod, o kterém nerozhodneš, se zveřejní podle výchozího návrhu (vyvrácené ne).</li>` : ""}
-    <li><b>Přijmout všechny návrhy:</b> v PR zmáčkni Merge${odkazPR ? ` (<a href="${esc(odkazPR)}">otevřít PR</a>)` : ""}.</li>
-    <li><b>Nepřijmout nic:</b> PR zavři (Close). Body zůstanou na minulém záznamu.</li>
+    ${zverejnit ? `<li><b>U každého bodu klepni na Přijmout, nebo Nechat</b> — GitHub otevře předvyplněný soubor s rozhodnutím, stačí ho potvrdit (Commit changes). Nakonec <a href="${esc(zverejnit)}"><b>Zveřejnit</b></a>: PR se sloučí a web se nasadí. Vyjde jen to, co přijmeš; bod, o kterém nerozhodneš, zůstane na minulém záznamu.</li>` : ""}
+    <li><b>V PR</b>${odkazPR ? ` (<a href="${esc(odkazPR)}">otevřít PR</a>)` : ""}: Merge zveřejní, co jsi přijal; Close nezveřejní nic. Body zůstanou na minulém záznamu.</li>
     <li><b>Po bodech:</b> komentář v PR, třeba <code>/prijmout 10.2</code> nebo <code>/podrzet 10.2</code>. U vyvráceného tvrzení napiš důvod: <code>/prijmout 10.2 duvod: …</code> — zapíše se do auditu.</li>
     <li>Web: <a href="${esc(odkazWeb)}">${esc(odkazWeb.replace(/^https?:\/\//, ""))}</a></li>
   </ul>`;
@@ -289,7 +288,7 @@ export function proAI(p, { metodika }) {
 /* --- popis PR ------------------------------------------------------------------ */
 export function popisPR(p) {
   const r = [`**Vládoměr ${p.mesic}: ${p.verdikt}.** Splněno ${pct(p.metrikaPred.procent)} → ${pct(p.metrikaPo.procent)}, cena ${usd(p.cena.celkem)}.`, ""];
-  r.push("Merge = přijmout všechny navržené záznamy. Close = nechat body na minulém záznamu. Po bodech komentářem `/prijmout <bod>` nebo `/podrzet <bod>`; u vyvráceného tvrzení `/prijmout <bod> duvod: …`.", "");
+  r.push("Vyjde jen to, co přijmeš: po bodech tlačítky z e-mailu nebo komentářem `/prijmout <bod>` (`/podrzet <bod>` přijetí vrátí); u vyvráceného tvrzení `/prijmout <bod> duvod: …`. Merge = zveřejnit přijaté, Close = nic. Nerozhodnutý bod zůstane na minulém záznamu.", "");
   if (p.kRozhodnuti.length) {
     r.push("| bod | co | na webu | návrh | příkaz |", "|---|---|---|---|---|");
     for (const k of p.kRozhodnuti) {

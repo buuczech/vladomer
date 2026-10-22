@@ -49,7 +49,7 @@ try {
   }
   over(html.includes("<del>") && html.includes("<ins>"), "dosavadní a navržený text vedle sebe se zvýrazněným rozdílem");
   over(ai.includes("## Pravidla vlastníka") && ai.includes("M1") && ai.includes("## Dotaz") && ai.includes("přijmout"), "pro-AI.md: pravidla vlastníka a závěrečný dotaz");
-  over(pr.includes("Merge = přijmout"), "popis PR říká, co dělá Merge a Close");
+  over(pr.includes("Vyjde jen to, co přijmeš") && pr.includes("Merge = zveřejnit přijaté"), "popis PR říká, že vyjde jen přijaté, a co dělá Merge a Close");
   over(!html.includes("/new/beh/"), "bez větve PR žádné odkazy na rozhodnutí");
   execFileSync(process.execPath, [join("scripts", "report.js"), "--fixture", "--bez-pdf", "--vetev", "beh/2026-11", "--vystup", dir], { cwd: KOREN, encoding: "utf8", env: { ...process.env, RESEND_API_KEY: "", REPORT_EMAIL_TO: "", GITHUB_REPOSITORY: "buuczech/vladomer" } });
   const html2 = soubor("report-2026-11.html");

@@ -1,8 +1,9 @@
 /* scripts/lib/navrhy.js — návrhy, o kterých rozhoduje vlastník v PR beh/RRRR-MM (spec 005).
  *
  * Měsíční běh zveřejní ověřené a podrží sporné (vrstva R). Podržené body
- * s navrženým záznamem jdou do PR: Merge = přijmout, Close = nechat.
- * Po bodech rozhoduje vlastník komentářem /prijmout a /podrzet.
+ * s navrženým záznamem jdou do PR. Vyjde jen to, co vlastník výslovně
+ * přijme (/prijmout z e-mailu nebo z komentáře); Merge i Zveřejnit pak
+ * zveřejní přijaté, Close nic.
  *
  * Stav větve se vždy SKLÁDÁ znovu: ze zveřejněných souborů běhu (commit
  * `zaklad` na main) a ze seznamu přijatých bodů v navrhy/RRRR-MM.json.
@@ -30,12 +31,14 @@ export function navrhyZRozhodnuti(rozhodnuti) {
   return out;
 }
 
-/** Soubor rozhodnutí PR. Ve výchozím stavu přijaté vše, co není vyvrácené. */
+/** Soubor rozhodnutí PR. Ve výchozím stavu nepřijaté nic.
+ *  Kontrola faktů žádný z návrhů nepotvrdila, a dokud vlastník nerozhodne,
+ *  zůstává bod na minulém záznamu. Původně bylo přijaté vše nevyvrácené: v generálce
+ *  21. 10. 2026 vlastník rozhodl tři body, Zveřejnit vydalo 85 dalších a mezi
+ *  nimi 10.1 „porušeno → deklarováno“, které zlatá sada vede jako porušené
+ *  (rozhodnutí vlastníka 22. 10. 2026). */
 export function novySoubor({ rozhodnuti, zaklad }) {
-  const navrhy = navrhyZRozhodnuti(rozhodnuti);
-  const prijate = {};
-  for (const [bod, n] of Object.entries(navrhy)) if (!n.vyvraceny) prijate[bod] = { duvod: null };
-  return { beh: rozhodnuti.beh, zaklad, navrhy, prijate, historie: [] };
+  return { beh: rozhodnuti.beh, zaklad, navrhy: navrhyZRozhodnuti(rozhodnuti), prijate: {}, historie: [] };
 }
 
 /**

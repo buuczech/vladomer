@@ -25,7 +25,7 @@ Po každém měsíčním běhu přijde vlastníkovi e-mail. Předmět nese verdi
 
 ### User Story 2 – Rozhodnutí z telefonu (Priority: P1)
 
-Podržené body s návrhem jsou v PR `beh/RRRR-MM`. Merge = přijmout všechny, Close = nic. Po bodech komentářem `/prijmout 2.3`, `/podrzet 10.4`, u vyvráceného bodu `/prijmout 2.3 duvod: …` (důvod se zapíše do auditu jako `oprava`). Příkaz platí jen od vlastníka repozitáře.
+Podržené body s návrhem jsou v PR `beh/RRRR-MM`. Vyjde jen výslovně přijaté (od 22. 10. 2026; dřív Merge = přijmout všechny nevyvrácené). Merge = zveřejnit přijaté, Close = nic. Po bodech komentářem `/prijmout 2.3`, `/podrzet 10.4`, u vyvráceného bodu `/prijmout 2.3 duvod: …` (důvod se zapíše do auditu jako `oprava`). Příkaz platí jen od vlastníka repozitáře.
 
 **Independent Test**: na zkušebním PR projde příkaz od vlastníka a příkaz od cizího účtu se ignoruje.
 

@@ -211,14 +211,17 @@ celý běh je v `mesicni-beh.yml`) a trvá několik hodin:
 1. V e-mailu je u každého bodu tlačítko **Přijmout** a **Nechat**. Klepnutí
    otevře na GitHubu předvyplněný soubor s rozhodnutím — jen ho potvrď
    (**Commit changes**, zapsat přímo do větve). Do minuty se rozhodnutí
-   provede, soubor zmizí a v PR se objeví odpověď. U bodu, kde kontrola
+   provede, soubor zmizí a v PR se objeví odpověď. **Před dalším klepnutím
+   na ni počkej** (asi 20 s) — jinak GitHub další commit odmítne, protože
+   se větev mezitím změnila. U bodu, kde kontrola
    tvrzení **vyvrátila**, je „Přijmout (s důvodem)“: dopiš důvod za
    „duvod:“, zapíše se do auditu. Když si to rozmyslíš, klepni na druhé
    tlačítko — platí, co jsi potvrdil naposled.
 2. Až budeš hotový, klepni na **Zveřejnit rozhodnutí**: PR se sloučí a web
-   se nasadí. Bod, o kterém nerozhodneš, se zveřejní podle výchozího návrhu
-   (vyvrácené ne).
-3. Stejně funguje v PR tlačítko Merge (= zveřejnit), Close (= nic nepřijmout)
+   se nasadí. Vyjde **jen to, co jsi přijal** — bod, o kterém nerozhodneš,
+   zůstane na minulém záznamu se štítkem „čeká na ověření“ a příští měsíc
+   se posoudí znovu.
+3. Stejně funguje v PR tlačítko Merge (= zveřejnit přijaté), Close (= nic)
    a komentáře `/prijmout 10.2`, `/podrzet 10.2`, `/zverejnit`.
 
 Rozhodnutí platí jen z tvého účtu. Větev i PR jsou veřejné, stejně jako

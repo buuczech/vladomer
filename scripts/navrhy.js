@@ -6,7 +6,7 @@
  *     node scripts/navrhy.js souhrn --soubor navrhy/2026-11.json [--koren pr]
  *
  * vytvor   na čerstvé větvi z commitu běhu založí navrhy/RRRR-MM.json a složí
- *          public/{evaluations,audit,history}.json s výchozími návrhy.
+ *          public/{evaluations,audit,history}.json (nic přijatého — vlastník přijímá výslovně).
  *          Vypíše, kolik návrhů je (0 = PR není potřeba).
  * komentar přečte příkazy z komentáře vlastníka (proměnná KOMENTAR — text se
  *          nikdy nevkládá do příkazové řádky) a větev přeskládá.
@@ -67,7 +67,7 @@ if (prikaz === "vytvor") {
   if (!n) { console.log("návrhů: 0"); process.exit(0); }
   const cesta = `navrhy/${soubor.beh.slice(0, 7)}.json`;
   const r = preskladej(soubor, cesta);
-  console.log(`návrhů: ${n}; ve výchozím stavu přijato ${r.prijato.length} (${r.prijato.join(", ") || "—"}); soubor ${cesta}`);
+  console.log(`návrhů: ${n}; přijato zatím ${r.prijato.length} (vyjde jen to, co vlastník přijme); soubor ${cesta}`);
 } else if (prikaz === "komentar" || prikaz === "soubory") {
   const cesta = arg("soubor");
   if (!cesta || !existsSync(join(KOREN, cesta))) { console.error("--soubor navrhy/RRRR-MM.json je povinné"); process.exit(1); }
