@@ -1,5 +1,5 @@
 {
-  "_popis": "Ohlášené záměrné rozdíly DEV2 proti základu (spec 001). Každá položka MUSÍ mít zdůvodnění. zmeny: {patch} = změna chování, patch (scripts/dev/parita/zmeny/*.patch) se v tomto pořadí aplikuje na základ; {soubory, neutralni: true} = změna bez vlivu na chování, soubory se zkopírují z DEV2 do základu a parita navíc dokáže shodu i proti základu bez nich — main se během refaktoru nemění, takže záměrná změna chráněného souboru nebo rozhodování programu se ohlašuje takhle; parita pak dokazuje DEV2 = main + patche. soubory: chráněný soubor, který se smí lišit i po patchích. pole_pozadavku: pole těla požadavku na model, které se při porovnání vynechá (nikdy ne text promptu). pole_vystupu: pole výstupních dat ve tvaru \"soubor.json:cesta.k[].poli\", které se vynechá.",
+  "_popis": "Ohlášené záměrné rozdíly DEV2 proti základu (spec 001). Každá položka MUSÍ mít zdůvodnění. zmeny: {patch} = změna chování, patch (scripts/dev/parita/zmeny/*.patch) se v tomto pořadí aplikuje na základ, a soubory v „kopirovat“ (data, která změna potřebuje) se před ním zkopírují z DEV2; {soubory, neutralni: true} = změna bez vlivu na chování, soubory se zkopírují z DEV2 do základu a parita navíc dokáže shodu i proti základu bez nich — main se během refaktoru nemění, takže záměrná změna chráněného souboru nebo rozhodování programu se ohlašuje takhle; parita pak dokazuje DEV2 = main + patche. soubory: chráněný soubor, který se smí lišit i po patchích. pole_pozadavku: pole těla požadavku na model, které se při porovnání vynechá (nikdy ne text promptu). pole_vystupu: pole výstupních dat ve tvaru \"soubor.json:cesta.k[].poli\", které se vynechá.",
   "zmeny": [
     {
       "patch": "zmeny/01-minuly-od.patch",
@@ -25,6 +25,11 @@
     {
       "patch": "zmeny/04-nemeritelne-pri-drzeni.patch",
       "duvod": "Rozhodnutí vlastníka o neměřitelnosti (nemeritelne.txt) platí i pro záznam, který brána podržela nebo ověřovatel zamítl: není to přechod stavu. Bez toho brána držela 5.4 a 1.2 jako měřitelné každý měsíc znovu (měření řetězu 21. 10. 2026). Mění zveřejněná data (příznak unverifiable u podržených bodů ze seznamu), texty promptů ne."
+    },
+    {
+      "patch": "zmeny/05-plan-legislativy.patch",
+      "kopirovat": ["scripts/nastaveni/plan-legislativy.json"],
+      "duvod": "Spec 006 T008: prompt hodnocení dostane úkoly z Plánu legislativních prací vlády a z Výhledu (usnesení vlády č. 175 z 23. 3. 2026) pro svou kapitolu ({{PLAN_LEGISLATIVY}}, lib/plan.js). Pravidlo M6 dělá z úkolu v plánu „deklarováno“ a model plán nenacházel (10.8, 15.7, 7.8, 3.2 v měřeních 21. 10. 2026). Data převedená z PDF (plan-legislativy.json) se kopírují z DEV2."
     }
   ],
   "soubory": [

@@ -16,6 +16,7 @@ Kódování: UTF-8*. Jinak se rozbije diakritika a běh se zastaví chybou.
 | `metodika.md` | Tvoje pravidla pro stavy (M1–M10) — dostává je hodnotitel, ověřovatel i kontrola faktů, všichni stejná |
 | `report-behu.html` | Vzhled PDF reportu, který ti po běhu přijde e-mailem |
 | `nastaveni.txt` | Čísla a model — kolik zdrojů, jak přísné hodnocení, kolik zpráv |
+| `plan-legislativy.json` | Plán legislativních prací vlády a Výhled, převedené z PDF — neupravuj ručně; při novém plánu (jednou za rok) ho nech převést znovu (`scripts/dev/plan-legislativy.py`) |
 | `nemeritelne.txt` | Body, které jsi rozhodl jako neměřitelné — program je tak vede vždy, model o tom nerozhoduje |
 | `weby-hodnoceni.txt` | Weby, ze kterých se smí čerpat při hodnocení |
 | `weby-zpravy.txt` | Weby pro zprávy (užší seznam, jen zpravodajství) |

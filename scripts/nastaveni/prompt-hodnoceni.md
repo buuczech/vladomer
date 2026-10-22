@@ -39,6 +39,13 @@ SNĚMOVNÍ TISKY: Níže je seznam návrhů zákonů předložených Poslanecké
 
 {{TISKY_PSP}}
 
+PLÁN LEGISLATIVNÍCH PRACÍ: Níže jsou úkoly z Plánu legislativních prací vlády a z Výhledu legislativních prací, které vláda sama přiřadila ke slibům této oblasti, a další úkoly odpovědného resortu. Program je převzal z dokumentů, které vláda schválila usnesením. Platí:
+- Úkol, který se slibu opravdu týká, je formální krok vlády: bod je podle pravidla M6 nejméně declared.
+- „Předložit vládě“ je termín z plánu, ne událost. Že termín uplynul, neznamená, že vláda návrh schválila — stádium ber ze seznamu tisků a ze zpráv.
+- Že k bodu žádný úkol v plánu není, nic nedokládá: vláda mohla slib připravovat jinak, nebo ho do plánu nezařadila.
+
+{{PLAN_LEGISLATIVY}}
+
 Body (vrať hodnocení pro každé ID). U bodu je v závorce oddíl programového prohlášení, ze kterého pochází — slib čti v jeho kontextu, jinak snadno přiřadíš krok, který se slibem jen sdílí téma (M10):
 {{SEZNAM_BODU}}
 

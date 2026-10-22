@@ -7,4 +7,5 @@
 - [ ] T005 Hlasování (`hl-2025ps.zip`): výsledky hlasování ke krokům tisku
 - [ ] T006 Senát (`se_tisk.zip`), pokud jsou data stejně spolehlivá
 - [x] T007 Vydání B: seznam tisků v promptu hodnocení (`{{TISKY_PSP}}`, spec 007); měření v T010 spec 007
-- [ ] T008 Plán legislativních prací vlády jako primární zdroj pro „deklarováno“ (případ 15.7)
+- [x] T008 Plán legislativních prací vlády jako primární zdroj pro „deklarováno“ (případ 15.7): `scripts/dev/plan-legislativy.py` (PDF → `scripts/nastaveni/plan-legislativy.json`, 114 + 69 úkolů, kapitoly z vládní tabulky vazeb), `lib/plan.js`, `{{PLAN_LEGISLATIVY}}` v promptu hodnocení, zdroj pro kontrolu faktů, `test-plan.js`; parita patch 05
+- [ ] T009 Placené měření řetězu s plánem (spec 007)

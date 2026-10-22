@@ -14,8 +14,12 @@
 import { readFileSync } from "node:fs";
 import { render, readSettings } from "./nastaveni.js";
 import { DATES, CHAPTERS } from "../../src/data.js";
+import { nactiPlan, tabulkaPlanu } from "./plan.js";
 
 const NAST = readSettings();
+/* Plán legislativních prací vlády (lib/plan.js): je v repozitáři, ne na síti,
+   takže se načte jednou a prompt zůstává deterministický. */
+const PLAN = nactiPlan();
 
 /* Stavová škála, nejsilnější první. Tohle pole JE kontrakt: evaluate.js podle
    něj validuje odpověď a prompt ho dostává přes {{SEZNAM_STAVU}}, takže se ty
@@ -110,6 +114,7 @@ export function promptHodnoceni(ch, prevEvals, snapshots, body, rejstrik = null,
     METODIKA: nactiMetodiku(),
     REJSTRIK_SBIRKY: rejstrik || REJSTRIK_NEDOSTUPNY,
     TISKY_PSP: tisky || TISKY_NEDOSTUPNE,
+    PLAN_LEGISLATIVY: tabulkaPlanu(PLAN, ch.id),
     SEZNAM_BODU: radkyBodu(items, prevEvals, snapshots),
     SEZNAM_STAVU: STATUSES.join("|"),
   });
@@ -183,6 +188,7 @@ export function promptHodnoceniKontrola() {
     METODIKA: nactiMetodiku(),
     REJSTRIK_SBIRKY: REJSTRIK_NEDOSTUPNY,
     TISKY_PSP: TISKY_NEDOSTUPNE,
+    PLAN_LEGISLATIVY: tabulkaPlanu(PLAN, 0),
     SEZNAM_BODU: "- [0.0] kontrola",
     SEZNAM_STAVU: STATUSES.join("|"),
   });

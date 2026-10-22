@@ -36,6 +36,7 @@ import { DATES, CHAPTERS } from "../src/data.js";
 import { readList, readSettings } from "./lib/nastaveni.js";
 import { nactiRejstrik } from "./lib/sbirka.js";
 import { nactiTisky, zdrojTisku, zdrojSeznamu } from "./lib/psp.js";
+import { nactiPlan, zdrojePlanu } from "./lib/plan.js";
 import { kontrolaBodu, citovaneRoky, citovanePredpisy } from "./lib/faktcheck/deterministicky.js";
 import { stahniVse, stahniZdroj } from "./lib/faktcheck/zdroje.js";
 import { promptKontroly, nactiMetodiku, parsujKontrolu, overCitace, shrnutiBodu, klicUrl, zdrojeSbirky, slibySKontextem } from "./lib/faktcheck/modelova.js";
@@ -224,7 +225,13 @@ if (S_MODELEM) {
     return [id, z];
   }));
   for (const z of Object.values(snemovnaBodu).flat()) textyZdroju.set(klicUrl(z.url), z.text);
-  const urednich = (id) => [...(sbirkaBodu[id] || []), ...(snemovnaBodu[id] || [])];
+  /* Plán legislativních prací vlády (lib/plan.js): úkoly kapitoly bodu jako
+     citovatelný úřední zdroj. Že vláda krok formálně naplánovala (M6), se tak
+     ověří citací z plánu, ne odhadem ze zpráv. */
+  const plan = nactiPlan();
+  const planBodu = Object.fromEntries(Object.keys(evals).map((id) => [id, zdrojePlanu(plan, id.split(".")[0])]));
+  for (const z of Object.values(planBodu).flat()) textyZdroju.set(klicUrl(z.url), z.text);
+  const urednich = (id) => [...(sbirkaBodu[id] || []), ...(snemovnaBodu[id] || []), ...(planBodu[id] || [])];
   const zdrojeProBod = (id) => [
     ...urednich(id),
     ...(evals[id].sources || []).filter((s) => !urednich(id).some((z) => klicUrl(z.url) === klicUrl(s.url))).map((s) => ({ url: s.url, text: textyZdroju.get(klicUrl(s.url)) })),

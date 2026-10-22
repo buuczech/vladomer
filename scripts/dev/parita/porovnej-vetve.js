@@ -128,6 +128,13 @@ function pripravZaklad(cil, { sNeutralnimi, vypsat }) {
   stromZRevize(ZAKLAD, cil);
   for (const z of ZMENY) {
     if (z.patch) {
+      /* kopirovat: data, která ohlášená změna potřebuje (plán legislativy),
+         se do základu zkopírují z DEV2, ať se nemusí opakovat v patchi. Jsou
+         součástí změny, ne neutrální — parita bez nich nejde. */
+      for (const rel of z.kopirovat || []) {
+        mkdirSync(dirname(join(cil, rel)), { recursive: true });
+        copyFileSync(join(KOREN, rel), join(cil, rel));
+      }
       const cesta = join(KOREN, "scripts", "dev", "parita", z.patch);
       const r = spawnSync("git", ["apply", "--whitespace=nowarn", cesta], { cwd: cil, encoding: "utf8" });
       if (r.status !== 0) {
