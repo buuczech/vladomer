@@ -111,6 +111,26 @@ const n = oznacAudit(audit, dnes, beh.body);
 over(n === 1 && audit[1].zadrzeno === true && audit[1].faktcheck.includes("prechod-bez-noveho-dokladu"), "dnešní řádek podrženého 10.2 nese zadrzeno a důvod", audit[1]);
 over(!audit[0].zadrzeno && !audit[2].zadrzeno && !audit[3].zadrzeno, "starší řádky, zveřejněné body a opravy se nemění (append-only)");
 
+console.log("\nK vlastníkovi jen to, o čem je co rozhodnout (vlastník, 22. 10. 2026)");
+{
+  const pred = { status: "in_progress", unverifiable: false, evidence: "", comment: { cs: "starý", en: "old" }, updatedAt: "2026-10-16T10:00:00Z" };
+  const po = { ...pred, comment: { cs: "nový text s neověřeným tvrzením", en: "new" }, updatedAt: "2026-11-01T06:00:00Z", overeno: "2026-11-01T06:00:00Z" };
+  const a = rozhodniBod({ bod: "9.9", pred, po, m: { shrnuti: { neovereno: 1 } } });
+  over(a.akce === "podrzet" && !a.vlastnik && a.zaznam === pred, "stav beze změny, jen neověřená nová formulace: minulý záznam, k vlastníkovi nejde", a);
+  const b = rozhodniBod({ bod: "9.9", pred, po, m: { shrnuti: { neovereno: 1 }, kolo2_vynechano: "strop" } });
+  over(b.akce === "podrzet" && !b.vlastnik, "totéž, když se kolo 2 nevešlo do stropu");
+  const c2 = rozhodniBod({ bod: "9.9", pred, po, m: { shrnuti: { neovereno: 1, spor_o_stav: true, stav_podle_pravidel: "declared" } } });
+  over(c2.akce === "podrzet" && c2.vlastnik, "se sporem o stav jde k vlastníkovi dál", c2);
+  const d = rozhodniBod({ bod: "9.9", pred, po: { ...po, status: "partial" }, m: { shrnuti: { neovereno: 1 } } });
+  over(d.akce === "podrzet" && d.vlastnik, "se změnou stavu jde k vlastníkovi dál", d);
+  const e = rozhodniBod({ bod: "9.9", pred, po: { ...pred, overeno: "2026-11-01T06:00:00Z" }, m: { shrnuti: { neovereno: 1 } } });
+  over(e.akce === "bez-razitka" && !e.vlastnik && e.zaznam === pred, "nezměněný záznam s neověřeným tvrzením: bez razítka, k vlastníkovi nejde", e);
+  const f = rozhodniBod({ bod: "9.9", pred, po: { ...pred, overeno: "2026-11-01T06:00:00Z" }, m: { shrnuti: { vyvraceno: 1 } } });
+  over(f.vlastnik, "vyvrácené tvrzení na webu jde k vlastníkovi dál", f);
+  const beh = rozhodniBeh({ pred: { "9.9": pred, "9.8": pred }, po: { "9.9": po, "9.8": { ...po, status: "partial" } }, modelova: { body: { "9.9": { shrnuti: { neovereno: 1 } }, "9.8": { shrnuti: { neovereno: 1 } } } } });
+  over(JSON.stringify(beh.souhrn.ponechano) === JSON.stringify(["9.9"]) && beh.souhrn.k_rozhodnuti.length === 1, "souhrn běhu: ponechané bez rozhodování zvlášť od bodů k rozhodnutí", beh.souhrn);
+}
+
 console.log("\nNeměřitelnost podle vlastníka (nemeritelne.txt)");
 {
   const pred54 = { status: "broken", unverifiable: false, evidence: "x", comment: { cs: "a", en: "a" }, updatedAt: "2026-10-16T10:00:00Z" };

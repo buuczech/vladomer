@@ -40,7 +40,7 @@ import { kontrolaBodu, citovaneRoky, citovanePredpisy } from "./lib/faktcheck/de
 import { stahniVse, stahniZdroj } from "./lib/faktcheck/zdroje.js";
 import { promptKontroly, nactiMetodiku, parsujKontrolu, overCitace, shrnutiBodu, klicUrl, zdrojeSbirky, slibySKontextem } from "./lib/faktcheck/modelova.js";
 import {
-  teloPozadavku, zavolejApi, overModely, nastavPojistku, pojistkaZasahla, souhrnNakladu, cenaVolani,
+  teloPozadavku, zavolejApi, overModely, nastavPojistku, pojistkaZasahla, zastaveniUctu, souhrnNakladu, cenaVolani,
   odesliDavku, cekejNaDavku, vysledkyDavky,
 } from "./lib/modely.js";
 
@@ -246,7 +246,7 @@ if (S_MODELEM) {
   if (BEZ_DAVKY) {
     for (const id of vyber) {
       try { zpracuj(id, 1, await zavolejApi(parametry1(id), { klic: KLIC, role: "faktcheck-1" })); }
-      catch (e) { zpracuj(id, 1, null, e.message.slice(0, 200)); if (pojistkaZasahla()) break; }
+      catch (e) { zpracuj(id, 1, null, e.message.slice(0, 200)); if (pojistkaZasahla() || zastaveniUctu()) break; }
     }
   } else {
     /* Kolo 1 přes Batch API ve dvou krocích. Pojistka ceny odeslanou dávku
@@ -351,11 +351,15 @@ if (S_MODELEM) {
   /* Pořadí a strop kola 2 (rozhodnutí vlastníka 21. 10. 2026). Kolo 2 stojí
      ~0,44 $ za bod a potřebovalo by ho přes polovinu bodů, takže má vlastní
      strop (faktcheck_druhe_kolo_usd) a jde v pořadí: změny stavu proti datům
-     před během, pak „splněno“ a „porušeno“, pak ostatní. Co se do stropu
-     nevejde, zůstane s výsledkem kola 1 — neověřené se nezveřejní, podrží
-     se a přijde vlastníkovi (vrstva R). Žádný bod se nevynechá z kola 1. */
+     před během, pak spor o stav po kole 1 (podle pravidel jiný stav, než
+     ukazuje web), pak „splněno“ a „porušeno“, pak ostatní — v tom pořadí
+     rozhoduje o tom, co jde k vlastníkovi (vrstva R). Co se do stropu
+     nevejde, zůstane s výsledkem kola 1: neověřené se nezveřejní, podrží se
+     a vlastník ho dostane jen se změnou stavu nebo sporem. Žádný bod se
+     nevynechá z kola 1. */
   const stavB = (e) => (e ? (e.unverifiable ? "unverifiable" : e.status) : null);
-  const priorita = (id) => (PRED && PRED[id] && stavB(PRED[id]) !== stavB(evals[id]) ? 0 : ["fulfilled", "broken"].includes(evals[id].status) ? 1 : 2);
+  const sporPoKole1 = (id) => { const v = vysledky[id] && vysledky[id].kolo1; return Boolean(v && !v.chyba && shrnutiBodu(id, evals[id], v).spor_o_stav); };
+  const priorita = (id) => (PRED && PRED[id] && stavB(PRED[id]) !== stavB(evals[id]) ? 0 : sporPoKole1(id) ? 1 : ["fulfilled", "broken"].includes(evals[id].status) ? 2 : 3);
   const serazene = doKola2.map((id, i) => ({ id, i, p: priorita(id) })).sort((a, b) => a.p - b.p || a.i - b.i).map((x) => x.id);
   const doKola2Beh = VZOREK && serazene.length > VZOREK
     ? Array.from({ length: VZOREK }, (_, i) => doKola2[Math.floor((i * doKola2.length) / VZOREK)])
@@ -387,7 +391,7 @@ if (S_MODELEM) {
     return zprava;
   };
   for (const id of BEZ_KOLA2 || zastavenoPredem ? [] : doKola2Beh) {
-    if (pojistkaZasahla()) break;
+    if (pojistkaZasahla() || zastaveniUctu()) break;
     // Strop kola 2: další bod se pustí, jen když se i s průměrem dosavadních vejde.
     const r2 = souhrnNakladu().podle_role["faktcheck-2"];
     const hotovo2 = Object.values(vysledky).filter((v) => v.kolo2).length;
@@ -453,4 +457,5 @@ if (S_MODELEM) {
   }
   console.log(`Úplný výpis: ${join(VYSTUP, "modelova.json")}`);
   if (pojistkaZasahla() || zastavenoPredem) { console.error("POJISTKA CENY ZASÁHLA — kontrola nedoběhla"); process.exitCode = 3; }
+  if (zastaveniUctu()) { console.error(`ÚČET API: ${zastaveniUctu()} — kontrola nedoběhla, nic se nemá zveřejnit`); process.exitCode = 3; }
 }

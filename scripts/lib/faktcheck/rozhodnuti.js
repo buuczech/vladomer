@@ -19,6 +19,8 @@ export const stavZaznamu = (e) => (e ? (e.unverifiable ? "unverifiable" : e.stat
 /* Obsah záznamu bez razítka „prověřeno“ — razítko říká, kdy se někdo díval,
    ne co bod tvrdí. Dva záznamy se stejným obsahem se liší jen jím. */
 const obsah = (e) => { if (!e) return null; const { overeno, ...zbytek } = e; return JSON.stringify(zbytek); };
+/* Jediný problém je neověřené tvrzení (kolo 2 případně nad stropem). */
+const jenNeovereno = (problemy) => problemy.length > 0 && problemy.every((p) => p === "m-neovereno" || p === "m-kolo2-strop");
 
 /**
  * Problémy, které kontrola faktů našla na záznamu (kódy pro report a audit).
@@ -92,6 +94,10 @@ export function rozhodniBod({ bod, pred: predZBehu, po, nalezyD = [], m = null, 
     }
     if (prechod && kalibrace) problemy.push("kalibrace");
     if (!problemy.length) return { bod, akce: "zverejnit", zaznam: po, problemy, prechod, vlastnik: null };
+    /* Stav se nemění a kontrola jen nepotvrdila novou formulaci: na web jde
+       minulý záznam bez nového razítka a vlastník nic nerozhoduje — nebylo by
+       o čem (vlastník, 22. 10. 2026; v generálce 64 ze 107 bodů k rozhodnutí). */
+    if (pred && !prechod && jenNeovereno(problemy)) return { bod, akce: "podrzet", zaznam: pred, problemy, prechod, vlastnik: null };
     // Nový bod nemá co podržet: zveřejní se, ale vlastník ho dostane.
     if (!pred) return { bod, akce: "zverejnit", zaznam: po, problemy, prechod, vlastnik: { typ: "novy-bod-s-nalezem", navrh: null } };
     const typ = problemy.includes("kalibrace") && problemy.length === 1 ? "kalibrace"
@@ -111,6 +117,8 @@ export function rozhodniBod({ bod, pred: predZBehu, po, nalezyD = [], m = null, 
     vlastnik = { typ: "oprava-bez-udalosti", navrh: { zdroj: "hodnotitel", zaznam: neprijaty.navrh, brana: { akce: neprijaty.akce, duvod: neprijaty.duvod } }, kontrola: navrhKontroly };
   } else if (problemy.includes("m-spor")) {
     vlastnik = { typ: "spor", navrh: navrhKontroly };
+  } else if (jenNeovereno(problemy)) {
+    vlastnik = null; // jako výš: zůstává, jak je, bez razítka; rozhodovat není o čem
   } else {
     vlastnik = { typ: problemy.includes("m-nezkontrolovano") ? "nezkontrolovano" : "uz-zverejneno", navrh: null };
   }
@@ -145,6 +153,8 @@ export function rozhodniBeh({ pred = {}, po = {}, nalezy = [], modelova = null, 
     podrzeno: podle("podrzet"),
     bez_razitka: podle("bez-razitka"),
     k_rozhodnuti: Object.values(body).filter((b) => b.vlastnik).map((b) => `${b.bod}:${b.vlastnik.typ}`),
+    // Zůstalo na minulém záznamu bez rozhodování vlastníka (stav beze změny, jen neověřená formulace).
+    ponechano: Object.values(body).filter((b) => b.akce !== "zverejnit" && !b.vlastnik).map((b) => b.bod),
     kalibrace,
     vrstva_m: Boolean(modelova),
   };

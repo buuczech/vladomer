@@ -1168,6 +1168,10 @@ function zaverBehu() {
     console.error(`\nPOJISTKA CENY ZASÁHLA (${s.celkem_usd.toFixed(2)} $, strop ${s.pojistka_usd} $) — běh se nemá zveřejnit.`);
     process.exitCode = 3;
   }
+  if (s.zastaveno) {
+    console.error(`\nÚČET API: ${s.zastaveno} — běh nedoběhl a nemá se zveřejnit.`);
+    process.exitCode = 3;
+  }
 }
 
 main().then(zaverBehu);

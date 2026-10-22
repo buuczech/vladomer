@@ -175,7 +175,7 @@ ${o ? `${tlacitko(o.prijmout, o.sDuvodem ? "Přijmout (s důvodem)" : "Přijmout
     ? `<p style="background:#FEF3C7;padding:8px;border-radius:6px"><b>Zkouška.</b> Všechno funguje jako naostro, jen ${vetev ? "PR míří do zahazovací větve a Zveřejnit ji sloučí tam, sestaví web a příspěvek na Instagram jako artefakt běhu" : "se PR nezakládá"} — na vladomer.cz ani na Instagram nejde nic.</p>`
     : "";
   const htmlMail = `<p><b>${esc(predmet)}</b></p>${zkouska}
-<p>Splněno ${p.metrikaPred.procent.toFixed(1).replace(".", ",")} % → ${p.metrikaPo.procent.toFixed(1).replace(".", ",")} %. Cena běhu ${p.cena.celkem.toFixed(2).replace(".", ",")} $.</p>
+<p>Splněno ${p.metrikaPred.procent.toFixed(1).replace(".", ",")} % → ${p.metrikaPo.procent.toFixed(1).replace(".", ",")} %. Cena běhu ${p.cena.celkem.toFixed(2).replace(".", ",")} $.${p.ponechano.length ? ` Na minulém záznamu bez rozhodování zůstalo ${p.ponechano.length} bodů (stav beze změny, novou formulaci kontrola nepotvrdila).` : ""}</p>
 <p>${odkazPR ? tlacitko(odkazPR, "Otevřít PR na GitHubu", "#0F172A") : `<span style="color:#B45309">${esc(bezPR)}</span>`}</p>
 ${body ? `<p><b>K rozhodnutí</b>${vetev ? " — klepni u každého bodu na Přijmout, nebo Nechat. GitHub otevře předvyplněný soubor s rozhodnutím, stačí ho potvrdit (Commit changes). Do minuty se provede a v PR se objeví odpověď." : ""}</p>${body}` : "<p>Nic k rozhodnutí.</p>"}
 ${zverejnit ? `<p>Až budeš hotový: ${tlacitko(zverejnit, "Zveřejnit rozhodnutí", "#3B5BDB")}<br><span style="color:#5B6577">${ma("zkouska") ? "Sloučí PR do zahazovací větve a sestaví web jako artefakt — nic se nezveřejní." : "Sloučí PR a nasadí web."} Bod, o kterém nerozhodneš, se zveřejní podle výchozího návrhu; vyvrácené jen s tvým důvodem.</span></p>` : ""}

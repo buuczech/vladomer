@@ -138,10 +138,27 @@ export function teloPozadavku({ model, maxTokens, teplota0 = false, hledani = nu
 }
 
 /* --- účet běhu a pojistka -------------------------------------------------- */
-const ucet = { polozky: [], celkem: 0, pojistka: Infinity, zasahla: false };
+const ucet = { polozky: [], celkem: 0, pojistka: Infinity, zasahla: false, zastaveno: null };
 
 export function nastavPojistku(usd) { ucet.pojistka = usd; }
 export function pojistkaZasahla() { return ucet.zasahla; }
+
+/* Chyba účtu API — došel kredit, klíč odmítnut — se týká všech dalších
+   volání, ne jednoho bodu. Generálka 21. 10. 2026 dostala v kole 2 kontroly
+   faktů 95× „credit balance is too low“, spolkla je jako chyby jednotlivých
+   bodů a skončila jako úspěšná se 107 body k rozhodnutí. Po takové chybě se
+   další volání neposílá a běh končí kódem 3 jako u pojistky: nic se
+   nezveřejní a přijde e-mail o selhání. Zpráva schválně neobsahuje „API 4xx“
+   ani „JSON“, aby ji withBackoff neopakoval. */
+export function zastaveniUctu() { return ucet.zastaveno; }
+async function chybaApi(res) {
+  const text = await res.text();
+  if (res.status === 401 || res.status === 403 || /credit balance is too low/i.test(text)) {
+    ucet.zastaveno = res.status === 401 || res.status === 403 ? `klíč API odmítnut (HTTP ${res.status})` : "na účtu API došel kredit";
+    return new Error(`ÚČET: ${ucet.zastaveno} — běh se zastavuje, další volání se neposílají`);
+  }
+  return new Error(`API ${res.status}: ${text}`);
+}
 
 function zapisSpotrebu(role, pozadovanyModel, data, nasobek = 1) {
   const model = data.model || pozadovanyModel;
@@ -175,11 +192,13 @@ export function souhrnNakladu() {
     nezname_ceny: [...new Set(ucet.polozky.filter((p) => !p.znama_cena).map((p) => p.model))],
     pojistka_usd: Number.isFinite(ucet.pojistka) ? ucet.pojistka : null,
     pojistka_zasahla: ucet.zasahla,
+    ...(ucet.zastaveno ? { zastaveno: ucet.zastaveno } : {}),
   };
 }
 
 /* --- volání ---------------------------------------------------------------- */
 export async function zavolejApi(telo, { klic, role }) {
+  if (ucet.zastaveno) throw new Error(`ÚČET: ${ucet.zastaveno} — další volání se neposílá`);
   if (ucet.celkem >= ucet.pojistka) {
     ucet.zasahla = true;
     throw new Error(`POJISTKA CENY: běh už stál ${ucet.celkem.toFixed(2)} $ (strop ${ucet.pojistka} $) — další volání se neposílá`);
@@ -187,7 +206,7 @@ export async function zavolejApi(telo, { klic, role }) {
   const hlavicky = { "content-type": "application/json", "x-api-key": klic, "anthropic-version": "2023-06-01" };
   if (telo.fallbacks) hlavicky["anthropic-beta"] = "server-side-fallback-2026-07-01";
   const res = await fetch(API, { method: "POST", headers: hlavicky, body: JSON.stringify(telo) });
-  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
+  if (!res.ok) throw await chybaApi(res);
   const data = telo.stream ? await slozStream(res) : await res.json();
   zapisSpotrebu(role, telo.model, data);
   if (data.stop_reason === "refusal") {
@@ -284,7 +303,7 @@ export async function odesliDavku(pozadavky, { klic, role }) {
     headers: { "content-type": "application/json", "x-api-key": klic, "anthropic-version": "2023-06-01" },
     body: JSON.stringify({ requests: pozadavky.map((p) => ({ custom_id: p.custom_id, params: p.params })) }),
   });
-  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
+  if (!res.ok) throw await chybaApi(res);
   const d = await res.json();
   return { id: d.id, role };
 }
@@ -293,7 +312,7 @@ export async function cekejNaDavku(id, { klic, intervalMs = 30000, maxMs = 24 * 
   const zacatek = Date.now();
   for (;;) {
     const res = await fetch(`${API_DAVKY}/${id}`, { headers: { "x-api-key": klic, "anthropic-version": "2023-06-01" } });
-    if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
+    if (!res.ok) throw await chybaApi(res);
     const d = await res.json();
     if (d.processing_status === "ended") return d;
     if (hlas) hlas(d.request_counts);
@@ -305,7 +324,7 @@ export async function cekejNaDavku(id, { klic, intervalMs = 30000, maxMs = 24 * 
 /** Výsledky dávky jako Map(custom_id → { ok, zprava | chyba }); spotřeba se připíše s −50 %. */
 export async function vysledkyDavky(davka, { klic, role }) {
   const res = await fetch(davka.results_url, { headers: { "x-api-key": klic, "anthropic-version": "2023-06-01" } });
-  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
+  if (!res.ok) throw await chybaApi(res);
   const out = new Map();
   for (const radek of (await res.text()).split("\n")) {
     if (!radek.trim()) continue;

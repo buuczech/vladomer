@@ -171,6 +171,14 @@ Stejný režim a stejná data DEV2 jako obě měření výše; jediný rozdíl j
 - **Cena:** prompt hodnocení je o ~30 000 znaků delší (metodika ~5 500, seznam tisků ~24 000) a s vyhledáváním se čte v každém kole znovu — proto +1,9 $ na 46 bodů, ne +0,4 $ podle prvního odhadu. Měsíční běh: hodnocení ~9–11 $ místo 6–8 $.
 - Další krok s největší nadějí: Plán legislativních prací a Výhled jako primární záznam pro „deklarováno“ (spec 006, T008).
 
+### 2026-10-21: generálka celého měsíčního běhu (schválil vlastník, strop 49 $; stálo 19,48 $)
+
+Celý `mesicni-beh.yml` na 143 bodech s daty DEV2: hodnocení 9,23 $ (Sonnet 5.5, vydání B), kontrola faktů 10,24 $ (kolo 1 dávkou 9,66 $ = 0,068 $ za bod). Zahazovací větev `zkouska/2026-10`, PR #2 `beh/2026-10-zkouska`, e-mail `[ZKOUŠKA]` odeslán, příspěvek na Instagram sestaven jako artefakt. Na main, web ani Instagram nešlo nic.
+
+- **Na účtu API došel kredit** během kola 2: 95 z 96 volání skončilo „credit balance is too low“. Program je zapsal jako chyby jednotlivých bodů a běh skončil zeleně se **107 body k rozhodnutí**. Opraveno: chyba účtu zastaví běh (`lib/modely.js`, kód 3 v `evaluate.js` i `faktcheck.js`), nic se nezveřejní a přijde e-mail o selhání.
+- **I s kreditem by vlastník četl desítky bodů bez rozhodnutí:** 64 ze 107 mělo stav beze změny a jediný problém — neověřenou novou formulaci komentáře. Plný audit přepíše skoro každý komentář a kolo 2 se stropem 15 $ ověří ~25 bodů. Rozhodnutí vlastníka 22. 10.: takový bod zůstane na minulém záznamu bez razítka a k vlastníkovi nejde (`rozhodnuti.js`, `souhrn.ponechano`). Přehráno na datech generálky: 107 → 43 (19 oprav bez události, 24 sporů či vyvrácených tvrzení). Kolo 2 nově bere po změnách stavu body se sporem o stav.
+- Kalibrace podržela všechny 3 ověřené přechody, takže příspěvek na Instagram hlásí „žádný bod nezměnil stav“ — v kalibračních měsících je to pravda o webu, ne o světě.
+
 ## Assumptions
 
 - Vrstva M a R se dokončí po výběru modelu (spec 002). Prompt kontroly faktů je nový soubor a existující prompty se nemění.

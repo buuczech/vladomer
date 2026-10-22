@@ -192,8 +192,14 @@ celý běh je v `mesicni-beh.yml`) a trvá několik hodin:
    pravidel v `metodika.md`. Citaci program ve zdroji dohledá; vymyšlená
    neprojde,
 3. **rozhodnutí**: co kontrola potvrdila, jde hned na web. Co ne, zůstane na
-   posledním ověřeném hodnocení (na webu s odznakem „čeká na ověření“)
-   a přijde k tobě,
+   posledním ověřeném hodnocení (na webu s odznakem „čeká na ověření“).
+   K tobě přijde jen to, o čem je co rozhodnout: změna stavu, spor o stav
+   podle tvých pravidel, vyvrácené tvrzení nebo chyba proti e-Sbírce. Bod,
+   u kterého se stav nezměnil a jen novou formulaci komentáře kontrola
+   nepotvrdila, zůstane na minulém textu a v reportu je jen jejich počet,
+   Když na účtu API dojde kredit nebo je klíč odmítnut, běh se zastaví,
+   nic se nezveřejní a přijde e-mail o selhání — dobij kredit
+   (console.anthropic.com → Plans & Billing) a spusť běh ručně,
 4. **e-mail** s verdiktem v předmětu („Vládoměr 11/2026: zveřejněno, 2 body
    k rozhodnutí“), PDF reportem a souborem `pro-AI.md`.
 

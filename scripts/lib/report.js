@@ -125,6 +125,7 @@ export function podkladyReportu({ pred, po, rozhodnuti, D = null, M = null, nakl
     cena: { hodnoceni: cenaHodnoceni, kontrola: cenaKontroly, celkem: (cenaHodnoceni || 0) + (cenaKontroly || 0) },
     modely,
     kRozhodnuti: kRozhodnutiVypis, nezkontrolovane: jenNezkontrolovane.map((x) => x.bod),
+    ponechano: (rozhodnuti.souhrn && rozhodnuti.souhrn.ponechano) || [],
     zmeny,
     ostatni: webNalezy.map((n) => ({ bod: n.bod, pravidlo: n.pravidlo, text: n.text })),
     zdroje: D && D.zdroje ? { celkem: D.zdroje.celkem, citelne: D.zdroje.citelne, mrtve: D.zdroje.mrtve } : null,
@@ -190,11 +191,12 @@ export function htmlOddily(p, { odkazPR = null, odkazWeb = "https://vladomer.cz"
     <p class="legenda">${legenda}</p>
     <p class="slabe">Modely: hodnocení ${esc(p.modely.hodnoceni || "—")}, ověření ${esc(p.modely.overeni || "—")}, korektura ${esc(p.modely.korektura || "—")}, kontrola faktů ${esc(p.modely.kontrola || "—")}.
     ${p.rejstrik ? `Rejstřík Sbírky: ${esc(p.rejstrik)}.` : ""} ${p.zdroje ? `Zdroje: ${p.zdroje.citelne}/${p.zdroje.celkem} přečteno, ${p.zdroje.mrtve} mrtvých.` : ""}</p>
+    ${p.ponechano.length ? `<p class="slabe">Na minulém záznamu bez rozhodování: ${p.ponechano.length} bodů — stav se nezměnil a novou formulaci komentáře kontrola nepotvrdila, takže na webu zůstává minulý text bez razítka „prověřeno“ (${esc(p.ponechano.join(", "))}).</p>` : ""}
     ${!p.vrstvaM ? "<p class=\"pozor\">Kontrola faktů modelem neběžela — nic se nepustilo jako ověřené.</p>" : ""}
     ${p.kalibrace ? "<p class=\"pozor\">Kalibrace: každá změna stavu čeká na tvoje schválení, i když ji kontrola potvrdila.</p>" : ""}
   </section>`;
 
-  const K_ROZHODNUTI = !p.kRozhodnuti.length ? "<p>Nic. Všechno, co běh napsal, kontrola faktů potvrdila.</p>" : p.kRozhodnuti.map((k) => {
+  const K_ROZHODNUTI = !p.kRozhodnuti.length ? `<p>Nic.${p.ponechano.length ? "" : " Všechno, co běh napsal, kontrola faktů potvrdila."}</p>` : p.kRozhodnuti.map((k) => {
     const rozdil = k.navrh && k.dosavadni ? (() => {
       const d = rozdilSlov(k.dosavadni.evidence, k.navrh.evidence), c = rozdilSlov(k.dosavadni.comment && k.dosavadni.comment.cs, k.navrh.comment && k.navrh.comment.cs);
       return { pred: { doklad: d.a, komentar: c.a }, po: { doklad: d.b, komentar: c.b } };

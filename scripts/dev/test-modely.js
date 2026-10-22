@@ -14,7 +14,7 @@
  */
 import { readFileSync } from "node:fs";
 import {
-  profilModelu, teloPozadavku, slozStream, cenaVolani, zavolejApi, nastavPojistku, pojistkaZasahla,
+  profilModelu, teloPozadavku, slozStream, cenaVolani, zavolejApi, nastavPojistku, pojistkaZasahla, zastaveniUctu,
   souhrnNakladu, overModely, limitPremysleni,
 } from "../lib/modely.js";
 
@@ -152,6 +152,19 @@ try { await overModely(["claude-sonnet-5-5", "claude-neexistuje-5"], "k"); over(
 catch (e) { over(/neexistuje|nezná/.test(e.message), "overModely: model, který program nezná nebo API nemá → chyba před placením", e.message); }
 try { await overModely(["claude-sonnet-5-5", "claude-opus-5-5"], "k"); over(true, "overModely: známé modely projdou"); }
 catch (e) { over(false, "overModely: známé modely projdou", e.message); }
+// Došlý kredit — doslovná odpověď API z generálky 21. 10. 2026 (95× v kole 2 kontroly faktů).
+nastavPojistku(Infinity);
+odpovedi = [{ status: 400, data: { type: "error", error: { type: "invalid_request_error", message: "Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits." } } }];
+try {
+  await zavolejApi({ model: "claude-opus-5-5", max_tokens: 10, messages: M }, { klic: "k", role: "test" });
+  over(false, "došlý kredit musí vyhodit výjimku");
+} catch (e) { over(/^ÚČET: na účtu API došel kredit/.test(e.message) && !opakovalBy(e.message) && zastaveniUctu() === "na účtu API došel kredit", "došlý kredit zastaví běh a neopakuje se", e.message); }
+odpovedi = [{ data: { model: "claude-opus-5-5", stop_reason: "end_turn", content: [{ type: "text", text: "ok" }], usage: { input_tokens: 1, output_tokens: 1 } } }];
+try {
+  await zavolejApi({ model: "claude-opus-5-5", max_tokens: 10, messages: M }, { klic: "k", role: "test" });
+  over(false, "po chybě účtu se nesmí nic odeslat");
+} catch (e) { over(/^ÚČET/.test(e.message) && odpovedi.length === 1, "po chybě účtu se další volání vůbec neodešle", e.message); }
+over(souhrnNakladu().zastaveno === "na účtu API došel kredit", "souhrn běhu nese důvod (evaluate.js i faktcheck.js podle něj končí kódem 3)");
 globalThis.fetch = puvodniFetch;
 
 console.log(chyb ? `\nSELHALO: ${chyb} chyb.` : "\nVše prošlo.");
