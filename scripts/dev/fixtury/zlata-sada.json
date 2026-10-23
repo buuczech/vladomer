@@ -7,7 +7,8 @@
     "M2": "Negativní slib (vláda zakázanou věc neudělala a usnesením deklarovala, že ji neudělá) = declared.",
     "M3": "Odklad, nebo ústup: posuzuje se bod po bodu; rozhodnutí jsou u bodů 10.2, 2.7 a 10.1.",
     "M4": "Poslanecký návrh koaličních poslanců se souhlasným stanoviskem vlády = in_progress.",
-    "M5": "Pohyblivý cíl se zařazuje s datem platnosti (datum_pravdy) a hodnotí se k tomuto dni."
+    "M5": "Pohyblivý cíl se zařazuje s datem platnosti (datum_pravdy) a hodnotí se k tomuto dni.",
+    "M11": "Programové prohlášení samo krokem není: bod, ke kterému vláda kromě zařazení do programového prohlášení nic neudělala ani neřekla, je not_started. Doplněno 23. 10. 2026 podle bodu 16.3 kontrolní sady (scripts/nastaveni/metodika.md) — 16.3 proto už není nezávislý test M11."
   },
   "vynechano": [
     { "id": "8.4", "duvod": "nejisté: declared se opírá jen o nepřítomnost dokladu" },
@@ -260,17 +261,17 @@
     },
     {
       "id": "10.1",
-      "stav": "broken",
+      "stav": "declared",
       "unverifiable": false,
-      "doklad": "Zastropování věku na 65 letech vláda odložila na další novelu od roku 2028; schválený plán přípravy legislativy ho podle ČTK (14. 4. 2026) „nezmiňuje ani u jedné předlohy“ a podle ministryně financí se „v tomto volebním období nikoho nedotkne“; vládní důchodová novela (20. 7. 2026, tisk 270) ho neobsahuje.",
+      "doklad": "Strop 65 let vláda z první důchodové novely (tisk 270, 20. 7. 2026) vypustila, ale nevzdala: Výhled legislativních prací na léta 2027 až 2029 (příloha č. 2 usnesení vlády ze dne 23. 3. 2026 č. 175) má úkol MPSV č. 2 na 2. čtvrtletí 2027 (novela zákona o důchodovém pojištění — dřívější odchod v náročných profesích), který vláda sama přiřadila ke slibu „Důchodový věk bude zastropován na 65 letech“, a ministr Juchelka ohlašuje strop v této druhé vlně s účinností od roku 2028. Odklad uvnitř volebního období bez formálního kroku proti slibu (M3), úkol ve výhledu (M6).",
       "predpis": null,
-      "datum_dokladu": "2026-04-14",
-      "datum_pravdy": "2026-10-20",
-      "zdroje": ["https://www.praceamzda.cz/novinky/17063/vlada-chce-zastropovat-duchodovy-vek-na-65-letech-platit-ma-az-od-roku-2028", "https://vlada.gov.cz/cz/media-centrum/tiskove-konference/tiskova-konference-po-jednani-vlady--20--cervence-2026-228050/"],
+      "datum_dokladu": "2026-03-23",
+      "datum_pravdy": "2026-10-23",
+      "zdroje": ["https://vlada.gov.cz/assets/media-centrum/dulezite-dokumenty/1234_2026_priloha_c-_2.pdf", "https://www.ceskenoviny.cz/zpravy/juchelka-vek-se-na-65-letech-zastropuje-az-s-upravou-penzi-narocnych-profesi/2782570", "https://www.praceamzda.cz/novinky/17063/vlada-chce-zastropovat-duchodovy-vek-na-65-letech-platit-ma-az-od-roku-2028", "https://vlada.gov.cz/cz/media-centrum/tiskove-konference/tiskova-konference-po-jednani-vlady--20--cervence-2026-228050/"],
       "rozhodl": "vlastnik",
-      "metodika": ["M3"],
+      "metodika": ["M3", "M6"],
       "jistota": "střední",
-      "poznamka": "Vlastník: vypuštění z plánu legislativy a odklad mimo volební období = ústup. Plán legislativních prací vlády sám nečten."
+      "poznamka": "Vlastník 23. 10. 2026 po přečtení plánu legislativních prací: declared. Původně (20. 10.) broken — vypuštění z plánu legislativy a výrok ministryně financí „v tomto volebním období se nikoho nedotkne“ jako ústup; plán tehdy nečten. Podle platného zákona dosáhne důchodový věk 65 let až ročník 1965 (odchod 2030), takže strop se v praxi projeví až po tomto období, ať ho vláda schválí kdykoli. Cíl úkolu ve výhledu strop výslovně neuvádí; vazbu ke slibu uvádí vláda v tabulce vztahu k programovým prioritám (stejný citát má i první novela, která strop nakonec neobsahuje)."
     },
     {
       "id": "15.1",

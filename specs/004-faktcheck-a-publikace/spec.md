@@ -195,6 +195,7 @@ Stejný režim a data jako předchozí řetězy; navíc úkoly z Plánu legislat
 - **Zůstává ve všech čtyřech bězích:** 1.3 (částečně × pravda probíhá), 15.2 (částečně × deklarováno), 16.3 (deklarováno × nezahájeno), 10.1 (deklarováno × porušeno), 16.5, 6.8, 2.6 a 10.8 — kandidáti, u kterých stojí za to, aby vlastník znovu přečetl slib a pravidlo, nebo jde o rozptyl vyhledávání.
 - 1.3 a 15.2 prošly na web jako ověřené se špatným stavem: kontrola faktů ověřuje fakta, a výklad pravidel (M1/M3) u nich zůstal stejný jako u hodnotitele.
 - Měsíční běh odhadem ~40 $ (hodnocení ~9 $, kontrola kolo 1 ~12,6 $, kolo 2 strop 15 $, ověření, korektura a zprávy ~3 $).
+- **Vlastník 23. 10. 2026 prošel čtyři body, ve kterých se s ním všechna čtyři měření rozcházela:** 1.3 pravda změněna na partial (M1, zákon o podpoře bydlení č. 175/2025 Sb.), 10.1 na declared (Výhled, úkol MPSV č. 2 na 2. čtvrtletí 2027; plán dřív nečten), 15.2 potvrzeno declared (slib je modulové řešení s pilotem, model vidí jen zkrácený text), 16.3 potvrzeno not_started a doplněno pravidlo M11 (programové prohlášení samo krokem není). S novou pravdou: řetěz 1 34, řetěz 2 35, B 35, **B + plán 40/46** (zlatá 19/22, kontrolní 21/24).
 
 ## Assumptions
 

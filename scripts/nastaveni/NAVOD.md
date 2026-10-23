@@ -13,7 +13,7 @@ Kódování: UTF-8*. Jinak se rozbije diakritika a běh se zastaví chybou.
 | `prompt-zpravy.md` | Zadání pro výběr hlavních zpráv |
 | `prompt-korektura.md` | Zadání pro jazykovou korekturu hotových textů |
 | `prompt-faktcheck.md` | Zadání pro nezávislou kontrolu faktů před zveřejněním |
-| `metodika.md` | Tvoje pravidla pro stavy (M1–M10) — dostává je hodnotitel, ověřovatel i kontrola faktů, všichni stejná |
+| `metodika.md` | Tvoje pravidla pro stavy (M1–M11) — dostává je hodnotitel, ověřovatel i kontrola faktů, všichni stejná |
 | `report-behu.html` | Vzhled PDF reportu, který ti po běhu přijde e-mailem |
 | `nastaveni.txt` | Čísla a model — kolik zdrojů, jak přísné hodnocení, kolik zpráv |
 | `plan-legislativy.json` | Plán legislativních prací vlády a Výhled, převedené z PDF — neupravuj ručně; při novém plánu (jednou za rok) ho nech převést znovu (`scripts/dev/plan-legislativy.py`) |
@@ -278,5 +278,5 @@ a za `#` důvod. Překlep v čísle bodu zastaví běh hned na začátku.
 
 Rozhodnutí o tom, JAK hodnotit (co je „deklarováno“ a co „probíhá“, kdy je
 odklad porušení…), program držet nemůže — to jsou pravidla pro model a patří
-do promptu. Tvoje pravidla M1–M10 ze zlaté a kontrolní sady se do promptu
+do promptu. Tvoje pravidla M1–M11 ze zlaté a kontrolní sady se do promptu
 dostanou ve vydání B, změřeně.

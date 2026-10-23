@@ -12,7 +12,8 @@
     "M7": "Nelegislativní slib je in_progress, jen když doložitelně běží realizace (zahájená stavba, vyhlášená výzva s alokací, podepsaná smlouva); projekt jen zapsaný v plánu nebo ohlášený = declared. Důvod: definice in_progress v promptu mluví jen o legislativním procesu; web takto hodnotí stavby už dnes. Upřesněno 21. 10. 2026 podle bodu 13.5: počítá se i krok, který pokrývá jen část toho, na co slib míří — 13.5 proto už není nezávislý test M7.",
     "M8": "Opatření předchozí vlády, které nabylo účinnosti ještě před nástupem této vlády (před 15. 12. 2025), se hodnotí stejně jako podle M1 = partial. Důvod: shodně s kódem (lib/dukaz.js, predates-term → partial); pro čtenáře není rozdíl mezi účinností den před nástupem a den po něm.",
     "M9": "Plošné opatření, které skupinu jmenovanou ve slibu zasáhne stejně jako všechny ostatní, splňuje sektorový slib nanejvýš částečně = partial. Důvod: slib „výrazně zvýšit platy v kultuře“ míří na postavení kultury, které plošné zvýšení nemění.",
-    "M10": "M1 (a tím i M8) platí jen tehdy, když předpis nebo opatření předchozí vlády skutečně provádí část slibu; předpis, který jde proti slibu nebo s ním jen sdílí téma, se nepočítá. Důvod: zákon č. 270/2025 Sb. drogové sazby snižuje (bod 6.2), superdávka není příspěvek pro policisty a hasiče (bod 3.2)."
+    "M10": "M1 (a tím i M8) platí jen tehdy, když předpis nebo opatření předchozí vlády skutečně provádí část slibu; předpis, který jde proti slibu nebo s ním jen sdílí téma, se nepočítá. Důvod: zákon č. 270/2025 Sb. drogové sazby snižuje (bod 6.2), superdávka není příspěvek pro policisty a hasiče (bod 3.2).",
+    "M11": "Programové prohlášení samo krokem není: bod, ke kterému vláda kromě zařazení do programového prohlášení nic neudělala ani neřekla, je not_started. Doplněno 23. 10. 2026 podle bodu 16.3 kontrolní sady (scripts/nastaveni/metodika.md) — 16.3 proto už není nezávislý test M11."
   },
   "vynechano": [
     { "id": "17.2", "duvod": "nejisté podle vlastníka: obsah tisku 284 (novela zákona o výzkumu) nečten; revize M17+ (Metodika 2025+, usnesení vlády č. 458 z 18. 6. 2025) je dílo předchozí vlády" }
@@ -37,20 +38,21 @@
     },
     {
       "id": "1.3",
-      "stav": "in_progress",
+      "stav": "partial",
       "unverifiable": false,
-      "doklad": "Novela stavebního zákona (sněmovní tisk 67, poslanecký návrh koalice, souhlas vlády 16. 12. 2025) prohlašuje bytové stavby nad 10 000 m² za stavby ve veřejném zájmu. Sněmovna setrvala na původním znění 9. 9. 2026, prezident podepsal 17. 9. 2026, 19. 10. 2026 odeslána k vyhlášení ve Sbírce; k 20. 10. 2026 nevyhlášena.",
-      "predpis": null,
-      "datum_dokladu": "2026-10-19",
-      "datum_pravdy": "2026-10-20",
+      "doklad": "Zákon č. 175/2025 Sb., o podpoře bydlení (předchozí vláda, vyhlášen 16. 6. 2025, účinný 1. 1. 2026), provádí část slibu (M1). Vlastní krok této vlády: novela stavebního zákona (sněmovní tisk 67, poslanecký návrh koalice, souhlas vlády 16. 12. 2025) prohlašuje bytové stavby nad 10 000 m² za stavby ve veřejném zájmu; Sněmovna setrvala na původním znění 9. 9. 2026, prezident podepsal 17. 9. 2026, 19. 10. 2026 odeslána k vyhlášení ve Sbírce; k 22. 10. 2026 nevyhlášena.",
+      "predpis": "175/2025",
+      "datum_dokladu": "2025-06-16",
+      "datum_pravdy": "2026-10-23",
       "zdroje": [
+        "https://e-sbirka.gov.cz/sb/2025/175",
         "https://www.psp.cz/sqw/historie.sqw?o=10&t=67",
         "https://www.echo24.cz/a/HK3ry/zpravy-domov-navrh-na-vznik-centralni-stavebni-spravy-snemovna"
       ],
-      "rozhodl": "navrh",
-      "metodika": ["M4", "M5"],
+      "rozhodl": "vlastnik",
+      "metodika": ["M1", "M4", "M5"],
       "jistota": "střední (slib je širší než stavební zákon)",
-      "poznamka": "Pohyblivý cíl stejně jako 15.1 ve zlaté sadě: po vyhlášení se stav změní. Vedle toho zákon č. 129/2026 Sb. (novela zákona o podpoře bydlení, vyhlášen 23. 7. 2026) snižuje nároky zákona o podpoře bydlení."
+      "poznamka": "Vlastník 23. 10. 2026: partial podle M1 — zákon o podpoře bydlení provádí část slibu; po vyhlášení tisku 67 zůstane partial z vlastního kroku vlády (veřejným zájmem je jen část bydlení). Původně in_progress (M4, M5): ve všech čtyřech měřeních řetězu 21.–22. 10. hodnotitel i kontrola faktů dali partial. Pohyblivý cíl stejně jako 15.1 ve zlaté sadě. Vedle toho zákon č. 129/2026 Sb. (novela zákona o podpoře bydlení, vyhlášen 23. 7. 2026) snižuje nároky zákona o podpoře bydlení."
     },
     {
       "id": "2.4",
@@ -379,7 +381,7 @@
       "rozhodl": "navrh",
       "metodika": ["M3"],
       "jistota": "nízká",
-      "poznamka": "M3 u tohoto bodu (vlastník): odkládá se lhůta pro povinnou plnou funkčnost, ne slib sám, proto ne broken. Doklad webu (hlasování Senátu 11. 12. 2024) je z doby předchozí vlády."
+      "poznamka": "M3 u tohoto bodu (vlastník): odkládá se lhůta pro povinnou plnou funkčnost, ne slib sám, proto ne broken. Doklad webu (hlasování Senátu 11. 12. 2024) je z doby předchozí vlády. Vlastník 23. 10. 2026 potvrdil declared: slib zní „efektivní digitalizace stavebního řízení, založená na modulovém řešení … včetně adekvátního pilotního ověření“ a Portál stavebníka předchozí vlády s ním jen sdílí téma (M10), M8 se nepoužije. Hodnotitel i kontrola faktů dali ve čtyřech měřeních partial podle M8 — vidí jen zkrácený text bodu."
     },
     {
       "id": "15.4",
@@ -431,9 +433,9 @@
         "https://psp.cz/eknih/2025ps/stenprot/010schuz/s010095.htm"
       ],
       "rozhodl": "vlastnik",
-      "metodika": [],
+      "metodika": ["M11"],
       "jistota": "nízká až střední",
-      "poznamka": "Vlastník: obecný výrok o kustodech a trenérech není krok k programům Trenéři do škol a do školek. Navržené declared neplatí."
+      "poznamka": "Vlastník: obecný výrok o kustodech a trenérech není krok k programům Trenéři do škol a do školek. Navržené declared neplatí. Vlastník 23. 10. 2026 potvrdil a doplnil pravidlo M11 (programové prohlášení samo krokem není) — hodnotitel ve všech čtyřech měřeních dal declared s odůvodněním, že vláda projekty „zapsala do programového prohlášení“. 16.3 proto už není nezávislý test M11."
     }
   ]
 }

@@ -38,7 +38,7 @@ export const STATUS_CS = {
 const D = new Date(DATES.tookOffice);
 export const TERM_START_CS = `${D.getDate()}. ${D.getMonth() + 1}. ${D.getFullYear()}`;
 
-/* Pravidla vlastníka webu (scripts/nastaveni/metodika.md, M1–M10). Čte je
+/* Pravidla vlastníka webu (scripts/nastaveni/metodika.md, M1–M11). Čte je
    hodnotitel, oba ověřovatelé i kontrola faktů z jednoho souboru, aby se
    mezi rolemi nemohla rozejít. Normalizace jako readText v lib/nastaveni.js
    (BOM, CRLF, koncové mezery), aby text v promptu nezávisel na tom, kde běh

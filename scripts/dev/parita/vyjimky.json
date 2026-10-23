@@ -30,6 +30,10 @@
       "patch": "zmeny/05-plan-legislativy.patch",
       "kopirovat": ["scripts/nastaveni/plan-legislativy.json"],
       "duvod": "Spec 006 T008: prompt hodnocení dostane úkoly z Plánu legislativních prací vlády a z Výhledu (usnesení vlády č. 175 z 23. 3. 2026) pro svou kapitolu ({{PLAN_LEGISLATIVY}}, lib/plan.js). Pravidlo M6 dělá z úkolu v plánu „deklarováno“ a model plán nenacházel (10.8, 15.7, 7.8, 3.2 v měřeních 21. 10. 2026). Data převedená z PDF (plan-legislativy.json) se kopírují z DEV2."
+    },
+    {
+      "patch": "zmeny/06-metodika-m11.patch",
+      "duvod": "Pravidlo vlastníka M11 (23. 10. 2026): programové prohlášení samo krokem není, bod bez dalšího kroku vlády je not_started. Hodnotitel ve všech čtyřech měřeních řetězu bral zařazení do programového prohlášení jako „prohlášení“ ve smyslu declared (bod 16.3). Mění text metodiky, kterou čte hodnotitel, ověřovatelé i kontrola faktů."
     }
   ],
   "soubory": [
