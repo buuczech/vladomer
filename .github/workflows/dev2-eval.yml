@@ -30,7 +30,10 @@ name: DEV2 měření (stojí peníze)
 #               stavem (cíl 0) a kolik práce dostane vlastník.
 #   email       zkušební e-mail s reportem z fixtury — bez modelu, zdarma.
 #   generalka   celý měsíční běh (mesicni-beh.yml — přesně to, co poběží na
-#               main) nad daty z DEV2. Běh a PR s návrhy jdou do zahazovací
+#               main), modely z nastaveni.txt. Data podle vstup_dat: main
+#               (to, co je teď na webu), zkouska/RRRR-MM (navázat na minulou
+#               generálku i s rozhodnutími), prázdné = data na DEV2. E-mail
+#               nese srovnání s main. Běh a PR s návrhy jdou do zahazovací
 #               větve zkouska/RRRR-MM, takže rozhodování z e-mailu jde
 #               vyzkoušet celé; na main, na web ani na Instagram nejde nic,
 #               web a příspěvek jsou artefakt a e-mail má [ZKOUŠKA].
@@ -56,6 +59,7 @@ jobs:
       spustit: ${{ steps.m.outputs.spustit }}
       rezim: ${{ steps.m.outputs.rezim }}
       pojistka: ${{ steps.m.outputs.pojistka }}
+      vstup_dat: ${{ steps.m.outputs.vstup_dat }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -77,6 +81,7 @@ jobs:
       rezim_behu: plny
       zkouska: true
       pojistka_usd: ${{ needs.parametry.outputs.pojistka }}
+      vstup_dat: ${{ needs.parametry.outputs.vstup_dat }}
     secrets: inherit
 
   mereni:

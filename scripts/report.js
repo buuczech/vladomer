@@ -4,6 +4,7 @@
  *     node scripts/report.js --fixture              # ze skutečných záznamů ve fixturách, bez sítě, zdarma
  *     node scripts/report.js … --poslat [--zkouska] [--pr <odkaz na PR>] [--vetev beh/RRRR-MM]
  *     node scripts/report.js … --bez-pdf --vystup report
+ *     node scripts/report.js … --srovnani-main <evaluations.json z main>   # generálka: srovnání s main
  *
  * Běží po scripts/rozhodni.js. Čte public/evaluations.json (to, co šlo na
  * web), <faktcheck>/rozhodnuti.json, deterministicky.json, modelova.json
@@ -26,6 +27,7 @@ import { podkladyReportu, htmlOddily, proAI, popisPR, esc, odkazyBodu, NAZVY } f
 import { odkazRozhodnuti, VETEV_BEHU } from "./lib/navrhy.js";
 import { chrome } from "./lib/instagram.js";
 import { posliEmail } from "./lib/email.js";
+import { srovnani, nactiSady } from "./lib/srovnani.js";
 
 const KOREN = join(dirname(fileURLToPath(import.meta.url)), "..");
 const arg = (j, v) => { const i = process.argv.indexOf(`--${j}`); return i >= 0 ? process.argv[i + 1] : v; };
@@ -140,6 +142,13 @@ if (!ma("bez-pdf")) {
     cestaPdf = null;
   }
 }
+/* Generálka: srovnání s tím, co teď ukazuje main (lib/srovnani.js) —
+   vlastník sloučí DEV2 až po dvou generálkách, každé srovnané s main. */
+const cestaMain = arg("srovnani-main", null);
+const srov = cestaMain && existsSync(cestaMain) ? srovnani({ dev2: po, main: cist(cestaMain), polozky: ALL_ITEMS, sady: nactiSady() }) : null;
+if (cestaMain && !srov) console.log(`srovnání s main: ${cestaMain} chybí — e-mail bude bez něj`);
+if (srov) writeFileSync(join(VYSTUP, "srovnani-s-main.md"), srov.md);
+
 console.log(`Report ${p.mesic}: ${p.verdikt}; k rozhodnutí ${p.kRozhodnuti.map((k) => k.bod).join(", ") || "nic"}; změn na webu ${p.zmeny.length}`);
 console.log(`  ${cestaPdf || cestaHtml}\n  ${join(VYSTUP, "pro-AI.md")}\n  ${join(VYSTUP, "pr.md")}`);
 
@@ -176,18 +185,20 @@ ${o ? `${tlacitko(o.prijmout, o.sDuvodem ? "Přijmout (s důvodem)" : "Přijmout
     : "";
   const htmlMail = `<p><b>${esc(predmet)}</b></p>${zkouska}
 <p>Splněno ${p.metrikaPred.procent.toFixed(1).replace(".", ",")} % → ${p.metrikaPo.procent.toFixed(1).replace(".", ",")} %. Cena běhu ${p.cena.celkem.toFixed(2).replace(".", ",")} $.${p.ponechano.length ? ` Na minulém záznamu bez rozhodování zůstalo ${p.ponechano.length} bodů (stav beze změny, novou formulaci kontrola nepotvrdila).` : ""}</p>
+${srov ? srov.html : ""}
 <p>${odkazPR ? tlacitko(odkazPR, "Otevřít PR na GitHubu", "#0F172A") : `<span style="color:#B45309">${esc(bezPR)}</span>`}</p>
 ${body ? `<p><b>K rozhodnutí</b>${vetev ? " — klepni u každého bodu na Přijmout, nebo Nechat. GitHub otevře předvyplněný soubor s rozhodnutím, stačí ho potvrdit (Commit changes). Do minuty se provede a v PR se objeví odpověď — před dalším klepnutím na ni počkej, jinak GitHub další commit odmítne, protože se větev mezitím změnila." : ""}</p>${body}` : "<p>Nic k rozhodnutí.</p>"}
 ${zverejnit ? `<p>Až budeš hotový: ${tlacitko(zverejnit, "Zveřejnit rozhodnutí", "#3B5BDB")}<br><span style="color:#5B6577">${ma("zkouska") ? "Sloučí PR do zahazovací větve a sestaví web jako artefakt — nic se nezveřejní." : "Sloučí PR a nasadí web."} Vyjde jen to, co přijmeš; bod, o kterém nerozhodneš, zůstane na minulém záznamu.</span></p>` : ""}
 <p>${odkazPR ? `<a href="${esc(odkazPR)}">PR na GitHubu</a> · ` : ""}${odkazBehu ? `<a href="${esc(odkazBehu)}">Log běhu</a> · ` : ""}<a href="https://vladomer.cz">Web</a></p>
 <p style="color:#5B6577">Podrobnosti s citacemi jsou v přiloženém PDF. Soubor pro-AI.md můžeš nahrát do aplikace Claude a nechat si doporučit, co s body udělat.</p>`;
-  const text = `${predmet}\n\n${ma("zkouska") ? "ZKOUŠKA — na vladomer.cz ani na Instagram nejde nic.\n\n" : ""}${odkazPR ? `PR na GitHubu: ${odkazPR}` : bezPR}\n\n${p.kRozhodnuti.map((k) => {
+  const text = `${predmet}\n\n${ma("zkouska") ? "ZKOUŠKA — na vladomer.cz ani na Instagram nejde nic.\n\n" : ""}${srov ? `${srov.text}\n\n` : ""}${odkazPR ? `PR na GitHubu: ${odkazPR}` : bezPR}\n\n${p.kRozhodnuti.map((k) => {
     const o = odkazyBodu(k, { repo, vetev });
     return `${k.bod}: ${k.popisTypu}${o ? `\n  Přijmout: ${o.prijmout}\n  Nechat: ${o.podrzet}` : k.prikaz ? ` — ${k.prikaz}` : ""}`;
   }).join("\n") || "Nic k rozhodnutí."}${zverejnit ? `\n\nZveřejnit rozhodnutí: ${zverejnit}` : ""}${odkazBehu ? `\n\nLog běhu: ${odkazBehu}` : ""}`;
   writeFileSync(join(VYSTUP, "email.html"), `<!doctype html><meta charset="utf-8"><title>${esc(predmet)}</title><body style="font-family:sans-serif;max-width:640px;margin:16px">${htmlMail}</body>`);
   if (!ma("poslat")) process.exit(process.exitCode || 0);
   const prilohy = [{ nazev: "pro-AI.md", obsah: readFileSync(join(VYSTUP, "pro-AI.md")) }];
+  if (srov) prilohy.push({ nazev: "srovnani-s-main.md", obsah: Buffer.from(srov.md) });
   if (cestaPdf) prilohy.unshift({ nazev: `vladomer-kontrola-${stem}.pdf`, obsah: readFileSync(cestaPdf) });
   else prilohy.unshift({ nazev: `report-${stem}.html`, obsah: readFileSync(cestaHtml) });
   try {

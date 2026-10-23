@@ -15,6 +15,11 @@ name: Měsíční běh
 # jde tak vyzkoušet celé (rozhodnuti-vetev.yml); Zveřejnit sloučí PR do
 # zahazovací větve a web jen sestaví. Příspěvek na Instagram se sestaví jako
 # artefakt. Na main, na vladomer.cz ani na Instagram nejde nic.
+# Generálka může vzít vstupní data z jiné větve (vstup_dat: main = to, co
+# je teď na webu; zkouska/RRRR-MM = navázat na minulou generálku i s
+# rozhodnutími vlastníka) a e-mail pak nese srovnání s main (lib/srovnani.js):
+# DEV2 se sloučí až po dvou generálkách srovnaných s main (vlastník,
+# 23. 10. 2026).
 #
 # Stojí peníze (API Anthropic). Pojistka ceny (pojistka_ceny_usd) zastaví
 # zacyklený běh; pak se nic nezveřejní a přijde e-mail o selhání.
@@ -32,6 +37,10 @@ on:
         default: false
       pojistka_usd:
         description: "strop ceny celého běhu; prázdné = pojistka_ceny_usd z nastaveni.txt"
+        type: string
+        default: ""
+      vstup_dat:
+        description: "jen generálka: větev, ze které se vezmou public/*.json (main | zkouska/RRRR-MM); prázdné = data na větvi, ze které běh běží"
         type: string
         default: ""
     outputs:
@@ -63,6 +72,24 @@ jobs:
             node scripts/dev/test-$t.js > /dev/null || { node scripts/dev/test-$t.js; exit 1; }
           done
           echo "offline kontroly prošly"
+
+      # Generálka: vstupní data z jiné větve. main = to, co je teď na webu
+      # (týdenní běh); zkouska/RRRR-MM = navázat na minulou generálku i s tím,
+      # co v ní vlastník rozhodl. Naostro běh čte vždy data main, na kterém běží.
+      - name: Vstupní data generálky
+        if: inputs.zkouska && inputs.vstup_dat != ''
+        env:
+          VSTUP: ${{ inputs.vstup_dat }}
+        run: |
+          echo "$VSTUP" | grep -Eqx 'main|zkouska/[0-9]{4}-[0-9]{2}' || { echo "vstup_dat „$VSTUP“: povoleno main nebo zkouska/RRRR-MM"; exit 1; }
+          git fetch --no-tags origin "refs/heads/$VSTUP"
+          git checkout FETCH_HEAD -- public/evaluations.json public/history.json public/news.json public/audit.json
+          # Cena a kontrola faktů minulého běhu patří ke svým datům; main je nemá.
+          for f in naklady.json faktcheck.json; do
+            if git cat-file -e "FETCH_HEAD:public/$f" 2>/dev/null; then git checkout FETCH_HEAD -- "public/$f"; else rm -f "public/$f"; fi
+          done
+          git log -1 --format="Vstupní data z $VSTUP: %h %s (%ci)" FETCH_HEAD
+          node -e 'console.log(`lastUpdated ${require("./public/evaluations.json").lastUpdated}`)'
 
       # Plánovač GitHubu umí běh opozdit o hodiny a jednou už pustil druhý běh
       # téhož dne (28. 8. 2026). Plánovaný běh se přeskočí, jsou-li data už
@@ -222,11 +249,18 @@ jobs:
           VETEV: ${{ steps.pr.outputs.vetev }}
         run: |
           ZK=""; if [ "${{ inputs.zkouska }}" = "true" ]; then ZK="--zkouska"; fi
+          # Generálka: srovnání s tím, co teď ukazuje main (e-mail, příloha,
+          # souhrn běhu). Když main nejde načíst, e-mail odejde bez něj.
+          SR=""
+          if [ "${{ inputs.zkouska }}" = "true" ] && git fetch --no-tags origin refs/heads/main && git show FETCH_HEAD:public/evaluations.json > /tmp/main-evaluations.json; then
+            SR="--srovnani-main /tmp/main-evaluations.json"
+          fi
           PR=""; if [ -n "$PR_URL" ]; then PR="--pr $PR_URL"; fi
           # S větví PR dostane e-mail u každého bodu odkazy Přijmout / Nechat a Zveřejnit
           # (i v generálce — tam míří do zkušební větve).
           if [ -n "$VETEV" ]; then PR="$PR --vetev $VETEV"; fi
-          node scripts/report.js --pred /tmp/pred/evaluations.json --poslat $ZK $PR || echo "report: e-mail neodešel, report je v artefaktu"
+          node scripts/report.js --pred /tmp/pred/evaluations.json --poslat $ZK $PR $SR || echo "report: e-mail neodešel, report je v artefaktu"
+          if [ -f report/srovnani-s-main.md ]; then cat report/srovnani-s-main.md >> "$GITHUB_STEP_SUMMARY"; fi
 
       - name: E-mail o selhání
         if: failure()

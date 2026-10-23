@@ -251,7 +251,11 @@ Run workflow → `rezim_behu: delta`.
 
 **Generálka** (bez zveřejnění, e-mail s `[ZKOUŠKA]`): na větvi DEV2 v
 `scripts/dev/mereni.json` režim `generalka`, `pojistka_usd` a vyplněné
-„schvaleno“. Stojí jako ostrý běh.
+„schvaleno“. Stojí jako ostrý běh. `vstup_dat` říká, z jakých dat vyjde:
+`main` = to, co je teď na webu, `zkouska/RRRR-MM` = naváže na minulou
+generálku i s tím, co jsi v ní rozhodl. E-mail generálky nese srovnání
+s main: procento splněných, kolik bodů zlaté a kontrolní sady má každá strana
+správně a které body se liší (celé v příloze `srovnani-s-main.md`).
 
 **Jednorázové nastavení, které musíš udělat ty** (nikdo jiný k tomu přístup
 nemá a adresa se tak nikam nedostane):
