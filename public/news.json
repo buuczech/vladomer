@@ -1,41 +1,41 @@
 {
-  "generatedAt": "2026-10-16T14:47:37.677Z",
+  "generatedAt": "2026-10-23T12:55:51.458Z",
   "items": [
     {
       "title": {
-        "cs": "Sněmovna přehlasovala Pavlovo veto k zákonu o státních zaměstnancích",
-        "en": "Parliament overrode presidential veto on state employees law"
+        "cs": "Sněmovna schválila rozpočet na příští rok se schodkem 386 miliard korun",
+        "en": "Parliament approved next year's budget with deficit of 386 billion crowns"
       },
       "summary": {
-        "cs": "Koalice ANO, SPD a Motoristů hlasy 104 poslanců znovu schválila kontroverzní zákon usnadňující výměnu státních úředníků navzdory prezidentově vetu.",
-        "en": "The ANO, SPD and Motoristé coalition with votes of 104 deputies reapproved a controversial law easing state employee turnover despite the presidential veto."
+        "cs": "Poslanci vládní koalice hlasováním schválili základní parametry státního rozpočtu na rok 2027, který počítá se schodkem 386 miliard korun, což je druhý nejvyšší nominální deficit v historii.",
+        "en": "Government coalition MPs approved the basic budget parameters for 2027 with a deficit of 386 billion crowns, the second highest nominal deficit ever."
       },
-      "url": "https://www.echo24.cz/a/H2AVw/zpravy-domaci-babis-chce-skrtnout-desetinu-urednickych-mist-novy-zakon-mu-v-tom-pomuze",
-      "date": "2026-10-16"
+      "url": "https://www.echo24.cz/a/HpuqJ/zpravy-domaci-snemovna-schvalia-zakladni-udaje-rozpoctu-na-pristi-rok-prvni-cteni",
+      "date": "2026-10-22"
     },
     {
       "title": {
-        "cs": "Vláda schválila státní kulturní politiku pro období 2026–2029",
-        "en": "Government approved state cultural policy for 2026–2029"
+        "cs": "Prezident Pavel uvedl, že rozpočet nebude vetovat",
+        "en": "President Pavel said he will not veto the budget"
       },
       "summary": {
-        "cs": "Ministr kultury Klempíř prosadil vládou Státní kulturní politiku, která se dočkala kritiky opozice i části kulturní obce za svůj obsah.",
-        "en": "Culture minister Klempíř pushed through state cultural policy document that faced criticism from opposition and parts of cultural sector."
+        "cs": "Prezident Petr Pavel v Berlíně oznámil, že ačkoliv považuje rozpočet se schodkem 386 miliard za nedobrý a rizikový, nechystá se ho vetovat.",
+        "en": "President Pavel said he considers the 386-billion deficit budget bad and risky but does not plan to veto it."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/vlada-schvalila-navrh-kritizovane-statni-kulturni-politiky/2882438",
-      "date": "2026-10-07"
+      "url": "https://www.irozhlas.cz/zpravy-domov/prezident-pavel-oznacil-navrh-statniho-rozpoctu-za-nedobry-ale-uvedl-ze-se_2610212205_cen",
+      "date": "2026-10-21"
     },
     {
       "title": {
-        "cs": "Koalice prosadila omezení pravomocí prezidenta při obsazování diplomatických misí",
-        "en": "Coalition imposed restrictions on presidential powers for diplomatic missions"
+        "cs": "Desítky lidí v Praze protestovaly proti zrušení poplatků za veřejnoprávní média",
+        "en": "Tens of people protested in Prague against the abolition of public media fees."
       },
       "summary": {
-        "cs": "Sněmovna hlasy 104 vládních poslanců přehlasovala i veto prezidenta na zrušení jeho pravomoci jmenovat vedoucí stálých misí u mezinárodních organizací.",
-        "en": "Parliament with 104 coalition votes overrode presidential veto on removing his authority to appoint heads of permanent missions to international organizations."
+        "cs": "Na Malostranském náměstí se sešli demonstranti, kteří kritizují plán vlády na zrušení televizních a rozhlasových poplatků.",
+        "en": "Protesters gathered in Prague to oppose the government's plan to abolish television and radio fees for public broadcasters."
       },
-      "url": "https://www.irozhlas.cz/zpravy-domov/pavlovo-veto-padlo-poslanci-schvalili-zruseni-pravomoci-prezidenta-i-pravidla_2610141421_ako",
-      "date": "2026-10-16"
+      "url": "https://www.ceskenoviny.cz/zpravy/desitky-lidi-v-praze-protestovaly-proti-zameru-zrusit-poplatky-za-ct-a-cro/2892088",
+      "date": "2026-10-23"
     }
   ]
 }
