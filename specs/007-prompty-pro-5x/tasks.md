@@ -12,4 +12,5 @@
 - [x] T010 Placené měření řetězu na 46 bodech (`rezim: retez`, 20,20 $): přesnost beze změny, výsledek ve spec 004
 - [x] T010b Rozhodnutí vlastníka o neměřitelnosti i pro záznam podržený branou (`evaluate.js`, patch 04) a ve vrstvě R (`rozhodnuti.js`); test v `test-rozhodnuti.js`
 - [x] T010c Druhý bod měření z generálky: 33/46, stejně jako bez B. Vlastník 22. 10.: B nechat a doplnit Plán legislativních prací (spec 006 T008) — s ním 38/46
+- [x] T012 Doslovné znění slibů (23. 10. 2026, po rozboru 15.2): `scripts/dev/zneni-slibu.py`, `scripts/nastaveni/zneni-slibu.json` + `programove-prohlaseni.txt`, znění v promptu hodnotitele, ověřovatelů i kontroly faktů, `test-zneni.js`, parita patch 07. Neměřeno — efekt ukáže příští placený řetěz
 - [x] T011 Ověření: všech 14 offline kontrol, parita, build, `test-soukromi --dist`

@@ -34,6 +34,11 @@
     {
       "patch": "zmeny/06-metodika-m11.patch",
       "duvod": "Pravidlo vlastníka M11 (23. 10. 2026): programové prohlášení samo krokem není, bod bez dalšího kroku vlády je not_started. Hodnotitel ve všech čtyřech měřeních řetězu bral zařazení do programového prohlášení jako „prohlášení“ ve smyslu declared (bod 16.3). Mění text metodiky, kterou čte hodnotitel, ověřovatelé i kontrola faktů."
+    },
+    {
+      "patch": "zmeny/07-zneni-slibu.patch",
+      "kopirovat": ["scripts/nastaveni/zneni-slibu.json"],
+      "duvod": "Doslovné znění slibu z programového prohlášení u každého bodu (scripts/nastaveni/zneni-slibu.json, scripts/dev/zneni-slibu.py): hodnotitel ho dostane pod řádkem bodu, ověřovatelé a kontrola faktů ve znění závazku. Body v src/data.js jsou zkratky a model podle zkratky hodnotil jiný slib (15.2: „modulové řešení … pilotní ověření“; 3.2: podnadpis „…pro policisty a hasiče“). Data se kopírují z DEV2."
     }
   ],
   "soubory": [

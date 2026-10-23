@@ -1,0 +1,580 @@
+{
+ "_popis": "Doslovné znění slibů z programového prohlášení vlády ke každému bodu Vládoměru. Vytvořeno nástrojem scripts/dev/zneni-slibu.py z textu scripts/nastaveni/programove-prohlaseni.txt; ruční výběr vět prošel člověk. „nadpis“ je podnadpis prohlášení, pod kterým věta stojí (u kapitol bez podnadpisů null). Neupravovat ručně — test-zneni.js hlídá, že každé znění v textu prohlášení doslova stojí.",
+ "zdroj": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
+ "publikovano": "2026-01-05",
+ "stazeno": "2026-10-23",
+ "body": {
+  "1.1": {
+   "nadpis": "Hlavní strategické směry vlády",
+   "zneni": "Odmítne emisní povolenky, tzv. ETS2, sníží poplatky za distribuci a přenos, podpoří rozvoj jaderné energetiky a domácích zdrojů, posílí soběstačnost a energetickou bezpečnost státu."
+  },
+  "1.2": {
+   "nadpis": "Hlavní strategické směry vlády",
+   "zneni": "Zdravá země a dostupné zdravotnictví: Prioritou vlády je kvalitní, bezplatné a dostupné zdravotnictví pro všechny občany."
+  },
+  "1.3": {
+   "nadpis": "Hlavní strategické směry vlády",
+   "zneni": "Bydlení jako veřejný zájem: Vláda učiní z dostupného bydlení jednu z hlavních priorit. Prosadí zrychlení a zjednodušení stavebního řízení, podpoří výstavbu nájemních a družstevních bytů, zajistí státní podporu financování bydlení pro mladé rodiny a klíčové profese. Zajistí také podporu výstavby studentských kolejí a bytů pro seniory."
+  },
+  "1.4": {
+   "nadpis": "Hlavní strategické směry vlády",
+   "zneni": "Spravedlivé důchody a funkční sociální systém: Vláda zajistí finančně udržitelný a spravedlivý důchodový systém, založený na zásluhovosti a solidaritě vůči těm, kteří celý život pracovali a přispívali do systému. Důchodový věk bude zastropován na 65 letech. Vláda obnoví spravedlivý systém valorizací důchodů tak, aby důchodci neztráceli kupní sílu a měli zajištěnu jistotu důstojného života i v době inflace. Tím vláda napraví změny zavedené předchozí vládou, které valorizace omezily a snížily. Dále vláda posílí dostupnost sociálních služeb, důstojnou péči o seniory a osoby se zdravotním postižením a zlepší koordinaci mezi zdravotní a sociální oblastí, aby péče o potřebné byla komplexní a předvídatelná. Zároveň provede revizi systému sociálních dávek a jeho kontroly tak, aby se zabránilo zneužívání podpory a současně se zvýšila motivace k práci a aktivnímu zapojení do společnosti."
+  },
+  "1.5": {
+   "nadpis": "Hlavní strategické směry vlády",
+   "zneni": "Prosadí přísnou a důslednou politiku nulové tolerance k nelegální migraci a vytvoří jasný systém prevence kriminality."
+  },
+  "2.1": {
+   "nadpis": "Zdravé veřejné finance",
+   "zneni": "Veřejné finance České republiky budeme udržovat blízko vyrovnané bilance, a to bezpečně pod hranicí 3 % deficitu požadované Paktem stability a růstu."
+  },
+  "2.2": {
+   "nadpis": "Zdravé veřejné finance",
+   "zneni": "Díky masivním investicím do dlouhodobého ekonomického růstu, důslednému naplňování hospodářské strategie a úsporám v provozu státu dosáhneme postupného snižování deficitu veřejných financí. V delším horizontu pak i fakticky vyrovnaného či přebytkového hospodaření státu, podobně jako v letech 2016– 2019."
+  },
+  "2.3": {
+   "nadpis": "Omezíme šedou ekonomiku a zefektivníme výběr daní",
+   "zneni": "Od roku 2027 zavedeme EET 2.0 a tím zajistíme předvídatelné a férové prostředí pro podnikatele napříč všemi sektory, při zohlednění drobných živností a příležitostných přivýdělků, na které se systém vztahovat nebude."
+  },
+  "2.4": {
+   "nadpis": "Omezíme šedou ekonomiku a zefektivníme výběr daní",
+   "zneni": "Zavedeme Digitální daňovou kobru, která s využitím pokročilých analytických nástrojů a umělé inteligence odhalí fiktivní obchody a nezákonné daňové optimalizace."
+  },
+  "2.5": {
+   "nadpis": "Omezíme šedou ekonomiku a zefektivníme výběr daní",
+   "zneni": "Rozšíříme kompetence Celní správy ČR, což zásadně zlepší výběr spotřebních daní a regulaci hazardu. Celníkům zvýšíme platy a budeme je pravidelně valorizovat. Zajistíme nástupní plat 50 tisíc korun."
+  },
+  "2.6": {
+   "nadpis": "Snížíme daně rodinám, živnostníkům, zaměstnancům, studentům a firmám",
+   "zneni": "Zavazujeme se nezvyšovat žádné daně."
+  },
+  "2.7": {
+   "nadpis": "Snížíme daně rodinám, živnostníkům, zaměstnancům, studentům a firmám",
+   "zneni": "Snížíme daň z příjmů právnických osob na 19 %, abychom podpořili podnikání, investice, atraktivitu Česka a tvorbu pracovních míst."
+  },
+  "2.8": {
+   "nadpis": "Snížíme daně rodinám, živnostníkům, zaměstnancům, studentům a firmám",
+   "zneni": "Rodinám vrátíme školkovné i původní podobu slevy na druhého z manželů a pracujícím studentům vrátíme daňovou slevu."
+  },
+  "2.9": {
+   "nadpis": "Snížíme daně rodinám, živnostníkům, zaměstnancům, studentům a firmám",
+   "zneni": "Zavedeme 0% DPH na léky na předpis."
+  },
+  "2.10": {
+   "nadpis": "Snížíme daně rodinám, živnostníkům, zaměstnancům, studentům a firmám",
+   "zneni": "Naopak zastavíme zvyšování vyměřovacího základu pro sociální pojistné OSVČ, které tak zůstane na 35 % průměrné mzdy."
+  },
+  "2.11": {
+   "nadpis": "Jednotné inkasní místo",
+   "zneni": "Zřídíme jednotné inkasní místo, které sloučí výběr daní, sociálního a zdravotního pojištění a tím výrazně sníží administrativní zátěž pro podnikatele a firmy."
+  },
+  "2.12": {
+   "nadpis": "Transparentní financování neziskových organizací",
+   "zneni": "Zřídíme veřejný registr všech dotací pro neziskové organizace z veřejných rozpočtů, který bude zahrnovat nejen stát, ale i obce, kraje a svazky obcí."
+  },
+  "2.13": {
+   "nadpis": "Vyšší limit plátcovství DPH a kratší lhůta pro vrácení DPH z nezaplacených faktur",
+   "zneni": "Zkrátíme lhůtu pro vrácení DPH z nezaplacených faktur ze současných šesti na tři měsíce."
+  },
+  "2.14": {
+   "nadpis": "Česká koruna a právo na hotovost v ústavě",
+   "zneni": "Zavazujeme se, že naše vláda nepřijme euro ani nepodnikne žádné kroky směrem k jeho zavedení. Navrhneme parlamentu ukotvit českou korunu v Ústavě ČR – stejně jako právo držet a používat hotovost jako zákonné platidlo."
+  },
+  "2.15": {
+   "nadpis": "Státní dluhopisy pro občany",
+   "zneni": "Nabídneme státní dluhopisy i drobným střadatelům, čímž snížíme závislost na velkých investorech a rozložíme rizika. Českým domácnostem umožníme zhodnotit úspory od 1 000 Kč až do 3 000 000 Kč prostřednictvím oblíbených Dluhopisů Republiky."
+  },
+  "3.1": {
+   "nadpis": "Motivující platy a spravedlivé podmínky pro policisty a hasiče",
+   "zneni": "Nástupní plat policisty a hasiče bude 50 tisíc korun."
+  },
+  "3.2": {
+   "nadpis": "Motivující platy a spravedlivé podmínky pro policisty a hasiče",
+   "zneni": "Zavedeme příspěvek na bydlení do výše až 6 000 Kč měsíčně podle regionu."
+  },
+  "3.3": {
+   "nadpis": "Více policistů v ulicích, méně byrokracie",
+   "zneni": "Vrátíme policii do ulic a posílíme přímý výkon služby. Zastavíme rušení služeben a obnovíme důvěru občanů v policii jako instituci, která je viditelná, dostupná a připravená pomoci."
+  },
+  "3.4": {
+   "nadpis": "Digitální policie a boj s kyberkriminalitou",
+   "zneni": "Posílíme kapacity NÚKIB a dalších složek zajišťujících kybernetickou obranu státu. Posílíme ochranu kritické infrastruktury státu."
+  },
+  "3.5": {
+   "nadpis": "Zpřísníme azylovou a migrační politiku",
+   "zneni": "Odmítneme migrační pakt Evropské unie a přijmeme nový zákon o migraci a azylu."
+  },
+  "3.6": {
+   "nadpis": "Zpřísníme azylovou a migrační politiku",
+   "zneni": "Odmítneme migrační pakt Evropské unie a přijmeme nový zákon o migraci a azylu. Nový zákon o azylu bude jasný a spravedlivý — azyl bude udělován pouze ve výjimečných, přesně definovaných případech."
+  },
+  "3.7": {
+   "nadpis": "Podpora bydlení a náborová centra",
+   "zneni": "Připravíme projekt sítě jednotných náborových a výcvikových center za nezbytné podpory Ministerstva obrany, která umožní efektivní nábor a přípravu nových příslušníků policie, hasičských sborů, armády, celní správy a vězeňské služby."
+  },
+  "3.8": {
+   "nadpis": "Podpora dobrovolných hasičů a městské policie",
+   "zneni": "Podpoříme jednotky dobrovolných hasičů jako klíčový prvek podpory bezpečnosti v regionech. Budeme pracovat na modernizaci jejich vybavení, zdravotním zajištění a důstojném zázemí. … Budeme modernizovat výstroj, výzbroj a techniku policie a hasičů."
+  },
+  "4.1": {
+   "nadpis": null,
+   "zneni": "Součástí tohoto procesu bude provedení auditu hospodaření s finančními prostředky a akvizicemi a optimalizace akvizičního plánu."
+  },
+  "4.2": {
+   "nadpis": null,
+   "zneni": "Současně přehodnotíme a vypracujeme novou, realistickou, rozpočtově udržitelnou a věcně podloženou Koncepci výstavby Armády České republiky 2035. Tato koncepce stanoví národní priority a způsob naplňování mezinárodních závazků České republiky v rámci NATO na základě národních bezpečnostních potřeb."
+  },
+  "4.3": {
+   "nadpis": null,
+   "zneni": "Odmítáme vytváření paralelních vojenských struktur na bázi Evropské unie (tzv. Armády EU)."
+  },
+  "4.4": {
+   "nadpis": null,
+   "zneni": "Mezi prioritní úkoly vlády zařadíme posílení protivzdušné obrany státu. Pořídíme a rozvineme komplexní systémy protidronové ochrany, rozšíříme kapacity protivzdušné obrany a zajistíme jejich propojení do vícevrstvého systému."
+  },
+  "4.5": {
+   "nadpis": null,
+   "zneni": "Prosadíme důsledné zapojení českého průmyslu do všech akvizičních projektů a podpoříme výzkumné instituce v oblasti obrany. Při nákupech ze zahraničí budeme trvat na maximálním zapojení českých firem do výroby, údržby a servisní podpory."
+  },
+  "4.6": {
+   "nadpis": null,
+   "zneni": "Od roku 2026 bude nástupní plat vojáka po absolvování základní přípravy činit 50 tisíc korun."
+  },
+  "4.7": {
+   "nadpis": null,
+   "zneni": "Počet vojáků z povolání navýšíme. … Posílíme aktivní zálohy a zvýšíme atraktivitu služby v armádě, stabilizujeme platy vojáků a vytvoříme lepší podmínky pro nábor nových profesionálů."
+  },
+  "5.1": {
+   "nadpis": null,
+   "zneni": "Důležitou prioritou naší zahraniční politiky je obnova a posílení narušených vztahů v rámci Visegrádské skupiny, založená na vzájemném respektu, společných zájmech a efektivní regionální spolupráci. … Budeme rozvíjet strategický dialog se sousedními zeměmi, současně uděláme vše pro obnovení dlouhodobých vztahů na úrovni Visegrádské skupiny."
+  },
+  "5.2": {
+   "nadpis": "Bilaterální a multilaterální spolupráce",
+   "zneni": "Důležitá je i kontinuita tradičního přátelství se Státem Izrael. Budeme posilovat strategické vztahy se Spojenými státy americkými, a to nejen v oblastech bezpečnosti, hospodářství a kulturní spolupráce."
+  },
+  "5.3": {
+   "nadpis": "Bezpečnost regionu",
+   "zneni": "Budeme podporovat diplomatické kroky vedoucí k ukončení války na Ukrajině a eliminaci rizik války v Evropě."
+  },
+  "5.4": {
+   "nadpis": "Evropské záležitosti",
+   "zneni": "V zájmu České republiky je nepřesunovat další pravomoci z národní úrovně na úroveň EU, nepřipustit energetickou závislost ČR, nepodílet se na aktivitách směřujících k rozšiřování ekologických a dalších regulací ohrožujících konkurenceschopnost národního hospodářství, chránit hranice vůči masové migraci a udržet svobodný informační prostor. Nepřipustíme oslabování principu jednomyslnosti."
+  },
+  "5.5": {
+   "nadpis": "Evropské záležitosti",
+   "zneni": "Pro zajištění efektivní koordinace evropské agendy bude post ministra pro evropské záležitosti zrušen. Evropská agenda bude v gesci předsedy vlády a bude realizována prostřednictvím jemu podřízeného útvaru, který bude úzce spolupracovat se Stálým zastoupením České republiky při EU, organizačně spojeným s Ministerstvem zahraničních věcí."
+  },
+  "5.6": {
+   "nadpis": "Ekonomická diplomacie",
+   "zneni": "Jedním z hlavních nástrojů prosazování českých zájmů v zahraničí bude ekonomická diplomacie. … Budeme podporovat aktivní diverzifikaci českého exportu a posilování ekonomických vztahů se zeměmi Asie a Tichomoří, Latinské Ameriky, Blízkého východu, Afriky, Austrálie a dalšími."
+  },
+  "6.1": {
+   "nadpis": null,
+   "zneni": "Předložíme novelu trestního zákona, která zpřísní postihy za násilí vůči všem zranitelným skupinám, zejména seniorům, ženám a dětem."
+  },
+  "6.2": {
+   "nadpis": null,
+   "zneni": "Předložíme protidrogovou novelu trestního zákona, která omezí možnosti snížení trestu pro intoxikovaného pachatele."
+  },
+  "6.3": {
+   "nadpis": null,
+   "zneni": "Přijmeme taková legislativní opatření, která zajistí, že kdokoli, kdo se úmyslně nebo z hrubé nedbalosti vyhýbá placení výživného, ponese plnou trestní odpovědnost."
+  },
+  "6.4": {
+   "nadpis": null,
+   "zneni": "Podporujeme jasné a spravedlivé nastavení pravidel nutné obrany."
+  },
+  "6.5": {
+   "nadpis": null,
+   "zneni": "Zmodernizujeme trestní řád a občanský soudní řád, aby odpovídaly potřebám 21. století a zajistily spravedlnost všem stranám."
+  },
+  "6.6": {
+   "nadpis": null,
+   "zneni": "Příslušníkům vězeňské služby zvýšíme platy a budeme je pravidelně valorizovat. Zajistíme nástupní plat 50 tisíc korun."
+  },
+  "6.7": {
+   "nadpis": null,
+   "zneni": "Zreformujeme vězeňský systém – zefektivníme alternativní tresty, rozšíříme používání elektronických náramků a zajistíme důslednou práci s vězni."
+  },
+  "6.8": {
+   "nadpis": null,
+   "zneni": "Zákon nesmí vágními formulacemi umožnit selektivní trestání. Proto zrušíme trestný čin neoprávněné činnosti pro cizí moc."
+  },
+  "6.9": {
+   "nadpis": null,
+   "zneni": "Připravíme zákon o celostátním referendu, aby o klíčových otázkách veřejného zájmu mohli občané rozhodovat přímo. Zároveň jasně stanovíme, že členství České republiky v Evropské unii a Severoatlantické alianci nebude předmětem referenda."
+  },
+  "7.1": {
+   "nadpis": "Regulovaná cena elektřiny férově",
+   "zneni": "Lidé a firmy nebudou dále platit poplatek za POZE, poplatky za tuto složku regulované elektřiny na sebe převezme stát, podobně jako je tomu v jiných zemích."
+  },
+  "7.2": {
+   "nadpis": "Emisní povolenky",
+   "zneni": "V případě emisních povolenek pro domácnosti a dopravu ETS2 jsme připraveni neimplementovat tento systém do české legislativy a zabránit vysoce negativním sociálním dopadům do společnosti."
+  },
+  "7.3": {
+   "nadpis": "Výroba ČEZ pod kontrolou",
+   "zneni": "Uděláme kroky k získání stoprocentní kontroly nad výrobou ve skupině ČEZ."
+  },
+  "7.4": {
+   "nadpis": "Výstavba jaderných bloků",
+   "zneni": "Zahájíme stavební řízení nových jaderných bloků Dukovany 5 a 6 a přípravu projektu temelínských bloků 3 a 4. Jádro považujeme za budoucnost české energetiky."
+  },
+  "7.5": {
+   "nadpis": "Výstavba jaderných bloků",
+   "zneni": "Současně připravíme legislativní a finanční podmínky pro investice do malých modulárních reaktorů SMR a výroby komponent do SMR v ČR."
+  },
+  "7.6": {
+   "nadpis": "Výstavba plynových energetických zdrojů a udržení stabilních zdrojů energie",
+   "zneni": "Zrychlíme výstavbu nových flexibilních zdrojů – zejména plynových. Zavedeme proto kapacitní mechanismy, urychleně připravíme potřebnou prováděcí legislativu."
+  },
+  "7.7": {
+   "nadpis": "Motivace pro investice firem",
+   "zneni": "Přejdeme postupně z dotační na odpisovou politiku podpory."
+  },
+  "7.8": {
+   "nadpis": "Podpora startupů",
+   "zneni": "Připravíme zákon o podpoře startupů, zahrnující jednodušší začátek podnikání, úlevy nebo faktickou možnost využívat zaměstnanecké akcie."
+  },
+  "7.9": {
+   "nadpis": "Antibyrokratická opatření",
+   "zneni": "Ve spojení se zástupci podnikatelů dojde k zásadnímu přehodnocení byrokratické zátěže podnikatelů. Změna nebude na bázi dílčích opatření, ale skutečné reformy, do které se zapojí úřady napříč resorty, stejně tak hlavní zástupci větších zaměstnavatelů i drobných podnikatelů."
+  },
+  "7.10": {
+   "nadpis": "Hospodářská strategie",
+   "zneni": "Předložíme střednědobý výhled a konkrétní plán kroků v klíčových hospodářských oblastech – energetika, doprava, výzkum, trh práce, dostupný kapitál, deregulace a debyrokratizace – a zajistíme jejich provázanost s rozpočtem státu a strategickými investicemi. Základem bude Hospodářská strategie hnutí ANO – Země pro budoucnost 2.0."
+  },
+  "8.1": {
+   "nadpis": null,
+   "zneni": "Do roku 2029 kompletně dokončíme a propojíme s Polskem D11."
+  },
+  "8.2": {
+   "nadpis": null,
+   "zneni": "Do roku 2027 povede D3 přes celé jižní Čechy až po napojení s Rakouskem."
+  },
+  "8.3": {
+   "nadpis": null,
+   "zneni": "Do roku 2027 dokončíme rozšíření Pražského okruhu na Černý Most a dostavíme propojení mezi D1 a D11."
+  },
+  "8.4": {
+   "nadpis": null,
+   "zneni": "Prioritou u železnice budou stávající koridory, kde postupně zvýšíme rychlost na 200 km/hod, a to na úsecích v délce min. 70 km."
+  },
+  "8.5": {
+   "nadpis": null,
+   "zneni": "Do roku 2029 spojíme Prahu, ruzyňské letiště a Kladno."
+  },
+  "8.6": {
+   "nadpis": null,
+   "zneni": "Hlavní koridory vybavíme do 2029 bezpečnostním systémem ETCS."
+  },
+  "8.7": {
+   "nadpis": null,
+   "zneni": "Vrátíme slevy na jízdné pro studenty a seniory ve výši 75 procent."
+  },
+  "8.8": {
+   "nadpis": null,
+   "zneni": "Odmítneme zákaz spalovacích motorů od roku 2035 a zavádění uhlíkových daní na paliva."
+  },
+  "8.9": {
+   "nadpis": null,
+   "zneni": "Podpoříme projekt modernizace Letiště Praha, včetně kolejového napojení z centra města, jako významnou investici do budoucnosti naší země."
+  },
+  "9.1": {
+   "nadpis": null,
+   "zneni": "Proto postupně znovu navýšíme výdaje na vzdělávání až k průměru zemí OECD."
+  },
+  "9.2": {
+   "nadpis": "Stabilní a lepší příprava učitelů a vyšší kvalita vzdělávání",
+   "zneni": "Nástupní plat vysokoškolsky vzdělaného učitele bude 50 tisíc korun."
+  },
+  "9.3": {
+   "nadpis": "Stabilní a lepší příprava učitelů a vyšší kvalita vzdělávání",
+   "zneni": "Učitelům garantujeme na konci volebního období průměrný plat ve výši 75 tisíc korun."
+  },
+  "9.4": {
+   "nadpis": "Stabilní a lepší příprava učitelů a vyšší kvalita vzdělávání",
+   "zneni": "Místo demotivační platové tabulky připravíme a zavedeme kariérní řád pro učitele i ředitele, aby byl jasný profesní rozvoj a ohodnocení učitelů odpovídalo jejich kvalitě na základě objektivně měřitelných kritérií."
+  },
+  "9.5": {
+   "nadpis": null,
+   "zneni": "Provedeme zásadní revizi a zrušíme neefektivní prvky současného inkluzivního vzdělávání, aby vzdělávání znevýhodněných žáků bylo v nejlepším zájmu žáka a zároveň nešlo na úkor ostatních. Podpoříme kapacity speciálních škol a speciálních tříd a posílíme kompetence ředitelů škol tak, abymohli lépe ochránit nejlepší zájem dítěte i zajistit bezpečné prostředí na školách."
+  },
+  "9.6": {
+   "nadpis": null,
+   "zneni": "Změníme systém přijímacího řízení na střední školy tak, aby si rodiče a žáci vybírali konkrétní školu až se znalostí výsledků státní části přijímací zkoušky."
+  },
+  "9.7": {
+   "nadpis": null,
+   "zneni": "Podpoříme skutečné využívání prvků duálního vzdělávání, které kombinuje teoretickou výuku ve školách a praxi ve firmách, stejně jako kvalitu učňovského školství včetně propagace řemesel směrem k žákům i jejich rodičům."
+  },
+  "9.8": {
+   "nadpis": "Dostupné a kvalitní vysoké školy",
+   "zneni": "Připravíme zákon o zajištění kvality veřejných vysokých škol tak, aby došlo ke změně postavení a fungování Národního akreditačního úřadu a plnění mezinárodních standardů kvality."
+  },
+  "9.9": {
+   "nadpis": "Erasmus+ pro všechny",
+   "zneni": "Budeme prosazovat navýšení kapacit programu Erasmus+, odstranění administrativních překážek a aktivní podporu všech studentů, kteří mají zájem vyjet do ciziny. Zaměříme se na zvýšenou podporu studentů ze sociálně slabších rodin, aby program nebyl pouze pro vyvolené, ale pro každého, kdo chce získat zahraniční zkušenosti."
+  },
+  "10.1": {
+   "nadpis": "Důchody",
+   "zneni": "Zastropujeme věk odchodu do důchodu na 65 letech a obnovíme spravedlivý valorizační vzorec, který zohlední růst životních nákladů rodin důchodců a polovinu růstu reálných mezd."
+  },
+  "10.2": {
+   "nadpis": "Důchody",
+   "zneni": "Zastropujeme věk odchodu do důchodu na 65 letech a obnovíme spravedlivý valorizační vzorec, který zohlední růst životních nákladů rodin důchodců a polovinu růstu reálných mezd."
+  },
+  "10.3": {
+   "nadpis": "Důchody",
+   "zneni": "Zavedeme věkové valorizace, aby důchody od 80 let rostly s věkem seniorů."
+  },
+  "10.4": {
+   "nadpis": "Rodiny s dětmi",
+   "zneni": "Zvýšíme rodičovský příspěvek na 400 000 Kč a umožníme jeho flexibilní čerpání."
+  },
+  "10.5": {
+   "nadpis": "Rodiny s dětmi",
+   "zneni": "Obnovíme přídavky na děti podle aktuální situace rodin. Obnovíme školkovné a slevu na dani pro pečujícího rodiče."
+  },
+  "10.6": {
+   "nadpis": "Sociální dávky",
+   "zneni": "Zrevidujeme „superdávku“. Změníme nevyhovující a diskriminační parametry „superdávky“, vyčleníme přídavky na děti."
+  },
+  "10.7": {
+   "nadpis": "Sociální služby",
+   "zneni": "Připravíme nový zákon o sociálních službách. … Ve spolupráci s kraji, obcemi a poskytovateli sociálních služeb navrhneme nový způsob financování, který lépe zohlední počet klientů a jejich nároky."
+  },
+  "10.8": {
+   "nadpis": "Sociální služby",
+   "zneni": "Zajistíme důstojné podmínky pro pečující osoby, zavedeme hmotné zabezpečení neformálních pečujících."
+  },
+  "10.9": {
+   "nadpis": "Práce a zaměstnanost",
+   "zneni": "Zrušíme povinné hlášení zaměstnanců do evidence zdravotního a sociálního pojištění u DPP. … Zrušíme povinné pracovnělékařské prohlídky pro brigádníky."
+  },
+  "10.10": {
+   "nadpis": "Práce a zaměstnanost",
+   "zneni": "Zpřísníme kontrolu agentur práce. … Zajistíme, aby agentury práce nezneužívaly zaměstnance k obcházení zákonů."
+  },
+  "11.1": {
+   "nadpis": "Podpora primární péče a prevence nemocí",
+   "zneni": "Proto budeme podporovat plošný rozvoj sdružených praxí praktických lékařů s cílem zajistit co nejširší dostupnost primární péče pro pacienty a kvalitní pracovní podmínky pro praktiky."
+  },
+  "11.2": {
+   "nadpis": "Podpora primární péče a prevence nemocí",
+   "zneni": "Dostupnost zubní péče posílíme navýšením počtu stomatologů poskytujících služby hrazené z veřejného zdravotního pojištění a vytvoříme síť urgentních stomatologických pohotovostí."
+  },
+  "11.3": {
+   "nadpis": "Podpora primární péče a prevence nemocí",
+   "zneni": "Ve spolupráci se zdravotními pojišťovnami zavedeme finanční bonusy pro občany, kteří se pravidelně účastní preventivních prohlídek."
+  },
+  "11.4": {
+   "nadpis": "Dostupnost a kvalita zdravotních služeb",
+   "zneni": "Zavedeme národní monitoring kapacit s využitím povinné e-žádanky a sběru čekacích dob na úrovni poskytovatelů."
+  },
+  "11.5": {
+   "nadpis": "Dostupnost a kvalita zdravotních služeb",
+   "zneni": "Implementujeme Národní onkologický plán a Národní kardiovaskulární plán, které se zaměřují na prevenci a léčbu dvou nejčastějších příčin úmrtí v České republice."
+  },
+  "11.6": {
+   "nadpis": "Dostupnost a kvalita zdravotních služeb",
+   "zneni": "Zahájíme projekt výstavby nové, supermoderní fakultní nemocnice v Praze, která nahradí stávající nevyhovující areály."
+  },
+  "11.7": {
+   "nadpis": "Dostupnost a kvalita zdravotních služeb",
+   "zneni": "Budeme dělat vše pro zajištění dostupnosti léků, včetně vytvoření robustních rezervních zásob a tvrdého postihu nedovolených reexportů."
+  },
+  "11.8": {
+   "nadpis": "Elektronizace a práce s daty",
+   "zneni": "Jednoznačnou prioritou pro nás je elektronizace zdravotnictví s cílem sdílení dat mezi poskytovateli, snížení administrativní zátěže a zajištění přístupu pacientů k vlastním zdravotním záznamům."
+  },
+  "11.9": {
+   "nadpis": "Důraz na efektivitu a finanční stabilitu",
+   "zneni": "Reformujeme systém veřejného zdravotního pojištění tak, aby mezi zdravotními pojišťovnami vzniklo skutečné konkurenční prostředí."
+  },
+  "11.10": {
+   "nadpis": "Podpora duševního zdraví",
+   "zneni": "Obnovíme státem řízený proces reformy péče o duševní zdraví s cílem zvýšení dostupnosti a kvality služeb u všech cílových skupin, včetně dětí a adolescentů."
+  },
+  "12.1": {
+   "nadpis": null,
+   "zneni": "Přijmeme soubor opatření ke zvýšení konkurenceschopnosti a potravinové soběstačnosti České republiky, zejména v hlavních polních plodinách, zelenině, trvalých kulturách (ovoce, chmel, víno) a ve výrobcích živočišné produkce – s důrazem na produkci domácích potravin, nikoli pouze vývoz komodit."
+  },
+  "12.2": {
+   "nadpis": null,
+   "zneni": "Zajistíme transparentnost v potravinovém řetězci – prosadíme na úrovni EU i doma dosledovatelnost původu u všech kategorií potravin a přehledné zveřejňování marží. Pro tyto účely zřídíme funkci potravinového ombudsmana v rámci stávajících kapacit státní správy bez vytváření nových úřadů a bez zvýšení nákladů na byrokracii."
+  },
+  "12.3": {
+   "nadpis": null,
+   "zneni": "Budeme nekompromisně bránit český trh před levnými a nekvalitními dovozy a prosazovat spravedlivé podmínky pro naše spotřebitele, zemědělce a potravináře v rámci Evropské unie pro období let 2028–2034."
+  },
+  "12.4": {
+   "nadpis": null,
+   "zneni": "Připravíme zákon o předkupním právu na zemědělskou půdu pro aktivní zemědělce, podpoříme moderní formy hospodaření prostřednictvím precizního zemědělství, rozvoj závlahových systémů a adaptačních opatření, zajistíme lepší hospodaření s vodou a půdní úrodností."
+  },
+  "12.5": {
+   "nadpis": null,
+   "zneni": "Provedeme revizi dotačních titulů a budoucího nastavení Společné zemědělské politiky s cílem přesměrovat podporu na aktivní zemědělskou produkci a efektivní využití prostředků pro posílení konkurenceschopnosti a soběstačnosti."
+  },
+  "12.6": {
+   "nadpis": null,
+   "zneni": "Zrušíme současné vymezení erozních oblastí, které jsou nepřesné, jdou nad rámec přístupu v EU a zbytečně administrativně zatěžují zemědělce i stát."
+  },
+  "12.7": {
+   "nadpis": null,
+   "zneni": "Zvýšíme tresty za týrání zvířat, policie a další státní orgány budou vybaveny kompetencemi tak, aby mohly nekompromisně postupovat vůči nelegálním množírnám zvířat."
+  },
+  "13.1": {
+   "nadpis": null,
+   "zneni": "Green Deal je v současné podobě neudržitelný, proto budeme prosazovat jeho zásadní revizi."
+  },
+  "13.2": {
+   "nadpis": null,
+   "zneni": "Zákaz prodeje a výroby aut se spalovacím motorem od roku 2035 je nepřijatelný."
+  },
+  "13.3": {
+   "nadpis": "Energetika a životní prostředí",
+   "zneni": "Nebudeme přijímat neuvážené a ekonomicky zatěžující kroky rychlé dekarbonizace, jako je zavádění povinné instalace fotovoltaiky na rodinné domy, zákazy plynových kotlů atp."
+  },
+  "13.4": {
+   "nadpis": "Vodní hospodářství",
+   "zneni": "Urychlíme výstavbu strategických vodních nádrží (Nové Heřminovy, Vlachovice a Skalička)."
+  },
+  "13.5": {
+   "nadpis": "Vodní hospodářství",
+   "zneni": "Zrychlíme výstavbu kanalizací a čistíren ve stovkách obcí."
+  },
+  "13.6": {
+   "nadpis": "Ochrana půdy",
+   "zneni": "Zásadně zrevidujeme stávající erozní vyhlášku, která v současné podobě znehodnocuje půdu a svazuje hospodaření."
+  },
+  "13.7": {
+   "nadpis": "Odpady a oběhové hospodářství",
+   "zneni": "Systém zálohování PET lahví a plechovek bude zaveden jen při prokázání jednoznačného ekologického přínosu, a bude-li zajištěno, že nenaruší funkční obecní systémy třídění odpadů."
+  },
+  "13.8": {
+   "nadpis": "Odpady a oběhové hospodářství",
+   "zneni": "Podpoříme rozvoj zařízení pro energetické využití odpadu (ZEVO), která snižují objem skládkovaného odpadu a současně s vysokou účinností produkují teplo a elektrickou energii."
+  },
+  "14.1": {
+   "nadpis": "Důstojné platy pracovníků v kultuře",
+   "zneni": "Prosadíme výrazné zvýšení platů pracovníků v kultuře, kteří dlouhodobě patří k nejhůře odměňovaným profesím ve veřejném sektoru."
+  },
+  "14.2": {
+   "nadpis": "Kulturní památky",
+   "zneni": "Připravíme víceletý finanční plán na podporu kultury, z něhož budeme financovat ochranu a obnovu památek, výstavbu nových kulturních zařízení a rozšiřování i zkvalitňování stávajících příspěvkových organizací."
+  },
+  "14.3": {
+   "nadpis": "Kulturní památky",
+   "zneni": "Dokončíme rekonstrukci Nové scény Národního divadla v Praze. Podpoříme výstavbu budovy Vltavské filharmonie v Praze. Podpoříme například rekonstrukci Invalidovny Národního památkového ústavu, výstavbu nového depozitáře a výstavních prostor Národní galerie Praha – Jinonice, vybudování nového depozitáře Národní knihovny České republiky, rekonstrukci a obnovu areálu Ústředí lidové umělecké výroby a dokončení Janáčkova kulturního centra v Brně."
+  },
+  "14.4": {
+   "nadpis": "Veřejnoprávní média",
+   "zneni": "Zrušíme poplatky za veřejnoprávní média, čímž snížíme zátěž pro občany a firmy."
+  },
+  "14.5": {
+   "nadpis": "Veřejnoprávní média",
+   "zneni": "Zajistíme transparentní kontrolu hospodaření České televize a Českého rozhlasu prostřednictvím NKÚ."
+  },
+  "14.6": {
+   "nadpis": "Dostupná kultura pro všechny",
+   "zneni": "Pro mládež, seniory a hendikepované občany zajistíme vstup do státních muzeí a galerií zdarma."
+  },
+  "15.1": {
+   "nadpis": "Stavební právo a bydlení",
+   "zneni": "Připravíme nový stavební zákon, který přinese zjednodušení a zrychlení územního plánování i povolovacích řízení, přičemž stavební úřad navíc nebude nahrazovat povinnosti stavebníka a projektanta. Zákonem stanovíme bydlení jako veřejný zájem."
+  },
+  "15.2": {
+   "nadpis": "Stavební právo a bydlení",
+   "zneni": "V návaznosti na nový stavební zákon zajistíme efektivní digitalizaci stavebního řízení, založenou na modulovém řešení. Zabezpečíme kvalitní personální řízení a dostatečnou metodickou podporu uživatelům včetně adekvátního pilotního ověření celého projektu."
+  },
+  "15.3": {
+   "nadpis": "Stavební právo a bydlení",
+   "zneni": "V návaznosti na zrychlení výstavby a aktuální výši úrokové sazby hypoték zajistíme státní podporu na úroky z hypotéky při pořízení prvního bytu pro mladé rodiny pečující o dítě do 6 let a pro klíčové profese."
+  },
+  "15.4": {
+   "nadpis": "Stavební právo a bydlení",
+   "zneni": "Připravíme úpravu legislativy družstevního bydlení pro zefektivnění jejího fungování, zavedeme státní garance pro družstva pro usnadnění výstavby a vytvoříme investiční pobídky a daňové úlevy pro dlouhodobé investory do dostupného nájemního a družstevního bydlení."
+  },
+  "15.5": {
+   "nadpis": "Stavební právo a bydlení",
+   "zneni": "Podpoříme výstavbu kolejí pro studenty prostřednictvím modelů postavených na spolupráci privátního sektoru, státu, univerzit a měst."
+  },
+  "15.6": {
+   "nadpis": "Regionální rozvoj a EU fondy",
+   "zneni": "Dokončíme přípravu na čerpání fondů pro období 2028+ tak, aby byla podporována témata, která budou odrážet skutečné potřeby nejen státu, ale i regionů, měst a obcí."
+  },
+  "15.7": {
+   "nadpis": "Regionální rozvoj a EU fondy",
+   "zneni": "Připravíme zákon dlouhodobě podporující skutečnou transformaci uhelných regionů včetně zajištění adekvátních finančních prostředků."
+  },
+  "16.1": {
+   "nadpis": "Podpora pohybu a zdravého životního stylu",
+   "zneni": "Zlepšíme dostupnost veřejných sportovišť a vytvoříme síť nízkoprahových hřišť, která umožní pravidelný pohyb všem – i těm, kteří nejsou organizováni ve sportovních klubech nebo mají omezené finanční možnosti."
+  },
+  "16.2": {
+   "nadpis": "Moderní sportovní infrastruktura",
+   "zneni": "Výrazně navýšíme investice do obnovy a výstavby sportovních zařízení s důrazem na multifunkční a bezbariérové prostory přístupné všem občanům a na rozvoj školské multifunkční sportovní infrastruktury."
+  },
+  "16.3": {
+   "nadpis": "Děti a mládež",
+   "zneni": "Podpoříme pravidelný pohyb již od mateřských škol, a to skrze kvalifikované trenéry a projekty „Trenéři do školek“ a „Trenéři do škol“."
+  },
+  "16.4": {
+   "nadpis": "Změna legislativy",
+   "zneni": "Přijmeme Národní strategii koncepce sportu a pohybových aktivit pro období 2026– 2030, která stanoví pevný rámec pro rozvoj a podporu sportu a pohybu v České republice."
+  },
+  "16.5": {
+   "nadpis": "Změna legislativy",
+   "zneni": "Připravíme nový komplexní zákon o sportu, který vytvoří potřebný rámec pro vnímání podpory sportu z veřejných rozpočtů jakožto veřejné služby a který umožní řešit relevantní problematiku koncentrovaně a efektivně z jednoho místa."
+  },
+  "16.6": {
+   "nadpis": "Změna legislativy",
+   "zneni": "Provedeme revizi činnosti Národní sportovní agentury s cílem definovat další směřování této instituce s důrazem na zajištění spravedlivého, koncepčního a zejména maximálně transparentního financování sportu."
+  },
+  "17.1": {
+   "nadpis": "Férové financování a hodnocení výzkumu",
+   "zneni": "Významně navýšíme výdaje na vědu, výzkum a inovace, protože právě ony představují klíčový motor hospodářského růstu a konkurenceschopnosti země."
+  },
+  "17.2": {
+   "nadpis": "Férové financování a hodnocení výzkumu",
+   "zneni": "Současně se provede revize systému hodnocení výzkumu M2017+ tak, aby zohlednila potřeby jak akademických a vědeckých organizací, tak výzkumu navázaného na průmyslový sektor."
+  },
+  "17.3": {
+   "nadpis": "Motivace podnikatelů k výdajům na výzkum",
+   "zneni": "Zatraktivníme daňové odpočty na výzkum a vývoj."
+  },
+  "17.4": {
+   "nadpis": "Efektivní řízení a strategický rozvoj",
+   "zneni": "Posílíme pozici Rady vlády pro vědu, výzkum a inovace, která bude opět pod přímým vedením předsedy vlády nebo jím určeného vicepremiéra. Funkci ministra pro vědu zrušíme."
+  },
+  "17.5": {
+   "nadpis": "Podpora talentů",
+   "zneni": "Usnadníme příchod doktorandů, postdoktorandů a mladých vědců odstraněním administrativních bariér, zrychleným uznáním jejich kvalifikace a vytvořením motivujících podmínek pro práci v českých výzkumných institucích."
+  },
+  "18.1": {
+   "nadpis": "Debyrokratizace",
+   "zneni": "Zavedeme a důsledně naplníme princip „jednou a dost“ – co stát jednou má, nevyžaduje znovu."
+  },
+  "18.2": {
+   "nadpis": "Debyrokratizace",
+   "zneni": "Dokončíme implementaci práva na digitální služby tak, aby většinu životních situací bylo možné vyřídit plně on-line."
+  },
+  "18.3": {
+   "nadpis": "Jednotná digitální brána a uživatelská zkušenost",
+   "zneni": "Zpřístupníme státní služby přes jednotné a srozumitelné rozhraní (web i mobil), se sdíleným přihlášením, průvodci životními situacemi a maximální mírou automatizace."
+  },
+  "18.4": {
+   "nadpis": "Data a architektura státu",
+   "zneni": "Vytvoříme propojený datový ekosystém s povinnými otevřenými rozhraními a katalogem služeb a dat."
+  },
+  "18.5": {
+   "nadpis": "Umělá inteligence a automatizace",
+   "zneni": "Nastavíme bezpečné a etické využití AI ve státní správě – od interních asistentů pro úředníky přes automatizaci rutinních úkonů až po chytré proaktivní služby."
+  },
+  "18.6": {
+   "nadpis": "Otevřený stát a partnerství",
+   "zneni": "Zavedeme transparentní rámec spolupráce veřejného a soukromého sektoru a budeme důsledně bránit vendor lock-inu. … Provedeme audit státních IT organizací a odstraníme nesystémové duplicity."
+  }
+ }
+}

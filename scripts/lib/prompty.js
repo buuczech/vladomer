@@ -48,16 +48,32 @@ export function nactiMetodiku() {
     .replace(/^\uFEFF/, "").replace(/\r\n/g, "\n").replace(/\s+$/, "");
 }
 
+/* Doslovné znění slibu z programového prohlášení (scripts/nastaveni/
+   zneni-slibu.json, převedl scripts/dev/zneni-slibu.py). Text bodu v src/
+   data.js je zkratka a model podle zkratky hodnotí jiný slib, než vláda dala:
+   15.2 „Digitalizace stavebního řízení“ slibuje digitalizaci „založenou na
+   modulovém řešení … včetně adekvátního pilotního ověření“, a ve čtyřech
+   měřeních z 21.–22. 10. 2026 model uznal starý Portál stavebníka jako část
+   slibu. Podnadpis prohlášení je kontext: příspěvek na bydlení (3.2) stojí
+   pod „…podmínky pro policisty a hasiče“. */
+const ZNENI = JSON.parse(readFileSync(new URL("../nastaveni/zneni-slibu.json", import.meta.url), "utf8")).body;
+export const zneniSlibu = (id) => ZNENI[id] || null;
+const citace = (id) => {
+  const z = ZNENI[id];
+  return z ? `Znění v programovém prohlášení${z.nadpis ? ` (podnadpis „${z.nadpis}“)` : ""}: „${z.zneni}“` : "";
+};
+
 /* Znění slibu i s kapitolou a oddílem programového prohlášení. Text bodu je
    zkrácený a bez nich nejednoznačný: „Příspěvek na bydlení až 6 000 Kč/měsíc
    dle regionu“ (3.2) je z oddílu o platech bezpečnostních složek, tedy pro
    policisty — v měření 21. 10. 2026 ho hodnotitel i kontrola bez oddílu
    „splnili“ superdávkou, přesně podle příkladu z pravidla M10.
-   @returns { id → „text (kapitola „…“, oddíl „…“)“ } */
+   @returns { id → „text (kapitola „…“, oddíl „…“). Znění v programovém prohlášení: „…““ } */
 export function slibySKontextem(kapitoly) {
   const out = {};
   for (const c of kapitoly) for (const g of c.groups) for (const i of g.items) {
-    out[i.id] = `${i.cs} (kapitola „${c.title.cs}“${g.title && g.title.cs ? `, oddíl „${g.title.cs}“` : ""})`;
+    const z = citace(i.id);
+    out[i.id] = `${i.cs} (kapitola „${c.title.cs}“${g.title && g.title.cs ? `, oddíl „${g.title.cs}“` : ""})${z ? `. ${z}` : ""}`;
   }
   return out;
 }
@@ -87,7 +103,8 @@ export function radkyBodu(items, prevEvals, snapshots) {
         ? `předchozí stav: ${STATUS_CS[p.status] || p.status}; předchozí komentář: "${truncate((p.comment && p.comment.cs) || "", NAST.delka_predchoziho_komentare)}"`
         : "bez předchozího hodnocení";
       const hist = historyFor(it.id, snapshots);
-      return `- [${it.id}] ${it.cs}${ODDIL[it.id] ? ` (oddíl „${ODDIL[it.id]}“)` : ""}\n   ${prev}${hist ? `; historie stavu: ${hist}` : ""}`;
+      const z = citace(it.id);
+      return `- [${it.id}] ${it.cs}${ODDIL[it.id] ? ` (oddíl „${ODDIL[it.id]}“)` : ""}${z ? `\n   ${z}` : ""}\n   ${prev}${hist ? `; historie stavu: ${hist}` : ""}`;
     })
     .join("\n");
 }

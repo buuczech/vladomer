@@ -46,7 +46,7 @@ PLÁN LEGISLATIVNÍCH PRACÍ: Níže jsou úkoly z Plánu legislativních prací
 
 {{PLAN_LEGISLATIVY}}
 
-Body (vrať hodnocení pro každé ID). U bodu je v závorce oddíl programového prohlášení, ze kterého pochází — slib čti v jeho kontextu, jinak snadno přiřadíš krok, který se slibem jen sdílí téma (M10):
+Body (vrať hodnocení pro každé ID). U bodu je v závorce oddíl programového prohlášení a pod ním doslovné znění slibu. Hodnoť podle znění — název bodu je jen zkratka; krok, který se slibem jen sdílí téma, se nepočítá (M10):
 {{SEZNAM_BODU}}
 
 Odpověz POUZE platným JSON polem, začni znakem [ a skonči znakem ]. Žádný úvodní text, žádné markdown bloky:
