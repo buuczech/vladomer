@@ -1,41 +1,53 @@
 {
-  "generatedAt": "2026-10-23T12:55:51.458Z",
+  "generatedAt": "2026-10-30T14:23:58.530Z",
   "items": [
     {
       "title": {
-        "cs": "Sněmovna schválila rozpočet na příští rok se schodkem 386 miliard korun",
-        "en": "Parliament approved next year's budget with deficit of 386 billion crowns"
+        "cs": "Hlasování o zrušení koncesionářských poplatků ČT a ČRo ve čtyři ráno",
+        "en": "Vote on abolishing TV and radio license fees held at 4:36 AM"
       },
       "summary": {
-        "cs": "Poslanci vládní koalice hlasováním schválili základní parametry státního rozpočtu na rok 2027, který počítá se schodkem 386 miliard korun, což je druhý nejvyšší nominální deficit v historii.",
-        "en": "Government coalition MPs approved the basic budget parameters for 2027 with a deficit of 386 billion crowns, the second highest nominal deficit ever."
+        "cs": "Koalice ANO, SPD a Motoristů prosadila noční hlasování o návrhu zrušit poplatky za Českou televizi a Český rozhlas v sobotu 24. října ve 4:36 ráno, což vyvolalo masivní protesty opozice i veřejnosti.",
+        "en": "Coalition of ANO, SPD and Motoristé pushed through a night-time vote on abolishing TV and radio fees Saturday October 24 at 4:36 AM, sparking massive opposition and public protests."
       },
-      "url": "https://www.echo24.cz/a/HpuqJ/zpravy-domaci-snemovna-schvalia-zakladni-udaje-rozpoctu-na-pristi-rok-prvni-cteni",
-      "date": "2026-10-22"
+      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/opozice-hovori-o-poruseni-vsech-principu-a-utoku-na-verejnopravni-media-378971",
+      "date": "2026-10-24"
     },
     {
       "title": {
-        "cs": "Prezident Pavel uvedl, že rozpočet nebude vetovat",
-        "en": "President Pavel said he will not veto the budget"
+        "cs": "Ministr kultury Klempíř odvolal exředitele ČT Dvořáka z vedení fondu audiovize",
+        "en": "Culture Minister Klempíř removes former ČT director Dvořák from audiovisual fund leadership"
       },
       "summary": {
-        "cs": "Prezident Petr Pavel v Berlíně oznámil, že ačkoliv považuje rozpočet se schodkem 386 miliard za nedobrý a rizikový, nechystá se ho vetovat.",
-        "en": "President Pavel said he considers the 386-billion deficit budget bad and risky but does not plan to veto it."
+        "cs": "Ministr kultury Oto Klempíř v úterý odvolal Petra Dvořáka z čela představenstva Státního fondu audiovize kvůli neshodám ohledně hospodaření fondu, což vyvolalo kritiku jako osobní čistku.",
+        "en": "Culture Minister Oto Klempíř removed Petr Dvořák from the chair of the State Audiovisual Fund board on Tuesday due to disagreements over fund management, drawing criticism as a personal purge."
       },
-      "url": "https://www.irozhlas.cz/zpravy-domov/prezident-pavel-oznacil-navrh-statniho-rozpoctu-za-nedobry-ale-uvedl-ze-se_2610212205_cen",
-      "date": "2026-10-21"
+      "url": "https://www.forum24.cz/cistka-destrukce-kultury-agent-se-nezapre-politici-ostre-reaguji-na-klempirovo-odvolani-dvoraka",
+      "date": "2026-10-29"
     },
     {
       "title": {
-        "cs": "Desítky lidí v Praze protestovaly proti zrušení poplatků za veřejnoprávní média",
-        "en": "Tens of people protested in Prague against the abolition of public media fees."
+        "cs": "Poslanec Pražák opustil hnutí ANO a bude v sněmovně nezařazený",
+        "en": "MP Pražák leaves ANO party and becomes unaffiliated in parliament"
       },
       "summary": {
-        "cs": "Na Malostranském náměstí se sešli demonstranti, kteří kritizují plán vlády na zrušení televizních a rozhlasových poplatků.",
-        "en": "Protesters gathered in Prague to oppose the government's plan to abolish television and radio fees for public broadcasters."
+        "cs": "Poslanec David Pražák z Libereckého kraje ukončil členství v hnutí ANO po jedenácti letech a zůstane ve Sněmovně jako nezařazený poslanec, čímž spustil vlnu odchodů z ANO v regionech.",
+        "en": "MP David Pražák from Liberec region ended his eleven-year ANO membership and remains in parliament as unaffiliated, triggering a wave of departures from ANO in the regions."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/desitky-lidi-v-praze-protestovaly-proti-zameru-zrusit-poplatky-za-ct-a-cro/2892088",
-      "date": "2026-10-23"
+      "url": "https://www.denik.cz/cesko/poslanec-david-prazak-konci-v-ano-bude-nezarazenym-poslancem/?amp=&amp=&amp=",
+      "date": "2026-10-27"
+    },
+    {
+      "title": {
+        "cs": "Sněmovna schválila rozpočet na rok 2027 se schodkem 386 miliard korun",
+        "en": "Parliament approves 2027 budget with deficit of 386 billion crowns"
+      },
+      "summary": {
+        "cs": "Poslanci hlasy vládní koalice schválili v prvním čtení základní parametry návrhu státního rozpočtu na rok 2027 se schodkem 386 miliard korun, který vzroste oproti letošnímu roku.",
+        "en": "Lawmakers voted to approve the first reading of the 2027 budget draft with a deficit of 386 billion crowns, increasing from this year's level."
+      },
+      "url": "https://www.ceskenoviny.cz/zpravy/2890454",
+      "date": "2026-10-24"
     }
   ]
 }
