@@ -20,7 +20,7 @@ import { join, dirname } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { rozdilSlov, metrika, esc } from "../lib/report.js";
-import { srovnani } from "../lib/srovnani.js";
+import { srovnani, navrhyZRozhodnuti } from "../lib/srovnani.js";
 
 const KOREN = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 let chyb = 0;
@@ -42,12 +42,15 @@ console.log("\nSrovnání generálky s main (lib/srovnani.js)");
   const main = { lastUpdated: "2026-10-30T09:00:00Z", evals: { "1.1": { status: "fulfilled" }, "1.2": { status: "broken" }, "1.3": { status: "partial" }, "1.4": { status: "in_progress" } } };
   const dev2 = { lastUpdated: "2026-11-01T06:00:00Z", evals: { "1.1": { status: "fulfilled" }, "1.2": { status: "declared" }, "1.3": { status: "in_progress" }, "1.4": { status: "in_progress", unverifiable: true } } };
   const sady = [{ nazev: "zlatá sada", body: [{ id: "1.1", stav: "fulfilled" }, { id: "1.2", stav: "declared" }, { id: "1.3", stav: "fulfilled" }] }];
-  const s = srovnani({ dev2, main, polozky, sady });
-  over(s.souhrn.main.procent === 25 && Math.abs(s.souhrn.dev2.procent - 100 / 3) < 1e-9, "metrika obou stran podle pravidla pěti míst (neměřitelné mimo jmenovatel)", s.souhrn);
-  over(s.souhrn.sady["zlatá sada"].main === 1 && s.souhrn.sady["zlatá sada"].dev2 === 2, "shoda se sadou: main 1/3, DEV2 2/3", s.souhrn.sady);
-  over(s.souhrn.lisi === 3 && s.souhrn.pravdu.dev2 === 1 && s.souhrn.pravdu.nikdo === 1 && s.souhrn.pravdu.main === 0, "jiný stav u 3 bodů; 1.2 pravdu má DEV2, 1.3 ani jeden, 1.4 mimo sady", s.souhrn.pravdu);
-  over(/\*\*1\.2\*\* b: main porušeno → DEV2 jen deklarováno — pravdu má DEV2/.test(s.md) && /\*\*1\.4\*\* d: main probíhá → DEV2 neměřitelné\n/.test(s.md), "seznam bodů s jiným stavem", s.md);
-  over(s.html.includes("data k 2026-10-30") && s.text.includes("Jiný stav u 3 bodů"), "krátké shrnutí do e-mailu");
+  // Návrh hodnotitele k 1.3, o kterém vlastník zatím nerozhodl: web DEV2 nese minulý záznam.
+  const navrhy = navrhyZRozhodnuti({ body: { "1.3": { vlastnik: { typ: "oprava-bez-udalosti", navrh: { zaznam: { status: "fulfilled" } } } }, "1.1": { vlastnik: null } } });
+  over(Object.keys(navrhy).join() === "1.3", "návrhy k rozhodnutí z rozhodnuti.json", navrhy);
+  const s = srovnani({ dev2, main, polozky, sady, navrhy });
+  over(s.souhrn.main.procent === 25 && Math.abs(s.souhrn.dev2.procent - 100 / 3) < 1e-9 && Math.abs(s.souhrn.navrh.procent - 200 / 3) < 1e-9, "metrika main, webu DEV2 i návrhu podle pravidla pěti míst (neměřitelné mimo jmenovatel)", s.souhrn);
+  over(s.souhrn.sady["zlatá sada"].main === 1 && s.souhrn.sady["zlatá sada"].dev2 === 2 && s.souhrn.sady["zlatá sada"].navrh === 3, "shoda se sadou: main 1/3, web DEV2 2/3, návrh 3/3", s.souhrn.sady);
+  over(s.souhrn.lisi === 3 && s.souhrn.pravdu.navrh === 2 && s.souhrn.pravdu.nikdo === 0 && s.souhrn.pravdu.main === 0, "návrh se liší u 3 bodů; 1.2 a 1.3 pravdu má DEV2, 1.4 mimo sady", s.souhrn.pravdu);
+  over(/\*\*1\.2\*\* b: main porušeno → DEV2 jen deklarováno — pravdu má DEV2/.test(s.md) && /\*\*1\.3\*\* c: main částečně splněno → DEV2 splněno \(na webu DEV2 zatím minulý záznam\) — pravdu má DEV2/.test(s.md) && /\*\*1\.4\*\* d: main probíhá → DEV2 neměřitelné\n/.test(s.md), "seznam bodů s jiným stavem, nepřijatý návrh označený", s.md);
+  over(s.html.includes("data k 2026-10-30") && s.text.includes("Návrh DEV2 má jiný stav u 3 bodů") && s.text.includes("na webu DEV2 bez tvých rozhodnutí"), "krátké shrnutí do e-mailu");
 }
 
 console.log("\nReport z fixtury (scripts/report.js --fixture)");

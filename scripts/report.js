@@ -27,7 +27,7 @@ import { podkladyReportu, htmlOddily, proAI, popisPR, esc, odkazyBodu, NAZVY } f
 import { odkazRozhodnuti, VETEV_BEHU } from "./lib/navrhy.js";
 import { chrome } from "./lib/instagram.js";
 import { posliEmail } from "./lib/email.js";
-import { srovnani, nactiSady } from "./lib/srovnani.js";
+import { srovnani, nactiSady, navrhyZRozhodnuti } from "./lib/srovnani.js";
 
 const KOREN = join(dirname(fileURLToPath(import.meta.url)), "..");
 const arg = (j, v) => { const i = process.argv.indexOf(`--${j}`); return i >= 0 ? process.argv[i + 1] : v; };
@@ -145,7 +145,7 @@ if (!ma("bez-pdf")) {
 /* Generálka: srovnání s tím, co teď ukazuje main (lib/srovnani.js) —
    vlastník sloučí DEV2 až po dvou generálkách, každé srovnané s main. */
 const cestaMain = arg("srovnani-main", null);
-const srov = cestaMain && existsSync(cestaMain) ? srovnani({ dev2: po, main: cist(cestaMain), polozky: ALL_ITEMS, sady: nactiSady() }) : null;
+const srov = cestaMain && existsSync(cestaMain) ? srovnani({ dev2: po, main: cist(cestaMain), polozky: ALL_ITEMS, sady: nactiSady(), navrhy: navrhyZRozhodnuti(rozhodnuti) }) : null;
 if (cestaMain && !srov) console.log(`srovnání s main: ${cestaMain} chybí — e-mail bude bez něj`);
 if (srov) writeFileSync(join(VYSTUP, "srovnani-s-main.md"), srov.md);
 
