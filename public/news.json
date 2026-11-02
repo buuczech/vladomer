@@ -1,41 +1,53 @@
 {
-  "generatedAt": "2026-10-16T14:47:37.677Z",
+  "generatedAt": "2026-11-02T08:52:16.007Z",
   "items": [
     {
       "title": {
-        "cs": "Sněmovna přehlasovala Pavlovo veto k zákonu o státních zaměstnancích",
-        "en": "Parliament overrode presidential veto on state employees law"
+        "cs": "Babiš: opozice chce využít 17. listopad, poplatky nestáhne",
+        "en": "Babiš says opposition will exploit Nov 17, won't withdraw licence fee bill"
       },
       "summary": {
-        "cs": "Koalice ANO, SPD a Motoristů hlasy 104 poslanců znovu schválila kontroverzní zákon usnadňující výměnu státních úředníků navzdory prezidentově vetu.",
-        "en": "The ANO, SPD and Motoristé coalition with votes of 104 deputies reapproved a controversial law easing state employee turnover despite the presidential veto."
+        "cs": "Premiér Babiš tvrdí, že opozice chce zneužít téma poplatků k pádu vlády, a návrh na zrušení poplatků ČT a ČRo koalice nestáhne.",
+        "en": "PM Babiš claims the opposition wants to exploit the licence-fee issue to topple the government and says the coalition will not withdraw the bill abolishing ČT/ČRo fees."
       },
-      "url": "https://www.echo24.cz/a/H2AVw/zpravy-domaci-babis-chce-skrtnout-desetinu-urednickych-mist-novy-zakon-mu-v-tom-pomuze",
-      "date": "2026-10-16"
+      "url": "https://denik.cz/cesko/andrej-babis-koncesionarske-poplatky-hlasovani-opozice/?amp=&amp=&amp=",
+      "date": "2026-10-30"
     },
     {
       "title": {
-        "cs": "Vláda schválila státní kulturní politiku pro období 2026–2029",
-        "en": "Government approved state cultural policy for 2026–2029"
+        "cs": "Sněmovní výbor začal řešit zrušení poplatků za ČT a ČRo",
+        "en": "Committee begins work on abolishing public broadcaster fees"
       },
       "summary": {
-        "cs": "Ministr kultury Klempíř prosadil vládou Státní kulturní politiku, která se dočkala kritiky opozice i části kulturní obce za svůj obsah.",
-        "en": "Culture minister Klempíř pushed through state cultural policy document that faced criticism from opposition and parts of cultural sector."
+        "cs": "Mediální výbor Sněmovny zahájil projednávání zrušení poplatků, ministr kultury Klempíř a šéf Motoristů Macinka odmítli ústupky.",
+        "en": "The Chamber's media committee began debating the abolition of licence fees, with Culture Minister Klempíř and Motorists leader Macinka rejecting any retreat."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/vlada-schvalila-navrh-kritizovane-statni-kulturni-politiky/2882438",
-      "date": "2026-10-07"
+      "url": "https://zpravy.aktualne.cz/domaci/zadne-preslapovani-poslanci-uz-zacali-resit-ruseni-poplatku-prisel-i-macinka/r~aaa2918ae180011c7d2e4ff4972c9781/",
+      "date": "2026-10-29"
     },
     {
       "title": {
-        "cs": "Koalice prosadila omezení pravomocí prezidenta při obsazování diplomatických misí",
-        "en": "Coalition imposed restrictions on presidential powers for diplomatic missions"
+        "cs": "Vláda má v pondělí schvalovat rozpočet Fondu audiovize",
+        "en": "Government to approve State Audiovisual Fund budget on Monday"
       },
       "summary": {
-        "cs": "Sněmovna hlasy 104 vládních poslanců přehlasovala i veto prezidenta na zrušení jeho pravomoci jmenovat vedoucí stálých misí u mezinárodních organizací.",
-        "en": "Parliament with 104 coalition votes overrode presidential veto on removing his authority to appoint heads of permanent missions to international organizations."
+        "cs": "Vláda má 2. listopadu schvalovat rozpočet Státního fondu audiovize na rok 2027, což premiér Babiš slíbil po sporu s ministrem kultury o škrty.",
+        "en": "The cabinet is due to approve the State Audiovisual Fund's 2027 budget on 2 November, as Babiš promised after a dispute over proposed cuts."
       },
-      "url": "https://www.irozhlas.cz/zpravy-domov/pavlovo-veto-padlo-poslanci-schvalili-zruseni-pravomoci-prezidenta-i-pravidla_2610141421_ako",
-      "date": "2026-10-16"
+      "url": "https://www.ceskenoviny.cz/zpravy/vlada-bude-v-pondeli-schvalovat-rozpocet-fondu-audiovize-babis-schvaleni-slibil/2894835",
+      "date": "2026-10-31"
+    },
+    {
+      "title": {
+        "cs": "Zrušení poplatků za ČT a ČRo: co se změní a jaký je postup",
+        "en": "Abolishing ČT/ČRo fees: what changes and next legislative steps"
+      },
+      "summary": {
+        "cs": "Přehled o návrhu, který prošel prvním čtením a míří do druhého čtení, a o tom, že do účinnosti zákona se poplatky dál platí.",
+        "en": "An explainer on the bill that passed first reading and heads to second reading, noting that fees remain payable until the law takes effect."
+      },
+      "url": "https://www.e15.cz/poplatky-tv-rozhlas-zruseni-vyse-2026",
+      "date": "2026-10-28"
     }
   ]
 }

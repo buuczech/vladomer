@@ -1,0 +1,95 @@
+{
+  "behy": [
+    {
+      "datum": "2026-11-02T08:57:44.520Z",
+      "rezim": "plny",
+      "kapitol": 18,
+      "celkem_usd": 9.8206,
+      "volani": 42,
+      "podle_role": {
+        "hodnoceni": {
+          "volani": 20,
+          "vstup": 2794509,
+          "vystup": 147380,
+          "cache_zapis": 0,
+          "cache_cteni": 0,
+          "hledani": 78,
+          "usd": 7.8428,
+          "modely": [
+            "claude-sonnet-5-5"
+          ]
+        },
+        "overeni": {
+          "volani": 3,
+          "vstup": 81706,
+          "vystup": 2491,
+          "cache_zapis": 0,
+          "cache_cteni": 0,
+          "hledani": 4,
+          "usd": 0.4166,
+          "modely": [
+            "claude-opus-5-5"
+          ]
+        },
+        "korektura": {
+          "volani": 18,
+          "vstup": 78481,
+          "vystup": 31928,
+          "cache_zapis": 0,
+          "cache_cteni": 0,
+          "hledani": 0,
+          "usd": 0.9525,
+          "modely": [
+            "claude-opus-5-5"
+          ]
+        },
+        "zpravy": {
+          "volani": 1,
+          "vstup": 250240,
+          "vystup": 2821,
+          "cache_zapis": 0,
+          "cache_cteni": 0,
+          "hledani": 8,
+          "usd": 0.6087,
+          "modely": [
+            "claude-sonnet-5-5"
+          ]
+        }
+      },
+      "nezname_ceny": [],
+      "pojistka_usd": 49,
+      "pojistka_zasahla": false,
+      "faktcheck": {
+        "celkem_usd": 26.7546,
+        "podle_role": {
+          "faktcheck-1": {
+            "volani": 143,
+            "vstup": 3511878,
+            "vystup": 472592,
+            "cache_zapis": 0,
+            "cache_cteni": 0,
+            "hledani": 0,
+            "usd": 11.7497,
+            "modely": [
+              "claude-opus-5-5"
+            ]
+          },
+          "faktcheck-2": {
+            "volani": 26,
+            "vstup": 3013135,
+            "vystup": 118117,
+            "cache_zapis": 0,
+            "cache_cteni": 0,
+            "hledani": 59,
+            "usd": 15.0049,
+            "modely": [
+              "claude-opus-5-5"
+            ]
+          }
+        },
+        "model": "claude-opus-5-5"
+      },
+      "celkem_s_kontrolou_usd": 36.5752
+    }
+  ]
+}
