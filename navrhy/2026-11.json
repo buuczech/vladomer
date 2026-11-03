@@ -2251,6 +2251,12 @@
       "kdo": "buuczech",
       "prikaz": "prijmout",
       "bod": "18.3"
+    },
+    {
+      "kdy": "2026-11-03T12:34:34.312Z",
+      "kdo": "buuczech",
+      "prikaz": "podrzet",
+      "bod": "18.5"
     }
   ]
 }
