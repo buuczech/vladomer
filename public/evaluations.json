@@ -3739,12 +3739,12 @@
       "overeno": "2026-11-02T08:51:05.028Z"
     },
     "18.3": {
-      "status": "in_progress",
+      "status": "declared",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Jednotná digitální brána (SDG) je mandátem EU vycházejícím z nařízení 2018/1724. Vláda v květnu 2026 schválila materiál pro implementaci, která pokračuje. Implementace je součástí Digitálního Česka 2.0 s termínem do prosince 2026. Jako první agenda (pohřebnictví) byla spuštěna v listopadu 2020, ale plná implementace všech služeb je stále v přípravě.",
-        "en": "The Single Digital Gateway (SDG) is an EU mandate under Regulation 2018/1724. The government approved implementation materials in May 2026, with implementation continuing. It is part of Digital Czechia 2.0 with a deadline of December 2026. The first agenda (funeral services) was launched in November 2020, but full implementation of all services remains in preparation."
+        "cs": "Vláda sdílené rozhraní a přihlášení potvrdila v programu a v exposé (jednotná digitální brána s jedním přihlášením, mobilní aplikací a průvodci životními situacemi). Doložitelné jsou jen související kroky: Registr zastupování, eDoklady a příprava Evropské peněženky digitální identity, jejíž první využití se čeká na začátku 2027. Nenašel jsem ale zahájenou stavbu, výzvu ani smlouvu na samotnou jednotnou bránu pro web i mobil, proto jen deklarováno. Peněženka sdílí téma, ale slib sama nenaplňuje.",
+        "en": "The government confirmed a shared interface and login in its programme and policy speech (a single gateway with one login, a mobile app and life-situation guides). Only related steps are documented: the Representation Register, eDoklady and preparation of the European Digital Identity Wallet, whose first use is expected in early 2027. I found no started construction, call or contract for the unified gateway itself (web and mobile), so it is only declared. The wallet shares the topic but does not by itself deliver the promise."
       },
       "change": {
         "cs": "beze změny",
@@ -3752,17 +3752,16 @@
       },
       "sources": [
         {
-          "url": "https://digitalnicesko.gov.cz/projekty-pred-dokoncenim",
-          "title": "Digitální Česko 2.0"
+          "url": "https://www.psp.cz/eknih/2025ps/stenprot/005schuz/bqbs/b01105101.htm",
+          "title": "PČR, PS 2025-..., 5. schůze, část 11 (13. 1. 2026)"
         },
         {
-          "url": "https://mmr.gov.cz/cs/ministerstvo/pohrebnictvi/aktuality/pohrebnictvi-jako-prvni-spustilo-jednotnou-digital",
-          "title": "Ministerstvo pro místní rozvoj ČR - Pohřebnictví jako první spustilo Jednotnou digitální bránu EU"
+          "url": "https://www.dia.gov.cz/cs/aktuality/dia-predstavuje-priority-digitalizace-na-rok-2026",
+          "title": "DIA představuje priority digitalizace na rok 2026"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-10-02T14:10:54.415Z",
-      "overeno": "2026-10-30T14:23:22.683Z"
+      "updatedAt": "2026-11-02T08:51:55.990Z"
     },
     "18.4": {
       "status": "in_progress",

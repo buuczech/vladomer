@@ -29631,6 +29631,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "18.3",
+      "date": "2026-11-03",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Vláda sdílené rozhraní a přihlášení potvrdila v programu a v exposé (jednotná digitální brána s jedním přihlášením, mobilní aplikací a průvodci životními situacemi). Doložitelné jsou jen související kroky: Registr zastupování, eDoklady a příprava Evropské peněženky digitální identity, jejíž první využití se čeká na začátku 2027. Nenašel jsem ale zahájenou stavbu, výzvu ani smlouvu na samotnou jednotnou bránu pro web i mobil, proto jen deklarováno. Peněženka sdílí téma, ale slib sama nenaplňuje.",
+      "comment_en": "The government confirmed a shared interface and login in its programme and policy speech (a single gateway with one login, a mobile app and life-situation guides). Only related steps are documented: the Representation Register, eDoklady and preparation of the European Digital Identity Wallet, whose first use is expected in early 2027. I found no started construction, call or contract for the unified gateway itself (web and mobile), so it is only declared. The wallet shares the topic but does not by itself deliver the promise.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://www.psp.cz/eknih/2025ps/stenprot/005schuz/bqbs/b01105101.htm",
+        "https://www.dia.gov.cz/cs/aktuality/dia-predstavuje-priority-digitalizace-na-rok-2026"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-02",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }
