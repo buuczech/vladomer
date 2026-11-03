@@ -29518,6 +29518,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "12.4",
+      "date": "2026-11-03",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Úkol je ve Výhledu legislativních prací (MZe, předložit vládě v 1. čtvrtletí 2027, platnost od 2028), což je formální záměr. Vláda ale žádný návrh neschválila a ve Sněmovně žádný tisk není. Podle HN navíc ministr Šebestyán od klasického předkupního práva ustupuje, protože oň prý zemědělci nestojí, a chystá jiná opatření. Zatím jde jen o vyjádření bez formálního kroku, proto nejde o ústup. Zbytek slibu (precizní zemědělství, závlahy) tento krok nepokrývá.",
+      "comment_en": "The task is in the Legislative Outlook (Ministry of Agriculture, submission to government in Q1 2027, effective from 2028), which is a formal intention. The government has approved no bill, and there is no print in the Chamber. According to HN, Minister Šebestyán is also backing away from the classic pre-emption right, saying farmers no longer want it, and is preparing other measures. This is so far only a statement without a formal step, so it is not a retreat. The rest of the promise (precision farming, irrigation) is not covered by this step.",
+      "change_cs": "Deník HN uvedl, že ministr Šebestyán od klasického předkupního práva na půdu s největší pravděpodobností ustoupí a chystá místo něj jiná pravidla a vyšší daně.",
+      "change_en": "HN reported that Minister Šebestyán will most likely drop the classic pre-emption right on land and is preparing other rules and higher taxes instead.",
+      "sources": [
+        "https://archiv.hn.cz/c1-67952140-vlada-couva-ze-slibu-zemedelcum-misto-predkupniho-prava-prijdou-nova-pravidla-i-vyssi-dane",
+        "https://www.forum24.cz/potvrzeno-vlada-chysta-zasadni-zmenu-pravidel-pro-prodej-zemedelske-pudy-rozhodla-kdy-ji-predlozi"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-16",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno-absence, kalibrace), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

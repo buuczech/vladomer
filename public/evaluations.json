@@ -2699,34 +2699,30 @@
       "overeno": "2026-10-30T14:17:44.965Z"
     },
     "12.4": {
-      "status": "in_progress",
+      "status": "declared",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Ne, ale s pokrokem: Legislativní proces pokračuje bez dokončení. Ministr Šebestyán potvrdil, že jsou ve hře čtyři varianty zákona o předkupním právu na pronajatou zemědělskou půdu. Vláda plánuje předložit finální návrh v prvním čtvrtletí 2027, účinnost od roku 2028. Kritika opozice a odborníků se zaměřuje na to, že zákon nahrává velkým agroholdingům (zejména Agrofertu) na úkor malých vlastníků a začínajících zemědělců.",
-        "en": "No, but with progress: The legislative process continues without completion. Minister Šebestyán confirmed four variants of the pre-emption right law are under consideration. The government plans to submit the final proposal in Q1 2027, effective from 2028. Opposition and expert criticism focuses on the law favoring large agricultural holdings (especially Agrofert) at the expense of small owners and beginning farmers."
+        "cs": "Úkol je ve Výhledu legislativních prací (MZe, předložit vládě v 1. čtvrtletí 2027, platnost od 2028), což je formální záměr. Vláda ale žádný návrh neschválila a ve Sněmovně žádný tisk není. Podle HN navíc ministr Šebestyán od klasického předkupního práva ustupuje, protože oň prý zemědělci nestojí, a chystá jiná opatření. Zatím jde jen o vyjádření bez formálního kroku, proto nejde o ústup. Zbytek slibu (precizní zemědělství, závlahy) tento krok nepokrývá.",
+        "en": "The task is in the Legislative Outlook (Ministry of Agriculture, submission to government in Q1 2027, effective from 2028), which is a formal intention. The government has approved no bill, and there is no print in the Chamber. According to HN, Minister Šebestyán is also backing away from the classic pre-emption right, saying farmers no longer want it, and is preparing other measures. This is so far only a statement without a formal step, so it is not a retreat. The rest of the promise (precision farming, irrigation) is not covered by this step."
       },
       "change": {
-        "cs": "beze změny",
-        "en": "no change"
+        "cs": "Deník HN uvedl, že ministr Šebestyán od klasického předkupního práva na půdu s největší pravděpodobností ustoupí a chystá místo něj jiná pravidla a vyšší daně.",
+        "en": "HN reported that Minister Šebestyán will most likely drop the classic pre-emption right on land and is preparing other rules and higher taxes instead."
       },
       "sources": [
         {
-          "url": "https://www.irozhlas.cz/zpravy-domov/predkupni-pravo-zemedelstvi-pronajem-pudy-pacht-zahranicni-vlastnici-spekulanti_2606290620_jab",
-          "title": "Data: chystaný zákon o předkupním právu by přihrál půdu agrokoncernům. Nejvíc si jí pronajímá Agrofert"
+          "url": "https://archiv.hn.cz/c1-67952140-vlada-couva-ze-slibu-zemedelcum-misto-predkupniho-prava-prijdou-nova-pravidla-i-vyssi-dane",
+          "title": "Vláda couvá ze slibu zemědělcům. Místo předkupního práva přijdou nová pravidla i vyšší daně"
         },
         {
-          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/chystany-zakon-o-predkupnim-pravu-podle-kritiku-prihrava-agrokoncernum-376848",
-          "title": "▶ Chystaný zákon o předkupním právu podle kritiků přihrává agrokoncernům — ČT24 — Česká televize"
-        },
-        {
-          "url": "https://www.irozhlas.cz/zpravy-domov/zemedelstvi-andrej-babis-prodej-pudy-predkupni-pravo_2609022320_elev",
-          "title": "Zákon o předkupním právu nahrává velkým agrokoncernům"
+          "url": "https://www.forum24.cz/potvrzeno-vlada-chysta-zasadni-zmenu-pravidel-pro-prodej-zemedelske-pudy-rozhodla-kdy-ji-predlozi",
+          "title": "Potvrzeno, vláda chystá zásadní změnu pravidel pro..."
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-10-16T14:40:40.859Z",
-      "overeno": "2026-10-30T14:17:44.965Z"
+      "updatedAt": "2026-11-02T08:44:45.734Z",
+      "overeno": "2026-11-02T08:43:59.130Z"
     },
     "12.5": {
       "status": "in_progress",

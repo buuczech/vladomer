@@ -340,13 +340,6 @@
         "m-kolo2-strop"
       ]
     },
-    "12.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno-absence",
-        "kalibrace"
-      ]
-    },
     "12.5": {
       "akce": "podrzet",
       "duvody": [
@@ -577,6 +570,7 @@
     "10.6",
     "11.4",
     "11.8",
-    "11.9"
+    "11.9",
+    "12.4"
   ]
 }
