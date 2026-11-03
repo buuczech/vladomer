@@ -29356,6 +29356,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "10.2",
+      "date": "2026-11-03",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Návrat k valorizaci o polovinu růstu reálných mezd byl v plánu legislativy, ale vládou schválená důchodová novela (tisk 270) ho po odporu ministerstva financí vypustila. Vládní politici říkají, že se krok dostane do další novely, ale konkrétní návrh ani termín neexistují. Formálně slib opuštěn není, protože ho vláda nadále deklaruje, ale v legislativě aktuálně není. ODS oceňuje, že se vzorec nemění, a vytýká, že jde o předvolební dárek.",
+      "comment_en": "A return to valorisation at half of real wage growth was in the legislative plan. The government-approved pension amendment (print 270) dropped it after the Finance Ministry objected. Government politicians say it will go into a later amendment, but there is no concrete bill or date. The promise is not formally abandoned because the government still declares it, but it is currently absent from the legislation. ODS welcomes that the formula is unchanged and calls the plan a pre-election gift.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://www.denik.cz/ekonomika/novela-zvyseni-duchodu-vlada/",
+        "https://www.denik.cz/ekonomika/duchody-v-roce-2027-jake-zmeny-mohou-seniori-ocekavat-kdo-si-polepsi/"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }
