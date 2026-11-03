@@ -29426,6 +29426,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-vyvraceno, m-neovereno, m-kolo2-strop, m-spor), přijal vlastník. Důvod: Hodnotitel přesněji popisuje současný stav.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "10.6",
+      "date": "2026-11-03",
+      "status": "partial",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Parametry superdávky se měnily zákonem: zákon č. 152/2026 Sb. (vyhlášen 26. 8. 2026) upravil superdávku, například hranici samoživitelů s dětmi do 15 let a normativy bydlení podle okresů od října. Přídavky na děti se ale nevyčlenily, Juchelka je ponechává v superdávce. Dřívější zákon č. 35/2026 Sb. byl hlavně odklad přechodného období. Revize je tedy zavedená jen zčásti a část slibu (vyčlenění přídavků) zatím chybí.",
+      "comment_en": "Super-benefit parameters were changed by law: Act No. 152/2026 Coll. (published 26 August 2026) adjusted it, for example the single-parent threshold for children under 15 and housing norms by district from October. Child allowances were not separated, as Juchelka keeps them inside the super-benefit. The earlier Act No. 35/2026 Coll. was mainly a postponement of the transition period. The revision is thus implemented only in part, and the separation of child allowances is still missing.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://www.ceskenoviny.cz/zpravy/juchelka-navrhuje-zmenu-nastaveni-superdavky-jednal-o-ni-se-zastupci-klubu/2837463",
+        "https://www.respekt.cz/informacni-servis/senat-schvalil-narust-rodicovske-na-400-tisic-a-vyzval-k-jejimu-pravidelnemu-navysovani-2026-07-29-15-35"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-23",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

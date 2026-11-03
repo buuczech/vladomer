@@ -2218,34 +2218,29 @@
       "updatedAt": "2026-11-02T08:42:31.204Z"
     },
     "10.6": {
-      "status": "in_progress",
+      "status": "partial",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Revize superdávky probíhá aktivně. Vláda schválila úpravy (zákon č. 35/2026 Sb., nařízení č. 57/2026 Sb.), které od října 2026 rozšiřují ochranu samoživitelů a přesněji zohledňují náklady na bydlení podle regionů. Ministr Juchelka však v září 2026 uvedl, že přídavky na děti budou vyčleněny až v budoucím prorodinném balíčku, nikoli v současné superdávce.",
-        "en": "Super-benefit review is actively ongoing. The government approved amendments (Law No. 35/2026 Coll., Regulation No. 57/2026 Coll.) which from October 2026 expand protection for single parents and more precisely account for housing costs by region. However, Minister Juchelka stated in September 2026 that child allowances will be separated only in a future pro-family package, not in the current super-benefit."
+        "cs": "Parametry superdávky se měnily zákonem: zákon č. 152/2026 Sb. (vyhlášen 26. 8. 2026) upravil superdávku, například hranici samoživitelů s dětmi do 15 let a normativy bydlení podle okresů od října. Přídavky na děti se ale nevyčlenily, Juchelka je ponechává v superdávce. Dřívější zákon č. 35/2026 Sb. byl hlavně odklad přechodného období. Revize je tedy zavedená jen zčásti a část slibu (vyčlenění přídavků) zatím chybí.",
+        "en": "Super-benefit parameters were changed by law: Act No. 152/2026 Coll. (published 26 August 2026) adjusted it, for example the single-parent threshold for children under 15 and housing norms by district from October. Child allowances were not separated, as Juchelka keeps them inside the super-benefit. The earlier Act No. 35/2026 Coll. was mainly a postponement of the transition period. The revision is thus implemented only in part, and the separation of child allowances is still missing."
       },
       "change": {
-        "cs": "Beze změny.",
-        "en": "No change."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
         {
-          "url": "https://up.gov.cz/od-rijna-plati-zmeny-superdavky",
-          "title": "Od října platí změny superdávky. Podpoří samoživitele, zohlední ceny bydlení v regionech i nové životní minimum"
+          "url": "https://www.ceskenoviny.cz/zpravy/juchelka-navrhuje-zmenu-nastaveni-superdavky-jednal-o-ni-se-zastupci-klubu/2837463",
+          "title": "Juchelka navrhuje změnu nastavení superdávky, jednal o ní se zástupci klubů"
         },
         {
-          "url": "https://www.denik.cz/ekonomika/prehledne-superdavku-cekaji-dalsi-zmeny-ceho-se-tykaji-a-komu-maji-pomoci/",
-          "title": "Přehledně: Superdávku čekají další změny. Čeho se týkají a komu mají pomoci"
-        },
-        {
-          "url": "https://www.e15.cz/prispevky-a-davky/superdavka",
-          "title": "e15.cz - Superdávka: Kdo má nárok, jak podat žádost a co se mění v roce 2026"
+          "url": "https://www.respekt.cz/informacni-servis/senat-schvalil-narust-rodicovske-na-400-tisic-a-vyzval-k-jejimu-pravidelnemu-navysovani-2026-07-29-15-35",
+          "title": "Senát schválil nárůst rodičovské na 400 tisíc a vyzval k jejímu pravidelnému navyšování • RESPEKT"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-10-23T12:48:15.862Z",
-      "overeno": "2026-10-30T14:14:28.533Z"
+      "updatedAt": "2026-11-02T08:42:31.205Z"
     },
     "10.7": {
       "status": "declared",
