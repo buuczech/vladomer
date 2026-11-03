@@ -2434,41 +2434,29 @@
     },
     "11.4": {
       "status": "partial",
-      "evidence": "Vyhláška č. 553/2025 Sb. vyhlášena 17. 12. 2025; pilotní provoz od 1. 1. 2026, povinnost od 1. 7. 2027",
-      "evidenceDate": "2025-12-17",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "eŽádanky byly spuštěny v pilotním režimu od 1. 1. 2026 a umožňují sledovat čekací doby. Ano, ale: systém je zatím dobrovolný a papírová forma zůstává; povinnost zavedl zákon č. 236/2025 Sb. od 1. 7. 2027. Ministr Vojtěch zdůrazňuje, že bez povinnosti není systém účinný pro monitoring čekacích dob.",
-        "en": "E-requests were launched in pilot mode from 1 January 2026 and allow tracking of waiting times. Yes, but: the system is still voluntary and paper forms remain; the obligation was introduced by law no. 236/2025 Sb. from 1 July 2027. Minister Vojtěch emphasizes that without obligation the system is not effective for monitoring waiting times."
+        "cs": "eŽádanky běží od ledna 2026 v pilotním režimu a umožňují sledovat čekací doby; základ připravila předchozí vláda. Ano, ale slib mluví o povinné e-žádance a národním monitoringu kapacit: nová novela zákona o elektronizaci, která zavádí povinnost od 1. 7. 2027, je zatím jen po vnitroresortním připomínkovém řízení a není ve Sněmovně. K monitoringu kapacit na úrovni poskytovatelů má podle plánu dojít až novelou zákona o veřejném zdravotním pojištění v roce 2028.",
+        "en": "eRequests (e-žádanky) have run in pilot mode since January 2026 and make it possible to track waiting times; the foundation was laid by the previous government. Yes, but the pledge is about a mandatory e-request and national capacity monitoring: the new electronisation amendment, which would make it mandatory from 1 July 2027, has only passed internal ministry consultation and is not in the Chamber. Capacity monitoring at provider level is slated, per the plan, for an amendment to the public health insurance act in 2028."
       },
       "change": {
-        "cs": "Beze změny.",
-        "en": "No change."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
         {
-          "url": "https://denik.cz/zdravotnictvi/ezadanka-ezkarta-ordinace-laboratore.html",
-          "title": "Konec šustění papíry v ordinacích? V lednu odstartují eŽádanky, zatím pilotně"
+          "url": "https://mzd.gov.cz/tiskove-centrum-mz/elektronizace-zdravotnictvi-pokracuje-ministerstvo-predstavilo-nove-moznosti-prace-se-zdravotnickymi-daty-i-dalsi-legislativni-zmeny/",
+          "title": "Elektronizace zdravotnictví pokračuje. Ministerstvo představilo nové možnosti práce se zdravotnickými daty i další legislativní změny"
         },
         {
-          "url": "https://www.irozhlas.cz/zpravy-domov/e-zadanky-na-vysetreni-u-lekare-budou-povinne-od-cervence-2026-usetri-az-35_2508311428_jho",
-          "title": "E-žádanky na vyšetření u lékaře budou povinné od července 2026. Ušetří až 35 miliard ročně, tvrdí Válek"
+          "url": "https://mzd.gov.cz/wp-content/uploads/2025/12/Prehled-zmen-zdravotnicke-legislativy-od-ledna-2026.pdf",
+          "title": "Přehled změn zdravotnické legislativy od ledna 2026 Tisková konference"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-10-30T14:17:24.963Z",
-      "sbirka": {
-        "overene": [
-          {
-            "kod": "553/2025",
-            "nazev": "Vyhláška, kterou se mění vyhláška č. 329/2019 Sb., o předepisování léčivých přípravků při poskytování zdravotních služeb, ve znění pozdějších předpisů",
-            "vyhlaseno": "2025-12-17",
-            "url": "https://e-sbirka.gov.cz/sb/2025/553"
-          }
-        ],
-        "neexistujici": []
-      },
-      "overeno": "2026-10-30T14:16:16.604Z"
+      "updatedAt": "2026-11-02T08:43:39.112Z",
+      "overeno": "2026-11-02T08:42:51.222Z"
     },
     "11.5": {
       "status": "declared",

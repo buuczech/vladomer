@@ -29449,6 +29449,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "11.4",
+      "date": "2026-11-03",
+      "status": "partial",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "eŽádanky běží od ledna 2026 v pilotním režimu a umožňují sledovat čekací doby; základ připravila předchozí vláda. Ano, ale slib mluví o povinné e-žádance a národním monitoringu kapacit: nová novela zákona o elektronizaci, která zavádí povinnost od 1. 7. 2027, je zatím jen po vnitroresortním připomínkovém řízení a není ve Sněmovně. K monitoringu kapacit na úrovni poskytovatelů má podle plánu dojít až novelou zákona o veřejném zdravotním pojištění v roce 2028.",
+      "comment_en": "eRequests (e-žádanky) have run in pilot mode since January 2026 and make it possible to track waiting times; the foundation was laid by the previous government. Yes, but the pledge is about a mandatory e-request and national capacity monitoring: the new electronisation amendment, which would make it mandatory from 1 July 2027, has only passed internal ministry consultation and is not in the Chamber. Capacity monitoring at provider level is slated, per the plan, for an amendment to the public health insurance act in 2028.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://mzd.gov.cz/tiskove-centrum-mz/elektronizace-zdravotnictvi-pokracuje-ministerstvo-predstavilo-nove-moznosti-prace-se-zdravotnickymi-daty-i-dalsi-legislativni-zmeny/",
+        "https://mzd.gov.cz/wp-content/uploads/2025/12/Prehled-zmen-zdravotnicke-legislativy-od-ledna-2026.pdf"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "partial",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

@@ -1882,6 +1882,9 @@
     },
     "10.6": {
       "duvod": null
+    },
+    "11.4": {
+      "duvod": null
     }
   },
   "historie": [
@@ -2103,6 +2106,12 @@
       "kdo": "buuczech",
       "prikaz": "podrzet",
       "bod": "10.8"
+    },
+    {
+      "kdy": "2026-11-03T12:23:07.402Z",
+      "kdo": "buuczech",
+      "prikaz": "prijmout",
+      "bod": "11.4"
     }
   ]
 }
