@@ -162,13 +162,21 @@ console.log(`  ${cestaPdf || cestaHtml}\n  ${join(VYSTUP, "pro-AI.md")}\n  ${joi
      rozhodnuti-vetev.yml. */
   const tlacitko = (href, text, barva) => `<a href="${esc(href)}" style="display:inline-block;padding:8px 14px;margin:4px 6px 4px 0;border-radius:6px;background:${barva};color:#fff;text-decoration:none;font-weight:700">${esc(text)}</a>`;
   const zverejnit = vetev ? odkazRozhodnuti(repo, vetev, "/zverejnit") : null;
+  /* Komentář, který je teď na webu, a ten, který by tam šel po přijetí
+     (vlastník 3. 11. 2026: e-mail je delší, ale rozhoduje se z něj bez PDF).
+     Jen oba texty, bez zvýraznění rozdílu: návrh komentář obvykle přepíše
+     celý a e-mailoví klienti <del>/<ins> zobrazují každý jinak — rozdíl po
+     slovech je v PDF. */
+  const komentar = (e) => (e && e.comment && e.comment.cs) || "";
+  const blokKomentare = (nadpis, text, barva) => `<div style="margin:6px 0 0;padding:6px 8px;border-left:3px solid ${barva};background:#F8FAFC"><span style="color:#5B6577;font-size:12px">${esc(nadpis)}</span><br>${text ? esc(text) : '<span style="color:#5B6577">bez komentáře</span>'}</div>`;
   const body = p.kRozhodnuti.map((k) => {
     const o = odkazyBodu(k, { repo, vetev });
     const navrh = k.navrh ? NAZVY[k.navrh.unverifiable ? "unverifiable" : k.navrh.status] : k.kontrola ? NAZVY[k.kontrola.stav] : null;
     const web = k.dosavadni ? NAZVY[k.dosavadni.unverifiable ? "unverifiable" : k.dosavadni.status] : "—";
     return `<div style="border:1px solid #E2E7EF;border-radius:8px;padding:10px;margin:0 0 10px">
 <b>${esc(k.bod)}</b> <span style="color:#5B6577">${esc(k.slib.slice(0, 120))}</span><br>
-${esc(k.popisTypu)}<br>na webu: <b>${esc(web)}</b>${k.navrh ? ` → hodnotitel navrhuje: <b>${esc(navrh)}</b> (to přijme tlačítko Přijmout)` : ""}${k.kontrola && (!k.navrh || k.kontrola.stav !== (k.navrh.unverifiable ? "unverifiable" : k.navrh.status)) ? `<br>kontrola faktů podle tvých pravidel: <b>${esc(NAZVY[k.kontrola.stav] || k.kontrola.stav)}</b>` : ""}<br>
+${esc(k.popisTypu)}<br>na webu: <b>${esc(web)}</b>${k.navrh ? ` → hodnotitel navrhuje: <b>${esc(navrh)}</b> (to přijme tlačítko Přijmout)` : ""}${k.kontrola && (!k.navrh || k.kontrola.stav !== (k.navrh.unverifiable ? "unverifiable" : k.navrh.status)) ? `<br>kontrola faktů podle tvých pravidel: <b>${esc(NAZVY[k.kontrola.stav] || k.kontrola.stav)}</b>` : ""}
+${blokKomentare("Na webu teď", komentar(k.dosavadni), "#94A3B8")}${k.navrh ? blokKomentare("Po přijetí (návrh hodnotitele)", komentar(k.navrh), "#047857") : ""}
 ${o ? `${tlacitko(o.prijmout, o.sDuvodem ? "Přijmout (s důvodem)" : "Přijmout", "#047857")}${tlacitko(o.podrzet, "Nechat", "#64748B")}` : `<span style="color:#5B6577">${k.prikaz ? `v PR: ${esc(k.prikaz)}` : "bez návrhu — zůstává, jak byl"}</span>`}
 </div>`;
   }).join("");
@@ -193,7 +201,7 @@ ${zverejnit ? `<p>Až budeš hotový: ${tlacitko(zverejnit, "Zveřejnit rozhodnu
 <p style="color:#5B6577">Podrobnosti s citacemi jsou v přiloženém PDF. Soubor pro-AI.md můžeš nahrát do aplikace Claude a nechat si doporučit, co s body udělat.</p>`;
   const text = `${predmet}\n\n${ma("zkouska") ? "ZKOUŠKA — na vladomer.cz ani na Instagram nejde nic.\n\n" : ""}${srov ? `${srov.text}\n\n` : ""}${odkazPR ? `PR na GitHubu: ${odkazPR}` : bezPR}\n\n${p.kRozhodnuti.map((k) => {
     const o = odkazyBodu(k, { repo, vetev });
-    return `${k.bod}: ${k.popisTypu}${o ? `\n  Přijmout: ${o.prijmout}\n  Nechat: ${o.podrzet}` : k.prikaz ? ` — ${k.prikaz}` : ""}`;
+    return `${k.bod}: ${k.popisTypu}\n  Na webu teď: ${komentar(k.dosavadni) || "bez komentáře"}${k.navrh ? `\n  Po přijetí: ${komentar(k.navrh) || "bez komentáře"}` : ""}${o ? `\n  Přijmout: ${o.prijmout}\n  Nechat: ${o.podrzet}` : k.prikaz ? ` — ${k.prikaz}` : ""}`;
   }).join("\n") || "Nic k rozhodnutí."}${zverejnit ? `\n\nZveřejnit rozhodnutí: ${zverejnit}` : ""}${odkazBehu ? `\n\nLog běhu: ${odkazBehu}` : ""}`;
   writeFileSync(join(VYSTUP, "email.html"), `<!doctype html><meta charset="utf-8"><title>${esc(predmet)}</title><body style="font-family:sans-serif;max-width:640px;margin:16px">${htmlMail}</body>`);
   if (!ma("poslat")) process.exit(process.exitCode || 0);

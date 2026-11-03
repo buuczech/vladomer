@@ -84,6 +84,12 @@ try {
   const ostry = posledniEmail(["--pr", "https://github.com/buuczech/vladomer/pull/123", "--vetev", "beh/2026-11"]);
   over(ostry.includes("Otevřít PR na GitHubu") && ostry.includes("https://github.com/buuczech/vladomer/pull/123") && ostry.includes("Zveřejnit rozhodnutí"), "ostrý e-mail: tlačítko na PR, rozhodnutí u bodů a Zveřejnit");
   over(ostry.includes("/new/beh/2026-11?filename=rozhodnuti/") && !ostry.includes("Zkouška."), "ostrý e-mail: odkazy zakládají soubor s rozhodnutím ve větvi PR");
+  // U každého bodu komentář na webu teď a po přijetí (vlastník 3. 11. 2026).
+  const fx = JSON.parse(readFileSync(join(KOREN, "scripts", "dev", "fixtury", "rozhodnuti.json"), "utf8"));
+  const pocetBodu = (ostry.match(/<b>\d+\.\d+<\/b>/g) || []).length;
+  over(pocetBodu > 0 && (ostry.match(/Na webu teď/g) || []).length === pocetBodu, "e-mail: u každého bodu komentář, který je teď na webu", pocetBodu);
+  over(ostry.includes(esc(fx.pred["10.2"].comment.cs.slice(0, 80))) && ostry.includes(esc(fx.po["10.2"].comment.cs.slice(0, 80))) && ostry.includes("Po přijetí (návrh hodnotitele)"),
+    "e-mail: u 10.2 dosavadní komentář i ten, který by šel na web po přijetí");
   const zkouska = posledniEmail(["--zkouska", "--pr", "https://github.com/buuczech/vladomer/pull/124", "--vetev", "beh/2026-11-zkouska"]);
   over(zkouska.includes("Zkouška.") && zkouska.includes("zahazovací větve") && zkouska.includes("/new/beh/2026-11-zkouska?filename=rozhodnuti/10.2-prijmout.txt"),
     "zkušební e-mail: rozhodování jde vyzkoušet celé, s upozorněním, že nic nejde na web ani na Instagram");

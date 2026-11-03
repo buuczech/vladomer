@@ -210,7 +210,7 @@ celý běh je v `mesicni-beh.yml`) a trvá několik hodin:
 
 **Jak rozhodnout (stačí telefon, přihlášený na GitHub):**
 
-1. V e-mailu je u každého bodu tlačítko **Přijmout** a **Nechat**. Klepnutí
+1. V e-mailu je u každého bodu komentář, který je teď na webu, a komentář, který by tam šel po přijetí, a pod nimi tlačítko **Přijmout** a **Nechat**. Klepnutí
    otevře na GitHubu předvyplněný soubor s rozhodnutím — jen ho potvrď
    (**Commit changes**, zapsat přímo do větve). Do minuty se rozhodnutí
    provede, soubor zmizí a v PR se objeví odpověď. **Před dalším klepnutím
