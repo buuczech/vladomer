@@ -900,26 +900,26 @@
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Česká armáda převzala čtyři baterie systému SPYDER v září 2026 a zahájila jejich integraci. Ministr Zůna oznámil, že systém úspěšně absolvoval vojskové zkoušky. Premiér Babiš uvedl, že vláda zvažuje nákup dalších čtyř systémů SPYDER v novější verzi All-in-One. Proces pokračuje – smlouva na nové systémy by mohla být podepsána na přelomu roku.",
-        "en": "The Czech Army took over four SPYDER system batteries in September 2026 and began their integration. Minister Zůna announced the system successfully completed military trials. PM Babiš stated the government is considering purchasing four additional SPYDER systems in the newer All-in-One version. The process continues – a contract for new systems could be signed at year-end."
+        "cs": "Ano, ale: realizace běží. SPYDER je dodáván a integrován (smlouva z doby předchozí vlády), Zůna podepsal rámcové smlouvy na zhruba tři tisíce dronů a premiér chce další systémy SPYDER. Ne, ale: hlavní zakázka vznikla za předchozí vlády a protidronová ochrana je podle kritiky odkládána. Deník N uvádí, že návrh koncepce odkládá protibalistickou obranu a nezvyšuje výdaje do konce volebního období. Rozpočet na rok 2026 byl oproti návrhu předchozí vlády snížen o 21 mld. Kč.",
+        "en": "Yes, but: implementation is under way. SPYDER is being delivered and integrated (contract from the previous government), Zůna signed framework contracts for roughly three thousand drones, and the PM wants more SPYDER systems. No, but: the main contract dates from the previous government and counter-drone protection is criticised as being postponed. Deník N reports that the draft concept postpones ballistic missile defence and does not raise spending this term. The 2026 budget was cut by CZK 21 billion compared with the previous government's draft."
       },
       "change": {
-        "cs": "Ministr Zůna oznámil na Dnech NATO v Ostravě, že systém SPYDER prošel vojskovými zkouškami a armáda ho zavádí do svých struktur.",
-        "en": "Minister Zůna announced at NATO Days in Ostrava that the SPYDER system passed military trials and the army is introducing it into its structures."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
         {
-          "url": "https://www.denik.cz/veda-a-technika/ceska-protivzdusna-obrana-izraelsky-stit/",
-          "title": "Izraelské technologie nově tvoří páteř české protivzdušné obrany"
+          "url": "https://m.echo24.cz/a/H2JKE/zpravy-domaci-obrana-proti-dronum-i-tri-tisice-vojaku-rocne-jake-jsou-priority-rozvoje-armady",
+          "title": "Obrana proti dronům a masivní nábor vojáků. Jaké jsou vládní priority pro rozvoj armády - Echo24.cz"
         },
         {
-          "url": "https://denikn.cz/minuta/2235403",
-          "title": "Smlouva na pořízení čtyř systémů protivzdušné obrany Spyder All-in-One by mohla být podepsána na přelomu letošního a příštího roku"
+          "url": "https://denikn.cz/minuta/2235540",
+          "title": "Aktualizovanou Koncepci výstavby Armády ČR by příští týden v pondělí měla projednat vláda"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-10-30T14:08:43.048Z",
-      "overeno": "2026-10-30T14:07:39.281Z"
+      "updatedAt": "2026-11-02T08:33:14.840Z",
+      "overeno": "2026-11-02T08:32:31.222Z"
     },
     "4.5": {
       "status": "declared",

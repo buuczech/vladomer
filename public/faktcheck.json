@@ -130,13 +130,6 @@
         "m-kolo2-strop"
       ]
     },
-    "4.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
     "4.6": {
       "akce": "podrzet",
       "duvody": [
@@ -703,6 +696,7 @@
     "2.15",
     "3.4",
     "4.1",
-    "4.2"
+    "4.2",
+    "4.4"
   ]
 }

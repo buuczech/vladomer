@@ -29042,6 +29042,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "4.4",
+      "date": "2026-11-03",
+      "status": "in_progress",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale: realizace běží. SPYDER je dodáván a integrován (smlouva z doby předchozí vlády), Zůna podepsal rámcové smlouvy na zhruba tři tisíce dronů a premiér chce další systémy SPYDER. Ne, ale: hlavní zakázka vznikla za předchozí vlády a protidronová ochrana je podle kritiky odkládána. Deník N uvádí, že návrh koncepce odkládá protibalistickou obranu a nezvyšuje výdaje do konce volebního období. Rozpočet na rok 2026 byl oproti návrhu předchozí vlády snížen o 21 mld. Kč.",
+      "comment_en": "Yes, but: implementation is under way. SPYDER is being delivered and integrated (contract from the previous government), Zůna signed framework contracts for roughly three thousand drones, and the PM wants more SPYDER systems. No, but: the main contract dates from the previous government and counter-drone protection is criticised as being postponed. Deník N reports that the draft concept postpones ballistic missile defence and does not raise spending this term. The 2026 budget was cut by CZK 21 billion compared with the previous government's draft.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://m.echo24.cz/a/H2JKE/zpravy-domaci-obrana-proti-dronum-i-tri-tisice-vojaku-rocne-jake-jsou-priority-rozvoje-armady",
+        "https://denikn.cz/minuta/2235540"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }
