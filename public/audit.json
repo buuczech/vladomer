@@ -28996,6 +28996,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "4.1",
+      "date": "2026-11-03",
+      "status": "in_progress",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale: ministr Zůna v rozhovoru z 28. 8. 2026 uvedl, že audity na ministerstvu běží a seznam se průběžně doplňuje. Zadal také interní audit části projektu vozidel Flyer a další audit o vědě a výzkumu. Ne, ale: o celkovém auditu hospodaření a akvizic nejsou veřejné výsledky ani termín dokončení. U Flyeru ministr datum hotového auditu neuvedl. Ministr navíc říká, že obchodní případy se řeší jinak. Akviziční plán je podle zpráv předmětem revize, ale doložený výstup chybí.",
+      "comment_en": "Yes, but: in an interview on 28 Aug 2026 Minister Zůna said audits at the ministry are ongoing and the audit list keeps being updated. He also ordered an internal audit of part of the Flyer vehicle project and another audit on science and research. No, but: there are no published results or completion date for an overall audit of finances and acquisitions. For Flyer the minister gave no completion date. He also says individual commercial cases are handled separately. The acquisition plan is reportedly under review, but no documented output exists.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://m.echo24.cz/a/HbawT/rozhovor-domaci-ministr-obrany-jaromir-zuna-pro-echo-evropska-spoluprace-vydaje-hdp-nato",
+        "https://www.novinky.cz/clanek/domaci-zuna-nechal-proverit-projekt-vozidel-flyer-ktere-armade-darovaly-usa-40586091"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "declared",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

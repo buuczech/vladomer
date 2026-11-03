@@ -123,13 +123,6 @@
         "m-vyvraceno"
       ]
     },
-    "4.1": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
     "4.2": {
       "akce": "podrzet",
       "duvody": [
@@ -714,6 +707,7 @@
     "2.3",
     "2.9",
     "2.15",
-    "3.4"
+    "3.4",
+    "4.1"
   ]
 }

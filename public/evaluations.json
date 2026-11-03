@@ -819,30 +819,29 @@
       "overeno": "2026-10-30T14:06:07.460Z"
     },
     "4.1": {
-      "status": "declared",
+      "status": "in_progress",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda deklaruje audit hospodaření ministerstva obrany. Premiér Babiš v březnu 2026 oznámil, že audit probíhá, a chce změnit zákon, aby zakázky vyšetřovala NCOZ. Ministr Zůna nechal prověřit projekt Flyer 72 HD interním auditem. Bez dokladu o legislativním kroku či závěrečné zprávě auditu se jedná pouze o deklaraci.",
-        "en": "The government declares an audit of the defense ministry's management. PM Babiš announced in March 2026 that an audit is underway and wants to change the law so that NCOZ investigates contracts. Minister Zůna ordered an internal audit of the Flyer 72 HD project. Without evidence of legislative action or a final audit report, this remains only a declaration."
+        "cs": "Ano, ale: ministr Zůna v rozhovoru z 28. 8. 2026 uvedl, že audity na ministerstvu běží a seznam se průběžně doplňuje. Zadal také interní audit části projektu vozidel Flyer a další audit o vědě a výzkumu. Ne, ale: o celkovém auditu hospodaření a akvizic nejsou veřejné výsledky ani termín dokončení. U Flyeru ministr datum hotového auditu neuvedl. Ministr navíc říká, že obchodní případy se řeší jinak. Akviziční plán je podle zpráv předmětem revize, ale doložený výstup chybí.",
+        "en": "Yes, but: in an interview on 28 Aug 2026 Minister Zůna said audits at the ministry are ongoing and the audit list keeps being updated. He also ordered an internal audit of part of the Flyer vehicle project and another audit on science and research. No, but: there are no published results or completion date for an overall audit of finances and acquisitions. For Flyer the minister gave no completion date. He also says individual commercial cases are handled separately. The acquisition plan is reportedly under review, but no documented output exists."
       },
       "change": {
-        "cs": "Ministr Zůna nechal prověřit část projektu vozidel Flyer 72 HD interním auditem zaměřeným na finanční kontrolu a rozhodovací proces.",
-        "en": "Minister Zůna ordered an internal audit of part of the Flyer 72 HD vehicle project focused on financial control and decision-making process."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
         {
-          "url": "https://www.respekt.cz/informacni-servis/babis-chce-aby-zakazky-na-minsterstvu-obrany-vysetrovala-vojenska-policie-a-ne-ncoz-2026-03-02-13-55",
-          "title": "Babiš chce, aby zakázky na ministerstvu obrany vyšetřovala Vojenská policie a ne NCOZ • RESPEKT"
+          "url": "https://m.echo24.cz/a/HbawT/rozhovor-domaci-ministr-obrany-jaromir-zuna-pro-echo-evropska-spoluprace-vydaje-hdp-nato",
+          "title": "Česko je v evropské vojenské spolupráci aktivní, 2 % HDP na obranu příští rok splníme, říká Zůna - Echo24.cz"
         },
         {
-          "url": "https://zpravy.aktualne.cz/domaci/zuna-nechal-proverit-cast-projektu-vozidel-ktere-usa-daruje-ceskym-vysadkarum/r~aaa29541d718ce4101e27cba515c50d0/?lp=1",
-          "title": "Zůna nechal prověřit část projektu vozidel, které USA daruje českým výsadkářům"
+          "url": "https://www.novinky.cz/clanek/domaci-zuna-nechal-proverit-projekt-vozidel-flyer-ktere-armade-darovaly-usa-40586091",
+          "title": "Zůna nechal prověřit projekt vozidel Flyer, které armádě darovaly USA - Novinky"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-10-30T14:08:43.047Z",
-      "overeno": "2026-10-30T14:07:39.281Z"
+      "updatedAt": "2026-11-02T08:33:14.839Z"
     },
     "4.2": {
       "status": "in_progress",
