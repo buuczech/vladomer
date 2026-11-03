@@ -17,7 +17,7 @@ if (!m.schvaleno || !String(m.schvaleno).trim()) {
   out("spustit", "false");
   process.exit(0);
 }
-const REZIMY = ["zlata-sada", "stabilita", "beh", "faktcheck", "generalka", "retez", "email"];
+const REZIMY = ["zlata-sada", "stabilita", "beh", "faktcheck", "generalka", "retez", "email", "report"];
 if (!REZIMY.includes(m.rezim)) {
   console.error(`mereni.json: neznámý rezim „${m.rezim}“ — povoleno ${REZIMY.join(", ")}`);
   process.exit(1);
@@ -27,11 +27,17 @@ if (m.rezim === "generalka" && m.vstup_dat && !/^(main|zkouska\/\d{4}-\d{2})$/.t
   console.error(`mereni.json: vstup_dat musí být main nebo zkouska/RRRR-MM, ne „${m.vstup_dat}“`);
   process.exit(1);
 }
+if (m.rezim === "report" && !(/^\d+$/.test(String(m.report_beh || "")) && /^beh\/\d{4}-\d{2}(-zkouska)?$/.test(m.report_vetev || "") && /^(main|zkouska\/\d{4}-\d{2})$/.test(m.vstup_dat || ""))) {
+  console.error("mereni.json: rezim report potřebuje report_beh (číslo běhu), report_vetev (beh/RRRR-MM[-zkouska]) a vstup_dat (main nebo zkouska/RRRR-MM)");
+  process.exit(1);
+}
 if (m.rezim === "faktcheck" && m.kola != null && ![1, 2].includes(m.kola)) {
   console.error(`mereni.json: kola musí být 1 nebo 2, ne „${m.kola}“`);
   process.exit(1);
 }
-console.log(m.rezim === "generalka"
+console.log(m.rezim === "report"
+  ? `Režim: report; e-mail z běhu ${m.report_beh} znovu, současným kódem reportu, tlačítka do ${m.report_vetev}; bez modelu, zdarma`
+  : m.rezim === "generalka"
   ? `Režim: generalka; modely z nastaveni.txt, data ${m.vstup_dat || "z DEV2"}, strop ${m.pojistka_usd ?? "z nastavení"} $; odhad ${m.odhad_usd ?? "?"} $`
   : ["faktcheck", "retez"].includes(m.rezim)
   ? `Režim: ${m.rezim}; model kontroly=${m.faktcheck_model || "nastavení"}, kola ${m.kola ?? 2}; odhad ${m.odhad_usd ?? "?"} $`
@@ -43,7 +49,9 @@ out("kazeta", m.nahrat_kazetu ? "true" : "false");
 out("kola", String(m.kola ?? 2));
 out("pojistka", m.pojistka_usd ?? "");
 out("kolo2_vzorek", String(m.kolo2_vzorek ?? ""));
-out("vstup_dat", m.rezim === "generalka" ? m.vstup_dat || "" : "");
+out("vstup_dat", ["generalka", "report"].includes(m.rezim) ? m.vstup_dat || "" : "");
+out("report_beh", m.rezim === "report" ? String(m.report_beh) : "");
+out("report_vetev", m.rezim === "report" ? m.report_vetev : "");
 env("EVAL_MODEL", m.model);
 env("OVEROVACI_MODEL", m.overovaci_model);
 env("KOREKTURA_MODEL", m.korektura_model);

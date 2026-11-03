@@ -29,6 +29,11 @@ name: DEV2 měření (stojí peníze)
 #               retez-skore.js: kolik bodů by šlo na web jako ověřené se špatným
 #               stavem (cíl 0) a kolik práce dostane vlastník.
 #   email       zkušební e-mail s reportem z fixtury — bez modelu, zdarma.
+#   report      e-mail hotového běhu znovu, sestavený SOUČASNÝM kódem reportu
+#               z artefaktu běhu (report_beh) — bez modelu, zdarma. Tlačítka
+#               míří do téže větve PR (report_vetev), takže se rozhoduje dál
+#               tam, kde se skončilo. vstup_dat = odkud běh bral data (main
+#               nebo zkouska/RRRR-MM), bere se stav k začátku běhu.
 #   generalka   celý měsíční běh (mesicni-beh.yml — přesně to, co poběží na
 #               main), modely z nastaveni.txt. Data podle vstup_dat: main
 #               (to, co je teď na webu), zkouska/RRRR-MM (navázat na minulou
@@ -88,6 +93,10 @@ jobs:
     needs: parametry
     if: needs.parametry.outputs.spustit == 'true' && needs.parametry.outputs.rezim != 'generalka'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read         # report: artefakt dřívějšího běhu
+      pull-requests: read   # report: odkaz na otevřený PR
     timeout-minutes: 240
     env:
       ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -158,6 +167,36 @@ jobs:
         run: |
           mkdir -p /tmp/vysledky
           node scripts/report.js --fixture --poslat --zkouska --vystup /tmp/vysledky/report
+
+      # Report hotového běhu znovu: z jeho artefaktu (public/*.json a
+      # faktcheck-vystup/, tedy přesně to, z čeho report skládal běh sám)
+      # současným kódem. Data před během a main ke dni běhu, ne dnešní.
+      - name: Report běhu znovu (z artefaktu, bez modelu)
+        if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim == 'report'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          REPORT_EMAIL_TO: ${{ secrets.REPORT_EMAIL_TO }}
+          BEH: ${{ steps.m.outputs.report_beh }}
+          VETEV: ${{ steps.m.outputs.report_vetev }}
+          VSTUP: ${{ steps.m.outputs.vstup_dat }}
+        run: |
+          mkdir -p /tmp/vysledky
+          gh run download "$BEH" -n "mesicni-beh-$BEH" -D /tmp/beh
+          cp /tmp/beh/public/*.json public/
+          mkdir -p faktcheck-vystup && cp /tmp/beh/faktcheck-vystup/*.json faktcheck-vystup/
+          T=$(gh run view "$BEH" --json createdAt -q .createdAt)
+          if [ -f /tmp/beh/beh-vystup/pred-evaluations.json ]; then cp /tmp/beh/beh-vystup/pred-evaluations.json /tmp/pred.json
+          else git show "$(git rev-list -1 --before="$T" "origin/$VSTUP")":public/evaluations.json > /tmp/pred.json; fi
+          ZK=""; SR=""
+          case "$VETEV" in *-zkouska)
+            ZK="--zkouska"
+            git show "$(git rev-list -1 --before="$T" origin/main)":public/evaluations.json > /tmp/main-evaluations.json
+            SR="--srovnani-main /tmp/main-evaluations.json" ;;
+          esac
+          PR=$(gh pr list --head "$VETEV" --state open --json url -q '.[0].url')
+          if [ -n "$PR" ]; then PR="--pr $PR"; else echo "PR z větve $VETEV není otevřený — e-mail bez odkazu na PR"; fi
+          node scripts/report.js --pred /tmp/pred.json --poslat $ZK $PR --vetev "$VETEV" $SR --vystup /tmp/vysledky/report
 
       - name: Řetěz — hodnocení → kontrola faktů → rozhodnutí
         if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim == 'retez'

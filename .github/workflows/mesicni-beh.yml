@@ -274,7 +274,9 @@ jobs:
       # Zaplacený běh se nesmí ztratit s runnerem — ani když selže.
       - name: Výstupy běhu jako artefakt (příprava)
         if: always() && steps.mesic.outputs.preskocit != 'true'
-        run: mkdir -p beh-vystup && cp /tmp/navrhy.json /tmp/hodnoceni.log /tmp/faktcheck.log beh-vystup/ 2>/dev/null || true
+        run: |
+          mkdir -p beh-vystup && cp /tmp/navrhy.json /tmp/hodnoceni.log /tmp/faktcheck.log beh-vystup/ 2>/dev/null || true
+          cp /tmp/pred/evaluations.json beh-vystup/pred-evaluations.json 2>/dev/null || true
       - name: Výstupy běhu jako artefakt
         if: always() && steps.mesic.outputs.preskocit != 'true'
         uses: actions/upload-artifact@v4
