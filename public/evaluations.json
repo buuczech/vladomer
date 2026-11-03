@@ -479,35 +479,29 @@
       "updatedAt": "2026-11-02T08:30:51.729Z"
     },
     "2.14": {
-      "status": "declared",
-      "evidence": "Vláda 26. října 2026 podpořila návrh SPD a Motoristů na zakotvení české koruny v Ústavě, ale legislativní proces se nezahájil. Vláda nemá dostatečnou ústavní většinu (potřebuje třípětinovou podporu v obou komorách).",
-      "evidenceDate": "2026-10-26",
+      "status": "in_progress",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Ne, jen deklarováno. Vláda 26. října 2026 podpořila návrh SPD a Motoristů na zakotvení české koruny v Ústavě a práva na hotovost, ale vlastní legislativní návrh ještě nepředložila. Vláda nemá dostatečnou ústavní většinu (potřebuje třípětinovou podporu v obou komorách). Senát již třikrát odmítl podobné návrhy. Slib zůstává na úrovni deklarace bez reálného legislativního pokroku.",
-        "en": "No, only declared. On 26 October 2026, the government supported the SPD and Motoristé proposal to enshrine the Czech crown in the Constitution and the right to cash, but has not yet submitted its own legislative proposal. The government lacks the necessary constitutional majority (requires three-fifths support in both chambers). The Senate has already rejected similar proposals three times. The commitment remains at the level of declaration without real legislative progress."
+        "cs": "Vláda 26. 10. 2026 podpořila návrh SPD a Motoristů (podepsaní Šťastný, Macinka, Okamura, Turek) na zakotvení koruny v ústavě. Jde o koaliční poslanecký návrh se souhlasným stanoviskem vlády, tedy „probíhá“ (sněmovní tisk 320 je teprve v organizačním výboru). Výhrady: právo na hotovost návrh neobsahuje a vláda chce vlastní návrh včetně hotovosti předložit příští rok. Koalice nemá ústavní většinu a opozice se staví proti. Euro vláda nezavádí a zprávu o připravenosti už nezpracovává.",
+        "en": "On 26 October 2026 the government backed the SPD and Motorists proposal (signed by Šťastný, Macinka, Okamura, Turek) to enshrine the koruna in the Constitution. This is a coalition MPs' bill with a favourable government opinion, hence in progress (print 320 is only at the organisational committee). Caveats: the bill omits the right to cash, and the government plans its own bill including cash next year. The coalition lacks a constitutional majority and the opposition is against. The government is not adopting the euro and no longer prepares a readiness report."
       },
       "change": {
-        "cs": "Vláda podpořila návrh SPD a Motoristů, ale vlastní legislativní návrh ještě nepředložila.",
-        "en": "The government supported the SPD and Motoristé proposal but has not yet submitted its own legislative proposal."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
-        {
-          "url": "https://www.echo24.cz/a/HYSHc/zpravy-domov-ceska-koruna-by-mohla-byt-v-ustave-vlada-schvalila-navrh-spd-a-motoristu",
-          "title": "Vláda schválila na návrh SPD a Motoristů zakotvení české koruny do Ústavy ČR - Echo24.cz"
-        },
         {
           "url": "https://www.newstream.cz/politika/vlada-chce-ztizit-cestu-k-euru-podporila-ustavni-zakotveni-ceske-koruny",
           "title": "Vláda chce ztížit cestu k euru. Podpořila ústavní zakotvení české koruny"
         },
         {
-          "url": "https://www.forum24.cz/koruna-primo-v-ustave-vlada-podporila-navrh-spd-a-motoristu",
-          "title": "Koruna přímo v Ústavě? Vláda podpořila návrh SPD a..."
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/vlada-chce-zakotvit-korunu-a-hotovost-do-ustavy-dost-hlasu-ale-nema-377028",
+          "title": "▶ Vláda chce zakotvit korunu a hotovost do ústavy, dost hlasů ale nemá — ČT24 — Česká televize"
         }
       ],
       "previousStatus": "declared",
-      "updatedAt": "2026-10-30T14:05:47.454Z",
-      "overeno": "2026-10-30T14:04:52.765Z"
+      "updatedAt": "2026-11-02T08:30:51.729Z"
     },
     "2.15": {
       "status": "fulfilled",

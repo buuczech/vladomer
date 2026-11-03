@@ -28995,6 +28995,29 @@
       }
     },
     {
+      "id": "2.14",
+      "date": "2026-11-03",
+      "status": "in_progress",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Vláda 26. 10. 2026 podpořila návrh SPD a Motoristů (podepsaní Šťastný, Macinka, Okamura, Turek) na zakotvení koruny v ústavě. Jde o koaliční poslanecký návrh se souhlasným stanoviskem vlády, tedy „probíhá“ (sněmovní tisk 320 je teprve v organizačním výboru). Výhrady: právo na hotovost návrh neobsahuje a vláda chce vlastní návrh včetně hotovosti předložit příští rok. Koalice nemá ústavní většinu a opozice se staví proti. Euro vláda nezavádí a zprávu o připravenosti už nezpracovává.",
+      "comment_en": "On 26 October 2026 the government backed the SPD and Motorists proposal (signed by Šťastný, Macinka, Okamura, Turek) to enshrine the koruna in the Constitution. This is a coalition MPs' bill with a favourable government opinion, hence in progress (print 320 is only at the organisational committee). Caveats: the bill omits the right to cash, and the government plans its own bill including cash next year. The coalition lacks a constitutional majority and the opposition is against. The government is not adopting the euro and no longer prepares a readiness report.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://www.newstream.cz/politika/vlada-chce-ztizit-cestu-k-euru-podporila-ustavni-zakotveni-ceske-koruny",
+        "https://ct24.ceskatelevize.cz/clanek/domaci/vlada-chce-zakotvit-korunu-a-hotovost-do-ustavy-dost-hlasu-ale-nema-377028"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "declared",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-vyvraceno, m-spor), přijal vlastník. Důvod: Ano. Iniciativa probíhá, ale zároveň je jasné, že je to nesplnitelný slib v současném složení Parlamentu. Později nejspíš bude porušeno.",
+        "prijato_z_behu": "2026-11-02"
+      }
+    },
+    {
       "id": "2.15",
       "date": "2026-11-03",
       "status": "fulfilled",

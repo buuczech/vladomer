@@ -1843,6 +1843,9 @@
     },
     "2.13": {
       "duvod": "Ano. je to rozpracovaný slib."
+    },
+    "2.14": {
+      "duvod": "Ano. Iniciativa probíhá, ale zároveň je jasné, že je to nesplnitelný slib v současném složení Parlamentu. Později nejspíš bude porušeno."
     }
   },
   "historie": [
@@ -1967,6 +1970,13 @@
       "prikaz": "prijmout",
       "bod": "2.13",
       "duvod": "Ano. je to rozpracovaný slib."
+    },
+    {
+      "kdy": "2026-11-03T12:09:34.685Z",
+      "kdo": "buuczech",
+      "prikaz": "prijmout",
+      "bod": "2.14",
+      "duvod": "Ano. Iniciativa probíhá, ale zároveň je jasné, že je to nesplnitelný slib v současném složení Parlamentu. Později nejspíš bude porušeno."
     }
   ]
 }
