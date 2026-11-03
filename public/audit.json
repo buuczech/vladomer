@@ -29333,6 +29333,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "10.1",
+      "date": "2026-11-03",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Strop na 65 letech vypadl z první důchodové novely a vláda ho podle ministra Juchelky spojí s úpravou důchodů pro náročné profese ve druhé vlně. Ve Výhledu legislativních prací je k tomu úkol MPSV s termínem předložení ve 2. čtvrtletí 2027, což je formální krok uvnitř volebního období. Opozice mluví o ústupu od slibu, odbory odklad vítají a Evropská komise, zaměstnavatelé i ekonomové strop kritizují. Slib je zatím jen odložený a deklarovaný, nikoli formálně opuštěný ani zavedený.",
+      "comment_en": "The 65-year cap dropped out of the first pension amendment. Minister Juchelka says the government will combine it with the revision of early retirement for hazardous professions in a second wave. The legislative outlook has an MPSV task for it with a Q2 2027 submission date, which is a formal step within the electoral term. The opposition speaks of backtracking, unions welcome the delay, and the European Commission, employers and economists criticise the cap. For now the promise is only postponed and declared, neither formally abandoned nor implemented.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://www.ceskenoviny.cz/zpravy/juchelka-vek-se-na-65-letech-zastropuje-az-s-upravou-penzi-narocnych-profesi/2782570",
+        "https://m.echo24.cz/a/H3edV/zpravy-ekonomika-strop-na-duchodovy-vek-65-let-juchelka-kritika-evropske-komise-vlada"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-08-28",
+        "puvodni_status": "broken",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

@@ -2075,13 +2075,12 @@
       "overeno": "2026-10-30T14:13:48.214Z"
     },
     "10.1": {
-      "status": "broken",
-      "evidence": "Ministr Juchelka 9. března 2026 oznámil, že zastropování věku na 65 letech se nebude realizovat od příštího roku, ale až v další vlně penzijních změn; 28. května 2026 uvedl, že věk se zastropuje až od roku 2028 s úpravou penzí náročných profesí",
-      "evidenceDate": "2026-03-09",
+      "status": "declared",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda slíbila zastropovat věk na 65 letech, ale ministr Juchelka postupně odkládá realizaci. Nejdříve tvrdil, že změna bude v první vlně od ledna 2027, později ji posunul na druhou vlnu s úpravou náročných profesí. Opozice kritizuje, že slib se rozplývá v harmonogramech a odkladech, zatímco ekonomové varují před ohrožením veřejných financí.",
-        "en": "The government promised to cap the retirement age at 65, but Minister Juchelka is progressively delaying implementation. He first claimed the change would be in the first wave from January 2027, later postponed it to a second wave with adjustments for demanding professions. Opposition criticizes the promise dissolving in schedules and delays, while economists warn of threats to public finances."
+        "cs": "Strop na 65 letech vypadl z první důchodové novely a vláda ho podle ministra Juchelky spojí s úpravou důchodů pro náročné profese ve druhé vlně. Ve Výhledu legislativních prací je k tomu úkol MPSV s termínem předložení ve 2. čtvrtletí 2027, což je formální krok uvnitř volebního období. Opozice mluví o ústupu od slibu, odbory odklad vítají a Evropská komise, zaměstnavatelé i ekonomové strop kritizují. Slib je zatím jen odložený a deklarovaný, nikoli formálně opuštěný ani zavedený.",
+        "en": "The 65-year cap dropped out of the first pension amendment. Minister Juchelka says the government will combine it with the revision of early retirement for hazardous professions in a second wave. The legislative outlook has an MPSV task for it with a Q2 2027 submission date, which is a formal step within the electoral term. The opposition speaks of backtracking, unions welcome the delay, and the European Commission, employers and economists criticise the cap. For now the promise is only postponed and declared, neither formally abandoned nor implemented."
       },
       "change": {
         "cs": "beze změny",
@@ -2089,21 +2088,16 @@
       },
       "sources": [
         {
-          "url": "https://www.irozhlas.cz/zpravy-domov/juchelka-duchodovy-vek-se-na-65-letech-od-pristiho-roku-nezastropuje-upravi-se-v_2603091240_ako",
-          "title": "Juchelka: Důchodový věk se na 65 letech od příštího roku nezastropuje, upraví se v další vlně změn"
-        },
-        {
-          "url": "https://www.denik.cz/ekonomika/vlada-zmeny-duchody-seniori-vyse-penze-ekonomika-zamestnanost-ales-juchelka.html",
-          "title": "Důchodové změny budou, ale nespěcháme, říká ministr Aleš Juchelka - Deník.cz"
-        },
-        {
           "url": "https://www.ceskenoviny.cz/zpravy/juchelka-vek-se-na-65-letech-zastropuje-az-s-upravou-penzi-narocnych-profesi/2782570",
-          "title": "Juchelka: Věk se na 65 letech zastropuje až s úpravou penzí náročných profesí | ČeskéNoviny.cz"
+          "title": "Juchelka: Věk se na 65 letech zastropuje až s úpravou penzí náročných profesí"
+        },
+        {
+          "url": "https://m.echo24.cz/a/H3edV/zpravy-ekonomika-strop-na-duchodovy-vek-65-let-juchelka-kritika-evropske-komise-vlada",
+          "title": "Strop věku odchodu do penze na 65 let vrátíme, slibuje Juchelka Evropské komisi navzdory - Echo24.cz"
         }
       ],
       "previousStatus": "broken",
-      "updatedAt": "2026-08-28T18:08:38.090Z",
-      "overeno": "2026-10-30T14:14:28.533Z"
+      "updatedAt": "2026-11-02T08:42:31.200Z"
     },
     "10.2": {
       "status": "in_progress",
