@@ -2193,48 +2193,29 @@
       "overeno": "2026-11-02T08:41:11.737Z"
     },
     "10.5": {
-      "status": "partial",
-      "evidence": "Zákon č. 35/2026 Sb., vyhlášen 17. 3. 2026; nařízení č. 57/2026 Sb., vyhlášeno 28. 4. 2026",
-      "evidenceDate": "2026-03-17",
+      "status": "declared",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Částečně splněno. Přídavky na děti nebyly obnoveny jako samostatná dávka – zůstávají součástí superdávky (bonus na dítě) od srpna 2026. Vláda však schválila úpravy superdávky (zákon č. 35/2026 Sb., nařízení č. 57/2026 Sb.), které od října 2026 rozšiřují ochranu samoživitelů a přesněji zohledňují jejich situaci. Školkovné nebylo obnoveno. Slib o vyčlenění přídavků zůstává neplněn.",
-        "en": "Partially fulfilled. Child allowances were not restored as a separate benefit – they remain part of the universal benefit (child bonus) from August 2026. However, the government approved amendments to the universal benefit (Law No. 35/2026 Coll., Regulation No. 57/2026 Coll.) that from October 2026 expand protection for single parents and better reflect their situation. Kindergarten fees were not restored. The promise to separate allowances remains unfulfilled."
+        "cs": "Přídavky na děti zůstávají součástí superdávky jako bonus na dítě a Juchelka je výslovně nechce znovu vyčleňovat. Místo toho mluví o prorodinném modelu „DSSP 2“ a o podpoře dětí i formou služeb, například svačin a kroužků. Ve Sbírce jsem nenašel žádný zákon, který by obnovil školkovné nebo slevu na dani pro pečujícího rodiče. Daňová novela vlády (tisk 311) je ve 2. čtení a její obsah jsem neověřil. Úpravy superdávky samy o sobě slib o přídavcích a školkovném neplní.",
+        "en": "Child allowances remain part of the super-benefit as a child bonus, and Juchelka explicitly does not want to separate them again. Instead he talks about a pro-family 'DSSP 2' model and child support in kind, such as snacks and clubs. I found no law in the Collection restoring nursery-fee relief or the tax credit for a caring parent. The government's income tax bill (print 311) is in second reading and I did not verify its content. Adjustments to the super-benefit do not by themselves fulfil the promise on child allowances and nursery-fee relief."
       },
       "change": {
-        "cs": "Vláda v březnu a dubnu 2026 schválila úpravy superdávky, které od října 2026 zmírňují podmínky pro samoživitele.",
-        "en": "The government approved amendments to the universal benefit in March and April 2026 that ease conditions for single parents from October 2026."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
         {
-          "url": "https://www.denik.cz/ekonomika/pridavek-na-dite-superdavka-bonus-na-dite-davka-statni-socilni-pomoci.html",
-          "title": "Přídavek na dítě končí, nahradí ho bonus na dítě. Jde o součást superdávky - Deník.cz"
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/zacatek-vyplaty-superdavky-se-nejspis-odlozi-sdelil-juchelka-369733",
+          "title": "Začátek výplaty superdávky se nejspíš odloží — ČT24 — Česká televize"
         },
         {
-          "url": "https://www.e15.cz/prispevky-a-davky/superdavka",
-          "title": "e15.cz - Superdávka: Kdo má nárok, jak podat žádost a co se mění v roce 2026"
+          "url": "https://www.seznamzpravy.cz/clanek/domaci-politika-juchelka-planovane-propousteni-v-uradu-prace-letos-nebude-mista-se-nezrusi-297888?noredirect=1",
+          "title": "Vláda podpořila Juchelkovy návrhy odložit superdávku i zvýšení životního minima - Seznam Zprávy"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-10-30T14:15:18.283Z",
-      "sbirka": {
-        "overene": [
-          {
-            "kod": "35/2026",
-            "nazev": "Zákon, kterým se mění zákon č. 151/2025 Sb., o dávce státní sociální pomoci, ve znění zákona č. 360/2025 Sb., zákon č. 110/2006 Sb., o životním a existenčním minimu, ve znění pozdějších předpisů, a další související zákony",
-            "vyhlaseno": "2026-03-17",
-            "url": "https://e-sbirka.gov.cz/sb/2026/35"
-          },
-          {
-            "kod": "57/2026",
-            "nazev": "Nařízení vlády, kterým se mění nařízení vlády č. 361/2025 Sb., o stanovení částek životního minima a existenčního minima",
-            "vyhlaseno": "2026-04-28",
-            "url": "https://e-sbirka.gov.cz/sb/2026/57"
-          }
-        ],
-        "neexistujici": []
-      },
-      "overeno": "2026-10-30T14:14:28.533Z"
+      "updatedAt": "2026-11-02T08:42:31.204Z"
     },
     "10.6": {
       "status": "in_progress",

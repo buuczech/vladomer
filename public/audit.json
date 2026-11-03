@@ -29403,6 +29403,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "10.5",
+      "date": "2026-11-03",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Přídavky na děti zůstávají součástí superdávky jako bonus na dítě a Juchelka je výslovně nechce znovu vyčleňovat. Místo toho mluví o prorodinném modelu „DSSP 2“ a o podpoře dětí i formou služeb, například svačin a kroužků. Ve Sbírce jsem nenašel žádný zákon, který by obnovil školkovné nebo slevu na dani pro pečujícího rodiče. Daňová novela vlády (tisk 311) je ve 2. čtení a její obsah jsem neověřil. Úpravy superdávky samy o sobě slib o přídavcích a školkovném neplní.",
+      "comment_en": "Child allowances remain part of the super-benefit as a child bonus, and Juchelka explicitly does not want to separate them again. Instead he talks about a pro-family 'DSSP 2' model and child support in kind, such as snacks and clubs. I found no law in the Collection restoring nursery-fee relief or the tax credit for a caring parent. The government's income tax bill (print 311) is in second reading and I did not verify its content. Adjustments to the super-benefit do not by themselves fulfil the promise on child allowances and nursery-fee relief.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://ct24.ceskatelevize.cz/clanek/domaci/zacatek-vyplaty-superdavky-se-nejspis-odlozi-sdelil-juchelka-369733",
+        "https://www.seznamzpravy.cz/clanek/domaci-politika-juchelka-planovane-propousteni-v-uradu-prace-letos-nebude-mista-se-nezrusi-297888?noredirect=1"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "partial",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-vyvraceno, m-neovereno, m-kolo2-strop, m-spor), přijal vlastník. Důvod: Hodnotitel přesněji popisuje současný stav.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }
