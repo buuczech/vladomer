@@ -1846,6 +1846,9 @@
     },
     "2.14": {
       "duvod": "Ano. Iniciativa probíhá, ale zároveň je jasné, že je to nesplnitelný slib v současném složení Parlamentu. Později nejspíš bude porušeno."
+    },
+    "3.2": {
+      "duvod": "Hodnotitel přesněji vysvětluje současný stav."
     }
   },
   "historie": [
@@ -1977,6 +1980,13 @@
       "prikaz": "prijmout",
       "bod": "2.14",
       "duvod": "Ano. Iniciativa probíhá, ale zároveň je jasné, že je to nesplnitelný slib v současném složení Parlamentu. Později nejspíš bude porušeno."
+    },
+    {
+      "kdy": "2026-11-03T12:10:52.132Z",
+      "kdo": "buuczech",
+      "prikaz": "prijmout",
+      "bod": "3.2",
+      "duvod": "Hodnotitel přesněji vysvětluje současný stav."
     }
   ]
 }

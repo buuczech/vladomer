@@ -29041,6 +29041,28 @@
       }
     },
     {
+      "id": "3.2",
+      "date": "2026-11-03",
+      "status": "partial",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale: příspěvek na bydlení do 6 000 Kč byl zaveden předchozí vládou a nabyl účinnosti za této vlády, takže jde o dílo předchozí vlády, ne o zásluhu Babišova kabinetu. Ne, ale: žádný nový krok současné vlády k tomuto příspěvku doložen není. Plán legislativních prací počítá s revizí zákona o služebním poměru až v roce 2027, a to jen jako výhled. Superdávka na bydlení je jiný nástroj a nepočítá se.",
+      "comment_en": "Yes, but: the housing allowance of up to CZK 6,000 was introduced by the previous government and took effect under this one, so it is the previous government's work, not this cabinet's merit. No, but: no new step by the current government on this allowance is documented. The legislative plan only has a revision of the service-relationship act for 2027, and only as an outlook. The housing super-benefit is a different instrument and does not count.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://www.denik.cz/ekonomika/cesko-platy-policistu-hasicu-porostou-o-kolik/"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "partial",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-vyvraceno, m-spor), přijal vlastník. Důvod: Hodnotitel přesněji vysvětluje současný stav.",
+        "prijato_z_behu": "2026-11-02"
+      }
+    },
+    {
       "id": "3.4",
       "date": "2026-11-03",
       "status": "in_progress",

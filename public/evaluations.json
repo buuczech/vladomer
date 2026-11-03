@@ -574,51 +574,25 @@
     },
     "3.2": {
       "status": "partial",
-      "evidence": "Příspěvek na bydlení do 6000 Kč zaveden již říjnem 2025 předchozí vládou; od srpna 2026 nahrazen superdávkou (zákon č. 151/2025 Sb., novelizován zákonem č. 35/2026 Sb. vyhlášeným 17. 3. 2026)",
-      "evidenceDate": "2026-03-17",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Příspěvek na bydlení do 6000 Kč byl zaveden již říjnem 2025 předchozí vládou, není tedy zásluhou Babišovy vlády. Od srpna 2026 se transformoval v superdávku; průměrná vyplacená částka je nižší (cca 6,7 tis. Kč v superdávce, ale původní příspěvek na bydlení dosahoval průměrně 6,1 tis. Kč). Vláda tedy nový systém převzala, ale nezavádí nový příspěvek.",
-        "en": "Housing allowance up to 6000 CZK was introduced in October 2025 by the previous government, so it is not Babiš government's achievement. From August 2026 it transformed into a unified benefit (super-benefit); average paid amount is lower (approx. 6.7k CZK in super-benefit, but original housing allowance averaged 6.1k CZK). Government inherited the system but did not introduce a new allowance."
+        "cs": "Ano, ale: příspěvek na bydlení do 6 000 Kč byl zaveden předchozí vládou a nabyl účinnosti za této vlády, takže jde o dílo předchozí vlády, ne o zásluhu Babišova kabinetu. Ne, ale: žádný nový krok současné vlády k tomuto příspěvku doložen není. Plán legislativních prací počítá s revizí zákona o služebním poměru až v roce 2027, a to jen jako výhled. Superdávka na bydlení je jiný nástroj a nepočítá se.",
+        "en": "Yes, but: the housing allowance of up to CZK 6,000 was introduced by the previous government and took effect under this one, so it is the previous government's work, not this cabinet's merit. No, but: no new step by the current government on this allowance is documented. The legislative plan only has a revision of the service-relationship act for 2027, and only as an outlook. The housing super-benefit is a different instrument and does not count."
       },
       "change": {
-        "cs": "Od srpna 2026 se příspěvek na bydlení stal součástí nové superdávky; průměrná výplata superdávky dosahuje 6740 Kč.",
-        "en": "From August 2026, housing allowance became part of the new unified benefit; average super-benefit payment reaches 6740 CZK."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
         {
-          "url": "https://www.e15.cz/prispevky-a-davky/superdavka",
-          "title": "e15.cz - Superdávka: Kdo má nárok, jak podat žádost a co se mění v roce 2026"
-        },
-        {
-          "url": "https://m.echo24.cz/a/HswGA/zpravy-domov-superdavka-nova-cisla-prumer-6700-korun-davka-bydleni-miliardy",
-          "title": "Na superdávce lidé dostávají v průměru 6740 korun. Do příspěvku na bydlení dál míří miliardy - Echo24.cz"
-        },
-        {
-          "url": "https://up.gov.cz/davka-statni-socialni-pomoci-superdavka",
-          "title": "Dávka státní sociální pomoci"
+          "url": "https://www.denik.cz/ekonomika/cesko-platy-policistu-hasicu-porostou-o-kolik/",
+          "title": "Platy policistů a hasičů porostou, polepší si o tisíce. Má to ale háček"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-10-30T14:07:19.263Z",
-      "sbirka": {
-        "overene": [
-          {
-            "kod": "151/2025",
-            "nazev": "Zákon o dávce státní sociální pomoci",
-            "vyhlaseno": "2025-05-27",
-            "url": "https://e-sbirka.gov.cz/sb/2025/151"
-          },
-          {
-            "kod": "35/2026",
-            "nazev": "Zákon, kterým se mění zákon č. 151/2025 Sb., o dávce státní sociální pomoci, ve znění zákona č. 360/2025 Sb., zákon č. 110/2006 Sb., o životním a existenčním minimu, ve znění pozdějších předpisů, a další související zákony",
-            "vyhlaseno": "2026-03-17",
-            "url": "https://e-sbirka.gov.cz/sb/2026/35"
-          }
-        ],
-        "neexistujici": []
-      },
-      "overeno": "2026-10-30T14:06:07.460Z"
+      "updatedAt": "2026-11-02T08:32:11.204Z",
+      "overeno": "2026-11-02T08:31:21.370Z"
     },
     "3.3": {
       "status": "declared",

@@ -1,1 +1,0 @@
-/prijmout 3.2 duvod: Hodnotitel přesněji vysvětluje současný stav.
