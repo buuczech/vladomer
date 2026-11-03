@@ -49,12 +49,6 @@
         "m-spor"
       ]
     },
-    "2.3": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-spor"
-      ]
-    },
     "2.5": {
       "akce": "podrzet",
       "duvody": [
@@ -68,26 +62,11 @@
         "m-spor"
       ]
     },
-    "2.9": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
     "2.10": {
       "akce": "podrzet",
       "duvody": [
         "m-neovereno",
         "m-kolo2-strop"
-      ]
-    },
-    "2.11": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-vyvraceno",
-        "m-neovereno",
-        "m-spor"
       ]
     },
     "2.12": {
@@ -97,43 +76,10 @@
         "m-kolo2-strop"
       ]
     },
-    "2.13": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-vyvraceno"
-      ]
-    },
-    "2.14": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-vyvraceno",
-        "m-spor"
-      ]
-    },
-    "2.15": {
-      "akce": "podrzet",
-      "duvody": [
-        "kalibrace"
-      ]
-    },
     "3.1": {
       "akce": "podrzet",
       "duvody": [
         "m-neovereno"
-      ]
-    },
-    "3.2": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-vyvraceno",
-        "m-spor"
-      ]
-    },
-    "3.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
       ]
     },
     "3.7": {
@@ -143,25 +89,6 @@
         "m-kolo2-strop"
       ]
     },
-    "3.8": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-vyvraceno"
-      ]
-    },
-    "4.1": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "4.2": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-spor"
-      ]
-    },
     "4.3": {
       "akce": "podrzet",
       "duvody": [
@@ -169,31 +96,11 @@
         "m-kolo2-strop"
       ]
     },
-    "4.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
     "4.6": {
       "akce": "podrzet",
       "duvody": [
         "m-neovereno",
         "m-kolo2-strop"
-      ]
-    },
-    "4.7": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "5.4": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-vyvraceno"
       ]
     },
     "5.5": {
@@ -223,12 +130,6 @@
         "m-kolo2-strop"
       ]
     },
-    "6.5": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-vyvraceno"
-      ]
-    },
     "6.6": {
       "akce": "bez-razitka",
       "duvody": [
@@ -251,13 +152,6 @@
       ]
     },
     "6.9": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
-    "7.2": {
       "akce": "bez-razitka",
       "duvody": [
         "m-neovereno",
@@ -295,13 +189,6 @@
       "duvody": [
         "m-neovereno",
         "m-kolo2-strop"
-      ]
-    },
-    "7.8": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-vyvraceno",
-        "m-spor"
       ]
     },
     "7.9": {
@@ -353,23 +240,11 @@
         "m-kolo2-strop"
       ]
     },
-    "9.4": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-spor"
-      ]
-    },
     "9.6": {
       "akce": "bez-razitka",
       "duvody": [
         "m-neovereno",
         "m-kolo2-strop"
-      ]
-    },
-    "9.7": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-spor"
       ]
     },
     "9.8": {
@@ -383,43 +258,6 @@
       "duvody": [
         "m-neovereno",
         "m-kolo2-strop"
-      ]
-    },
-    "10.1": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-spor"
-      ]
-    },
-    "10.2": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-kolo2-strop",
-        "m-spor"
-      ]
-    },
-    "10.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-kolo2-strop",
-        "m-spor"
-      ]
-    },
-    "10.5": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-vyvraceno",
-        "m-neovereno",
-        "m-kolo2-strop",
-        "m-spor"
-      ]
-    },
-    "10.6": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-spor"
       ]
     },
     "10.8": {
@@ -459,14 +297,6 @@
         "m-kolo2-strop"
       ]
     },
-    "11.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-kolo2-strop",
-        "m-spor"
-      ]
-    },
     "11.5": {
       "akce": "podrzet",
       "duvody": [
@@ -476,22 +306,6 @@
     },
     "11.7": {
       "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-kolo2-strop",
-        "m-spor"
-      ]
-    },
-    "11.8": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-kolo2-strop",
-        "m-spor"
-      ]
-    },
-    "11.9": {
-      "akce": "bez-razitka",
       "duvody": [
         "m-neovereno",
         "m-kolo2-strop",
@@ -526,24 +340,9 @@
         "m-kolo2-strop"
       ]
     },
-    "12.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno-absence",
-        "kalibrace"
-      ]
-    },
     "12.5": {
       "akce": "podrzet",
       "duvody": [
-        "m-neovereno",
-        "m-kolo2-strop"
-      ]
-    },
-    "12.6": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-vyvraceno",
         "m-neovereno",
         "m-kolo2-strop"
       ]
@@ -597,14 +396,6 @@
         "m-kolo2-strop"
       ]
     },
-    "15.4": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-neovereno",
-        "m-kolo2-strop",
-        "m-spor"
-      ]
-    },
     "15.5": {
       "akce": "podrzet",
       "duvody": [
@@ -627,14 +418,6 @@
         "m-spor"
       ]
     },
-    "16.1": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-kolo2-strop",
-        "m-spor"
-      ]
-    },
     "16.2": {
       "akce": "bez-razitka",
       "duvody": [
@@ -653,12 +436,6 @@
       "duvody": [
         "m-neovereno",
         "m-kolo2-strop"
-      ]
-    },
-    "16.5": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-spor"
       ]
     },
     "16.6": {
@@ -704,14 +481,6 @@
         "m-kolo2-strop"
       ]
     },
-    "18.3": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-kolo2-strop",
-        "m-spor"
-      ]
-    },
     "18.4": {
       "akce": "bez-razitka",
       "duvody": [
@@ -735,5 +504,40 @@
         "m-kolo2-strop"
       ]
     }
-  }
+  },
+  "prijato_vlastnikem": [
+    "2.3",
+    "2.9",
+    "2.11",
+    "2.13",
+    "2.14",
+    "2.15",
+    "3.2",
+    "3.4",
+    "3.8",
+    "4.1",
+    "4.2",
+    "4.4",
+    "4.7",
+    "5.4",
+    "6.5",
+    "7.2",
+    "7.8",
+    "9.4",
+    "9.7",
+    "10.1",
+    "10.2",
+    "10.4",
+    "10.5",
+    "10.6",
+    "11.4",
+    "11.8",
+    "11.9",
+    "12.4",
+    "12.6",
+    "15.4",
+    "16.1",
+    "16.5",
+    "18.3"
+  ]
 }
