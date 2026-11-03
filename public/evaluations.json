@@ -2152,16 +2152,16 @@
     },
     "10.4": {
       "status": "fulfilled",
-      "evidence": "Zákon č. 152/2026 Sb., vyhlášen 26. 8. 2026",
+      "evidence": "Zákon č. 152/2026 Sb., kterým se mění zákon č. 117/1995 Sb., o státní sociální podpoře, vyhlášen 26. 8. 2026; zvyšuje rodičovský příspěvek ze 350 000 na 400 000 Kč (u vícerčat na 800 000 Kč); Senát jej schválil 29. 7. 2026.",
       "evidenceDate": "2026-08-26",
       "unverifiable": false,
       "comment": {
-        "cs": "Splněno. Zákon č. 152/2026 Sb. prošel celým legislativním procesem (Sněmovna 8. 7. 2026, Senát 29. 7. 2026, prezident 18. 8. 2026, vyhlášen 26. 8. 2026). Rodičovský příspěvek se zvýšil z 350 000 Kč na 400 000 Kč pro děti narozené od 1. 1. 2027. Zvýšení se týká pouze nových dětí, nikoliv těch, které se již narodily.",
-        "en": "Fulfilled. Law No. 152/2026 Coll. passed the entire legislative process (Chamber 8 July 2026, Senate 29 July 2026, President 18 August 2026, published 26 August 2026). Parental allowance increased from CZK 350,000 to CZK 400,000 for children born from 1 January 2027. The increase applies only to new children, not those already born."
+        "cs": "Zákon prošel Sněmovnou (158 hlasů ze 162 přítomných), Senátem i prezidentem a vyšel ve Sbírce. Příspěvek se zvyšuje na 400 000 Kč. Výhrady: platí jen pro děti narozené nebo převzaté do péče od 1. 1. 2027, současní příjemci nic nedostanou a automatická valorizace neprošla. Flexibilní čerpání řeší jen dílčí úprava, například rodičovská před porodem, kterou jsem nemohl ověřit, a „rodičovský režim“ z programu zůstává mimo zákon.",
+        "en": "The law passed the Chamber (158 of 162 deputies present), the Senate and the President, and was published in the Collection of Laws. The allowance rises to 400,000 CZK. Caveats: it applies only to children born or taken into care from 1 January 2027, current recipients get nothing, and automatic valorisation was rejected. Flexible drawing is covered only by partial changes, such as pre-birth drawing, which I could not verify, and the programme's 'parental regime' remains outside the law."
       },
       "change": {
-        "cs": "Beze změny.",
-        "en": "No change."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
         {
@@ -2169,16 +2169,16 @@
           "title": "152/2026 Sb. — Zákon, kterým se mění zákon č. 117/1995 Sb., o státní sociální podpoře, ve znění pozdějších předpisů, a zákon č. 151/2025 Sb., o dávce státní sociální pomoci, ve znění pozdějších předpi"
         },
         {
-          "url": "https://zpravy.aktualne.cz/domaci/rodicovska-bude-vyssi-o-50-tisic-pavel-podepsal-jeji-zvyseni-na-400-tisic-korun/r~aaa293cc6109f581b9161d079af5c0cf/",
-          "title": "Rodičovská bude vyšší o 50 tisíc. Pavel podepsal její zvýšení na 400 tisíc korun"
+          "url": "https://www.respekt.cz/informacni-servis/senat-schvalil-narust-rodicovske-na-400-tisic-a-vyzval-k-jejimu-pravidelnemu-navysovani-2026-07-29-15-35",
+          "title": "Senát schválil nárůst rodičovské na 400 tisíc a vyzval k jejímu pravidelnému navyšování • RESPEKT"
         },
         {
-          "url": "https://www.respekt.cz/informacni-servis/senat-schvalil-zvyseni-rodicovske-na-400-000-a-vyzval-k-jejimu-pravidelnemu-navysovani-2026-07-29-13-29",
-          "title": "Senát schválil zvýšení rodičovské na 400 000 a vyzval k jejímu pravidelnému navyšování • RESPEKT"
+          "url": "https://www.newstream.cz/money/rodicovska-vzroste-na-400-tisic-dosahnou-na-ni-ale-jen-novi-rodice",
+          "title": "Rodičovská vzroste na 400 tisíc. Dosáhnou na ni ale jen noví rodiče"
         }
       ],
       "previousStatus": "fulfilled",
-      "updatedAt": "2026-10-30T14:15:18.283Z",
+      "updatedAt": "2026-11-02T08:42:31.204Z",
       "sbirka": {
         "overene": [
           {
@@ -2190,7 +2190,7 @@
         ],
         "neexistujici": []
       },
-      "overeno": "2026-10-30T14:14:28.533Z"
+      "overeno": "2026-11-02T08:41:11.737Z"
     },
     "10.5": {
       "status": "partial",

@@ -29379,6 +29379,30 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "10.4",
+      "date": "2026-11-03",
+      "status": "fulfilled",
+      "evidence": "Zákon č. 152/2026 Sb., kterým se mění zákon č. 117/1995 Sb., o státní sociální podpoře, vyhlášen 26. 8. 2026; zvyšuje rodičovský příspěvek ze 350 000 na 400 000 Kč (u vícerčat na 800 000 Kč); Senát jej schválil 29. 7. 2026.",
+      "evidence_date": "2026-08-26",
+      "unverifiable": false,
+      "comment_cs": "Zákon prošel Sněmovnou (158 hlasů ze 162 přítomných), Senátem i prezidentem a vyšel ve Sbírce. Příspěvek se zvyšuje na 400 000 Kč. Výhrady: platí jen pro děti narozené nebo převzaté do péče od 1. 1. 2027, současní příjemci nic nedostanou a automatická valorizace neprošla. Flexibilní čerpání řeší jen dílčí úprava, například rodičovská před porodem, kterou jsem nemohl ověřit, a „rodičovský režim“ z programu zůstává mimo zákon.",
+      "comment_en": "The law passed the Chamber (158 of 162 deputies present), the Senate and the President, and was published in the Collection of Laws. The allowance rises to 400,000 CZK. Caveats: it applies only to children born or taken into care from 1 January 2027, current recipients get nothing, and automatic valorisation was rejected. Flexible drawing is covered only by partial changes, such as pre-birth drawing, which I could not verify, and the programme's 'parental regime' remains outside the law.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://e-sbirka.gov.cz/sb/2026/152",
+        "https://www.respekt.cz/informacni-servis/senat-schvalil-narust-rodicovske-na-400-tisic-a-vyzval-k-jejimu-pravidelnemu-navysovani-2026-07-29-15-35",
+        "https://www.newstream.cz/money/rodicovska-vzroste-na-400-tisic-dosahnou-na-ni-ale-jen-novi-rodice"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "fulfilled",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }
