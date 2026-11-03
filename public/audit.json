@@ -29019,6 +29019,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "4.2",
+      "date": "2026-11-03",
+      "status": "in_progress",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale: koncepce se zpracovává. Premiér ji s ministrem projednal v květnu, Bezpečnostní rada státu ji projednala bez schvalování a aktualizovaný dokument má podle Zůny příští týden projednat vláda. Ne, ale: dokument zatím schválen není a vznikl jako koncepce do roku 2040, ne 2035, jak stojí v programu. Deník N uvádí, že vláda podle návrhu do konce volebního období nezvýší obranné výdaje a odkládá například protibalistickou obranu. Babiš měl dříve výhrady k nízkým cílům počtu vojáků.",
+      "comment_en": "Yes, but: the concept is being drafted. The PM discussed it with the minister in May, the National Security Council discussed it without approving it, and Zůna says the updated document is due before the government next week. No, but: it is not yet approved and was drawn up as a concept to 2040, not 2035 as in the manifesto. Deník N reports that, under the draft, the government would not raise defence spending before the end of the term and would postpone, for example, ballistic missile defence. Babiš earlier objected to the low troop-number targets.",
+      "change_cs": "Ministr Zůna novinářům řekl, že aktualizovanou Koncepci výstavby Armády ČR má příští týden v pondělí projednat vláda.",
+      "change_en": "Minister Zůna told reporters that the government is due to discuss the updated Army Build-up Concept next Monday.",
+      "sources": [
+        "https://denikn.cz/minuta/2235540",
+        "https://www.ceskenoviny.cz/zpravy/bezpecnostni-rada-jednala-za-ucasti-prezidenta-o-armadni-koncepci/2839551"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

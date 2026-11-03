@@ -848,26 +848,26 @@
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Ministr Zůna si koncepci do roku 2040 vytyčil jako hlavní úkol v prosinci 2025. Babiš a Zůna ji projednali v květnu 2026; premiér měl připomínky. Zůna uvedl, že dokument bude dopracován do finální podoby a projde připomínkovým řízením a schválením Bezpečnostní radou státu. Proces pokračuje, ale není uzavřen.",
-        "en": "Minister Zůna set the concept until 2040 as his main task in December 2025. Babiš and Zůna discussed it in May 2026; the PM had remarks. Zůna stated the document will be finalized and undergo comment procedures and approval by the Security Council. The process continues but is not closed."
+        "cs": "Ano, ale: koncepce se zpracovává. Premiér ji s ministrem projednal v květnu, Bezpečnostní rada státu ji projednala bez schvalování a aktualizovaný dokument má podle Zůny příští týden projednat vláda. Ne, ale: dokument zatím schválen není a vznikl jako koncepce do roku 2040, ne 2035, jak stojí v programu. Deník N uvádí, že vláda podle návrhu do konce volebního období nezvýší obranné výdaje a odkládá například protibalistickou obranu. Babiš měl dříve výhrady k nízkým cílům počtu vojáků.",
+        "en": "Yes, but: the concept is being drafted. The PM discussed it with the minister in May, the National Security Council discussed it without approving it, and Zůna says the updated document is due before the government next week. No, but: it is not yet approved and was drawn up as a concept to 2040, not 2035 as in the manifesto. Deník N reports that, under the draft, the government would not raise defence spending before the end of the term and would postpone, for example, ballistic missile defence. Babiš earlier objected to the low troop-number targets."
       },
       "change": {
-        "cs": "Bezpečnostní rada státu vzala koncepci na vědomí v říjnu 2026 a uložila ministrovi, aby ji předložil vládě.",
-        "en": "The Security Council took note of the concept in October 2026 and instructed the minister to submit it to the government."
+        "cs": "Ministr Zůna novinářům řekl, že aktualizovanou Koncepci výstavby Armády ČR má příští týden v pondělí projednat vláda.",
+        "en": "Minister Zůna told reporters that the government is due to discuss the updated Army Build-up Concept next Monday."
       },
       "sources": [
         {
-          "url": "https://denikn.cz/2234518/zunova-koncepce-zaostavani-armady-podle-klicoveho-dokumentu-je-na-posileni-vojska-casu-dost",
-          "title": "Zůnova koncepce zaostávání armády. Podle klíčového dokumentu je na posílení vojska času dost — Deník N"
+          "url": "https://denikn.cz/minuta/2235540",
+          "title": "Aktualizovanou Koncepci výstavby Armády ČR by příští týden v pondělí měla projednat vláda"
         },
         {
-          "url": "https://www.ceskenoviny.cz/zpravy/babis-vlada-v-nove-koncepci-armady-planuje-mj-posilit-nabor-novych-vojaku/2827266",
-          "title": "Babiš: Vláda v nové koncepci armády plánuje mj. posílit nábor nových vojáků"
+          "url": "https://www.ceskenoviny.cz/zpravy/bezpecnostni-rada-jednala-za-ucasti-prezidenta-o-armadni-koncepci/2839551",
+          "title": "Bezpečnostní rada jednala za účasti prezidenta o armádní koncepci"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-10-30T14:08:43.047Z",
-      "overeno": "2026-10-30T14:07:39.281Z"
+      "updatedAt": "2026-11-02T08:33:14.840Z",
+      "overeno": "2026-11-02T08:32:31.222Z"
     },
     "4.3": {
       "status": "declared",
