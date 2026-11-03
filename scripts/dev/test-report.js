@@ -19,7 +19,7 @@ import { readFileSync, writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
-import { rozdilSlov, metrika, esc } from "../lib/report.js";
+import { rozdilSlov, metrika, esc, podkladyReportu } from "../lib/report.js";
 import { srovnani, navrhyZRozhodnuti } from "../lib/srovnani.js";
 
 const KOREN = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -90,6 +90,14 @@ try {
   over(pocetBodu > 0 && (ostry.match(/Na webu teď/g) || []).length === pocetBodu, "e-mail: u každého bodu komentář, který je teď na webu", pocetBodu);
   over(ostry.includes(esc(fx.pred["10.2"].comment.cs.slice(0, 80))) && ostry.includes(esc(fx.po["10.2"].comment.cs.slice(0, 80))) && ostry.includes("Po přijetí (návrh hodnotitele)"),
     "e-mail: u 10.2 dosavadní komentář i ten, který by šel na web po přijetí");
+  // Návrh se ukazuje očištěný, tak jak by ho zveřejnilo Přijmout (generálka
+  // 2. 11. 2026: e-mail ukázal syrové značky <cite> a kódy pravidel).
+  const syrovy = { status: "in_progress", comment: { cs: "<cite index=\"14-9\">Vláda návrh podpořila.</cite> Podle pravidla M4 jde o poslanecký návrh, tedy in_progress.", en: "" } };
+  const pk = podkladyReportu({ pred: { evals: {} }, po: { evals: {} }, polozky: [{ id: "2.14", cs: "slib" }],
+    rozhodnuti: { beh: "2026-11-02", body: { "2.14": { bod: "2.14", akce: "drzeno", problemy: [], vlastnik: { typ: "podrzeno", navrh: { zdroj: "hodnotitel", zaznam: syrovy } } } } } });
+  const cs = pk.kRozhodnuti[0] && pk.kRozhodnuti[0].navrh.comment.cs;
+  over(cs === "Vláda návrh podpořila. Jde o poslanecký návrh, tedy „probíhá“.", "report: návrh hodnotitele bez <cite>, kódů pravidel a anglického klíče stavu", cs);
+  over(syrovy.comment.cs.includes("<cite"), "report: záznam v rozhodnutí zůstal nedotčený (očišťuje se kopie)");
   const zkouska = posledniEmail(["--zkouska", "--pr", "https://github.com/buuczech/vladomer/pull/124", "--vetev", "beh/2026-11-zkouska"]);
   over(zkouska.includes("Zkouška.") && zkouska.includes("zahazovací větve") && zkouska.includes("/new/beh/2026-11-zkouska?filename=rozhodnuti/10.2-prijmout.txt"),
     "zkušební e-mail: rozhodování jde vyzkoušet celé, s upozorněním, že nic nejde na web ani na Instagram");

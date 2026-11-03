@@ -44,6 +44,25 @@ const KLIC_CESKY = /\b(fulfilled|partial|declared|broken)\b/g;
 const KLIC_V_UVOZOVKACH =
   /(["'„“”(])\s*(fulfilled|partial|in_progress|declared|not_started|broken|stalled)\s*(["'“”’)])/g;
 
+/* Kódy pravidel metodiky (M1–M11) jsou zkratky z promptu hodnocení; čtenáři
+   webu nic neříkají. V generálce 2. 11. 2026 je mělo 11 z 55 návrhů:
+   „(M1/M8)“, „takže podle M3 jde o deklaraci“, „Under rule M4 this is…“.
+   Maže se kód v závorce a obrat „podle (pravidla) Mn“ / „under (rule) Mn“,
+   věta jinak zůstává; holé „M3“ jinde se nechává — mohlo by znamenat něco
+   jiného. Hlavní obrana je pokyn v prompt-hodnoceni.md, tohle je pojistka. */
+const KODY = String.raw`M\d{1,2}(?:\s*(?:\/|,|a|and)\s*M\d{1,2})*`;
+const KOD_V_ZAVORCE = new RegExp(String.raw`\s*\(` + KODY + String.raw`\)`, "g");
+const OBRAT_S_KODEM = new RegExp(String.raw`(\s*)\b([PpUu])(?:odle (?:pravidla |pravidel )?|nder (?:rules? )?)` + KODY + String.raw`\b,?\s*(\S?)`, "g");
+
+function bezKoduPravidel(s) {
+  return s.replace(KOD_V_ZAVORCE, "").replace(OBRAT_S_KODEM, (_, mezera, prvni, dalsi) => {
+    // Obrat na začátku věty předá velké písmeno dalšímu slovu; před
+    // interpunkcí („… podle M2.“) zmizí i mezera před ním.
+    const znak = prvni === prvni.toUpperCase() ? dalsi.toUpperCase() : dalsi;
+    return (!dalsi || /[.,;:!?)]/.test(dalsi) ? "" : mezera) + znak;
+  });
+}
+
 export const STAV_POPIS = {
   fulfilled: { cs: "splněno", en: "fulfilled" },
   partial: { cs: "částečně splněno", en: "partially fulfilled" },
@@ -69,6 +88,7 @@ export function ocisti(text, jazyk) {
   // vyznačení, že jde o název stavu.
   s = s.replace(KLIC_PODTRZITKO, (klic) => vUvozovkach(STAV_POPIS[klic][jazyk], jazyk));
   if (jazyk === "cs") s = s.replace(KLIC_CESKY, (klic) => vUvozovkach(STAV_POPIS[klic].cs, "cs"));
+  s = bezKoduPravidel(s);
   // Po odstranění značky zbývají zdvojené mezery a mezera před interpunkcí.
   s = s.replace(/[ \t]{2,}/g, " ").replace(/ ([,.;:!?])/g, "$1").trim();
   return s;

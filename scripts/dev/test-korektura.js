@@ -183,5 +183,24 @@ if (zkontrolujOpravu("Beze změny.", "– Vypadá správně.", { jazyk: "cs" }))
   chyb++; console.log("  CHYBA: fixtura přestala platit, úryvek zachytí i kontrola jednotlivé opravy");
 } else console.log("  ok  samotný úryvek kontrolou projde — chytit to jde jen na dávce");
 
+// 7 — kódy pravidel metodiky v textu pro čtenáře. Věty doslova z návrhů
+//     generálky 2. 11. 2026 (navrhy/2026-11.json ve větvi beh/2026-11-zkouska).
+console.log("\nKódy pravidel:");
+for (const [vstup, jazyk, cekano] of [
+  ["koruny v ústavě.</cite> Podle pravidla M4 jde o koaliční poslanecký návrh se souhlasným stanoviskem vlády", "cs",
+    "koruny v ústavě. Jde o koaliční poslanecký návrh se souhlasným stanoviskem vlády"],
+  ["jde o dílo předchozí vlády (M1/M8), ne o zásluhu Babišova kabinetu", "cs", "jde o dílo předchozí vlády, ne o zásluhu Babišova kabinetu"],
+  ["jde o prohlášení podle M2. Samotné zavedení ETS2", "cs", "jde o prohlášení. Samotné zavedení ETS2"],
+  ["so under rule M1 it counts as partial fulfilment only", "en", "so it counts as partial fulfilment only"],
+  ["formálního kroku proti němu (M3) nelze uzavřít porušení", "cs", "formálního kroku proti němu nelze uzavřít porušení"],
+  ["Podle pravidel M4 a M6 jde o poslanecký návrh.", "cs", "Jde o poslanecký návrh."],
+  // Holé „M1“ mimo obrat a závorku může znamenat něco jiného — nesahá se na ně.
+  ["Program počítá s variantou M1 i M2.", "cs", "Program počítá s variantou M1 i M2."],
+]) {
+  const vysledek = ocisti(vstup, jazyk);
+  if (vysledek === cekano) console.log(`  ok  ${cekano.slice(0, 70)}`);
+  else { chyb++; console.log(`  CHYBA\n    čekáno:   ${cekano}\n    vráceno:  ${vysledek}`); }
+}
+
 console.log(chyb ? `\nSELHALO: ${chyb} chyb.` : "\nVŠE V POŘÁDKU.");
 process.exit(chyb ? 1 : 0);

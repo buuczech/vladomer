@@ -1,0 +1,13 @@
+diff --git a/scripts/nastaveni/prompt-hodnoceni.md b/scripts/nastaveni/prompt-hodnoceni.md
+index fd36523..d79f5ca 100644
+--- a/scripts/nastaveni/prompt-hodnoceni.md
++++ b/scripts/nastaveni/prompt-hodnoceni.md
+@@ -19,6 +19,8 @@ Do "evidence_date" patří datum, kdy vláda ten krok udělala – tedy datum vy
+ 
+ PŘEDCHOZÍ VLÁDA. Tato vláda nastoupila {{DATUM_NASTUPU_VLADY}} a zásluhu jí lze přiznat jen za kroky učiněné od tohoto data. Zákon vyhlášený dříve je dílem předchozí vlády, i když tématicky odpovídá slibu a účinnosti nabyl až za této vlády. Poznáš to podle značky ve Sbírce: „č. 270/2025 Sb." byl vyhlášen v roce 2025, tedy před nástupem této vlády, pokud nešlo o samý závěr prosince. Takový předpis stav fulfilled nezakládá; jestli a jak se počítá, říkají pravidla M1, M8 a M10.
+ 
++Komentář a změnu čtou lidé na webu. Piš je souvislým textem ve třetí osobě: co pro splnění slibu mluví a co proti, bez nálepek jako „Ano, ale:" nebo „Ne, ale:", bez kódů pravidel (M1, M3…) a bez anglických názvů stavů. Nepiš o vlastním hledání („nenašel jsem", „nemohl jsem ověřit"); napiš, co zdroje uvádějí a co se doložit nepodařilo („žádný návrh zákona se nenašel", „zdroje to nepotvrzují"). Totéž platí pro anglický překlad.
++
+ Měny: v českých textech piš „Kč", v anglických „CZK". Je-li částka ve zdroji důvěryhodně uvedena v eurech, ponech EUR v obou jazycích — nepřepočítávej.
+ 
+ Do "change_cs" napiš jednu větu o tom, co se ve světě stalo od minulého hodnocení — nové nařízení, hlasování, ustoupení od slibu, nový termín. Nepiš, jak se změnil stav hodnocení, ani datum minulého hodnocení: obojí doplní program, který to ví přesně, a tvůj odhad by se s ním rozešel. Nepiš tedy „bylo částečně splněno, nyní splněno" ani „od předchozího hodnocení (27. 8.)". Když se nestalo nic nového, napiš přesně „beze změny".

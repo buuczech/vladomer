@@ -43,6 +43,10 @@
     {
       "patch": "zmeny/08-obsah-zakonu.patch",
       "duvod": "Obsah zákonů v rejstříku Sbírky (lib/sbirka.js, obsahZakona a nactiObsahZakonu): u každého zákona od nástupu vlády program ze znění vypíše, které zákony mění, jaká ustanovení vkládá a která čísla (částky, lhůty, data) přepisuje. Název to neřekne — 180/2026 Sb. o evidenci tržeb vrací školkovné a zkracuje lhůtu pro vrácení DPH ze 6 na 3 měsíce, a hodnotitel v generálce 2. 11. 2026 nechal 2.13 „probíhá“ a u 10.5 tvrdil, že školkovné žádný zákon nevrátil. Pokyn k rejstříku v promptu hodnocení to říká místo „ověř, že název odpovídá slibu“. Plán legislativních prací dává slib podle vlády celý (dřív zkrácený na 300 znaků uřízl právě školkovné a lhůtu DPH). Bez znění zůstane tabulka jako dřív."
+    },
+    {
+      "patch": "zmeny/09-text-pro-ctenare.patch",
+      "duvod": "Komentáře hodnotitele psané pro čtenáře webu. Sonnet 5.5 v generálce 2. 11. 2026 psal do návrhů nálepky „Ano, ale:“ a „Ne, ale:“ (28 z 55), kódy pravidel metodiky (11 z 55: „(M1/M8)“, „podle pravidla M4“) a psal v první osobě o vlastním hledání („nenašel jsem“, 13 z 55); na webu z main nic z toho není. Prompt hodnocení dostal odstavec, jak komentář psát, a ocisti() v lib/korektura.js maže kód pravidla v závorce a obraty „podle (pravidla) Mn“ / „under (rule) Mn“ — pojistka v kódu, protože kódy do promptu vnesla metodika M1–M11. Tuhle část patch nenese: lib/korektura.js se do základu kopíruje celý jako neutrální změna (spec 002). Neutrální na datech z main opravdu je — texty z main kódy nemají a očista je nezmění (test-korektura: 0 úryvků; průchod 2b)."
     }
   ],
   "soubory": [

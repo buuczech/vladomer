@@ -13,7 +13,7 @@
  * jen do lib/email.js při odeslání.
  */
 
-import { odkazRozhodnuti } from "./navrhy.js";
+import { odkazRozhodnuti, ocistenyZaznam } from "./navrhy.js";
 
 /* Barvy legendy webu, světlý motiv (src/App.jsx, :root). Report se tiskne
    na bílý papír, tmavý motiv by v PDF působil jako jiný web. */
@@ -83,7 +83,8 @@ export function podkladyReportu({ pred, po, rozhodnuti, D = null, M = null, nakl
   const beh = rozhodnuti.beh;
 
   const kRozhodnuti = Object.values(body).filter((b) => b.vlastnik).map((b) => {
-    const navrh = b.vlastnik.navrh && b.vlastnik.navrh.zdroj === "hodnotitel" ? b.vlastnik.navrh.zaznam : null;
+    // Očištěný jako v PR (navrhyZRozhodnuti): vlastník čte to, co by Přijmout zveřejnilo.
+    const navrh = b.vlastnik.navrh && b.vlastnik.navrh.zdroj === "hodnotitel" ? ocistenyZaznam(b.vlastnik.navrh.zaznam) : null;
     const kontrola = b.vlastnik.kontrola || (b.vlastnik.navrh && b.vlastnik.navrh.zdroj === "kontrola" ? b.vlastnik.navrh : null);
     const sporna = tvrzeniBodu(b.bod).filter((t) => t.nese_stav && t.verdikt !== "POTVRZENO");
     return {
