@@ -529,21 +529,31 @@
       "overeno": "2026-10-30T14:04:52.765Z"
     },
     "2.15": {
-      "status": "not_started",
-      "evidence": "",
+      "status": "fulfilled",
+      "evidence": "Ministerstvo financí 14. 5. 2026 obnovilo prodej Dluhopisů Republiky: občané mohou investovat od 1 000 Kč do 3 mil. Kč do fixního, protiinflačního dluhopisu a Flexi Bondu; v prvním upisovacím období upsalo přibližně 92 tisíc občanů dluhopisy za 74 mld. Kč.",
+      "evidenceDate": "2026-05-14",
       "unverifiable": false,
       "comment": {
-        "cs": "Ne, nezahájeno: V dostupných zdrojích, programovém prohlášení vlády ani ve vyjádřeních ministrů se nepodařilo nalézt informace o nabídnutí Dluhopisů Republiky drobným střadatelům. Neexistují ani náznaky legislativního či exekutivního kroku v tomto směru. Slib zůstává bez doložitelného pokroku.",
-        "en": "No, not started: Available sources, government program statement, and ministerial statements contain no information about offering Republic Bonds to small savers. There are no signs of legislative or executive steps in this direction. The promise remains without documented progress."
+        "cs": "Ministerstvo financí 14. 5. 2026 opět nabídlo občanům státní dluhopisy, v rozmezí od 1 000 Kč do 3 milionů Kč. V prvním období si občané uložili 74 mld. Kč a dluhopisy koupilo téměř 92 tisíc drobných střadatelů. Slib je tak v celém znění zavedený a účinný. Výhrady jsou jen k podmínkám: kritici upozorňují na náklady státu při vyšších sazbách a druhé upisovací období nabízelo jen Flexi Bond.",
+        "en": "On 14 May 2026 the Ministry of Finance again offered state bonds to citizens, from CZK 1,000 up to CZK 3 million. In the first period citizens deposited CZK 74 billion and almost 92 thousand small savers bought bonds. The pledge is thus introduced and effective in full. Reservations concern only the terms: critics point to the state's cost at higher yields, and the second subscription period offered only the Flexi Bond."
       },
       "change": {
-        "cs": "beze změny",
-        "en": "no change"
+        "cs": "Ministerstvo financí 14. 5. 2026 obnovilo prodej Dluhopisů Republiky pro občany od 1 000 Kč do 3 mil. Kč a v prvním období upsali občané 74 mld. Kč.",
+        "en": "On 14 May 2026 the Ministry of Finance relaunched sales of Republic Bonds to citizens from CZK 1,000 to CZK 3 million, and citizens subscribed CZK 74 billion in the first period."
       },
-      "sources": [],
+      "sources": [
+        {
+          "url": "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/dluhopis-republiky-pro-obcany-znovu-k-dispozici-63945",
+          "title": "Dluhopis Republiky pro občany znovu k dispozici"
+        },
+        {
+          "url": "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/obcane-koupili-dluhopisy-republiky-v-hodnote-74-mi-64586",
+          "title": "Občané koupili Dluhopisy Republiky v hodnotě 74 miliardy korun"
+        }
+      ],
       "previousStatus": "not_started",
-      "updatedAt": "2026-10-02T13:52:10.473Z",
-      "overeno": "2026-10-30T14:04:52.765Z"
+      "updatedAt": "2026-11-02T08:30:51.732Z",
+      "overeno": "2026-11-02T08:27:57.025Z"
     },
     "3.1": {
       "status": "partial",

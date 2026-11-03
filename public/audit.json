@@ -28950,6 +28950,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "2.15",
+      "date": "2026-11-03",
+      "status": "fulfilled",
+      "evidence": "Ministerstvo financí 14. 5. 2026 obnovilo prodej Dluhopisů Republiky: občané mohou investovat od 1 000 Kč do 3 mil. Kč do fixního, protiinflačního dluhopisu a Flexi Bondu; v prvním upisovacím období upsalo přibližně 92 tisíc občanů dluhopisy za 74 mld. Kč.",
+      "evidence_date": "2026-05-14",
+      "unverifiable": false,
+      "comment_cs": "Ministerstvo financí 14. 5. 2026 opět nabídlo občanům státní dluhopisy, v rozmezí od 1 000 Kč do 3 milionů Kč. V prvním období si občané uložili 74 mld. Kč a dluhopisy koupilo téměř 92 tisíc drobných střadatelů. Slib je tak v celém znění zavedený a účinný. Výhrady jsou jen k podmínkám: kritici upozorňují na náklady státu při vyšších sazbách a druhé upisovací období nabízelo jen Flexi Bond.",
+      "comment_en": "On 14 May 2026 the Ministry of Finance again offered state bonds to citizens, from CZK 1,000 up to CZK 3 million. In the first period citizens deposited CZK 74 billion and almost 92 thousand small savers bought bonds. The pledge is thus introduced and effective in full. Reservations concern only the terms: critics point to the state's cost at higher yields, and the second subscription period offered only the Flexi Bond.",
+      "change_cs": "Ministerstvo financí 14. 5. 2026 obnovilo prodej Dluhopisů Republiky pro občany od 1 000 Kč do 3 mil. Kč a v prvním období upsali občané 74 mld. Kč.",
+      "change_en": "On 14 May 2026 the Ministry of Finance relaunched sales of Republic Bonds to citizens from CZK 1,000 to CZK 3 million, and citizens subscribed CZK 74 billion in the first period.",
+      "sources": [
+        "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/dluhopis-republiky-pro-obcany-znovu-k-dispozici-63945",
+        "https://mf.gov.cz/cs/ministerstvo/media/tiskove-zpravy/2026/obcane-koupili-dluhopisy-republiky-v-hodnote-74-mi-64586"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-02",
+        "puvodni_status": "not_started",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (kalibrace), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

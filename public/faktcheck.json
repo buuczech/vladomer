@@ -97,12 +97,6 @@
         "m-spor"
       ]
     },
-    "2.15": {
-      "akce": "podrzet",
-      "duvody": [
-        "kalibrace"
-      ]
-    },
     "3.1": {
       "akce": "podrzet",
       "duvody": [
@@ -725,6 +719,7 @@
   },
   "prijato_vlastnikem": [
     "2.3",
-    "2.9"
+    "2.9",
+    "2.15"
   ]
 }
