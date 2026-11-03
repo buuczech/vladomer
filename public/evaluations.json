@@ -362,12 +362,12 @@
       "overeno": "2026-11-02T08:27:57.025Z"
     },
     "2.9": {
-      "status": "partial",
-      "evidence": "Sněmovna schválila návrh v třetím čtení, ale legislativní proces není dosud dokončen (chybí schválení Senátem a podpis prezidenta)",
+      "status": "declared",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda zahrnula nulovou DPH na léky na předpis do balíčku legislativy. Návrh prošel třetím čtením v Poslanecké sněmovně, ale legislativní proces není dosud uzavřen – chybí schválení Senátem a podpis prezidenta. Opatření je tedy v pokročilém stadiu, ale není ještě právně účinné.",
-        "en": "The government included zero VAT on prescription drugs in its legislative package. The proposal passed third reading in the Chamber of Deputies, but the legislative process is not yet complete – Senate approval and presidential signature are still needed. The measure is in an advanced stage but is not yet legally effective."
+        "cs": "Slib je ve vládních dokumentech potvrzen: Výhled legislativních prací (usnesení vlády č. 175 z 23. 3. 2026) počítá se zakotvením nulové DPH na léky na předpis v daňovém balíčku pro rok 2029, který má být předložen vládě ve 2. čtvrtletí 2028. <cite index=\"2-3,2-4\">Léky na předpis mají dnes 12% sazbu a vláda se v programovém prohlášení zavázala snížit ji na nulu.</cite> Dřívější tvrzení, že opatření už prošlo třetím čtením, se mi nepodařilo ověřit. Sněmovní tisk 218 (novela DPH) je podle dat Sněmovny teprve ve 2. čtení a v plánu je nulová sazba až od roku 2029, takže žádný přijatý předpis neexistuje. Kritici (ekonomové, Válek) namítají, že ušetří hlavně pojišťovny a pacienti méně.",
+        "en": "The pledge is confirmed in government documents: the Outlook of Legislative Work (government resolution No. 175 of 23 March 2026) places the 0% VAT on prescription drugs in the tax package for 2029, to be submitted to the government in Q2 2028. <cite index=\"2-3,2-4\">Prescription drugs currently carry a 12% rate and the government committed in its programme statement to cut it to zero.</cite> I could not verify the earlier claim that the measure had already passed third reading. Chamber print 218 (VAT amendment) is only at second reading according to Chamber data, and the plan puts the zero rate at 2029, so no adopted rule exists. Critics (economists, Válek) argue it mainly saves insurers and patients less."
       },
       "change": {
         "cs": "beze změny",
@@ -375,17 +375,12 @@
       },
       "sources": [
         {
-          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/budouci-vlada-zamysli-nulovou-dan-z-leku-na-predpis-366844",
-          "title": "Budoucí vláda zamýšlí nulovou daň z léků na předpis - ČT24"
-        },
-        {
-          "url": "https://www.denik.cz/zdravotnictvi/zdravi-nulove-dph-na-leky-na-predpis-vlada-andrej-babis.html",
-          "title": "Nová vláda slibuje nulovou daň na léky na předpis. Není ale jasné, zda zlevní - Deník.cz"
+          "url": "https://cnn.iprima.cz/nulova-dph-na-leky-prinese-zlevneni-veri-farhan-zmenu-by-rad-videl-nejdele-za-dva-roky-505237",
+          "title": "Nulová DPH na léky přinese zlevnění, věří Farhan. Změnu by rád viděl nejdéle za dva roky - CNN Prima NEWS"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-08-28T18:00:22.291Z",
-      "overeno": "2026-10-30T14:04:52.765Z"
+      "updatedAt": "2026-11-02T08:30:51.725Z"
     },
     "2.10": {
       "status": "fulfilled",

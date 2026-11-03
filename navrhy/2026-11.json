@@ -1813,6 +1813,9 @@
   "prijate": {
     "2.3": {
       "duvod": null
+    },
+    "2.9": {
+      "duvod": null
     }
   },
   "historie": [
@@ -1833,6 +1836,12 @@
       "kdo": "buuczech",
       "prikaz": "podrzet",
       "bod": "2.7"
+    },
+    {
+      "kdy": "2026-11-03T10:13:06.016Z",
+      "kdo": "buuczech",
+      "prikaz": "prijmout",
+      "bod": "2.9"
     }
   ]
 }

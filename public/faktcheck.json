@@ -62,13 +62,6 @@
         "m-spor"
       ]
     },
-    "2.9": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
     "2.10": {
       "akce": "podrzet",
       "duvody": [
@@ -731,6 +724,7 @@
     }
   },
   "prijato_vlastnikem": [
-    "2.3"
+    "2.3",
+    "2.9"
   ]
 }
