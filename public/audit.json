@@ -29088,6 +29088,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "7.2",
+      "date": "2026-11-03",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ne-porušeno, ale deklarováno: vláda po nástupu přijala usnesení, které odmítá ETS2. Babiš 18. 10. 2026 zopakoval, že ČR ETS2 nezavede, ani kdyby se odklad do roku 2030 nepodařil. Formální ústup od slibu (M3) se nenašel, takže jde o prohlášení podle M2. Samotné zavedení ETS2 v roce 2028 vláda na úrovni EU zastavit nedokáže. Kritici upozorňují, že Babiš nejdřív sliboval zrušení a nyní žádá jen odklad.",
+      "comment_en": "Not broken, but only declared: after taking office the government adopted a resolution rejecting ETS2. On 18 Oct 2026 Babiš repeated that Czechia will not implement ETS2 even if the delay to 2030 fails. No formal retreat from the promise (M3) was found, so this is a statement under M2. The government cannot stop ETS2 from starting in 2028 at EU level. Critics note that Babiš first promised abolition and now asks only for a delay.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://m.echo24.cz/a/HGRT5/zpravy-domaci-babis-cesko-ets2-nezavede-ani-pokud-se-jeho-spusteni-na-urovni-eu-nepodari-odlozit-zopakoval-babis",
+        "https://www.irozhlas.cz/zpravy-domov/starostove-tlaci-na-babise-ohledne-emisnich-povolenek-ets-2-nerudova-predstavila_2602091031_jgr"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "broken",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

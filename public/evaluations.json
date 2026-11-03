@@ -1444,35 +1444,29 @@
       "overeno": "2026-11-02T08:37:02.807Z"
     },
     "7.2": {
-      "status": "broken",
-      "evidence": "Vláda odmítla implementovat ETS2 do české legislativy (usnesení vlády z prosince 2025), ale ETS2 byl definitivně schválen na úrovni EU a od roku 2028 se bude prosazovat. Premiér Babiš 18. 10. 2026 prohlásil, že Česko ETS2 nezavede, ale právně nemůže zabránit jeho zavedení.",
-      "evidenceDate": "2025-12-15",
+      "status": "declared",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda deklaruje odmítnutí implementace ETS2 a slibuje, že jej nezavede, ale právně nemůže zabránit jeho zavedení od roku 2028 na úrovni EU. Babiš se snaží získat podporu pro odklad či zrušení, ale ETS2 byl definitivně schválen. Slib se tak stává neuskutečnitelný – vláda nemůže plnit to, co slíbila, protože rozhodnutí padlo na úrovni EU.",
-        "en": "The government declares rejection of ETS2 implementation and promises not to introduce it, but legally cannot prevent its introduction from 2028 at EU level. Babiš seeks support for postponement or cancellation, but ETS2 was definitively approved. The promise thus becomes unfulfillable – the government cannot deliver what it promised because the decision was made at EU level."
+        "cs": "Ne-porušeno, ale deklarováno: vláda po nástupu přijala usnesení, které odmítá ETS2. Babiš 18. 10. 2026 zopakoval, že ČR ETS2 nezavede, ani kdyby se odklad do roku 2030 nepodařil. Formální ústup od slibu (M3) se nenašel, takže jde o prohlášení podle M2. Samotné zavedení ETS2 v roce 2028 vláda na úrovni EU zastavit nedokáže. Kritici upozorňují, že Babiš nejdřív sliboval zrušení a nyní žádá jen odklad.",
+        "en": "Not broken, but only declared: after taking office the government adopted a resolution rejecting ETS2. On 18 Oct 2026 Babiš repeated that Czechia will not implement ETS2 even if the delay to 2030 fails. No formal retreat from the promise (M3) was found, so this is a statement under M2. The government cannot stop ETS2 from starting in 2028 at EU level. Critics note that Babiš first promised abolition and now asks only for a delay."
       },
       "change": {
-        "cs": "ETS2 byl definitivně schválen na úrovni EU (9. 10. 2026), Česko mu nemůže právně zabránit.",
-        "en": "ETS2 was definitively approved at EU level (9 October 2026), the Czech Republic cannot legally prevent it."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
         {
-          "url": "https://m.echo24.cz/a/HJ8Ui/zpravy-domov-babis-zopakoval-ets2-nezavedeme",
-          "title": "„Emisní povolenky nezavedeme. Poškodily by totiž životy spoluobčanů,“ vzkázal Babiš ve videu - Echo24.cz"
+          "url": "https://m.echo24.cz/a/HGRT5/zpravy-domaci-babis-cesko-ets2-nezavede-ani-pokud-se-jeho-spusteni-na-urovni-eu-nepodari-odlozit-zopakoval-babis",
+          "title": "Česko ETS2 nezavede, ani pokud se jeho spuštění v EU nepodaří odložit, ubezpečil po summitu Babiš - Echo24.cz"
         },
         {
-          "url": "https://www.newstream.cz/nazory/povolenky-ets-2-jsou-definitivne-schvaleny-zdrazi-benzin-naftu-i-plyn-a-babis-mlci",
-          "title": "Povolenky ETS 2 jsou definitivně schváleny. Zdraží benzín, naftu i plyn. A Babiš mlčí"
-        },
-        {
-          "url": "https://uv.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-odmitla-migracni-pakt-eu-i-novy-system-obchodovani-s-emisnimi-povolenkami--domacnostem-i-firmam-zlevni-elektrinu-224297",
-          "title": "Vláda Andreje Babiše odmítla migrační pakt EU i nový systém obchodování s emisními povolenkami, domácnostem i firmám zlevní elektřinu"
+          "url": "https://www.irozhlas.cz/zpravy-domov/starostove-tlaci-na-babise-ohledne-emisnich-povolenek-ets-2-nerudova-predstavila_2602091031_jgr",
+          "title": "Vyjmutí domácností i cenové stropy. Nerudová představila úpravy emisních povolenek ETS2"
         }
       ],
       "previousStatus": "broken",
-      "updatedAt": "2026-10-30T14:12:16.158Z",
-      "overeno": "2026-10-30T14:11:32.840Z"
+      "updatedAt": "2026-11-02T08:38:17.107Z"
     },
     "7.3": {
       "status": "in_progress",
