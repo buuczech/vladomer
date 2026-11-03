@@ -5,6 +5,7 @@
  *     node scripts/report.js … --poslat [--zkouska] [--pr <odkaz na PR>] [--vetev beh/RRRR-MM]
  *     node scripts/report.js … --bez-pdf --vystup report
  *     node scripts/report.js … --srovnani-main <evaluations.json z main>   # generálka: srovnání s main
+ *     node scripts/report.js … --stav-vetve <navrhy/RRRR-MM.json z větve PR>   # e-mail znovu: co už je rozhodnuté
  *
  * Běží po scripts/rozhodni.js. Čte public/evaluations.json (to, co šlo na
  * web), <faktcheck>/rozhodnuti.json, deterministicky.json, modelova.json
@@ -168,16 +169,36 @@ console.log(`  ${cestaPdf || cestaHtml}\n  ${join(VYSTUP, "pro-AI.md")}\n  ${joi
      celý a e-mailoví klienti <del>/<ins> zobrazují každý jinak — rozdíl po
      slovech je v PDF. */
   const komentar = (e) => (e && e.comment && e.comment.cs) || "";
+  /* E-mail poslaný znovu během rozhodování (dev2-eval.yml, režim report) ukáže
+     u každého bodu, co už vlastník rozhodl: soubor návrhů ve větvi PR nese
+     přijaté body a historii příkazů. Neplatný příkaz (přijetí bez důvodu) se
+     do historie nezapíše, takže takový bod zůstane „nerozhodnuto“ — pravdivě. */
+  const cestaStavu = arg("stav-vetve", null);
+  const stavVetve = cestaStavu && existsSync(cestaStavu) ? cist(cestaStavu) : null;
+  const rozhodnuto = (bod) => {
+    if (!stavVetve) return null;
+    if ((stavVetve.prijate || {})[bod]) return "přijato";
+    return (stavVetve.historie || []).some((h) => h.bod === bod && h.prikaz === "podrzet") ? "necháno" : "nerozhodnuto";
+  };
+  const BARVY_STAVU = { "přijato": ["#DCFCE7", "#065F46"], "necháno": ["#E2E8F0", "#334155"], "nerozhodnuto": ["#FEF3C7", "#92400E"] };
+  const stitekStavu = (st) => st ? ` <span style="display:inline-block;padding:1px 8px;border-radius:10px;background:${BARVY_STAVU[st][0]};color:${BARVY_STAVU[st][1]};font-size:12px;font-weight:700">${st === "nerozhodnuto" ? "nerozhodnuto" : `už rozhodnuto: ${st}`}</span>` : "";
+  const pocty = stavVetve ? p.kRozhodnuti.reduce((a, k) => { const st = rozhodnuto(k.bod); a[st] = (a[st] || 0) + 1; return a; }, {}) : null;
+  const souhrnStavu = pocty ? `Stav z PR: rozhodnuto ${(pocty["přijato"] || 0) + (pocty["necháno"] || 0)} z ${p.kRozhodnuti.length} (přijato ${pocty["přijato"] || 0}, necháno ${pocty["necháno"] || 0}), zbývá ${pocty.nerozhodnuto || 0}. Rozhodnutý bod jde změnit druhým tlačítkem.` : "";
   const blokKomentare = (nadpis, text, barva) => `<div style="margin:6px 0 0;padding:6px 8px;border-left:3px solid ${barva};background:#F8FAFC"><span style="color:#5B6577;font-size:12px">${esc(nadpis)}</span><br>${text ? esc(text) : '<span style="color:#5B6577">bez komentáře</span>'}</div>`;
+  /* Přijetí vyvráceného tvrzení chce důvod (zapíše se do auditu). Odkaz ho
+     předvyplní jen jako „duvod: “ a potvrzení bez textu se neprovede — v
+     generálce 3. 11. 2026 tak propadlo šest přijetí a vlastník se to dozvěděl
+     jen z komentáře v PR. */
+  const DOPIS_DUVOD = `<br><span style="color:#B45309;font-size:12px">Na GitHubu za „duvod:“ dopiš jednou větou proč — bez důvodu se přijetí neprovede.</span>`;
   const body = p.kRozhodnuti.map((k) => {
     const o = odkazyBodu(k, { repo, vetev });
     const navrh = k.navrh ? NAZVY[k.navrh.unverifiable ? "unverifiable" : k.navrh.status] : k.kontrola ? NAZVY[k.kontrola.stav] : null;
     const web = k.dosavadni ? NAZVY[k.dosavadni.unverifiable ? "unverifiable" : k.dosavadni.status] : "—";
     return `<div style="border:1px solid #E2E7EF;border-radius:8px;padding:10px;margin:0 0 10px">
-<b>${esc(k.bod)}</b> <span style="color:#5B6577">${esc(k.slib.slice(0, 120))}</span><br>
+<b>${esc(k.bod)}</b>${stitekStavu(rozhodnuto(k.bod))} <span style="color:#5B6577">${esc(k.slib.slice(0, 120))}</span><br>
 ${esc(k.popisTypu)}<br>na webu: <b>${esc(web)}</b>${k.navrh ? ` → hodnotitel navrhuje: <b>${esc(navrh)}</b> (to přijme tlačítko Přijmout)` : ""}${k.kontrola && (!k.navrh || k.kontrola.stav !== (k.navrh.unverifiable ? "unverifiable" : k.navrh.status)) ? `<br>kontrola faktů podle tvých pravidel: <b>${esc(NAZVY[k.kontrola.stav] || k.kontrola.stav)}</b>` : ""}
 ${blokKomentare("Na webu teď", komentar(k.dosavadni), "#94A3B8")}${k.navrh ? blokKomentare("Po přijetí (návrh hodnotitele)", komentar(k.navrh), "#047857") : ""}
-${o ? `${tlacitko(o.prijmout, o.sDuvodem ? "Přijmout (s důvodem)" : "Přijmout", "#047857")}${tlacitko(o.podrzet, "Nechat", "#64748B")}` : `<span style="color:#5B6577">${k.prikaz ? `v PR: ${esc(k.prikaz)}` : "bez návrhu — zůstává, jak byl"}</span>`}
+${o ? `${tlacitko(o.prijmout, o.sDuvodem ? "Přijmout (s důvodem)" : "Přijmout", "#047857")}${tlacitko(o.podrzet, "Nechat", "#64748B")}${o.sDuvodem ? DOPIS_DUVOD : ""}` : `<span style="color:#5B6577">${k.prikaz ? `v PR: ${esc(k.prikaz)}` : "bez návrhu — zůstává, jak byl"}</span>`}
 </div>`;
   }).join("");
   /* Odkaz na GitHub je v e-mailu vždy: PR s návrhy, a když PR není (zkouška,
@@ -195,13 +216,14 @@ ${o ? `${tlacitko(o.prijmout, o.sDuvodem ? "Přijmout (s důvodem)" : "Přijmout
 <p>Splněno ${p.metrikaPred.procent.toFixed(1).replace(".", ",")} % → ${p.metrikaPo.procent.toFixed(1).replace(".", ",")} %. Cena běhu ${p.cena.celkem.toFixed(2).replace(".", ",")} $.${p.ponechano.length ? ` Na minulém záznamu bez rozhodování zůstalo ${p.ponechano.length} bodů (stav beze změny, novou formulaci kontrola nepotvrdila).` : ""}</p>
 ${srov ? srov.html : ""}
 <p>${odkazPR ? tlacitko(odkazPR, "Otevřít PR na GitHubu", "#0F172A") : `<span style="color:#B45309">${esc(bezPR)}</span>`}</p>
-${body ? `<p><b>K rozhodnutí</b>${vetev ? " — klepni u každého bodu na Přijmout, nebo Nechat. GitHub otevře předvyplněný soubor s rozhodnutím, stačí ho potvrdit (Commit changes). Do minuty se provede a v PR se objeví odpověď — před dalším klepnutím na ni počkej, jinak GitHub další commit odmítne, protože se větev mezitím změnila." : ""}</p>${body}` : "<p>Nic k rozhodnutí.</p>"}
+${body ? `${souhrnStavu ? `<p style="background:#EEF2FF;padding:8px;border-radius:6px"><b>${esc(souhrnStavu)}</b></p>` : ""}<p><b>K rozhodnutí</b>${vetev ? " — klepni u každého bodu na Přijmout, nebo Nechat. GitHub otevře předvyplněný soubor s rozhodnutím, stačí ho potvrdit (Commit changes). Do minuty se provede a v PR se objeví odpověď — před dalším klepnutím na ni počkej, jinak GitHub další commit odmítne, protože se větev mezitím změnila." : ""}</p>${body}` : "<p>Nic k rozhodnutí.</p>"}
 ${zverejnit ? `<p>Až budeš hotový: ${tlacitko(zverejnit, "Zveřejnit rozhodnutí", "#3B5BDB")}<br><span style="color:#5B6577">${ma("zkouska") ? "Sloučí PR do zahazovací větve a sestaví web jako artefakt — nic se nezveřejní." : "Sloučí PR a nasadí web."} Vyjde jen to, co přijmeš; bod, o kterém nerozhodneš, zůstane na minulém záznamu.</span></p>` : ""}
 <p>${odkazPR ? `<a href="${esc(odkazPR)}">PR na GitHubu</a> · ` : ""}${odkazBehu ? `<a href="${esc(odkazBehu)}">Log běhu</a> · ` : ""}<a href="https://vladomer.cz">Web</a></p>
 <p style="color:#5B6577">Podrobnosti s citacemi jsou v přiloženém PDF. Soubor pro-AI.md můžeš nahrát do aplikace Claude a nechat si doporučit, co s body udělat.</p>`;
-  const text = `${predmet}\n\n${ma("zkouska") ? "ZKOUŠKA — na vladomer.cz ani na Instagram nejde nic.\n\n" : ""}${srov ? `${srov.text}\n\n` : ""}${odkazPR ? `PR na GitHubu: ${odkazPR}` : bezPR}\n\n${p.kRozhodnuti.map((k) => {
+  const text = `${predmet}\n\n${ma("zkouska") ? "ZKOUŠKA — na vladomer.cz ani na Instagram nejde nic.\n\n" : ""}${srov ? `${srov.text}\n\n` : ""}${souhrnStavu ? `${souhrnStavu}\n\n` : ""}${odkazPR ? `PR na GitHubu: ${odkazPR}` : bezPR}\n\n${p.kRozhodnuti.map((k) => {
     const o = odkazyBodu(k, { repo, vetev });
-    return `${k.bod}: ${k.popisTypu}\n  Na webu teď: ${komentar(k.dosavadni) || "bez komentáře"}${k.navrh ? `\n  Po přijetí: ${komentar(k.navrh) || "bez komentáře"}` : ""}${o ? `\n  Přijmout: ${o.prijmout}\n  Nechat: ${o.podrzet}` : k.prikaz ? ` — ${k.prikaz}` : ""}`;
+    const st = rozhodnuto(k.bod);
+    return `${k.bod}${st ? ` [${st === "nerozhodnuto" ? st : `už rozhodnuto: ${st}`}]` : ""}: ${k.popisTypu}\n  Na webu teď: ${komentar(k.dosavadni) || "bez komentáře"}${k.navrh ? `\n  Po přijetí: ${komentar(k.navrh) || "bez komentáře"}` : ""}${o ? `\n  Přijmout: ${o.prijmout}${o.sDuvodem ? " (za „duvod:“ dopiš důvod)" : ""}\n  Nechat: ${o.podrzet}` : k.prikaz ? ` — ${k.prikaz}` : ""}`;
   }).join("\n") || "Nic k rozhodnutí."}${zverejnit ? `\n\nZveřejnit rozhodnutí: ${zverejnit}` : ""}${odkazBehu ? `\n\nLog běhu: ${odkazBehu}` : ""}`;
   writeFileSync(join(VYSTUP, "email.html"), `<!doctype html><meta charset="utf-8"><title>${esc(predmet)}</title><body style="font-family:sans-serif;max-width:640px;margin:16px">${htmlMail}</body>`);
   if (!ma("poslat")) process.exit(process.exitCode || 0);

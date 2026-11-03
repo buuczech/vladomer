@@ -196,7 +196,10 @@ jobs:
           esac
           PR=$(gh pr list --head "$VETEV" --state open --json url -q '.[0].url')
           if [ -n "$PR" ]; then PR="--pr $PR"; else echo "PR z větve $VETEV není otevřený — e-mail bez odkazu na PR"; fi
-          node scripts/report.js --pred /tmp/pred.json --poslat $ZK $PR --vetev "$VETEV" $SR --vystup /tmp/vysledky/report
+          # Co už vlastník rozhodl (soubor návrhů ve větvi PR, čerstvě stažený).
+          SV=""; M=$(echo "$VETEV" | sed -E 's#^beh/([0-9]{4}-[0-9]{2}).*#\1#')
+          if git fetch --no-tags origin "refs/heads/$VETEV" && git show "FETCH_HEAD:navrhy/$M.json" > /tmp/stav-vetve.json; then SV="--stav-vetve /tmp/stav-vetve.json"; fi
+          node scripts/report.js --pred /tmp/pred.json --poslat $ZK $PR --vetev "$VETEV" $SR $SV --vystup /tmp/vysledky/report
 
       - name: Řetěz — hodnocení → kontrola faktů → rozhodnutí
         if: steps.m.outputs.spustit == 'true' && steps.m.outputs.rezim == 'retez'

@@ -101,6 +101,19 @@ try {
   const zkouska = posledniEmail(["--zkouska", "--pr", "https://github.com/buuczech/vladomer/pull/124", "--vetev", "beh/2026-11-zkouska"]);
   over(zkouska.includes("Zkouška.") && zkouska.includes("zahazovací větve") && zkouska.includes("/new/beh/2026-11-zkouska?filename=rozhodnuti/10.2-prijmout.txt"),
     "zkušební e-mail: rozhodování jde vyzkoušet celé, s upozorněním, že nic nejde na web ani na Instagram");
+  // E-mail poslaný znovu během rozhodování: stav z větve PR u každého bodu.
+  const cestaStavu = join(dir, "stav-vetve.json");
+  writeFileSync(cestaStavu, JSON.stringify({ prijate: { "10.2": {} }, historie: [{ prikaz: "prijmout", bod: "7.2" }, { prikaz: "podrzet", bod: "7.2" }] }));
+  const seStavem = posledniEmail(["--zkouska", "--pr", "https://github.com/buuczech/vladomer/pull/124", "--vetev", "beh/2026-11-zkouska", "--stav-vetve", cestaStavu]);
+  const stitky = (st) => (seStavem.match(new RegExp(`>${st}</span>`, "g")) || []).length;
+  over(stitky("už rozhodnuto: přijato") === 1 && stitky("už rozhodnuto: necháno") === 1 && stitky("nerozhodnuto") === pocetBodu - 2 && /Stav z PR: rozhodnuto 2 z \d+ \(přijato 1, necháno 1\)/.test(seStavem),
+    "e-mail znovu: u bodu stav z PR (10.2 přijato, 7.2 přijato a pak necháno), nahoře souhrn", [stitky("už rozhodnuto: přijato"), stitky("už rozhodnuto: necháno"), stitky("nerozhodnuto"), pocetBodu]);
+  over(!/nerozhodnuto|už rozhodnuto|Stav z PR/.test(ostry), "bez stavu větve (běžný běh) žádné štítky");
+  // Fixtura bod s vyvráceným tvrzením nemá; na listopadových datech generálky
+  // (6 takových bodů) to ověřil běh report.js nad artefaktem 3. 11. 2026.
+  const sDuvodem = (ostry.match(/Přijmout \(s důvodem\)/g) || []).length;
+  over((ostry.match(/bez důvodu se přijetí neprovede/g) || []).length === sDuvodem,
+    "u každého „Přijmout (s důvodem)“ věta, že za „duvod:“ se musí dopsat text (generálka: šest propadlých přijetí)", sDuvodem);
   const bezVetve = posledniEmail(["--zkouska"]);
   over(bezVetve.includes("Nic k rozhodnutí") || bezVetve.includes("PR se nepodařilo založit"), "bez PR e-mail řekne proč");
   // Generálka: srovnání s main v e-mailu a jako soubor (příloha a artefakt).
