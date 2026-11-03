@@ -29313,6 +29313,26 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "9.7",
+      "date": "2026-11-03",
+      "status": "partial",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale: podle dřívějšího hodnocení v systému je duální vzdělávání zakotveno zákonem č. 267/2025 Sb. účinným od 1. 1. 2026, což je dílo předchozí vlády, a nynější vláda jmenovala vládního zmocněnce pro technické vzdělávání. Ne, ale: tuto aktuální vyhledávací rundou jsem tyto údaje neověřil a nenašel jsem novou výzvu, rozpočet ani smlouvu této vlády, které by rozšíření duálního vzdělávání či učňovství doložitelně nesly. Je to tedy nanejvýš částečné plnění zděděným předpisem.",
+      "comment_en": "Yes, but: according to the earlier assessment on file, dual education is anchored in Act No. 267/2025 Coll., effective 1 Jan 2026, which is the previous government's work, and the current government appointed a commissioner for technical education. No, but: I could not verify this in the current search round and found no new call, budget line or contract from this government that demonstrably expands dual education or apprenticeships. At most this is partial fulfilment via an inherited law.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-16",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

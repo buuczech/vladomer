@@ -2007,34 +2007,20 @@
       "overeno": "2026-10-30T14:13:48.214Z"
     },
     "9.7": {
-      "status": "in_progress",
+      "status": "partial",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Duální vzdělávání bylo zavedeno zákonem č. 267/2025 Sb. (účinný od 1. 1. 2026), který je dílem předchozí vlády. Vláda Babiše v lednu 2026 jmenovala vládního zmocněnce pro technické vzdělávání a v květnu 2026 vydala metodický materiál k duálnímu praktickému vyučování. Jednotlivé kraje a školy postupně zavádějí duální vzdělávání (např. Zlínský kraj od školního roku 2026/2027). Vláda tak pokračuje v implementaci, ale samotné zavedení je dílem předchozí vlády.",
-        "en": "Dual education was introduced by law no. 267/2025 Sb. (effective from 1 January 2026), which is the work of the previous government. The Babiš government appointed a government commissioner for technical education in January 2026 and issued methodological guidance on dual practical training in May 2026. Individual regions and schools are gradually implementing dual education (e.g., the Zlín region from school year 2026/2027). The government is thus continuing implementation, but the introduction itself is the work of the previous government."
+        "cs": "Ano, ale: podle dřívějšího hodnocení v systému je duální vzdělávání zakotveno zákonem č. 267/2025 Sb. účinným od 1. 1. 2026, což je dílo předchozí vlády, a nynější vláda jmenovala vládního zmocněnce pro technické vzdělávání. Ne, ale: tuto aktuální vyhledávací rundou jsem tyto údaje neověřil a nenašel jsem novou výzvu, rozpočet ani smlouvu této vlády, které by rozšíření duálního vzdělávání či učňovství doložitelně nesly. Je to tedy nanejvýš částečné plnění zděděným předpisem.",
+        "en": "Yes, but: according to the earlier assessment on file, dual education is anchored in Act No. 267/2025 Coll., effective 1 Jan 2026, which is the previous government's work, and the current government appointed a commissioner for technical education. No, but: I could not verify this in the current search round and found no new call, budget line or contract from this government that demonstrably expands dual education or apprenticeships. At most this is partial fulfilment via an inherited law."
       },
       "change": {
         "cs": "beze změny",
         "en": "no change"
       },
-      "sources": [
-        {
-          "url": "https://edu.gov.cz/pro-vedeni-skoly/dualni-prakticke-vyucovani-prehled-a-evidence/",
-          "title": "Duální praktické vyučování"
-        },
-        {
-          "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/tripartita-se-zabyvala-problematikou-celozivotniho-vzdelavani-225704/",
-          "title": "Tripartita se zabývala problematikou celoživotního vzdělávání"
-        },
-        {
-          "url": "https://www.irozhlas.cz/zivotni-styl/spolecnost/chvili-ve-skole-chvili-ve-firme-z-dualniho-vzdelavani-maji-v-uherskem-brode_2603061216_zko",
-          "title": "Uherskobrodská střední zavede příští rok duální vzdělávání"
-        }
-      ],
+      "sources": [],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-10-16T14:36:41.667Z",
-      "overeno": "2026-10-30T14:13:48.214Z"
+      "updatedAt": "2026-11-02T08:40:51.720Z"
     },
     "9.8": {
       "status": "in_progress",
