@@ -140,6 +140,26 @@ export function radekAuditu(id, e, date, model) {
   };
 }
 
+/* Text za „Důvod:“ v oprava.duvod, jak ho píše sloz() níže. */
+const DUVOD_VLASTNIKA = / přijal vlastník\. Důvod: (.+)$/s;
+
+/**
+ * Poslední přijetí návrhu u bodu z běhu před `beh` (řádek auditu ze sloz()).
+ * Report ho ukáže u bodu, který se vrátil k rozhodnutí, aby ho vlastník
+ * nemusel dohledávat znovu. Jen pro vlastníka: model důvod nedostává, stav
+ * má stát na zdroji, ne na tom, že ho vlastník jednou přijal.
+ * @returns { beh, duvod } | null — duvod je text vlastníka, nebo null
+ */
+export function predchoziPrijeti(audit, bod, beh) {
+  let posledni = null;
+  for (const r of (audit && audit.entries) || []) {
+    const o = r.oprava;
+    if (r.id !== bod || !o || !o.prijato_z_behu || !(o.prijato_z_behu < beh)) continue;
+    if (!posledni || o.prijato_z_behu >= posledni.beh) posledni = { beh: o.prijato_z_behu, duvod: (String(o.duvod || "").match(DUVOD_VLASTNIKA) || [])[1] || null };
+  }
+  return posledni;
+}
+
 /**
  * Složí soubory větve: zveřejněná data běhu + přijaté návrhy.
  * @param zaklad { evals: evaluations.json, audit: audit.json, hist: history.json, faktcheck?: faktcheck.json } z commitu běhu (kopie se upraví)

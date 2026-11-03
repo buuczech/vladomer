@@ -13,7 +13,7 @@
  * jen do lib/email.js při odeslání.
  */
 
-import { odkazRozhodnuti, ocistenyZaznam } from "./navrhy.js";
+import { odkazRozhodnuti, ocistenyZaznam, predchoziPrijeti } from "./navrhy.js";
 
 /* Barvy legendy webu, světlý motiv (src/App.jsx, :root). Report se tiskne
    na bílý papír, tmavý motiv by v PDF působil jako jiný web. */
@@ -71,10 +71,11 @@ const chceDuvod = (problemy) => problemy.some((p) => p === "m-vyvraceno" || p.st
  * @param rozhodnuti    faktcheck-vystup/rozhodnuti.json
  * @param D, M          deterministicky.json, modelova.json (M smí chybět)
  * @param naklady       public/naklady.json (smí chybět)
+ * @param audit         public/audit.json (smí chybět) — minulá přijetí vlastníkem
  * @param polozky       ALL_ITEMS ze src/data.js
  * @param modely        { hodnoceni, overeni, korektura, kontrola }
  */
-export function podkladyReportu({ pred, po, rozhodnuti, D = null, M = null, naklady = null, polozky, modely = {} }) {
+export function podkladyReportu({ pred, po, rozhodnuti, D = null, M = null, naklady = null, audit = null, polozky, modely = {} }) {
   const slib = Object.fromEntries(polozky.map((i) => [i.id, i.cs]));
   const nalezyBodu = {};
   for (const n of (D && D.nalezy) || []) (nalezyBodu[n.bod] = nalezyBodu[n.bod] || []).push(n);
@@ -94,6 +95,7 @@ export function podkladyReportu({ pred, po, rozhodnuti, D = null, M = null, nakl
       brana: b.vlastnik.navrh && b.vlastnik.navrh.brana ? b.vlastnik.navrh.brana : null,
       tvrzeni: sporna, nalezyD: (nalezyBodu[b.bod] || []).filter((n) => n.zavaznost === "CHYBA" || n.nesestav),
       prikaz: navrh ? `/prijmout ${b.bod}${chceDuvod(b.problemy) ? " duvod: …" : ""}` : null,
+      minule: predchoziPrijeti(audit, b.bod, beh),
     };
   });
   // Nezkontrolované body bez jiného nálezu se v reportu shrnou jedním řádkem.
@@ -135,6 +137,10 @@ export function podkladyReportu({ pred, po, rozhodnuti, D = null, M = null, nakl
 }
 
 /* --- HTML ------------------------------------------------------------------ */
+const datumCs = (d) => `${Number(d.slice(8, 10))}. ${Number(d.slice(5, 7))}. ${d.slice(0, 4)}`;
+/* Bod, který vlastník už jednou přijal a který se vrátil k rozhodnutí. */
+export const minuleText = (m) => `Minule přijato (běh ${datumCs(m.beh)})${m.duvod ? `, tvůj důvod: „${m.duvod}“` : ", bez důvodu"}`;
+
 export const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const stitek = (s) => `<span class="stav" style="background:${BARVY[s] || "#64748B"}">${esc(NAZVY[s] || s)}</span>`;
 const zkrat = (s, n) => (String(s || "").length > n ? `${String(s).slice(0, n - 1)}…` : String(s || ""));
@@ -206,6 +212,7 @@ export function htmlOddily(p, { odkazPR = null, odkazWeb = "https://vladomer.cz"
   <section class="karta bod" id="bod-${esc(k.bod)}">
     <h3>${esc(k.bod)} <span class="slabe">${esc(zkrat(k.slib, 160))}</span></h3>
     <p class="typ">${esc(k.popisTypu)}</p>
+    ${k.minule ? `<p class="pozor">${esc(minuleText(k.minule))}</p>` : ""}
     <ul class="duvody">${k.problemy.map((x) => `<li>${esc(x)}</li>`).join("")}${k.brana ? `<li>brána přechodů návrh podržela: ${esc(k.brana.duvod)}</li>` : ""}</ul>
     <div class="vedle">
       <div><h4>Na webu</h4>${zaznamHtml(k.dosavadni, rozdil && rozdil.pred)}</div>

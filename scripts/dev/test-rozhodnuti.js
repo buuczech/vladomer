@@ -23,7 +23,7 @@ import { execFileSync } from "node:child_process";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { rozhodniBod, rozhodniBeh, problemyBodu, oznacAudit, upravSnimek, stavZaznamu } from "../lib/faktcheck/rozhodnuti.js";
-import { novySoubor, proved, sloz, prikazyZKomentare, odkazRozhodnuti, prikazyZeSouboru, VETEV_BEHU, ocistenyZaznam, zkorigujNavrhy } from "../lib/navrhy.js";
+import { novySoubor, proved, sloz, prikazyZKomentare, odkazRozhodnuti, prikazyZeSouboru, VETEV_BEHU, ocistenyZaznam, zkorigujNavrhy, predchoziPrijeti } from "../lib/navrhy.js";
 
 const fx = JSON.parse(readFileSync(new URL("./fixtury/rozhodnuti.json", import.meta.url), "utf8"));
 let chyb = 0;
@@ -199,6 +199,13 @@ over(novy && novy.date === "2026-10-22" && novy.model === "claude-sonnet-5-5" &&
   "přijetí je nový řádek auditu s „oprava“ (append-only), s modelem, který návrh napsal", novy);
 over(slozeno.hist.snapshots[0].statuses["10.2"] === "declared" && zakladPR.evals.evals["10.2"] === beh.evals["10.2"], "snímek běhu nese přijatý stav; vstup se nemění");
 over(!slozeno.faktcheck.body["10.2"] && slozeno.faktcheck.body["12.2"], "přijatý bod zmizí z faktcheck.json (web u něj přestane ukazovat „čeká na ověření“)", slozeno.faktcheck);
+// Report příštího běhu ukáže minulé přijetí: důvod, který sloz() zapsal do auditu, se přečte zpátky.
+proved(soubor, { prikaz: "prijmout", bod: "12.2", duvod: "Hodnotitel přesněji popisuje stav." });
+const sDuvodemPR = sloz(soubor, zakladPR, "2026-10-22");
+over(stejne(predchoziPrijeti(sDuvodemPR.audit, "12.2", "2026-12-01"), { beh: dnes, duvod: "Hodnotitel přesněji popisuje stav." })
+  && stejne(predchoziPrijeti(sDuvodemPR.audit, "10.2", "2026-12-01"), { beh: dnes, duvod: null })
+  && predchoziPrijeti(sDuvodemPR.audit, "10.2", dnes) === null && predchoziPrijeti(sDuvodemPR.audit, "7.2", "2026-12-01") === null,
+  "minulé přijetí: důvod z řádku auditu zpátky, bez důvodu null, přijetí z téhož běhu se nepočítá", predchoziPrijeti(sDuvodemPR.audit, "12.2", "2026-12-01"));
 
 over(JSON.stringify(prikazyZKomentare("Díky!\n/prijmout 10.2\n /podrzet 12.2 \n/prijmout 2.3 duvod: zdroj je zastaralý\n/prijmout 7.2; rm -rf /\n/prijmout 7.2 `x`")) === JSON.stringify([
   { prikaz: "prijmout", bod: "10.2", duvod: null }, { prikaz: "podrzet", bod: "12.2", duvod: null }, { prikaz: "prijmout", bod: "2.3", duvod: "zdroj je zastaralý" },

@@ -114,6 +114,20 @@ try {
   const sDuvodem = (ostry.match(/Přijmout \(s důvodem\)/g) || []).length;
   over((ostry.match(/bez důvodu se přijetí neprovede/g) || []).length === sDuvodem,
     "u každého „Přijmout (s důvodem)“ věta, že za „duvod:“ se musí dopsat text (generálka: šest propadlých přijetí)", sDuvodem);
+  // Bod, který vlastník už jednou přijal, ukáže to přijetí i s důvodem
+  // (vlastník 3. 11. 2026). Fixtura je běh z 1. 11. 2026.
+  const cestaAuditu = join(dir, "audit.json");
+  const radek = (id, behPrijeti, duvod) => ({ id, date: behPrijeti, oprava: { duvod: `Návrh z běhu ${behPrijeti}, který kontrola faktů podržela (m-spor), přijal vlastník.${duvod ? ` Důvod: ${duvod}` : ""}`, prijato_z_behu: behPrijeti } });
+  writeFileSync(cestaAuditu, JSON.stringify({ entries: [
+    radek("10.2", "2026-09-01", "Starší důvod."), radek("10.2", "2026-10-02", "Hodnotitel přesněji popisuje stav."),
+    radek("7.2", "2026-10-02", null),
+    radek("12.2", "2026-11-01", "Přijato v tomtéž běhu."), { id: "12.2", date: "2026-10-05", oprava: { duvod: "Ruční oprava." } },
+  ] }));
+  const sMinulym = posledniEmail(["--pr", "https://github.com/buuczech/vladomer/pull/123", "--vetev", "beh/2026-11", "--audit", cestaAuditu]);
+  over(sMinulym.includes("Minule přijato (běh 2. 10. 2026), tvůj důvod: „Hodnotitel přesněji popisuje stav.“") && sMinulym.includes("Minule přijato (běh 2. 10. 2026), bez důvodu")
+    && (sMinulym.match(/Minule přijato/g) || []).length === 2 && soubor("report-2026-11.html").includes("tvůj důvod: „Hodnotitel přesněji popisuje stav.“"),
+    "minulé přijetí: poslední s důvodem (10.2), bez důvodu (7.2); přijetí z téhož běhu a ruční oprava se nepočítají (12.2); i v PDF", (sMinulym.match(/Minule přijato[^<]*/g) || []));
+  over(!/Minule přijato/.test(ostry), "bez dřívějšího přijetí v auditu nic");
   const bezVetve = posledniEmail(["--zkouska"]);
   over(bezVetve.includes("Nic k rozhodnutí") || bezVetve.includes("PR se nepodařilo založit"), "bez PR e-mail řekne proč");
   // Generálka: srovnání s main v e-mailu a jako soubor (příloha a artefakt).
