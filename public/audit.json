@@ -29065,6 +29065,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "4.7",
+      "date": "2026-11-03",
+      "status": "in_progress",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale: nábor v roce 2026 výrazně překračuje plán. Zůna uvedl 3597 přijatých nebo s rozhodnutím o nástupu k 29. 9. proti cíli 2250 a pro roky 2027–2029 počítá s 3500 ročně. Ne, ale: toto číslo zahrnuje i studenty Univerzity obrany a další složky. Podle iROZHLAS armáda reálně přijala méně a čistý přírůstek je ještě nižší. Zvýšení počtu vojáků tak zatím není doloženo a část úspěchu připisují zvýšení platů z doby předchozí vlády.",
+      "comment_en": "Yes, but: 2026 recruitment well exceeds the plan. Zůna reported 3,597 accepted or with an enlistment decision by 29 Sept against a target of 2,250, and expects 3,500 a year in 2027–2029. No, but: that figure includes Defence University students and other units. According to iROZHLAS the army actually admitted fewer and the net increase is lower still. A rise in troop numbers is therefore not yet demonstrated, and part of the success is credited to the previous government's pay rises.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://zpravy.aktualne.cz/domaci/ministr-zuna-se-chlubi-rekordnim-naborem-zamlcel-ale-problem-ktery-armadu-brzdi/r~aaa29db38401a11cd7647b006604f39a/",
+        "https://www.irozhlas.cz/zpravy-domov/rezy-na-obrane-zunuv-resort-zrusil-desitky-pozic-a-na-dalsi-se-chysta-pocita-s_2610100500_hrk"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

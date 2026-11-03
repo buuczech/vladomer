@@ -974,26 +974,26 @@
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Nábor v roce 2026 dosahuje 2997 vojáků (133 % plánu 2250), což je výrazný úspěch. Vláda deklaruje prioritu náboru minimálně 2000 vojáků ročně; ministr Zůna uvedl, že nová koncepce počítá s cílem okolo 3000 profesionálů ročně. Proces pokračuje, ale není ještě uzavřen – jde o běžící nábor bez legislativního kroku.",
-        "en": "Recruitment in 2026 reaches 2,997 soldiers (133% of the 2,250 target), which is a significant success. The government declares a priority of recruiting at least 2,000 soldiers annually; Minister Zůna stated the new concept targets around 3,000 professionals per year. The process continues but is not yet closed – it is ongoing recruitment without legislative action."
+        "cs": "Ano, ale: nábor v roce 2026 výrazně překračuje plán. Zůna uvedl 3597 přijatých nebo s rozhodnutím o nástupu k 29. 9. proti cíli 2250 a pro roky 2027–2029 počítá s 3500 ročně. Ne, ale: toto číslo zahrnuje i studenty Univerzity obrany a další složky. Podle iROZHLAS armáda reálně přijala méně a čistý přírůstek je ještě nižší. Zvýšení počtu vojáků tak zatím není doloženo a část úspěchu připisují zvýšení platů z doby předchozí vlády.",
+        "en": "Yes, but: 2026 recruitment well exceeds the plan. Zůna reported 3,597 accepted or with an enlistment decision by 29 Sept against a target of 2,250, and expects 3,500 a year in 2027–2029. No, but: that figure includes Defence University students and other units. According to iROZHLAS the army actually admitted fewer and the net increase is lower still. A rise in troop numbers is therefore not yet demonstrated, and part of the success is credited to the previous government's pay rises."
       },
       "change": {
-        "cs": "Armáda nabrala do listopadu 2026 rekordních 2390 nováčků, překročila plán o téměř 300 vojáků.",
-        "en": "The Army recruited a record 2,390 recruits by November 2026, exceeding the plan by nearly 300 soldiers."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
         {
-          "url": "https://www.respekt.cz/informacni-servis/ceska-armada-odhaduje-ze-letos-nabere-3300-novych-vojaku-z-povolani-2026-06-09-15-34",
-          "title": "Česká armáda odhaduje, že letos nabere 3300 nových vojáků z povolání • RESPEKT"
+          "url": "https://zpravy.aktualne.cz/domaci/ministr-zuna-se-chlubi-rekordnim-naborem-zamlcel-ale-problem-ktery-armadu-brzdi/r~aaa29db38401a11cd7647b006604f39a/",
+          "title": "Ministr Zůna se chlubí rekordním náborem. Zamlčel ale problém, který armádu brzdí"
         },
         {
-          "url": "https://ikp.mo.gov.cz/aktualita/aktualni-cisla-potvrzuji-rekordni-zajem-o-sluzbu-v-uniforme-armada-cr-hlasi-historicky",
-          "title": "Aktuální čísla potvrzují rekordní zájem o službu v uniformě. Armáda ČR hlásí historicky nejvyšší počet nováčků"
+          "url": "https://www.irozhlas.cz/zpravy-domov/rezy-na-obrane-zunuv-resort-zrusil-desitky-pozic-a-na-dalsi-se-chysta-pocita-s_2610100500_hrk",
+          "title": "Ministerstvo obrany počítá s úsporou 70 milionů korun"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-10-30T14:08:43.049Z",
-      "overeno": "2026-10-30T14:07:39.281Z"
+      "updatedAt": "2026-11-02T08:33:14.841Z",
+      "overeno": "2026-11-02T08:32:31.222Z"
     },
     "5.1": {
       "status": "partial",
