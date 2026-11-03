@@ -1837,6 +1837,9 @@
     },
     "7.2": {
       "duvod": null
+    },
+    "2.11": {
+      "duvod": "přesnější znění hodnotitele. Říká také, že jednotné inkasní místo není ani v procesu."
     }
   },
   "historie": [
@@ -1947,6 +1950,13 @@
       "kdo": "buuczech",
       "prikaz": "podrzet",
       "bod": "1.4"
+    },
+    {
+      "kdy": "2026-11-03T12:07:37.626Z",
+      "kdo": "buuczech",
+      "prikaz": "prijmout",
+      "bod": "2.11",
+      "duvod": "přesnější znění hodnotitele. Říká také, že jednotné inkasní místo není ani v procesu."
     }
   ]
 }

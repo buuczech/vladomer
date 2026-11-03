@@ -28952,6 +28952,29 @@
       }
     },
     {
+      "id": "2.11",
+      "date": "2026-11-03",
+      "status": "partial",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Dílčí krok existuje: jednotné měsíční hlášení zaměstnavatele (zákon č. 323/2025 Sb., dílo předchozí vlády, funkční za této vlády) sjednocuje hlášení, ale nesjednocuje výběr daní a pojistného. Vláda navíc připravuje první etapu jednotného inkasního místa: finanční správa má převzít vymáhání nedoplatků na pojistném a úplné sjednocení se podle ministerstva nemá dělat jednorázově. Start je plánován od ledna 2028. Slib sloučit výběr daní a obou pojištění tedy zatím splněn není; exekutoři a část trhu proti přesunu pohledávek protestují.",
+      "comment_en": "A partial step exists: the employer's unified monthly report (Act No. 323/2025 Coll., the previous government's work, operating under this one) unifies reporting but not the collection of taxes and contributions. The government is also preparing a first stage of the single collection point: the tax administration is to take over enforcement of insurance arrears, and the ministry says full unification should not be done in one go. The start is planned for January 2028. The pledge to merge collection of taxes and both insurances is therefore not yet fulfilled, and bailiffs and part of the market oppose moving the receivables.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://financnisprava.gov.cz/cs/financni-sprava/media-a-verejnost/tiskove-zpravy-gfr/tiskove-zpravy-2026/stat-sjednoti-vymahani-nedoplatku-na-pojistnem",
+        "https://archiv.hn.cz/c1-67937800-hra-o-miliardy-z-dluhu-exekutori-brani-svuj-byznys-s-pohledavkami-z-pojistneho-stat-vycislene-ztraty-zpochybnuje"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-23",
+        "puvodni_status": "partial",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-vyvraceno, m-neovereno, m-spor), přijal vlastník. Důvod: přesnější znění hodnotitele. Říká také, že jednotné inkasní místo není ani v procesu.",
+        "prijato_z_behu": "2026-11-02"
+      }
+    },
+    {
       "id": "2.15",
       "date": "2026-11-03",
       "status": "fulfilled",

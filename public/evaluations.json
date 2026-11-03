@@ -411,13 +411,11 @@
     },
     "2.11": {
       "status": "partial",
-      "evidence": "zákon č. 323/2025 Sb., nabyl účinnosti 1. 1. 2026; plný provoz od 1. 4. 2026",
-      "evidenceDate": "2025-09-03",
+      "evidence": "",
       "unverifiable": false,
-      "evidenceMissing": "predates-term",
       "comment": {
-        "cs": "Splněno. Jednotné měsíční hlášení zaměstnavatele (JMHZ) je funkční od 1. dubna 2026 v plném rozsahu. Zákon č. 323/2025 Sb. nabyl účinnosti 1. ledna 2026, ale ostrý start s plnou funkčností proběhl 1. dubna 2026. Systém sjednocuje hlášení pojistného na sociální a zdravotní pojištění do jednoho měsíčního hlášení, což zjednodušuje administrativu zaměstnavatelů.",
-        "en": "Fulfilled. The unified monthly employer report (JMHZ) has been operational since April 1, 2026 in full scope. Act No. 323/2025 Sb. became effective on January 1, 2026, but the full operational start occurred on April 1, 2026. The system consolidates social and health insurance contribution reporting into a single monthly report, simplifying employer administration."
+        "cs": "Dílčí krok existuje: jednotné měsíční hlášení zaměstnavatele (zákon č. 323/2025 Sb., dílo předchozí vlády, funkční za této vlády) sjednocuje hlášení, ale nesjednocuje výběr daní a pojistného. Vláda navíc připravuje první etapu jednotného inkasního místa: finanční správa má převzít vymáhání nedoplatků na pojistném a úplné sjednocení se podle ministerstva nemá dělat jednorázově. Start je plánován od ledna 2028. Slib sloučit výběr daní a obou pojištění tedy zatím splněn není; exekutoři a část trhu proti přesunu pohledávek protestují.",
+        "en": "A partial step exists: the employer's unified monthly report (Act No. 323/2025 Coll., the previous government's work, operating under this one) unifies reporting but not the collection of taxes and contributions. The government is also preparing a first stage of the single collection point: the tax administration is to take over enforcement of insurance arrears, and the ministry says full unification should not be done in one go. The start is planned for January 2028. The pledge to merge collection of taxes and both insurances is therefore not yet fulfilled, and bailiffs and part of the market oppose moving the receivables."
       },
       "change": {
         "cs": "beze změny",
@@ -425,24 +423,17 @@
       },
       "sources": [
         {
-          "url": "https://e-sbirka.gov.cz/sb/2025/323",
-          "title": "323/2025 Sb. — Zákon o jednotném měsíčním hlášení zaměstnavatele"
+          "url": "https://financnisprava.gov.cz/cs/financni-sprava/media-a-verejnost/tiskove-zpravy-gfr/tiskove-zpravy-2026/stat-sjednoti-vymahani-nedoplatku-na-pojistnem",
+          "title": "Stát sjednotí vymáhání nedoplatků na pojistném"
+        },
+        {
+          "url": "https://archiv.hn.cz/c1-67937800-hra-o-miliardy-z-dluhu-exekutori-brani-svuj-byznys-s-pohledavkami-z-pojistneho-stat-vycislene-ztraty-zpochybnuje",
+          "title": "Hra o miliardy z dluhů. Exekutoři brání svůj byznys s pohledávkami z pojistného, stát vyčíslené ztráty zpochybňuje"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-10-23T12:37:37.338Z",
-      "sbirka": {
-        "overene": [
-          {
-            "kod": "323/2025",
-            "nazev": "Zákon o jednotném měsíčním hlášení zaměstnavatele",
-            "vyhlaseno": "2025-09-03",
-            "url": "https://e-sbirka.gov.cz/sb/2025/323"
-          }
-        ],
-        "neexistujici": []
-      },
-      "overeno": "2026-10-30T14:04:52.765Z"
+      "updatedAt": "2026-11-02T08:30:51.728Z",
+      "overeno": "2026-11-02T08:27:57.025Z"
     },
     "2.12": {
       "status": "partial",

@@ -69,14 +69,6 @@
         "m-kolo2-strop"
       ]
     },
-    "2.11": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-vyvraceno",
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
     "2.12": {
       "akce": "podrzet",
       "duvody": [
@@ -679,6 +671,7 @@
   "prijato_vlastnikem": [
     "2.3",
     "2.9",
+    "2.11",
     "2.15",
     "3.4",
     "4.1",
