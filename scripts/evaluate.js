@@ -34,6 +34,7 @@ import { parsujDeltaOdpoved, planKapitoly, prenesNeprehodnocene } from "./lib/de
 import { parsujHodnoceni, vyrezy } from "./lib/odpoved.js";
 import { nactiRejstrik, overZnacky, hlavniPredpis, opravDatumVyhlaseni, tabulkaRejstriku, popisProOverovatele, nactiZneni } from "./lib/sbirka.js";
 import { nactiTisky, zdrojSeznamu } from "./lib/psp.js";
+import { ocistenyZaznam } from "./lib/navrhy.js";
 import { teloPozadavku, zavolejApi, overModely, nastavPojistku, souhrnNakladu } from "./lib/modely.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
@@ -1096,7 +1097,12 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
   dnesni.sort((a, b) => a.id.localeCompare(b.id, "cs", { numeric: true }));
   entries.push(...dnesni);
   writeFileSync(OUT_AUDIT, JSON.stringify({ entries }, null, 2));
-  if (NAVRHY_BEHU) writeFileSync(NAVRHY_BEHU, JSON.stringify({ datum: today, neprijate: NEPRIJATE }, null, 2));
+  /* Návrhy jdou kontrole faktů, do reportu i do PR v podobě, v jaké by po
+     přijetí vyšly na web (lib/navrhy.js, ocistenyZaznam). */
+  if (NAVRHY_BEHU) {
+    const neprijate = Object.fromEntries(Object.entries(NEPRIJATE).map(([id, x]) => [id, { ...x, navrh: ocistenyZaznam(x.navrh) }]));
+    writeFileSync(NAVRHY_BEHU, JSON.stringify({ datum: today, neprijate }, null, 2));
+  }
 
   console.log(`\nWrote ${Object.keys(newEvals).length} evaluations, ${capped.length} history snapshots, ${recorded} audit records`);
 

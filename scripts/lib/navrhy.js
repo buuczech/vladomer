@@ -18,7 +18,26 @@
  * jen s důvodem, který se zapíše do auditu.
  */
 
+import { POLE_KOREKTURY, ctiPole, zapisPole, jazykPole, ocisti } from "./korektura.js";
+
 const vyvraceny = (problemy) => problemy.some((p) => p === "m-vyvraceno" || p.startsWith("d:"));
+
+/* Návrh v podobě, v jaké by po přijetí vyšel na web: mechanicky očištěný
+   (<cite>, syrové klíče stavu) stejně jako každý zveřejňovaný záznam. Návrhy,
+   které podržela brána, se dřív zapisovaly syrové — generálka 2. 11. 2026
+   nabídla k přijetí 2.9, 2.14 a 5.4 se značkami <cite>. Očišťuje se při
+   zápisu v evaluate.js i tady, aby to platilo i pro starší soubory návrhů.
+   Vrací kopii, originál zůstává. Jazykovou korekturu podržené návrhy nemají:
+   platí se jen za texty, které běh zveřejňuje. */
+export function ocistenyZaznam(zaznam) {
+  if (!zaznam) return zaznam;
+  const e = structuredClone(zaznam);
+  for (const pole of POLE_KOREKTURY) {
+    const t = ctiPole(e, pole);
+    if (t) zapisPole(e, pole, ocisti(t, jazykPole(pole)));
+  }
+  return e;
+}
 
 /** Návrhy z rozhodnutí vrstvy R: bod → { zaznam, problemy, vyvraceny, typ }. */
 export function navrhyZRozhodnuti(rozhodnuti) {
@@ -26,7 +45,7 @@ export function navrhyZRozhodnuti(rozhodnuti) {
   for (const b of Object.values(rozhodnuti.body || {})) {
     const n = b.vlastnik && b.vlastnik.navrh;
     if (!n || n.zdroj !== "hodnotitel" || !n.zaznam) continue;
-    out[b.bod] = { zaznam: n.zaznam, problemy: b.problemy, vyvraceny: vyvraceny(b.problemy), typ: b.vlastnik.typ };
+    out[b.bod] = { zaznam: ocistenyZaznam(n.zaznam), problemy: b.problemy, vyvraceny: vyvraceny(b.problemy), typ: b.vlastnik.typ };
   }
   return out;
 }

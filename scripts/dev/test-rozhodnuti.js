@@ -23,7 +23,7 @@ import { execFileSync } from "node:child_process";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { rozhodniBod, rozhodniBeh, problemyBodu, oznacAudit, upravSnimek, stavZaznamu } from "../lib/faktcheck/rozhodnuti.js";
-import { novySoubor, proved, sloz, prikazyZKomentare, odkazRozhodnuti, prikazyZeSouboru, VETEV_BEHU } from "../lib/navrhy.js";
+import { novySoubor, proved, sloz, prikazyZKomentare, odkazRozhodnuti, prikazyZeSouboru, VETEV_BEHU, ocistenyZaznam } from "../lib/navrhy.js";
 
 const fx = JSON.parse(readFileSync(new URL("./fixtury/rozhodnuti.json", import.meta.url), "utf8"));
 let chyb = 0;
@@ -148,6 +148,18 @@ console.log("\nNeměřitelnost podle vlastníka (nemeritelne.txt)");
 }
 
 console.log("\nPR s návrhy (lib/navrhy.js)");
+{
+  /* Návrh 2.14 z generálky 2. 11. 2026, jak ho brána podržela (začátek
+     komentáře doslova): bez očisty by ho Přijmout poslalo na web se značkami. */
+  const syrovy = { status: "in_progress", evidence: "", unverifiable: false, comment: {
+    cs: "<cite index=\"14-9,14-13\">Vláda 26. 10. 2026 podpořila návrh SPD a Motoristů (podepsaní Šťastný, Macinka, Okamura, Turek) na zakotvení koruny v ústavě.</cite> Podle pravidla M4 jde o koaliční poslanecký návrh se souhlasným stanoviskem vlády, tedy in_progress (sněmovní tisk 320 je teprve v organizačním výboru).",
+    en: "<cite index=\"14-9,14-13\">On 26 October 2026 the government backed the SPD and Motorists' bill to anchor the koruna in the Constitution.</cite> Under rule M4 this is a coalition MPs' bill with a favourable government opinion." } };
+  const cisty = ocistenyZaznam(syrovy);
+  over(!/cite/.test(JSON.stringify(cisty)) && cisty.comment.cs.startsWith("Vláda 26. 10. 2026 podpořila") && /<cite/.test(syrovy.comment.cs),
+    "podržený návrh se očistí od <cite> (generálka: 2.9, 2.14, 5.4) a originál zůstane", cisty.comment.cs.slice(0, 80));
+  const zRozhodnuti = novySoubor({ rozhodnuti: { beh: dnes, body: { "2.14": { bod: "2.14", problemy: ["m-spor"], vlastnik: { typ: "oprava-bez-udalosti", navrh: { zdroj: "hodnotitel", zaznam: syrovy } } } } }, zaklad: "abc" });
+  over(!/cite/.test(JSON.stringify(zRozhodnuti.navrhy["2.14"].zaznam)), "i starší soubor návrhů se při skládání PR očistí");
+}
 const rozh = { beh: dnes, body: beh.body };
 const soubor = novySoubor({ rozhodnuti: rozh, zaklad: "abc123" });
 over(Object.keys(soubor.navrhy).sort().join() === "10.2,12.2,7.2" && !Object.keys(soubor.prijate).length,
