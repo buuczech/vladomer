@@ -29609,6 +29609,28 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "16.5",
+      "date": "2026-11-03",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale: Plán legislativních prací (usnesení vlády č. 175 z 23. 3. 2026) obsahuje úkol předložit do června 2026 nový zákon o sportu a pohybu, který má nahradit stávající zákon o podpoře sportu. Ne, ale: tento termín uplynul a návrh nového zákona není mezi sněmovními tisky. Vláda předložila jen novelu stávajícího zákona o podpoře sportu (tisk 322, 29. 9. 2026, 1. čtení), což je jiný krok, než slíbený nový komplexní zákon. Zákon o sportu zůstává ve fázi plánu.",
+      "comment_en": "Yes, but: the Legislative Work Plan (government resolution No. 175 of 23 March 2026) includes a task to submit a new Act on Sport and Movement by June 2026, replacing the existing Sport Support Act. No, but: that deadline has passed and no draft of the new act is among the Chamber of Deputies prints. The government submitted only an amendment to the existing Sport Support Act (print 322, 29 September 2026, first reading), which is a different step from the promised new comprehensive act. The sport act remains at the planning stage.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://psp.cz/sqw/text/historie.sqw?o=9&T=270"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-09",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

@@ -3487,13 +3487,12 @@
       "overeno": "2026-10-30T14:21:30.340Z"
     },
     "16.5": {
-      "status": "in_progress",
-      "evidence": "Vláda schválila návrh novely zákona č. 115/2001 Sb. (21. září 2026); návrh komplexního zákona o sportu je připraven v paragrafech s důvodovou zprávou, legislativní proces má začít na podzim 2024 (tedy již proběhl v předchozím volebním období)",
-      "evidenceDate": "2026-09-21",
+      "status": "declared",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda schválila návrh novely zákona č. 115/2001 Sb. o podpoře sportu (21. září 2026), která je v legislativním procesu. Nový komplexní zákon o sportu byl připraven v předchozím volebním období (paragrafové znění, důvodová zpráva), ale legislativní proces v Poslanecké sněmovně dosud nezačal. Bez hlasování v Sněmovně nelze hovořit o splnění.",
-        "en": "The government approved a draft amendment to Act No. 115/2001 Sb. on sports support (21 September 2026), which is in the legislative process. A new comprehensive sports law was prepared in the previous electoral term (draft text, explanatory memorandum), but the legislative process in the Chamber of Deputies has not yet begun. Without a vote in the Chamber, fulfilment cannot be claimed."
+        "cs": "Ano, ale: Plán legislativních prací (usnesení vlády č. 175 z 23. 3. 2026) obsahuje úkol předložit do června 2026 nový zákon o sportu a pohybu, který má nahradit stávající zákon o podpoře sportu. Ne, ale: tento termín uplynul a návrh nového zákona není mezi sněmovními tisky. Vláda předložila jen novelu stávajícího zákona o podpoře sportu (tisk 322, 29. 9. 2026, 1. čtení), což je jiný krok, než slíbený nový komplexní zákon. Zákon o sportu zůstává ve fázi plánu.",
+        "en": "Yes, but: the Legislative Work Plan (government resolution No. 175 of 23 March 2026) includes a task to submit a new Act on Sport and Movement by June 2026, replacing the existing Sport Support Act. No, but: that deadline has passed and no draft of the new act is among the Chamber of Deputies prints. The government submitted only an amendment to the existing Sport Support Act (print 322, 29 September 2026, first reading), which is a different step from the promised new comprehensive act. The sport act remains at the planning stage."
       },
       "change": {
         "cs": "beze změny",
@@ -3501,17 +3500,12 @@
       },
       "sources": [
         {
-          "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/vysledky-jednani-vlady-21--zari-2026-228922/",
-          "title": "Výsledky jednání vlády 21. září 2026"
-        },
-        {
-          "url": "https://www.irozhlas.cz/sport/sport-zakon-o-sportu-profesionalni-sportovci-sportovec-sportovni-kariera_2606211116_elev",
-          "title": "Nový zákon by měl pomoci postavení profesionálních sportovců"
+          "url": "https://psp.cz/sqw/text/historie.sqw?o=9&T=270",
+          "title": "Sněmovní tisk 270"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-10-09T14:37:52.945Z",
-      "overeno": "2026-10-30T14:21:30.340Z"
+      "updatedAt": "2026-11-02T08:49:38.903Z"
     },
     "16.6": {
       "status": "partial",
