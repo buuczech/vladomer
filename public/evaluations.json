@@ -669,57 +669,29 @@
     },
     "3.4": {
       "status": "in_progress",
-      "evidence": "Nařízení vlády č. 127/2026 Sb. vyhlášeno 17. 7. 2026 (účinnost 18. 7. 2026); vyhláška č. 122/2026 Sb. vyhlášena 2. 7. 2026 (účinnost 1. 8. 2026); Portál kritické infrastruktury spuštěn 16. 9. 2026; vyhláška č. 178/2026 Sb. o portálu vyhlášena 30. 9. 2026 (účinnost 1. 10. 2026)",
-      "evidenceDate": "2026-10-01",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Legislativa na ochranu kritické infrastruktury pokročila: nařízení vlády a vyhlášky byly vydány a nabývají účinnosti postupně. Portál kritické infrastruktury byl spuštěn v září 2026. Ale: NÚKIB dostal nové povinnosti, ale jeho pravomoci nejsou v rejstříku Sbírky doloženy jako rozšířené; jde o implementaci unijního zákona, ne o samostatný český zákon.",
-        "en": "Critical infrastructure protection legislation has progressed: government regulations and decrees have been issued and are taking effect gradually. Critical infrastructure portal was launched in September 2026. However: NÚKIB received new obligations, but expanded powers are not documented in the Registry as a separate Czech law; this is implementation of EU law, not independent Czech legislation."
+        "cs": "Ano, ale: za této vlády vyšly prováděcí předpisy ke kritické infrastruktuře – vyhláška č. 122/2026 Sb. (2. 7. 2026), nařízení vlády č. 127/2026 Sb. (17. 7. 2026) a vyhláška č. 178/2026 Sb. o portálu kritické infrastruktury (30. 9. 2026). Rozpočet na rok 2027 počítá s penězi na kyberbezpečnost. Ne, ale: samotný zákon o kritické infrastruktuře (č. 266/2025 Sb.) a zákon o kybernetické bezpečnosti (č. 264/2025 Sb.) jsou dílem předchozí vlády. Posílení pravomocí NÚKIB ani konkrétní navýšení jeho kapacit zatím není doloženo, takže slib není splněn celý.",
+        "en": "Yes, but: this government has issued implementing rules for critical infrastructure: decree 122/2026 Sb. (2 July 2026), government regulation 127/2026 Sb. (17 July 2026) and decree 178/2026 Sb. on the critical infrastructure portal (30 September 2026). The 2027 budget plans money for cybersecurity. No, but: the critical infrastructure act itself (266/2025 Sb.) and the cybersecurity act (264/2025 Sb.) are the previous government's work. No stronger NÚKIB powers or concrete capacity increase is documented yet, so the promise is not fully met."
       },
       "change": {
-        "cs": "Portál kritické infrastruktury byl plně zprovozněn 16. září 2026 pro přihlašování a poskytování povinných informací.",
-        "en": "Critical infrastructure portal was fully launched on 16 September 2026 for registration and provision of mandatory information."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
         {
-          "url": "https://mzd.gov.cz/oznameni-o-plnem-zprovozneni-portalu-kriticke-infrastruktury/",
-          "title": "Oznámení o plném zprovoznění Portálu kritické infrastruktury"
+          "url": "https://nukib.gov.cz/download/publikace/zpravy_o_stavu/ZSKB2026.pdf",
+          "title": "ZPRÁVA O STAVU KYBERNETICKÉ BEZPEČNOSTI ČESKÉ REPUBLIKY 2025"
         },
         {
-          "url": "https://ctu.gov.cz/vlada-schvalila-narizeni-k-zakonu-o-kriticke-infrastrukture.-nove-povinnosti-se-dotknou-i",
-          "title": "Vláda schválila nařízení k zákonu o kritické infrastruktuře. Nové povinnosti se dotknou i poskytovatelů elektronických komunikací."
-        },
-        {
-          "url": "https://hzscr.gov.cz/ioo/klicove-narizeni-vlady-o-subjektech-kriticke-infrastruktury",
-          "title": "Klíčové nařízení vlády o subjektech kritické infrastruktury - Hasičský záchranný sbor České republiky"
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/platy-policistu-a-hasicu-vzrostou-o-2600-az-2900-korun-zopakoval-metnar-378061",
+          "title": "▶ Platy policistů a hasičů vzrostou o 2600 až 2900 korun, zopakoval Metnar — ČT24 — Česká televize"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-10-30T14:07:19.263Z",
-      "sbirka": {
-        "overene": [
-          {
-            "kod": "127/2026",
-            "nazev": "Nařízení vlády o základních službách a kritériích významnosti podle zákona o kritické infrastruktuře",
-            "vyhlaseno": "2026-07-17",
-            "url": "https://e-sbirka.gov.cz/sb/2026/127"
-          },
-          {
-            "kod": "122/2026",
-            "nazev": "Vyhláška o plánu odolnosti, posouzení rizik, opatřeních k zajištění odolnosti subjektů kritické infrastruktury a o hlášení incidentu",
-            "vyhlaseno": "2026-07-02",
-            "url": "https://e-sbirka.gov.cz/sb/2026/122"
-          },
-          {
-            "kod": "178/2026",
-            "nazev": "Vyhláška o portálu kritické infrastruktury",
-            "vyhlaseno": "2026-09-30",
-            "url": "https://e-sbirka.gov.cz/sb/2026/178"
-          }
-        ],
-        "neexistujici": []
-      },
-      "overeno": "2026-10-30T14:06:07.460Z"
+      "updatedAt": "2026-11-02T08:32:11.205Z",
+      "overeno": "2026-11-02T08:31:21.370Z"
     },
     "3.5": {
       "status": "declared",

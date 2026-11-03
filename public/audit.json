@@ -28973,6 +28973,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (kalibrace), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "3.4",
+      "date": "2026-11-03",
+      "status": "in_progress",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale: za této vlády vyšly prováděcí předpisy ke kritické infrastruktuře – vyhláška č. 122/2026 Sb. (2. 7. 2026), nařízení vlády č. 127/2026 Sb. (17. 7. 2026) a vyhláška č. 178/2026 Sb. o portálu kritické infrastruktury (30. 9. 2026). Rozpočet na rok 2027 počítá s penězi na kyberbezpečnost. Ne, ale: samotný zákon o kritické infrastruktuře (č. 266/2025 Sb.) a zákon o kybernetické bezpečnosti (č. 264/2025 Sb.) jsou dílem předchozí vlády. Posílení pravomocí NÚKIB ani konkrétní navýšení jeho kapacit zatím není doloženo, takže slib není splněn celý.",
+      "comment_en": "Yes, but: this government has issued implementing rules for critical infrastructure: decree 122/2026 Sb. (2 July 2026), government regulation 127/2026 Sb. (17 July 2026) and decree 178/2026 Sb. on the critical infrastructure portal (30 September 2026). The 2027 budget plans money for cybersecurity. No, but: the critical infrastructure act itself (266/2025 Sb.) and the cybersecurity act (264/2025 Sb.) are the previous government's work. No stronger NÚKIB powers or concrete capacity increase is documented yet, so the promise is not fully met.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://nukib.gov.cz/download/publikace/zpravy_o_stavu/ZSKB2026.pdf",
+        "https://ct24.ceskatelevize.cz/clanek/domaci/platy-policistu-a-hasicu-vzrostou-o-2600-az-2900-korun-zopakoval-metnar-378061"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }
