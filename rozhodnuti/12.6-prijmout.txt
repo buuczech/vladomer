@@ -1,0 +1,1 @@
+/prijmout 12.6 duvod: Hodnotitel přesněji popisuje současný stav. 
