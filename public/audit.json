@@ -29587,6 +29587,28 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "16.1",
+      "date": "2026-11-03",
+      "status": "in_progress",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale: NSA podle vlastního oznámení využije schválený rozpočet na tři vyhlášené investiční výzvy, které mají v roce 2026 postavit nebo zrekonstruovat přes 200 sportovišť, hlavně v malých a středních sídlech. To částečně míří na dostupnost veřejných sportovišť. Ne, ale: žádný doložený krok se netýká sítě nízkoprahových hřišť pro lidi mimo kluby. NSA navíc zrušila investiční výzvu Standardizovaná infrastruktura 2026 a chystá novou strategii dotací (Generel národních sportovních zařízení), takže systémové řešení zatím chybí. Dotační programy běží dál z dřívějšího období a sdílejí s tímto slibem jen téma.",
+      "comment_en": "Yes, but: by its own announcement the NSA will use the approved budget on three open investment calls meant to build or renovate over 200 sports facilities in 2026, mostly in small and mid-sized municipalities. That partly addresses the availability of public sports facilities. No, but: no documented step concerns a network of low-threshold playgrounds for people outside clubs. The NSA also cancelled the 2026 Standardized Infrastructure call and is preparing a new subsidy strategy (a General Plan of National Sports Facilities), so no systemic solution exists yet. The subsidy programmes continue from the earlier period and share only the topic with this pledge.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://nsa.gov.cz/narodni-sportovni-agentura-zasadne-meni-strategii-dotaci-pro-stavbu-sportovni-infrastruktury/"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-02",
+        "puvodni_status": "partial",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

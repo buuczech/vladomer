@@ -3357,13 +3357,12 @@
       "overeno": "2026-10-30T14:20:24.972Z"
     },
     "16.1": {
-      "status": "partial",
-      "evidence": "NSA zrušila výzvu Standardizovaná infrastruktura pro rok 2026 (17. března 2026), přeorientovala se na tři zbývající výzvy; vláda schválila zařazení sportovní infrastruktury do priorit evropských fondů 2028–2034 (září 2026)",
-      "evidenceDate": "2026-03-17",
+      "status": "in_progress",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda pokračuje v dotačních programech NSA a prosadila zařazení sportovní infrastruktury do priorit evropských fondů 2028–2034, ale konkrétní financování začne až od roku 2028. Zrušení výzvy Standardizovaná infrastruktura pro rok 2026 znamená dočasné omezení investic do velkých staveb, přestože NSA využije rozpočet na tři zbývající výzvy (200+ sportovišť). Síť nízkoprahových hřišť nebyla dosud zavedena.",
-        "en": "The government continues NSA grant programs and secured inclusion of sports infrastructure in EU fund priorities for 2028–2034, but concrete financing begins only from 2028. Cancellation of the Standardized Infrastructure call for 2026 represents a temporary reduction in large-scale investments, although NSA redirects budget to three remaining calls (200+ facilities). A network of low-threshold playgrounds has not yet been established."
+        "cs": "Ano, ale: NSA podle vlastního oznámení využije schválený rozpočet na tři vyhlášené investiční výzvy, které mají v roce 2026 postavit nebo zrekonstruovat přes 200 sportovišť, hlavně v malých a středních sídlech. To částečně míří na dostupnost veřejných sportovišť. Ne, ale: žádný doložený krok se netýká sítě nízkoprahových hřišť pro lidi mimo kluby. NSA navíc zrušila investiční výzvu Standardizovaná infrastruktura 2026 a chystá novou strategii dotací (Generel národních sportovních zařízení), takže systémové řešení zatím chybí. Dotační programy běží dál z dřívějšího období a sdílejí s tímto slibem jen téma.",
+        "en": "Yes, but: by its own announcement the NSA will use the approved budget on three open investment calls meant to build or renovate over 200 sports facilities in 2026, mostly in small and mid-sized municipalities. That partly addresses the availability of public sports facilities. No, but: no documented step concerns a network of low-threshold playgrounds for people outside clubs. The NSA also cancelled the 2026 Standardized Infrastructure call and is preparing a new subsidy strategy (a General Plan of National Sports Facilities), so no systemic solution exists yet. The subsidy programmes continue from the earlier period and share only the topic with this pledge."
       },
       "change": {
         "cs": "beze změny",
@@ -3373,15 +3372,10 @@
         {
           "url": "https://nsa.gov.cz/narodni-sportovni-agentura-zasadne-meni-strategii-dotaci-pro-stavbu-sportovni-infrastruktury/",
           "title": "Národní sportovní agentura zásadně mění strategii dotací pro stavbu sportovní infrastruktury - Národní sportovní agentura"
-        },
-        {
-          "url": "https://www.ceskenoviny.cz/zpravy/evropske-prostredky-pujdou-nove-v-cesku-vyuzivat-i-na-investice-do-sportovist/2872681",
-          "title": "Evropské prostředky půjdou nově v Česku využívat i na investice do sportovišť"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-10-02T14:08:57.286Z",
-      "overeno": "2026-10-30T14:21:30.340Z"
+      "updatedAt": "2026-11-02T08:49:38.901Z"
     },
     "16.2": {
       "status": "partial",
