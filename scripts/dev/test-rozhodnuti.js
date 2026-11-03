@@ -23,7 +23,7 @@ import { execFileSync } from "node:child_process";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { rozhodniBod, rozhodniBeh, problemyBodu, oznacAudit, upravSnimek, stavZaznamu } from "../lib/faktcheck/rozhodnuti.js";
-import { novySoubor, proved, sloz, prikazyZKomentare, odkazRozhodnuti, prikazyZeSouboru, VETEV_BEHU, ocistenyZaznam } from "../lib/navrhy.js";
+import { novySoubor, proved, sloz, prikazyZKomentare, odkazRozhodnuti, prikazyZeSouboru, VETEV_BEHU, ocistenyZaznam, zkorigujNavrhy } from "../lib/navrhy.js";
 
 const fx = JSON.parse(readFileSync(new URL("./fixtury/rozhodnuti.json", import.meta.url), "utf8"));
 let chyb = 0;
@@ -159,6 +159,24 @@ console.log("\nPR s návrhy (lib/navrhy.js)");
     "podržený návrh se očistí od <cite> (generálka: 2.9, 2.14, 5.4) a originál zůstane", cisty.comment.cs.slice(0, 80));
   const zRozhodnuti = novySoubor({ rozhodnuti: { beh: dnes, body: { "2.14": { bod: "2.14", problemy: ["m-spor"], vlastnik: { typ: "oprava-bez-udalosti", navrh: { zdroj: "hodnotitel", zaznam: syrovy } } } } }, zaklad: "abc" });
   over(!/cite/.test(JSON.stringify(zRozhodnuti.navrhy["2.14"].zaznam)), "i starší soubor návrhů se při skládání PR očistí");
+
+  // Korektura podržených návrhů (dřív žádná, přestože je Přijmout zveřejní).
+  // Zástupný korektor: kapitola 2 se opraví, kapitola 5 spadne na API.
+  const neprijate = { "2.14": { akce: "drzeno", navrh: syrovy }, "5.4": { akce: "drzeno", navrh: { status: "declared", comment: { cs: "Krok jsem nenašel.", en: "" } } },
+    "9.9": { akce: "drzeno", navrh: { status: "declared", comment: { cs: "Mimo dávky.", en: "" } } } };
+  const davky = [];
+  const st = await zkorigujNavrhy(neprijate, [["2.1", "2.14"], ["5.4"]], async (davka) => {
+    davky.push(davka);
+    if (davka[0].id === "5.4") throw new Error("API 529 přetíženo");
+    return { opravy: [{ id: "2.14", pole: "comment_cs", text: "Vláda návrh podpořila a jde o poslanecký návrh." }], zmeneno: 1, odmitnuto: 0, duvody: [] };
+  });
+  over(st.davek === 2 && st.zmeneno === 1 && st.selhalo === 1, "korektura návrhů: dávka po kapitolách, selhání jedné kapitoly neshodí ostatní", st);
+  over(davky[0].every((z) => z.id === "2.14" && !/<cite|M4|in_progress/.test(z.text)) && davky[0].map((z) => z.pole).join() === "comment_cs,comment_en",
+    "korektor dostane návrh už mechanicky očištěný, klíče id|pole jako u zveřejňovaných textů", davky[0]);
+  over(neprijate["2.14"].navrh.comment.cs === "Vláda návrh podpořila a jde o poslanecký návrh." && !/cite/.test(neprijate["2.14"].navrh.comment.en) && /<cite/.test(syrovy.comment.cs),
+    "opravený návrh je kopie: opravené pole z korektury, ostatní očištěná, původní záznam nedotčený", neprijate["2.14"].navrh.comment);
+  over(neprijate["5.4"].navrh.comment.cs === "Krok jsem nenašel." && neprijate["9.9"].navrh.comment.cs === "Mimo dávky.",
+    "co spadlo nebo do dávky nepatří, zůstane v původním znění");
 }
 const rozh = { beh: dnes, body: beh.body };
 const soubor = novySoubor({ rozhodnuti: rozh, zaklad: "abc123" });

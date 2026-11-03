@@ -27,8 +27,7 @@ const vyvraceny = (problemy) => problemy.some((p) => p === "m-vyvraceno" || p.st
    které podržela brána, se dřív zapisovaly syrové — generálka 2. 11. 2026
    nabídla k přijetí 2.9, 2.14 a 5.4 se značkami <cite>. Očišťuje se při
    zápisu v evaluate.js i tady, aby to platilo i pro starší soubory návrhů.
-   Vrací kopii, originál zůstává. Jazykovou korekturu podržené návrhy nemají:
-   platí se jen za texty, které běh zveřejňuje. */
+   Vrací kopii, originál zůstává. Jazykovou korekturu dělá zkorigujNavrhy(). */
 export function ocistenyZaznam(zaznam) {
   if (!zaznam) return zaznam;
   const e = structuredClone(zaznam);
@@ -37,6 +36,48 @@ export function ocistenyZaznam(zaznam) {
     if (t) zapisPole(e, pole, ocisti(t, jazykPole(pole)));
   }
   return e;
+}
+
+/* Jazyková korektura návrhů, které podržela brána (NEPRIJATE v evaluate.js).
+   Korektura běhu bere jen záznamy, které běh zapsal, a „Přijmout“ přitom
+   návrh zveřejní tak, jak je — v generálce 2. 11. 2026 takhle čekalo na
+   vlastníka 42 návrhů bez korektury. Dávky po kapitolách a kontrola každé
+   opravy (opravDavku → zkontrolujOpravu) jsou stejné jako u zveřejňovaných
+   textů; co kontrola odmítne nebo co spadne, zůstane v původním znění.
+   @param neprijate { id: { navrh, … } } — navrh se nahradí opravenou kopií
+   @param kapitoly  [[id, …], …] — dělení do dávek (kapitoly běhu)
+   @param oprav     async (davka) => { opravy: [{ id, pole, text }], zmeneno, odmitnuto, duvody }
+   @returns { zmeneno, odmitnuto, davek, selhalo } */
+export async function zkorigujNavrhy(neprijate, kapitoly, oprav, { log = () => {}, pauzaMs = 0 } = {}) {
+  const st = { zmeneno: 0, odmitnuto: 0, davek: 0, selhalo: 0 };
+  for (const ids of kapitoly) {
+    const davka = [];
+    for (const id of ids) {
+      const n = neprijate[id] && neprijate[id].navrh;
+      if (!n) continue;
+      for (const pole of POLE_KOREKTURY) {
+        const t = ctiPole(n, pole);
+        if (t) davka.push({ klic: `${id}|${pole}`, id, pole, text: ocisti(t, jazykPole(pole)) });
+      }
+    }
+    if (!davka.length) continue;
+    if (st.davek++ && pauzaMs) await new Promise((r) => setTimeout(r, pauzaMs));
+    try {
+      const r = await oprav(davka);
+      for (const o of r.opravy) {
+        const x = neprijate[o.id];
+        x.navrh = ocistenyZaznam(x.navrh);
+        zapisPole(x.navrh, o.pole, o.text);
+      }
+      st.zmeneno += r.zmeneno;
+      st.odmitnuto += r.odmitnuto;
+      if (r.duvody.length) log(`  korektura návrhů odmítla: ${r.duvody.join("; ")}`);
+    } catch (e) {
+      st.selhalo++;
+      log(`  korektura návrhů selhala: ${e.message} — tyto návrhy zůstávají bez korektury`);
+    }
+  }
+  return st;
 }
 
 /** Návrhy z rozhodnutí vrstvy R: bod → { zaznam, problemy, vyvraceny, typ }. */

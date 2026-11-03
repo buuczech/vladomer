@@ -34,7 +34,7 @@ import { parsujDeltaOdpoved, planKapitoly, prenesNeprehodnocene } from "./lib/de
 import { parsujHodnoceni, vyrezy } from "./lib/odpoved.js";
 import { nactiRejstrik, overZnacky, hlavniPredpis, opravDatumVyhlaseni, tabulkaRejstriku, popisProOverovatele, nactiZneni, nactiObsahZakonu } from "./lib/sbirka.js";
 import { nactiTisky, zdrojSeznamu } from "./lib/psp.js";
-import { ocistenyZaznam } from "./lib/navrhy.js";
+import { ocistenyZaznam, zkorigujNavrhy } from "./lib/navrhy.js";
 import { teloPozadavku, zavolejApi, overModely, nastavPojistku, souhrnNakladu } from "./lib/modely.js";
 
 /* Prompty, čísla a seznamy zdrojů žijí ve scripts/nastaveni/, aby se daly
@@ -1017,6 +1017,19 @@ Brána přechodů: ${brana.prijato} beze změny stavu, ${brana.prechodu} přecho
   console.log(`Korektura: ${kor.ocisteno} úryvků mechanicky očištěno, ${kor.zmeneno} opraveno modelem, `
     + `${kor.odmitnuto} oprav odmítnuto, ${kor.davek} dávek${kor.selhalo ? `, ${kor.selhalo} selhalo` : ""}`
     + (KOREKTURA_MODELEM ? ` (${KOR_MODEL})` : " — model vypnutý, jen mechanická očista"));
+
+  /* Návrhy, které podržela brána, projdou toutéž korekturou: „Přijmout“ je
+     zveřejní tak, jak jsou (lib/navrhy.js, zkorigujNavrhy). Zapisují se jen
+     s NAVRHY_BEHU — bez nich se nic navíc neplatí. */
+  if (NAVRHY_BEHU && KOREKTURA_MODELEM && Object.keys(NEPRIJATE).length) {
+    const kapitoly = CHAPTERS.slice(0, CHAPTER_LIMIT).map((ch) => ch.groups.flatMap((g) => g.items).map((it) => it.id));
+    const kn = await zkorigujNavrhy(NEPRIJATE, kapitoly, (davka) => withBackoff(() => opravDavku(davka, {
+      model: KOR_MODEL, key: KEY, maxTokens: MAX_TOKENS_KOREKTURA, effort: NAST.effort_kontroly,
+      stropProcent: NAST.korektura_nejvic_zmen_procent, minDelkaDokladu: EVIDENCE_MIN,
+    }), 3), { log: console.log, pauzaMs: 2000 });
+    console.log(`Korektura návrhů: ${Object.keys(NEPRIJATE).length} podržených, ${kn.zmeneno} úryvků opraveno modelem, `
+      + `${kn.odmitnuto} oprav odmítnuto, ${kn.davek} dávek${kn.selhalo ? `, ${kn.selhalo} selhalo` : ""} (${KOR_MODEL})`);
+  }
 
   /* Plný audit se počítá jen úplný: všech 18 kapitol prošlo a nic nespadlo.
      Neúplný plný běh datum neposune, takže se plný audit brzy zopakuje. */
