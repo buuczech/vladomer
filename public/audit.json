@@ -29290,6 +29290,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-vyvraceno, m-spor), přijal vlastník. Důvod: Hodnotitel přesněji popisuje současný stav.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "9.4",
+      "date": "2026-11-03",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale: ministr kariérní řád veřejně prosazuje, naznačil jeho podobu (role a stupně místo platových tabulek) a vláda ve Výhledu legislativních prací počítá s věcným záměrem zákona o pedagogických pracovnících až ve 4. čtvrtletí 2027. Ne, ale: žádný návrh zákona vláda neschválila a ministerstvo samo říká, že zatím není jasné, jak má řád vypadat; stav proto odpovídá deklaraci, ne probíhající realizaci. Odborníci varují před byrokracií podle slovenského vzoru a před neúspěchem z roku 2016.",
+      "comment_en": "Yes, but: the minister openly champions the career system, has hinted at its shape (roles and stages instead of pay tables), and the government's Outlook of legislative work schedules a feasibility study for a new teaching staff act only for Q4 2027. No, but: the government has approved no bill, and the ministry itself says it is not yet clear what the system will look like; this is a declaration, not ongoing delivery. Experts warn about bureaucracy on the Slovak model and about a repeat of the 2016 failure.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://www.irozhlas.cz/zpravy-domov/platove-tabulky-pro-ucitele-uz-nestaci-plaga-chysta-novy-system-odmenovani-ve_2606131051_ako",
+        "https://cnn.iprima.cz/plaga-nastinil-velke-zmeny-v-platech-ucitelu-expert-varuje-pred-byrokratickym-molochem-514297"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-16",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }
