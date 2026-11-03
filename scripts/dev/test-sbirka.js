@@ -6,16 +6,22 @@
  * Případy jsou skutečné: model u 2.3 a 2.8 citoval neexistující „zákon
  * č. 270/2026 Sb.", u 10.4 skutečný, ale nesouvisející 360/2025 Sb., a správná
  * čísla (152/2026, 180/2026) nenašel vůbec.
+ *
+ * Obsah zákonů (obsahZakona) se zkouší na skutečných fragmentech znění
+ * (fixtury/sbirka-obsah.json): 180/2026 Sb. vrací školkovné a zkracuje lhůtu
+ * pro vrácení DPH (2.13, 10.5, generálka 2. 11. 2026), 152/2026 Sb. zvedá
+ * rodičovskou (10.4) a 91/2026 Sb. jen posouvá rok 2026 na 2027 (1.3).
  */
 import { readFileSync } from "node:fs";
 import {
   predpisyZOdpovedi, nactiRejstrik, overZnacky, hlavniPredpis, opravDatumVyhlaseni, tabulkaRejstriku, popisProOverovatele,
-  druhPredpisu, nactiZneni,
+  druhPredpisu, nactiZneni, obsahZakona, popisObsahu, nactiObsahZakonu,
 } from "../lib/sbirka.js";
 import { duvodDegradace } from "../lib/dukaz.js";
 
 const fixtura = JSON.parse(readFileSync(new URL("./fixtury/sbirka-rejstrik.json", import.meta.url), "utf8"));
 const fixturaZneni = JSON.parse(readFileSync(new URL("./fixtury/sbirka-zneni.json", import.meta.url), "utf8"));
+const fixturaObsah = JSON.parse(readFileSync(new URL("./fixtury/sbirka-obsah.json", import.meta.url), "utf8"));
 const predpisy = new Map([...predpisyZOdpovedi(fixtura["2025"]), ...predpisyZOdpovedi(fixtura["2026"])].map((p) => [p.kod, p]));
 
 let spadlo = 0, kontrol = 0;
@@ -81,6 +87,45 @@ const stejne = (a, b) => JSON.stringify(a) === JSON.stringify(b);
   over(/^- 152\/2026 Sb\. \| zákon \| vyhlášeno 26\. 8\. 2026 \| Zákon, kterým se mění/m.test(t),
     "řádek tabulky: číslo | druh | datum vyhlášení | název");
   over(t.split("\n").every((r) => r.length < 200) && t.includes("…"), "dlouhé názvy se zkracují");
+}
+
+// --- obsah zákonů ze znění ---
+{
+  const o180 = obsahZakona(fixturaObsah["180/2026"].seznam, predpisy.get("180/2026").nazev);
+  const nadpisy = o180.casti.map((x) => x.nadpis);
+  over(o180.stav === "ok" && stejne(nadpisy, ["Změna zákona o daních z příjmů", "Změna zákona o dani z přidané hodnoty", "Změna zákona o Finanční správě České republiky", "Změna zákona o Celní správě České republiky"]),
+    "180/2026: které zákony mění (nadpisy částí „Změna …“), část první (samotný zákon o evidenci tržeb) ne", nadpisy);
+  const dph = o180.casti[1], dpfo = o180.casti[0];
+  over(dph.cisla.some((b) => b.includes("§ 46 odst. 1 písm. i) bodě 2 se slova „6 měsíců“ nahrazují slovy „3 měsíce“")),
+    "2.13: zkrácení lhůty pro vrácení DPH ze 6 na 3 měsíce je v obsahu", dph.cisla);
+  over(dpfo.nova.includes("Sleva za umístění dítěte") && dpfo.nova.includes("Sleva na studenta"),
+    "10.5 a 2.8: vložené ustanovení „Sleva za umístění dítěte“ (školkovné) je v obsahu", dpfo.nova);
+  over(!o180.casti.flatMap((x) => x.cisla).some((b) => /text „e\)“ nahrazuje textem „f\)“|„odst\. 5“/.test(b)),
+    "body, které přepisují jen odkazy (písmena, odstavce), se vynechají");
+  const o152 = obsahZakona(fixturaObsah["152/2026"].seznam, predpisy.get("152/2026").nazev);
+  over(popisObsahu(o152).includes("částka „350 000 Kč“ nahrazuje částkou „400 000 Kč“"), "10.4: rodičovská 350 000 → 400 000 Kč ze znění 152/2026", popisObsahu(o152));
+  const o91 = obsahZakona(fixturaZneni["91/2026"].seznam, "Zákon, kterým se mění zákon č. 283/2021 Sb., stavební zákon, ve znění pozdějších předpisů");
+  over(o91.casti.length === 1 && o91.casti[0].nadpis === null && /číslo „2026“ nahrazuje číslem „2027“/.test(o91.casti[0].cisla[0] || ""),
+    "1.3: novela jednoho zákona bez částí — 91/2026 jen posouvá rok 2026 na 2027", o91);
+  over(obsahZakona(fixturaZneni["180/2026"].seznam, "x").stav === "nezpracovano" && popisObsahu({ stav: "nezpracovano" }) === "znění e-Sbírka zatím nezpracovala",
+    "čerstvě vyhlášený zákon bez strukturovaného znění se ohlásí, obsah si model nedomýšlí");
+  const obsah = new Map([["180/2026", o180]]);
+  const t = tabulkaRejstriku(predpisy, "2025-12-15T00:00:00", { obsah });
+  const radek = t.split("\n").find((x) => x.startsWith("- 180/2026 Sb."));
+  over(/\| obsah: Změna zákona o daních z příjmů \(/.test(radek) && radek.includes("„6 měsíců“") && radek.length <= 1500,
+    "tabulka: obsah na řádku zákona, omezený na délku", radek && radek.length);
+  over(tabulkaRejstriku(predpisy, "2025-12-15T00:00:00") === tabulkaRejstriku(predpisy, "2025-12-15T00:00:00", { obsah: new Map() }),
+    "bez obsahu (e-Sbírka nedostupná) je tabulka stejná jako dřív");
+  const vypadek = await nactiObsahZakonu(predpisy, "2025-12-15", { fetchFn: async () => { throw new Error("síť"); } });
+  over([...vypadek.values()].every((x) => x.stav === "chyba") && vypadek.has("152/2026") && !vypadek.has("16/2026"),
+    "výpadek: každý zákon bez obsahu, nic nespadne; nařízení a vyhlášky se nečtou", [...vypadek.keys()]);
+  const stranky = [];
+  const dvojita = await nactiObsahZakonu(new Map([["180/2026", predpisy.get("180/2026")]]), "2025-12-15", { fetchFn: async (url) => {
+    stranky.push(url.match(/cisloStranky=(\d+)/)[1]);
+    const seznam = fixturaObsah["180/2026"].seznam, pul = seznam.findIndex((x) => /dani z přidané hodnoty/.test(x.xhtml || ""));
+    return { ok: true, json: async () => ({ pocetStranek: 2, seznam: stranky.length === 1 ? seznam.slice(0, pul) : seznam.slice(pul) }) };
+  } });
+  over(stejne(stranky, ["0", "1"]) && dvojita.get("180/2026").casti.length === 4, "znění na více stránkách se čte celé", stranky);
 }
 
 // --- podklady pro ověřovatele ---

@@ -44,8 +44,14 @@ const t10 = tabulkaPlanu(plan, 10);
 const s = t10.indexOf("sama přiřadila"), bez = t10.indexOf("nepřiřadila");
 over(s > 0 && (bez < 0 || bez > s), "úkoly s vazbou na program jsou první, zbytek resortu za nimi");
 over(tabulkaPlanu(plan, 5) === BEZ_UKOLU, "kapitola bez úkolů dostane větu, že plán k ní nic nemá");
+// Slib podle vlády celý: zkrácený na 300 znaků uřízl u zákona o evidenci tržeb školkovné a lhůtu DPH (2.13, generálka 2. 11. 2026).
+const t2 = tabulkaPlanu(plan, 2);
+over(t2.includes("Rodinám vrátíme školkovné") && t2.includes("Zkrátíme lhůtu pro vrácení DPH z nezaplacených faktur ze současných šesti na tři měsíce"),
+  "kapitola 2: slib podle vlády u zákona o evidenci tržeb celý, i se školkovným a lhůtou pro vrácení DPH");
 const celkem = Array.from({ length: 18 }, (_, i) => tabulkaPlanu(plan, i + 1).length);
-over(Math.max(...celkem) < 15000, "žádná kapitola nedostane víc než 15 000 znaků plánu", celkem);
+/* 20 000: od 3. 11. 2026 jde do promptu slib podle vlády celý (kapitoly 7 a 10 mají kolem 16 000).
+   Hranice hlídá, aby nový plán nebo převodník prompt nenafoukl. */
+over(Math.max(...celkem) < 20000, "žádná kapitola nedostane víc než 20 000 znaků plánu", celkem);
 const z = zdrojePlanu(plan, 15);
 over(z.length === 2 && z.every((x) => x.bezZkraceni && /#kapitola-15$/.test(x.url)) && z[1].text.includes("transformaci uhelných regionů"),
   "kontrola faktů: plán a výhled jako dva citovatelné zdroje kapitoly", z.map((x) => x.url));

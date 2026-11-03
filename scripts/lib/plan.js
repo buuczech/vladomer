@@ -47,7 +47,11 @@ export function tabulkaPlanu(plan, kapitola) {
   const r = [`Plán legislativních prací vlády na zbývající část roku 2026 a Výhled legislativních prací na léta 2027–2029 (${plan.usneseni}).`];
   if (s.length) {
     r.push("Úkoly, které vláda v plánu sama přiřadila ke slibům programového prohlášení:");
-    for (const u of s) r.push(`- ${oznaceni(u)}, předložit vládě ${termin(u)}: ${nazev(u)}.${u.cil ? ` Cíl: ${zkrat(u.cil, 220)}` : ""} Slib podle vlády: „${zkrat(u.program, 300)}“`);
+    /* Slib podle vlády celý: u souhrnného zákona vyjmenovává všechno, co nese.
+       Zkrácený na 300 znaků uřízl u zákona o evidenci tržeb právě školkovné
+       a zkrácení lhůty pro vrácení DPH (2.13), a hodnotitel je pak nespojil
+       s 180/2026 Sb. */
+    for (const u of s) r.push(`- ${oznaceni(u)}, předložit vládě ${termin(u)}: ${nazev(u)}.${u.cil ? ` Cíl: ${zkrat(u.cil, 220)}` : ""} Slib podle vlády: „${String(u.program || "").trim()}“`);
   }
   if (bez.length) {
     r.push("Další úkoly odpovědného resortu, které vláda k programovému prohlášení nepřiřadila:");

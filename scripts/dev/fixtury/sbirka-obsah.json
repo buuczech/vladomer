@@ -1,0 +1,705 @@
+{
+ "_popis": "Skutečné fragmenty znění z e-Sbírky (GET /sbr-cache/dokumenty-sbirky/…/fragmenty, staženo 3. 11. 2026) pro obsah zákonů v rejstříku (obsahZakona v lib/sbirka.js). Ponechány jen fragmenty, které obsah čte — části, články, nadpisy, novelizační body a odstavce s „nahrazuje“ — a u nich kodTypuFragmentu a xhtml; z části první 180/2026 (samotný zákon o evidenci tržeb) jen její nadpis a první paragraf.",
+ "180/2026": {
+  "pocetStranek": 1,
+  "seznam": [
+   {
+    "kodTypuFragmentu": "Cast",
+    "xhtml": "<var>ČÁST PRVNÍ</var>"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "EVIDENCE TRŽEB"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Úvodní ustanovení"
+   },
+   {
+    "kodTypuFragmentu": "Paragraf",
+    "xhtml": "<var>§ 1</var>"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Předmět úpravy"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Vymezení evidence tržeb"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Subjekt a předmět evidence tržeb"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Určení subjektu a předmětu evidence tržeb"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Evidenční jednotka"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Evidovaná tržba"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Vymezení evidované tržby"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Formální náležitosti evidované tržby"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Kontaktní platba"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Rozhodný příjem"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Storno a opravy"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Nepřímé zastoupení"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Pověření k evidování tržeb"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Tržby vyloučené z evidence tržeb"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Osobní vynětí z evidence tržeb"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Věcné vynětí z evidence tržeb"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Další vynětí z evidence tržeb"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Evidenční povinnost"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Certifikát pro evidenci tržeb"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Údaje o evidenčních jednotkách"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Obsah evidenční povinnosti"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Rozsah zasílaných údajů"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Evidenční identifikační číslo"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Doba odezvy"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Postup při překročení mezní doby odezvy"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Působnost v oblasti evidence tržeb"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Výkon působnosti"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Informační povinnost správce daně"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Přestupky"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Přestupek proti evidenci tržeb"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Přestupek na úseku evidence tržeb"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Příslušnost"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Společná ustanovení"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Vztah k daňovému řádu"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Spolupráce orgánů veřejné moci"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Vztah k cizímu právu"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Přechodné ustanovení"
+   },
+   {
+    "kodTypuFragmentu": "Cast",
+    "xhtml": "<var>ČÁST DRUHÁ</var>"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Změna zákona o daních z příjmů"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>1.</var> Za § 2a se vkládá nový § 2b, který včetně nadpisu zní:"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Poplatník přihlášený k přirážce zprošťující povinnosti evidovat tržby"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>2.</var> V § 6 odst. 3 úvodní části ustanovení větě druhé se slova „a g)“ zrušují."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>3.</var> V § 6 odst. 3 se na konci písmene b) čárka nahrazuje tečkou a písmeno c) se zrušuje."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>4.</var> V § 6 odst. 7 se tečka na konci písmene e) nahrazuje čárkou a doplňuje se písmeno f), které zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>5.</var> V § 6 odst. 9 písm. d) bodě 2 se slova „poskytnutí rekreace nebo zájezdu,“ zrušují, za slova „sportovních zařízení“ se vkládají slova „ , účasti na společenské akci, včetně té s kulturním nebo sportovním prvkem, pořádané zaměstnavatelem pro omezený okruh účastníků“ a slova „tato plnění jsou osvobozena v úhrnu do výše poloviny průměrné mzdy za zdaňovací období“ se nahrazují slovy „plnění ve formě účasti na společenské akci, včetně té s kulturním nebo sportovním prvkem, pořádané zaměstnavatelem pro omezený okruh účastníků nebo poskytnutí příspěvku na kulturní nebo sportovní akce jsou osvobozena pouze tehdy, pokud vzhledem k jejich povaze je jejich poskytování zaměstnavateli obvyklé a jejich forma a rozsah jsou přiměřené“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>6.</var> V § 6 odst. 9 písm. d) se doplňují body 3 a 4, které znějí:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "„<var>3.</var> poskytnutí rekreace nebo zájezdu; tato plnění jsou osvobozena v úhrnu do výše 20 000 Kč za zdaňovací období,"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>4.</var> poskytnutí příspěvku na osobní asistenci, pečovatelskou službu, tísňovou péči, odlehčovací službu, ranou péči nebo službu centra denních služeb nebo denního stacionáře, pokud jsou poskytovány jako služby komunitního charakteru a na základě oprávnění podle zákona upravujícího sociální služby,“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>7.</var> V § 6 odst. 9 písmeno g) zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>8.</var> V § 6 odstavec 18 zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>9.</var> V § 6 se doplňuje odstavec 19, který zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>10.</var> V § 7a se za odstavec 6 vkládá nový odstavec 7, který zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>11.</var> V § 16ab se doplňují odstavce 4 až 6, které znějí:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>12.</var> V § 18a odst. 5 se na konci textu úvodní části ustanovení doplňují slova „k prvnímu dni zdaňovacího období nebo období, za které se podává daňové přiznání, nebo ke dni svého vzniku, pokud vznikl v tomto zdaňovacím období nebo období, za které se podává daňové přiznání,“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>13.</var> V § 25 odst. 1 písm. h) bodě 1 se za slovo „zájezdy,“ vkládají slova „rekreace nebo“, slova „společenské akce“ se nahrazují slovy „účasti na společenských akcích“ a slovo „a“ se nahrazuje slovy „pořádaných zaměstnavatelem pro omezený okruh účastníků, poskytnutí příspěvku na osobní asistenci, pečovatelskou službu, tísňovou péči, odlehčovací službu, ranou péči nebo službu centra denních služeb nebo denního stacionáře, pokud jsou poskytovány jako služby komunitního charakteru a na základě oprávnění podle zákona upravujícího sociální služby, a příspěvku na“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>14.</var> V § 25 odst. 1 písm. t) se za slovo „není“ vkládají slova „s výjimkou tichého vína“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>15.</var> V § 35ba se na konci odstavce 1 tečka nahrazuje čárkou a doplňují se písmena f) až h), která znějí:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>16.</var> V § 35ba odst. 2 se za text „e)“ vkládají slova „a g)“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>17.</var> V § 35ba odst. 3 se text „e)“ nahrazuje textem „f)“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>18.</var> Za § 35bb se vkládají nové § 35bc až 35be, které včetně nadpisů znějí:"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Sleva na studenta"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Sleva za umístění dítěte"
+   },
+   {
+    "kodTypuFragmentu": "Odstavec_Dc",
+    "xhtml": "<var>(5)</var> Pro účely slevy za umístění dítěte se za vyživované dítě poplatníka nepovažuje vlastní vnuk nebo vnuk druhého z manželů, není-li v péči těchto osob, která nahrazuje péči rodičů."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>1.</var> zařízením služby péče o dítě v dětské skupině podle zákona upravujícího poskytování služby péče o dítě v dětské skupině, nebo"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>2.</var> mateřskou školou podle školského zákona."
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Sleva na evidenci tržeb"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>19.</var> V § 35c odst. 6 písm. b) bod 1 zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "„<var>1.</var> soustavně se připravuje na budoucí povolání,“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>20.</var> V § 35d odst. 1 a 2 se text „e)“ nahrazuje textem „f)“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>21.</var> V § 38g odst. 1 se částka „50 000 Kč“ nahrazuje částkou „100 000 Kč“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>22.</var> V § 38g odst. 2 se za text „e)“ vkládají slova „a g)“ a částka „20 000 Kč“ se nahrazuje částkou „40 000 Kč“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>23.</var> V § 38h odst. 6 se za text „b)“ vkládají slova „a g)“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>24.</var> V § 38h odst. 13 se za text „e)“ vkládají slova „a g)“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>25.</var> V § 38k odst. 1 se slova „studiem nebo předepsaným výcvikem“ zrušují."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>26.</var> V § 38k odst. 5 úvodní části ustanovení se za text „b)“ vkládají slova „a g)“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>27.</var> V § 38k se na konci odstavce 5 tečka nahrazuje čárkou a doplňuje se písmeno h), které zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>28.</var> V § 38l se na konci odstavce 2 tečka nahrazuje čárkou a doplňují se písmena f) a g), která znějí:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>1.</var> potvrzením předškolního zařízení o výši poplatníkem vynaložených výdajů za umístění vyživovaného dítěte poplatníka v tomto zařízení; potvrzení musí obsahovat jméno vyživovaného dítěte, celkovou částku výdajů, kterou za vyživované dítě na dané zdaňovací období poplatník vynaložil, a datum zápisu tohoto zařízení do školského rejstříku nebo evidence poskytovatelů nebo datum vzniku živnostenského oprávnění k provozování tohoto zařízení,"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>2.</var> potvrzením jiného poplatníka vyživujícího v daném zdaňovacím období totéž dítě jako poplatník a žijícího alespoň po část daného zdaňovacího období s tímto dítětem ve společně hospodařící domácnosti; potvrzení musí obsahovat jméno jiného poplatníka, jméno vyživovaného dítěte a výši jím uplatněné slevy za umístění dítěte,"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>3.</var> dohodou poplatníků podle § 35bd odst. 2, je-li uzavřena.“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>29.</var> V § 38l odst. 3 písm. d) se slova „studiem nebo předepsaným výcvikem“ zrušují."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>30.</var> V § 38l odst. 4 úvodní části ustanovení se za slovo „Studuje-li“ vkládají slova „poplatník nebo“ a za slova „nárok na“ se vkládají slova „slevu na studenta nebo na“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>31.</var> V § 38lda odst. 2 písm. a) se slovo „a“ zrušuje."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>32.</var> V § 38lda se na konci odstavce 2 tečka nahrazuje slovem „a“ a doplňuje se písmeno c), které zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>33.</var> Za § 38lda se vkládá nový § 38ldaa, který včetně nadpisu zní:"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Oznámení o přihlášení k přirážce"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>34.</var> Za § 38ldb se vkládá nový § 38ldc, který včetně nadpisu zní:"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Oznámení o odhlášení z přirážky"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>35.</var> V § 38lf se na konci odstavce 1 tečka nahrazuje čárkou a doplňuje se písmeno d), které zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>36.</var> Na konci nadpisu § 38lg se doplňují slova „a ukončení přihlášení k přirážce“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>37.</var> V § 38lg odst. 1 a 2 se za slovo „režimu“ vkládají slova „nebo poplatníkem přihlášeným k přirážce“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>38.</var> V § 38lk odst. 7 se na konci textu písmene a) doplňují slova „ ; jde-li o poplatníka přihlášeného k přirážce, tato záloha se zvyšuje o přirážku“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>39.</var> V § 38lk se za odstavec 7 vkládá nový odstavec 8, který zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>40.</var> V § 38t se doplňuje odstavec 8, který zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>41.</var> Doplňuje se příloha č. 4, která včetně nadpisu zní:"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis",
+    "xhtml": "Plnění zaměstnavatele v rámci péče o zdraví zaměstnanců"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Přechodná ustanovení"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>1.</var> Pro daňové povinnosti u daně z příjmů za zdaňovací období započaté přede dnem nabytí účinnosti tohoto zákona, jakož i pro práva a povinnosti s nimi související se použije <a data-odkaz-id=\"212941069\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260801\">zákon č. 586/1992 Sb.</a>, ve znění účinném přede dnem nabytí účinnosti tohoto zákona."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>2.</var> Na nepeněžní plnění ve formě podle <a data-odkaz-id=\"212941077\" href=\"#\" class=\"ext_odkaz\" data-version=\"20270101\">§ 6 odst. 9 písm. d)</a> <a data-odkaz-id=\"212941093\" href=\"#\" class=\"ext_odkaz\" data-version=\"20270101\">zákona č. 586/1992 Sb.</a>, ve znění účinném ode dne nabytí účinnosti tohoto zákona, poskytnuté zaměstnavatelem zaměstnanci ode dne nabytí účinnosti tohoto zákona se ode dne nabytí účinnosti tohoto zákona použije <a data-odkaz-id=\"212941109\" href=\"#\" class=\"ext_odkaz\" data-version=\"20270101\">§ 6 odst. 9 písm. d)</a> a <a data-odkaz-id=\"212941125\" href=\"#\" class=\"ext_odkaz\" data-version=\"20270101\">§ 25 odst. 1 písm. h)</a> <a data-odkaz-id=\"212941141\" href=\"#\" class=\"ext_odkaz\" data-version=\"20270101\">zákona č. 586/1992 Sb.</a>, ve znění účinném ode dne nabytí účinnosti tohoto zákona."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>3.</var> Na nepeněžní plnění ve formě podle <a data-odkaz-id=\"212941157\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260801\">§ 6 odst. 9 písm. g)</a> <a data-odkaz-id=\"212941165\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260801\">zákona č. 586/1992 Sb.</a>, ve znění účinném přede dnem nabytí účinnosti tohoto zákona, poskytnuté zaměstnavatelem zaměstnanci ode dne nabytí účinnosti tohoto zákona se ode dne nabytí účinnosti tohoto zákona"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>4.</var> Pro účely <a data-odkaz-id=\"212941221\" href=\"#\" class=\"ext_odkaz\" data-version=\"20270101\">§ 35be</a> <a data-odkaz-id=\"212941229\" href=\"#\" class=\"ext_odkaz\" data-version=\"20270101\">zákona č. 586/1992 Sb.</a>, ve znění účinném ode dne nabytí účinnosti tohoto zákona, se k tržbě, kterou poplatník zaevidoval podle <a data-odkaz-id=\"212941245\" href=\"#\" class=\"ext_odkaz\">zákona č. 112/2016 Sb., o evidenci tržeb</a>, ve znění pozdějších předpisů, nepřihlíží."
+   },
+   {
+    "kodTypuFragmentu": "Cast",
+    "xhtml": "<var>ČÁST TŘETÍ</var>"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Změna zákona o dani z přidané hodnoty"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>1.</var> V § 19c odst. 5 se písmeno c) zrušuje."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>2.</var> V § 19c odst. 5 písm. c) se slova „až c)“ nahrazují slovy „a b)“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>3.</var> V § 46 odst. 1 písm. i) bodě 1 se částka „10 000 Kč“ nahrazuje částkou „20 000 Kč“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>4.</var> V § 46 odst. 1 písm. i) bodě 2 se slova „6 měsíců“ nahrazují slovy „3 měsíce“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>5.</var> V § 46 odst. 1 písm. i) bod 3 zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "„<var>3.</var> souhrn těchto pohledávek vůči jednomu dlužníkovi, u kterých tento věřitel uplatnil opravu základu daně v případě nedobytné pohledávky za zdaňovací období příslušného kalendářního roku, nebude přesahovat 100 000 Kč včetně daně, a“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>6.</var> V § 46 odst. 1 písm. i) se na začátek bodu 4 vkládají slova „u této pohledávky“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>7.</var> V § 46 se odstavec 9 zrušuje."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>8.</var> V § 62 odst. 2 se číslo „6“ nahrazuje číslem „4“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>9.</var> V § 72 se odstavce 3, 4 a 10 včetně poznámky pod čarou č. 78 zrušují."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>10.</var> V § 74b odst. 3 se slovo „šestého“ nahrazuje slovem „třetího“ a číslo „6“ se nahrazuje číslem „3“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>11.</var> § 77a se včetně nadpisu zrušuje."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>12.</var> V § 82 odst. 1 a 4 se číslo „9“ nahrazuje číslem „7“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>13.</var> V příloze č. 2 v položce 56 se slova „nápojů jiných než pitné vody a vybraných“ nahrazují slovem „alkoholických“ a slova „podávání pitné vody a vybraných“ se nahrazují slovy „podávání jiných než alkoholických“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>14.</var> V příloze č. 2 se věty „Pitnou vodou se pro účely daně z přidané hodnoty rozumí voda splňující požadavky pro pitnou vodu stanovené zákonem č. 258/2000 Sb., o ochraně veřejného zdraví a o změně některých souvisejících zákonů, ve znění pozdějších předpisů, dodávaná odběratelům vodovodem a teplá voda splňující podmínky pro teplou vodu podle zákona č. 258/2000 Sb., o ochraně veřejného zdraví a o změně některých souvisejících zákonů, ve znění pozdějších předpisů, dodávaná odběratelům potrubím nebo vnitřním vodovodem, které jsou konstrukčně propojeny směšovací baterií s vodovodním potrubím pitné vody. Vodovodem se pro účely daně z přidané hodnoty rozumí provozně samostatný soubor staveb a zařízení zahrnující vodovodní řady a vodárenské objekty, jimiž jsou zejména stavby pro jímání a odběr povrchové nebo podzemní vody, její úpravu a shromažďování. Vnitřním vodovodem se pro účely daně z přidané hodnoty rozumí potrubí určené pro rozvod vody po pozemku nebo stavbě, které navazuje na konec vodovodní přípojky. Vybraným nápojem se pro účely daně z přidané hodnoty rozumí nealkoholický nápoj, pokud jde o"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>15.</var> V příloze č. 2 větě poslední se slovo „Nealkoholickým“ nahrazuje slovem „Alkoholickým“ a slova „nápoj jiný než“ se zrušují."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>16.</var> Na konci přílohy č. 3 se na samostatné řádky doplňují věty, které znějí:"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Přechodná ustanovení"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>1.</var> Pro daňové povinnosti u daně z přidané hodnoty vzniklé přede dnem nabytí účinnosti tohoto zákona, jakož i pro práva a povinnosti s nimi související se použije <a data-odkaz-id=\"212941837\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">zákon č. 235/2004 Sb.</a>, ve znění účinném přede dnem nabytí účinnosti tohoto zákona."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>2.</var> Při opravě základu daně v případě nedobytné pohledávky ze zdanitelného plnění, které bylo uskutečněno od 1. ledna 2025, se v případě, že věřitel takovou opravu uplatňuje za zdaňovací období začínající nejdříve dnem nabytí účinnosti tohoto zákona, postupuje podle <a data-odkaz-id=\"212941853\" href=\"#\" class=\"ext_odkaz\" data-version=\"20270101\">§ 46</a> <a data-odkaz-id=\"212941861\" href=\"#\" class=\"ext_odkaz\" data-version=\"20270101\">zákona č. 235/2004 Sb.</a>, ve znění účinném ode dne nabytí účinnosti tohoto zákona."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>3.</var> Požádá-li plátce, který přede dnem nabytí účinnosti tohoto zákona pořídil z jiného členského státu vybraný osobní automobil podle <a data-odkaz-id=\"212941869\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">§ 72 odst. 10</a> <a data-odkaz-id=\"212941885\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">zákona č. 235/2004 Sb.</a>, ve znění účinném přede dnem nabytí účinnosti tohoto zákona, ode dne nabytí účinnosti tohoto zákona o vydání potvrzení o zaplacení daně v případě pořízení nového dopravního prostředku z jiného členského státu, použije se <a data-odkaz-id=\"212941901\" href=\"#\" class=\"ext_odkaz\" data-version=\"20270101\">§ 19c odst. 5</a> <a data-odkaz-id=\"212941909\" href=\"#\" class=\"ext_odkaz\" data-version=\"20270101\">zákona č. 235/2004 Sb.</a>, ve znění účinném ode dne nabytí účinnosti tohoto zákona."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>4.</var> U přijatého zdanitelného plnění souvisejícího s pořízením vybraného osobního automobilu podle <a data-odkaz-id=\"212941917\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">§ 72 odst. 10</a> <a data-odkaz-id=\"212941933\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">zákona č. 235/2004 Sb.</a>, ve znění účinném přede dnem nabytí účinnosti tohoto zákona, nebo s technickým zhodnocením vybraného osobního automobilu podle <a data-odkaz-id=\"212941949\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">§ 72 odst. 10</a> <a data-odkaz-id=\"212941965\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">zákona č. 235/2004 Sb.</a>, ve znění účinném přede dnem nabytí účinnosti tohoto zákona, u něhož vznikl nárok na odpočet daně od 1. ledna 2024 do dne předcházejícího dni nabytí účinnosti tohoto zákona, pokud byly tento automobil nebo jeho technické zhodnocení, se kterými přijaté zdanitelné plnění souvisí, uvedeny do stavu způsobilého k užívání přede dnem nabytí účinnosti tohoto zákona, se v případě, že se stanovila daň na vstupu podle <a data-odkaz-id=\"212941981\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">§ 72 odst. 3</a> nebo <a data-odkaz-id=\"212941997\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">4</a> <a data-odkaz-id=\"212942013\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">zákona č. 235/2004 Sb.</a>, ve znění účinném přede dnem nabytí účinnosti tohoto zákona, přihlédne při změnách odpočtu daně k částce daně na vstupu podle <a data-odkaz-id=\"212942029\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">§ 72 odst. 3</a> nebo <a data-odkaz-id=\"212942045\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">4</a> <a data-odkaz-id=\"212942061\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">zákona č. 235/2004 Sb.</a>, ve znění účinném přede dnem nabytí účinnosti tohoto zákona."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>5.</var> Ustanovení <a data-odkaz-id=\"212942077\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">§ 72 odst. 3</a> a <a data-odkaz-id=\"212942093\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">4</a> <a data-odkaz-id=\"212942109\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">zákona č. 235/2004 Sb.</a>, ve znění účinném přede dnem nabytí účinnosti tohoto zákona, se nepoužije u přijatého zdanitelného plnění, u kterého vznikl nárok na odpočet daně od 1. ledna 2024, souvisejícího s"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>6.</var> Pokud plátce uplatnil nárok na odpočet daně u přijatého zdanitelného plnění podle <a data-odkaz-id=\"212942189\" href=\"#\" class=\"int_odkaz\">bodu 5</a> přede dnem nabytí účinnosti tohoto zákona a daň na vstupu byla stanovena podle <a data-odkaz-id=\"212942197\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">§ 72 odst. 3</a> a <a data-odkaz-id=\"212942213\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">4</a> <a data-odkaz-id=\"212942229\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">zákona č. 235/2004 Sb.</a>, ve znění účinném přede dnem nabytí účinnosti tohoto zákona, je oprávněn zvýšit uplatněný nárok na odpočet daně do výše, ve které by si jej mohl uplatnit, pokud by byla daň na vstupu stanovena podle <a data-odkaz-id=\"212942245\" href=\"#\" class=\"ext_odkaz\">§ 72 odst. 2</a> <a data-odkaz-id=\"212942253\" href=\"#\" class=\"ext_odkaz\">zákona č. 235/2004 Sb.</a>, ve znění pozdějších předpisů; toto zvýšení uplatněného nároku na odpočet daně plátce uvede v dodatečném daňovém přiznání za zdaňovací období, ve kterém byl uplatněn původní nárok na odpočet daně, a to do konce kalendářního měsíce, ve kterém nabyl účinnosti tento zákon."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>7.</var> U vybraného osobního automobilu podle <a data-odkaz-id=\"212942269\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">§ 72 odst. 10</a> <a data-odkaz-id=\"212942285\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">zákona č. 235/2004 Sb.</a>, ve znění účinném přede dnem nabytí účinnosti tohoto zákona, pořízeného přede dnem nabytí účinnosti tohoto zákona, který při pořízení nebyl dlouhodobým majetkem a stane se dlouhodobým majetkem ode dne nabytí účinnosti tohoto zákona, je u každého uplatněného nároku na odpočet daně souvisejícího s pořízením tohoto vybraného osobního automobilu plátce povinen postupovat podle <a data-odkaz-id=\"212942301\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">§ 77a</a> <a data-odkaz-id=\"212942317\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">zákona č. 235/2004 Sb.</a>, ve znění účinném přede dnem nabytí účinnosti tohoto zákona; to neplatí, pokud u takového nároku na odpočet daně uplynula lhůta pro uplatnění nároku na odpočet daně podle <a data-odkaz-id=\"212942333\" href=\"#\" class=\"ext_odkaz\">§ 73 odst. 3</a> <a data-odkaz-id=\"212942341\" href=\"#\" class=\"ext_odkaz\">zákona č. 235/2004 Sb.</a>, ve znění pozdějších předpisů."
+   },
+   {
+    "kodTypuFragmentu": "Cast",
+    "xhtml": "<var>ČÁST ČTVRTÁ</var>"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Změna zákona o Finanční správě České republiky"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>1.</var> Za § 12a se vkládá nový § 12b, který včetně nadpisu zní:"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Zvláštní ustanovení o změně místní příslušnosti"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>2.</var> V § 13d odst. 1 se slova „stanovených zákonem upravujícím mezinárodní spolupráci při správě daní“ nahrazují slovy „podle zákona upravujícího evidenci tržeb nebo podle jiných daňových nebo účetních předpisů“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>3.</var> V § 13d odst. 4 se slova „upravujícím mezinárodní spolupráci při správě daní“ nahrazují slovy „podle odstavce 1“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>4.</var> V § 18a odst. 1 se za písmeno a) vkládá nové písmeno b), které zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>5.</var> V § 18a odst. 1 se na konci textu písmene c) doplňují slova „nebo b)“."
+   },
+   {
+    "kodTypuFragmentu": "Cast",
+    "xhtml": "<var>ČÁST PÁTÁ</var>"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Změna zákona o Celní správě České republiky"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>1.</var> V § 11e se na konci odstavce 1 tečka nahrazuje čárkou a doplňuje se písmeno g), které zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>2.</var> V § 38 odst. 2 se slovo „doklady“ nahrazuje slovem „prostředek“ a slovo „jejich“ se nahrazuje slovem „jeho“."
+   },
+   {
+    "kodTypuFragmentu": "Cast",
+    "xhtml": "<var>ČÁST ŠESTÁ</var>"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "ÚČINNOST"
+   }
+  ]
+ },
+ "152/2026": {
+  "pocetStranek": 1,
+  "seznam": [
+   {
+    "kodTypuFragmentu": "Cast",
+    "xhtml": "<var>ČÁST PRVNÍ</var>"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Změna zákona o státní sociální podpoře"
+   },
+   {
+    "kodTypuFragmentu": "Clanek",
+    "xhtml": "<var>Čl. I</var>"
+   },
+   {
+    "kodTypuFragmentu": "Odstavec_Dc",
+    "xhtml": "V <a data-odkaz-id=\"212525459\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">§ 30 odst. 1</a> <a data-odkaz-id=\"212525461\" href=\"#\" class=\"ext_odkaz\" data-version=\"20260101\">zákona č. 117/1995 Sb., o státní sociální podpoře</a>, ve znění <a data-odkaz-id=\"212525463\" href=\"#\" class=\"ext_odkaz\">zákona č. 242/1997 Sb.</a>, <a data-odkaz-id=\"212525465\" href=\"#\" class=\"ext_odkaz\">zákona č. 453/2003 Sb.</a>, <a data-odkaz-id=\"212525467\" href=\"#\" class=\"ext_odkaz\">zákona č. 261/2007 Sb.</a>, <a data-odkaz-id=\"212525469\" href=\"#\" class=\"ext_odkaz\">zákona č. 366/2011 Sb.</a>, <a data-odkaz-id=\"212525471\" href=\"#\" class=\"ext_odkaz\">zákona č. 200/2017 Sb.</a>, <a data-odkaz-id=\"212525473\" href=\"#\" class=\"ext_odkaz\">zákona č. 363/2019 Sb.</a>, <a data-odkaz-id=\"212525475\" href=\"#\" class=\"ext_odkaz\">zákona č. 407/2023 Sb.</a> a <a data-odkaz-id=\"212525477\" href=\"#\" class=\"ext_odkaz\">zákona č. 290/2025 Sb.</a>, se částka „350 000 Kč“ nahrazuje částkou „400 000 Kč“."
+   },
+   {
+    "kodTypuFragmentu": "Clanek",
+    "xhtml": "<var>Čl. II</var>"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Přechodné ustanovení"
+   },
+   {
+    "kodTypuFragmentu": "Odstavec_Dc",
+    "xhtml": "Rodičovský příspěvek v celkové částce podle <a data-odkaz-id=\"212525479\" href=\"#\" class=\"ext_odkaz\" data-version=\"20270101\">§ 30 odst. 1</a> <a data-odkaz-id=\"212525481\" href=\"#\" class=\"ext_odkaz\" data-version=\"20270101\">zákona č. 117/1995 Sb.</a>, ve znění účinném ode dne nabytí účinnosti tohoto zákona, náleží, jde-li o nejmladší dítě v rodině narozené nebo převzaté do trvalé péče nahrazující péči rodičů ode dne 1. ledna 2027."
+   },
+   {
+    "kodTypuFragmentu": "Cast",
+    "xhtml": "<var>ČÁST DRUHÁ</var>"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Změna zákona o dávce státní sociální pomoci"
+   },
+   {
+    "kodTypuFragmentu": "Clanek",
+    "xhtml": "<var>Čl. III</var>"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>1.</var> V § 7 odst. 1 písm. e) se číslo „7“ nahrazuje číslem „15“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>2.</var> V § 23 odst. 4 se slova „kategorii obce“ nahrazují slovy „konkrétnímu okresu“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>3.</var> V § 28 odst. 1 a v § 29 se slova „obcí podle počtu obyvatel v kategorii Praha a Brno, obec s alespoň 70 000 obyvateli nebo obec do 69 999 obyvatel,“ nahrazují slovy „okresů podle zákona o územně správním členění státu<sup>4</sup>), a to s výjimkou správního obvodu hlavního města Prahy, který je pro účely tohoto zákona posuzován jako jeden okres“."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>4.</var> V § 28 se za odstavec 1 vkládá nový odstavec 2, který zní:"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>5.</var> V § 29 se dosavadní text označuje jako odstavec 1 a doplňuje se odstavec 2, který zní:"
+   },
+   {
+    "kodTypuFragmentu": "Clanek",
+    "xhtml": "<var>Čl. IV</var>"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "Přechodná ustanovení"
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>1.</var> Normativní nájemné a normativní nájemné pro domácnost, jejíž všichni členové domácnosti jsou zranitelnými osobami (dále jen „normativní nájemné pro zranitelné osoby“), vyhlásí Ministerstvo práce a sociálních věcí sdělením pro období od 1. října 2026 do 31. prosince 2026 podle <a data-odkaz-id=\"212525489\" href=\"#\" class=\"ext_odkaz\" data-version=\"20261001\">§ 28</a> a <a data-odkaz-id=\"212525491\" href=\"#\" class=\"ext_odkaz\" data-version=\"20261001\">29</a> <a data-odkaz-id=\"212525493\" href=\"#\" class=\"ext_odkaz\" data-version=\"20261001\">zákona č. 151/2025 Sb.</a>, ve znění účinném ode dne 1. října 2026, na základě údajů o výši nájemného a podnájemného v bytech užívaných příjemci dávky státní sociální pomoci za období od 1. října 2025 do 31. května 2026."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>2.</var> Pro výpočet vlastnického paušálu podle <a data-odkaz-id=\"212525495\" href=\"#\" class=\"ext_odkaz\" data-version=\"20261001\">zákona č. 151/2025 Sb.</a>, ve znění účinném ode dne 1. října 2026, se v období od 1. října 2026 do 31. prosince 2026 použije normativní nájemné a normativní nájemné pro zranitelné osoby vyhlášené podle <a data-odkaz-id=\"212525497\" href=\"#\" class=\"int_odkaz\">bodu 1</a>."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>3.</var> Podle <a data-odkaz-id=\"212525499\" href=\"#\" class=\"ext_odkaz\" data-version=\"20261001\">zákona č. 151/2025 Sb.</a>, ve znění účinném ode dne 1. října 2026, se postupuje poprvé při rozhodování o nároku na dávku státní sociální pomoci náležející za měsíc říjen 2026."
+   },
+   {
+    "kodTypuFragmentu": "Bod_Dd",
+    "xhtml": "<var>4.</var> Řízení o dávce státní sociální pomoci náležející nejpozději za měsíc září v roce 2026 zahájená a pravomocně neskončená přede dnem 1. října 2026 se dokončí podle <a data-odkaz-id=\"212525501\" href=\"#\" class=\"ext_odkaz\" data-version=\"20261001\">zákona č. 151/2025 Sb.</a>, ve znění účinném přede dnem 1. října 2026."
+   },
+   {
+    "kodTypuFragmentu": "Cast",
+    "xhtml": "<var>ČÁST TŘETÍ</var>"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "ZRUŠOVACÍ USTANOVENÍ"
+   },
+   {
+    "kodTypuFragmentu": "Clanek",
+    "xhtml": "<var>Čl. V</var>"
+   },
+   {
+    "kodTypuFragmentu": "Cast",
+    "xhtml": "<var>ČÁST ČTVRTÁ</var>"
+   },
+   {
+    "kodTypuFragmentu": "Nadpis_pod",
+    "xhtml": "ÚČINNOST"
+   },
+   {
+    "kodTypuFragmentu": "Clanek",
+    "xhtml": "<var>Čl. VI</var>"
+   }
+  ]
+ }
+}

@@ -39,6 +39,10 @@
       "patch": "zmeny/07-zneni-slibu.patch",
       "kopirovat": ["scripts/nastaveni/zneni-slibu.json"],
       "duvod": "Doslovné znění slibu z programového prohlášení u každého bodu (scripts/nastaveni/zneni-slibu.json, scripts/dev/zneni-slibu.py): hodnotitel ho dostane pod řádkem bodu, ověřovatelé a kontrola faktů ve znění závazku. Body v src/data.js jsou zkratky a model podle zkratky hodnotil jiný slib (15.2: „modulové řešení … pilotní ověření“; 3.2: podnadpis „…pro policisty a hasiče“). Data se kopírují z DEV2."
+    },
+    {
+      "patch": "zmeny/08-obsah-zakonu.patch",
+      "duvod": "Obsah zákonů v rejstříku Sbírky (lib/sbirka.js, obsahZakona a nactiObsahZakonu): u každého zákona od nástupu vlády program ze znění vypíše, které zákony mění, jaká ustanovení vkládá a která čísla (částky, lhůty, data) přepisuje. Název to neřekne — 180/2026 Sb. o evidenci tržeb vrací školkovné a zkracuje lhůtu pro vrácení DPH ze 6 na 3 měsíce, a hodnotitel v generálce 2. 11. 2026 nechal 2.13 „probíhá“ a u 10.5 tvrdil, že školkovné žádný zákon nevrátil. Pokyn k rejstříku v promptu hodnocení to říká místo „ověř, že název odpovídá slibu“. Plán legislativních prací dává slib podle vlády celý (dřív zkrácený na 300 znaků uřízl právě školkovné a lhůtu DPH). Bez znění zůstane tabulka jako dřív."
     }
   ],
   "soubory": [

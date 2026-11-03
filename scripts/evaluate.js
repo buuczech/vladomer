@@ -32,7 +32,7 @@ import { duvodDegradace, CIL_DEGRADACE } from "./lib/dukaz.js";
 import { posudPrechod, stavOd as spocitejStavOd } from "./lib/prechody.js";
 import { parsujDeltaOdpoved, planKapitoly, prenesNeprehodnocene } from "./lib/delta.js";
 import { parsujHodnoceni, vyrezy } from "./lib/odpoved.js";
-import { nactiRejstrik, overZnacky, hlavniPredpis, opravDatumVyhlaseni, tabulkaRejstriku, popisProOverovatele, nactiZneni } from "./lib/sbirka.js";
+import { nactiRejstrik, overZnacky, hlavniPredpis, opravDatumVyhlaseni, tabulkaRejstriku, popisProOverovatele, nactiZneni, nactiObsahZakonu } from "./lib/sbirka.js";
 import { nactiTisky, zdrojSeznamu } from "./lib/psp.js";
 import { ocistenyZaznam } from "./lib/navrhy.js";
 import { teloPozadavku, zavolejApi, overModely, nastavPojistku, souhrnNakladu } from "./lib/modely.js";
@@ -690,9 +690,14 @@ async function main() {
     const nacteno = await nactiRejstrik({ roky });
     if (nacteno.predpisy) {
       REJSTRIK = nacteno.predpisy;
-      TABULKA_SBIRKY = tabulkaRejstriku(REJSTRIK, DATES.tookOffice);
+      /* Obsah zákonů ze znění (lib/sbirka.js, obsahZakona): název neřekne, co
+         všechno zákon mění. Bez znění zůstane v tabulce jen název, jako dřív. */
+      const obsah = await nactiObsahZakonu(REJSTRIK, DATES.tookOffice);
+      TABULKA_SBIRKY = tabulkaRejstriku(REJSTRIK, DATES.tookOffice, { obsah });
+      const stavy = [...obsah.values()].reduce((a, o) => ({ ...a, [o.stav]: (a[o.stav] || 0) + 1 }), {});
       console.log(`Rejstřík Sbírky: ${REJSTRIK.size} předpisů z let ${roky.join("–")}, `
-        + `${TABULKA_SBIRKY.split("\n").length} od nástupu vlády v tabulce pro model`);
+        + `${TABULKA_SBIRKY.split("\n").length} od nástupu vlády v tabulce pro model; obsah ze znění u ${stavy.ok || 0} zákonů`
+        + `${stavy.nezpracovano ? `, ${stavy.nezpracovano} zatím nezpracovaných` : ""}${stavy.chyba ? `, ${stavy.chyba} nešlo načíst` : ""}`);
     } else {
       console.log(`POZOR: rejstřík Sbírky se nepodařilo načíst (${nacteno.chyba}) — model dostane prompt `
         + "bez tabulky a čísla předpisů se tentokrát neověří.");

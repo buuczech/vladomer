@@ -124,13 +124,14 @@ const DATUM_CS = (d) => `${Number(d.slice(8, 10))}. ${Number(d.slice(5, 7))}. ${
  * Názvy se zkracují — k poznání tématu stačí začátek a tabulka má i tak
  * kolem 180 řádků.
  */
-export function tabulkaRejstriku(predpisy, od, { delkaNazvu = 120 } = {}) {
+export function tabulkaRejstriku(predpisy, od, { delkaNazvu = 120, obsah = null } = {}) {
   const radky = [...predpisy.values()]
     .filter((p) => DRUHY_DO_TABULKY.has(p.druh) && p.vyhlaseno >= String(od).slice(0, 10))
     .sort((a, b) => a.vyhlaseno.localeCompare(b.vyhlaseno) || a.kod.localeCompare(b.kod, "cs", { numeric: true }))
     .map((p) => {
       const n = p.nazev.length > delkaNazvu ? `${p.nazev.slice(0, delkaNazvu).replace(/\s+\S*$/, "")}…` : p.nazev;
-      return `- ${p.kod} Sb. | ${p.druh} | vyhlášeno ${DATUM_CS(p.vyhlaseno)} | ${n}`;
+      const o = obsah ? popisObsahu(obsah.get(p.kod)) : "";
+      return `- ${p.kod} Sb. | ${p.druh} | vyhlášeno ${DATUM_CS(p.vyhlaseno)} | ${n}${o ? ` | obsah: ${o}` : ""}`;
     });
   return radky.join("\n");
 }
@@ -231,6 +232,109 @@ export function popisProOverovatele({ overene = [], neexistujici = [] } = {}, re
   }
   for (const k of neexistujici) radky.push(`- ${k} Sb. V E-SBÍRCE NEEXISTUJE`);
   return radky.join("\n");
+}
+
+/* --- Obsah zákonů ------------------------------------------------------------
+   Název zákona neřekne, co všechno mění. 180/2026 Sb. „o evidenci tržeb a o
+   změně některých dalších zákonů“ vrací školkovné (nový § 35bd zákona
+   o daních z příjmů) a zkracuje lhůtu pro vrácení DPH z nezaplacených faktur
+   ze šesti na tři měsíce. Hodnotitel měl v tabulce jen název, a v generálce
+   2. 11. 2026 proto nechal 2.13 „probíhá“ a u 10.5 napsal, že školkovné žádný
+   zákon nevrátil; main stejný bod čtyři týdny razítkoval jako „prověřeno beze
+   změny“ s textem „chybí Senát a prezident“. Obráceně 91/2026 Sb. „kterým se
+   mění stavební zákon“ jen posouvá lhůtu z roku 2026 na 2027, a 15. 10. 2026
+   přesto prošel jako splnění slibu o bydlení.
+
+   Program proto u každého zákona vydaného od nástupu vlády přečte znění
+   a vypíše, které zákony mění (nadpisy částí „Změna zákona o …“), jaká
+   ustanovení do nich vkládá (jejich nadpisy) a které částky, lhůty a data
+   přepisuje. Ostatní novelizační body (odkazy, písmena, legislativní
+   technika) vynechá a délku omezí — tabulka jde do promptu každé kapitoly. */
+
+const NOVA_USTANOVENI = 5;   // nadpisů vložených ustanovení na jednu část
+const PREPSANA_CISLA = 4;    // novelizačních bodů s číslem na jednu část
+const DELKA_OBSAHU = 1200;   // znaků obsahu na jeden zákon
+const zkratit = (t, n) => (t.length > n ? `${t.slice(0, n).replace(/\s+\S*$/, "")}…` : t);
+/* Hodnota v uvozovkách, která je číslem, ne odkazem: „6 měsíců“, „50 000 Kč“,
+   „31. března“, „2026“ — ne „odst. 5“, „§ 16“, „e)“. */
+const jeHodnota = (q) => /\d/.test(q) && !/§|odst|čl\.|písm|bod|č\.\s?\d|zákon/i.test(q);
+const NADPIS_BEZ_OBSAHU = /^(Přechodn|Účinnost|Zrušovací|Společn|Závěrečn)/i;
+
+/**
+ * Obsah zákona z fragmentů e-Sbírky (pole „seznam“ ze všech stránek).
+ * @returns { stav: "ok" | "nezpracovano", casti: [{ nadpis | null, nova: [], cisla: [] }] }
+ *   nadpis null = novela jednoho zákona bez částí; který zákon mění, říká název
+ */
+export function obsahZakona(seznam, nazev) {
+  if (!seznam.some((f) => TEXT_PREDPISU.test(f.kodTypuFragmentu || ""))) return { stav: "nezpracovano", casti: [] };
+  const casti = [];
+  let cast = /^Zákon, kterým se mění/.test(String(nazev || "")) ? { nadpis: null, nova: [], cisla: [] } : null;
+  if (cast) casti.push(cast);
+  let cekaNadpis = false;
+  for (const f of seznam) {
+    const typ = f.kodTypuFragmentu || "";
+    if (typ === "Cast") { cast = null; cekaNadpis = true; continue; }
+    if (typ === "Clanek") { cekaNadpis = true; continue; }
+    const text = holyText(f.xhtml).replace(VYCET_NOVEL, "ve znění pozdějších předpisů, ");
+    if (cekaNadpis && /^Nadpis/.test(typ)) {
+      cekaNadpis = false;
+      // Část „Změna zákona o …“; jiná část (nový zákon, účinnost) obsah novel nemá.
+      if (/^Změna\s/.test(text)) { cast = { nadpis: zkratit(text, 140), nova: [], cisla: [] }; casti.push(cast); }
+      continue;
+    }
+    cekaNadpis = false;
+    if (!cast) continue;
+    if (/^Nadpis/.test(typ)) {
+      if (text && text.length <= 100 && !NADPIS_BEZ_OBSAHU.test(text) && !cast.nova.includes(text) && cast.nova.length < NOVA_USTANOVENI) cast.nova.push(text);
+    } else if (/^(Bod|Odstavec)/.test(typ) && /nahrazuj/.test(text) && text.length <= 220
+      && [...text.matchAll(/„([^“]*)“/g)].some((q) => jeHodnota(q[1])) && cast.cisla.length < PREPSANA_CISLA) {
+      cast.cisla.push(text.replace(/^\d+\.\s*/, ""));
+    }
+  }
+  return { stav: "ok", casti: casti.filter((x) => x.nadpis || x.nova.length || x.cisla.length) };
+}
+
+/** Obsah zákona jako text do tabulky rejstříku; prázdný, když není co říct. */
+export function popisObsahu(o) {
+  if (!o) return "";
+  if (o.stav === "nezpracovano") return "znění e-Sbírka zatím nezpracovala";
+  if (o.stav !== "ok") return "";
+  const kusy = o.casti.map((x) => {
+    const v = [x.cisla.length ? `přepsaná čísla: ${x.cisla.join(" ")}` : "", x.nova.length ? `nová ustanovení: ${x.nova.join("; ")}` : ""].filter(Boolean).join("; ");
+    return x.nadpis ? `${x.nadpis}${v ? ` (${v})` : ""}` : v;
+  }).filter(Boolean);
+  return zkratit(kusy.join("; "), DELKA_OBSAHU);
+}
+
+/**
+ * Obsah zákonů vydaných od data `od` (všechny stránky fragmentů). Nikdy
+ * nevyhazuje výjimku; zákon, jehož znění nejde načíst, prostě obsah nemá.
+ * @returns Map("180/2026" → výsledek obsahZakona | { stav: "chyba", chyba })
+ */
+export async function nactiObsahZakonu(predpisy, od, { fetchFn = fetch, timeoutMs = 20000, maxStranek = 10 } = {}) {
+  const out = new Map();
+  if (!predpisy) return out;
+  const zakony = [...predpisy.values()].filter((p) => /zákon$/.test(p.druh) && p.vyhlaseno >= String(od).slice(0, 10));
+  for (const p of zakony) {
+    const [cislo, rok] = p.kod.split("/");
+    try {
+      const seznam = [];
+      for (let strana = 0, stran = 1; strana < stran && strana < maxStranek; strana++) {
+        const res = await fetchFn(`${API}/dokumenty-sbirky/${encodeURIComponent(`/sb/${rok}/${cislo}`)}/fragmenty?cisloStranky=${strana}`, {
+          headers: { accept: "application/json" },
+          signal: AbortSignal.timeout(timeoutMs),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const j = (await res.json()) || {};
+        stran = Number(j.pocetStranek) || 1;
+        seznam.push(...(j.seznam || []));
+      }
+      out.set(p.kod, obsahZakona(seznam, p.nazev));
+    } catch (e) {
+      out.set(p.kod, { stav: "chyba", chyba: String(e && e.message || e).slice(0, 160) });
+    }
+  }
+  return out;
 }
 
 export { DATUM_CS as datumCs };
