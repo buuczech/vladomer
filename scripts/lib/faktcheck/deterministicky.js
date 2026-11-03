@@ -64,6 +64,18 @@ export function procenta(text) {
 }
 
 const multimnozina = (pole) => [...pole].sort().join(", ");
+
+/** D3: v čem se česká a anglická verze téhož textu liší (data, předpisy,
+ *  procenta). Prázdné pole = sedí. Podle téhož pravidla se kontroluje i
+ *  překlad komentáře vlastníka (lib/preklad.js). */
+export function rozdilyCsEn(cs, en) {
+  const out = [];
+  for (const [co, f, g] of [["data", datumyCs, datumyEn], ["předpisy", znackySb, znackySb], ["procenta", procenta, procenta]]) {
+    const a = multimnozina(f(cs)), b = multimnozina(g(en));
+    if (a !== b) out.push(`${co} — cs [${a}], en [${b}]`);
+  }
+  return out;
+}
 const POLARITA = [
   ["fulfilled", /^(ano,\s*)?splněno\b/i],
   ["partial", /^(ano,\s*)?částečně splněno\b/i],
@@ -122,9 +134,9 @@ export function kontrolaBodu(id, e, { dnes, nastup, rejstrik = null, auditBodu =
     const cs = (e[pole] && e[pole].cs) || "";
     const en = (e[pole] && e[pole].en) || "";
     if (!cs || !en) continue;
-    for (const [co, f, g] of [["data", datumyCs, datumyEn], ["předpisy", znackySb, znackySb], ["procenta", procenta, procenta]]) {
-      const a = multimnozina(f(cs)), b = multimnozina(g(en));
-      if (a !== b) pridej("cs-en", "VAROVANI", `${pole}: ${co} se liší — cs [${a}], en [${b}]`, false);
+    for (const rozdil of rozdilyCsEn(cs, en)) {
+      const [co, zbytek] = rozdil.split(" — ");
+      pridej("cs-en", "VAROVANI", `${pole}: ${co} se liší — ${zbytek}`, false);
     }
   }
 

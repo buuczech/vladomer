@@ -7,6 +7,7 @@ import { readSettings, readList } from "./scripts/lib/nastaveni.js";
 import { promptHodnoceni, promptZpravy, promptDeltaScan, promptOvereniPrechodu, promptDoptani, zneniSKontextem } from "./scripts/lib/prompty.js";
 import { modelTisku, zdrojSeznamu } from "./scripts/lib/psp.js";
 import { promptKorektury } from "./scripts/lib/korektura.js";
+import { promptPrekladu } from "./scripts/lib/preklad.js";
 import { predpisyZOdpovedi, tabulkaRejstriku, popisProOverovatele } from "./scripts/lib/sbirka.js";
 import { promptKontroly, nactiMetodiku, zdrojeSbirky, slibySKontextem } from "./scripts/lib/faktcheck/modelova.js";
 import { ALL_ITEMS, TOTAL_ITEMS, DATES, CHAPTERS } from "./src/data.js";
@@ -176,6 +177,14 @@ function pouzitePrompty() {
           sablona: cti("prompt-korektura.md"),
           ukazka: davka.length ? promptKorektury(davka) : null,
           ukazkaPopis: davka.length ? `${davka.length} úryvky z oblasti ${kap.id}` : null,
+        },
+        {
+          id: "preklad",
+          soubor: `${SOUBOR}/prompt-preklad.md`,
+          model: nast.korektura_model,
+          sablona: cti("prompt-preklad.md"),
+          ukazka: promptPrekladu("Sněmovna návrh schválila 14. 10. 2026, Senát ho ale zatím neprojednal, takže slib zatím jen probíhá."),
+          ukazkaPopis: "vymyšlený komentář, jen pro ukázku",
         },
         /* Kontrola faktů (spec 004). Ukázka na prvním „splněném“ bodu webu.
            Texty zdrojů program v ostrém běhu stahuje; build běží bez sítě,

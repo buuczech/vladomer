@@ -23,7 +23,8 @@ import { execFileSync } from "node:child_process";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { rozhodniBod, rozhodniBeh, problemyBodu, oznacAudit, upravSnimek, stavZaznamu } from "../lib/faktcheck/rozhodnuti.js";
-import { novySoubor, proved, sloz, prikazyZKomentare, odkazRozhodnuti, prikazyZeSouboru, VETEV_BEHU, ocistenyZaznam, zkorigujNavrhy, predchoziPrijeti } from "../lib/navrhy.js";
+import { novySoubor, proved, sloz, prikazyZKomentare, odkazRozhodnuti, prikazyZeSouboru, VETEV_BEHU, ocistenyZaznam, zkorigujNavrhy, predchoziPrijeti, sablonaOpravy, vlastniZaznam, chybaVlastnihoZaznamu } from "../lib/navrhy.js";
+import { prelozKomentar, ctiPreklad, promptPrekladu } from "../lib/preklad.js";
 
 const fx = JSON.parse(readFileSync(new URL("./fixtury/rozhodnuti.json", import.meta.url), "utf8"));
 let chyb = 0;
@@ -234,13 +235,83 @@ over(JSON.stringify(zeSouboru.prikazy) === JSON.stringify([{ prikaz: "prijmout",
   && JSON.stringify(zeSouboru.neplatne) === JSON.stringify(["2.3-prijmout.txt"]),
   "v pořadí přidání (přijmout, pak nechat = nechat); „duvod:“ bez důvodu se ohlásí, neprovede", zeSouboru);
 
+console.log("\nVlastní hodnocení (/opravit): vlastník nesouhlasí s webem ani s návrhem");
+{
+  const [o] = prikazyZKomentare("/opravit 2.13\nstav: probiha\nkomentar: Vláda návrh předložila 14. 10. 2026,\n  Sněmovna ho zatím neprojednala.\n# nápověda\ndoklad: \ndatum: 2026-10-14");
+  over(o.prikaz === "opravit" && o.bod === "2.13" && o.stav === "in_progress" && o.komentar === "Vláda návrh předložila 14. 10. 2026, Sněmovna ho zatím neprojednala." && o.doklad === null && o.datum === "2026-10-14" && !o.chyba,
+    "blok /opravit: stav i bez diakritiky, komentář přes víc řádků, # je nápověda, prázdný doklad = z webu", o);
+  const KOM = "komentar: Vláda návrh předložila, Sněmovna ho neprojednala.";
+  const chyby = [`stav: \n${KOM}`, `stav: neměřitelné\n${KOM}`, `stav: hotovo\n${KOM}`, "stav: splněno\nkomentar: ", `stav: splněno\n${KOM}\ndatum: 14. 10. 2026`]
+    .map((t) => prikazyZKomentare(`/opravit 2.13\n${t}`)[0].chyba || "");
+  over(/chybí stav/.test(chyby[0]) && /nemeritelne\.txt/.test(chyby[1]) && /„hotovo“ neznám/.test(chyby[2]) && /chybí komentář/.test(chyby[3]) && /RRRR-MM-DD/.test(chyby[4]),
+    "neplatný blok se ohlásí konkrétně: chybí stav, neměřitelné (řídí ho seznam), neznámý stav, chybí komentář, špatné datum", chyby);
+  const mix = prikazyZKomentare("Díky!\n/prijmout 10.2\n/opravit 12.2\nstav: částečně splněno\nkomentar: Zákon platí, prováděcí vyhláška ale chybí.\n/podrzet 7.2");
+  over(mix.map((x) => `${x.prikaz} ${x.bod}`).join() === "prijmout 10.2,opravit 12.2,podrzet 7.2" && mix[1].stav === "partial" && mix[1].komentar === "Zákon platí, prováděcí vyhláška ale chybí.",
+    "v komentáři PR blok končí dalším příkazem", mix);
+  const sab = sablonaOpravy("2.13");
+  const u = new URL(odkazRozhodnuti("buuczech/vladomer", "beh/2026-11", sab));
+  const vyplneno = u.searchParams.get("value").replace("stav: ", "stav: probíhá").replace("komentar: ", "komentar: Vláda návrh předložila, Sněmovna ho zatím neprojednala.");
+  over(u.searchParams.get("filename") === "rozhodnuti/2.13-opravit.txt" && prikazyZKomentare(u.searchParams.get("value"))[0].chyba && prikazyZKomentare(vyplneno)[0].stav === "in_progress" && sab.length < 250,
+    "tlačítko: soubor 2.13-opravit.txt se šablonou — nevyplněná se ohlásí, vyplněná projde; šablona krátká kvůli velikosti e-mailu", sab.length);
+
+  const s2 = novySoubor({ rozhodnuti: { beh: dnes, body: beh.body }, zaklad: "abc" });
+  over(Object.keys(s2.body).length >= Object.keys(s2.navrhy).length && s2.vlastni && !Object.keys(s2.vlastni).length, "soubor zná všechny body k rozhodnutí, vlastní hodnocení zatím žádné", s2.body);
+  over(proved(s2, { prikaz: "zverejnit" }).ok, "/zverejnit projde (odpověď dřív hlásila „Bod undefined v tomto běhu žádný návrh nemá“)");
+  const zakladV = { ...zakladPR, evals: { ...zakladPR.evals, lastUpdated: RAZITKO } };
+  const web = zakladV.evals.evals;
+  const v = { status: "in_progress", evidence: null, evidenceDate: null, comment: { cs: "Vláda návrh předložila, Sněmovna ho zatím neprojednala.", en: "The government submitted the bill; the Chamber has not debated it yet." }, preklad: "claude-opus-5-5" };
+  over(!proved(s2, { prikaz: "opravit", bod: "10.2", vlastni: { ...v, comment: { cs: v.comment.cs, en: "" } } }).ok, "bez překladu se vlastní hodnocení neprovede");
+  proved(s2, { prikaz: "prijmout", bod: "10.2" });
+  const r1 = proved(s2, { prikaz: "opravit", bod: "10.2", vlastni: v });
+  over(r1.ok && !s2.prijate["10.2"] && s2.vlastni["10.2"] === v && /Anglicky: „The government/.test(r1.zprava), "vlastní hodnocení zruší přijetí, odpověď do PR ukáže překlad", r1);
+  const sl = sloz(s2, zakladV, "2026-11-03");
+  const z = sl.evals.evals["10.2"];
+  over(z.status === "in_progress" && z.comment.cs === v.comment.cs && z.comment.en === v.comment.en && z.change.cs === "" && z.change.en === ""
+    && z.previousStatus === web["10.2"].status && z.evidence === web["10.2"].evidence && z.updatedAt === RAZITKO && !("overeno" in z) && stejne(z.sources, web["10.2"].sources),
+    "složený záznam: stav a komentář vlastníka, doklad a zdroje z webu, prázdná změna, previousStatus = stav na webu, updatedAt = čas běhu", z);
+  const radek = sl.audit.entries.find((x) => x.id === "10.2" && x.oprava && x.oprava.vlastni_z_behu);
+  over(radek && radek.model === "vlastník" && radek.status === "in_progress" && radek.date === "2026-11-03" && /napsal sám; anglickou verzi přeložil claude-opus-5-5/.test(radek.oprava.duvod) && radek.oprava.vlastni_z_behu === dnes,
+    "audit: nový řádek s autorem „vlastník“, oprava.vlastni_z_behu a kdo překládal", radek);
+  over(sl.hist.snapshots[0].statuses["10.2"] === "in_progress" && !sl.faktcheck.body["10.2"] && sl.vlastni.join() === "10.2" && !sl.prijato.length,
+    "snímek nese stav vlastníka a bod zmizí z faktcheck.json (už nečeká na ověření)", sl.faktcheck);
+  over(stejne(predchoziPrijeti(sl.audit, "10.2", "2026-12-01"), { beh: dnes, vlastni: true, stav: "in_progress" }), "příští report ukáže minulé vlastní hodnocení", predchoziPrijeti(sl.audit, "10.2", "2026-12-01"));
+  proved(s2, { prikaz: "podrzet", bod: "10.2" });
+  over(!s2.vlastni["10.2"] && stejne(sloz(s2, zakladV, "2026-11-03").evals.evals["10.2"], web["10.2"]), "„nechat“ vlastní hodnocení zruší, bod zůstane, jak byl");
+  s2.body["5.5"] = ["m-vyvraceno"];
+  over(proved(s2, { prikaz: "opravit", bod: "5.5", vlastni: v }).ok && !proved(s2, { prikaz: "prijmout", bod: "5.5" }).ok && !proved(s2, { prikaz: "opravit", bod: "9.9", vlastni: v }).ok,
+    "vlastní hodnocení jde i u bodu bez návrhu, ne u bodu, který k rozhodnutí není");
+
+  const pravidla = { minDelkaDokladu: 12, nastup: "2025-12-15", latkaPoruseno: true, dnes: "2026-11-03" };
+  const slabe = vlastniZaznam(web["10.2"], { ...v, status: "fulfilled", evidence: "Slíbeno.", evidenceDate: "2026-10-01" }, RAZITKO);
+  const budouci = vlastniZaznam(web["10.2"], { ...v, evidenceDate: "2026-12-24" }, RAZITKO);
+  over(/neprojde laťkou.*„částečně splněno“/.test(chybaVlastnihoZaznamu(slabe, pravidla) || "") && /v budoucnosti/.test(chybaVlastnihoZaznamu(budouci, pravidla) || "")
+    && chybaVlastnihoZaznamu(vlastniZaznam(web["10.2"], v, RAZITKO), pravidla) === null && !("sbirka" in slabe),
+    "laťka na doklad: „splněno“ s chabým dokladem a datum v budoucnosti se odmítnou, „probíhá“ projde; změněný doklad ztratí údaje ze Sbírky",
+    [chybaVlastnihoZaznamu(slabe, pravidla), chybaVlastnihoZaznamu(budouci, pravidla)]);
+
+  // Překlad: zástupný model, nic se neplatí.
+  const cs = "Sněmovna návrh schválila 14. 10. 2026, zákon č. 152/2026 Sb. ale zatím nevyšel.";
+  const dobre = "The Chamber approved the bill on 14 October 2026, but Act No. 152/2026 Coll. has not been published yet.";
+  const spatne = "The Chamber approved the bill, but Act No. 152/2026 Coll. has not been published yet.";
+  const volani = [];
+  const zastupce = (odpovedi) => async (telo) => { volani.push(telo); return { content: [{ type: "thinking", thinking: "…" }, { type: "text", text: `Tady je překlad:\n{"en": ${JSON.stringify(odpovedi.shift())}}` }] }; };
+  const en = await prelozKomentar(cs, { model: "claude-opus-5-5", klic: "x", volej: zastupce([spatne, dobre]) });
+  over(en === dobre && volani.length === 2 && volani[0].messages[0].content.includes(cs), "překlad: chybí-li v něm datum, zkusí se znovu; JSON se najde i za úvodní větou", { en, volani: volani.length });
+  let chybaPrekladu = "";
+  try { await prelozKomentar(cs, { model: "claude-opus-5-5", klic: "x", volej: zastupce([spatne, spatne]) }); } catch (e) { chybaPrekladu = e.message; }
+  over(/překlad se nepodařil \(v překladu se liší data/.test(chybaPrekladu), "dvakrát špatně → vyhodí důvod, příkaz se neprovede", chybaPrekladu);
+  over(ctiPreklad('{"en": "Ok  text."}') === "Ok text." && ctiPreklad("bez JSONu") === null, "čtení překladu");
+  over(!promptPrekladu(cs).includes("{{") && promptPrekladu(cs).includes("„probíhá“ → \"in progress\"") && !promptPrekladu(cs).includes("stalled"), "prompt překladu vyplněný, stavy z korektury");
+}
+
 /* Celá cesta jako v rozhodnuti-vetev.yml: větev z commitu běhu (navrhy.js
    vytvor), vlastník přidá dva soubory dvěma commity, navrhy.js soubory je
    provede v pořadí přidání a smaže. Dočasný git repozitář, nic se nestahuje. */
 {
   const tmp = mkdtempSync(join(tmpdir(), "vm-vetev-"));
   const git = (...a) => execFileSync("git", ["-C", tmp, "-c", "user.name=t", "-c", "user.email=test", "-c", "core.autocrlf=false", ...a], { encoding: "utf8", env: { ...process.env, ...(git.cas ? { GIT_COMMITTER_DATE: git.cas, GIT_AUTHOR_DATE: git.cas } : {}) } });
-  const navrhy = (...a) => execFileSync(process.execPath, [join("scripts", "navrhy.js"), ...a, "--koren", tmp], { encoding: "utf8", env: { ...process.env, GITHUB_OUTPUT: join(tmp, "..", `${tmp.split(/[\\/]/).pop()}-out.txt`) } });
+  // Bez klíče API: vlastní hodnocení se tu nesmí překládat naostro (stálo by peníze).
+  const navrhy = (...a) => execFileSync(process.execPath, [join("scripts", "navrhy.js"), ...a, "--koren", tmp], { encoding: "utf8", env: { ...process.env, ANTHROPIC_API_KEY: "", GITHUB_OUTPUT: join(tmp, "..", `${tmp.split(/[\\/]/).pop()}-out.txt`) } });
   try {
     git("init", "-q");
     mkdirSync(join(tmp, "public"));
@@ -256,7 +327,11 @@ over(JSON.stringify(zeSouboru.prikazy) === JSON.stringify([{ prikaz: "prijmout",
     // 12.2 nechat (dřív), pak 10.2 nechat — commity s různým časem, jména v opačném pořadí
     // 10.2 přijmout (dřív), pak 10.2 nechat a 12.2 přijmout; 7.2 bez důvodu je neplatné
     git.cas = "2026-11-01T10:00:00Z"; writeFileSync(join(tmp, "rozhodnuti", "10.2-prijmout.txt"), "/prijmout 10.2"); git("add", "-A"); git("commit", "-qm", "rozhodnutí 1");
-    git.cas = "2026-11-01T10:05:00Z"; writeFileSync(join(tmp, "rozhodnuti", "10.2-podrzet.txt"), "/podrzet 10.2\n"); writeFileSync(join(tmp, "rozhodnuti", "12.2-prijmout.txt"), "/prijmout 12.2"); writeFileSync(join(tmp, "rozhodnuti", "7.2-prijmout.txt"), "/prijmout 7.2 duvod:"); git("add", "-A"); git("commit", "-qm", "rozhodnutí 2");
+    git.cas = "2026-11-01T10:05:00Z"; writeFileSync(join(tmp, "rozhodnuti", "10.2-podrzet.txt"), "/podrzet 10.2\n"); writeFileSync(join(tmp, "rozhodnuti", "12.2-prijmout.txt"), "/prijmout 12.2"); writeFileSync(join(tmp, "rozhodnuti", "7.2-prijmout.txt"), "/prijmout 7.2 duvod:");
+    // vlastní hodnocení: 7.2 „splněno“ s chabým dokladem neprojde laťkou, 10.2 projde, ale bez klíče se nepřeloží
+    writeFileSync(join(tmp, "rozhodnuti", "7.2-opravit.txt"), "/opravit 7.2\nstav: splněno\nkomentar: Vláda slib podle mě splnila, zákon platí.\ndoklad: Slíbeno.\ndatum: 2026-10-01");
+    writeFileSync(join(tmp, "rozhodnuti", "10.2-opravit.txt"), `${sablonaOpravy("10.2").replace("stav: ", "stav: probíhá").replace("komentar: ", "komentar: Vláda návrh předložila, Sněmovna ho zatím neprojednala.")}\n`);
+    git("add", "-A"); git("commit", "-qm", "rozhodnutí 2");
     git.cas = null;
     const vystup = navrhy("soubory", "--soubor", cesta);
     const po = JSON.parse(readFileSync(join(tmp, cesta), "utf8"));
@@ -267,6 +342,8 @@ over(JSON.stringify(zeSouboru.prikazy) === JSON.stringify([{ prikaz: "prijmout",
     over(JSON.stringify(evals.evals["10.2"]) === JSON.stringify(zakladPR.evals.evals["10.2"]), "větev přeskládaná: 10.2 na minulém záznamu");
     over(!readdirSync(join(tmp, "rozhodnuti")).length, "provedené soubory jsou smazané (do main nepatří)");
     over(/7\.2-prijmout\.txt neobsahuje platný příkaz/.test(vystup) && /\| 12\.2 \|/.test(vystup), "odpověď do PR: co se provedlo, co ne, a souhrn", vystup.slice(0, 400));
+    over(/7\.2: „splněno“ s tímhle dokladem neprojde laťkou/.test(vystup) && /10\.2: komentář nejde přeložit do angličtiny \(chybí ANTHROPIC_API_KEY\)/.test(vystup) && !(po.vlastni && Object.keys(po.vlastni).length),
+      "vlastní hodnocení: laťka se kontroluje před placeným překladem, bez překladu se nic neprovede", vystup.slice(0, 900));
   } finally { rmSync(tmp, { recursive: true, force: true }); rmSync(`${tmp}-out.txt`, { force: true }); }
 }
 

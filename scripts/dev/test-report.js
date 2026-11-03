@@ -109,6 +109,14 @@ try {
   over(stitky("už rozhodnuto: přijato") === 1 && stitky("už rozhodnuto: necháno") === 1 && stitky("nerozhodnuto") === pocetBodu - 2 && /Stav z PR: rozhodnuto 2 z \d+ \(přijato 1, necháno 1\)/.test(seStavem),
     "e-mail znovu: u bodu stav z PR (10.2 přijato, 7.2 přijato a pak necháno), nahoře souhrn", [stitky("už rozhodnuto: přijato"), stitky("už rozhodnuto: necháno"), stitky("nerozhodnuto"), pocetBodu]);
   over(!/nerozhodnuto|už rozhodnuto|Stav z PR/.test(ostry), "bez stavu větve (běžný běh) žádné štítky");
+  // Třetí volba u každého bodu: vlastní hodnocení (vlastník 3. 11. 2026).
+  over((ostry.match(/>Vlastní hodnocení</g) || []).length === pocetBodu && ostry.includes("filename=rozhodnuti/10.2-opravit.txt") && ostry.includes(encodeURIComponent("/opravit 10.2\nstav: ")),
+    "e-mail: u každého bodu tlačítko Vlastní hodnocení se šablonou /opravit", (ostry.match(/>Vlastní hodnocení</g) || []).length);
+  over(html2.includes(encodeURIComponent("/opravit 10.2")) && pr.includes("/opravit <bod>"), "PDF s odkazem na vlastní hodnocení, popis PR s příkazem");
+  writeFileSync(cestaStavu, JSON.stringify({ prijate: {}, vlastni: { "12.2": { status: "partial" } }, historie: [{ prikaz: "opravit", bod: "12.2" }] }));
+  const sVlastnim = posledniEmail(["--zkouska", "--pr", "https://github.com/buuczech/vladomer/pull/124", "--vetev", "beh/2026-11-zkouska", "--stav-vetve", cestaStavu]);
+  over((sVlastnim.match(/>už rozhodnuto: vlastní hodnocení</g) || []).length === 1 && /rozhodnuto 1 z \d+ \(přijato 0, necháno 0, vlastní hodnocení 1\)/.test(sVlastnim),
+    "e-mail znovu: vlastní hodnocení ze stavu větve má štítek a je v souhrnu");
   // Fixtura bod s vyvráceným tvrzením nemá; na listopadových datech generálky
   // (6 takových bodů) to ověřil běh report.js nad artefaktem 3. 11. 2026.
   const sDuvodem = (ostry.match(/Přijmout \(s důvodem\)/g) || []).length;

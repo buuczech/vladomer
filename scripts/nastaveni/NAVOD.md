@@ -13,6 +13,7 @@ Kódování: UTF-8*. Jinak se rozbije diakritika a běh se zastaví chybou.
 | `prompt-zpravy.md` | Zadání pro výběr hlavních zpráv |
 | `prompt-korektura.md` | Zadání pro jazykovou korekturu hotových textů |
 | `prompt-faktcheck.md` | Zadání pro nezávislou kontrolu faktů před zveřejněním |
+| `prompt-preklad.md` | Zadání pro překlad tvého komentáře do angličtiny, když u bodu klepneš na „Vlastní hodnocení“ |
 | `metodika.md` | Tvoje pravidla pro stavy (M1–M11) — dostává je hodnotitel, ověřovatel i kontrola faktů, všichni stejná |
 | `report-behu.html` | Vzhled PDF reportu, který ti po běhu přijde e-mailem |
 | `nastaveni.txt` | Čísla a model — kolik zdrojů, jak přísné hodnocení, kolik zpráv |

@@ -53,6 +53,10 @@
     {
       "cesta": "scripts/nastaveni/prompt-faktcheck.md",
       "duvod": "Nový prompt kontroly faktů (spec 004, vrstva M). Hodnocení ho nečte — existující prompty beze změny."
+    },
+    {
+      "cesta": "scripts/nastaveni/prompt-preklad.md",
+      "duvod": "Nový prompt: překlad komentáře, který napsal vlastník (/opravit, spec 005), do angličtiny. Běží jen při rozhodování vlastníka, hodnocení ho nečte — existující prompty beze změny."
     }
   ],
   "pole_pozadavku": [],

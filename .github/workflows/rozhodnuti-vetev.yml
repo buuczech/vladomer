@@ -18,6 +18,8 @@ name: Rozhodnutí vlastníka z e-mailu
 #     udělal vlastník repozitáře,
 #   - obsah souborů čte přísný regex v lib/navrhy.js, nic z něj se nespouští
 #     ani nevkládá do příkazové řádky,
+#   - klíč API dostává jen krok s rozhodnutím: komentář vlastního hodnocení
+#     (/opravit) přeloží model do angličtiny (lib/preklad.js),
 #   - na rozdíl od rozhodnuti.yml (komentáře v PR) neběží z výchozí větve,
 #     ale z větve běhu — proto funguje i v generálce na DEV2, před sloučením.
 
@@ -85,6 +87,7 @@ jobs:
         id: proved
         if: steps.pr.outputs.vetev != ''
         env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           KDO: ${{ github.actor }}
           SOUBOR: ${{ steps.pr.outputs.soubor }}
           VETEV: ${{ steps.pr.outputs.vetev }}

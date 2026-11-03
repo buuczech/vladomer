@@ -16,9 +16,17 @@
  * ověřit (nebo které čekají kvůli kalibraci). Návrh s vyvráceným tvrzením
  * nebo s chybou proti primárnímu záznamu se jen vypíše; přijmout ho jde
  * jen s důvodem, který se zapíše do auditu.
+ *
+ * Když vlastník nesouhlasí ani s webem, ani s návrhem, napíše stav
+ * a komentář sám (/opravit, „Vlastní hodnocení“). Takový záznam projde
+ * stejnou laťkou na doklad jako hodnocení modelu a v auditu má jako autora
+ * „vlastník“.
  */
 
-import { POLE_KOREKTURY, ctiPole, zapisPole, jazykPole, ocisti } from "./korektura.js";
+import { POLE_KOREKTURY, ctiPole, zapisPole, jazykPole, ocisti, STAV_POPIS } from "./korektura.js";
+import { duvodDegradace, CIL_DEGRADACE } from "./dukaz.js";
+
+const NAZVY_STAVU = Object.fromEntries(Object.entries(STAV_POPIS).filter(([k]) => k !== "stalled").map(([k, v]) => [k, v.cs]));
 
 const vyvraceny = (problemy) => problemy.some((p) => p === "m-vyvraceno" || p.startsWith("d:"));
 
@@ -98,29 +106,76 @@ export function navrhyZRozhodnuti(rozhodnuti) {
  *  nimi 10.1 „porušeno → deklarováno“, které zlatá sada vede jako porušené
  *  (rozhodnutí vlastníka 22. 10. 2026). */
 export function novySoubor({ rozhodnuti, zaklad }) {
-  return { beh: rozhodnuti.beh, zaklad, navrhy: navrhyZRozhodnuti(rozhodnuti), prijate: {}, historie: [] };
+  // body = všechny body k rozhodnutí i bez návrhu (vlastní hodnocení jde u každého) → jejich problémy
+  const body = Object.fromEntries(Object.values(rozhodnuti.body || {}).filter((b) => b.vlastnik).map((b) => [b.bod, b.problemy]));
+  return { beh: rozhodnuti.beh, zaklad, navrhy: navrhyZRozhodnuti(rozhodnuti), body, prijate: {}, vlastni: {}, historie: [] };
 }
 
 /**
  * Příkaz vlastníka. Vrací { ok, zprava } — zpráva jde do odpovědi v PR.
- * @param prikaz "prijmout" | "podrzet"
+ * @param prikaz  "prijmout" | "podrzet" | "opravit" | "zverejnit"
+ * @param vlastni u „opravit“ hotové vlastní hodnocení i s překladem
+ *                (scripts/navrhy.js), chyba = proč se provést nedá
+ * Poslední příkaz u bodu platí: přijetí i „nechat“ vlastní hodnocení ruší
+ * a vlastní hodnocení ruší přijetí.
  */
-export function proved(soubor, { prikaz, bod, duvod = null, kdo = "vlastník", kdy = new Date().toISOString() }) {
+export function proved(soubor, { prikaz, bod, duvod = null, chyba = null, vlastni = null, kdo = "vlastník", kdy = new Date().toISOString() }) {
+  if (prikaz === "zverejnit") return { ok: true, zprava: "Zveřejňuji: PR se sloučí a web se nasadí." };
   const n = soubor.navrhy[bod];
-  if (!n) return { ok: false, zprava: `Bod ${bod} v tomto běhu žádný návrh nemá.` };
-  if (prikaz === "podrzet") {
+  if (prikaz === "opravit") {
+    if (chyba) return { ok: false, zprava: chyba };
+    if (!n && !(bod in (soubor.body || {}))) return { ok: false, zprava: `Bod ${bod} v tomto běhu k rozhodnutí není.` };
+    if (!vlastni || !vlastni.comment || !vlastni.comment.en) return { ok: false, zprava: `${bod}: chybí anglický překlad komentáře — nic se neprovedlo.` };
     delete soubor.prijate[bod];
+    (soubor.vlastni = soubor.vlastni || {})[bod] = vlastni;
+    soubor.historie.push({ kdy, kdo, prikaz, bod, stav: vlastni.status });
+    return { ok: true, zprava: `${bod}: vlastní hodnocení „${NAZVY_STAVU[vlastni.status]}“ s tvým komentářem. Anglicky: „${vlastni.comment.en}“` };
+  }
+  if (prikaz === "podrzet" && (n || (soubor.vlastni && soubor.vlastni[bod]))) {
+    delete soubor.prijate[bod];
+    if (soubor.vlastni) delete soubor.vlastni[bod];
     soubor.historie.push({ kdy, kdo, prikaz, bod });
     return { ok: true, zprava: `${bod}: zůstane minulý záznam.` };
   }
-  if (prikaz === "zverejnit") return { ok: true, zprava: "Zveřejňuji: PR se sloučí do main a web se nasadí." };
+  if (!n) return { ok: false, zprava: `Bod ${bod} v tomto běhu žádný návrh nemá.` };
   if (prikaz === "prijmout") {
     if (n.vyvraceny && !duvod) return { ok: false, zprava: `${bod}: kontrola faktů tvrzení vyvrátila — přijmout jde jen s důvodem: /prijmout ${bod} duvod: …` };
     soubor.prijate[bod] = { duvod: duvod || null };
+    if (soubor.vlastni) delete soubor.vlastni[bod];
     soubor.historie.push({ kdy, kdo, prikaz, bod, ...(duvod ? { duvod } : {}) });
     return { ok: true, zprava: `${bod}: návrh přijat${duvod ? " s důvodem, který se zapíše do auditu" : ""}.` };
   }
   return { ok: false, zprava: `Neznámý příkaz ${prikaz}.` };
+}
+
+/* Záznam, který napsal vlastník: stav a komentář od něj, doklad a jeho datum
+   od něj, nebo z webu; zdroje a neměřitelnost (seznam nemeritelne.txt) z webu.
+   Věta o změně zůstane prázdná — prázdná je přípustná a přechod web vykreslí
+   sám z previousStatus. updatedAt = čas běhu, aby se změna počítala k tomuto
+   běhu (src/zmeny.js). Údaje ze Sbírky platí k dokladu a jeho datu, takže
+   když je vlastník změní, odpadnou. */
+export function vlastniZaznam(puvodni, v, kdy) {
+  const e = structuredClone(puvodni || { sources: [], unverifiable: false });
+  delete e.overeno; delete e.evidenceMissing;
+  const evidence = v.evidence || e.evidence || "";
+  const evidenceDate = v.evidenceDate || e.evidenceDate || undefined;
+  if (evidence !== e.evidence || evidenceDate !== e.evidenceDate) delete e.sbirka;
+  return {
+    ...e, status: v.status, evidence, evidenceDate,
+    comment: { cs: v.comment.cs, en: v.comment.en || "" }, change: { cs: "", en: "" },
+    previousStatus: puvodni ? puvodni.status : null, updatedAt: kdy,
+  };
+}
+
+/* Vlastní hodnocení projde stejnou laťkou na doklad jako hodnocení modelu
+   (lib/dukaz.js): jinak by zveřejnění spadlo na test-konzistence a web by
+   tvrdil „splněno“ bez dokladu, který to unese. Vrací text pro vlastníka,
+   nebo null. */
+export function chybaVlastnihoZaznamu(e, { dnes, ...pravidla }) {
+  if (e.evidenceDate && e.evidenceDate > dnes) return `datum dokladu ${e.evidenceDate} je v budoucnosti — oprav ho za „datum:“`;
+  const d = duvodDegradace(e.status, e.evidence, e.evidenceDate || "", { ...pravidla, zdroje: e.sources || [] });
+  if (!d) return null;
+  return `„${NAZVY_STAVU[e.status]}“ s tímhle dokladem neprojde laťkou, kterou web drží u každého hodnocení (${d}; běh by ho srazil na „${NAZVY_STAVU[CIL_DEGRADACE[d]]}“). Doplň doklad a datum, nebo vyber jiný stav.`;
 }
 
 /** Řádek auditu ze záznamu — stejná pole jako řádky, které zapisuje evaluate.js. */
@@ -144,18 +199,23 @@ export function radekAuditu(id, e, date, model) {
 const DUVOD_VLASTNIKA = / přijal vlastník\. Důvod: (.+)$/s;
 
 /**
- * Poslední přijetí návrhu u bodu z běhu před `beh` (řádek auditu ze sloz()).
- * Report ho ukáže u bodu, který se vrátil k rozhodnutí, aby ho vlastník
- * nemusel dohledávat znovu. Jen pro vlastníka: model důvod nedostává, stav
- * má stát na zdroji, ne na tom, že ho vlastník jednou přijal.
- * @returns { beh, duvod } | null — duvod je text vlastníka, nebo null
+ * Poslední rozhodnutí vlastníka u bodu z běhu před `beh` (řádek auditu ze
+ * sloz()): přijetí návrhu, nebo vlastní hodnocení. Report ho ukáže u bodu,
+ * který se vrátil k rozhodnutí, aby ho vlastník nemusel dohledávat znovu.
+ * Jen pro vlastníka: model důvod nedostává, stav má stát na zdroji, ne na
+ * tom, že ho vlastník jednou přijal.
+ * @returns { beh, duvod } | { beh, vlastni: true, stav } | null
  */
 export function predchoziPrijeti(audit, bod, beh) {
   let posledni = null;
   for (const r of (audit && audit.entries) || []) {
     const o = r.oprava;
-    if (r.id !== bod || !o || !o.prijato_z_behu || !(o.prijato_z_behu < beh)) continue;
-    if (!posledni || o.prijato_z_behu >= posledni.beh) posledni = { beh: o.prijato_z_behu, duvod: (String(o.duvod || "").match(DUVOD_VLASTNIKA) || [])[1] || null };
+    const z = o && (o.prijato_z_behu || o.vlastni_z_behu);
+    if (r.id !== bod || !z || !(z < beh)) continue;
+    if (posledni && z < posledni.beh) continue;
+    posledni = o.vlastni_z_behu
+      ? { beh: z, vlastni: true, stav: r.status }
+      : { beh: z, duvod: (String(o.duvod || "").match(DUVOD_VLASTNIKA) || [])[1] || null };
   }
   return posledni;
 }
@@ -164,7 +224,7 @@ export function predchoziPrijeti(audit, bod, beh) {
  * Složí soubory větve: zveřejněná data běhu + přijaté návrhy.
  * @param zaklad { evals: evaluations.json, audit: audit.json, hist: history.json, faktcheck?: faktcheck.json } z commitu běhu (kopie se upraví)
  * @param dnes   den přijetí (datum řádku auditu)
- * @returns { evals, audit, hist, faktcheck, prijato: [bod] }
+ * @returns { evals, audit, hist, faktcheck, prijato: [bod], vlastni: [bod] }
  */
 export function sloz(soubor, zaklad, dnes) {
   const evals = structuredClone(zaklad.evals);
@@ -193,23 +253,95 @@ export function sloz(soubor, zaklad, dnes) {
     if (faktcheck && faktcheck.body) delete faktcheck.body[bod];
     prijato.push(bod);
   }
+  const vlastni = [];
+  for (const [bod, v] of Object.entries(soubor.vlastni || {}).sort(([a], [b]) => a.localeCompare(b, "cs", { numeric: true }))) {
+    const puvodni = evals.evals[bod];
+    const zaznam = vlastniZaznam(puvodni, v, evals.lastUpdated || `${dnes}T00:00:00.000Z`);
+    const problemy = (soubor.navrhy[bod] && soubor.navrhy[bod].problemy) || (soubor.body && soubor.body[bod]) || [];
+    evals.evals[bod] = zaznam;
+    audit.entries.push({
+      ...radekAuditu(bod, zaznam, dnes, "vlastník"),
+      oprava: {
+        puvodni_zaznam: puvodni && puvodni.updatedAt ? puvodni.updatedAt.slice(0, 10) : null,
+        puvodni_status: puvodni ? puvodni.status : null,
+        duvod: `Bod z běhu ${soubor.beh}, který kontrola faktů podržela${problemy.length ? ` (${problemy.join(", ")})` : ""}. Vlastník nepřijal návrh ani dosavadní záznam a stav a komentář napsal sám; anglickou verzi přeložil ${v.preklad || "model"}.`,
+        vlastni_z_behu: soubor.beh,
+      },
+    });
+    if (snimek) snimek.statuses[bod] = zaznam.status;
+    if (faktcheck && faktcheck.body) delete faktcheck.body[bod];
+    vlastni.push(bod);
+  }
   if (faktcheck) faktcheck.prijato_vlastnikem = prijato;
-  return { evals, audit, hist, faktcheck, prijato };
+  return { evals, audit, hist, faktcheck, prijato, vlastni };
 }
 
 /** Přísné čtení příkazů z komentáře: jen celé řádky, jen známé tvary. Nic se nespouští.
- *  /prijmout <bod> [duvod: …], /podrzet <bod>, /zverejnit (sloučit PR a nasadit web). */
+ *  /prijmout <bod> [duvod: …], /podrzet <bod>, /zverejnit (sloučit PR a nasadit web)
+ *  a blok /opravit <bod> (vlastní hodnocení, níže). */
 const PRIKAZ = /^\/(prijmout|podrzet)\s+(\d{1,2}\.\d{1,2})(?:\s+duvod:\s*(\S.{3,498}))?\s*$/;
 const ZVEREJNIT = /^\/zverejnit\s*$/;
+/* Vlastní hodnocení (vlastník, 3. 11. 2026): s webem ani s návrhem
+   nesouhlasí a stav i komentář napíše sám. Blok řádků:
+     /opravit 2.13
+     stav: probíhá
+     komentar: …        (smí pokračovat na dalších řádcích)
+     doklad: …          (prázdné = doklad z webu)
+     datum: RRRR-MM-DD  (prázdné = datum dokladu z webu)
+   Řádek s # je nápověda ze šablony. Blok končí dalším příkazem nebo koncem
+   textu. Neměřitelnost se tu nenastavuje: běh ji píše podle seznamu
+   nemeritelne.txt, takže by ji příští měsíc stejně přepsal. */
+const OPRAVIT = /^\/opravit\s+(\d{1,2}\.\d{1,2})\s*$/;
+const POLE_OPRAVY = /^(stav|koment[aá][rř]|doklad|datum)\s*:\s*(.*)$/i;
+const holy = (s) => String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+const STAV_Z_TEXTU = Object.fromEntries(Object.entries(NAZVY_STAVU).flatMap(([k, cs]) => [[holy(cs), k], [k, k]]));
+
+function opravaZBloku({ bod, pole }) {
+  const p = { prikaz: "opravit", bod };
+  const seznam = Object.values(NAZVY_STAVU).join(", ");
+  const stavText = holy(pole.stav);
+  if (stavText === "nemeritelne") return { ...p, chyba: `${bod}: neměřitelnost se nastavuje v seznamu scripts/nastaveni/nemeritelne.txt, ne tady — za „stav:“ napiš jeden z: ${seznam}` };
+  const stav = STAV_Z_TEXTU[stavText];
+  if (!stav) return { ...p, chyba: `${bod}: ${stavText ? `stav „${String(pole.stav).slice(0, 40)}“ neznám` : "chybí stav"} — za „stav:“ napiš jeden z: ${seznam}` };
+  const komentar = String(pole.komentar || "").replace(/\s+/g, " ").trim();
+  if (komentar.length < 20) return { ...p, chyba: `${bod}: chybí komentář — za „komentar:“ napiš aspoň jednu větu` };
+  if (komentar.length > 1500) return { ...p, chyba: `${bod}: komentář má přes 1500 znaků — zkrať ho` };
+  const datum = String(pole.datum || "").trim();
+  if (datum && !/^\d{4}-\d{2}-\d{2}$/.test(datum)) return { ...p, chyba: `${bod}: datum dokladu piš jako RRRR-MM-DD, třeba 2026-10-14` };
+  const doklad = String(pole.doklad || "").replace(/\s+/g, " ").trim();
+  return { ...p, stav, komentar, doklad: doklad || null, datum: datum || null };
+}
+
 export function prikazyZKomentare(text) {
   const out = [];
+  let blok = null;
+  const uzavri = () => { if (blok) out.push(opravaZBloku(blok)); blok = null; };
   for (const radek of String(text || "").split(/\r?\n/)) {
     const r = radek.trim();
+    const o = r.match(OPRAVIT);
     const m = r.match(PRIKAZ);
-    if (m) out.push({ prikaz: m[1], bod: m[2], duvod: m[3] ? m[3].trim() : null });
-    else if (ZVEREJNIT.test(r)) out.push({ prikaz: "zverejnit" });
+    const zverejnit = ZVEREJNIT.test(r);
+    if (o || m || zverejnit) uzavri();
+    if (o) blok = { bod: o[1], pole: {}, posledni: null };
+    else if (m) out.push({ prikaz: m[1], bod: m[2], duvod: m[3] ? m[3].trim() : null });
+    else if (zverejnit) out.push({ prikaz: "zverejnit" });
+    else if (blok && r && !r.startsWith("#")) {
+      const pole = r.match(POLE_OPRAVY);
+      if (pole) { blok.posledni = holy(pole[1]); blok.pole[blok.posledni] = pole[2].trim(); }
+      else if (blok.posledni === "komentar") blok.pole.komentar = `${blok.pole.komentar} ${r}`;
+    }
   }
+  uzavri();
   return out;
+}
+
+/** Obsah souboru za tlačítkem „Vlastní hodnocení“. Doklad z webu se do
+ *  odkazu nepředvyplňuje: zakódovaný by e-mail nafoukl o desítky kB a Gmail
+ *  ho ořezává už nad ~100 kB. Prázdný doklad = zůstane ten z webu. */
+export function sablonaOpravy(bod) {
+  return [`/opravit ${bod}`, "stav: ", "komentar: ", "doklad: ", "datum: ",
+    `# stav: ${Object.values(NAZVY_STAVU).join(" | ")}`,
+    "# doklad a datum (RRRR-MM-DD) nech prázdné, zůstanou z webu"].join("\n");
 }
 
 /* Větev s návrhy: beh/RRRR-MM, u generálky beh/RRRR-MM-zkouska (PR proti
@@ -224,7 +356,7 @@ export const VETEV_BEHU = /^beh\/\d{4}-\d{2}(-zkouska)?$/;
    jen workflow z výchozí větve) to funguje v každé větvi — i v generálce
    na DEV2. Na větev smí pushovat jen vlastník. */
 export function odkazRozhodnuti(repo, vetev, prikaz) {
-  const m = prikaz.match(/^\/(prijmout|podrzet)\s+(\d{1,2}\.\d{1,2})/);
+  const m = prikaz.match(/^\/(prijmout|podrzet|opravit)\s+(\d{1,2}\.\d{1,2})/);
   const jmeno = m ? `${m[2]}-${m[1]}` : prikaz.replace(/^\//, "").split(/\s/)[0];
   return `https://github.com/${repo}/new/${vetev}?filename=rozhodnuti/${encodeURIComponent(jmeno)}.txt&value=${encodeURIComponent(prikaz)}`;
 }
@@ -237,7 +369,7 @@ export function odkazRozhodnuti(repo, vetev, prikaz) {
 export function prikazyZeSouboru(soubory) {
   const prikazy = [], neplatne = [];
   for (const s of [...soubory].sort((a, b) => a.poradi - b.poradi || a.jmeno.localeCompare(b.jmeno))) {
-    const p = prikazyZKomentare(String(s.text || "").slice(0, 2000));
+    const p = prikazyZKomentare(String(s.text || "").slice(0, 4000));
     if (p.length) prikazy.push(...p); else neplatne.push(s.jmeno);
   }
   return { prikazy, neplatne };

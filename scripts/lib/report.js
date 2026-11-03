@@ -13,7 +13,7 @@
  * jen do lib/email.js při odeslání.
  */
 
-import { odkazRozhodnuti, ocistenyZaznam, predchoziPrijeti } from "./navrhy.js";
+import { odkazRozhodnuti, ocistenyZaznam, predchoziPrijeti, sablonaOpravy } from "./navrhy.js";
 
 /* Barvy legendy webu, světlý motiv (src/App.jsx, :root). Report se tiskne
    na bílý papír, tmavý motiv by v PDF působil jako jiný web. */
@@ -139,7 +139,9 @@ export function podkladyReportu({ pred, po, rozhodnuti, D = null, M = null, nakl
 /* --- HTML ------------------------------------------------------------------ */
 const datumCs = (d) => `${Number(d.slice(8, 10))}. ${Number(d.slice(5, 7))}. ${d.slice(0, 4)}`;
 /* Bod, který vlastník už jednou přijal a který se vrátil k rozhodnutí. */
-export const minuleText = (m) => `Minule přijato (běh ${datumCs(m.beh)})${m.duvod ? `, tvůj důvod: „${m.duvod}“` : ", bez důvodu"}`;
+export const minuleText = (m) => m.vlastni
+  ? `Minule vlastní hodnocení (běh ${datumCs(m.beh)}): „${NAZVY[m.stav] || m.stav}“`
+  : `Minule přijato (běh ${datumCs(m.beh)})${m.duvod ? `, tvůj důvod: „${m.duvod}“` : ", bez důvodu"}`;
 
 export const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const stitek = (s) => `<span class="stav" style="background:${BARVY[s] || "#64748B"}">${esc(NAZVY[s] || s)}</span>`;
@@ -171,13 +173,15 @@ const zaznamHtml = (e, rozdil) => !e ? "<p class=\"slabe\">—</p>" : `
 
 const tvrzeniHtml = (t) => `<li><b>${esc(t.verdikt)}</b> ${esc(t.text)}${t.citace ? `<blockquote>„${esc(zkrat(t.citace, 400))}“${t.url ? ` <a href="${esc(t.url)}">zdroj</a>` : ""}</blockquote>` : ""}${t.duvod_zahozeni ? ` <span class="slabe">(model tvrdil ${esc(t.puvodni_verdikt)}, ale citaci program ve zdroji nenašel)</span>` : ""}</li>`;
 
-/** Odkazy na rozhodnutí jedním klepnutím (lib/navrhy.js). Bez větve PR žádné. */
+/** Odkazy na rozhodnutí jedním klepnutím (lib/navrhy.js). Bez větve PR žádné.
+ *  Přijmout a Nechat jen u bodu s návrhem, Vlastní hodnocení u každého. */
 export function odkazyBodu(k, { repo, vetev }) {
-  if (!repo || !vetev || !k.prikaz) return null;
+  if (!repo || !vetev) return null;
   return {
-    prijmout: odkazRozhodnuti(repo, vetev, k.prikaz.replace(" duvod: …", " duvod: ")),
-    podrzet: odkazRozhodnuti(repo, vetev, `/podrzet ${k.bod}`),
-    sDuvodem: k.prikaz.includes("duvod:"),
+    prijmout: k.prikaz ? odkazRozhodnuti(repo, vetev, k.prikaz.replace(" duvod: …", " duvod: ")) : null,
+    podrzet: k.prikaz ? odkazRozhodnuti(repo, vetev, `/podrzet ${k.bod}`) : null,
+    sDuvodem: Boolean(k.prikaz && k.prikaz.includes("duvod:")),
+    vlastni: odkazRozhodnuti(repo, vetev, sablonaOpravy(k.bod)),
   };
 }
 
@@ -225,8 +229,10 @@ export function htmlOddily(p, { odkazPR = null, odkazWeb = "https://vladomer.cz"
     ${k.tvrzeni.length ? `<p><b>Tvrzení, která neprošla:</b></p><ul class="tvrzeni">${k.tvrzeni.map(tvrzeniHtml).join("")}</ul>` : ""}
     ${(() => {
       const o = odkazyBodu(k, { repo, vetev });
-      if (o) return `<p class="prikaz"><a href="${esc(o.prijmout)}"><b>Přijmout</b></a>${o.sDuvodem ? " (napiš důvod)" : ""} · <a href="${esc(o.podrzet)}">Nechat</a></p>`;
-      return k.prikaz ? `<p class="prikaz">Přijmout: <code>${esc(k.prikaz)}</code> · nechat: <code>/podrzet ${esc(k.bod)}</code></p>` : "<p class=\"slabe\">Bez navrženého záznamu: zůstává, jak byl, a příští běh ho posoudí znovu.</p>";
+      const vlastni = o ? `<a href="${esc(o.vlastni)}">Vlastní hodnocení</a>` : "";
+      if (o && o.prijmout) return `<p class="prikaz"><a href="${esc(o.prijmout)}"><b>Přijmout</b></a>${o.sDuvodem ? " (napiš důvod)" : ""} · <a href="${esc(o.podrzet)}">Nechat</a> · ${vlastni}</p>`;
+      if (k.prikaz) return `<p class="prikaz">Přijmout: <code>${esc(k.prikaz)}</code> · nechat: <code>/podrzet ${esc(k.bod)}</code> · vlastní hodnocení: <code>/opravit ${esc(k.bod)}</code></p>`;
+      return `<p class="slabe">Bez navrženého záznamu: zůstává, jak byl, a příští běh ho posoudí znovu.${vlastni ? ` ${vlastni}` : ""}</p>`;
     })()}
   </section>`;
   }).join("") + (p.nezkontrolovane.length ? `<p class="slabe">Nezkontrolováno (zůstaly bez razítka „prověřeno“): ${esc(p.nezkontrolovane.join(", "))}</p>` : "");
@@ -244,9 +250,9 @@ export function htmlOddily(p, { odkazPR = null, odkazWeb = "https://vladomer.cz"
   const zverejnit = repo && vetev ? odkazRozhodnuti(repo, vetev, "/zverejnit") : null;
   const JAK_ROZHODNOUT = `
   <ul>
-    ${zverejnit ? `<li><b>U každého bodu klepni na Přijmout, nebo Nechat</b> — GitHub otevře předvyplněný soubor s rozhodnutím, stačí ho potvrdit (Commit changes). Nakonec <a href="${esc(zverejnit)}"><b>Zveřejnit</b></a>: PR se sloučí a web se nasadí. Vyjde jen to, co přijmeš; bod, o kterém nerozhodneš, zůstane na minulém záznamu.</li>` : ""}
+    ${zverejnit ? `<li><b>U každého bodu klepni na Přijmout, nebo Nechat</b> — GitHub otevře předvyplněný soubor s rozhodnutím, stačí ho potvrdit (Commit changes). Když nesouhlasíš ani s jedním, klepni na Vlastní hodnocení: do souboru doplníš stav a komentář (česky, do angličtiny ho přeloží model). Nakonec <a href="${esc(zverejnit)}"><b>Zveřejnit</b></a>: PR se sloučí a web se nasadí. Vyjde jen to, co přijmeš; bod, o kterém nerozhodneš, zůstane na minulém záznamu.</li>` : ""}
     <li><b>V PR</b>${odkazPR ? ` (<a href="${esc(odkazPR)}">otevřít PR</a>)` : ""}: Merge zveřejní, co jsi přijal; Close nezveřejní nic. Body zůstanou na minulém záznamu.</li>
-    <li><b>Po bodech:</b> komentář v PR, třeba <code>/prijmout 10.2</code> nebo <code>/podrzet 10.2</code>. U vyvráceného tvrzení napiš důvod: <code>/prijmout 10.2 duvod: …</code> — zapíše se do auditu.</li>
+    <li><b>Po bodech:</b> komentář v PR, třeba <code>/prijmout 10.2</code> nebo <code>/podrzet 10.2</code>. U vyvráceného tvrzení napiš důvod: <code>/prijmout 10.2 duvod: …</code> — zapíše se do auditu. Vlastní hodnocení: řádek <code>/opravit 10.2</code> a pod ním <code>stav: …</code> a <code>komentar: …</code>.</li>
     <li>Web: <a href="${esc(odkazWeb)}">${esc(odkazWeb.replace(/^https?:\/\//, ""))}</a></li>
   </ul>`;
   return { SOUHRN, K_ROZHODNUTI, ZMENY, OSTATNI, JAK_ROZHODNOUT };
@@ -296,7 +302,7 @@ export function proAI(p, { metodika }) {
 /* --- popis PR ------------------------------------------------------------------ */
 export function popisPR(p) {
   const r = [`**Vládoměr ${p.mesic}: ${p.verdikt}.** Splněno ${pct(p.metrikaPred.procent)} → ${pct(p.metrikaPo.procent)}, cena ${usd(p.cena.celkem)}.`, ""];
-  r.push("Vyjde jen to, co přijmeš: po bodech tlačítky z e-mailu nebo komentářem `/prijmout <bod>` (`/podrzet <bod>` přijetí vrátí); u vyvráceného tvrzení `/prijmout <bod> duvod: …`. Merge = zveřejnit přijaté, Close = nic. Nerozhodnutý bod zůstane na minulém záznamu.", "");
+  r.push("Vyjde jen to, co přijmeš: po bodech tlačítky z e-mailu nebo komentářem `/prijmout <bod>` (`/podrzet <bod>` přijetí vrátí); u vyvráceného tvrzení `/prijmout <bod> duvod: …`; vlastní hodnocení řádkem `/opravit <bod>` a pod ním `stav: …` a `komentar: …`. Merge = zveřejnit přijaté, Close = nic. Nerozhodnutý bod zůstane na minulém záznamu.", "");
   if (p.kRozhodnuti.length) {
     r.push("| bod | co | na webu | návrh | příkaz |", "|---|---|---|---|---|");
     for (const k of p.kRozhodnuti) {

@@ -15,6 +15,11 @@
  *          přidal, a smaže je.
  * souhrn   vypíše stav rozhodnutí v Markdownu (odpověď do PR).
  *
+ * Vlastní hodnocení (/opravit) se před provedením zkontroluje laťkou na
+ * doklad a komentář se přeloží do angličtiny (lib/preklad.js; potřebuje
+ * ANTHROPIC_API_KEY, model korektury). Co neprojde, se neprovede a odpověď
+ * řekne proč.
+ *
  * --koren je adresář s checkoutem větve PR. rozhodnuti.yml (komentáře v PR)
  * spouští TENTO skript z výchozí větve a větev PR má vedle, takže kód z PR
  * se nikdy nespustí. rozhodnuti-vetev.yml běží z větve samotné — na tu smí
@@ -25,7 +30,10 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, appendFileSync, rea
 import { execFileSync } from "node:child_process";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { novySoubor, proved, sloz, prikazyZKomentare, prikazyZeSouboru } from "./lib/navrhy.js";
+import { novySoubor, proved, sloz, prikazyZKomentare, prikazyZeSouboru, vlastniZaznam, chybaVlastnihoZaznamu } from "./lib/navrhy.js";
+import { readSettings } from "./lib/nastaveni.js";
+import { prelozKomentar } from "./lib/preklad.js";
+import { DATES } from "../src/data.js";
 
 const KOREN = resolve(join(dirname(fileURLToPath(import.meta.url)), ".."), (() => { const i = process.argv.indexOf("--koren"); return i >= 0 ? process.argv[i + 1] : "."; })());
 const arg = (j, v) => { const i = process.argv.indexOf(`--${j}`); return i >= 0 ? process.argv[i + 1] : v; };
@@ -51,11 +59,38 @@ function preskladej(soubor, cestaSouboru) {
 
 function souhrn(soubor) {
   const r = ["| bod | návrh | stav rozhodnutí |", "|---|---|---|"];
-  for (const [bod, n] of Object.entries(soubor.navrhy).sort(([a], [b]) => a.localeCompare(b, "cs", { numeric: true }))) {
-    const p = soubor.prijate[bod];
-    r.push(`| ${bod} | ${NAZVY[n.zaznam.status] || n.zaznam.status}${n.vyvraceny ? " (tvrzení vyvrácené)" : ""} | ${p ? `přijmout${p.duvod ? " s důvodem" : ""}` : "nechat minulý záznam"} |`);
+  const vlastni = soubor.vlastni || {};
+  const body = [...new Set([...Object.keys(soubor.navrhy), ...Object.keys(vlastni)])].sort((a, b) => a.localeCompare(b, "cs", { numeric: true }));
+  for (const bod of body) {
+    const n = soubor.navrhy[bod], p = soubor.prijate[bod], v = vlastni[bod];
+    const navrh = n ? `${NAZVY[n.zaznam.status] || n.zaznam.status}${n.vyvraceny ? " (tvrzení vyvrácené)" : ""}` : "—";
+    r.push(`| ${bod} | ${navrh} | ${v ? `vlastní hodnocení: ${NAZVY[v.status]}` : p ? `přijmout${p.duvod ? " s důvodem" : ""}` : "nechat minulý záznam"} |`);
   }
   return r.join("\n");
+}
+
+/* Vlastní hodnocení: záznam se složí nad dnešním webem (commit běhu),
+   zkontroluje laťkou na doklad a teprve pak se platí za překlad. */
+async function pripravVlastni(prikazy, soubor) {
+  const opravy = prikazy.filter((p) => p.prikaz === "opravit" && !p.chyba);
+  if (!opravy.length) return;
+  const web = zGitu(soubor.zaklad, "public/evaluations.json");
+  const NAST = readSettings();
+  const pravidla = { minDelkaDokladu: NAST.minimalni_delka_dokladu, nastup: DATES.tookOffice, latkaPoruseno: NAST.latka_poruseno === 1, dnes: new Date().toISOString().slice(0, 10) };
+  const model = process.env.KOREKTURA_MODEL || NAST.korektura_model;
+  for (const p of opravy) {
+    const v = { status: p.stav, evidence: p.doklad, evidenceDate: p.datum, comment: { cs: p.komentar, en: "" } };
+    const chyba = chybaVlastnihoZaznamu(vlastniZaznam(web.evals[p.bod], v, web.lastUpdated), pravidla);
+    if (chyba) { p.chyba = `${p.bod}: ${chyba}`; continue; }
+    if (!process.env.ANTHROPIC_API_KEY) { p.chyba = `${p.bod}: komentář nejde přeložit do angličtiny (chybí ANTHROPIC_API_KEY) — nic se neprovedlo.`; continue; }
+    try {
+      v.comment.en = await prelozKomentar(p.komentar, { model, klic: process.env.ANTHROPIC_API_KEY });
+      v.preklad = model;
+      p.vlastni = v;
+    } catch (e) {
+      p.chyba = `${p.bod}: ${e.message} — nic se neprovedlo, zkus to znovu nebo komentář přeformuluj.`;
+    }
+  }
 }
 
 if (prikaz === "vytvor") {
@@ -82,6 +117,7 @@ if (prikaz === "vytvor") {
     ({ prikazy, neplatne } = prikazyZeSouboru(jmena.map((jmeno) => ({ jmeno, text: readFileSync(join(adr, jmeno), "utf8"), poradi: pridano(jmeno) }))));
   }
   if (!prikazy.length && !neplatne.length) { console.log("žádný příkaz"); process.exit(0); }
+  await pripravVlastni(prikazy, soubor);
   const zpravy = prikazy.map((p) => proved(soubor, { ...p, kdo: process.env.KDO || "vlastník" }).zprava);
   zpravy.push(...neplatne.map((n) => `Soubor rozhodnuti/${n} neobsahuje platný příkaz (třeba chybí důvod za „duvod:“) — nic se neprovedlo, soubor je smazaný.`));
   // /zverejnit provede workflow (sloučí PR a spustí nasazení) — tady jen řekne, že má.
