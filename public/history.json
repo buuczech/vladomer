@@ -2113,7 +2113,7 @@
         "5.1": "partial",
         "5.2": "partial",
         "5.3": "declared",
-        "5.4": "broken",
+        "5.4": "declared",
         "5.5": "fulfilled",
         "5.6": "partial",
         "6.1": "in_progress",

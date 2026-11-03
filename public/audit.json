@@ -29201,6 +29201,30 @@
       }
     },
     {
+      "id": "5.4",
+      "date": "2026-11-03",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": true,
+      "comment_cs": "Ano, ale: vláda na prvním zasedání odmítla současnou podobu migračního paktu i systém ETS2. Babiš pak v říjnu blokoval závěry Evropské rady, ty ale odklad ETS2 neobsahují. Jde o negativní slib, který vláda formálně potvrdila, nikoli o splnění. Ne, ale: kritici namítají, že Česko souhlasilo s půjčkou Ukrajině bez účasti Maďarska a Slovenska. ČR ji odsouhlasila s tím, že za úvěry neručí. Konkrétní formální krok, který by jednomyslnost nebo suverenitu vylučoval, jsem nenašel, proto nehodnotím jako porušeno.",
+      "comment_en": "Yes, but: at its first session the government rejected the current form of the EU migration pact and the ETS2 system. In October Babiš then blocked European Council conclusions, which in the end did not include the ETS2 delay. This is a negative promise the government formally confirmed, not a fulfilled one. No, but: critics argue the Czech Republic agreed to the Ukraine loan without Hungary and Slovakia. It approved the loan on condition that it does not guarantee the credits. I found no concrete formal step that excludes unanimity or sovereignty, so I do not rate it as broken.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://uv.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-odmitla-migracni-pakt-eu-i-novy-system-obchodovani-s-emisnimi-povolenkami--domacnostem-i-firmam-zlevni-elektrinu-224297",
+        "https://www.echo24.cz/a/HLxG4/babis-meloniova-brusel-summit-evropskarada-rozpocet-povolenky-ets2-emise-energie-rabaty-koheze-zemedelstvi-vyjednavani-unie",
+        "https://vlada.gov.cz/cz/media-centrum/aktualne/premier-babis-v-bruselu-evropska-rada-se-shodla-na-pujcce-ukrajine--cr-za-ni-ale-rucit-nebude-224486/"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-02",
+        "puvodni_status": "broken",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-vyvraceno), přijal vlastník. Důvod: Ano. je to velice těžko měřitelný slib.",
+        "prijato_z_behu": "2026-11-02"
+      }
+    },
+    {
       "id": "7.2",
       "date": "2026-11-03",
       "status": "declared",

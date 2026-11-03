@@ -103,12 +103,6 @@
         "m-kolo2-strop"
       ]
     },
-    "5.4": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-vyvraceno"
-      ]
-    },
     "5.5": {
       "akce": "bez-razitka",
       "duvody": [
@@ -656,6 +650,7 @@
     "4.2",
     "4.4",
     "4.7",
+    "5.4",
     "7.2"
   ]
 }

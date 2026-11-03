@@ -1852,6 +1852,9 @@
     },
     "3.8": {
       "duvod": "Ano. hodnotitel přesněji popisuje skutečný stav."
+    },
+    "5.4": {
+      "duvod": "Ano. je to velice těžko měřitelný slib."
     }
   },
   "historie": [
@@ -1997,6 +2000,13 @@
       "prikaz": "prijmout",
       "bod": "3.8",
       "duvod": "Ano. hodnotitel přesněji popisuje skutečný stav."
+    },
+    {
+      "kdy": "2026-11-03T12:13:17.010Z",
+      "kdo": "buuczech",
+      "prikaz": "prijmout",
+      "bod": "5.4",
+      "duvod": "Ano. je to velice těžko měřitelný slib."
     }
   ]
 }

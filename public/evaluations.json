@@ -1019,13 +1019,12 @@
       "overeno": "2026-11-02T08:33:34.858Z"
     },
     "5.4": {
-      "status": "broken",
-      "evidence": "Česká republika, Maďarsko a Slovensko se v únoru 2026 nepřipojily ke garancím za unijní půjčku 90 miliard EUR pro Ukrajinu; premiér Babiš uvedl: 'My jsme řekli, že nebudeme ručit za tyto věci'; analytici označili tento krok za odklon od dosavadní linie české zahraniční politiky a solidarity s Ukrajinou",
-      "evidenceDate": "2026-02-01",
+      "status": "declared",
+      "evidence": "",
       "unverifiable": true,
       "comment": {
-        "cs": "Vláda porušila slib na obranu jednomyslnosti a sdílené pozice. Namísto vedení jednotného postupu EU Česko ustoupilo (spolu s Maďarskem a Slovenskem) od garancí pro Ukrajinu a blokuje jednotné postoje EU. Babiš zdůvodňuje rozhodnutí domácími finančními zájmy, což je v rozporu se slibem hájit jednomyslnost a evropské hodnoty.",
-        "en": "The government violated its pledge to defend unanimity and shared positions. Instead of leading a unified EU approach, Czechia retreated (together with Hungary and Slovakia) from guarantees for Ukraine and blocks unified EU positions. Babiš justifies the decision by domestic financial interests, which contradicts the pledge to defend unanimity and European values."
+        "cs": "Ano, ale: vláda na prvním zasedání odmítla současnou podobu migračního paktu i systém ETS2. Babiš pak v říjnu blokoval závěry Evropské rady, ty ale odklad ETS2 neobsahují. Jde o negativní slib, který vláda formálně potvrdila, nikoli o splnění. Ne, ale: kritici namítají, že Česko souhlasilo s půjčkou Ukrajině bez účasti Maďarska a Slovenska. ČR ji odsouhlasila s tím, že za úvěry neručí. Konkrétní formální krok, který by jednomyslnost nebo suverenitu vylučoval, jsem nenašel, proto nehodnotím jako porušeno.",
+        "en": "Yes, but: at its first session the government rejected the current form of the EU migration pact and the ETS2 system. In October Babiš then blocked European Council conclusions, which in the end did not include the ETS2 delay. This is a negative promise the government formally confirmed, not a fulfilled one. No, but: critics argue the Czech Republic agreed to the Ukraine loan without Hungary and Slovakia. It approved the loan on condition that it does not guarantee the credits. I found no concrete formal step that excludes unanimity or sovereignty, so I do not rate it as broken."
       },
       "change": {
         "cs": "beze změny",
@@ -1033,21 +1032,20 @@
       },
       "sources": [
         {
-          "url": "https://www.ceskenoviny.cz/zpravy/2762624",
-          "title": "Analytici: Babišův postoj v EU značí změnu v české zahraniční politice"
+          "url": "https://uv.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-odmitla-migracni-pakt-eu-i-novy-system-obchodovani-s-emisnimi-povolenkami--domacnostem-i-firmam-zlevni-elektrinu-224297",
+          "title": "Vláda Andreje Babiše odmítla migrační pakt EU i nový systém obchodování s emisními povolenkami, domácnostem i firmám zlevní elektřinu"
         },
         {
-          "url": "https://www.respekt.cz/tydenik/2026/3/cesko-potrebuje-citelnou-zahranicni-politiku",
-          "title": "Česko potřebuje čitelnou zahraniční politiku • RESPEKT"
+          "url": "https://www.echo24.cz/a/HLxG4/babis-meloniova-brusel-summit-evropskarada-rozpocet-povolenky-ets2-emise-energie-rabaty-koheze-zemedelstvi-vyjednavani-unie",
+          "title": "„Popřeli všechno, co jsme chtěli.“ Babiš vysvětlil, proč do noci blokoval závěry Evropské rady - Echo24.cz"
         },
         {
-          "url": "https://ct24.ceskatelevize.cz/tema/zahranicni-cesta-5428",
-          "title": "Zahraniční cesta — ČT24 — Česká televize"
+          "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/premier-babis-v-bruselu-evropska-rada-se-shodla-na-pujcce-ukrajine--cr-za-ni-ale-rucit-nebude-224486/",
+          "title": "Premiér Babiš v Bruselu: Evropská rada se shodla na půjčce Ukrajině, ČR za ni ale ručit nebude"
         }
       ],
       "previousStatus": "broken",
-      "updatedAt": "2026-10-02T13:55:35.467Z",
-      "overeno": "2026-10-30T14:09:03.058Z"
+      "updatedAt": "2026-11-02T08:34:34.429Z"
     },
     "5.5": {
       "status": "fulfilled",
