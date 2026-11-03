@@ -1218,30 +1218,25 @@
       "overeno": "2026-10-30T14:10:07.135Z"
     },
     "6.5": {
-      "status": "in_progress",
+      "status": "declared",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Programové prohlášení slibuje modernizaci trestního řádu a občanského soudního řádu. Ministerstvo spravedlnosti poslalo návrhy do připomínkového řízení, ale legislativní proces nebyl zahájen. Ministr Tejc prioritizuje digitalizaci justice a elektronický spis, který se nedaří dokončit.",
-        "en": "The government program promises modernization of the Criminal Procedure Code and Civil Procedure Code. The Ministry of Justice sent proposals for public comment, but the legislative process has not been initiated. Minister Tejc prioritizes digitalization of justice and electronic case files, which are difficult to complete."
+        "cs": "Ano, ale: ministerstvo spravedlnosti modernizaci trestního řádu a občanského soudního řádu připravuje. Výhled legislativních prací ji vede jako úkoly na 4. čtvrtletí 2027. Ne, ale: vláda zatím neschválila návrh zákona, který by obě normy komplexně modernizoval. Jednotlivé vládní novely, které se jich dotýkají (např. tisky 52 a 162), jsou dílčí a nelze je prokazatelně považovat za naplnění slibu.",
+        "en": "Yes, but: the Ministry of Justice is preparing the modernisation of the Code of Criminal Procedure and the Code of Civil Procedure. The Legislative Outlook lists both as tasks for Q4 2027. No, but: the government has not yet approved a bill that would comprehensively modernise either code. The individual government amendments that touch them (e.g. prints 52 and 162) are partial, and they cannot be shown to deliver on the pledge."
       },
       "change": {
-        "cs": "Beze změny.",
-        "en": "No change."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
         {
-          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
-          "title": "Programové prohlášení vlády"
-        },
-        {
-          "url": "https://www.ceskenoviny.cz/zpravy/prioritami-tejce-jsou-digitalizace-nebo-penize-pro-zamestnance-soudu/2760985",
-          "title": "Prioritami Tejce jsou digitalizace nebo peníze pro zaměstnance soudů"
+          "url": "https://tn.nova.cz/zpravodajstvi/clanek/643667-vlada-probere-legilsativni-plan-jednat-ma-i-o-pozaru-zbrojovky-v-pardubicich",
+          "title": "Celostátní referendum a boj proti migraci. Vláda představila priority na další roky"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-10-30T14:11:12.823Z",
-      "overeno": "2026-10-30T14:10:07.135Z"
+      "updatedAt": "2026-11-02T08:36:42.789Z"
     },
     "6.6": {
       "status": "broken",

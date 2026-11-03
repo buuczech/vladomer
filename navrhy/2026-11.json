@@ -1855,6 +1855,9 @@
     },
     "5.4": {
       "duvod": "Ano. je to velice těžko měřitelný slib."
+    },
+    "6.5": {
+      "duvod": "Hodnotitel přesněji popisuje současný stav."
     }
   },
   "historie": [
@@ -2007,6 +2010,13 @@
       "prikaz": "prijmout",
       "bod": "5.4",
       "duvod": "Ano. je to velice těžko měřitelný slib."
+    },
+    {
+      "kdy": "2026-11-03T12:14:03.699Z",
+      "kdo": "buuczech",
+      "prikaz": "prijmout",
+      "bod": "6.5",
+      "duvod": "Hodnotitel přesněji popisuje současný stav."
     }
   ]
 }

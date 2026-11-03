@@ -29225,6 +29225,28 @@
       }
     },
     {
+      "id": "6.5",
+      "date": "2026-11-03",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale: ministerstvo spravedlnosti modernizaci trestního řádu a občanského soudního řádu připravuje. Výhled legislativních prací ji vede jako úkoly na 4. čtvrtletí 2027. Ne, ale: vláda zatím neschválila návrh zákona, který by obě normy komplexně modernizoval. Jednotlivé vládní novely, které se jich dotýkají (např. tisky 52 a 162), jsou dílčí a nelze je prokazatelně považovat za naplnění slibu.",
+      "comment_en": "Yes, but: the Ministry of Justice is preparing the modernisation of the Code of Criminal Procedure and the Code of Civil Procedure. The Legislative Outlook lists both as tasks for Q4 2027. No, but: the government has not yet approved a bill that would comprehensively modernise either code. The individual government amendments that touch them (e.g. prints 52 and 162) are partial, and they cannot be shown to deliver on the pledge.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://tn.nova.cz/zpravodajstvi/clanek/643667-vlada-probere-legilsativni-plan-jednat-ma-i-o-pozaru-zbrojovky-v-pardubicich"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-vyvraceno), přijal vlastník. Důvod: Hodnotitel přesněji popisuje současný stav.",
+        "prijato_z_behu": "2026-11-02"
+      }
+    },
+    {
       "id": "7.2",
       "date": "2026-11-03",
       "status": "declared",
