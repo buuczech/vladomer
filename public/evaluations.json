@@ -2535,12 +2535,11 @@
     },
     "11.8": {
       "status": "partial",
-      "evidence": "eŽádanky od 1. 1. 2026 (pilotní režim), EZ karta od února 2026 s novými funkcemi",
-      "evidenceDate": "2026-01-01",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Elektronizace zdravotnictví se realizuje postupně: eŽádanky od 1. 1. 2026 v pilotním režimu, EZ karta od února 2026 s novými funkcemi (zobrazení výsledků, přístup k dokumentaci, komunikace s lékařem). Ano, ale: systém je zatím dobrovolný a papírová forma zůstává. Povinnost eŽádanek byla plánována na červenec 2026. Elektronizace není plošná.",
-        "en": "Healthcare digitalization is being implemented gradually: e-requests from January 1, 2026 in pilot mode, e-health card from February 2026 with new features (displaying results, access to documentation, communication with doctor). However: the system is still voluntary and paper forms remain. E-request obligation was planned for July 2026. Digitalization is not universal."
+        "cs": "EZKarta od ledna 2026 nově zobrazuje výsledky vyšetření, dokumentaci a umožňuje komunikaci s lékařem, k tomu běží eŽádanka; základ ale pochází z předchozí vlády. Ano, ale novela zákona o elektronizaci, která má ukotvit povinné eŽádanky od 1. 7. 2027, je zatím v přípravě. Ministerstvo také představilo systém pro sdílení laboratorních výsledků, který je v první etapě omezený na data z prevence a screeningů.",
+        "en": "From January 2026 the EZKarta shows test results and records and allows communication with the doctor, and eRequests are running; the foundation, however, comes from the previous government. Yes, but the electronisation amendment meant to anchor mandatory eRequests from 1 July 2027 is still in preparation. The ministry also presented a system for sharing lab results, which in its first stage is limited to prevention and screening data."
       },
       "change": {
         "cs": "beze změny",
@@ -2548,17 +2547,17 @@
       },
       "sources": [
         {
-          "url": "https://mzd.gov.cz/wp-content/uploads/2025/12/Prehled-zmen-zdravotnicke-legislativy-od-ledna-2026.pdf",
-          "title": "Přehled změn zdravotnické legislativy od ledna 2026 Tisková konference"
+          "url": "https://mzd.gov.cz/tiskove-centrum-mz/elektronizace-zdravotnictvi-pokracuje-ministerstvo-predstavilo-nove-moznosti-prace-se-zdravotnickymi-daty-i-dalsi-legislativni-zmeny/",
+          "title": "Elektronizace zdravotnictví pokračuje. Ministerstvo představilo nové možnosti práce se zdravotnickými daty i další legislativní změny"
         },
         {
-          "url": "https://denik.cz/zdravotnictvi/ezadanka-ezkarta-ordinace-laboratore.html",
-          "title": "Konec šustění papíry v ordinacích? V lednu odstartují eŽádanky, zatím pilotně"
+          "url": "https://www.irozhlas.cz/zpravy-domov/2026-zmeny-prehled-duchody-osvc-rodicovska-dane_2512290500_vdv",
+          "title": "Velký přehled změn 2026: rozvody, digitalizace a důchody"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-10-02T14:03:00.356Z",
-      "overeno": "2026-10-30T14:16:16.604Z"
+      "updatedAt": "2026-11-02T08:43:39.113Z",
+      "overeno": "2026-11-02T08:42:51.222Z"
     },
     "11.9": {
       "status": "in_progress",

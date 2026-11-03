@@ -29472,6 +29472,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "11.8",
+      "date": "2026-11-03",
+      "status": "partial",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "EZKarta od ledna 2026 nově zobrazuje výsledky vyšetření, dokumentaci a umožňuje komunikaci s lékařem, k tomu běží eŽádanka; základ ale pochází z předchozí vlády. Ano, ale novela zákona o elektronizaci, která má ukotvit povinné eŽádanky od 1. 7. 2027, je zatím v přípravě. Ministerstvo také představilo systém pro sdílení laboratorních výsledků, který je v první etapě omezený na data z prevence a screeningů.",
+      "comment_en": "From January 2026 the EZKarta shows test results and records and allows communication with the doctor, and eRequests are running; the foundation, however, comes from the previous government. Yes, but the electronisation amendment meant to anchor mandatory eRequests from 1 July 2027 is still in preparation. The ministry also presented a system for sharing lab results, which in its first stage is limited to prevention and screening data.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://mzd.gov.cz/tiskove-centrum-mz/elektronizace-zdravotnictvi-pokracuje-ministerstvo-predstavilo-nove-moznosti-prace-se-zdravotnickymi-daty-i-dalsi-legislativni-zmeny/",
+        "https://www.irozhlas.cz/zpravy-domov/2026-zmeny-prehled-duchody-osvc-rodicovska-dane_2512290500_vdv"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-02",
+        "puvodni_status": "partial",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }
