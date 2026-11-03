@@ -29086,6 +29086,29 @@
       }
     },
     {
+      "id": "3.8",
+      "date": "2026-11-03",
+      "status": "in_progress",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale: rozpočet na rok 2026 byl přijat (č. 38/2026 Sb.). Návrh rozpočtu na rok 2027 dává policii a hasičům víc peněz (policie +6,1 mld. Kč, hasiči +1,3 mld. Kč) a na investiční dotace dobrovolným hasičům vyčleňuje 310 mil. Kč. Ne, ale: rozpočet na rok 2027 je zatím jen ve druhém čtení. Konkrétní zakázky na techniku, výstroj a výzbroj ani konkrétní výzva pro JSDH nejsou v dostupných zdrojích doloženy, a slib také zahrnuje zdravotní zajištění a zázemí jednotek.",
+      "comment_en": "Yes, but: the 2026 budget was adopted (38/2026 Sb.). The draft 2027 budget gives the police and fire brigades more money (police +CZK 6.1bn, fire brigades +CZK 1.3bn) and earmarks CZK 310m for investment grants to volunteer firefighters. No, but: the 2027 budget is still only at second reading. Specific procurement of equipment and weapons, or a specific call for volunteer fire units, is not documented in the available sources, and the promise also covers health coverage and facilities.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://ct24.ceskatelevize.cz/clanek/domaci/platy-policistu-a-hasicu-vzrostou-o-2600-az-2900-korun-zopakoval-metnar-378061",
+        "https://www.ceskenoviny.cz/zpravy/bezpecnostni-sbory-dostanou-pristi-rok-pridano-2400-kc-do-tarifu-rekl-metnar/2880363"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-vyvraceno), přijal vlastník. Důvod: Ano. hodnotitel přesněji popisuje skutečný stav.",
+        "prijato_z_behu": "2026-11-02"
+      }
+    },
+    {
       "id": "4.1",
       "date": "2026-11-03",
       "status": "in_progress",

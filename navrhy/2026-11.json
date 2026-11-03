@@ -1849,6 +1849,9 @@
     },
     "3.2": {
       "duvod": "Hodnotitel přesněji vysvětluje současný stav."
+    },
+    "3.8": {
+      "duvod": "Ano. hodnotitel přesněji popisuje skutečný stav."
     }
   },
   "historie": [
@@ -1987,6 +1990,13 @@
       "prikaz": "prijmout",
       "bod": "3.2",
       "duvod": "Hodnotitel přesněji vysvětluje současný stav."
+    },
+    {
+      "kdy": "2026-11-03T12:11:33.375Z",
+      "kdo": "buuczech",
+      "prikaz": "prijmout",
+      "bod": "3.8",
+      "duvod": "Ano. hodnotitel přesněji popisuje skutečný stav."
     }
   ]
 }

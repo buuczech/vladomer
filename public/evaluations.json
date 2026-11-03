@@ -727,45 +727,29 @@
     },
     "3.8": {
       "status": "in_progress",
-      "evidence": "Rozpočty Policie ČR zvýšeny o 6,1 miliard Kč (na 66,3 miliard Kč), Hasičského záchranného sboru o 1,3 miliardy Kč (na 17,6 miliard Kč) pro rok 2026; platy rostou postupně dle nařízení vlády č. 407/2025 Sb.",
-      "evidenceDate": "2026-01-01",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda přidělila rozpočtové prostředky na modernizaci techniky a zvýšení platů. Rozpočty se zvýšily, platy rostou postupně. Ale: konkrétní projekty modernizace nejsou v rejstříku Sbírky doloženy; jde o rozpočtové alokace bez právní záruky realizace.",
-        "en": "Government allocated budget resources for equipment modernization and salary increases. Budgets increased, salaries growing gradually. However: specific modernization projects are not documented in the Registry; these are budget allocations without legal guarantee of implementation."
+        "cs": "Ano, ale: rozpočet na rok 2026 byl přijat (č. 38/2026 Sb.). Návrh rozpočtu na rok 2027 dává policii a hasičům víc peněz (policie +6,1 mld. Kč, hasiči +1,3 mld. Kč) a na investiční dotace dobrovolným hasičům vyčleňuje 310 mil. Kč. Ne, ale: rozpočet na rok 2027 je zatím jen ve druhém čtení. Konkrétní zakázky na techniku, výstroj a výzbroj ani konkrétní výzva pro JSDH nejsou v dostupných zdrojích doloženy, a slib také zahrnuje zdravotní zajištění a zázemí jednotek.",
+        "en": "Yes, but: the 2026 budget was adopted (38/2026 Sb.). The draft 2027 budget gives the police and fire brigades more money (police +CZK 6.1bn, fire brigades +CZK 1.3bn) and earmarks CZK 310m for investment grants to volunteer firefighters. No, but: the 2027 budget is still only at second reading. Specific procurement of equipment and weapons, or a specific call for volunteer fire units, is not documented in the available sources, and the promise also covers health coverage and facilities."
       },
       "change": {
-        "cs": "Ministr Metnar v září 2026 potvrdil zvýšení rozpočtů na modernizaci techniky a kyberbezpečnost.",
-        "en": "Minister Metnar confirmed in September 2026 increased budgets for equipment modernization and cybersecurity."
+        "cs": "beze změny",
+        "en": "no change"
       },
       "sources": [
         {
-          "url": "https://mv.gov.cz/ministr-metnar-predstavil-bezpecnostnim-sborum-a-odborum-plan-rustu-platu-i-priority-rozpoctu",
-          "title": "Ministr Metnar představil bezpečnostním sborům a odborům plán růstu platů i priority rozpočtu - Ministerstvo vnitra České republiky"
+          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/platy-policistu-a-hasicu-vzrostou-o-2600-az-2900-korun-zopakoval-metnar-378061",
+          "title": "▶ Platy policistů a hasičů vzrostou o 2600 až 2900 korun, zopakoval Metnar — ČT24 — Česká televize"
         },
         {
-          "url": "https://www.blesk.cz/clanek/zpravy-politika/833450/metnar-predstavil-priority-vnitra-nastupni-plat-chce-hasicum-a-policistum-navysit-postupne.html",
-          "title": "Metnar představil priority vnitra: Nástupní plat chce hasičům a policistům navýšit postupně"
-        },
-        {
-          "url": "https://www.ceskenoviny.cz/zpravy/metnar-chce-pro-policisty-a-hasice-personalni-stabilitu-a-rust-platu/2788022",
-          "title": "Metnar chce pro policisty a hasiče personální stabilitu a růst platů"
+          "url": "https://www.ceskenoviny.cz/zpravy/bezpecnostni-sbory-dostanou-pristi-rok-pridano-2400-kc-do-tarifu-rekl-metnar/2880363",
+          "title": "Bezpečnostní sbory dostanou příští rok přidáno 2400 Kč do tarifů, řekl Metnar"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-10-30T14:07:19.264Z",
-      "sbirka": {
-        "overene": [
-          {
-            "kod": "407/2025",
-            "nazev": "Nařízení vlády, kterým se stanoví stupnice základních tarifů pro příslušníky bezpečnostních sborů",
-            "vyhlaseno": "2025-10-13",
-            "url": "https://e-sbirka.gov.cz/sb/2025/407"
-          }
-        ],
-        "neexistujici": []
-      },
-      "overeno": "2026-10-30T14:06:07.460Z"
+      "updatedAt": "2026-11-02T08:32:11.206Z",
+      "overeno": "2026-11-02T08:31:21.370Z"
     },
     "4.1": {
       "status": "in_progress",
