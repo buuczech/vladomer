@@ -28975,6 +28975,26 @@
       }
     },
     {
+      "id": "2.13",
+      "date": "2026-11-03",
+      "status": "in_progress",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Vládní novela zákona o DPH (sněmovní tisk 218, předložen 5. 6. 2026) je podle dat Sněmovny ve 2. čtení; podle předchozího hodnocení obsahuje i zkrácení lhůty pro vrácení DPH z nezaplacených faktur na tři měsíce. Obsah tisku jsem v této kontrole znovu neověřil. Dřívější zpráva o schválení ve 3. čtení se s daty Sněmovny neshoduje, zákon nebyl přijat ani vyhlášen, takže slib je zatím jen rozpracovaný.",
+      "comment_en": "The government VAT amendment (Chamber print 218, submitted 5 June 2026) is at second reading according to Chamber data; the earlier assessment says it includes shortening the period for reclaiming VAT on unpaid invoices to three months. I did not re-verify the content of the print in this check. The earlier report of a third-reading approval does not match Chamber data; the act has been neither adopted nor published, so the pledge is only in progress.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-08-28",
+        "puvodni_status": "partial",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-vyvraceno), přijal vlastník. Důvod: Ano. je to rozpracovaný slib.",
+        "prijato_z_behu": "2026-11-02"
+      }
+    },
+    {
       "id": "2.15",
       "date": "2026-11-03",
       "status": "fulfilled",

@@ -1840,6 +1840,9 @@
     },
     "2.11": {
       "duvod": "přesnější znění hodnotitele. Říká také, že jednotné inkasní místo není ani v procesu."
+    },
+    "2.13": {
+      "duvod": "Ano. je to rozpracovaný slib."
     }
   },
   "historie": [
@@ -1957,6 +1960,13 @@
       "prikaz": "prijmout",
       "bod": "2.11",
       "duvod": "přesnější znění hodnotitele. Říká také, že jednotné inkasní místo není ani v procesu."
+    },
+    {
+      "kdy": "2026-11-03T12:08:21.941Z",
+      "kdo": "buuczech",
+      "prikaz": "prijmout",
+      "bod": "2.13",
+      "duvod": "Ano. je to rozpracovaný slib."
     }
   ]
 }
