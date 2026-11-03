@@ -29564,6 +29564,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-vyvraceno, m-neovereno, m-kolo2-strop), přijal vlastník. Důvod: Hodnotitel přesněji popisuje současný stav.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "15.4",
+      "date": "2026-11-03",
+      "status": "partial",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale: část slibu už platí. Daňový odpočet úroků z úvěrů bytových družstev schválila předchozí vláda a účinný je od 1. 1. 2026, takže jde o dílo předchozí vlády. Tato vláda zařadila do plánu legislativních prací na prosinec 2026 novelu o bytových družstvech včetně daňových úlev. Státní garance pro družstva ani investiční pobídky pro dlouhodobé investory jsem nenašel. Podpora dostupného nájemního bydlení se podle ČT24 spíše snižuje.",
+      "comment_en": "Yes, but: part of the promise already applies. The tax deduction for interest on housing cooperative loans was passed by the previous government and has been effective since 1 Jan 2026, so it is the previous government's work. This government put a bill on housing cooperatives, including tax reliefs, into its legislative plan for December 2026. I found no state guarantees for cooperatives and no investment incentives for long-term investors. According to ČT24, support for affordable rental housing is rather being reduced.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://ct24.ceskatelevize.cz/clanek/domaci/snemovna-by-mela-hlasovat-o-podpore-bydleni-360122",
+        "https://ct24.ceskatelevize.cz/clanek/domaci/podpora-na-vystavbu-dostupneho-najemniho-bydleni-se-snizi-374704"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-23",
+        "puvodni_status": "partial",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }
