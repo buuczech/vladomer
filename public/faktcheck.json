@@ -312,14 +312,6 @@
         "m-spor"
       ]
     },
-    "11.9": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-kolo2-strop",
-        "m-spor"
-      ]
-    },
     "11.10": {
       "akce": "podrzet",
       "duvody": [
@@ -584,6 +576,7 @@
     "10.5",
     "10.6",
     "11.4",
-    "11.8"
+    "11.8",
+    "11.9"
   ]
 }

@@ -29495,6 +29495,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "11.9",
+      "date": "2026-11-03",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Vláda schválila navýšení plateb za státní pojištěnce o 24 miliard Kč, ale to řeší financování systému, nikoli konkurenci mezi pojišťovnami, takže se slibem sdílí jen téma. Ano, ale resortní novela zákona o veřejném zdravotním pojištění (bonusy, volba orgánů pojišťoven, odpovědnost správních rad) je zatím jen návrh určený k projednání vládou v roce 2027; podle plánu se reformní novela předkládá až v roce 2028. Opozice a odborníci zároveň upozorňují na nejasné financování a skutečné konkurenční prostředí ze zveřejněných návrhů není zřejmé.",
+      "comment_en": "The government approved raising payments for state-insured persons by CZK 24 billion, but that addresses system financing, not competition among insurers, so it only shares the topic with the pledge. Yes, but the ministry's amendment to the public health insurance act (bonuses, election of insurers' bodies, board accountability) is so far only a draft meant for cabinet discussion in 2027; per the plan, the reform amendment is submitted only in 2028. Opposition and experts also point to unclear financing, and the published drafts do not show a genuinely competitive environment.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://vlada.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-navrhla-zvysit-od-noveho-roku-platbu-zdravotnim-pojistovnam-za-tzv--statni-pojistence-227383/",
+        "https://m.echo24.cz/a/HUCF6/zpravy-domaci-ministerstvo-zdravotnictvi-navrhuje-odmenu-za-ucast-na-prevenci-a-screeningu"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-02",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-kolo2-strop, m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

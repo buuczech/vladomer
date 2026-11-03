@@ -2560,13 +2560,12 @@
       "overeno": "2026-11-02T08:42:51.222Z"
     },
     "11.9": {
-      "status": "in_progress",
-      "evidence": "Vláda schválila návrh novely zákona o pojistném na veřejné zdravotní pojištění (8. červen 2026)",
-      "evidenceDate": "2026-06-08",
+      "status": "declared",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Vláda pracuje na reformě veřejného zdravotního pojištění: schválila návrh novely o zvýšení plateb státu za státní pojištěnce o 24 miliard Kč (8. červen 2026). Ano, ale: jedná se o návrh v legislativním procesu, nikoliv o schválený zákon. Reforma konkurence pojišťoven je plánována na rok 2028. Ministr Vojtěch zdůrazňuje potřebu úspor.",
-        "en": "The government is working on public health insurance reform: it approved a draft amendment to increase state payments for state-insured persons by 24 billion CZK (June 8, 2026). However: this is a draft in the legislative process, not an approved law. Insurance company competition reform is planned for 2028. Minister Vojtěch emphasizes the need for savings."
+        "cs": "Vláda schválila navýšení plateb za státní pojištěnce o 24 miliard Kč, ale to řeší financování systému, nikoli konkurenci mezi pojišťovnami, takže se slibem sdílí jen téma. Ano, ale resortní novela zákona o veřejném zdravotním pojištění (bonusy, volba orgánů pojišťoven, odpovědnost správních rad) je zatím jen návrh určený k projednání vládou v roce 2027; podle plánu se reformní novela předkládá až v roce 2028. Opozice a odborníci zároveň upozorňují na nejasné financování a skutečné konkurenční prostředí ze zveřejněných návrhů není zřejmé.",
+        "en": "The government approved raising payments for state-insured persons by CZK 24 billion, but that addresses system financing, not competition among insurers, so it only shares the topic with the pledge. Yes, but the ministry's amendment to the public health insurance act (bonuses, election of insurers' bodies, board accountability) is so far only a draft meant for cabinet discussion in 2027; per the plan, the reform amendment is submitted only in 2028. Opposition and experts also point to unclear financing, and the published drafts do not show a genuinely competitive environment."
       },
       "change": {
         "cs": "beze změny",
@@ -2576,11 +2575,14 @@
         {
           "url": "https://vlada.gov.cz/cz/media-centrum/aktualne/vlada-andreje-babise-navrhla-zvysit-od-noveho-roku-platbu-zdravotnim-pojistovnam-za-tzv--statni-pojistence-227383/",
           "title": "Vláda Andreje Babiše navrhla zvýšit od nového roku platbu zdravotním pojišťovnám za tzv. státní pojištěnce"
+        },
+        {
+          "url": "https://m.echo24.cz/a/HUCF6/zpravy-domaci-ministerstvo-zdravotnictvi-navrhuje-odmenu-za-ucast-na-prevenci-a-screeningu",
+          "title": "Ministerstvo zdravotnictví navrhuje odměnu za účast na prevenci a screeningu až 1500 Kč - Echo24.cz"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-10-02T14:03:00.356Z",
-      "overeno": "2026-10-30T14:16:16.604Z"
+      "updatedAt": "2026-11-02T08:43:39.114Z"
     },
     "11.10": {
       "status": "in_progress",
