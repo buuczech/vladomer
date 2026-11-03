@@ -49,12 +49,6 @@
         "m-spor"
       ]
     },
-    "2.3": {
-      "akce": "podrzet",
-      "duvody": [
-        "m-spor"
-      ]
-    },
     "2.5": {
       "akce": "podrzet",
       "duvody": [
@@ -736,5 +730,7 @@
       ]
     }
   },
-  "prijato_vlastnikem": []
+  "prijato_vlastnikem": [
+    "2.3"
+  ]
 }

@@ -1810,13 +1810,23 @@
       "typ": "oprava-bez-udalosti"
     }
   },
-  "prijate": {},
+  "prijate": {
+    "2.3": {
+      "duvod": null
+    }
+  },
   "historie": [
     {
       "kdy": "2026-11-03T10:10:40.425Z",
       "kdo": "buuczech",
       "prikaz": "podrzet",
       "bod": "2.2"
+    },
+    {
+      "kdy": "2026-11-03T10:11:28.152Z",
+      "kdo": "buuczech",
+      "prikaz": "prijmout",
+      "bod": "2.3"
     }
   ]
 }

@@ -28904,6 +28904,30 @@
         "https://www.dia.gov.cz/cs/aktuality/vlada-schvalila-dalsi-rozvoj-registru-zastupovani-ministerstva-rozsiri-digitalni-plne-moci-do-konce-roku-2027"
       ],
       "model": "claude-sonnet-5-5"
+    },
+    {
+      "id": "2.3",
+      "date": "2026-11-03",
+      "status": "fulfilled",
+      "evidence": "Zákon č. 180/2026 Sb., o evidenci tržeb a o změně některých dalších zákonů, vyhlášen 7. 10. 2026, účinnost 1. 1. 2027.",
+      "evidence_date": "2026-10-07",
+      "unverifiable": false,
+      "comment_cs": "Zákon prošel celým procesem (Sněmovna přehlasovala Senát 9. 9., prezident podepsal 17. 9.) a vyšel ve Sbírce, s účinností od 1. 1. 2027. Výhrada: drobní živnostníci jsou vyňati jen přes režim EET OFF, za který platí o 1 400 Kč měsíčně vyšší zálohu. Evidují se i karetní a QR platby a ostrý provoz se rozbíhá po lednovém pilotu, takže reálné dopady se teprve ukážou.",
+      "comment_en": "The law went through the full process (the Chamber overrode the Senate on 9 Sept, the president signed on 17 Sept) and was published in the Collection of Laws, effective 1 Jan 2027. Caveat: small traders are exempt only via the EET OFF regime, for which they pay a CZK 1,400 higher monthly advance. Card and QR payments are also recorded, and full operation follows a January pilot, so real-world impact remains to be seen.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://e-sbirka.gov.cz/sb/2026/180",
+        "https://e-sbirka.gov.cz/sb/2026/180?zalozka=text",
+        "https://www.e15.cz/finexpert/danove-priznani/eet-2-0-leden-2027-zivnostnici-firmy-1436505"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-30",
+        "puvodni_status": "fulfilled",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }
