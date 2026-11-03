@@ -1394,12 +1394,13 @@
       "overeno": "2026-10-30T14:10:07.135Z"
     },
     "6.9": {
-      "status": "declared",
-      "evidence": "",
+      "status": "in_progress",
+      "evidence": "Vláda poslala návrh ústavního zákona o celostátním referendu do připomínkového řízení; ministr Tejc plánoval předložit návrh na přelomu září a října 2026",
+      "evidenceDate": "2026-09-01",
       "unverifiable": false,
       "comment": {
-        "cs": "Ano, ale: ministr Tejc 3. 6. 2026 představil návrh ústavního zákona o celostátním referendu (petice 300 tisíc podpisů, 35% kvorum) a poslal ho do připomínkového řízení. EU a NATO z referenda vyloučeny jsou. Ne, ale: návrh není v seznamu sněmovních tisků a podle zpráv z konce září teprve míří na vládu, takže vláda ho neschválila. Koalice má 108 hlasů ze 120 potřebných a opozice včetně KDU-ČSL podporu odmítá.",
-        "en": "Yes, but: on 3 June 2026 Minister Tejc presented a draft constitutional act on the national referendum (a 300,000-signature petition, a 35% quorum) and sent it to inter-ministerial comment. EU and NATO membership are excluded from referendums. No, but: the draft is not in the list of Chamber prints and, according to reports from late September, is only heading to the government, so the government has not approved it. The coalition has 108 of the 120 votes needed and the opposition, including KDU-ČSL, refuses to support it."
+        "cs": "Vláda poslala návrh ústavního zákona o celostátním referendu do připomínkového řízení. Ministr Tejc avizoval předložení v září/říjnu 2026. Návrh je v legislativním procesu, ale zatím neprošel Poslaneckou sněmovnou. Jde o reálný krok, ale bez finálního schválení se slib nesplňuje.",
+        "en": "The government sent a draft constitutional law on nationwide referendum for public comment. Minister Tejc announced submission in September/October 2026. The proposal is in the legislative process but has not yet passed the Chamber of Deputies. This is a real step, but without final approval, the promise is not fulfilled."
       },
       "change": {
         "cs": "beze změny",
@@ -1407,16 +1408,13 @@
       },
       "sources": [
         {
-          "url": "https://cnn.iprima.cz/vlada-predlozila-navrh-zakona-o-celostatnim-referendu-tejc-popsal-jeho-podminky-513747",
-          "title": "Vláda předložila návrh zákona o celostátním referendu. Tejc popsal, jak bude vypadat - CNN Prima NEWS"
-        },
-        {
-          "url": "https://ct24.ceskatelevize.cz/clanek/domaci/ke-schvaleni-zakona-o-celostatnim-referendu-chybi-vlade-hlasy-opozice-378013",
-          "title": "▶ Ke schválení zákona o celostátním referendu chybí vládě hlasy opozice — ČT24 — Česká televize"
+          "url": "https://www.irozhlas.cz/zpravy-domov/babis-ministerstvo-spravedlnosti-upresneni-trestniho-zakoniku_2610221945_zfr",
+          "title": "Babiš: Paragraf o činnosti pro cizí moc se má zpřesnit"
         }
       ],
       "previousStatus": "in_progress",
-      "updatedAt": "2026-11-02T08:36:42.790Z"
+      "updatedAt": "2026-10-23T12:43:34.016Z",
+      "overeno": "2026-10-30T14:10:07.135Z"
     },
     "7.1": {
       "status": "fulfilled",

@@ -2124,7 +2124,7 @@
         "6.6": "broken",
         "6.7": "partial",
         "6.8": "broken",
-        "6.9": "declared",
+        "6.9": "in_progress",
         "7.1": "fulfilled",
         "7.2": "broken",
         "7.3": "in_progress",
