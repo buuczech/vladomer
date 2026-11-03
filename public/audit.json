@@ -29268,6 +29268,28 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "7.8",
+      "date": "2026-11-03",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale jen jako plán: Plán legislativních prací vlády (usnesení č. 175 z 23. 3. 2026) ukládá MPO předložit vládě návrh zákona o podpoře startupů v prosinci 2026 (úkol MPO č. 17). V seznamu sněmovních tisků takový návrh není a vláda ho neschválila. Obsah zákona (zaměstnanecké akcie, odpisy pro investory) zatím není doložen.",
+      "comment_en": "Yes, but only as a plan: the government's Legislative Work Plan (resolution no. 175 of 23 March 2026) tasks the industry ministry with submitting a startup support bill to the government in December 2026 (MPO task no. 17). No such bill is in the list of Chamber prints and the government has not approved one. The content of the law (employee shares, depreciation for investors) is not yet documented.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://www.ceskenoviny.cz/zpravy/havlicek-rychlejsi-odpisy-dani-pro-firmy-by-mohly-byt-zavedeny-od-roku-2027/2750910"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-02",
+        "puvodni_status": "not_started",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-vyvraceno, m-spor), přijal vlastník. Důvod: Hodnotitel přesněji popisuje současný stav.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

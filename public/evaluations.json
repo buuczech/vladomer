@@ -1539,12 +1539,12 @@
       "overeno": "2026-10-30T14:11:32.840Z"
     },
     "7.8": {
-      "status": "not_started",
+      "status": "declared",
       "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Zákon o podpoře startupů nebyl zahrnut do programového prohlášení vlády (5. 1. 2026). Vláda hovoří obecně o podpoře výzkumu a inovací, ale bez specifické legislativy pro startupy. Bez doložitelného kroku se jedná o „nezahájeno“.",
-        "en": "Law on startup support was not included in the government program (5 January 2026). Government speaks generally about supporting research and innovation, but without specific legislation for startups. Without documented action, this is \"not started\"."
+        "cs": "Ano, ale jen jako plán: Plán legislativních prací vlády (usnesení č. 175 z 23. 3. 2026) ukládá MPO předložit vládě návrh zákona o podpoře startupů v prosinci 2026 (úkol MPO č. 17). V seznamu sněmovních tisků takový návrh není a vláda ho neschválila. Obsah zákona (zaměstnanecké akcie, odpisy pro investory) zatím není doložen.",
+        "en": "Yes, but only as a plan: the government's Legislative Work Plan (resolution no. 175 of 23 March 2026) tasks the industry ministry with submitting a startup support bill to the government in December 2026 (MPO task no. 17). No such bill is in the list of Chamber prints and the government has not approved one. The content of the law (employee shares, depreciation for investors) is not yet documented."
       },
       "change": {
         "cs": "beze změny",
@@ -1552,13 +1552,12 @@
       },
       "sources": [
         {
-          "url": "https://vlada.gov.cz/cz/vlada/programove-prohlaseni/programove-prohlaseni-vlady-224629/",
-          "title": "Programové prohlášení vlády"
+          "url": "https://www.ceskenoviny.cz/zpravy/havlicek-rychlejsi-odpisy-dani-pro-firmy-by-mohly-byt-zavedeny-od-roku-2027/2750910",
+          "title": "Havlíček: Rychlejší odpisy daní pro firmy by mohly být zavedeny od roku 2027"
         }
       ],
       "previousStatus": "not_started",
-      "updatedAt": "2026-10-02T13:57:49.709Z",
-      "overeno": "2026-10-30T14:11:32.840Z"
+      "updatedAt": "2026-11-02T08:38:17.109Z"
     },
     "7.9": {
       "status": "declared",

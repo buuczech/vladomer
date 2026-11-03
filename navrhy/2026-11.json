@@ -1858,6 +1858,9 @@
     },
     "6.5": {
       "duvod": "Hodnotitel přesněji popisuje současný stav."
+    },
+    "7.8": {
+      "duvod": "Hodnotitel přesněji popisuje současný stav."
     }
   },
   "historie": [
@@ -2016,6 +2019,13 @@
       "kdo": "buuczech",
       "prikaz": "prijmout",
       "bod": "6.5",
+      "duvod": "Hodnotitel přesněji popisuje současný stav."
+    },
+    {
+      "kdy": "2026-11-03T12:15:01.852Z",
+      "kdo": "buuczech",
+      "prikaz": "prijmout",
+      "bod": "7.8",
       "duvod": "Hodnotitel přesněji popisuje současný stav."
     }
   ]

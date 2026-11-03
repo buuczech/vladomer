@@ -191,13 +191,6 @@
         "m-kolo2-strop"
       ]
     },
-    "7.8": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-vyvraceno",
-        "m-spor"
-      ]
-    },
     "7.9": {
       "akce": "podrzet",
       "duvody": [
@@ -646,6 +639,7 @@
     "4.7",
     "5.4",
     "6.5",
-    "7.2"
+    "7.2",
+    "7.8"
   ]
 }

@@ -1,1 +1,0 @@
-/prijmout 7.8 duvod: Hodnotitel přesněji popisuje současný stav. 
