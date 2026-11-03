@@ -29088,6 +29088,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-spor), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "6.9",
+      "date": "2026-11-03",
+      "status": "declared",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Ano, ale: ministr Tejc 3. 6. 2026 představil návrh ústavního zákona o celostátním referendu (petice 300 tisíc podpisů, 35% kvorum) a poslal ho do připomínkového řízení. EU a NATO z referenda vyloučeny jsou. Ne, ale: návrh není v seznamu sněmovních tisků a podle zpráv z konce září teprve míří na vládu, takže vláda ho neschválila. Koalice má 108 hlasů ze 120 potřebných a opozice včetně KDU-ČSL podporu odmítá.",
+      "comment_en": "Yes, but: on 3 June 2026 Minister Tejc presented a draft constitutional act on the national referendum (a 300,000-signature petition, a 35% quorum) and sent it to inter-ministerial comment. EU and NATO membership are excluded from referendums. No, but: the draft is not in the list of Chamber prints and, according to reports from late September, is only heading to the government, so the government has not approved it. The coalition has 108 of the 120 votes needed and the opposition, including KDU-ČSL, refuses to support it.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://cnn.iprima.cz/vlada-predlozila-navrh-zakona-o-celostatnim-referendu-tejc-popsal-jeho-podminky-513747",
+        "https://ct24.ceskatelevize.cz/clanek/domaci/ke-schvaleni-zakona-o-celostatnim-referendu-chybi-vlade-hlasy-opozice-378013"
+      ],
+      "model": "neznámý",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-23",
+        "puvodni_status": "in_progress",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno, m-spor), přijal vlastník.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }

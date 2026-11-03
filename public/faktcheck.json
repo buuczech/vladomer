@@ -197,13 +197,6 @@
         "m-spor"
       ]
     },
-    "6.9": {
-      "akce": "bez-razitka",
-      "duvody": [
-        "m-neovereno",
-        "m-spor"
-      ]
-    },
     "7.2": {
       "akce": "bez-razitka",
       "duvody": [
@@ -691,6 +684,7 @@
     "4.1",
     "4.2",
     "4.4",
-    "4.7"
+    "4.7",
+    "6.9"
   ]
 }
