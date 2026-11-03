@@ -2756,12 +2756,11 @@
     },
     "12.6": {
       "status": "partial",
-      "evidence": "Nařízení vlády č. 23/2026 Sb., vyhlášeno 26. února 2026",
-      "evidenceDate": "2026-02-26",
+      "evidence": "",
       "unverifiable": false,
       "comment": {
-        "cs": "Ne, ale s částečným krokem: Vláda nezrušila vymezení erozních oblastí, jak slibovala, ale místo toho revidovala protierozní vyhlášku. Nařízení vlády č. 23/2026 Sb. (účinné od 1. července 2026) rozděluje podmíněnost na základě skutečného rizika eroze místo jednotného vymezení. Jde o částečné splnění – opatření reaguje na problém, ale ne přesně tak, jak bylo slibováno. Vláda zjednodušila některé podmínky podmíněnosti, ale komplexní zrušení erozních oblastí se neuskutečnilo.",
-        "en": "No, but with partial step: The government did not abolish erosion area designations as promised, but instead revised the anti-erosion regulation. Government Regulation No. 23/2026 Coll. (effective July 1, 2026) divides conditionality based on actual erosion risk rather than uniform designation. This is partial fulfillment – the measure addresses the problem but not exactly as promised. The government simplified some conditionality conditions, but comprehensive abolition of erosion areas did not occur."
+        "cs": "Vymezení erozních oblastí zrušeno nebylo; vláda místo toho zmírnila navazující pravidla. Nařízení vlády č. 23/2026 Sb. (vyhlášeno 26. 2. 2026) ruší v DZES 7 omezení jedné plodiny na 10 ha na silně erozně ohrožených plochách. Vyhláška č. 82/2026 Sb. (2. 6. 2026) upravuje monitoring eroze a vyhláška č. 546/2025 Sb. (17. 12. 2025) vznikla ještě před nástupem vlády. Je to dílčí zmírnění administrativy, ne zrušení slibované v programu. Zásadní část pravidel DZES 5 navíc podléhá EU.",
+        "en": "The delineation of erosion areas was not abolished; the government instead relaxed the related rules. Government Regulation No. 23/2026 Coll. (published 26 Feb 2026) removes the 10 ha single-crop limit on strongly erosion-threatened plots under DZES 7. Decree No. 82/2026 Coll. (2 Jun 2026) adjusts erosion monitoring, and Decree No. 546/2025 Coll. (17 Dec 2025) predates the government. This is a partial easing of administration, not the abolition promised. The core DZES 5 rules are also subject to EU oversight."
       },
       "change": {
         "cs": "beze změny",
@@ -2769,28 +2768,17 @@
       },
       "sources": [
         {
-          "url": "https://vlada.gov.cz/cz/media-centrum/tiskove-konference/tiskova-konference-po-jednani-vlady--17--srpna-2026-228352/",
-          "title": "Tisková konference po jednání vlády, 17. srpna 2026"
+          "url": "https://mze.gov.cz/public/portal/mze/tiskovy-servis/tiskove-zpravy/ministerstvo-zemedelstvi-upravuje-podminky-pro-podminenost-a-prime-platby-zemedelci-budou-mit-pri-hospodareni-vetsi-flexibilitu",
+          "title": "Ministerstvo zemědělství upravuje podmínky pro podmíněnost a přímé platby, zemědělci budou mít při hospodaření větší flexibilitu"
         },
         {
-          "url": "https://mze.gov.cz/public/portal/mze/vyhledavani/ministr",
-          "title": "Ministr"
+          "url": "https://www.seznamzpravy.cz/clanek/ekonomika-motoriste-by-smetli-erozni-vyhlasku-podle-farmaru-ji-staci-opravit-289432?noredirect=1",
+          "title": "Prý je to šikana zemědělců. Motoristé chtějí smést erozní vyhlášku - Seznam Zprávy"
         }
       ],
       "previousStatus": "partial",
-      "updatedAt": "2026-10-16T14:40:40.859Z",
-      "sbirka": {
-        "overene": [
-          {
-            "kod": "23/2026",
-            "nazev": "Nařízení vlády, kterým se mění nařízení vlády č. 73/2023 Sb., o stanovení pravidel podmíněnosti plateb zemědělcům, ve znění pozdějších předpisů",
-            "vyhlaseno": "2026-02-26",
-            "url": "https://e-sbirka.gov.cz/sb/2026/23"
-          }
-        ],
-        "neexistujici": []
-      },
-      "overeno": "2026-10-30T14:17:44.965Z"
+      "updatedAt": "2026-11-02T08:44:45.735Z",
+      "overeno": "2026-11-02T08:43:59.130Z"
     },
     "12.7": {
       "status": "in_progress",

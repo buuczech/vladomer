@@ -29541,6 +29541,29 @@
         "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-neovereno-absence, kalibrace), přijal vlastník.",
         "prijato_z_behu": "2026-11-02"
       }
+    },
+    {
+      "id": "12.6",
+      "date": "2026-11-03",
+      "status": "partial",
+      "evidence": "",
+      "evidence_date": "",
+      "unverifiable": false,
+      "comment_cs": "Vymezení erozních oblastí zrušeno nebylo; vláda místo toho zmírnila navazující pravidla. Nařízení vlády č. 23/2026 Sb. (vyhlášeno 26. 2. 2026) ruší v DZES 7 omezení jedné plodiny na 10 ha na silně erozně ohrožených plochách. Vyhláška č. 82/2026 Sb. (2. 6. 2026) upravuje monitoring eroze a vyhláška č. 546/2025 Sb. (17. 12. 2025) vznikla ještě před nástupem vlády. Je to dílčí zmírnění administrativy, ne zrušení slibované v programu. Zásadní část pravidel DZES 5 navíc podléhá EU.",
+      "comment_en": "The delineation of erosion areas was not abolished; the government instead relaxed the related rules. Government Regulation No. 23/2026 Coll. (published 26 Feb 2026) removes the 10 ha single-crop limit on strongly erosion-threatened plots under DZES 7. Decree No. 82/2026 Coll. (2 Jun 2026) adjusts erosion monitoring, and Decree No. 546/2025 Coll. (17 Dec 2025) predates the government. This is a partial easing of administration, not the abolition promised. The core DZES 5 rules are also subject to EU oversight.",
+      "change_cs": "beze změny",
+      "change_en": "no change",
+      "sources": [
+        "https://mze.gov.cz/public/portal/mze/tiskovy-servis/tiskove-zpravy/ministerstvo-zemedelstvi-upravuje-podminky-pro-podminenost-a-prime-platby-zemedelci-budou-mit-pri-hospodareni-vetsi-flexibilitu",
+        "https://www.seznamzpravy.cz/clanek/ekonomika-motoriste-by-smetli-erozni-vyhlasku-podle-farmaru-ji-staci-opravit-289432?noredirect=1"
+      ],
+      "model": "claude-sonnet-5-5",
+      "oprava": {
+        "puvodni_zaznam": "2026-10-16",
+        "puvodni_status": "partial",
+        "duvod": "Návrh z běhu 2026-11-02, který kontrola faktů podržela (m-vyvraceno, m-neovereno, m-kolo2-strop), přijal vlastník. Důvod: Hodnotitel přesněji popisuje současný stav.",
+        "prijato_z_behu": "2026-11-02"
+      }
     }
   ]
 }
