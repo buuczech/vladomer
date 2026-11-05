@@ -1,0 +1,54 @@
+{
+  "typ": "reel",
+  "hudba": "vychozi.mp3",
+  "publikovat_v": "2026-11-16T18:00:00+01:00",
+  "popisek": "Od 28. srpna do 2. října ukazoval Vládoměr pět splněných slibů. Šest týdenních běhů po sobě, pokaždé stejné číslo. Pak jediný běh 9. října přidal tři.\n\nCo přibylo: EET 2.0 (zákon č. 180/2026 Sb., vyhlášen 7. 10. 2026), zvýšení rodičovského příspěvku na 400 000 Kč (zákon č. 152/2026 Sb.) a zastavení zvyšování vyměřovacího základu OSVČ (zákon č. 90/2026 Sb.).\n\nNení to tím, že by vláda pět týdnů nic nedělala. Je to tím, jak se tady počítá. Slib se do „splněno“ posune až ve chvíli, kdy norma projde Sněmovnou, Senátem i prezidentem a vyjde ve Sbírce zákonů. Do té doby se na grafu neděje nic, i když v parlamentu ano. Zákony proto nepřibývají plynule, ale po dávkách.\n\nProto se hlavní číslo nečte týden po týdnu. Zajímavý je až směr za delší dobu a to, co se mezitím hromadí ve stavu „probíhá“ — těch je teď 45 ze 143 a čeká je přesně stejná cesta.\n\nStav k 23. 10. 2026, přepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #politika #vlada #cesko #data #zakony",
+  "sceny": [
+    {
+      "typ": "cislo",
+      "nadpis": "HOTOVÝCH SLIBŮ ZA JEDINÝ TÝDEN",
+      "cislo": "+3",
+      "jednotka": "",
+      "barva": "ok",
+      "popis": "Předtím se pět týdnů nezměnilo nic.",
+      "dovetek": "Běh z 9. 10. 2026",
+      "komentar": "Jediný týdenní běh přidal tři hotové sliby. Předtím se pět týdnů nezměnilo nic.",
+      "trvani": 5
+    },
+    {
+      "typ": "body",
+      "nadpis": "Co přibylo",
+      "styl": "odrazky",
+      "body": [
+        "EET 2.0 — zákon č. 180/2026 Sb.",
+        "Rodičovská na 400 000 Kč — zákon č. 152/2026 Sb.",
+        "Konec zvyšování základu OSVČ — zákon č. 90/2026 Sb."
+      ],
+      "komentar": "Evidence tržeb, vyšší rodičovská a konec zvyšování odvodů pro živnostníky.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "Proč to tak vypadá",
+      "styl": "odrazky",
+      "body": [
+        "Slib se počítá, až norma vyjde ve Sbírce zákonů.",
+        "Sněmovna, Senát a prezident trvají měsíce.",
+        "Do té doby se na grafu neděje nic, v parlamentu ano."
+      ],
+      "komentar": "Slib se počítá, až zákon vyjde ve Sbírce. Proto nepřibývají plynule, ale po dávkách.",
+      "trvani": 6
+    },
+    {
+      "typ": "cislo",
+      "nadpis": "ČEKÁ NA STEJNOU CESTU",
+      "cislo": "45",
+      "jednotka": "",
+      "barva": "neutral",
+      "popis": "rozdělaných slibů ze 143",
+      "dovetek": "Stav k 23. 10. 2026",
+      "komentar": "Stejná cesta teď čeká čtyřicet pět rozdělaných slibů.",
+      "trvani": 5
+    }
+  ]
+}

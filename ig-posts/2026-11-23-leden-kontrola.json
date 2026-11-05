@@ -1,0 +1,36 @@
+{
+  "titulek": "Od ledna: hotové jsou dvě z pěti",
+  "podtitulek": "Navazujeme na říjnovou kontrolu",
+  "stitek": "Kontrola",
+  "publikovat_v": "2026-11-23T18:00:00+01:00",
+  "popisek": "V říjnu jsme tu ukazovali pět slibů, které mají nabýt účinnosti 1. ledna 2027. Hotový byl tehdy jeden. Teď jsou dva a do ledna zbývá šest týdnů.\n\nHOTOVÉ\n• Rodičovský příspěvek 400 000 Kč — zákon č. 152/2026 Sb. Týká se jen dětí narozených od 1. 1. 2027.\n• EET 2.0 — zákon č. 180/2026 Sb., vyhlášen 7. 10. 2026.\n\nNAPŮL\n• Školkovné se vrací a je součástí téhož zákona č. 180/2026 Sb., maximálně do výše minimální mzdy. Sleva na druhého z manželů ale v zákoně není, a slib zněl na obojí. Bod je proto veden jako částečně splněný.\n\nZATÍM NE\n• Zrušení poplatků za ČT a ČRo: vláda návrh schválila 15. 6. 2026, od té doby je v parlamentu.\n• 75% slevy na jízdné pro studenty a seniory: legislativní proces nezačal.\n\nPlatí u toho pořád totéž: „vláda schválila“ není totéž co „platí“. Mezi vládním návrhem a Sbírkou zákonů je Sněmovna, Senát a podpis prezidenta.\n\nStav k 23. 10. 2026, přepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #politika #vlada #cesko #dane #rodicovska",
+  "slidy": [
+    {
+      "nadpis": "Hotové",
+      "typ": "odrazky",
+      "body": [
+        "Rodičovský příspěvek 400 000 Kč — zákon č. 152/2026 Sb.",
+        "EET 2.0 — zákon č. 180/2026 Sb., vyhlášen 7. 10. 2026.",
+        "Obojí prošlo celým procesem a vyšlo ve Sbírce zákonů."
+      ]
+    },
+    {
+      "nadpis": "Napůl",
+      "typ": "odrazky",
+      "body": [
+        "Školkovné se vrací, je v zákoně č. 180/2026 Sb.",
+        "Sleva na druhého z manželů v něm ale není.",
+        "Slib zněl na obojí. Proto „částečně splněno“."
+      ]
+    },
+    {
+      "nadpis": "Zatím ne",
+      "typ": "odrazky",
+      "body": [
+        "Poplatky za ČT a ČRo: návrh je od června v parlamentu.",
+        "75% slevy na jízdné: proces ani nezačal.",
+        "Do ledna zbývá šest týdnů."
+      ]
+    }
+  ]
+}

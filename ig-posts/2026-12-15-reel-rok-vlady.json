@@ -1,0 +1,54 @@
+{
+  "typ": "reel",
+  "hudba": "vychozi.mp3",
+  "publikovat_v": "2026-12-15T18:00:00+01:00",
+  "popisek": "Vláda nastoupila 15. prosince 2025. Dnes je ve funkci přesně rok.\n\nZe 143 závazků programového prohlášení jich prošlo celým legislativním procesem osm. Je to 5,6 % hodnocených bodů. Dalších 45 je rozdělaných, 34 splněných částečně, 37 zůstalo u prohlášení, 11 nezačalo a u 8 vláda od slibu ustoupila.\n\nMezi hotovými je evidence tržeb EET 2.0 (zákon č. 180/2026 Sb.), zvýšení rodičovského příspěvku na 400 000 Kč (č. 152/2026 Sb.), konec zvyšování vyměřovacího základu OSVČ (č. 90/2026 Sb.), převzetí poplatku za obnovitelné zdroje státem, hospodářská strategie, potravinový ombudsman a dvě zrušené funkce ministrů.\n\nMezi nezahájenými je i jedna z pěti priorit, které si vláda sama postavila do čela programu: spravedlivé důchody se stropem věku na 65 letech.\n\nNízké číslo na konci prvního roku není samo o sobě verdikt. Velký zákon se tu nestihne za čtvrtletí a před vládou jsou ještě tři roky. Verdikt dává až směr — a ten bude vidět na tom, kolik ze 45 rozdělaných bodů dojde do Sbírky zákonů.\n\nVládoměr počítá jako splněné jen to, co prošlo celým procesem. Vládní odpočty obvykle započítávají i rozpracované věci, a proto vycházejí výš. Stejná data, jiné pravidlo.\n\nStav k 23. 10. 2026, přepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #politika #vlada #cesko #rokvlady #transparentnost",
+  "sceny": [
+    {
+      "typ": "cislo",
+      "nadpis": "SPLNĚNÝCH SLIBŮ ZA ROK",
+      "cislo": "8",
+      "jednotka": "",
+      "barva": "neutral",
+      "popis": "ze 143. Vláda je ve funkci přesně rok.",
+      "dovetek": "Nastoupila 15. 12. 2025 · stav k 23. 10. 2026",
+      "komentar": "Vláda je ve funkci přesně rok. Ze sto čtyřiceti tří slibů jich dotáhla osm.",
+      "trvani": 5
+    },
+    {
+      "typ": "body",
+      "nadpis": "Co je mezi nimi",
+      "styl": "odrazky",
+      "body": [
+        "EET 2.0 a vyšší rodičovská, obojí už ve Sbírce.",
+        "Poplatek za obnovitelné zdroje převzal stát.",
+        "A dvě zrušené funkce ministrů."
+      ],
+      "komentar": "Evidence tržeb, vyšší rodičovská, levnější elektřina. A dvě zrušené funkce ministrů.",
+      "trvani": 6
+    },
+    {
+      "typ": "cislo",
+      "nadpis": "NEZAČALO ANI PO ROCE",
+      "cislo": "11",
+      "jednotka": "",
+      "barva": "bad",
+      "popis": "bodů. Mezi nimi jedna z pěti priorit vlády.",
+      "dovetek": "Stav k 23. 10. 2026",
+      "komentar": "Jedenáct bodů nezačalo vůbec. Mezi nimi jedna z pěti priorit, důchodový strop.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "Není to verdikt",
+      "styl": "odrazky",
+      "body": [
+        "Rozdělaných je 45 bodů, před vládou jsou tři roky.",
+        "Velký zákon se nestihne za čtvrtletí.",
+        "Verdikt dá až to, kolik z nich dojde do Sbírky."
+      ],
+      "komentar": "Před vládou jsou ještě tři roky. Verdikt dá až to, kolik z rozdělaných bodů dojde do Sbírky.",
+      "trvani": 6
+    }
+  ]
+}

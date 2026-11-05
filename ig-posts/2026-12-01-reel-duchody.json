@@ -1,0 +1,54 @@
+{
+  "typ": "reel",
+  "hudba": "vazny.mp3",
+  "publikovat_v": "2026-12-01T18:00:00+01:00",
+  "popisek": "Zastropovat důchodový věk na 65 letech je v programovém prohlášení dvakrát. Jednou mezi pěti zásadními prioritami vlády jako bod #1.4, podruhé v kapitole Sociální politika jako bod #10.1. Splněný není ani jeden.\n\n#1.4 je k 23. 10. 2026 ve stavu „nezahájeno“, #10.1 ve stavu „porušeno“. Ten rozdíl není chyba: „nezahájeno“ znamená, že se u zastřešující priority nenašel doložitelný krok, „porušeno“ znamená, že vláda od konkrétního závazku ustoupila. Ministr práce realizaci postupně odkládá — nejdřív ji sliboval v první vlně od ledna 2027, pak ji posunul do další novely.\n\nV kapitole se přitom hýbe jiné. Věkové valorizace od 80 let, tedy 500 Kč navíc každých pět let, jsou součástí připravované novely a bod je ve stavu „probíhá“. Zvýšení rodičovského příspěvku na 400 000 Kč prošlo celým procesem a vyšlo ve Sbírce jako zákon č. 152/2026 Sb.\n\nCelá kapitola Sociální politika a zaměstnanost má deset bodů. Splněný je jeden.\n\nVládoměr neposuzuje, jestli je zastropování věku dobrý nápad. Jen jestli slib platí.\n\nStav k 23. 10. 2026, přepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #duchody #politika #vlada #cesko #transparentnost",
+  "sceny": [
+    {
+      "typ": "cislo",
+      "nadpis": "SLÍBENÝ STROP DŮCHODOVÉHO VĚKU",
+      "cislo": "65",
+      "jednotka": "let",
+      "barva": "bad",
+      "popis": "Slib je v programu dvakrát. Splněný ani jednou.",
+      "dovetek": "Body #1.4 a #10.1, stav k 23. 10. 2026",
+      "komentar": "Zastropovat důchodový věk na pětašedesáti letech slibuje program dvakrát. Splněné to není ani jednou.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "Dvakrát, pokaždé jinak",
+      "styl": "odrazky",
+      "body": [
+        "#1.4 mezi pěti prioritami vlády: nezahájeno.",
+        "#10.1 v kapitole Sociální politika: porušeno.",
+        "Ministr práce realizaci odložil do další novely."
+      ],
+      "komentar": "Jednou je mezi prioritami a nezačal. Podruhé v kapitole a vláda od něj ustoupila.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "Co se naopak hýbe",
+      "styl": "odrazky",
+      "body": [
+        "Věkové valorizace od 80 let: 500 Kč každých pět let.",
+        "Novela je připravená, proces běží.",
+        "Rodičovská 400 000 Kč už ve Sbírce vyšla."
+      ],
+      "komentar": "Věkové valorizace od osmdesáti let se připravují. Vyšší rodičovská už platí.",
+      "trvani": 6
+    },
+    {
+      "typ": "cislo",
+      "nadpis": "SPLNĚNÝCH V CELÉ KAPITOLE",
+      "cislo": "1",
+      "jednotka": "",
+      "barva": "neutral",
+      "popis": "z deseti bodů Sociální politiky a zaměstnanosti",
+      "dovetek": "Stav k 23. 10. 2026",
+      "komentar": "Z deseti bodů celé kapitoly je splněný jeden.",
+      "trvani": 5
+    }
+  ]
+}
