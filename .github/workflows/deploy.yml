@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
+      url: ${{ steps.deploy2.outputs.page_url || steps.deploy1.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -54,12 +54,20 @@ jobs:
       # dnešní auditní záznamy prvního běhu, protože kontrola append-only chrání
       # jen starší dny. Plánovaný běh se proto přeskočí, jsou-li data už z dneška.
       # Ruční dispatch běží vždy: ten je úmysl.
+      #
+      # Data se čtou z AKTUÁLNÍHO main, ne z checkoutu: „Re-run failed jobs"
+      # spouští job nad původním commitem, kde jsou data ještě minulotýdenní,
+      # takže by opakování spadlého nasazení (6. 11. 2026) zaplatilo hodnocení
+      # podruhé a přepsalo dnešní auditní záznamy. Totéž platí pro checkout
+      # dnešních dat, který main mezitím předběhl.
       - name: Už dnes hodnoceno?
         id: dnes
         if: ${{ github.event_name == 'schedule' }}
         run: |
+          git fetch --depth=1 origin main
+          git show FETCH_HEAD:public/evaluations.json > "$RUNNER_TEMP/main-evaluations.json"
           node -e '
-            const j = require("./public/evaluations.json");
+            const j = require(process.env.RUNNER_TEMP + "/main-evaluations.json");
             const dnes = new Date().toISOString().slice(0, 10);
             const hotovo = String(j.lastUpdated || "").slice(0, 10) === dnes;
             console.log(hotovo ? `Data jsou už z ${dnes}, plánovaný běh se přeskočí.` : "Dnes se ještě nehodnotilo.");
@@ -145,5 +153,18 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-      - id: deploy
+      # Pages občas zamrzne ve stavu „updating_pages": 6. 11. 2026 tak visel
+      # celých deset minut výchozího limitu, akce nasazení zrušila a web zůstal
+      # na minulém týdnu, ačkoli hodnocení bylo hotové a commitnuté. Commit
+      # botem nový deploy nespustí, takže se nasazuje znovu tady: delší limit
+      # a jeden další pokus se stejným artefaktem.
+      - id: deploy1
+        continue-on-error: true
         uses: actions/deploy-pages@v4
+        with:
+          timeout: 1200000
+      - id: deploy2
+        if: ${{ steps.deploy1.outcome == 'failure' }}
+        uses: actions/deploy-pages@v4
+        with:
+          timeout: 1200000
