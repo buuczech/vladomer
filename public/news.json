@@ -1,53 +1,65 @@
 {
-  "generatedAt": "2026-10-30T14:23:58.530Z",
+  "generatedAt": "2026-11-06T15:18:06.147Z",
   "items": [
     {
       "title": {
-        "cs": "Hlasování o zrušení koncesionářských poplatků ČT a ČRo ve čtyři ráno",
-        "en": "Vote on abolishing TV and radio license fees held at 4:36 AM"
+        "cs": "Sněmovna se sešla ke schválení novely o mimořádné dani na rafinerie",
+        "en": "Parliament convenes for second reading of extraordinary refineries tax"
       },
       "summary": {
-        "cs": "Koalice ANO, SPD a Motoristů prosadila noční hlasování o návrhu zrušit poplatky za Českou televizi a Český rozhlas v sobotu 24. října ve 4:36 ráno, což vyvolalo masivní protesty opozice i veřejnosti.",
-        "en": "Coalition of ANO, SPD and Motoristé pushed through a night-time vote on abolishing TV and radio fees Saturday October 24 at 4:36 AM, sparking massive opposition and public protests."
+        "cs": "Poslanci se mimořádně setkali k hlasování o druhém čtení vládního návrhu na zavedení daně na rafinerijní marže, která má do rozpočtu přinést 5,5 miliardy korun.",
+        "en": "Deputies held extraordinary session for second reading of government proposal to introduce extraordinary tax on refineries' margins expected to bring 5.5 billion to state budget."
       },
-      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/opozice-hovori-o-poruseni-vsech-principu-a-utoku-na-verejnopravni-media-378971",
-      "date": "2026-10-24"
+      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/poslanci-by-meli-zahajit-jednani-o-zavedeni-mimoradne-dane-na-rafinerie-378520",
+      "date": "2026-11-06"
     },
     {
       "title": {
-        "cs": "Ministr kultury Klempíř odvolal exředitele ČT Dvořáka z vedení fondu audiovize",
-        "en": "Culture Minister Klempíř removes former ČT director Dvořák from audiovisual fund leadership"
+        "cs": "Vláda schválila koncepci modernizace armády do roku 2040, Pavlovi se nelíbí",
+        "en": "Government approves army modernization concept to 2040, Pavel expresses concerns"
       },
       "summary": {
-        "cs": "Ministr kultury Oto Klempíř v úterý odvolal Petra Dvořáka z čela představenstva Státního fondu audiovize kvůli neshodám ohledně hospodaření fondu, což vyvolalo kritiku jako osobní čistku.",
-        "en": "Culture Minister Oto Klempíř removed Petr Dvořák from the chair of the State Audiovisual Fund board on Tuesday due to disagreements over fund management, drawing criticism as a personal purge."
+        "cs": "Vláda v pátek schválila novou koncepci výstavby armády do roku 2040, ale prezident Pavel tvrdí, že nezajistí plnění závazků vůči NATO.",
+        "en": "Government approved new military modernization concept through 2040 on Friday, but President Pavel argues it fails to ensure fulfillment of NATO commitments."
       },
-      "url": "https://www.forum24.cz/cistka-destrukce-kultury-agent-se-nezapre-politici-ostre-reaguji-na-klempirovo-odvolani-dvoraka",
-      "date": "2026-10-29"
+      "url": "https://www.ceskenoviny.cz/zpravy/vlada-schvalila-koncepci-armady-podle-pavla-nezajisti-plneni-zavazku/2895044",
+      "date": "2026-11-02"
     },
     {
       "title": {
-        "cs": "Poslanec Pražák opustil hnutí ANO a bude v sněmovně nezařazený",
-        "en": "MP Pražák leaves ANO party and becomes unaffiliated in parliament"
+        "cs": "Sněmovna ukončila třídenní schůzi odložením novely o kontrole ČT a ČRo ze strany NKÚ",
+        "en": "Parliament ends three-week session by deferring amendment on Supreme Audit Office oversight"
       },
       "summary": {
-        "cs": "Poslanec David Pražák z Libereckého kraje ukončil členství v hnutí ANO po jedenácti letech a zůstane ve Sněmovně jako nezařazený poslanec, čímž spustil vlnu odchodů z ANO v regionech.",
-        "en": "MP David Pražák from Liberec region ended his eleven-year ANO membership and remains in parliament as unaffiliated, triggering a wave of departures from ANO in the regions."
+        "cs": "Sněmovna skončila třídenní schůzi bez schválení novely, která by měla umožnit Nejvyššímu kontrolnímu úřadu kontrolu hospodaření České televize a Českého rozhlasu.",
+        "en": "Parliament ended three-week session without approving amendment that would allow Supreme Audit Office to audit Czech Television and Radio finances."
       },
-      "url": "https://www.denik.cz/cesko/poslanec-david-prazak-konci-v-ano-bude-nezarazenym-poslancem/?amp=&amp=&amp=",
-      "date": "2026-10-27"
+      "url": "https://denikn.cz/minuta/2248436",
+      "date": "2026-11-06"
     },
     {
       "title": {
-        "cs": "Sněmovna schválila rozpočet na rok 2027 se schodkem 386 miliard korun",
-        "en": "Parliament approves 2027 budget with deficit of 386 billion crowns"
+        "cs": "Babiš tlačí na schválení kontroly ČT a ČRo ze strany NKÚ v pátek",
+        "en": "Babiš pushes for Friday approval of Supreme Audit Office oversight of public broadcasters"
       },
       "summary": {
-        "cs": "Poslanci hlasy vládní koalice schválili v prvním čtení základní parametry návrhu státního rozpočtu na rok 2027 se schodkem 386 miliard korun, který vzroste oproti letošnímu roku.",
-        "en": "Lawmakers voted to approve the first reading of the 2027 budget draft with a deficit of 386 billion crowns, increasing from this year's level."
+        "cs": "Premiér Andrej Babiš chce zařadit na páteční zasedání Sněmovny schválení ústavní novely, která umožní NKÚ kontrolovat hospodaření České televize a Českého rozhlasu.",
+        "en": "Premier Babiš wants Friday parliamentary session to approve constitutional amendment enabling Supreme Audit Office to oversee Czech public broadcasters' finances."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/2890454",
-      "date": "2026-10-24"
+      "url": "https://www.echo24.cz/a/Hj3yw/domaci-zpravy-nku-koalice-specha-s-kontrolou-ct-a-cro-senatorka-marvanova-odmita-vlastni-novelu",
+      "date": "2026-11-05"
+    },
+    {
+      "title": {
+        "cs": "Ministerstvo obrany chce zrušit dotaci na Prague Defence Summit a ušetřit peníze",
+        "en": "Defense Ministry seeks to terminate funding for Prague Defence Summit to cut costs"
+      },
+      "summary": {
+        "cs": "Resort obrany navrhuje zrušit finanční podporu na pořádání Prague Defence Summit v příštím roce a vypovědět s tím související darovací smlouvu.",
+        "en": "Defense Ministry proposes canceling financial support for Prague Defence Summit next year and terminating related donation agreement."
+      },
+      "url": "https://www.irozhlas.cz/zpravy-domov/babisova-vlada-chce-sebrat-penize-na-obranny-summit-kde-vystoupili-prvni-muz_2611060620_hrk",
+      "date": "2026-11-06"
     }
   ]
 }
