@@ -1,65 +1,29 @@
 {
-  "generatedAt": "2026-11-06T15:18:06.147Z",
+  "generatedAt": "2026-11-13T15:42:39.107Z",
   "items": [
     {
       "title": {
-        "cs": "Sněmovna se sešla ke schválení novely o mimořádné dani na rafinerie",
-        "en": "Parliament convenes for second reading of extraordinary refineries tax"
+        "cs": "Vláda mění výživové normy pro školní jídelny na doporučující charakter",
+        "en": "Government changes nutritional standards for school canteens to recommendations"
       },
       "summary": {
-        "cs": "Poslanci se mimořádně setkali k hlasování o druhém čtení vládního návrhu na zavedení daně na rafinerijní marže, která má do rozpočtu přinést 5,5 miliardy korun.",
-        "en": "Deputies held extraordinary session for second reading of government proposal to introduce extraordinary tax on refineries' margins expected to bring 5.5 billion to state budget."
+        "cs": "Ministr školství Plaga oznámil, že vláda na pokyn premiéra Babiše ruší závazné výživové normy pro školní jídelny a převádí je do doporučujícího režimu.",
+        "en": "Education Minister Plaga announced that the government is abolishing mandatory nutritional standards for school canteens and converting them to recommendations on the Prime Minister's instruction."
       },
-      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/poslanci-by-meli-zahajit-jednani-o-zavedeni-mimoradne-dane-na-rafinerie-378520",
-      "date": "2026-11-06"
+      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/organizace-se-obavaji-zmen-pravidel-ve-skolnich-jidelnach-plaga-i-stastny-kroky-haji-379518",
+      "date": "2026-11-11"
     },
     {
       "title": {
-        "cs": "Vláda schválila koncepci modernizace armády do roku 2040, Pavlovi se nelíbí",
-        "en": "Government approves army modernization concept to 2040, Pavel expresses concerns"
+        "cs": "Iniciativa pro otevřené vládnutí - vláda zachová členství, ale přestane platit příspěvky",
+        "en": "Open governance initiative - government keeps membership but stops paying fees"
       },
       "summary": {
-        "cs": "Vláda v pátek schválila novou koncepci výstavby armády do roku 2040, ale prezident Pavel tvrdí, že nezajistí plnění závazků vůči NATO.",
-        "en": "Government approved new military modernization concept through 2040 on Friday, but President Pavel argues it fails to ensure fulfillment of NATO commitments."
+        "cs": "Premiér Babiš oznámil, že Česko zůstane v iniciativě pro otevřené vládnutí, ale přestane platit ročně půl milionu na členský příspěvek.",
+        "en": "PM Babiš announced that Czechia will remain in the open government initiative but will stop paying half a million annually in membership fees."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/vlada-schvalila-koncepci-armady-podle-pavla-nezajisti-plneni-zavazku/2895044",
-      "date": "2026-11-02"
-    },
-    {
-      "title": {
-        "cs": "Sněmovna ukončila třídenní schůzi odložením novely o kontrole ČT a ČRo ze strany NKÚ",
-        "en": "Parliament ends three-week session by deferring amendment on Supreme Audit Office oversight"
-      },
-      "summary": {
-        "cs": "Sněmovna skončila třídenní schůzi bez schválení novely, která by měla umožnit Nejvyššímu kontrolnímu úřadu kontrolu hospodaření České televize a Českého rozhlasu.",
-        "en": "Parliament ended three-week session without approving amendment that would allow Supreme Audit Office to audit Czech Television and Radio finances."
-      },
-      "url": "https://denikn.cz/minuta/2248436",
-      "date": "2026-11-06"
-    },
-    {
-      "title": {
-        "cs": "Babiš tlačí na schválení kontroly ČT a ČRo ze strany NKÚ v pátek",
-        "en": "Babiš pushes for Friday approval of Supreme Audit Office oversight of public broadcasters"
-      },
-      "summary": {
-        "cs": "Premiér Andrej Babiš chce zařadit na páteční zasedání Sněmovny schválení ústavní novely, která umožní NKÚ kontrolovat hospodaření České televize a Českého rozhlasu.",
-        "en": "Premier Babiš wants Friday parliamentary session to approve constitutional amendment enabling Supreme Audit Office to oversee Czech public broadcasters' finances."
-      },
-      "url": "https://www.echo24.cz/a/Hj3yw/domaci-zpravy-nku-koalice-specha-s-kontrolou-ct-a-cro-senatorka-marvanova-odmita-vlastni-novelu",
-      "date": "2026-11-05"
-    },
-    {
-      "title": {
-        "cs": "Ministerstvo obrany chce zrušit dotaci na Prague Defence Summit a ušetřit peníze",
-        "en": "Defense Ministry seeks to terminate funding for Prague Defence Summit to cut costs"
-      },
-      "summary": {
-        "cs": "Resort obrany navrhuje zrušit finanční podporu na pořádání Prague Defence Summit v příštím roce a vypovědět s tím související darovací smlouvu.",
-        "en": "Defense Ministry proposes canceling financial support for Prague Defence Summit next year and terminating related donation agreement."
-      },
-      "url": "https://www.irozhlas.cz/zpravy-domov/babisova-vlada-chce-sebrat-penize-na-obranny-summit-kde-vystoupili-prvni-muz_2611060620_hrk",
-      "date": "2026-11-06"
+      "url": "https://www.irozhlas.cz/zpravy-domov/vladni-otocka-z-iniciativy-pro-otevrene-vladnuti-neodchazi-clenstvi-ale-platit_2611131306_jgr",
+      "date": "2026-11-13"
     }
   ]
 }
