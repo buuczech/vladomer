@@ -1,29 +1,65 @@
 {
-  "generatedAt": "2026-11-13T15:42:39.107Z",
+  "generatedAt": "2026-11-20T16:27:50.657Z",
   "items": [
     {
       "title": {
-        "cs": "Vláda mění výživové normy pro školní jídelny na doporučující charakter",
-        "en": "Government changes nutritional standards for school canteens to recommendations"
+        "cs": "Premiér Babiš chce urychlit nákup protivzdušné obrany proti ruským útokům",
+        "en": "PM Babiš wants to speed up purchase of air defense systems against Russian attacks"
       },
       "summary": {
-        "cs": "Ministr školství Plaga oznámil, že vláda na pokyn premiéra Babiše ruší závazné výživové normy pro školní jídelny a převádí je do doporučujícího režimu.",
-        "en": "Education Minister Plaga announced that the government is abolishing mandatory nutritional standards for school canteens and converting them to recommendations on the Prime Minister's instruction."
+        "cs": "Po jednání s izraelským premiérem Netanjahuem chce ČR pořídit systémy protivzdušné obrany dříve než v roce 2030.",
+        "en": "After meeting with Israeli PM Netanyahu, Czechia wants to acquire air defense systems earlier than 2030."
       },
-      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/organizace-se-obavaji-zmen-pravidel-ve-skolnich-jidelnach-plaga-i-stastny-kroky-haji-379518",
-      "date": "2026-11-11"
+      "url": "https://www.echo24.cz/a/HxqV2/zpravy-domov-babis-chce-urychlit-nakup-protivzdusne-obrany",
+      "date": "2026-11-16"
     },
     {
       "title": {
-        "cs": "Iniciativa pro otevřené vládnutí - vláda zachová členství, ale přestane platit příspěvky",
-        "en": "Open governance initiative - government keeps membership but stops paying fees"
+        "cs": "Premiér Babiš odsoudil narušení polského vzdušného prostoru, stojí za Polskem",
+        "en": "PM Babiš condemns Polish airspace breach, stands with Poland"
       },
       "summary": {
-        "cs": "Premiér Babiš oznámil, že Česko zůstane v iniciativě pro otevřené vládnutí, ale přestane platit ročně půl milionu na členský příspěvek.",
-        "en": "PM Babiš announced that Czechia will remain in the open government initiative but will stop paying half a million annually in membership fees."
+        "cs": "Babiš v reakci na incident s dronem a střelami v Polsku vyzval k jednotě a nabídl pomoc.",
+        "en": "Babiš condemned the incident with drone and missiles in Poland and offered Czech assistance."
       },
-      "url": "https://www.irozhlas.cz/zpravy-domov/vladni-otocka-z-iniciativy-pro-otevrene-vladnuti-neodchazi-clenstvi-ale-platit_2611131306_jgr",
+      "url": "https://www.forum24.cz/cesko-stoji-za-polskem-a-je-pripraveno-pomoci-uvedl-premier-babis-po-padu-ruskych-strel",
+      "date": "2026-11-20"
+    },
+    {
+      "title": {
+        "cs": "Premiér Babiš místo oslav 17. listopadu navštíví Izrael na státní návštěvě",
+        "en": "PM Babiš visits Israel instead of November 17 commemorations"
+      },
+      "summary": {
+        "cs": "Babiš se nebude účastnit oslav Dne boje za svobodu v Praze, bude jednat v Izraeli o obraně a bezpečnosti.",
+        "en": "Babiš won't attend freedom commemorations in Prague, visiting Israel for defense and security talks."
+      },
+      "url": "https://www.ceskenoviny.cz/zpravy/babis-nebude-na-oslavach-17-listopadu-s-casti-vlady-navstivi-izrael/2899872",
+      "date": "2026-11-10"
+    },
+    {
+      "title": {
+        "cs": "Ministr Šebestyán odvolá všech 11 členů rady Vinařského fondu",
+        "en": "Minister Šebestyán removes all 11 members of Wine Fund board"
+      },
+      "summary": {
+        "cs": "Ministr zemědělství za SPD inicioval výměnu vedení kvůli kontrole NKÚ odhalující pochybení a střet zájmů.",
+        "en": "Agriculture minister initiated board changes following Supreme Audit Office findings of improprieties and conflicts of interest."
+      },
+      "url": "https://denikn.cz/minuta/2262848",
       "date": "2026-11-13"
+    },
+    {
+      "title": {
+        "cs": "Poslanci poslali mimořádnou daň na rafinerie do třetího čtení",
+        "en": "Parliament advances extraordinary refinery tax to final reading"
+      },
+      "summary": {
+        "cs": "Vládní návrh na zdanění rafinérských marží pokročil ve sněmovně k závěrečnému hlasování.",
+        "en": "Government's refinery margin tax proposal advanced in parliament to final vote."
+      },
+      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/poslanci-se-sejdou-k-navrhu-na-zavedeni-mimoradne-dane-na-rafinerie-379573",
+      "date": "2026-11-15"
     }
   ]
 }
