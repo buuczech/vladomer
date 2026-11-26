@@ -1,0 +1,55 @@
+{
+  "typ": "reel",
+  "hudba": "vychozi.mp3",
+  "publikovat_v": "2026-11-30T18:00:00+01:00",
+  "popisek": "Vláda má devátý splněný slib ze 143. Přibyl 18. listopadu, kdy ve Sbírce zákonů vyšel zákon č. 215/2026 Sb., kterým se mění stavební zákon a další související zákony. Bod #15.1 tím přešel na „splněno“.\n\nCesta k tomu trvala rok. Sněmovna návrh schválila 10. 7. 2026, Senát ho 20. 8. zamítl, Sněmovna veto 9. 9. přehlasovala, prezident podepsal 17. 9. — a ve Sbírce byl zákon až o dva měsíce později. Přesně proto se tady „splněno“ nepočítá podle toho, kdy něco vláda schválí. Kritika Senátu a opozice mířila hlavně na výjimku pro černé stavby.\n\nZajímavější je ale to, co se tím nestalo. „Dostupné bydlení jako veřejný zájem“ je jedna z pěti priorit, které si vláda sama postavila do čela programu. Vládoměr ji vede jako částečně splněnou — protože červnová novela stavebního zákona (č. 91/2026 Sb., vyhlášena 10. 6. 2026) sice bydlení jako veřejný zájem zavedla, ale zároveň zrušila institut domu pro dostupné nájemní bydlení a jeho zvláštní režim, zavedený v roce 2024.\n\nDvě novely stavebního zákona za jeden rok, a priorita pořád není hotová. Celá kapitola Bydlení a regionální rozvoj má sedm bodů a splněný je jeden.\n\nDevět splněných je 6,3 % hodnocených bodů. Vládoměr počítá jako splněné jen to, co prošlo celým procesem a vyšlo ve Sbírce.\n\nStav k 20. 11. 2026, přepočítává se každý pátek. Zdroje u každého bodu na vladomer.cz\n\n#vladomer #bydleni #stavebnizakon #politika #vlada #cesko",
+  "sceny": [
+    {
+      "typ": "cislo",
+      "nadpis": "SPLNĚNÝCH SLIBŮ ZE 143",
+      "cislo": "9",
+      "jednotka": "",
+      "barva": "ok",
+      "popis": "Devátý přibyl 18. listopadu: nový stavební zákon.",
+      "dovetek": "Zákon č. 215/2026 Sb. · stav k 20. 11. 2026",
+      "komentar": "Vláda má devátý splněný slib. Osmnáctého listopadu vyšel ve Sbírce nový stavební zákon.",
+      "trvani": 5
+    },
+    {
+      "typ": "body",
+      "nadpis": "Cesta zákona",
+      "styl": "odrazky",
+      "body": [
+        "Sněmovna schválila 10. 7. 2026.",
+        "Senát zamítl 20. 8. 2026.",
+        "Sněmovna veto přehlasovala 9. 9. 2026.",
+        "Ve Sbírce až 18. 11. 2026."
+      ],
+      "komentar": "Sněmovna schválila, Senát zamítl, Sněmovna veto přehlasovala. Ve Sbírce byl zákon až o dva měsíce později.",
+      "trvani": 6
+    },
+    {
+      "typ": "body",
+      "nadpis": "Priorita splněná není",
+      "styl": "odrazky",
+      "body": [
+        "Dostupné bydlení je jedna z pěti priorit vlády.",
+        "Vládoměr ji vede jako částečně splněnou.",
+        "Červnová novela zrušila režim dostupného nájemního bydlení."
+      ],
+      "komentar": "Dostupné bydlení je přitom jedna z pěti priorit vlády. Červnová novela zrušila zvláštní režim pro dostupné nájemní bydlení.",
+      "trvani": 6
+    },
+    {
+      "typ": "cislo",
+      "nadpis": "SPLNĚNÝCH V KAPITOLE BYDLENÍ",
+      "cislo": "1",
+      "jednotka": "",
+      "barva": "neutral",
+      "popis": "ze sedmi bodů Bydlení a regionálního rozvoje",
+      "dovetek": "Stav k 20. 11. 2026",
+      "komentar": "Z celé kapitoly o bydlení je splněný jeden bod ze sedmi.",
+      "trvani": 5
+    }
+  ]
+}
