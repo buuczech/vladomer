@@ -1,65 +1,65 @@
 {
-  "generatedAt": "2026-11-20T16:27:50.657Z",
+  "generatedAt": "2026-11-27T17:47:22.522Z",
   "items": [
     {
       "title": {
-        "cs": "Premiér Babiš chce urychlit nákup protivzdušné obrany proti ruským útokům",
-        "en": "PM Babiš wants to speed up purchase of air defense systems against Russian attacks"
+        "cs": "Sněmovna schválila mimořádnou daň na rafinerie",
+        "en": "Parliament approves extraordinary tax on refineries"
       },
       "summary": {
-        "cs": "Po jednání s izraelským premiérem Netanjahuem chce ČR pořídit systémy protivzdušné obrany dříve než v roce 2030.",
-        "en": "After meeting with Israeli PM Netanyahu, Czechia wants to acquire air defense systems earlier than 2030."
+        "cs": "Vláda prosadila mimořádnou daň pro rafinerie v tuzemsku, která dopadne především na Orlen Unipetrol, s cílem vybrat pět a půl miliardy korun.",
+        "en": "Government passed extraordinary tax on refineries targeting primarily Orlen Unipetrol, expected to raise 5.5 billion crowns."
       },
-      "url": "https://www.echo24.cz/a/HxqV2/zpravy-domov-babis-chce-urychlit-nakup-protivzdusne-obrany",
-      "date": "2026-11-16"
+      "url": "https://www.irozhlas.cz/zpravy-domov/snemovna-schvalila-mimoradnou-dan-pro-rafinerie-dopadne-na-orlen-unipetrol_2611271500_jor",
+      "date": "2026-11-27"
     },
     {
       "title": {
-        "cs": "Premiér Babiš odsoudil narušení polského vzdušného prostoru, stojí za Polskem",
-        "en": "PM Babiš condemns Polish airspace breach, stands with Poland"
+        "cs": "Sněmovna obnovila možnost nočních jednání",
+        "en": "Parliament resumes night sessions"
       },
       "summary": {
-        "cs": "Babiš v reakci na incident s dronem a střelami v Polsku vyzval k jednotě a nabídl pomoc.",
-        "en": "Babiš condemned the incident with drone and missiles in Poland and offered Czech assistance."
+        "cs": "Vládní koalice prosadila obnovení nočních zasedání Sněmovny poté, co měsíc trvala jejich omezení během sněmovního sporu o zrušení poplatků pro veřejnoprávní média.",
+        "en": "Government coalition restored night parliamentary sessions after month-long restrictions during dispute over public media license fees."
       },
-      "url": "https://www.forum24.cz/cesko-stoji-za-polskem-a-je-pripraveno-pomoci-uvedl-premier-babis-po-padu-ruskych-strel",
-      "date": "2026-11-20"
+      "url": "https://denikn.cz/minuta/2268814",
+      "date": "2026-11-25"
     },
     {
       "title": {
-        "cs": "Premiér Babiš místo oslav 17. listopadu navštíví Izrael na státní návštěvě",
-        "en": "PM Babiš visits Israel instead of November 17 commemorations"
+        "cs": "Předsedkyně klubu ANO kritizuje opozici za obstrukce",
+        "en": "ANO club leader criticizes opposition for obstruction"
       },
       "summary": {
-        "cs": "Babiš se nebude účastnit oslav Dne boje za svobodu v Praze, bude jednat v Izraeli o obraně a bezpečnosti.",
-        "en": "Babiš won't attend freedom commemorations in Prague, visiting Israel for defense and security talks."
+        "cs": "Taťána Malá viní sněmovní opozici z neustálých obstrukcí a porušování parlamentní demokracie, zatímco koalice zváží další zpřísnění jednacího řádu.",
+        "en": "Taťána Malá accuses parliamentary opposition of constant obstruction, coalition considers further tightening of rules."
       },
-      "url": "https://www.ceskenoviny.cz/zpravy/babis-nebude-na-oslavach-17-listopadu-s-casti-vlady-navstivi-izrael/2899872",
-      "date": "2026-11-10"
+      "url": "https://www.ceskenoviny.cz/zpravy/mala-vinila-snemovni-opozici-z-neustalych-obstrukci-opozice-se-ohradila/2907416",
+      "date": "2026-11-27"
     },
     {
       "title": {
-        "cs": "Ministr Šebestyán odvolá všech 11 členů rady Vinařského fondu",
-        "en": "Minister Šebestyán removes all 11 members of Wine Fund board"
+        "cs": "Vláda stáhla kontroverzní novelu o švarcsystému",
+        "en": "Government withdraws controversial gig economy regulation"
       },
       "summary": {
-        "cs": "Ministr zemědělství za SPD inicioval výměnu vedení kvůli kontrole NKÚ odhalující pochybení a střet zájmů.",
-        "en": "Agriculture minister initiated board changes following Supreme Audit Office findings of improprieties and conflicts of interest."
+        "cs": "Babiš rozhodl o stažení sporné novely zákoníku práce, která podle kritiků usnadňovala legalizaci švarcsystému, zásadního volebního selhání.",
+        "en": "Babiš withdrew controversial labor law amendment that critics said would legalize gig work, a major election promise failure."
       },
-      "url": "https://denikn.cz/minuta/2262848",
-      "date": "2026-11-13"
+      "url": "https://www.forum24.cz/navrh-byl-sileny-babis-potopil-juchelkovu-novelu-opozice-mu-pripomina-mesice-obhajovani",
+      "date": "2026-11-27"
     },
     {
       "title": {
-        "cs": "Poslanci poslali mimořádnou daň na rafinerie do třetího čtení",
-        "en": "Parliament advances extraordinary refinery tax to final reading"
+        "cs": "Ministerstvo zamítlo predikční platformu Kalshi",
+        "en": "Finance Ministry blocks prediction platform Kalshi"
       },
       "summary": {
-        "cs": "Vládní návrh na zdanění rafinérských marží pokročil ve sněmovně k závěrečnému hlasování.",
-        "en": "Government's refinery margin tax proposal advanced in parliament to final vote."
+        "cs": "Ministerstvo financí zařadilo predikční platformu Kalshi na seznam nepovolených hazardních her a Češi k ní dostanou zablokovaný přístup.",
+        "en": "Finance Ministry classified prediction platform Kalshi as illegal gambling, blocking Czech users from accessing it."
       },
-      "url": "https://ct24.ceskatelevize.cz/clanek/domaci/poslanci-se-sejdou-k-navrhu-na-zavedeni-mimoradne-dane-na-rafinerie-379573",
-      "date": "2026-11-15"
+      "url": "https://www.echo24.cz/a/HKA4w/zpravy-domov-predikcni-platforma-kalshi-v-cesku-konci-ministerstvo-ji-zaradilo-mezi-nepovolene-hazardni-hry",
+      "date": "2026-11-24"
     }
   ]
 }
